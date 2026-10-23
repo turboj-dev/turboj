@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "tokyo-night-light",
+  "name": "Tokyo Night Light",
+  "editor": {
+    "background": "#E6E7ED",
+    "foreground": "#343B59",
+    "cursor": "#363C4D",
+    "selection": "#D7D9E1",
+    "selectionForeground": "#000000",
+    "error": "#B73E3E"
+  },
+  "syntax": {
+    "keyword": "#65359D",
+    "string": "#385F0D",
+    "comment": "#66686F",
+    "number": "#965027",
+    "operator": "#006C86",
+    "annotation": "#65359D",
+    "identifier": "#343B59"
+  },
+  "menu": {
+    "background": "#D6D8DF",
+    "foreground": "#363C4D",
+    "activeBackground": "#E6E7ED",
+    "activeForeground": "#343B59"
+  },
+  "messages": {
+    "background": "#D6D8DF",
+    "foreground": "#343B58",
+    "errorForeground": "#A73838",
+    "inputForeground": "#343B59",
+    "cursor": "#363C4D"
+  },
+  "diagnostics": {
+    "error": "#B73E3E",
+    "warning": "#8F5E15",
+    "success": "#33635C"
+  },
+  "chrome": {
+    "border": "#818492",
+    "statusBackground": "#D6D8DF",
+    "statusForeground": "#363C4D"
+  },
+  "ui": {
+    "background": "#E6E7ED",
+    "foreground": "#343B59",
+    "surface": "#D6D8DF",
+    "muted": "#5C5E65",
+    "heading": "#343B59",
+    "border": "#777A86",
+    "accent": "#3A5E9D",
+    "accentForeground": "#FFFFFF",
+    "link": "#65359D",
+    "focus": "#363C4D"
+  },
+  "documentation": {
+    "background": "#D6D8DF",
+    "foreground": "#343B59",
+    "border": "#777A86",
+    "code": "#385F0D",
+    "link": "#65359D"
+  },
+  "intelligence": {
+    "ghost": "#66686F",
+    "aiGhost": "#66686F",
+    "selectionBackground": "#D7D9E1",
+    "selectionForeground": "#000000",
+    "definition": "#65359D",
+    "activeParameter": "#65359D"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/akamud/vscode-theme-onelight",
+  "commit": "5866e900db932d580e978a58db42f65cde07998b",
+  "license": "MIT",
+  "licensePath": "third-party/theme-sources/one-light/LICENSE",
+  "licenseSha256": "3ef9ebb4bf1676792b5c98efaaf27335a3f6c5861c68d952e565df2fa7524d5e",
+  "files": [
+    {
+      "path": "themes/OneLight.json",
+      "localPath": "third-party/theme-sources/one-light/themes/OneLight.json",
+      "sha256": "6628e350875e76186f3ac007680544d54a3ea132e6b542442e7704fdfac45250",
+      "id": "one-light",
+      "name": "One Light",
+      "format": "vscode"
+    }
+  ]
+}

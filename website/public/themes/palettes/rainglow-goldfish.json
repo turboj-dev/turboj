@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-goldfish",
+  "name": "Rainglow Goldfish",
+  "editor": {
+    "background": "#2E3336",
+    "foreground": "#F8F8F2",
+    "cursor": "#F8F8F0",
+    "selection": "#704F34",
+    "selectionForeground": "#FFFFFF",
+    "error": "#DA7F90"
+  },
+  "syntax": {
+    "keyword": "#A7DBD8",
+    "string": "#F47442",
+    "comment": "#939B9F",
+    "number": "#F47441",
+    "operator": "#A7DBD8",
+    "annotation": "#F38630",
+    "identifier": "#F8F8F2"
+  },
+  "menu": {
+    "background": "#25292B",
+    "foreground": "#F8F8F2",
+    "activeBackground": "#2E3336",
+    "activeForeground": "#F8F8F2"
+  },
+  "messages": {
+    "background": "#222628",
+    "foreground": "#F8F8F2",
+    "errorForeground": "#D46B7E",
+    "inputForeground": "#F8F8F2",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#DA7F90",
+    "warning": "#FA710D",
+    "success": "#F38630"
+  },
+  "chrome": {
+    "border": "#898C8B",
+    "statusBackground": "#25292B",
+    "statusForeground": "#F8F8F2"
+  },
+  "ui": {
+    "background": "#2E3336",
+    "foreground": "#F8F8F2",
+    "surface": "#3A4044",
+    "muted": "#A4ABAE",
+    "heading": "#F8F8F2",
+    "border": "#898C8B",
+    "accent": "#FB8E3E",
+    "accentForeground": "#000000",
+    "link": "#A7DBD8",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#3A4044",
+    "foreground": "#F8F8F2",
+    "border": "#898C8B",
+    "code": "#F68F66",
+    "link": "#A7DBD8"
+  },
+  "intelligence": {
+    "ghost": "#939B9F",
+    "aiGhost": "#939B9F",
+    "selectionBackground": "#704F34",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#A7DBD8",
+    "activeParameter": "#A7DBD8"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

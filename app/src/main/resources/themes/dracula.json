@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "dracula",
+  "name": "Dracula",
+  "editor": {
+    "background": "#282A36",
+    "foreground": "#F8F8F2",
+    "cursor": "#F8F8F2",
+    "selection": "#44475A",
+    "selectionForeground": "#FFFFFF",
+    "error": "#FF5555"
+  },
+  "syntax": {
+    "keyword": "#FF79C6",
+    "string": "#F1FA8C",
+    "comment": "#8390B7",
+    "number": "#BD93F9",
+    "operator": "#FF79C6",
+    "annotation": "#50FA7B",
+    "identifier": "#F8F8F2"
+  },
+  "menu": {
+    "background": "#343746",
+    "foreground": "#F8F8F2",
+    "activeBackground": "#282A36",
+    "activeForeground": "#F8F8F2"
+  },
+  "messages": {
+    "background": "#282A36",
+    "foreground": "#F8F8F2",
+    "errorForeground": "#FF5555",
+    "inputForeground": "#F8F8F2",
+    "cursor": "#F8F8F2"
+  },
+  "diagnostics": {
+    "error": "#FF5555",
+    "warning": "#FFB86C",
+    "success": "#50FA7B"
+  },
+  "chrome": {
+    "border": "#86878B",
+    "statusBackground": "#343746",
+    "statusForeground": "#F8F8F2"
+  },
+  "ui": {
+    "background": "#282A36",
+    "foreground": "#F8F8F2",
+    "surface": "#21222C",
+    "muted": "#8390B7",
+    "heading": "#F8F8F2",
+    "border": "#86878B",
+    "accent": "#BD93F9",
+    "accentForeground": "#000000",
+    "link": "#FF79C6",
+    "focus": "#F8F8F2"
+  },
+  "documentation": {
+    "background": "#21222C",
+    "foreground": "#F8F8F2",
+    "border": "#86878B",
+    "code": "#F1FA8C",
+    "link": "#FF79C6"
+  },
+  "intelligence": {
+    "ghost": "#8390B7",
+    "aiGhost": "#8390B7",
+    "selectionBackground": "#44475A",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#FF79C6",
+    "activeParameter": "#FF79C6"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

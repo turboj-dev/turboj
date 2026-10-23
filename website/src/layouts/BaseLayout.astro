@@ -1,18 +1,22 @@
 ---
 import { site } from '../data/site';
+import { themes, themeTokenPaths } from '../data/themes.generated';
+import { themeBootstrap } from '../scripts/theme-preference';
 import '../styles/tokens.css';
+import '../styles/themes.generated.css';
 import '../styles/global.css';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const social = new URL('/images/turboj-social.png', Astro.site);
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="classic">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={themes[0].themeColor} />
+    <script is:inline set:html={themeBootstrap(themes, themeTokenPaths)}></script>
     <title>{site.title}</title>
     <meta name="description" content={site.description} />
-    <meta name="theme-color" content="#0000aa" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/jetbrains-mono-latin-variable.woff2" as="font" type="font/woff2" crossorigin />

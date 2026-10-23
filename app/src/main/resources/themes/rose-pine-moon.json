@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rose-pine-moon",
+  "name": "Rosé Pine Moon",
+  "editor": {
+    "background": "#232136",
+    "foreground": "#E0DEF4",
+    "cursor": "#6E6A86",
+    "selection": "#312F45",
+    "selectionForeground": "#FFFFFF",
+    "error": "#EB6F92"
+  },
+  "syntax": {
+    "keyword": "#4493B2",
+    "string": "#F6C177",
+    "comment": "#8B879E",
+    "number": "#EA9A97",
+    "operator": "#4493B2",
+    "annotation": "#4493B2",
+    "identifier": "#E0DEF4"
+  },
+  "menu": {
+    "background": "#2A273F",
+    "foreground": "#E0DEF4",
+    "activeBackground": "#232136",
+    "activeForeground": "#E0DEF4"
+  },
+  "messages": {
+    "background": "#2A273F",
+    "foreground": "#E0DEF4",
+    "errorForeground": "#EB6F92",
+    "inputForeground": "#E0DEF4",
+    "cursor": "#73708A"
+  },
+  "diagnostics": {
+    "error": "#EB6F92",
+    "warning": "#F6C177",
+    "success": "#4493B2"
+  },
+  "chrome": {
+    "border": "#78768C",
+    "statusBackground": "#2A273F",
+    "statusForeground": "#E0DEF4"
+  },
+  "ui": {
+    "background": "#232136",
+    "foreground": "#E0DEF4",
+    "surface": "#232136",
+    "muted": "#8B879E",
+    "heading": "#E0DEF4",
+    "border": "#78768C",
+    "accent": "#EA9A97",
+    "accentForeground": "#000000",
+    "link": "#4493B2",
+    "focus": "#6E6A86"
+  },
+  "documentation": {
+    "background": "#232136",
+    "foreground": "#E0DEF4",
+    "border": "#78768C",
+    "code": "#F6C177",
+    "link": "#4493B2"
+  },
+  "intelligence": {
+    "ghost": "#8B879E",
+    "aiGhost": "#8B879E",
+    "selectionBackground": "#312F45",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#4493B2",
+    "activeParameter": "#4493B2"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

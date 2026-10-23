@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-solarized-light",
+  "name": "Solarized Light",
+  "editor": {
+    "background": "#FDF6E3",
+    "foreground": "#60747C",
+    "cursor": "#657B83",
+    "selection": "#EEE8D5",
+    "selectionForeground": "#000000",
+    "error": "#D5312E"
+  },
+  "syntax": {
+    "keyword": "#697800",
+    "string": "#217E77",
+    "comment": "#697373",
+    "number": "#CA347D",
+    "operator": "#697800",
+    "annotation": "#586E75",
+    "identifier": "#60747C"
+  },
+  "menu": {
+    "background": "#EEE8D5",
+    "foreground": "#586C73",
+    "activeBackground": "#FDF6E3",
+    "activeForeground": "#60747C"
+  },
+  "messages": {
+    "background": "#FDF6E3",
+    "foreground": "#60747C",
+    "errorForeground": "#D5312E",
+    "inputForeground": "#60747C",
+    "cursor": "#657B83"
+  },
+  "diagnostics": {
+    "error": "#D5312E",
+    "warning": "#8F6C00",
+    "success": "#697800"
+  },
+  "chrome": {
+    "border": "#8C908B",
+    "statusBackground": "#EEE8D5",
+    "statusForeground": "#586C73"
+  },
+  "ui": {
+    "background": "#FDF6E3",
+    "foreground": "#586C73",
+    "surface": "#EEE8D5",
+    "muted": "#616A6A",
+    "heading": "#586C73",
+    "border": "#828682",
+    "accent": "#72693A",
+    "accentForeground": "#FFFFFF",
+    "link": "#616F00",
+    "focus": "#657B83"
+  },
+  "documentation": {
+    "background": "#EEE8D5",
+    "foreground": "#586C73",
+    "border": "#828682",
+    "code": "#1E746E",
+    "link": "#616F00"
+  },
+  "intelligence": {
+    "ghost": "#697373",
+    "aiGhost": "#697373",
+    "selectionBackground": "#EEE8D5",
+    "selectionForeground": "#000000",
+    "definition": "#697800",
+    "activeParameter": "#697800"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

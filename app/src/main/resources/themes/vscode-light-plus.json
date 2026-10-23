@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-light-plus",
+  "name": "VS Code Light+",
+  "editor": {
+    "background": "#FFFFFF",
+    "foreground": "#000000",
+    "cursor": "#000000",
+    "selection": "#C7C7C7",
+    "selectionForeground": "#000000",
+    "error": "#CC4A4A"
+  },
+  "syntax": {
+    "keyword": "#AF00DB",
+    "string": "#A31515",
+    "comment": "#008000",
+    "number": "#098658",
+    "operator": "#000000",
+    "annotation": "#267F99",
+    "identifier": "#000000"
+  },
+  "menu": {
+    "background": "#EDEDED",
+    "foreground": "#000000",
+    "activeBackground": "#FFFFFF",
+    "activeForeground": "#000000"
+  },
+  "messages": {
+    "background": "#EDEDED",
+    "foreground": "#000000",
+    "errorForeground": "#B94444",
+    "inputForeground": "#000000",
+    "cursor": "#000000"
+  },
+  "diagnostics": {
+    "error": "#CC4A4A",
+    "warning": "#95702D",
+    "success": "#A31515"
+  },
+  "chrome": {
+    "border": "#8C8C8C",
+    "statusBackground": "#EDEDED",
+    "statusForeground": "#000000"
+  },
+  "ui": {
+    "background": "#FFFFFF",
+    "foreground": "#000000",
+    "surface": "#EDEDED",
+    "muted": "#007E00",
+    "heading": "#000000",
+    "border": "#888888",
+    "accent": "#AF00DB",
+    "accentForeground": "#FFFFFF",
+    "link": "#AF00DB",
+    "focus": "#000000"
+  },
+  "documentation": {
+    "background": "#EDEDED",
+    "foreground": "#000000",
+    "border": "#888888",
+    "code": "#A31515",
+    "link": "#AF00DB"
+  },
+  "intelligence": {
+    "ghost": "#008000",
+    "aiGhost": "#008000",
+    "selectionBackground": "#C7C7C7",
+    "selectionForeground": "#000000",
+    "definition": "#AF00DB",
+    "activeParameter": "#AF00DB"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

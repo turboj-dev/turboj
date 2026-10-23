@@ -1,0 +1,1798 @@
+{
+  "schemaVersion": 1,
+  "mappingVersion": 1,
+  "curatedThemeCount": 100,
+  "sources": [
+    {
+      "repository": "https://github.com/akamud/vscode-theme-onedark",
+      "commit": "a8be970644982221f9b61fb1c4b3da74b4beab79",
+      "license": "MIT",
+      "id": "one-dark",
+      "name": "Atom One Dark for VS Code",
+      "licensePath": "one-dark/LICENSE"
+    },
+    {
+      "repository": "https://github.com/akamud/vscode-theme-onelight",
+      "commit": "5866e900db932d580e978a58db42f65cde07998b",
+      "license": "MIT",
+      "id": "one-light",
+      "name": "Atom One Light for VS Code",
+      "licensePath": "one-light/LICENSE"
+    },
+    {
+      "repository": "https://github.com/ayu-theme/vscode-ayu",
+      "commit": "7f438df22446f02e79cdfc2f3771b0b273f34654",
+      "license": "MIT",
+      "id": "ayu",
+      "name": "Ayu for VS Code",
+      "licensePath": "ayu/LICENSE"
+    },
+    {
+      "repository": "https://github.com/microsoft/vscode",
+      "commit": "abf21692caeea737b917be6398a20d2fa4564e87",
+      "license": "MIT",
+      "id": "vscode",
+      "name": "Visual Studio Code built-in themes",
+      "licensePath": "vscode/LICENSE.txt"
+    },
+    {
+      "repository": "https://github.com/jdinhify/vscode-theme-gruvbox",
+      "commit": "ca3b8ad203e84a884ca33fb84b5795cf43032709",
+      "license": "MIT",
+      "id": "gruvbox",
+      "name": "Gruvbox for VS Code",
+      "licensePath": "gruvbox/LICENSE.txt",
+      "artifact": "https://open-vsx.org/api/jdinhlife/gruvbox/1.29.1/file/jdinhlife.gruvbox-1.29.1.vsix",
+      "version": "1.29.1",
+      "artifactSha256": "8fd3166439d3bdc421ebc3d3f6d33f33985e173cb57d396c231daaaeb7e09240"
+    },
+    {
+      "repository": "https://github.com/primer/github-vscode-theme",
+      "commit": "ad3f17519f2f7d7060afffac2b557c69c4534610",
+      "license": "MIT",
+      "id": "github",
+      "name": "GitHub themes for VS Code",
+      "licensePath": "github/LICENSE.txt",
+      "artifact": "https://open-vsx.org/api/GitHub/github-vscode-theme/6.3.5/file/GitHub.github-vscode-theme-6.3.5.vsix",
+      "version": "6.3.5",
+      "artifactSha256": "a85236a58ad490b1600ec5a0fd0cea7eec56fb9d33660a1ac82c6da639ad3af4"
+    },
+    {
+      "id": "rainglow",
+      "name": "Rainglow for Visual Studio Code",
+      "repository": "https://github.com/rainglow/vscode",
+      "commit": "57cbb8601be38bcba89cd1cb5112f316456924e4",
+      "license": "MIT",
+      "licensePath": "rainglow/LICENSE"
+    },
+    {
+      "id": "dracula",
+      "name": "Dracula for Visual Studio Code",
+      "repository": "https://github.com/dracula/visual-studio-code",
+      "commit": "b50e62e320906d5f57a8bf05fd6ddf23b890d6dd",
+      "license": "MIT",
+      "licensePath": "dracula/LICENSE"
+    },
+    {
+      "id": "nord",
+      "name": "Nord for Visual Studio Code",
+      "repository": "https://github.com/nordtheme/visual-studio-code",
+      "commit": "8ead09822c02d0d49d0f764104505e5a34d3689f",
+      "license": "MIT",
+      "licensePath": "nord/license"
+    },
+    {
+      "id": "catppuccin",
+      "name": "Catppuccin for Visual Studio Code (token mapping)",
+      "repository": "https://github.com/catppuccin/vscode",
+      "commit": "befc9e6fc41980f4241408f7049755d47c06ff45",
+      "license": "MIT",
+      "licensePath": "catppuccin/LICENSE"
+    },
+    {
+      "id": "catppuccin-palette",
+      "name": "Catppuccin canonical palette",
+      "repository": "https://github.com/catppuccin/palette",
+      "commit": "07d02aa110ef9eb7e7427afca5c73ba9cf7f8ebd",
+      "license": "MIT",
+      "licensePath": "catppuccin-palette/LICENSE"
+    },
+    {
+      "id": "rose-pine",
+      "name": "Rosé Pine for Visual Studio Code",
+      "repository": "https://github.com/rose-pine/vscode",
+      "commit": "d8f5ebe8e096fa833e997c07eb7685ee1677a4ba",
+      "license": "MIT",
+      "licensePath": "rose-pine/LICENSE"
+    },
+    {
+      "id": "tokyo-night",
+      "name": "Tokyo Night for Visual Studio Code",
+      "repository": "https://github.com/tokyo-night/tokyo-night-vscode-theme",
+      "commit": "7c0f11eaef322f293621ca7befe462214b7ea468",
+      "license": "MIT",
+      "licensePath": "tokyo-night/LICENSE.txt"
+    },
+    {
+      "id": "rainglow-sublime",
+      "name": "Rainglow for Sublime Text",
+      "repository": "https://github.com/rainglow/sublime",
+      "commit": "2dfe2ab003c36770b87d2c4543e54e96971599da",
+      "license": "MIT",
+      "licensePath": "rainglow-sublime/LICENSE"
+    },
+    {
+      "id": "rainglow-jetbrains",
+      "name": "Rainglow for JetBrains IDEs",
+      "repository": "https://github.com/rainglow/jetbrains",
+      "commit": "3486303bcf25e1499c3989d2947ee3e489b86829",
+      "license": "MIT",
+      "licensePath": "rainglow-jetbrains/LICENSE"
+    }
+  ],
+  "files": [
+    {
+      "source": "one-dark",
+      "localPath": "one-dark/LICENSE",
+      "path": "LICENSE",
+      "sha256": "3ef9ebb4bf1676792b5c98efaaf27335a3f6c5861c68d952e565df2fa7524d5e"
+    },
+    {
+      "source": "one-dark",
+      "localPath": "one-dark/themes/OneDark.json",
+      "path": "themes/OneDark.json",
+      "sha256": "9cba08f30e9f249ed5d00a33a582533cc611d9360e61973dcaddcad3f7ac8d7c"
+    },
+    {
+      "source": "one-light",
+      "localPath": "one-light/LICENSE",
+      "path": "LICENSE",
+      "sha256": "3ef9ebb4bf1676792b5c98efaaf27335a3f6c5861c68d952e565df2fa7524d5e"
+    },
+    {
+      "source": "one-light",
+      "localPath": "one-light/themes/OneLight.json",
+      "path": "themes/OneLight.json",
+      "sha256": "6628e350875e76186f3ac007680544d54a3ea132e6b542442e7704fdfac45250"
+    },
+    {
+      "source": "ayu",
+      "localPath": "ayu/LICENSE",
+      "path": "LICENSE",
+      "sha256": "b2c797d3cd2f1c96c609ec99485f08a5ac1dfdec80c9cffdec11d35feb37ab52"
+    },
+    {
+      "source": "ayu",
+      "localPath": "ayu/ayu-dark.json",
+      "path": "ayu-dark.json",
+      "sha256": "8782e9876207553f84cdfe2f5bd2b625561b72b6b03f0bb747eac2ecee3648ca"
+    },
+    {
+      "source": "ayu",
+      "localPath": "ayu/ayu-mirage.json",
+      "path": "ayu-mirage.json",
+      "sha256": "e08c742afbbeb686d9447caa16d95e4897cedf2591b554eed74778d9d4087b5e"
+    },
+    {
+      "source": "ayu",
+      "localPath": "ayu/ayu-light.json",
+      "path": "ayu-light.json",
+      "sha256": "3d748e7a3666978e34fbab2830ce3c311da24a8b38d7a955fe833ca1d536f646"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/LICENSE.txt",
+      "path": "LICENSE.txt",
+      "sha256": "9480271317925265e806a9a196aaa33410a962fa9d4d1e248a4a5187bc8c9df9"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/2026-dark.json",
+      "path": "extensions/theme-defaults/themes/2026-dark.json",
+      "sha256": "5cd138a1b8d33ec6befd2c779a3cb0b8eae0846bd8371f1301938ade34cb189d"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/2026-light.json",
+      "path": "extensions/theme-defaults/themes/2026-light.json",
+      "sha256": "0f02b94451b1cf7d98d262f328e750a0ce043c9bb5f30e63a0be359335f87816"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/dark_modern.json",
+      "path": "extensions/theme-defaults/themes/dark_modern.json",
+      "sha256": "58d4ea55a2a36f65c0d5caf033dfddc4ec7d4b3a5d8b731a84bc36001d26a339"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/light_modern.json",
+      "path": "extensions/theme-defaults/themes/light_modern.json",
+      "sha256": "831b47d624e9acd6f09da58a699889415be7e45fccffb01177bc718b20e7e25c"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/dark_plus.json",
+      "path": "extensions/theme-defaults/themes/dark_plus.json",
+      "sha256": "409f33088a5cfd6589384900ef80627787c568d367c25b12f31bc7940936e573"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/light_plus.json",
+      "path": "extensions/theme-defaults/themes/light_plus.json",
+      "sha256": "26fbb053bec8ce2b65706d5fcb993da8c19174cfdbf35a49b465236b5ed26203"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/dark_vs.json",
+      "path": "extensions/theme-defaults/themes/dark_vs.json",
+      "sha256": "9fc2c16761400632eac6166ff7bb0435c5190a94bffa51ec1ef19b2ce78576b2"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/light_vs.json",
+      "path": "extensions/theme-defaults/themes/light_vs.json",
+      "sha256": "ce562a2ebec8c9a91021afb9ba7c9e8bcf4176df634fec8b77c748b42e3ce748"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/hc_black.json",
+      "path": "extensions/theme-defaults/themes/hc_black.json",
+      "sha256": "07f6250833d40ca9ed7399f328816d4e0c59ddc21c64c8af754a6b260725b0ad"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/hc_light.json",
+      "path": "extensions/theme-defaults/themes/hc_light.json",
+      "sha256": "1cc2ccb7d2fb7990d22baa1dd2bb7174817ac45ddc8b46c4d29c3ddb864b4ce2"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-abyss/themes/abyss-color-theme.json",
+      "path": "extensions/theme-abyss/themes/abyss-color-theme.json",
+      "sha256": "5ccb5fa5c6f66b43295f68852b7cc88b1ba35eb44a3a17c813e9094aaca755c4"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-kimbie-dark/themes/kimbie-dark-color-theme.json",
+      "path": "extensions/theme-kimbie-dark/themes/kimbie-dark-color-theme.json",
+      "sha256": "a0b17410a795d8e03c86b24ce8d59570079a5fc4df5a2f7fd2daf9f9d81ab14d"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-monokai/themes/monokai-color-theme.json",
+      "path": "extensions/theme-monokai/themes/monokai-color-theme.json",
+      "sha256": "5681bcdc2e8f2994a41233bfdd1b02c2cfd90da5c6a4f5ebd4c8f42ef90d1b5f"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-monokai-dimmed/themes/dimmed-monokai-color-theme.json",
+      "path": "extensions/theme-monokai-dimmed/themes/dimmed-monokai-color-theme.json",
+      "sha256": "13a6f5b82057a3427b55368ab45f57073cb4a291a722e1f33f83a66fc2d1513c"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-quietlight/themes/quietlight-color-theme.json",
+      "path": "extensions/theme-quietlight/themes/quietlight-color-theme.json",
+      "sha256": "1f54cc040234b040bcc701dfa7543880821415c05d13780300914ae814aad3df"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-red/themes/Red-color-theme.json",
+      "path": "extensions/theme-red/themes/Red-color-theme.json",
+      "sha256": "e5df2cd55fcab494ee241e7d7ca1525958312c59359665c474b0afa2ff91f559"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-solarized-dark/themes/solarized-dark-color-theme.json",
+      "path": "extensions/theme-solarized-dark/themes/solarized-dark-color-theme.json",
+      "sha256": "920e68b8a62e3e6581cee8d7900af1772865e5fe2b9efe5904baa4a8a89bc445"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-solarized-light/themes/solarized-light-color-theme.json",
+      "path": "extensions/theme-solarized-light/themes/solarized-light-color-theme.json",
+      "sha256": "7c10e85f312c79dfccfa97fe97bb74c3d716a35f55e9701b30bc57e725ce1b44"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-tomorrow-night-blue/themes/tomorrow-night-blue-color-theme.json",
+      "path": "extensions/theme-tomorrow-night-blue/themes/tomorrow-night-blue-color-theme.json",
+      "sha256": "96d5889d05382b3b5b2d9300879ccbd00d29c42b05249f924b468d8f671ed218"
+    },
+    {
+      "source": "gruvbox",
+      "localPath": "gruvbox/LICENSE.txt",
+      "path": "LICENSE.txt",
+      "sha256": "91943f88b9f92f4b31437ecf791107f9c4076f3a65c7be503c4580278dc90076"
+    },
+    {
+      "source": "gruvbox",
+      "localPath": "gruvbox/themes/gruvbox-dark-medium.json",
+      "path": "themes/gruvbox-dark-medium.json",
+      "sha256": "b6dc507a94d9d63b8e9cf4dd7f04ea9b3fb5d667b96bd4d6750cd466e5891a87"
+    },
+    {
+      "source": "gruvbox",
+      "localPath": "gruvbox/themes/gruvbox-light-medium.json",
+      "path": "themes/gruvbox-light-medium.json",
+      "sha256": "ba12d790f89a47ddac83ce3fbe027ee6cbf366d560290d9dd971b156f4efc20a"
+    },
+    {
+      "source": "gruvbox",
+      "localPath": "gruvbox/upstream-package.json",
+      "path": "upstream-package.json",
+      "sha256": "563e20afa9b886add68b4baf44644fd7c88110fe491c54f0e889baa23976a2a9"
+    },
+    {
+      "source": "gruvbox",
+      "localPath": "gruvbox/package.json",
+      "path": "package.json",
+      "sha256": "30bd9d3f856b863b1d6a54b952c3ca878ce3f6650d1f7e27662a31a16a1722c7"
+    },
+    {
+      "source": "github",
+      "localPath": "github/LICENSE.txt",
+      "path": "LICENSE.txt",
+      "sha256": "e2c871bb6effe9f6ec8d94d6596db33c4bfe4dd94969a6a9a2fb0473ebe6442e"
+    },
+    {
+      "source": "github",
+      "localPath": "github/themes/light-default.json",
+      "path": "themes/light-default.json",
+      "sha256": "cc0cf47f4089eab798a72c600c08eff05246abb0c233d37dabd02afb255fccfb"
+    },
+    {
+      "source": "github",
+      "localPath": "github/themes/dark-default.json",
+      "path": "themes/dark-default.json",
+      "sha256": "a81623253b9441beef340f9417fa02e668b54ad7238735b5db72de6fd1eae9ba"
+    },
+    {
+      "source": "github",
+      "localPath": "github/themes/dark-high-contrast.json",
+      "path": "themes/dark-high-contrast.json",
+      "sha256": "87a49281f145b8caa312bf06be804742d3310a785ff4877f5d7cfd69a42d15b2"
+    },
+    {
+      "source": "github",
+      "localPath": "github/themes/dark-dimmed.json",
+      "path": "themes/dark-dimmed.json",
+      "sha256": "af4c53a7a780228bda624d2a0771e216730eb6ea52598a6598614428498b159c"
+    },
+    {
+      "source": "github",
+      "localPath": "github/upstream-package.json",
+      "path": "upstream-package.json",
+      "sha256": "78dd275f5daa837f850b8641d80fb236a813caf81417ee4c3eb60b85e9dee43d"
+    },
+    {
+      "source": "github",
+      "localPath": "github/package.json",
+      "path": "package.json",
+      "sha256": "60b15b3e62eba9d8e16ce2551d52277dfdd1fde47a4ac883caa0c0f0d5f2cd3d"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/LICENSE",
+      "path": "LICENSE",
+      "sha256": "487ad527f8207664ad12648b1396c96470505f1d72112eb2b5e94ee49a07521b"
+    },
+    {
+      "source": "dracula",
+      "localPath": "dracula/LICENSE",
+      "path": "LICENSE",
+      "sha256": "f08d0bba7f8906ed4e7a76d7e555a883968d83eb550ae298ce893a65aee15dff"
+    },
+    {
+      "source": "nord",
+      "localPath": "nord/license",
+      "path": "license",
+      "sha256": "25ac8188d670bd2ad2ce2f4f55ab88573010ee9f7a4502543cb1eea1e2274f8a"
+    },
+    {
+      "source": "catppuccin",
+      "localPath": "catppuccin/LICENSE",
+      "path": "LICENSE",
+      "sha256": "814096d2c34cc216c624738a49356f32b7237733b4f7edb0685f4e50ef5074ba"
+    },
+    {
+      "source": "catppuccin-palette",
+      "localPath": "catppuccin-palette/LICENSE",
+      "path": "LICENSE",
+      "sha256": "814096d2c34cc216c624738a49356f32b7237733b4f7edb0685f4e50ef5074ba"
+    },
+    {
+      "source": "rose-pine",
+      "localPath": "rose-pine/LICENSE",
+      "path": "LICENSE",
+      "sha256": "83815aa92fa62cd283c2b9db7f018426cfaa1033962669b838e6695a340adf6a"
+    },
+    {
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/LICENSE.txt",
+      "path": "LICENSE.txt",
+      "sha256": "e3f5d0d772cda0f4f67405696f15a0f335460a2b3944eff40f00675aadacb31b"
+    },
+    {
+      "source": "rainglow-sublime",
+      "localPath": "rainglow-sublime/LICENSE",
+      "path": "LICENSE",
+      "sha256": "487ad527f8207664ad12648b1396c96470505f1d72112eb2b5e94ee49a07521b"
+    },
+    {
+      "source": "rainglow-jetbrains",
+      "localPath": "rainglow-jetbrains/LICENSE",
+      "path": "LICENSE",
+      "sha256": "487ad527f8207664ad12648b1396c96470505f1d72112eb2b5e94ee49a07521b"
+    },
+    {
+      "source": "dracula",
+      "localPath": "dracula/src/dracula.yml",
+      "path": "src/dracula.yml",
+      "sha256": "c0b212b19bdaab789d56322783dd0ac32b43ee9a30ed5bd4d1e4b8a45dbe2c63"
+    },
+    {
+      "source": "nord",
+      "localPath": "nord/themes/nord-color-theme.json",
+      "path": "themes/nord-color-theme.json",
+      "sha256": "cd15e5a0c2edb2e373196ed2ab0f0d90c0eccc61f82c37131a4efc3be2ca8061"
+    },
+    {
+      "source": "catppuccin-palette",
+      "localPath": "catppuccin-palette/palette.json",
+      "path": "palette.json",
+      "sha256": "4bc114bb6b3c9a9c9e156564aa84625aef32c5da514d9dd431cf1fcad433a05f"
+    },
+    {
+      "source": "catppuccin",
+      "localPath": "catppuccin/packages/catppuccin-vsc/src/theme/tokenColors.ts",
+      "path": "packages/catppuccin-vsc/src/theme/tokenColors.ts",
+      "sha256": "16832a5b17d117fc4ad7cb822c21cc316d1de87d5d37a880a21d37e631481d69"
+    },
+    {
+      "source": "catppuccin",
+      "localPath": "catppuccin/packages/catppuccin-vsc/src/theme/tokens/java.ts",
+      "path": "packages/catppuccin-vsc/src/theme/tokens/java.ts",
+      "sha256": "d6e4b1d35273f35ad71ddcfcb22c766748489a9b83f59768cdfff70a0815343c"
+    },
+    {
+      "source": "catppuccin",
+      "localPath": "catppuccin/packages/catppuccin-vsc/src/theme/tokens/index.ts",
+      "path": "packages/catppuccin-vsc/src/theme/tokens/index.ts",
+      "sha256": "999bf187ba043f84712147ed77b1bc9a0cf8955619e1422e6e62aca95343c396"
+    },
+    {
+      "source": "catppuccin",
+      "localPath": "catppuccin/packages/catppuccin-vsc/src/theme/ui/workbench.ts",
+      "path": "packages/catppuccin-vsc/src/theme/ui/workbench.ts",
+      "sha256": "fefdb8a702bbe8a176319864c00df2079e982a8c8b2acd4a66f1ecebbc26a4d7"
+    },
+    {
+      "source": "rose-pine",
+      "localPath": "rose-pine/themes/rose-pine-color-theme.json",
+      "path": "themes/rose-pine-color-theme.json",
+      "sha256": "2c9270ee0a307739257d6331b6314f4b862c5f5bac32b798211ba9ffc50d6b02"
+    },
+    {
+      "source": "rose-pine",
+      "localPath": "rose-pine/themes/rose-pine-moon-color-theme.json",
+      "path": "themes/rose-pine-moon-color-theme.json",
+      "sha256": "af64eee390a08e9f2830dbe9f3445f34d87f9a2720e515bdd6dc2c187ca8faff"
+    },
+    {
+      "source": "rose-pine",
+      "localPath": "rose-pine/themes/rose-pine-dawn-color-theme.json",
+      "path": "themes/rose-pine-dawn-color-theme.json",
+      "sha256": "4293c89f0cf69a738cad1d6b7224aeafb78b5d3aa1ea38d9188caa507eff8a70"
+    },
+    {
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/themes/tokyo-night-color-theme.json",
+      "path": "themes/tokyo-night-color-theme.json",
+      "sha256": "e08d77c898ead9ed129dc18ff4f841e2353477e69ccd6fa7d0610561c31da4d8"
+    },
+    {
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/themes/tokyo-night-storm-color-theme.json",
+      "path": "themes/tokyo-night-storm-color-theme.json",
+      "sha256": "d190b57f2fa662233adc5c8f6e7aeac15330452a0569a2086b979b92b7ce6cea"
+    },
+    {
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/themes/tokyo-night-light-color-theme.json",
+      "path": "themes/tokyo-night-light-color-theme.json",
+      "sha256": "80273128d232d645cbdf8b5bb8c7c7dfddb9f8825588117cdf84c3a98724b050"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/absent.json",
+      "path": "themes/absent.json",
+      "sha256": "96776c35ca2bf472b451a9f33ab2d9f7d3cfa5d740a5135876cf4b19f4d3ff53"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/allure.json",
+      "path": "themes/allure.json",
+      "sha256": "ae805908b07a440136fb435e5d7dbcdae2bb7bbb1e124b80cee417d76901bf51"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/arstotzka.json",
+      "path": "themes/arstotzka.json",
+      "sha256": "d175e46f2523ff309d5eb62bf91d3b20d8559a953e26aa4a4974ddc5ffe8558e"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/azure.json",
+      "path": "themes/azure.json",
+      "sha256": "1b28242b736dd775b0502a542ed4dc79e996c22b23e05706a8483f7389c12060"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/banner.json",
+      "path": "themes/banner.json",
+      "sha256": "c1b39f3f9525497257ad548dc5224ad6dde9016caeb64a257d8e538eec8fa5da"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/brave.json",
+      "path": "themes/brave.json",
+      "sha256": "573a827098941b5901c38f4b230f5d73e01ab26ea2f4efe3ba8377b1b0be02e7"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/carbonight.json",
+      "path": "themes/carbonight.json",
+      "sha256": "1ba36413eb19e7c9e58db4715600a0e02590d65dbcf23a4a6fa7b2742b9c8465"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/chocolate.json",
+      "path": "themes/chocolate.json",
+      "sha256": "54612b81a7627379a0937ca5d9db259af309fa1894b04750e193171674c7effc"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/codecourse.json",
+      "path": "themes/codecourse.json",
+      "sha256": "a6a3e4131bf6d79e1f5bd6af3108117278f6e318177a087007e8e7e0f6725fb3"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/coffee.json",
+      "path": "themes/coffee.json",
+      "sha256": "4a3d34b99fa6fe8d4104dd912037efa7bcf5882da361ee264c1d4d4c36cefe38"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/comrade.json",
+      "path": "themes/comrade.json",
+      "sha256": "1f799a7ed63c58a6d7ba0c879a81ef440a54a05757773370110d3bf9d60ab1bc"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/crisp.json",
+      "path": "themes/crisp.json",
+      "sha256": "054a8e0c5b1003063b3e7538e54c05e8bbf29f7819cc2ceedc0a7b7337e0eddc"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/darkside.json",
+      "path": "themes/darkside.json",
+      "sha256": "6590324efc07a24b66c516fc21b672cb604888d6e3c7588c587ec794cee98813"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/downpour.json",
+      "path": "themes/downpour.json",
+      "sha256": "068daaadeb472f2c137262a20004b57f95929a5cea8984aca11c8a9c626ce6c6"
+    },
+    {
+      "source": "rainglow-jetbrains",
+      "localPath": "rainglow-jetbrains/colors/earthsong.xml",
+      "path": "colors/earthsong.xml",
+      "sha256": "fa631acfe080de3bdb720d77b50169b5cd1276cba26533d0f6f111640d08a065"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/freshcut.json",
+      "path": "themes/freshcut.json",
+      "sha256": "88c71297b5eca2ccb0e336f89a8b15a3acf1a60007493c1ba122c1108ae5af18"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/frontier.json",
+      "path": "themes/frontier.json",
+      "sha256": "b9402ac11929f6dd23dae494ab54cde43e898c864bb54e26b7a46514257de33a"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/gloom.json",
+      "path": "themes/gloom.json",
+      "sha256": "2c9771ce5aaad69d91d478be0ca3388ffd39c935f5f0ee25409ede2fb441606a"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/goldfish.json",
+      "path": "themes/goldfish.json",
+      "sha256": "60e5ecdce70434f8fc8ae2edc5119e2f0504e0ff7c92c69f5b0e00b7ec8ead43"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/grunge.json",
+      "path": "themes/grunge.json",
+      "sha256": "c88514640e8c2c62c0ce9fd685b059b59d2a5fe9cd8bbd40dd1f40a785d9ffae"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/halflife.json",
+      "path": "themes/halflife.json",
+      "sha256": "bf9bcedfdfa4beab2d638f116e3b9996601b127a34573eb4065932978ab36fcb"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/hawaii.json",
+      "path": "themes/hawaii.json",
+      "sha256": "6d1bbc3a7297f099e91e4c68ce241ac11e6687c3b7861ca5f304a9a0b6db875e"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/horizon.json",
+      "path": "themes/horizon.json",
+      "sha256": "ae26be8251c61e44a6c3a93b14e0c99469a96adf9eb7dce883dc12f1a4804742"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/hyrule.json",
+      "path": "themes/hyrule.json",
+      "sha256": "3374b42a1c002e0fbbdcdaa46f82dd5dabd89ec3c3318a8ae97f872fe7f7e031"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/iceberg.json",
+      "path": "themes/iceberg.json",
+      "sha256": "ce14f3b88237b738a751d2daa390c2b189890dd84a14d482e09b574e0cb5b5d9"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/joker.json",
+      "path": "themes/joker.json",
+      "sha256": "84353d7fc99418daed29856956c766af08324f943cea8f411b43d0cb9da389d7"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/laravel.json",
+      "path": "themes/laravel.json",
+      "sha256": "69aeec3a3664ff9475641279d944510c9d7ce37616d8859cf842b4700fd2c1ac"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lavender.json",
+      "path": "themes/lavender.json",
+      "sha256": "4a34ce0fdaa529837214902f7574fe8226fa8ba44562d2c73e3c82c1b216cf3a"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lichen.json",
+      "path": "themes/lichen.json",
+      "sha256": "23228dc3d69b2ab0551aa2506cc67a586fde1f5067d0eed14165e6bfa05c622b"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/mintchoc.json",
+      "path": "themes/mintchoc.json",
+      "sha256": "33df16bce4fa259ad950ba4215a70ddf147402eca50adad54b0e2c2175355cbb"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/monzo.json",
+      "path": "themes/monzo.json",
+      "sha256": "2f652162ae82d997553de6daba51be1b4f359bcbd6b5aeab9b94dafda94168ac"
+    },
+    {
+      "source": "rainglow-sublime",
+      "localPath": "rainglow-sublime/rainglow/Peacock (rainglow).tmTheme",
+      "path": "rainglow/Peacock (rainglow).tmTheme",
+      "sha256": "1262218a58f20ff2dae55d80f6212c92bb67a57ab069e1aaa10f0c4567899d39"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/rainbow.json",
+      "path": "themes/rainbow.json",
+      "sha256": "3b8f29132e584db2b34afe9ec5828ba206b2680bb361dfbb78ea0dcdd74539f4"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/rebellion.json",
+      "path": "themes/rebellion.json",
+      "sha256": "13b92ef5bea154ec6e263eac54bfa2bc9ee76f58b537a263489ceb32669575fd"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/slate.json",
+      "path": "themes/slate.json",
+      "sha256": "b5d4a9993bd20a182ec47e75728dab3c25dc0cc61608560f2ca77d796fef4e91"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/solarflare.json",
+      "path": "themes/solarflare.json",
+      "sha256": "235f44066e5c97b815bcb5ac1f842b6029a0001a7a1462e94943653652ad98ad"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/stealth.json",
+      "path": "themes/stealth.json",
+      "sha256": "b7c6a588a1c98e6ae41198ff8bae67b668e3f59fcc1b8366debdf56bfdf6c043"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/tron.json",
+      "path": "themes/tron.json",
+      "sha256": "2e1e3ab2e4d5782b4769c222105d6c6df1b109382834c212ea4810ad63007ab7"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/allure-light.json",
+      "path": "themes/allure-light.json",
+      "sha256": "1dd051dd12807b0578d37482ceeaa2daa0d610179de0ba074d0dd932d03833bc"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/arstotzka-light.json",
+      "path": "themes/arstotzka-light.json",
+      "sha256": "073ab8779829bf844b43475f6e32d0900ec5818c51e4362fd48ad18e06b14b28"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/banner-light.json",
+      "path": "themes/banner-light.json",
+      "sha256": "794a5bb5445cd0bef488df48f5f41ab6f6176d488f65723bdf3231818d98f176"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/brave-light.json",
+      "path": "themes/brave-light.json",
+      "sha256": "3f607c8b55459e87008f16ab44b47465fb2128aea65a61b42079f0b454abbe1b"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/chocolate-light.json",
+      "path": "themes/chocolate-light.json",
+      "sha256": "c6ab10b3138983776906a774ac2975977d505518baa42e540719ad82a61a81a6"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/coffee-light.json",
+      "path": "themes/coffee-light.json",
+      "sha256": "98dfb0e9daf825a9259ef99bb7e3af1c4e3cdd3bbbadfc2e83f58513f339a439"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/earthsong-light.json",
+      "path": "themes/earthsong-light.json",
+      "sha256": "cb75f2de58a1a1c3a987fab1ff2ff836975f1fdd5a90c89271cb507dad6fdac7"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/freshcut-light.json",
+      "path": "themes/freshcut-light.json",
+      "sha256": "b101d56c1a5828b5cd370d75cbce445ac6f55cd65479f9639bc94471d372b1f2"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/goldfish-light.json",
+      "path": "themes/goldfish-light.json",
+      "sha256": "4c8829fb2327fe76905c4dc31007ad8d2fecffb45f1ef523c3f8ed5c497148dd"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/iceberg-light.json",
+      "path": "themes/iceberg-light.json",
+      "sha256": "96f554b523b999b391cc822bc6c19495101b31b873f3b2935396717c826a9622"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/joker-light.json",
+      "path": "themes/joker-light.json",
+      "sha256": "4479dab549ef19e135395ef7de51817c17c1adb13e90c3d4032e84cf92cf4344"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/laravel-light.json",
+      "path": "themes/laravel-light.json",
+      "sha256": "81150c4a185832cc39cc59bad44c1e2ac2a554cf582657114b6208b8a8470569"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lavender-light.json",
+      "path": "themes/lavender-light.json",
+      "sha256": "5ae78cf98eedab94570c94f2c6230aeb8c5c8607ea1d21d1a89c752c60e9d36d"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lichen-light.json",
+      "path": "themes/lichen-light.json",
+      "sha256": "670249690d81105266f732faead406a6b0d955b8299bbeae0f60e7d69a3c65eb"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/mellow-light.json",
+      "path": "themes/mellow-light.json",
+      "sha256": "8a0d7bf3de6e212d4927b2f4f11d1ee0483be5bf5a1b0d2dbf06cd88359bf240"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/peacock-light.json",
+      "path": "themes/peacock-light.json",
+      "sha256": "20028aafd276232d76856af283b770615ec54c4add45ff3f24d00a5ef74a4a89"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/slate-light.json",
+      "path": "themes/slate-light.json",
+      "sha256": "552af11216f3ba3e356f737ea4161e1c375b9726d15b9d417aefc0c8f64868b2"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/stasis-light.json",
+      "path": "themes/stasis-light.json",
+      "sha256": "c02cd956d2ef0077540b4f062d8a23489ef2285cfe8c680b7558d7b436075b03"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/tron-light.json",
+      "path": "themes/tron-light.json",
+      "sha256": "009de2c505676cbda39a07a4a21854b7c0665510e425ef67b19e192089025cb8"
+    },
+    {
+      "source": "rainglow",
+      "localPath": "rainglow/themes/turnip-light.json",
+      "path": "themes/turnip-light.json",
+      "sha256": "23471b1cf634ee610e1fc3df746ee8f1e4b6082e1e4d2590f3750d2dc0f7a3e4"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/src/vs/platform/theme/common/colors/editorColors.ts",
+      "path": "src/vs/platform/theme/common/colors/editorColors.ts",
+      "sha256": "7ab13775bd2af71322c8f95161b0c207318b898c611da6e2f832ed5c4e83bf37"
+    },
+    {
+      "source": "vscode",
+      "localPath": "vscode/src/vs/platform/theme/common/colors/baseColors.ts",
+      "path": "src/vs/platform/theme/common/colors/baseColors.ts",
+      "sha256": "e72545cdb7e38bb985bed726eab23f11500b48c5469d558f0386a475025cdc53"
+    }
+  ],
+  "themes": [
+    {
+      "id": "one-dark",
+      "name": "One Dark",
+      "source": "one-dark",
+      "localPath": "one-dark/themes/OneDark.json",
+      "path": "themes/OneDark.json",
+      "sha256": "9cba08f30e9f249ed5d00a33a582533cc611d9360e61973dcaddcad3f7ac8d7c",
+      "format": "vscode"
+    },
+    {
+      "id": "one-light",
+      "name": "One Light",
+      "source": "one-light",
+      "localPath": "one-light/themes/OneLight.json",
+      "path": "themes/OneLight.json",
+      "sha256": "6628e350875e76186f3ac007680544d54a3ea132e6b542442e7704fdfac45250",
+      "format": "vscode"
+    },
+    {
+      "id": "ayu-dark",
+      "name": "Ayu Dark",
+      "source": "ayu",
+      "localPath": "ayu/ayu-dark.json",
+      "path": "ayu-dark.json",
+      "sha256": "8782e9876207553f84cdfe2f5bd2b625561b72b6b03f0bb747eac2ecee3648ca",
+      "format": "vscode"
+    },
+    {
+      "id": "ayu-mirage",
+      "name": "Ayu Mirage",
+      "source": "ayu",
+      "localPath": "ayu/ayu-mirage.json",
+      "path": "ayu-mirage.json",
+      "sha256": "e08c742afbbeb686d9447caa16d95e4897cedf2591b554eed74778d9d4087b5e",
+      "format": "vscode"
+    },
+    {
+      "id": "ayu-light",
+      "name": "Ayu Light",
+      "source": "ayu",
+      "localPath": "ayu/ayu-light.json",
+      "path": "ayu-light.json",
+      "sha256": "3d748e7a3666978e34fbab2830ce3c311da24a8b38d7a955fe833ca1d536f646",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-2026-dark",
+      "name": "VS Code Dark 2026",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/2026-dark.json",
+      "path": "extensions/theme-defaults/themes/2026-dark.json",
+      "sha256": "5cd138a1b8d33ec6befd2c779a3cb0b8eae0846bd8371f1301938ade34cb189d",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-2026-light",
+      "name": "VS Code Light 2026",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/2026-light.json",
+      "path": "extensions/theme-defaults/themes/2026-light.json",
+      "sha256": "0f02b94451b1cf7d98d262f328e750a0ce043c9bb5f30e63a0be359335f87816",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-dark-modern",
+      "name": "VS Code Dark Modern",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/dark_modern.json",
+      "path": "extensions/theme-defaults/themes/dark_modern.json",
+      "sha256": "58d4ea55a2a36f65c0d5caf033dfddc4ec7d4b3a5d8b731a84bc36001d26a339",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-light-modern",
+      "name": "VS Code Light Modern",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/light_modern.json",
+      "path": "extensions/theme-defaults/themes/light_modern.json",
+      "sha256": "831b47d624e9acd6f09da58a699889415be7e45fccffb01177bc718b20e7e25c",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-dark-plus",
+      "name": "VS Code Dark+",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/dark_plus.json",
+      "path": "extensions/theme-defaults/themes/dark_plus.json",
+      "sha256": "409f33088a5cfd6589384900ef80627787c568d367c25b12f31bc7940936e573",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-light-plus",
+      "name": "VS Code Light+",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/light_plus.json",
+      "path": "extensions/theme-defaults/themes/light_plus.json",
+      "sha256": "26fbb053bec8ce2b65706d5fcb993da8c19174cfdbf35a49b465236b5ed26203",
+      "format": "vscode"
+    },
+    {
+      "id": "visual-studio-dark",
+      "name": "Visual Studio Dark",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/dark_vs.json",
+      "path": "extensions/theme-defaults/themes/dark_vs.json",
+      "sha256": "9fc2c16761400632eac6166ff7bb0435c5190a94bffa51ec1ef19b2ce78576b2",
+      "format": "vscode"
+    },
+    {
+      "id": "visual-studio-light",
+      "name": "Visual Studio Light",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/light_vs.json",
+      "path": "extensions/theme-defaults/themes/light_vs.json",
+      "sha256": "ce562a2ebec8c9a91021afb9ba7c9e8bcf4176df634fec8b77c748b42e3ce748",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-high-contrast-dark",
+      "name": "VS Code High Contrast Dark",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/hc_black.json",
+      "path": "extensions/theme-defaults/themes/hc_black.json",
+      "sha256": "07f6250833d40ca9ed7399f328816d4e0c59ddc21c64c8af754a6b260725b0ad",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-high-contrast-light",
+      "name": "VS Code High Contrast Light",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-defaults/themes/hc_light.json",
+      "path": "extensions/theme-defaults/themes/hc_light.json",
+      "sha256": "1cc2ccb7d2fb7990d22baa1dd2bb7174817ac45ddc8b46c4d29c3ddb864b4ce2",
+      "format": "vscode",
+      "implicitColors": {
+        "editor.background": "#FFFFFF",
+        "editor.foreground": "#292929"
+      },
+      "implicitColorsSources": [
+        "vscode/src/vs/platform/theme/common/colors/editorColors.ts",
+        "vscode/src/vs/platform/theme/common/colors/baseColors.ts"
+      ]
+    },
+    {
+      "id": "vscode-abyss",
+      "name": "Abyss",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-abyss/themes/abyss-color-theme.json",
+      "path": "extensions/theme-abyss/themes/abyss-color-theme.json",
+      "sha256": "5ccb5fa5c6f66b43295f68852b7cc88b1ba35eb44a3a17c813e9094aaca755c4",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-kimbie-dark",
+      "name": "Kimbie Dark",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-kimbie-dark/themes/kimbie-dark-color-theme.json",
+      "path": "extensions/theme-kimbie-dark/themes/kimbie-dark-color-theme.json",
+      "sha256": "a0b17410a795d8e03c86b24ce8d59570079a5fc4df5a2f7fd2daf9f9d81ab14d",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-monokai",
+      "name": "Monokai",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-monokai/themes/monokai-color-theme.json",
+      "path": "extensions/theme-monokai/themes/monokai-color-theme.json",
+      "sha256": "5681bcdc2e8f2994a41233bfdd1b02c2cfd90da5c6a4f5ebd4c8f42ef90d1b5f",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-monokai-dimmed",
+      "name": "Monokai Dimmed",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-monokai-dimmed/themes/dimmed-monokai-color-theme.json",
+      "path": "extensions/theme-monokai-dimmed/themes/dimmed-monokai-color-theme.json",
+      "sha256": "13a6f5b82057a3427b55368ab45f57073cb4a291a722e1f33f83a66fc2d1513c",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-quietlight",
+      "name": "Quiet Light",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-quietlight/themes/quietlight-color-theme.json",
+      "path": "extensions/theme-quietlight/themes/quietlight-color-theme.json",
+      "sha256": "1f54cc040234b040bcc701dfa7543880821415c05d13780300914ae814aad3df",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-red",
+      "name": "Red",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-red/themes/Red-color-theme.json",
+      "path": "extensions/theme-red/themes/Red-color-theme.json",
+      "sha256": "e5df2cd55fcab494ee241e7d7ca1525958312c59359665c474b0afa2ff91f559",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-solarized-dark",
+      "name": "Solarized Dark",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-solarized-dark/themes/solarized-dark-color-theme.json",
+      "path": "extensions/theme-solarized-dark/themes/solarized-dark-color-theme.json",
+      "sha256": "920e68b8a62e3e6581cee8d7900af1772865e5fe2b9efe5904baa4a8a89bc445",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-solarized-light",
+      "name": "Solarized Light",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-solarized-light/themes/solarized-light-color-theme.json",
+      "path": "extensions/theme-solarized-light/themes/solarized-light-color-theme.json",
+      "sha256": "7c10e85f312c79dfccfa97fe97bb74c3d716a35f55e9701b30bc57e725ce1b44",
+      "format": "vscode"
+    },
+    {
+      "id": "vscode-tomorrow-night-blue",
+      "name": "Tomorrow Night Blue",
+      "source": "vscode",
+      "localPath": "vscode/extensions/theme-tomorrow-night-blue/themes/tomorrow-night-blue-color-theme.json",
+      "path": "extensions/theme-tomorrow-night-blue/themes/tomorrow-night-blue-color-theme.json",
+      "sha256": "96d5889d05382b3b5b2d9300879ccbd00d29c42b05249f924b468d8f671ed218",
+      "format": "vscode"
+    },
+    {
+      "id": "gruvbox-dark-medium",
+      "name": "Gruvbox Dark Medium",
+      "source": "gruvbox",
+      "localPath": "gruvbox/themes/gruvbox-dark-medium.json",
+      "path": "themes/gruvbox-dark-medium.json",
+      "sha256": "b6dc507a94d9d63b8e9cf4dd7f04ea9b3fb5d667b96bd4d6750cd466e5891a87",
+      "format": "vscode"
+    },
+    {
+      "id": "gruvbox-light-medium",
+      "name": "Gruvbox Light Medium",
+      "source": "gruvbox",
+      "localPath": "gruvbox/themes/gruvbox-light-medium.json",
+      "path": "themes/gruvbox-light-medium.json",
+      "sha256": "ba12d790f89a47ddac83ce3fbe027ee6cbf366d560290d9dd971b156f4efc20a",
+      "format": "vscode"
+    },
+    {
+      "id": "github-light-default",
+      "name": "GitHub Light Default",
+      "source": "github",
+      "localPath": "github/themes/light-default.json",
+      "path": "themes/light-default.json",
+      "sha256": "cc0cf47f4089eab798a72c600c08eff05246abb0c233d37dabd02afb255fccfb",
+      "format": "vscode"
+    },
+    {
+      "id": "github-dark-default",
+      "name": "GitHub Dark Default",
+      "source": "github",
+      "localPath": "github/themes/dark-default.json",
+      "path": "themes/dark-default.json",
+      "sha256": "a81623253b9441beef340f9417fa02e668b54ad7238735b5db72de6fd1eae9ba",
+      "format": "vscode"
+    },
+    {
+      "id": "github-dark-high-contrast",
+      "name": "GitHub Dark High Contrast",
+      "source": "github",
+      "localPath": "github/themes/dark-high-contrast.json",
+      "path": "themes/dark-high-contrast.json",
+      "sha256": "87a49281f145b8caa312bf06be804742d3310a785ff4877f5d7cfd69a42d15b2",
+      "format": "vscode"
+    },
+    {
+      "id": "github-dark-dimmed",
+      "name": "GitHub Dark Dimmed",
+      "source": "github",
+      "localPath": "github/themes/dark-dimmed.json",
+      "path": "themes/dark-dimmed.json",
+      "sha256": "af4c53a7a780228bda624d2a0771e216730eb6ea52598a6598614428498b159c",
+      "format": "vscode"
+    },
+    {
+      "id": "dracula",
+      "name": "Dracula",
+      "source": "dracula",
+      "localPath": "dracula/src/dracula.yml",
+      "path": "src/dracula.yml",
+      "sha256": "c0b212b19bdaab789d56322783dd0ac32b43ee9a30ed5bd4d1e4b8a45dbe2c63",
+      "format": "dracula-yaml"
+    },
+    {
+      "id": "nord",
+      "name": "Nord",
+      "source": "nord",
+      "localPath": "nord/themes/nord-color-theme.json",
+      "path": "themes/nord-color-theme.json",
+      "sha256": "cd15e5a0c2edb2e373196ed2ab0f0d90c0eccc61f82c37131a4efc3be2ca8061",
+      "format": "vscode"
+    },
+    {
+      "id": "catppuccin-latte",
+      "name": "Catppuccin Latte",
+      "source": "catppuccin-palette",
+      "localPath": "catppuccin-palette/palette.json",
+      "path": "palette.json",
+      "sha256": "4bc114bb6b3c9a9c9e156564aa84625aef32c5da514d9dd431cf1fcad433a05f",
+      "format": "catppuccin-palette",
+      "variant": "latte"
+    },
+    {
+      "id": "catppuccin-frappe",
+      "name": "Catppuccin Frappe",
+      "source": "catppuccin-palette",
+      "localPath": "catppuccin-palette/palette.json",
+      "path": "palette.json",
+      "sha256": "4bc114bb6b3c9a9c9e156564aa84625aef32c5da514d9dd431cf1fcad433a05f",
+      "format": "catppuccin-palette",
+      "variant": "frappe"
+    },
+    {
+      "id": "catppuccin-macchiato",
+      "name": "Catppuccin Macchiato",
+      "source": "catppuccin-palette",
+      "localPath": "catppuccin-palette/palette.json",
+      "path": "palette.json",
+      "sha256": "4bc114bb6b3c9a9c9e156564aa84625aef32c5da514d9dd431cf1fcad433a05f",
+      "format": "catppuccin-palette",
+      "variant": "macchiato"
+    },
+    {
+      "id": "catppuccin-mocha",
+      "name": "Catppuccin Mocha",
+      "source": "catppuccin-palette",
+      "localPath": "catppuccin-palette/palette.json",
+      "path": "palette.json",
+      "sha256": "4bc114bb6b3c9a9c9e156564aa84625aef32c5da514d9dd431cf1fcad433a05f",
+      "format": "catppuccin-palette",
+      "variant": "mocha"
+    },
+    {
+      "id": "rose-pine",
+      "name": "Rosé Pine",
+      "source": "rose-pine",
+      "localPath": "rose-pine/themes/rose-pine-color-theme.json",
+      "path": "themes/rose-pine-color-theme.json",
+      "sha256": "2c9270ee0a307739257d6331b6314f4b862c5f5bac32b798211ba9ffc50d6b02",
+      "format": "vscode"
+    },
+    {
+      "id": "rose-pine-moon",
+      "name": "Rosé Pine Moon",
+      "source": "rose-pine",
+      "localPath": "rose-pine/themes/rose-pine-moon-color-theme.json",
+      "path": "themes/rose-pine-moon-color-theme.json",
+      "sha256": "af64eee390a08e9f2830dbe9f3445f34d87f9a2720e515bdd6dc2c187ca8faff",
+      "format": "vscode"
+    },
+    {
+      "id": "rose-pine-dawn",
+      "name": "Rosé Pine Dawn",
+      "source": "rose-pine",
+      "localPath": "rose-pine/themes/rose-pine-dawn-color-theme.json",
+      "path": "themes/rose-pine-dawn-color-theme.json",
+      "sha256": "4293c89f0cf69a738cad1d6b7224aeafb78b5d3aa1ea38d9188caa507eff8a70",
+      "format": "vscode"
+    },
+    {
+      "id": "tokyo-night",
+      "name": "Tokyo Night",
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/themes/tokyo-night-color-theme.json",
+      "path": "themes/tokyo-night-color-theme.json",
+      "sha256": "e08d77c898ead9ed129dc18ff4f841e2353477e69ccd6fa7d0610561c31da4d8",
+      "format": "vscode"
+    },
+    {
+      "id": "tokyo-night-storm",
+      "name": "Tokyo Night Storm",
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/themes/tokyo-night-storm-color-theme.json",
+      "path": "themes/tokyo-night-storm-color-theme.json",
+      "sha256": "d190b57f2fa662233adc5c8f6e7aeac15330452a0569a2086b979b92b7ce6cea",
+      "format": "vscode"
+    },
+    {
+      "id": "tokyo-night-light",
+      "name": "Tokyo Night Light",
+      "source": "tokyo-night",
+      "localPath": "tokyo-night/themes/tokyo-night-light-color-theme.json",
+      "path": "themes/tokyo-night-light-color-theme.json",
+      "sha256": "80273128d232d645cbdf8b5bb8c7c7dfddb9f8825588117cdf84c3a98724b050",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-absent",
+      "name": "Rainglow Absent",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/absent.json",
+      "path": "themes/absent.json",
+      "sha256": "96776c35ca2bf472b451a9f33ab2d9f7d3cfa5d740a5135876cf4b19f4d3ff53",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-allure",
+      "name": "Rainglow Allure",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/allure.json",
+      "path": "themes/allure.json",
+      "sha256": "ae805908b07a440136fb435e5d7dbcdae2bb7bbb1e124b80cee417d76901bf51",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-arstotzka",
+      "name": "Rainglow Arstotzka",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/arstotzka.json",
+      "path": "themes/arstotzka.json",
+      "sha256": "d175e46f2523ff309d5eb62bf91d3b20d8559a953e26aa4a4974ddc5ffe8558e",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-azure",
+      "name": "Rainglow Azure",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/azure.json",
+      "path": "themes/azure.json",
+      "sha256": "1b28242b736dd775b0502a542ed4dc79e996c22b23e05706a8483f7389c12060",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-banner",
+      "name": "Rainglow Banner",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/banner.json",
+      "path": "themes/banner.json",
+      "sha256": "c1b39f3f9525497257ad548dc5224ad6dde9016caeb64a257d8e538eec8fa5da",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-brave",
+      "name": "Rainglow Brave",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/brave.json",
+      "path": "themes/brave.json",
+      "sha256": "573a827098941b5901c38f4b230f5d73e01ab26ea2f4efe3ba8377b1b0be02e7",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-carbonight",
+      "name": "Rainglow Carbonight",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/carbonight.json",
+      "path": "themes/carbonight.json",
+      "sha256": "1ba36413eb19e7c9e58db4715600a0e02590d65dbcf23a4a6fa7b2742b9c8465",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-chocolate",
+      "name": "Rainglow Chocolate",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/chocolate.json",
+      "path": "themes/chocolate.json",
+      "sha256": "54612b81a7627379a0937ca5d9db259af309fa1894b04750e193171674c7effc",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-codecourse",
+      "name": "Rainglow Codecourse",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/codecourse.json",
+      "path": "themes/codecourse.json",
+      "sha256": "a6a3e4131bf6d79e1f5bd6af3108117278f6e318177a087007e8e7e0f6725fb3",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-coffee",
+      "name": "Rainglow Coffee",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/coffee.json",
+      "path": "themes/coffee.json",
+      "sha256": "4a3d34b99fa6fe8d4104dd912037efa7bcf5882da361ee264c1d4d4c36cefe38",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-comrade",
+      "name": "Rainglow Comrade",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/comrade.json",
+      "path": "themes/comrade.json",
+      "sha256": "1f799a7ed63c58a6d7ba0c879a81ef440a54a05757773370110d3bf9d60ab1bc",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-crisp",
+      "name": "Rainglow Crisp",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/crisp.json",
+      "path": "themes/crisp.json",
+      "sha256": "054a8e0c5b1003063b3e7538e54c05e8bbf29f7819cc2ceedc0a7b7337e0eddc",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-darkside",
+      "name": "Rainglow Darkside",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/darkside.json",
+      "path": "themes/darkside.json",
+      "sha256": "6590324efc07a24b66c516fc21b672cb604888d6e3c7588c587ec794cee98813",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-downpour",
+      "name": "Rainglow Downpour",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/downpour.json",
+      "path": "themes/downpour.json",
+      "sha256": "068daaadeb472f2c137262a20004b57f95929a5cea8984aca11c8a9c626ce6c6",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-earthsong",
+      "name": "Rainglow Earthsong",
+      "source": "rainglow-jetbrains",
+      "localPath": "rainglow-jetbrains/colors/earthsong.xml",
+      "path": "colors/earthsong.xml",
+      "sha256": "fa631acfe080de3bdb720d77b50169b5cd1276cba26533d0f6f111640d08a065",
+      "format": "jetbrains-icls"
+    },
+    {
+      "id": "rainglow-freshcut",
+      "name": "Rainglow Freshcut",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/freshcut.json",
+      "path": "themes/freshcut.json",
+      "sha256": "88c71297b5eca2ccb0e336f89a8b15a3acf1a60007493c1ba122c1108ae5af18",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-frontier",
+      "name": "Rainglow Frontier",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/frontier.json",
+      "path": "themes/frontier.json",
+      "sha256": "b9402ac11929f6dd23dae494ab54cde43e898c864bb54e26b7a46514257de33a",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-gloom",
+      "name": "Rainglow Gloom",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/gloom.json",
+      "path": "themes/gloom.json",
+      "sha256": "2c9771ce5aaad69d91d478be0ca3388ffd39c935f5f0ee25409ede2fb441606a",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-goldfish",
+      "name": "Rainglow Goldfish",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/goldfish.json",
+      "path": "themes/goldfish.json",
+      "sha256": "60e5ecdce70434f8fc8ae2edc5119e2f0504e0ff7c92c69f5b0e00b7ec8ead43",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-grunge",
+      "name": "Rainglow Grunge",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/grunge.json",
+      "path": "themes/grunge.json",
+      "sha256": "c88514640e8c2c62c0ce9fd685b059b59d2a5fe9cd8bbd40dd1f40a785d9ffae",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-halflife",
+      "name": "Rainglow Halflife",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/halflife.json",
+      "path": "themes/halflife.json",
+      "sha256": "bf9bcedfdfa4beab2d638f116e3b9996601b127a34573eb4065932978ab36fcb",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-hawaii",
+      "name": "Rainglow Hawaii",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/hawaii.json",
+      "path": "themes/hawaii.json",
+      "sha256": "6d1bbc3a7297f099e91e4c68ce241ac11e6687c3b7861ca5f304a9a0b6db875e",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-horizon",
+      "name": "Rainglow Horizon",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/horizon.json",
+      "path": "themes/horizon.json",
+      "sha256": "ae26be8251c61e44a6c3a93b14e0c99469a96adf9eb7dce883dc12f1a4804742",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-hyrule",
+      "name": "Rainglow Hyrule",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/hyrule.json",
+      "path": "themes/hyrule.json",
+      "sha256": "3374b42a1c002e0fbbdcdaa46f82dd5dabd89ec3c3318a8ae97f872fe7f7e031",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-iceberg",
+      "name": "Rainglow Iceberg",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/iceberg.json",
+      "path": "themes/iceberg.json",
+      "sha256": "ce14f3b88237b738a751d2daa390c2b189890dd84a14d482e09b574e0cb5b5d9",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-joker",
+      "name": "Rainglow Joker",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/joker.json",
+      "path": "themes/joker.json",
+      "sha256": "84353d7fc99418daed29856956c766af08324f943cea8f411b43d0cb9da389d7",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-laravel",
+      "name": "Rainglow Laravel",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/laravel.json",
+      "path": "themes/laravel.json",
+      "sha256": "69aeec3a3664ff9475641279d944510c9d7ce37616d8859cf842b4700fd2c1ac",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-lavender",
+      "name": "Rainglow Lavender",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lavender.json",
+      "path": "themes/lavender.json",
+      "sha256": "4a34ce0fdaa529837214902f7574fe8226fa8ba44562d2c73e3c82c1b216cf3a",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-lichen",
+      "name": "Rainglow Lichen",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lichen.json",
+      "path": "themes/lichen.json",
+      "sha256": "23228dc3d69b2ab0551aa2506cc67a586fde1f5067d0eed14165e6bfa05c622b",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-mintchoc",
+      "name": "Rainglow Mintchoc",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/mintchoc.json",
+      "path": "themes/mintchoc.json",
+      "sha256": "33df16bce4fa259ad950ba4215a70ddf147402eca50adad54b0e2c2175355cbb",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-monzo",
+      "name": "Rainglow Monzo",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/monzo.json",
+      "path": "themes/monzo.json",
+      "sha256": "2f652162ae82d997553de6daba51be1b4f359bcbd6b5aeab9b94dafda94168ac",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-peacock",
+      "name": "Rainglow Peacock",
+      "source": "rainglow-sublime",
+      "localPath": "rainglow-sublime/rainglow/Peacock (rainglow).tmTheme",
+      "path": "rainglow/Peacock (rainglow).tmTheme",
+      "sha256": "1262218a58f20ff2dae55d80f6212c92bb67a57ab069e1aaa10f0c4567899d39",
+      "format": "sublime-tmtheme"
+    },
+    {
+      "id": "rainglow-rainbow",
+      "name": "Rainglow Rainbow",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/rainbow.json",
+      "path": "themes/rainbow.json",
+      "sha256": "3b8f29132e584db2b34afe9ec5828ba206b2680bb361dfbb78ea0dcdd74539f4",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-rebellion",
+      "name": "Rainglow Rebellion",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/rebellion.json",
+      "path": "themes/rebellion.json",
+      "sha256": "13b92ef5bea154ec6e263eac54bfa2bc9ee76f58b537a263489ceb32669575fd",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-slate",
+      "name": "Rainglow Slate",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/slate.json",
+      "path": "themes/slate.json",
+      "sha256": "b5d4a9993bd20a182ec47e75728dab3c25dc0cc61608560f2ca77d796fef4e91",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-solarflare",
+      "name": "Rainglow Solarflare",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/solarflare.json",
+      "path": "themes/solarflare.json",
+      "sha256": "235f44066e5c97b815bcb5ac1f842b6029a0001a7a1462e94943653652ad98ad",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-stealth",
+      "name": "Rainglow Stealth",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/stealth.json",
+      "path": "themes/stealth.json",
+      "sha256": "b7c6a588a1c98e6ae41198ff8bae67b668e3f59fcc1b8366debdf56bfdf6c043",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-tron",
+      "name": "Rainglow Tron",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/tron.json",
+      "path": "themes/tron.json",
+      "sha256": "2e1e3ab2e4d5782b4769c222105d6c6df1b109382834c212ea4810ad63007ab7",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-allure-light",
+      "name": "Rainglow Allure Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/allure-light.json",
+      "path": "themes/allure-light.json",
+      "sha256": "1dd051dd12807b0578d37482ceeaa2daa0d610179de0ba074d0dd932d03833bc",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-arstotzka-light",
+      "name": "Rainglow Arstotzka Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/arstotzka-light.json",
+      "path": "themes/arstotzka-light.json",
+      "sha256": "073ab8779829bf844b43475f6e32d0900ec5818c51e4362fd48ad18e06b14b28",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-banner-light",
+      "name": "Rainglow Banner Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/banner-light.json",
+      "path": "themes/banner-light.json",
+      "sha256": "794a5bb5445cd0bef488df48f5f41ab6f6176d488f65723bdf3231818d98f176",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-brave-light",
+      "name": "Rainglow Brave Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/brave-light.json",
+      "path": "themes/brave-light.json",
+      "sha256": "3f607c8b55459e87008f16ab44b47465fb2128aea65a61b42079f0b454abbe1b",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-chocolate-light",
+      "name": "Rainglow Chocolate Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/chocolate-light.json",
+      "path": "themes/chocolate-light.json",
+      "sha256": "c6ab10b3138983776906a774ac2975977d505518baa42e540719ad82a61a81a6",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-coffee-light",
+      "name": "Rainglow Coffee Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/coffee-light.json",
+      "path": "themes/coffee-light.json",
+      "sha256": "98dfb0e9daf825a9259ef99bb7e3af1c4e3cdd3bbbadfc2e83f58513f339a439",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-earthsong-light",
+      "name": "Rainglow Earthsong Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/earthsong-light.json",
+      "path": "themes/earthsong-light.json",
+      "sha256": "cb75f2de58a1a1c3a987fab1ff2ff836975f1fdd5a90c89271cb507dad6fdac7",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-freshcut-light",
+      "name": "Rainglow Freshcut Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/freshcut-light.json",
+      "path": "themes/freshcut-light.json",
+      "sha256": "b101d56c1a5828b5cd370d75cbce445ac6f55cd65479f9639bc94471d372b1f2",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-goldfish-light",
+      "name": "Rainglow Goldfish Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/goldfish-light.json",
+      "path": "themes/goldfish-light.json",
+      "sha256": "4c8829fb2327fe76905c4dc31007ad8d2fecffb45f1ef523c3f8ed5c497148dd",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-iceberg-light",
+      "name": "Rainglow Iceberg Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/iceberg-light.json",
+      "path": "themes/iceberg-light.json",
+      "sha256": "96f554b523b999b391cc822bc6c19495101b31b873f3b2935396717c826a9622",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-joker-light",
+      "name": "Rainglow Joker Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/joker-light.json",
+      "path": "themes/joker-light.json",
+      "sha256": "4479dab549ef19e135395ef7de51817c17c1adb13e90c3d4032e84cf92cf4344",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-laravel-light",
+      "name": "Rainglow Laravel Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/laravel-light.json",
+      "path": "themes/laravel-light.json",
+      "sha256": "81150c4a185832cc39cc59bad44c1e2ac2a554cf582657114b6208b8a8470569",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-lavender-light",
+      "name": "Rainglow Lavender Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lavender-light.json",
+      "path": "themes/lavender-light.json",
+      "sha256": "5ae78cf98eedab94570c94f2c6230aeb8c5c8607ea1d21d1a89c752c60e9d36d",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-lichen-light",
+      "name": "Rainglow Lichen Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/lichen-light.json",
+      "path": "themes/lichen-light.json",
+      "sha256": "670249690d81105266f732faead406a6b0d955b8299bbeae0f60e7d69a3c65eb",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-mellow-light",
+      "name": "Rainglow Mellow Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/mellow-light.json",
+      "path": "themes/mellow-light.json",
+      "sha256": "8a0d7bf3de6e212d4927b2f4f11d1ee0483be5bf5a1b0d2dbf06cd88359bf240",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-peacock-light",
+      "name": "Rainglow Peacock Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/peacock-light.json",
+      "path": "themes/peacock-light.json",
+      "sha256": "20028aafd276232d76856af283b770615ec54c4add45ff3f24d00a5ef74a4a89",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-slate-light",
+      "name": "Rainglow Slate Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/slate-light.json",
+      "path": "themes/slate-light.json",
+      "sha256": "552af11216f3ba3e356f737ea4161e1c375b9726d15b9d417aefc0c8f64868b2",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-stasis-light",
+      "name": "Rainglow Stasis Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/stasis-light.json",
+      "path": "themes/stasis-light.json",
+      "sha256": "c02cd956d2ef0077540b4f062d8a23489ef2285cfe8c680b7558d7b436075b03",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-tron-light",
+      "name": "Rainglow Tron Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/tron-light.json",
+      "path": "themes/tron-light.json",
+      "sha256": "009de2c505676cbda39a07a4a21854b7c0665510e425ef67b19e192089025cb8",
+      "format": "vscode"
+    },
+    {
+      "id": "rainglow-turnip-light",
+      "name": "Rainglow Turnip Light",
+      "source": "rainglow",
+      "localPath": "rainglow/themes/turnip-light.json",
+      "path": "themes/turnip-light.json",
+      "sha256": "23471b1cf634ee610e1fc3df746ee8f1e4b6082e1e4d2590f3750d2dc0f7a3e4",
+      "format": "vscode"
+    }
+  ],
+  "primary": [
+    {
+      "id": "classic",
+      "file": "classic.json",
+      "sha256": "af03cbd91c6758617aac783797c362da7220cb002e4f435f7fb45d5525967f8e"
+    },
+    {
+      "id": "dark",
+      "file": "dark.json",
+      "sha256": "6f88f41f475c27f978ea45607b10c2e6b3beca685450f957eeb8e63a61ccf31e"
+    },
+    {
+      "id": "light",
+      "file": "light.json",
+      "sha256": "ff73af7eb1ac1aa723fe8109727bec169478679ef10432e6291456201f43b942"
+    }
+  ]
+}

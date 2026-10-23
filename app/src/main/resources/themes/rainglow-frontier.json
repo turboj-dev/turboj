@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-frontier",
+  "name": "Rainglow Frontier",
+  "editor": {
+    "background": "#36312C",
+    "foreground": "#F8F8F2",
+    "cursor": "#F8F8F0",
+    "selection": "#336047",
+    "selectionForeground": "#FFFFFF",
+    "error": "#DA7E8F"
+  },
+  "syntax": {
+    "keyword": "#FC803D",
+    "string": "#F8BB39",
+    "comment": "#9E9890",
+    "number": "#2EBF7E",
+    "operator": "#FC803D",
+    "annotation": "#2EBF7E",
+    "identifier": "#F8F8F2"
+  },
+  "menu": {
+    "background": "#2B2723",
+    "foreground": "#F8F8F2",
+    "activeBackground": "#36312C",
+    "activeForeground": "#F8F8F2"
+  },
+  "messages": {
+    "background": "#282421",
+    "foreground": "#F8F8F2",
+    "errorForeground": "#D46A7D",
+    "inputForeground": "#F8F8F2",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#DA7E8F",
+    "warning": "#F56F6F",
+    "success": "#2EBF7E"
+  },
+  "chrome": {
+    "border": "#8D8B85",
+    "statusBackground": "#2B2723",
+    "statusForeground": "#F8F8F2"
+  },
+  "ui": {
+    "background": "#36312C",
+    "foreground": "#F8F8F2",
+    "surface": "#443E37",
+    "muted": "#ADA9A2",
+    "heading": "#F8F8F2",
+    "border": "#8D8B85",
+    "accent": "#F78A8A",
+    "accentForeground": "#000000",
+    "link": "#FC8C4F",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#443E37",
+    "foreground": "#F8F8F2",
+    "border": "#8D8B85",
+    "code": "#F8BB39",
+    "link": "#FC8C4F"
+  },
+  "intelligence": {
+    "ghost": "#9E9890",
+    "aiGhost": "#9E9890",
+    "selectionBackground": "#336047",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#FC803D",
+    "activeParameter": "#FC803D"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -1,25 +1,73 @@
 {
-  "name": "Turbo C Classic",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "id": "classic",
+  "name": "Turbo Classic",
   "editor": {
     "background": "#0000AA",
     "foreground": "#FFFFFF",
     "cursor": "#FFFF55",
-    "selection": "#00AAAA",
+    "selection": "#05AAAA",
+    "selectionForeground": "#000000",
     "error": "#FF5555"
-  },
-  "menu": {
-    "background": "#AAAAAA",
-    "foreground": "#000000"
-  },
-  "messages": {
-    "background": "#00AAAA",
-    "foreground": "#000000"
   },
   "syntax": {
     "keyword": "#FFFF55",
-    "string": "#55FFFF",
-    "comment": "#AAAAAA"
+    "string": "#56FFFF",
+    "comment": "#AAAAAA",
+    "number": "#56FFFF",
+    "identifier": "#FFFFFF",
+    "operator": "#FFFFFF",
+    "annotation": "#FFFF55"
+  },
+  "menu": {
+    "background": "#AAAAAA",
+    "foreground": "#000000",
+    "activeBackground": "#0000AA",
+    "activeForeground": "#FFFFFF"
+  },
+  "messages": {
+    "background": "#05AAAA",
+    "foreground": "#000000",
+    "errorForeground": "#660000",
+    "inputForeground": "#000000",
+    "cursor": "#000000"
+  },
+  "diagnostics": {
+    "error": "#FF5555",
+    "warning": "#FFFF55",
+    "success": "#56FFFF"
+  },
+  "chrome": {
+    "border": "#FFFFFF",
+    "statusBackground": "#AAAAAA",
+    "statusForeground": "#000000"
+  },
+  "ui": {
+    "background": "#F4F4F0",
+    "foreground": "#111827",
+    "surface": "#FFFFFF",
+    "muted": "#4B5563",
+    "heading": "#0000AA",
+    "border": "#687585",
+    "accent": "#0000AA",
+    "accentForeground": "#FFFFFF",
+    "link": "#0000AA",
+    "focus": "#0000AA"
+  },
+  "documentation": {
+    "background": "#0000AA",
+    "foreground": "#FFFFFF",
+    "border": "#FFFFFF",
+    "code": "#56FFFF",
+    "link": "#FFFF55"
+  },
+  "intelligence": {
+    "ghost": "#AABBDD",
+    "aiGhost": "#AABBDD",
+    "selectionBackground": "#05AAAA",
+    "selectionForeground": "#000000",
+    "definition": "#FFFF55",
+    "activeParameter": "#FFFF55"
   },
   "font": {
     "family": "Monospaced",

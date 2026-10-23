@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 2,
+  "sourceHash": "35fc8b259eeed435c4c67504bbe81a783731b22a35b5979a068bbd5128aa62d9",
+  "themes": [
+    {
+      "schemaVersion": 2,
+      "id": "classic",
+      "name": "Turbo Classic",
+      "editor": {
+        "background": "#0000AA",
+        "foreground": "#FFFFFF",
+        "cursor": "#FFFF55",
+        "selection": "#05AAAA",
+        "selectionForeground": "#000000",
+        "error": "#FF5555"
+      },
+      "syntax": {
+        "keyword": "#FFFF55",
+        "string": "#56FFFF",
+        "comment": "#AAAAAA",
+        "number": "#56FFFF",
+        "identifier": "#FFFFFF",
+        "operator": "#FFFFFF",
+        "annotation": "#FFFF55"
+      },
+      "menu": {
+        "background": "#AAAAAA",
+        "foreground": "#000000",
+        "activeBackground": "#0000AA",
+        "activeForeground": "#FFFFFF"
+      },
+      "messages": {
+        "background": "#05AAAA",
+        "foreground": "#000000",
+        "errorForeground": "#660000",
+        "inputForeground": "#000000",
+        "cursor": "#000000"
+      },
+      "diagnostics": {
+        "error": "#FF5555",
+        "warning": "#FFFF55",
+        "success": "#56FFFF"
+      },
+      "chrome": {
+        "border": "#FFFFFF",
+        "statusBackground": "#AAAAAA",
+        "statusForeground": "#000000"
+      },
+      "ui": {
+        "background": "#F4F4F0",
+        "foreground": "#111827",
+        "surface": "#FFFFFF",
+        "muted": "#4B5563",
+        "heading": "#0000AA",
+        "border": "#687585",
+        "accent": "#0000AA",
+        "accentForeground": "#FFFFFF",
+        "link": "#0000AA",
+        "focus": "#0000AA"
+      },
+      "documentation": {
+        "background": "#0000AA",
+        "foreground": "#FFFFFF",
+        "border": "#FFFFFF",
+        "code": "#56FFFF",
+        "link": "#FFFF55"
+      },
+      "intelligence": {
+        "ghost": "#AABBDD",
+        "aiGhost": "#AABBDD",
+        "selectionBackground": "#05AAAA",
+        "selectionForeground": "#000000",
+        "definition": "#FFFF55",
+        "activeParameter": "#FFFF55"
+      },
+      "font": {
+        "family": "Monospaced",
+        "size": 18,
+        "antialias": false
+      }
+    },
+    {
+      "schemaVersion": 2,
+      "id": "dark",
+      "name": "Modern Dark",
+      "editor": {
+        "background": "#171A21",
+        "foreground": "#D8DEE9",
+        "cursor": "#E5C07B",
+        "selection": "#36465F",
+        "selectionForeground": "#FFFFFF",
+        "error": "#FF8080"
+      },
+      "syntax": {
+        "keyword": "#B7A4ED",
+        "string": "#A8CE9D",
+        "comment": "#9BA7B8",
+        "number": "#A8CE9D",
+        "identifier": "#D8DEE9",
+        "operator": "#D8DEE9",
+        "annotation": "#B7A4ED"
+      },
+      "menu": {
+        "background": "#292F3B",
+        "foreground": "#D8DEE9",
+        "activeBackground": "#171A21",
+        "activeForeground": "#D8DEE9"
+      },
+      "messages": {
+        "background": "#202631",
+        "foreground": "#D8DEE9",
+        "errorForeground": "#FF9999",
+        "inputForeground": "#D8DEE9",
+        "cursor": "#E5C07B"
+      },
+      "diagnostics": {
+        "error": "#FF8080",
+        "warning": "#E5C07B",
+        "success": "#A8CE9D"
+      },
+      "chrome": {
+        "border": "#D8DEE9",
+        "statusBackground": "#292F3B",
+        "statusForeground": "#D8DEE9"
+      },
+      "ui": {
+        "background": "#11151C",
+        "foreground": "#D8DEE9",
+        "surface": "#202631",
+        "muted": "#9BA7B8",
+        "heading": "#F4F7FB",
+        "border": "#758194",
+        "accent": "#B7CFFF",
+        "accentForeground": "#141A25",
+        "link": "#B7CFFF",
+        "focus": "#E5C07B"
+      },
+      "documentation": {
+        "background": "#171A21",
+        "foreground": "#D8DEE9",
+        "border": "#D8DEE9",
+        "code": "#A8CE9D",
+        "link": "#B7A4ED"
+      },
+      "intelligence": {
+        "ghost": "#9BA7B8",
+        "aiGhost": "#9BA7B8",
+        "selectionBackground": "#36465F",
+        "selectionForeground": "#FFFFFF",
+        "definition": "#B7A4ED",
+        "activeParameter": "#B7A4ED"
+      },
+      "font": {
+        "family": "Monospaced",
+        "size": 18,
+        "antialias": true
+      }
+    },
+    {
+      "schemaVersion": 2,
+      "id": "light",
+      "name": "Modern Light",
+      "editor": {
+        "background": "#FAFAF7",
+        "foreground": "#1D2632",
+        "cursor": "#0000AA",
+        "selection": "#B9D5F3",
+        "selectionForeground": "#1D2632",
+        "error": "#B52127"
+      },
+      "syntax": {
+        "keyword": "#57339B",
+        "string": "#246D3D",
+        "comment": "#596673",
+        "number": "#246D3D",
+        "identifier": "#1D2632",
+        "operator": "#1D2632",
+        "annotation": "#57339B"
+      },
+      "menu": {
+        "background": "#E1E4E8",
+        "foreground": "#1D2632",
+        "activeBackground": "#FAFAF7",
+        "activeForeground": "#1D2632"
+      },
+      "messages": {
+        "background": "#EEF1F4",
+        "foreground": "#1D2632",
+        "errorForeground": "#B52127",
+        "inputForeground": "#1D2632",
+        "cursor": "#0000AA"
+      },
+      "diagnostics": {
+        "error": "#B52127",
+        "warning": "#725300",
+        "success": "#246D3D"
+      },
+      "chrome": {
+        "border": "#1D2632",
+        "statusBackground": "#E1E4E8",
+        "statusForeground": "#1D2632"
+      },
+      "ui": {
+        "background": "#F4F4F0",
+        "foreground": "#1D2632",
+        "surface": "#FFFFFF",
+        "muted": "#596673",
+        "heading": "#0000AA",
+        "border": "#687585",
+        "accent": "#0000AA",
+        "accentForeground": "#FFFFFF",
+        "link": "#0000AA",
+        "focus": "#0000AA"
+      },
+      "documentation": {
+        "background": "#FAFAF7",
+        "foreground": "#1D2632",
+        "border": "#1D2632",
+        "code": "#246D3D",
+        "link": "#57339B"
+      },
+      "intelligence": {
+        "ghost": "#596673",
+        "aiGhost": "#596673",
+        "selectionBackground": "#B9D5F3",
+        "selectionForeground": "#1D2632",
+        "definition": "#57339B",
+        "activeParameter": "#57339B"
+      },
+      "font": {
+        "family": "Monospaced",
+        "size": 18,
+        "antialias": true
+      }
+    }
+  ]
+}

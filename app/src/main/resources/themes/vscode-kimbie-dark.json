@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-kimbie-dark",
+  "name": "Kimbie Dark",
+  "editor": {
+    "background": "#221A0F",
+    "foreground": "#D3AF86",
+    "cursor": "#D3AF86",
+    "selection": "#63492E",
+    "selectionForeground": "#FFFFFF",
+    "error": "#DB5757"
+  },
+  "syntax": {
+    "keyword": "#A3787A",
+    "string": "#889B4A",
+    "comment": "#A57B4D",
+    "number": "#F79A32",
+    "operator": "#D3AF86",
+    "annotation": "#A3787A",
+    "identifier": "#D3AF86"
+  },
+  "menu": {
+    "background": "#362712",
+    "foreground": "#CCCCCC",
+    "activeBackground": "#221A0F",
+    "activeForeground": "#D3AF86"
+  },
+  "messages": {
+    "background": "#362712",
+    "foreground": "#D3AF86",
+    "errorForeground": "#E06D6D",
+    "inputForeground": "#D3AF86",
+    "cursor": "#D3AF86"
+  },
+  "diagnostics": {
+    "error": "#DB5757",
+    "warning": "#D9A441",
+    "success": "#889B4A"
+  },
+  "chrome": {
+    "border": "#77634B",
+    "statusBackground": "#362712",
+    "statusForeground": "#CCCCCC"
+  },
+  "ui": {
+    "background": "#221A0F",
+    "foreground": "#D3AF86",
+    "surface": "#362712",
+    "muted": "#AF8960",
+    "heading": "#D3AF86",
+    "border": "#826F5A",
+    "accent": "#9C8E7A",
+    "accentForeground": "#000000",
+    "link": "#AD8789",
+    "focus": "#D3AF86"
+  },
+  "documentation": {
+    "background": "#362712",
+    "foreground": "#D3AF86",
+    "border": "#826F5A",
+    "code": "#889B4A",
+    "link": "#AD8789"
+  },
+  "intelligence": {
+    "ghost": "#A57B4D",
+    "aiGhost": "#A57B4D",
+    "selectionBackground": "#63492E",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#A3787A",
+    "activeParameter": "#A3787A"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

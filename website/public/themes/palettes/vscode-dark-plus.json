@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-dark-plus",
+  "name": "VS Code Dark+",
+  "editor": {
+    "background": "#1E1E1E",
+    "foreground": "#D4D4D4",
+    "cursor": "#D4D4D4",
+    "selection": "#464646",
+    "selectionForeground": "#FFFFFF",
+    "error": "#DC5B5B"
+  },
+  "syntax": {
+    "keyword": "#C586C0",
+    "string": "#CE9178",
+    "comment": "#6A9955",
+    "number": "#B5CEA8",
+    "operator": "#D4D4D4",
+    "annotation": "#4EC9B0",
+    "identifier": "#D4D4D4"
+  },
+  "menu": {
+    "background": "#252526",
+    "foreground": "#CCCCCC",
+    "activeBackground": "#1E1E1E",
+    "activeForeground": "#D4D4D4"
+  },
+  "messages": {
+    "background": "#2B2B2B",
+    "foreground": "#D4D4D4",
+    "errorForeground": "#E07070",
+    "inputForeground": "#D4D4D4",
+    "cursor": "#D4D4D4"
+  },
+  "diagnostics": {
+    "error": "#DC5B5B",
+    "warning": "#D9A441",
+    "success": "#CE9178"
+  },
+  "chrome": {
+    "border": "#707070",
+    "statusBackground": "#252526",
+    "statusForeground": "#CCCCCC"
+  },
+  "ui": {
+    "background": "#1E1E1E",
+    "foreground": "#D4D4D4",
+    "surface": "#2B2B2B",
+    "muted": "#719D5C",
+    "heading": "#D4D4D4",
+    "border": "#747474",
+    "accent": "#C586C0",
+    "accentForeground": "#000000",
+    "link": "#C586C0",
+    "focus": "#D4D4D4"
+  },
+  "documentation": {
+    "background": "#2B2B2B",
+    "foreground": "#D4D4D4",
+    "border": "#747474",
+    "code": "#CE9178",
+    "link": "#C586C0"
+  },
+  "intelligence": {
+    "ghost": "#6A9955",
+    "aiGhost": "#6A9955",
+    "selectionBackground": "#464646",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#C586C0",
+    "activeParameter": "#C586C0"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

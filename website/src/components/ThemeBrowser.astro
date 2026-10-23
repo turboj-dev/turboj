@@ -1,0 +1,120 @@
+<dialog class="theme-browser" data-theme-browser aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">
+  <header class="theme-browser-heading">
+    <h2 id="theme-browser-title">Choose a theme</h2>
+    <p id="theme-browser-help">Preview with the arrow keys. Enter applies; Escape cancels.</p>
+  </header>
+  <div class="theme-search-row">
+    <label for="theme-search" class="sr-only">Search themes</label>
+    <input id="theme-search" data-theme-search type="search" autocomplete="off" spellcheck="false" placeholder="Search themes…" />
+    <button type="button" data-theme-random disabled title="Spin for 3–5 seconds and preview every centered theme">Random theme</button>
+  </div>
+  <div class="theme-preview-viewport" data-theme-viewport tabindex="0" role="group" aria-label="Scrollable theme previews">
+    <div class="theme-scroll-content" data-theme-scroll-content>
+      <div class="theme-preview-grid" data-theme-grid role="listbox" aria-label="Available themes"></div>
+    </div>
+  </div>
+  <section class="theme-spin" data-theme-spin data-state="idle" hidden aria-label="Random theme selection">
+    <div class="theme-drum-shell" aria-hidden="true">
+      <pre>+-------- RANDOM THEME --------+</pre>
+      <div class="theme-drum-window"><pre data-theme-drum></pre><span class="theme-drum-pointer"></span></div>
+      <pre>+------------------------------+</pre>
+    </div>
+    <p data-theme-spin-current></p>
+    <p class="theme-spin-help">The center arrow selects from all matching themes. Preview only; Apply keeps your choice.</p>
+    <progress aria-label="Random theme progress" max="5000" value="0"></progress>
+    <button type="button" data-theme-skip>Skip spin</button>
+  </section>
+  <p class="theme-browser-status" data-theme-status role="status"></p>
+  <footer class="theme-browser-footer">
+    <div class="theme-browser-pagination">
+      <button type="button" data-theme-previous aria-label="Previous theme page" title="Previous page">←</button>
+      <p data-theme-page aria-live="polite">Loading themes…</p>
+      <button type="button" data-theme-next aria-label="Next theme page" title="Next page">→</button>
+    </div>
+    <div class="theme-browser-actions">
+      <button type="button" data-theme-cancel>Cancel</button>
+      <button type="button" data-theme-apply disabled>Apply</button>
+    </div>
+  </footer>
+  <template data-theme-preview-template>
+    <button type="button" class="theme-preview" role="option" aria-selected="false" tabindex="-1">
+      <span class="theme-preview-name" data-theme-preview-name></span>
+      <span class="theme-preview-window" aria-hidden="true">
+        <span class="theme-preview-menu" data-theme-preview-menu>File Edit Run</span>
+        <span class="theme-preview-editor" data-theme-preview-editor><span class="theme-preview-keyword">public class</span> HelloWorld &#123;<br />&nbsp; <span class="theme-preview-keyword">public static void</span> main(String[] args) &#123;<br />&nbsp;&nbsp; System.out.println(<span class="theme-preview-string">"Hello TurboJ!"</span>);<br />&nbsp; &#125;<br />&#125;<span class="theme-preview-cursor">▌</span></span>
+        <span class="theme-preview-console" data-theme-preview-console>BUILD OK<br />Hello TurboJ!</span>
+      </span>
+      <span class="theme-preview-loading" data-theme-preview-loading>Loading preview…</span>
+    </button>
+  </template>
+</dialog>
+
+<style>
+  .theme-browser { width: min(700px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); margin: auto; padding: 12px; border: 1px solid var(--tj-ui-border); color: var(--tj-ui-foreground); background: var(--tj-ui-surface); overflow: auto; font: 13px/1.4 var(--mono); }
+  .theme-browser::backdrop { background: rgb(0 0 0 / .55); }
+  .theme-browser-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .theme-browser-heading h2 { font-size: 20px; line-height: 1.2; margin: 0; }
+  .theme-browser-heading p { color: var(--tj-ui-muted); margin: 0; font-size: 11px; }
+  .theme-search-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  input { display: block; flex: 1; min-width: 0; width: 100%; min-height: 36px; padding: 6px 8px; border: 1px solid var(--tj-ui-border); border-radius: 0; color: var(--tj-ui-foreground); background: var(--tj-ui-background); font: inherit; }
+  .theme-search-row button { white-space: nowrap; }
+  input::placeholder { color: var(--tj-ui-muted); }
+  .theme-preview-viewport { --theme-row-height: 126px; --theme-row-gap: 8px; height: calc(2 * var(--theme-row-height) + var(--theme-row-gap)); overflow-y: scroll; overflow-x: hidden; scrollbar-gutter: stable; scrollbar-color: var(--tj-ui-muted) var(--tj-ui-background); overscroll-behavior: contain; }
+  .theme-preview-viewport::-webkit-scrollbar { width: 10px; }
+  .theme-preview-viewport::-webkit-scrollbar-track { background: var(--tj-ui-background); }
+  .theme-preview-viewport::-webkit-scrollbar-thumb { background: var(--tj-ui-muted); border: 2px solid var(--tj-ui-background); }
+  .theme-preview-viewport:focus-visible { outline: 2px solid var(--tj-ui-focus); outline-offset: 2px; }
+  .theme-scroll-content { position: relative; min-height: 100%; }
+  .theme-preview-grid { position: absolute; top: 0; left: 0; right: 3px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: var(--theme-row-height); gap: var(--theme-row-gap); }
+  .theme-spin { min-height: 272px; padding: 10px; display: grid; justify-items: center; align-content: center; gap: 6px; border: 1px solid var(--tj-ui-border); background: var(--tj-editor-background); color: var(--tj-editor-foreground); text-align: center; }
+  .theme-spin[hidden], .theme-preview-viewport[hidden] { display: none; }
+  .theme-drum-shell { font: clamp(11px, 2.9vw, 14px)/1.45 var(--mono); text-align: left; }
+  .theme-spin pre { margin: 0; font: inherit; color: var(--tj-editor-foreground); white-space: pre; }
+  .theme-drum-window { position: relative; height: 7.25em; overflow: hidden; }
+  .theme-drum-window pre { will-change: transform; }
+  .theme-drum-pointer { position: absolute; inset: 2.9em 0 auto; height: 1.45em; pointer-events: none; }
+  .theme-drum-pointer::before, .theme-drum-pointer::after { position: absolute; top: 0; background: var(--tj-editor-background); color: var(--tj-editor-cursor); }
+  .theme-drum-pointer::before { content: '>'; left: 0; }
+  .theme-drum-pointer::after { content: '<'; right: 0; }
+  .theme-spin p { max-width: 55ch; font-size: 11px; }
+  .theme-spin progress { width: min(100%, 340px); height: 10px; accent-color: var(--tj-editor-cursor); }
+  .theme-browser .theme-spin button:focus-visible { outline-color: var(--tj-editor-cursor); }
+  .theme-preview { display: flex; flex-direction: column; position: relative; align-items: stretch; min-width: 0; padding: 5px; text-align: left; border: 1px solid var(--tj-ui-border); background: var(--tj-ui-background); color: var(--tj-ui-foreground); font: inherit; cursor: pointer; }
+  .theme-preview[aria-selected='true'] { outline: 3px solid var(--tj-ui-focus); outline-offset: -3px; }
+  .theme-preview-name { display: block; min-height: 2.6em; margin-bottom: 3px; font-size: 12px; line-height: 1.3; font-weight: 600; overflow-wrap: anywhere; }
+  .theme-preview-window { display: block; border: 1px solid var(--preview-border, var(--tj-chrome-border)); font: 8px/1.1 var(--mono); overflow: hidden; visibility: hidden; }
+  .theme-preview[data-loaded='true'] .theme-preview-window { visibility: visible; }
+  .theme-preview-menu, .theme-preview-editor, .theme-preview-console { display: block; white-space: nowrap; padding: 1px 3px; overflow: hidden; }
+  .theme-preview-menu { background: var(--preview-menu-background); color: var(--preview-menu-foreground); }
+  .theme-preview-editor { background: var(--preview-editor-background); color: var(--preview-editor-foreground); }
+  .theme-preview-keyword { color: var(--preview-keyword); }
+  .theme-preview-string { color: var(--preview-string); }
+  .theme-preview-cursor { color: var(--preview-cursor); }
+  .theme-preview-console { background: var(--preview-console-background); color: var(--preview-console-foreground); }
+  .theme-preview-loading { font-size: 11px; color: var(--tj-ui-muted); margin-top: 4px; }
+  .theme-preview[data-loaded='true'] .theme-preview-loading { display: none; }
+  .theme-browser-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .theme-browser-pagination { display: flex; align-items: center; gap: 8px; }
+  .theme-browser-pagination p { font-size: 11px; text-align: center; }
+  .theme-browser button:not(.theme-preview) { min-height: 32px; min-width: 32px; padding: 5px 9px; border: 1px solid var(--tj-ui-border); border-radius: 0; background: var(--tj-ui-background); color: var(--tj-ui-foreground); font: inherit; cursor: pointer; }
+  .theme-browser button:disabled { cursor: default; opacity: .65; }
+  .theme-browser button:not(.theme-preview):not(:disabled):hover { text-decoration: underline; text-underline-offset: 3px; }
+  .theme-preview:focus-visible { text-decoration: none; }
+  .theme-preview, .theme-preview:hover { text-decoration: none; }
+  .theme-preview:hover .theme-preview-name { text-decoration: underline; text-underline-offset: 3px; }
+  .theme-browser :is(input, button):focus-visible { outline: 3px solid var(--tj-ui-focus); outline-offset: 2px; }
+  .theme-browser-status { min-height: 1.4em; margin: 4px 0; color: var(--tj-ui-muted); font-size: 11px; }
+  .theme-browser-actions { display: flex; justify-content: flex-end; gap: 6px; }
+  .theme-browser button[data-theme-apply] { background: var(--tj-ui-accent); color: var(--tj-ui-accent-foreground); border-color: var(--tj-ui-accent); }
+  @media (max-width: 600px) {
+    .theme-browser-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .theme-browser-heading p { font-size: 11px; }
+    .theme-preview-viewport { --theme-row-height: 140px; --theme-row-gap: 6px; }
+    .theme-preview { padding: 4px; }
+    .theme-preview-name { min-height: 3.9em; }
+    .theme-browser-footer { flex-wrap: wrap; }
+    .theme-browser-actions { margin-left: auto; }
+    .theme-browser button:not(.theme-preview), input { min-height: 44px; }
+    .theme-browser-pagination { gap: 6px; }
+  }
+</style>

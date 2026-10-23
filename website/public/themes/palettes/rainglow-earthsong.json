@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-earthsong",
+  "name": "Rainglow Earthsong",
+  "editor": {
+    "background": "#36312C",
+    "foreground": "#EBD1B7",
+    "cursor": "#EBD1B7",
+    "selection": "#DB784D",
+    "selectionForeground": "#000000",
+    "error": "#FF647E"
+  },
+  "syntax": {
+    "keyword": "#95CC5E",
+    "string": "#F8BB39",
+    "comment": "#9E9890",
+    "number": "#68A86D",
+    "operator": "#E0B78F",
+    "annotation": "#95CC5E",
+    "identifier": "#EBD1B7"
+  },
+  "menu": {
+    "background": "#302C27",
+    "foreground": "#EBD1B7",
+    "activeBackground": "#36312C",
+    "activeForeground": "#EBD1B7"
+  },
+  "messages": {
+    "background": "#36312C",
+    "foreground": "#EBD1B7",
+    "errorForeground": "#FF647E",
+    "inputForeground": "#EBD1B7",
+    "cursor": "#EBD1B7"
+  },
+  "diagnostics": {
+    "error": "#FF647E",
+    "warning": "#95CC5E",
+    "success": "#95CC5E"
+  },
+  "chrome": {
+    "border": "#87796B",
+    "statusBackground": "#302C27",
+    "statusForeground": "#EBD1B7"
+  },
+  "ui": {
+    "background": "#36312C",
+    "foreground": "#EBD1B7",
+    "surface": "#302C27",
+    "muted": "#9E9890",
+    "heading": "#EBD1B7",
+    "border": "#87796B",
+    "accent": "#95CC5E",
+    "accentForeground": "#000000",
+    "link": "#95CC5E",
+    "focus": "#EBD1B7"
+  },
+  "documentation": {
+    "background": "#302C27",
+    "foreground": "#EBD1B7",
+    "border": "#87796B",
+    "code": "#F8BB39",
+    "link": "#95CC5E"
+  },
+  "intelligence": {
+    "ghost": "#9E9890",
+    "aiGhost": "#9E9890",
+    "selectionBackground": "#DB784D",
+    "selectionForeground": "#000000",
+    "definition": "#95CC5E",
+    "activeParameter": "#95CC5E"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-codecourse",
+  "name": "Rainglow Codecourse",
+  "editor": {
+    "background": "#19272D",
+    "foreground": "#B6CED8",
+    "cursor": "#FFFFFF",
+    "selection": "#1B5272",
+    "selectionForeground": "#FFFFFF",
+    "error": "#D46B7E"
+  },
+  "syntax": {
+    "keyword": "#1EA8FC",
+    "string": "#CCCCCC",
+    "comment": "#73909C",
+    "number": "#AAAAAA",
+    "operator": "#1EA8FC",
+    "annotation": "#1EA8FC",
+    "identifier": "#B6CED8"
+  },
+  "menu": {
+    "background": "#121C20",
+    "foreground": "#B6CED8",
+    "activeBackground": "#19272D",
+    "activeForeground": "#B6CED8"
+  },
+  "messages": {
+    "background": "#10191D",
+    "foreground": "#B6CED8",
+    "errorForeground": "#CF596F",
+    "inputForeground": "#B6CED8",
+    "cursor": "#FFFFFF"
+  },
+  "diagnostics": {
+    "error": "#D46B7E",
+    "warning": "#5DCDFD",
+    "success": "#1EA8FC"
+  },
+  "chrome": {
+    "border": "#60727A",
+    "statusBackground": "#121C20",
+    "statusForeground": "#B6CED8"
+  },
+  "ui": {
+    "background": "#19272D",
+    "foreground": "#B6CED8",
+    "surface": "#22353D",
+    "muted": "#849EA9",
+    "heading": "#B6CED8",
+    "border": "#6D7E85",
+    "accent": "#5DCDFD",
+    "accentForeground": "#000000",
+    "link": "#1EA8FC",
+    "focus": "#FFFFFF"
+  },
+  "documentation": {
+    "background": "#22353D",
+    "foreground": "#B6CED8",
+    "border": "#6D7E85",
+    "code": "#CCCCCC",
+    "link": "#1EA8FC"
+  },
+  "intelligence": {
+    "ghost": "#73909C",
+    "aiGhost": "#73909C",
+    "selectionBackground": "#1B5272",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#1EA8FC",
+    "activeParameter": "#1EA8FC"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

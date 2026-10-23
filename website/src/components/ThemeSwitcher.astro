@@ -1,0 +1,51 @@
+---
+import { themes } from '../data/themes.generated';
+---
+
+<div class="theme-switcher" data-theme-switcher>
+  <details class="theme-options" data-theme-options>
+    <summary>Options</summary>
+    <div class="options-popup">
+      <details class="theme-menu" data-theme-menu>
+        <summary>Themes <span aria-hidden="true">›</span></summary>
+        <div class="theme-menu-items" role="group" aria-label="Themes">
+          {themes.map((theme) => (
+            <button type="button" data-theme-choice={theme.id} aria-pressed={theme.id === 'classic'}>
+              <span class="theme-selected-mark" aria-hidden="true">✓</span>{theme.name}
+            </button>
+          ))}
+          <button type="button" data-theme-more>More themes…</button>
+        </div>
+      </details>
+    </div>
+  </details>
+</div>
+<noscript><style is:inline>.theme-switcher { display: none !important; }</style></noscript>
+
+<script>
+  import '../scripts/theme-switcher';
+</script>
+
+<style>
+  .theme-switcher { position: relative; flex: none; color: var(--tj-menu-foreground); font: 500 14px/1.4 var(--mono); }
+  summary { list-style: none; cursor: pointer; min-height: 44px; padding: 12px 14px; }
+  summary::-webkit-details-marker { display: none; }
+  summary:focus-visible, button:focus-visible { outline: 3px solid var(--tj-menu-foreground); outline-offset: -4px; }
+  summary:hover, button:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .options-popup { position: absolute; z-index: 8; right: 0; top: calc(100% + 5px); min-width: 228px; border: 1px solid var(--tj-menu-foreground); background: var(--tj-menu-background); }
+  .theme-menu > summary { display: flex; justify-content: space-between; gap: 24px; }
+  .theme-menu[open] > summary { border-bottom: 1px solid var(--tj-menu-foreground); }
+  .theme-menu-items { padding: 4px; }
+  button { width: 100%; min-height: 44px; appearance: none; cursor: pointer; border: 0; border-radius: 0; padding: 10px; text-align: left; font: inherit; color: var(--tj-menu-foreground); background: var(--tj-menu-background); display: flex; align-items: center; gap: 10px; }
+  .theme-selected-mark { opacity: 0; }
+  button[aria-pressed='true'] .theme-selected-mark { opacity: 1; }
+  button[aria-pressed='true'] { background: var(--tj-menu-active-background); color: var(--tj-menu-active-foreground); }
+  button[data-theme-more] { margin-top: 4px; border-top: 1px solid var(--tj-menu-foreground); }
+  @media (max-width: 1000px) {
+    .theme-switcher { width: 100%; }
+    .options-popup { position: static; border: 0; min-width: 0; }
+    .theme-options > summary { padding-inline: 8px; }
+    .theme-menu > summary { padding-inline: 8px; }
+    .theme-menu-items { padding: 0; }
+  }
+</style>

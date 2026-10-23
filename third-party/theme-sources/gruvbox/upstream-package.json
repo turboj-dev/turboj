@@ -1,0 +1,38 @@
+{
+  "repository": "https://github.com/jdinhify/vscode-theme-gruvbox",
+  "version": "1.29.1",
+  "artifact": "https://open-vsx.org/api/jdinhlife/gruvbox/1.29.1/file/jdinhlife.gruvbox-1.29.1.vsix",
+  "artifactSha256": "8fd3166439d3bdc421ebc3d3f6d33f33985e173cb57d396c231daaaeb7e09240",
+  "themes": [
+    {
+      "label": "Gruvbox Dark Medium",
+      "uiTheme": "vs-dark",
+      "path": "./themes/gruvbox-dark-medium.json"
+    },
+    {
+      "label": "Gruvbox Dark Hard",
+      "uiTheme": "vs-dark",
+      "path": "./themes/gruvbox-dark-hard.json"
+    },
+    {
+      "label": "Gruvbox Dark Soft",
+      "uiTheme": "vs-dark",
+      "path": "./themes/gruvbox-dark-soft.json"
+    },
+    {
+      "label": "Gruvbox Light Medium",
+      "uiTheme": "vs",
+      "path": "./themes/gruvbox-light-medium.json"
+    },
+    {
+      "label": "Gruvbox Light Hard",
+      "uiTheme": "vs",
+      "path": "./themes/gruvbox-light-hard.json"
+    },
+    {
+      "label": "Gruvbox Light Soft",
+      "uiTheme": "vs",
+      "path": "./themes/gruvbox-light-soft.json"
+    }
+  ]
+}

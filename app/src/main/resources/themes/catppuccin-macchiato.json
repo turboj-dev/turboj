@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "catppuccin-macchiato",
+  "name": "Catppuccin Macchiato",
+  "editor": {
+    "background": "#24273A",
+    "foreground": "#CAD3F5",
+    "cursor": "#F4DBD6",
+    "selection": "#5B6078",
+    "selectionForeground": "#FFFFFF",
+    "error": "#ED8796"
+  },
+  "syntax": {
+    "keyword": "#C6A0F6",
+    "string": "#A6DA95",
+    "comment": "#939AB7",
+    "number": "#F5A97F",
+    "operator": "#8BD5CA",
+    "annotation": "#F5A97F",
+    "identifier": "#CAD3F5"
+  },
+  "menu": {
+    "background": "#1E2030",
+    "foreground": "#CAD3F5",
+    "activeBackground": "#24273A",
+    "activeForeground": "#CAD3F5"
+  },
+  "messages": {
+    "background": "#24273A",
+    "foreground": "#CAD3F5",
+    "errorForeground": "#ED8796",
+    "inputForeground": "#CAD3F5",
+    "cursor": "#F4DBD6"
+  },
+  "diagnostics": {
+    "error": "#ED8796",
+    "warning": "#EED49F",
+    "success": "#A6DA95"
+  },
+  "chrome": {
+    "border": "#6F748E",
+    "statusBackground": "#1E2030",
+    "statusForeground": "#CAD3F5"
+  },
+  "ui": {
+    "background": "#24273A",
+    "foreground": "#CAD3F5",
+    "surface": "#1E2030",
+    "muted": "#939AB7",
+    "heading": "#CAD3F5",
+    "border": "#6F748E",
+    "accent": "#C6A0F6",
+    "accentForeground": "#000000",
+    "link": "#C6A0F6",
+    "focus": "#F4DBD6"
+  },
+  "documentation": {
+    "background": "#1E2030",
+    "foreground": "#CAD3F5",
+    "border": "#6F748E",
+    "code": "#A6DA95",
+    "link": "#C6A0F6"
+  },
+  "intelligence": {
+    "ghost": "#939AB7",
+    "aiGhost": "#939AB7",
+    "selectionBackground": "#5B6078",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#C6A0F6",
+    "activeParameter": "#C6A0F6"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

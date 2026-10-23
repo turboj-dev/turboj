@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-joker-light",
+  "name": "Rainglow Joker Light",
+  "editor": {
+    "background": "#FFFFFF",
+    "foreground": "#4A5159",
+    "cursor": "#333333",
+    "selection": "#CCF0E5",
+    "selectionForeground": "#000000",
+    "error": "#BA0E2E"
+  },
+  "syntax": {
+    "keyword": "#00875F",
+    "string": "#6D7784",
+    "comment": "#72777E",
+    "number": "#767676",
+    "operator": "#00875F",
+    "annotation": "#00875F",
+    "identifier": "#4A5159"
+  },
+  "menu": {
+    "background": "#CDD1D5",
+    "foreground": "#4A5159",
+    "activeBackground": "#FFFFFF",
+    "activeForeground": "#4A5159"
+  },
+  "messages": {
+    "background": "#FFFFFF",
+    "foreground": "#4A5159",
+    "errorForeground": "#BA0E2E",
+    "inputForeground": "#4A5159",
+    "cursor": "#333333"
+  },
+  "diagnostics": {
+    "error": "#BA0E2E",
+    "warning": "#8D65B3",
+    "success": "#00875F"
+  },
+  "chrome": {
+    "border": "#939598",
+    "statusBackground": "#CDD1D5",
+    "statusForeground": "#4A5159"
+  },
+  "ui": {
+    "background": "#FFFFFF",
+    "foreground": "#4A5159",
+    "surface": "#F2F2F2",
+    "muted": "#6A6F76",
+    "heading": "#4A5159",
+    "border": "#8A8C8F",
+    "accent": "#835FA7",
+    "accentForeground": "#FFFFFF",
+    "link": "#007E59",
+    "focus": "#333333"
+  },
+  "documentation": {
+    "background": "#F2F2F2",
+    "foreground": "#4A5159",
+    "border": "#8A8C8F",
+    "code": "#666F7B",
+    "link": "#007E59"
+  },
+  "intelligence": {
+    "ghost": "#72777E",
+    "aiGhost": "#72777E",
+    "selectionBackground": "#CCF0E5",
+    "selectionForeground": "#000000",
+    "definition": "#00875F",
+    "activeParameter": "#00875F"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

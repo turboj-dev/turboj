@@ -102,7 +102,7 @@ public final class IntelligenceSmoke {
                 .anyMatch(p -> p.display().contains("printf"))), "real printf overload absent");
         edt(() -> { key(frame, KeyEvent.VK_DOWN, 0); key(frame, KeyEvent.VK_ENTER, 0); return null; });
         check(!edt(() -> frame.editor().getText()).equals(source), "popup selection did not accept");
-        note("PASS semantic ghost overlay, Tab/undo, Escape, Ctrl+Space/Down/Enter; four themes preserve source/caret");
+        note("PASS semantic ghost overlay, Tab/undo, Escape, Ctrl+Space/Down/Enter; three themes preserve source/caret");
     }
 
     private static void navigate(TurboFrame frame, Path project) throws Exception {

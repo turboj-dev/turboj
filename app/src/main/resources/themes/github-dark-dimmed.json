@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "github-dark-dimmed",
+  "name": "GitHub Dark Dimmed",
+  "editor": {
+    "background": "#22272E",
+    "foreground": "#ADBAC7",
+    "cursor": "#539BF5",
+    "selection": "#414750",
+    "selectionForeground": "#FFFFFF",
+    "error": "#F47067"
+  },
+  "syntax": {
+    "keyword": "#F47067",
+    "string": "#96D0FF",
+    "comment": "#838E9A",
+    "number": "#6CB6FF",
+    "operator": "#F47067",
+    "annotation": "#F47067",
+    "identifier": "#ADBAC7"
+  },
+  "menu": {
+    "background": "#22272E",
+    "foreground": "#838E9A",
+    "activeBackground": "#22272E",
+    "activeForeground": "#ADBAC7"
+  },
+  "messages": {
+    "background": "#1C2128",
+    "foreground": "#ADBAC7",
+    "errorForeground": "#F47067",
+    "inputForeground": "#ADBAC7",
+    "cursor": "#539BF5"
+  },
+  "diagnostics": {
+    "error": "#F47067",
+    "warning": "#C69026",
+    "success": "#57AB5A"
+  },
+  "chrome": {
+    "border": "#69707A",
+    "statusBackground": "#22272E",
+    "statusForeground": "#838E9A"
+  },
+  "ui": {
+    "background": "#22272E",
+    "foreground": "#ADBAC7",
+    "surface": "#1C2128",
+    "muted": "#838E9A",
+    "heading": "#ADBAC7",
+    "border": "#69707A",
+    "accent": "#619A64",
+    "accentForeground": "#000000",
+    "link": "#F47067",
+    "focus": "#539BF5"
+  },
+  "documentation": {
+    "background": "#1C2128",
+    "foreground": "#ADBAC7",
+    "border": "#646B75",
+    "code": "#96D0FF",
+    "link": "#F47067"
+  },
+  "intelligence": {
+    "ghost": "#838E9A",
+    "aiGhost": "#838E9A",
+    "selectionBackground": "#414750",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#F47067",
+    "activeParameter": "#F47067"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

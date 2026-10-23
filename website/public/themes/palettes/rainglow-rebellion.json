@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-rebellion",
+  "name": "Rainglow Rebellion",
+  "editor": {
+    "background": "#23231A",
+    "foreground": "#D6C7AB",
+    "cursor": "#F8F8F0",
+    "selection": "#6C3711",
+    "selectionForeground": "#FFFFFF",
+    "error": "#D3677B"
+  },
+  "syntax": {
+    "keyword": "#FE5F00",
+    "string": "#FDB825",
+    "comment": "#8A8A7C",
+    "number": "#FD9825",
+    "operator": "#FE5F00",
+    "annotation": "#FE5F00",
+    "identifier": "#D6C7AB"
+  },
+  "menu": {
+    "background": "#171711",
+    "foreground": "#D6C7AB",
+    "activeBackground": "#23231A",
+    "activeForeground": "#D6C7AB"
+  },
+  "messages": {
+    "background": "#14140F",
+    "foreground": "#D6C7AB",
+    "errorForeground": "#CE556B",
+    "inputForeground": "#D6C7AB",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#D3677B",
+    "warning": "#988F2A",
+    "success": "#FE5F00"
+  },
+  "chrome": {
+    "border": "#746D5B",
+    "statusBackground": "#171711",
+    "statusForeground": "#D6C7AB"
+  },
+  "ui": {
+    "background": "#23231A",
+    "foreground": "#D6C7AB",
+    "surface": "#323225",
+    "muted": "#99998D",
+    "heading": "#D6C7AB",
+    "border": "#807969",
+    "accent": "#A39B40",
+    "accentForeground": "#000000",
+    "link": "#FE6A11",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#323225",
+    "foreground": "#D6C7AB",
+    "border": "#807969",
+    "code": "#FDB825",
+    "link": "#FE6A11"
+  },
+  "intelligence": {
+    "ghost": "#8A8A7C",
+    "aiGhost": "#8A8A7C",
+    "selectionBackground": "#6C3711",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#FE5F00",
+    "activeParameter": "#FE5F00"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

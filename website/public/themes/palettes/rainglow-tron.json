@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-tron",
+  "name": "Rainglow Tron",
+  "editor": {
+    "background": "#14191F",
+    "foreground": "#AEC2E0",
+    "cursor": "#F8F8F0",
+    "selection": "#364455",
+    "selectionForeground": "#FFFFFF",
+    "error": "#D05A6F"
+  },
+  "syntax": {
+    "keyword": "#748AA6",
+    "string": "#6EE2FF",
+    "comment": "#76828F",
+    "number": "#6EE2FF",
+    "operator": "#748AA6",
+    "annotation": "#3488BA",
+    "identifier": "#AEC2E0"
+  },
+  "menu": {
+    "background": "#0C0F13",
+    "foreground": "#AEC2E0",
+    "activeBackground": "#14191F",
+    "activeForeground": "#AEC2E0"
+  },
+  "messages": {
+    "background": "#0A0D0F",
+    "foreground": "#AEC2E0",
+    "errorForeground": "#CC4E66",
+    "inputForeground": "#AEC2E0",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#D05A6F",
+    "warning": "#FFFFFF",
+    "success": "#3488BA"
+  },
+  "chrome": {
+    "border": "#5A6676",
+    "statusBackground": "#0C0F13",
+    "statusForeground": "#AEC2E0"
+  },
+  "ui": {
+    "background": "#14191F",
+    "foreground": "#AEC2E0",
+    "surface": "#1E262E",
+    "muted": "#828D99",
+    "heading": "#AEC2E0",
+    "border": "#646F7F",
+    "accent": "#FFFFFF",
+    "accentForeground": "#000000",
+    "link": "#788DA8",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#1E262E",
+    "foreground": "#AEC2E0",
+    "border": "#646F7F",
+    "code": "#6EE2FF",
+    "link": "#788DA8"
+  },
+  "intelligence": {
+    "ghost": "#76828F",
+    "aiGhost": "#76828F",
+    "selectionBackground": "#364455",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#748AA6",
+    "activeParameter": "#748AA6"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

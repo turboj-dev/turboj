@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-monzo",
+  "name": "Rainglow Monzo",
+  "editor": {
+    "background": "#15243B",
+    "foreground": "#B0CBF4",
+    "cursor": "#F8F8F0",
+    "selection": "#41565F",
+    "selectionForeground": "#FFFFFF",
+    "error": "#D4687C"
+  },
+  "syntax": {
+    "keyword": "#E45D6F",
+    "string": "#F74A5C",
+    "comment": "#778CAA",
+    "number": "#3EA7BC",
+    "operator": "#E45D6F",
+    "annotation": "#98BAA6",
+    "identifier": "#B0CBF4"
+  },
+  "menu": {
+    "background": "#101B2C",
+    "foreground": "#B0CBF4",
+    "activeBackground": "#15243B",
+    "activeForeground": "#B0CBF4"
+  },
+  "messages": {
+    "background": "#0E1928",
+    "foreground": "#B0CBF4",
+    "errorForeground": "#D05A6F",
+    "inputForeground": "#B0CBF4",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#D4687C",
+    "warning": "#5194A0",
+    "success": "#98BAA6"
+  },
+  "chrome": {
+    "border": "#5B6F8E",
+    "statusBackground": "#101B2C",
+    "statusForeground": "#B0CBF4"
+  },
+  "ui": {
+    "background": "#15243B",
+    "foreground": "#B0CBF4",
+    "surface": "#1C2F4E",
+    "muted": "#8497B3",
+    "heading": "#B0CBF4",
+    "border": "#667995",
+    "accent": "#629FAA",
+    "accentForeground": "#000000",
+    "link": "#E77181",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#1C2F4E",
+    "foreground": "#B0CBF4",
+    "border": "#667995",
+    "code": "#F86473",
+    "link": "#E77181"
+  },
+  "intelligence": {
+    "ghost": "#778CAA",
+    "aiGhost": "#778CAA",
+    "selectionBackground": "#41565F",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#E45D6F",
+    "activeParameter": "#E45D6F"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

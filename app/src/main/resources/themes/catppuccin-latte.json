@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "catppuccin-latte",
+  "name": "Catppuccin Latte",
+  "editor": {
+    "background": "#EFF1F5",
+    "foreground": "#4C4F69",
+    "cursor": "#C07969",
+    "selection": "#ACB0BE",
+    "selectionForeground": "#000000",
+    "error": "#D20F39"
+  },
+  "syntax": {
+    "keyword": "#8839EF",
+    "string": "#327D22",
+    "comment": "#6B6D7F",
+    "number": "#BC4A08",
+    "operator": "#137A80",
+    "annotation": "#BC4A08",
+    "identifier": "#4C4F69"
+  },
+  "menu": {
+    "background": "#E6E9EF",
+    "foreground": "#4C4F69",
+    "activeBackground": "#EFF1F5",
+    "activeForeground": "#4C4F69"
+  },
+  "messages": {
+    "background": "#EFF1F5",
+    "foreground": "#4C4F69",
+    "errorForeground": "#D20F39",
+    "inputForeground": "#4C4F69",
+    "cursor": "#C07969"
+  },
+  "diagnostics": {
+    "error": "#D20F39",
+    "warning": "#996214",
+    "success": "#327D22"
+  },
+  "chrome": {
+    "border": "#898A96",
+    "statusBackground": "#E6E9EF",
+    "statusForeground": "#4C4F69"
+  },
+  "ui": {
+    "background": "#EFF1F5",
+    "foreground": "#4C4F69",
+    "surface": "#E6E9EF",
+    "muted": "#666879",
+    "heading": "#4C4F69",
+    "border": "#848591",
+    "accent": "#8738ED",
+    "accentForeground": "#FFFFFF",
+    "link": "#8738ED",
+    "focus": "#B97465"
+  },
+  "documentation": {
+    "background": "#E6E9EF",
+    "foreground": "#4C4F69",
+    "border": "#848591",
+    "code": "#307820",
+    "link": "#8738ED"
+  },
+  "intelligence": {
+    "ghost": "#6B6D7F",
+    "aiGhost": "#6B6D7F",
+    "selectionBackground": "#ACB0BE",
+    "selectionForeground": "#000000",
+    "definition": "#8839EF",
+    "activeParameter": "#8839EF"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

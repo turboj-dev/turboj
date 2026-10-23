@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-arstotzka",
+  "name": "Rainglow Arstotzka",
+  "editor": {
+    "background": "#332E2E",
+    "foreground": "#EDEBE6",
+    "cursor": "#F8F8F0",
+    "selection": "#3D4242",
+    "selectionForeground": "#FFFFFF",
+    "error": "#D97A8B"
+  },
+  "syntax": {
+    "keyword": "#A2A797",
+    "string": "#A5E3D0",
+    "comment": "#9B9590",
+    "number": "#A5E3D0",
+    "operator": "#A2A797",
+    "annotation": "#A2A797",
+    "identifier": "#EDEBE6"
+  },
+  "menu": {
+    "background": "#282424",
+    "foreground": "#EDEBE6",
+    "activeBackground": "#332E2E",
+    "activeForeground": "#EDEBE6"
+  },
+  "messages": {
+    "background": "#262222",
+    "foreground": "#EDEBE6",
+    "errorForeground": "#D4677B",
+    "inputForeground": "#EDEBE6",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#D97A8B",
+    "warning": "#889A9A",
+    "success": "#A2A797"
+  },
+  "chrome": {
+    "border": "#878381",
+    "statusBackground": "#282424",
+    "statusForeground": "#EDEBE6"
+  },
+  "ui": {
+    "background": "#332E2E",
+    "foreground": "#EDEBE6",
+    "surface": "#403A3A",
+    "muted": "#A9A49F",
+    "heading": "#EDEBE6",
+    "border": "#878482",
+    "accent": "#98A8A8",
+    "accentForeground": "#000000",
+    "link": "#A2A797",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#403A3A",
+    "foreground": "#EDEBE6",
+    "border": "#878482",
+    "code": "#A5E3D0",
+    "link": "#A2A797"
+  },
+  "intelligence": {
+    "ghost": "#9B9590",
+    "aiGhost": "#9B9590",
+    "selectionBackground": "#3D4242",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#A2A797",
+    "activeParameter": "#A2A797"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

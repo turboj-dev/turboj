@@ -14,7 +14,9 @@ import java.util.concurrent.*;
 
 import javax.swing.*;
 
-/** Explicit-submit GUI console. JShell compiler/controller stay off the EDT and code runs remotely. */
+/**
+ * Explicit-submit GUI console. JShell compiler/controller stay off the EDT and code runs remotely.
+ */
 public final class ReplPane extends JPanel implements AutoCloseable {
     private final ConsolePane console;
     private final ThreadPoolExecutor executor =
@@ -39,10 +41,12 @@ public final class ReplPane extends JPanel implements AutoCloseable {
         super(new BorderLayout());
         console = new ConsolePane(this::evaluate);
         add(console, BorderLayout.CENTER);
+        setTheme(Theme.bundled("classic"));
         console.append("Java 25 REPL · Enter submits · ↑/↓ history · Tab completion\n", false);
         var input = console.inputField();
         input.setToolTipText(
-                "Java REPL — explicit Enter to evaluate; incomplete input continues on the next line");
+                "Java REPL — explicit Enter to evaluate; incomplete input continues on the next"
+                    + " line");
         input.setFocusTraversalKeysEnabled(false);
         input.addKeyListener(
                 new KeyAdapter() {

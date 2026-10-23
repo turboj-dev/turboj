@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rose-pine",
+  "name": "Rosé Pine",
+  "editor": {
+    "background": "#191724",
+    "foreground": "#E0DEF4",
+    "cursor": "#6E6A86",
+    "selection": "#2A2838",
+    "selectionForeground": "#FFFFFF",
+    "error": "#EB6F92"
+  },
+  "syntax": {
+    "keyword": "#4F889F",
+    "string": "#F6C177",
+    "comment": "#817E96",
+    "number": "#EBBCBA",
+    "operator": "#4F889F",
+    "annotation": "#4F889F",
+    "identifier": "#E0DEF4"
+  },
+  "menu": {
+    "background": "#1F1D2E",
+    "foreground": "#E0DEF4",
+    "activeBackground": "#191724",
+    "activeForeground": "#E0DEF4"
+  },
+  "messages": {
+    "background": "#1F1D2E",
+    "foreground": "#E0DEF4",
+    "errorForeground": "#EB6F92",
+    "inputForeground": "#E0DEF4",
+    "cursor": "#6E6A86"
+  },
+  "diagnostics": {
+    "error": "#EB6F92",
+    "warning": "#F6C177",
+    "success": "#4F889F"
+  },
+  "chrome": {
+    "border": "#737182",
+    "statusBackground": "#1F1D2E",
+    "statusForeground": "#E0DEF4"
+  },
+  "ui": {
+    "background": "#191724",
+    "foreground": "#E0DEF4",
+    "surface": "#191724",
+    "muted": "#817E96",
+    "heading": "#E0DEF4",
+    "border": "#737182",
+    "accent": "#EBBCBA",
+    "accentForeground": "#000000",
+    "link": "#4F889F",
+    "focus": "#6E6A86"
+  },
+  "documentation": {
+    "background": "#191724",
+    "foreground": "#E0DEF4",
+    "border": "#737182",
+    "code": "#F6C177",
+    "link": "#4F889F"
+  },
+  "intelligence": {
+    "ghost": "#817E96",
+    "aiGhost": "#817E96",
+    "selectionBackground": "#2A2838",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#4F889F",
+    "activeParameter": "#4F889F"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

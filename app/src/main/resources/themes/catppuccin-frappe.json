@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "catppuccin-frappe",
+  "name": "Catppuccin Frappe",
+  "editor": {
+    "background": "#303446",
+    "foreground": "#C6D0F5",
+    "cursor": "#F2D5CF",
+    "selection": "#626880",
+    "selectionForeground": "#FFFFFF",
+    "error": "#E78284"
+  },
+  "syntax": {
+    "keyword": "#CA9EE6",
+    "string": "#A6D189",
+    "comment": "#949CBB",
+    "number": "#EF9F76",
+    "operator": "#81C8BE",
+    "annotation": "#EF9F76",
+    "identifier": "#C6D0F5"
+  },
+  "menu": {
+    "background": "#292C3C",
+    "foreground": "#C6D0F5",
+    "activeBackground": "#303446",
+    "activeForeground": "#C6D0F5"
+  },
+  "messages": {
+    "background": "#303446",
+    "foreground": "#C6D0F5",
+    "errorForeground": "#E78284",
+    "inputForeground": "#C6D0F5",
+    "cursor": "#F2D5CF"
+  },
+  "diagnostics": {
+    "error": "#E78284",
+    "warning": "#E5C890",
+    "success": "#A6D189"
+  },
+  "chrome": {
+    "border": "#777D97",
+    "statusBackground": "#292C3C",
+    "statusForeground": "#C6D0F5"
+  },
+  "ui": {
+    "background": "#303446",
+    "foreground": "#C6D0F5",
+    "surface": "#292C3C",
+    "muted": "#949CBB",
+    "heading": "#C6D0F5",
+    "border": "#777D97",
+    "accent": "#CA9EE6",
+    "accentForeground": "#000000",
+    "link": "#CA9EE6",
+    "focus": "#F2D5CF"
+  },
+  "documentation": {
+    "background": "#292C3C",
+    "foreground": "#C6D0F5",
+    "border": "#747A95",
+    "code": "#A6D189",
+    "link": "#CA9EE6"
+  },
+  "intelligence": {
+    "ghost": "#949CBB",
+    "aiGhost": "#949CBB",
+    "selectionBackground": "#626880",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#CA9EE6",
+    "activeParameter": "#CA9EE6"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

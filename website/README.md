@@ -2,7 +2,7 @@
 
 The official English product website, implemented with Astro 7.4.2, strict
 TypeScript 6.0.3 and plain CSS. The output is static HTML, CSS, local images and
-fonts, a small mobile menu script and a deterministic TypeScript UI replay. No hydrated framework,
+fonts, a small shared theme switcher, mobile menu and deterministic TypeScript UI replay. No hydrated framework,
 server runtime, analytics, external font CDN or browser network dependency.
 
 ## Development
@@ -27,6 +27,10 @@ npm test
 ASTRO_TELEMETRY_DISABLED=1 npm run preview -- --port 4321
 npm run test:browser
 npm run test:demo
+npm run test:themes
+npm run test:spin
+npm run test:scroll
+npm run test:latency
 npm run test:performance
 ```
 
@@ -41,11 +45,68 @@ Output goes to `dist/`; test reports go to ignored `artifacts/`.
 - `src/data/copy.ts`: repeated feature, workflow and FAQ content.
 - `src/scripts/demo-timeline.ts`: the reviewed example and deterministic replay events.
 - `src/scripts/turboj-demo.ts`: incremental DOM rendering and playback controls.
-- `src/styles/`: exact DOS palette, local font faces and responsive layout.
+- `src/scripts/theme-preference.ts`, `theme-switcher.ts`: initial preference and the single theme state.
+- `src/styles/`: native-generated palettes, local font faces and responsive layout.
 - `src/pages/`: homepage, generated robots.txt and sitemap.xml.
 - `assets/original/`: unmodified application screenshot and provenance.
 - `scripts/prepare-assets.mjs`: reproducible image/font generation.
+- `scripts/export-themes.mjs`: validated export from the native application theme JSONs.
 - `tests/`: copy, asset integrity, browser, accessibility and Lighthouse checks.
+
+## One native and website theme system
+
+The authoritative definitions live in `app/src/main/resources/themes/` in the
+parent repository. Its `catalog.json` lists the bundled JSON files and three
+primary presets: **Turbo Classic**, **Modern Dark**, **Modern Light**. Their IDs
+are `classic`, `dark`, `light`. Add curated themes to that native registry to
+publish them on both platforms; do not duplicate their palettes in website CSS.
+
+`npm run themes` generates `src/styles/themes.generated.css`,
+`src/data/themes.generated.ts`, `public/themes/turboj-themes.json`, a metadata-only
+`public/themes/catalog.json` and individual `public/themes/palettes/*.json` files.
+Only the primary presets enter the initial CSS and bundle. Dev, check and production build perform this export automatically. The
+generated files are tracked for review, carry a native source hash, and must not
+be hand-edited. `npm run themes:check` fails if they have drifted. Native and web
+tests check schema, exact token parity and contrast. [The shared schema](../docs/themes.md)
+also describes popup, diagnostic, selection and ghost-text colors.
+
+**Options → Themes** lists the primary presets and **More themes…**. The latter
+opens a searchable catalog with a vertically scrollable 3×2 viewport of miniature
+Java editors. The scrollbar, wheel and touch gestures browse the catalog; arrows
+move selection and Page Up/Down move by six entries. Selection previews the appearance.
+Apply/Enter commits the choice; Escape/Cancel restores the previous theme.
+The same menu moves into mobile navigation below 1000 px. There is no fixed
+three-button switcher. Visible rows are virtualized: six complete cards, with at
+most nine mounted during partial scrolling. Additional palettes load on demand
+into a 24-entry LRU cache. The real catalog contains **103 themes**:
+three original presets and 100 curated adaptations from pinned, licensed upstream
+editor palettes. Their [inventory, licenses and offline regeneration](../docs/theme-catalog.md)
+are documented. Additional 1,000-entry catalogs used in stress tests remain
+temporary fixtures. Private native user themes are not uploaded to the website.
+
+**Random theme** spins a five-name ASCII drum for 3–5 seconds of active
+playback. It starts with rapid continuous motion and decelerates; each center
+crossing previews its real palette across the page and editor demo. The wheel
+orders candidates by background brightness to limit abrupt light/dark changes,
+while the final choice remains uniform over the current search results.
+The catalog itself stays alphabetical. Apply keeps it; Cancel restores the original.
+Skip finishes immediately, and reduced motion skips the animation. No choice is
+saved during the spin. Pending palette loads and hidden tabs suspend playback.
+
+The website applies `data-theme` and validated color variables to `<html>`;
+the full page and the one demo inherit the same state. A synchronous head
+script restores `localStorage['turboj.theme']` before rendering. Additional
+themes keep their validated palette in `localStorage['turboj.theme.palette']`
+so reloading does not flash a different appearance. New/invalid preferences
+use Classic; storage denial is caught, and the current page still switches.
+System dark mode never overrides the choice. Changing color does not call the
+demo controller or modify its source, timing, cursor, output or pause state.
+Browser and desktop preferences are independent, with no account or network
+synchronization.
+
+The original application screenshot is never recolored. AI-generation and
+project-JUnit execution are not advertised as implemented; their reserved token
+names do not make those native capabilities available.
 
 ## Assets and factual corrections
 

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-light-modern",
+  "name": "VS Code Light Modern",
+  "editor": {
+    "background": "#FFFFFF",
+    "foreground": "#3B3B3B",
+    "cursor": "#3B3B3B",
+    "selection": "#D4D4D4",
+    "selectionForeground": "#000000",
+    "error": "#CC4A4A"
+  },
+  "syntax": {
+    "keyword": "#AF00DB",
+    "string": "#A31515",
+    "comment": "#008000",
+    "number": "#098658",
+    "operator": "#000000",
+    "annotation": "#267F99",
+    "identifier": "#3B3B3B"
+  },
+  "menu": {
+    "background": "#F8F8F8",
+    "foreground": "#1E1E1E",
+    "activeBackground": "#FFFFFF",
+    "activeForeground": "#3B3B3B"
+  },
+  "messages": {
+    "background": "#F8F8F8",
+    "foreground": "#3B3B3B",
+    "errorForeground": "#C44848",
+    "inputForeground": "#3B3B3B",
+    "cursor": "#3B3B3B"
+  },
+  "diagnostics": {
+    "error": "#CC4A4A",
+    "warning": "#95702D",
+    "success": "#A31515"
+  },
+  "chrome": {
+    "border": "#949494",
+    "statusBackground": "#F8F8F8",
+    "statusForeground": "#1E1E1E"
+  },
+  "ui": {
+    "background": "#FFFFFF",
+    "foreground": "#3B3B3B",
+    "surface": "#F8F8F8",
+    "muted": "#008000",
+    "heading": "#3B3B3B",
+    "border": "#909090",
+    "accent": "#005FB8",
+    "accentForeground": "#FFFFFF",
+    "link": "#AF00DB",
+    "focus": "#3B3B3B"
+  },
+  "documentation": {
+    "background": "#F8F8F8",
+    "foreground": "#3B3B3B",
+    "border": "#909090",
+    "code": "#A31515",
+    "link": "#AF00DB"
+  },
+  "intelligence": {
+    "ghost": "#008000",
+    "aiGhost": "#008000",
+    "selectionBackground": "#D4D4D4",
+    "selectionForeground": "#000000",
+    "definition": "#AF00DB",
+    "activeParameter": "#AF00DB"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-laravel-light",
+  "name": "Rainglow Laravel Light",
+  "editor": {
+    "background": "#FFFFFF",
+    "foreground": "#444444",
+    "cursor": "#222222",
+    "selection": "#FEDECE",
+    "selectionForeground": "#000000",
+    "error": "#BA0E2E"
+  },
+  "syntax": {
+    "keyword": "#A26B19",
+    "string": "#8F7329",
+    "comment": "#767676",
+    "number": "#D0490A",
+    "operator": "#A26B19",
+    "annotation": "#927050",
+    "identifier": "#444444"
+  },
+  "menu": {
+    "background": "#C3C3C3",
+    "foreground": "#444444",
+    "activeBackground": "#FFFFFF",
+    "activeForeground": "#444444"
+  },
+  "messages": {
+    "background": "#FFFFFF",
+    "foreground": "#444444",
+    "errorForeground": "#BA0E2E",
+    "inputForeground": "#444444",
+    "cursor": "#222222"
+  },
+  "diagnostics": {
+    "error": "#BA0E2E",
+    "warning": "#C55408",
+    "success": "#927050"
+  },
+  "chrome": {
+    "border": "#949494",
+    "statusBackground": "#C3C3C3",
+    "statusForeground": "#444444"
+  },
+  "ui": {
+    "background": "#FFFFFF",
+    "foreground": "#444444",
+    "surface": "#F2F2F2",
+    "muted": "#6E6E6E",
+    "heading": "#444444",
+    "border": "#8C8C8C",
+    "accent": "#B94E07",
+    "accentForeground": "#FFFFFF",
+    "link": "#976417",
+    "focus": "#222222"
+  },
+  "documentation": {
+    "background": "#F2F2F2",
+    "foreground": "#444444",
+    "border": "#8C8C8C",
+    "code": "#876B27",
+    "link": "#976417"
+  },
+  "intelligence": {
+    "ghost": "#767676",
+    "aiGhost": "#767676",
+    "selectionBackground": "#FEDECE",
+    "selectionForeground": "#000000",
+    "definition": "#A26B19",
+    "activeParameter": "#A26B19"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

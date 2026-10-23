@@ -1,5 +1,7 @@
 ---
 import { site } from '../data/site';
+import ThemeSwitcher from './ThemeSwitcher.astro';
+import ThemeBrowser from './ThemeBrowser.astro';
 ---
 <header class="site-header">
   <div class="shell header-inner">
@@ -7,14 +9,17 @@ import { site } from '../data/site';
     <nav class="desktop-nav" aria-label="Main navigation">
       {site.navigation.map(({ label, href }) => <a href={href}>{label}</a>)}
     </nav>
+    <div class="desktop-theme-slot" data-desktop-theme-slot><ThemeSwitcher /></div>
     <details class="mobile-menu">
       <summary>Menu <span aria-hidden="true">≡</span></summary>
       <nav aria-label="Mobile navigation">
         {site.navigation.map(({ label, href }) => <a href={href}>{label}</a>)}
+        <div class="mobile-theme-slot" data-mobile-theme-slot></div>
       </nav>
     </details>
   </div>
 </header>
+<ThemeBrowser />
 <script>
   const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
   menu?.addEventListener('keydown', (event) => {
@@ -25,3 +30,16 @@ import { site } from '../data/site';
   });
   menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menu.open = false; }));
 </script>
+
+<style>
+  .header-inner { gap: 24px; }
+  .desktop-theme-slot { flex: none; }
+  .mobile-theme-slot { margin: 8px 6px 6px; padding-top: 12px; border-top: 1px solid var(--tj-menu-foreground); }
+  .mobile-theme-slot:empty { display: none; }
+  @media (max-width: 1000px) {
+    .header-inner { gap: 14px; }
+    .desktop-nav { display: none; }
+    .mobile-menu { display: block; }
+    .desktop-theme-slot { display: none; }
+  }
+</style>

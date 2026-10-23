@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "ayu-light",
+  "name": "Ayu Light",
+  "editor": {
+    "background": "#FCFCFC",
+    "foreground": "#5C6166",
+    "cursor": "#CF8115",
+    "selection": "#D7E4F6",
+    "selectionForeground": "#000000",
+    "error": "#CB4747"
+  },
+  "syntax": {
+    "keyword": "#B25E24",
+    "string": "#5F7F00",
+    "comment": "#747477",
+    "number": "#8866AB",
+    "operator": "#9C675D",
+    "annotation": "#A06830",
+    "identifier": "#5C6166"
+  },
+  "menu": {
+    "background": "#FFFFFF",
+    "foreground": "#6D7786",
+    "activeBackground": "#FCFCFC",
+    "activeForeground": "#5C6166"
+  },
+  "messages": {
+    "background": "#F8F9FA",
+    "foreground": "#5C6166",
+    "errorForeground": "#C84646",
+    "inputForeground": "#5C6166",
+    "cursor": "#CC7F14"
+  },
+  "diagnostics": {
+    "error": "#CB4747",
+    "warning": "#A56710",
+    "success": "#4A822E"
+  },
+  "chrome": {
+    "border": "#919395",
+    "statusBackground": "#FFFFFF",
+    "statusForeground": "#6D7786"
+  },
+  "ui": {
+    "background": "#FCFCFC",
+    "foreground": "#5C6166",
+    "surface": "#F8F9FA",
+    "muted": "#727375",
+    "heading": "#5C6166",
+    "border": "#8F9193",
+    "accent": "#A36510",
+    "accentForeground": "#FFFFFF",
+    "link": "#AF5D23",
+    "focus": "#CC7F14"
+  },
+  "documentation": {
+    "background": "#F8F9FA",
+    "foreground": "#5C6166",
+    "border": "#8F9193",
+    "code": "#5E7D00",
+    "link": "#AF5D23"
+  },
+  "intelligence": {
+    "ghost": "#747477",
+    "aiGhost": "#747477",
+    "selectionBackground": "#D7E4F6",
+    "selectionForeground": "#000000",
+    "definition": "#B25E24",
+    "activeParameter": "#B25E24"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -78,10 +78,10 @@ try {
       assert.deepEqual(broken, []);
     });
 
-    const mobileMenu = page.locator('header details').first();
-    if (await mobileMenu.count() && await mobileMenu.locator('summary').isVisible()) {
+    const mobileMenu = page.locator('.mobile-menu');
+    if (await mobileMenu.count() && await mobileMenu.locator(':scope > summary').isVisible()) {
       await check(`${name}: mobile navigation opens with keyboard, closes with Escape`, async () => {
-        const summary = mobileMenu.locator('summary');
+        const summary = mobileMenu.locator(':scope > summary');
         await summary.focus();
         await page.keyboard.press('Enter');
         assert.equal(await mobileMenu.evaluate((element) => element.open), true);
@@ -90,7 +90,7 @@ try {
         assert.equal(await summary.evaluate((element) => element === document.activeElement), true);
       });
       await check(`${name}: mobile navigation follows and closes`, async () => {
-        await mobileMenu.locator('summary').click();
+        await mobileMenu.locator(':scope > summary').click();
         await mobileMenu.locator('a[href="#features"]').click();
         assert.equal(new URL(page.url()).hash, '#features');
         assert.equal(await mobileMenu.evaluate((element) => element.open), false);

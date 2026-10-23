@@ -8,6 +8,7 @@ import java.util.*;
 
 public final class Settings {
     public String theme = "classic";
+    public String externalThemePath;
     public int fontSize = 18;
     public int width = 1060, height = 740;
     public int tabWidth = 4;
@@ -32,8 +33,7 @@ public final class Settings {
             s.width = Math.clamp(s.width, 640, 4000);
             s.height = Math.clamp(s.height, 420, 2400);
             if (s.recentFiles == null) s.recentFiles = new ArrayList<>();
-            if (s.theme == null || !List.of("classic", "amber", "modern", "light").contains(s.theme))
-                s.theme = "classic";
+            s.theme = com.turboj.ui.themes.Theme.normalizeId(s.theme);
             return s;
         } catch (IOException | RuntimeException e) {
             return new Settings();
@@ -41,10 +41,17 @@ public final class Settings {
     }
 
     public void save() throws IOException {
+        saveSnapshot(snapshotJson());
+    }
+
+    /** Capture on the EDT before queuing a preference write; do not share mutable recentFiles. */
+    public String snapshotJson() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
+    }
+
+    public static void saveSnapshot(String json) throws IOException {
         Files.createDirectories(directory().resolve("themes"));
-        SafeFiles.atomicWrite(
-                directory().resolve("config.json"),
-                new GsonBuilder().setPrettyPrinting().create().toJson(this));
+        SafeFiles.atomicWrite(directory().resolve("config.json"), json);
     }
 
     public static Map<String, String> keymap() {

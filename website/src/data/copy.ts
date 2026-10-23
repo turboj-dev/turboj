@@ -36,25 +36,25 @@ export const features = [
   },
   {
     number: '06',
-    title: 'Classic by design',
+    title: 'Choose your theme',
     paragraphs: [
-      'Blue editor. Cyan console. Simple menus. Clear borders.',
+      '100 curated editor themes, plus Turbo Classic, Modern Dark, and Modern Light. Search, preview, or spin the random theme wheel.',
     ],
   },
 ] as const;
 
 export const javaIntelligenceFeatures = [
   {
-    title: 'Inline Java completion',
-    description: 'Smart suggestions appear directly in your code. Press Tab to accept and keep typing.',
+    title: 'Smart Java Completion',
+    description: 'Type-aware Java suggestions, directly inside the editor.',
   },
   {
-    title: 'Navigate your code',
-    description: 'Command-click a method or class to jump to its declaration. Navigate back just as easily.',
+    title: 'Code Navigation',
+    description: 'Jump to method and class declarations with a click.',
   },
   {
-    title: 'Documentation at your fingertips',
-    description: 'Preview Java methods, parameters, and Javadoc without leaving the editor.',
+    title: 'Quick Documentation',
+    description: 'Read method signatures and Javadoc without leaving the editor.',
   },
 ] as const;
 

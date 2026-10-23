@@ -33,11 +33,14 @@ public final class ConsolePane extends JPanel {
     private boolean truncated;
     private final SimpleAttributeSet normal = new SimpleAttributeSet(),
             error = new SimpleAttributeSet();
+    private static final String STDERR_ATTRIBUTE = "turboj.stderr";
 
     private record Chunk(String text, boolean error) {}
 
     public ConsolePane(Consumer<String> send) {
         super(new BorderLayout());
+        normal.addAttribute(STDERR_ATTRIBUTE, false);
+        error.addAttribute(STDERR_ATTRIBUTE, true);
         this.send = send;
         output.setEditable(false);
         output.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
@@ -68,6 +71,7 @@ public final class ConsolePane extends JPanel {
         input.addActionListener(e -> submitInput());
         add(inputRow, BorderLayout.SOUTH);
         setPreferredSize(new Dimension(100, 150));
+        setTheme(Theme.bundled("classic"));
     }
 
     /**
@@ -270,10 +274,14 @@ public final class ConsolePane extends JPanel {
         setBackground(t.messagesBackground());
         output.setBackground(t.messagesBackground());
         output.setForeground(t.messagesForeground());
-        output.setCaretColor(t.cursor());
+        output.setCaretColor(t.color("messages", "cursor"));
+        output.setSelectionColor(t.selection());
+        output.setSelectedTextColor(t.color("editor", "selectionForeground"));
         input.setBackground(t.messagesBackground());
-        input.setForeground(t.messagesForeground());
-        input.setCaretColor(t.cursor());
+        input.setForeground(t.color("messages", "inputForeground"));
+        input.setCaretColor(t.color("messages", "cursor"));
+        input.setSelectionColor(t.selection());
+        input.setSelectedTextColor(t.color("editor", "selectionForeground"));
         input.setDisabledTextColor(t.messagesForeground());
         inputRow.setBackground(t.messagesBackground());
         inputPrompt.setForeground(t.messagesForeground());
@@ -283,9 +291,18 @@ public final class ConsolePane extends JPanel {
                         BorderFactory.createMatteBorder(1, 0, 0, 0, t.messagesForeground()),
                         BorderFactory.createEmptyBorder(4, 5, 4, 5)));
         StyleConstants.setForeground(normal, t.messagesForeground());
-        StyleConstants.setForeground(error, t.error());
-        output.getStyledDocument()
-                .setCharacterAttributes(0, output.getDocument().getLength(), normal, true);
+        StyleConstants.setForeground(error, t.color("messages", "errorForeground"));
+        normal.addAttribute(STDERR_ATTRIBUTE, false);
+        error.addAttribute(STDERR_ATTRIBUTE, true);
+        var document = output.getStyledDocument();
+        for (int offset = 0; offset < document.getLength(); ) {
+            var element = document.getCharacterElement(offset);
+            int end = Math.min(element.getEndOffset(), document.getLength());
+            boolean stderr =
+                    Boolean.TRUE.equals(element.getAttributes().getAttribute(STDERR_ATTRIBUTE));
+            document.setCharacterAttributes(offset, end - offset, stderr ? error : normal, true);
+            offset = end;
+        }
     }
 
     /** Output is immutable to editing; only unsent stdin may be changed or removed. */
@@ -354,7 +371,7 @@ public final class ConsolePane extends JPanel {
                                             getDot(),
                                             Math.min(2, c.getDocument().getLength() - getDot()));
                     int count = Character.charCount(next.codePointAt(0));
-                    g.setColor(c.getForeground());
+                    g.setColor(c.getBackground());
                     g.drawString(next.substring(0, count), r.x, r.y + metrics.getAscent());
                 }
             } catch (BadLocationException ignored) {

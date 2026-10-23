@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "rainglow-hawaii",
+  "name": "Rainglow Hawaii",
+  "editor": {
+    "background": "#333130",
+    "foreground": "#E8E1DE",
+    "cursor": "#F8F8F0",
+    "selection": "#743D30",
+    "selectionForeground": "#FFFFFF",
+    "error": "#DA7D8E"
+  },
+  "syntax": {
+    "keyword": "#E2922F",
+    "string": "#A2D66B",
+    "comment": "#9D9895",
+    "number": "#88C448",
+    "operator": "#E2922F",
+    "annotation": "#EDBD44",
+    "identifier": "#E8E1DE"
+  },
+  "menu": {
+    "background": "#282726",
+    "foreground": "#E8E1DE",
+    "activeBackground": "#333130",
+    "activeForeground": "#E8E1DE"
+  },
+  "messages": {
+    "background": "#262424",
+    "foreground": "#E8E1DE",
+    "errorForeground": "#D46A7D",
+    "inputForeground": "#E8E1DE",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#DA7D8E",
+    "warning": "#F86E50",
+    "success": "#EDBD44"
+  },
+  "chrome": {
+    "border": "#84807E",
+    "statusBackground": "#282726",
+    "statusForeground": "#E8E1DE"
+  },
+  "ui": {
+    "background": "#333130",
+    "foreground": "#E8E1DE",
+    "surface": "#403E3C",
+    "muted": "#ACA8A5",
+    "heading": "#E8E1DE",
+    "border": "#8B8886",
+    "accent": "#FA8971",
+    "accentForeground": "#000000",
+    "link": "#E4993B",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#403E3C",
+    "foreground": "#E8E1DE",
+    "border": "#8B8886",
+    "code": "#A2D66B",
+    "link": "#E4993B"
+  },
+  "intelligence": {
+    "ghost": "#9D9895",
+    "aiGhost": "#9D9895",
+    "selectionBackground": "#743D30",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#E2922F",
+    "activeParameter": "#E2922F"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

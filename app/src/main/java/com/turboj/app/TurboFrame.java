@@ -6,7 +6,7 @@ import com.turboj.execution.*;
 import com.turboj.intelligence.*;
 import com.turboj.intelligence.JavaIntelligenceService.Declaration;
 import com.turboj.ui.*;
-import com.turboj.ui.themes.Theme;
+import com.turboj.ui.themes.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -37,6 +37,7 @@ public final class TurboFrame extends JFrame {
                         return t;
                     });
     private final Settings settings;
+    private final ThemeCatalog themeCatalog;
     private final ConsolePane console =
             new ConsolePane(
                     s -> {
@@ -55,6 +56,7 @@ public final class TurboFrame extends JFrame {
     private final JPanel messages = new JPanel(new BorderLayout());
     private final JPanel bottom = new JPanel(new BorderLayout());
     private final JMenuBar menus = new JMenuBar();
+    private long themeChoiceGeneration;
     private final Map<String, Action> commands = new LinkedHashMap<>();
     private final Map<String, String> keymap;
     private final Map<KeyStroke, String> editorBindings = new HashMap<>();
@@ -103,6 +105,8 @@ public final class TurboFrame extends JFrame {
     public TurboFrame(Settings settings, Map<String, String> keymap) {
         super("TurboJ");
         this.settings = settings;
+        this.themeCatalog =
+                new ThemeCatalog(Settings.directory().resolve("themes"), externalThemePath());
         this.keymap = keymap;
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setMinimumSize(new Dimension(640, 420));
@@ -180,6 +184,8 @@ public final class TurboFrame extends JFrame {
                                         () -> openPath(e.getFiles().getFirst().toPath()));
                         });
         }
+        restoreExternalTheme();
+        themeCatalog.request("", 0, null, ignored -> {});
         worker.warmup()
                 .exceptionally(
                         e -> {
@@ -501,25 +507,30 @@ public final class TurboFrame extends JFrame {
             command(
                     "theme." + id,
                     Theme.bundled(id).name(),
-                    () -> {
-                        settings.theme = id;
-                        applyTheme(Theme.bundled(id));
-                    });
+                    () -> selectTheme(Theme.bundled(id), null));
+        command("theme.more", "More themes…", this::showThemeBrowser);
         command(
                 "theme.load",
                 "Load theme JSON…",
                 () -> {
-                    var c = new JFileChooser();
-                    if (c.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+                    var chooser = new JFileChooser(Settings.directory().resolve("themes").toFile());
+                    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                        Path path = chooser.getSelectedFile().toPath().toAbsolutePath().normalize();
+                        long choice = ++themeChoiceGeneration;
                         background.execute(
                                 () -> {
                                     try {
-                                        var t = Theme.load(c.getSelectedFile().toPath());
-                                        SwingUtilities.invokeLater(() -> applyTheme(t));
+                                        Theme loaded = Theme.load(path);
+                                        SwingUtilities.invokeLater(
+                                                () -> {
+                                                    if (choice == themeChoiceGeneration && !closing)
+                                                        selectTheme(loaded, path);
+                                                });
                                     } catch (Exception e) {
                                         errorLater(e);
                                     }
                                 });
+                    }
                 });
         command(
                 "fontUp",
@@ -609,10 +620,15 @@ public final class TurboFrame extends JFrame {
 
     private void menu(String name, String... ids) {
         var m = new JMenu(name);
+        var themeGroup = new ButtonGroup();
         m.setMnemonic(name.charAt(0));
         for (String id : ids) {
             if (id.equals("-")) m.addSeparator();
-            else m.add(new JMenuItem(commands.get(id)));
+            else if (id.startsWith("theme.") && !id.equals("theme.load")) {
+                var item = new JRadioButtonMenuItem(commands.get(id));
+                themeGroup.add(item);
+                m.add(item);
+            } else m.add(new JMenuItem(commands.get(id)));
         }
         menus.add(m);
     }
@@ -651,20 +667,23 @@ public final class TurboFrame extends JFrame {
                 "evaluateSelection",
                 "evaluateStatement");
         menu("Compile", "compile", "error");
-        menu(
-                "Options",
-                "theme.classic",
-                "theme.amber",
-                "theme.modern",
-                "theme.light",
-                "theme.load",
-                "-",
-                "fontUp",
-                "fontDown",
-                "zoom",
-                "fullscreen",
-                "metrics",
-                "palette");
+        var options = new JMenu("Options");
+        options.setMnemonic('O');
+        var themes = new JMenu("Themes");
+        var group = new ButtonGroup();
+        for (String id : Theme.BUNDLED) {
+            var item = new JRadioButtonMenuItem(commands.get("theme." + id));
+            group.add(item);
+            themes.add(item);
+        }
+        themes.addSeparator();
+        themes.add(new JMenuItem(commands.get("theme.load")));
+        themes.add(new JMenuItem(commands.get("theme.more")));
+        options.add(themes);
+        options.addSeparator();
+        for (String id : List.of("fontUp", "fontDown", "zoom", "fullscreen", "metrics", "palette"))
+            options.add(new JMenuItem(commands.get(id)));
+        menus.add(options);
         menu("Help", "help");
     }
 
@@ -747,29 +766,107 @@ public final class TurboFrame extends JFrame {
                 });
     }
 
+    /** Preview is intentionally separate from committing a user preference. */
+    public void showThemeBrowser() {
+        ++themeChoiceGeneration;
+        Path external = externalThemePath();
+        String selected =
+                external == null
+                        ? ThemeCatalog.bundledKey(settings.theme)
+                        : ThemeCatalog.localKey(external);
+        themeCatalog.includeExternal(external);
+        var dialog =
+                new ThemeBrowserDialog(
+                        this,
+                        theme,
+                        selected,
+                        themeCatalog,
+                        this::applyTheme,
+                        choice -> selectTheme(choice.theme(), choice.entry().localPath()));
+        dialog.setVisible(true);
+    }
+
+    private Path externalThemePath() {
+        try {
+            return settings.externalThemePath == null
+                    ? null
+                    : Path.of(settings.externalThemePath).toAbsolutePath().normalize();
+        } catch (InvalidPathException invalid) {
+            return null;
+        }
+    }
+
+    private void restoreExternalTheme() {
+        Path path = externalThemePath();
+        if (path == null) return;
+        long choice = themeChoiceGeneration;
+        background.execute(
+                () -> {
+                    try {
+                        Theme loaded = Theme.load(path);
+                        SwingUtilities.invokeLater(
+                                () -> {
+                                    if (!closing && choice == themeChoiceGeneration)
+                                        applyTheme(loaded);
+                                });
+                    } catch (Exception e) {
+                        SwingUtilities.invokeLater(
+                                () -> {
+                                    if (!closing && choice == themeChoiceGeneration)
+                                        console.append(
+                                                "Saved theme unavailable; using "
+                                                        + theme.name()
+                                                        + ": "
+                                                        + message(e)
+                                                        + "\n",
+                                                true);
+                                });
+                    }
+                });
+    }
+
+    private void selectTheme(Theme selected, Path external) {
+        ++themeChoiceGeneration;
+        settings.theme = external == null ? selected.id() : "classic";
+        settings.externalThemePath =
+                external == null ? null : external.toAbsolutePath().normalize().toString();
+        applyTheme(selected);
+        String preferences = settings.snapshotJson();
+        background.execute(
+                () -> {
+                    try {
+                        Settings.saveSnapshot(preferences);
+                    } catch (Exception e) {
+                        errorLater(e);
+                    }
+                });
+    }
+
     public void applyTheme(Theme t) {
         theme = t;
+        for (String type : List.of("Menu", "MenuItem", "RadioButtonMenuItem", "CheckBoxMenuItem")) {
+            UIManager.put(type + ".selectionBackground", t.color("menu", "activeBackground"));
+            UIManager.put(type + ".selectionForeground", t.color("menu", "activeForeground"));
+        }
         lastEditorTitle = "";
         lastMessageTitle = "";
-        editor.setPalette(
-                t.background(),
-                t.foreground(),
-                t.keyword(),
-                t.string(),
-                t.comment(),
-                t.selection(),
-                t.cursor(),
-                t.error(),
-                t.antialias());
+        editor.setTheme(t);
         console.setTheme(t);
         repl.setTheme(t);
         if (intelligence != null) intelligence.setTheme(t);
         menus.setBackground(t.menuBackground());
         menus.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
         for (var m : menus.getComponents()) styleMenu(m, t);
-        bottom.setBackground(t.menuBackground());
-        status.setForeground(t.menuForeground());
-        position.setForeground(t.menuForeground());
+        bottom.setBackground(t.color("chrome", "statusBackground"));
+        status.setForeground(t.color("chrome", "statusForeground"));
+        position.setForeground(t.color("chrome", "statusForeground"));
+        for (String id : Theme.BUNDLED) {
+            Theme preset = Theme.bundled(id);
+            commands.get("theme." + id)
+                    .putValue(
+                            Action.SELECTED_KEY,
+                            id.equals(t.id()) && preset.colors().equals(t.colors()));
+        }
         Font mono = new Font(Font.MONOSPACED, Font.PLAIN, 14);
         status.setFont(mono);
         position.setFont(mono);
@@ -780,6 +877,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private void styleMenu(Component c, Theme t) {
+        if (c instanceof JMenuItem item) item.updateUI();
         c.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         c.setBackground(t.menuBackground());
         c.setForeground(t.menuForeground());
@@ -836,7 +934,7 @@ public final class TurboFrame extends JFrame {
             lastEditorTitle = name + dirty;
             editorPanel.setBorder(
                     BorderFactory.createTitledBorder(
-                            BorderFactory.createLineBorder(theme.foreground()),
+                            BorderFactory.createLineBorder(theme.color("chrome", "border")),
                             "[■]  " + name + dirty + "  ",
                             TitledBorder.CENTER,
                             TitledBorder.TOP,
@@ -1419,6 +1517,7 @@ public final class TurboFrame extends JFrame {
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
         if (pendingRecovery != null) pendingRecovery.cancel(false);
         worker.close();
+        themeCatalog.close();
         repl.close();
         compiler.close();
         intelligence.close();

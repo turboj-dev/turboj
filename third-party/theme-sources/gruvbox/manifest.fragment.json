@@ -1,0 +1,29 @@
+{
+  "repository": "https://github.com/jdinhify/vscode-theme-gruvbox",
+  "commit": "ca3b8ad203e84a884ca33fb84b5795cf43032709",
+  "version": "1.29.1",
+  "artifact": "https://open-vsx.org/api/jdinhlife/gruvbox/1.29.1/file/jdinhlife.gruvbox-1.29.1.vsix",
+  "artifactSha256": "8fd3166439d3bdc421ebc3d3f6d33f33985e173cb57d396c231daaaeb7e09240",
+  "license": "MIT",
+  "licensePath": "third-party/theme-sources/gruvbox/LICENSE.txt",
+  "licenseSha256": "91943f88b9f92f4b31437ecf791107f9c4076f3a65c7be503c4580278dc90076",
+  "files": [
+    {
+      "path": "themes/gruvbox-dark-medium.json",
+      "localPath": "third-party/theme-sources/gruvbox/themes/gruvbox-dark-medium.json",
+      "sha256": "b6dc507a94d9d63b8e9cf4dd7f04ea9b3fb5d667b96bd4d6750cd466e5891a87",
+      "id": "gruvbox-dark-medium",
+      "name": "Gruvbox Dark Medium",
+      "format": "vscode"
+    },
+    {
+      "path": "themes/gruvbox-light-medium.json",
+      "localPath": "third-party/theme-sources/gruvbox/themes/gruvbox-light-medium.json",
+      "sha256": "ba12d790f89a47ddac83ce3fbe027ee6cbf366d560290d9dd971b156f4efc20a",
+      "id": "gruvbox-light-medium",
+      "name": "Gruvbox Light Medium",
+      "format": "vscode"
+    }
+  ],
+  "tag": "v1.29.1"
+}

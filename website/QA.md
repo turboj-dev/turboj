@@ -11,6 +11,10 @@ npm run preview -- --port 4321
 # In a second terminal, while preview is running:
 npm run test:browser
 npm run test:demo
+npm run test:themes
+npm run test:spin
+npm run test:scroll
+node tests/theme-latency.mjs
 npm run test:performance
 ```
 
@@ -50,6 +54,231 @@ network/CPU throttling, and the actual installed browser. JSON and HTML reports,
 environment metadata, scores, LCP, CLS and TBT are written to
 `artifacts/lighthouse/`. Local measurements do not represent hosting latency or
 field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
+
+## Current scrolling catalog and fast ASCII drum
+
+The final production build passed Astro checking (zero errors, zero warnings,
+one existing nonblocking test hint), 27 unit checks, 40 general browser checks
+and 25 HelloWorld replay checks. All three primary themes were checked at
+390, 768, 1440 and 1920 px; the general page suite also covered 320 and 1280 px.
+
+After the browser suites finished, one local Lighthouse run at
+**2026-10-23 22:25:15 UTC** measured **100 Performance, 100 Accessibility,
+100 Best Practices and 100 SEO**. LCP was **1,653.75 ms**, FCP/Speed Index
+**1,353.75 ms**, CLS **0.000383**, and TBT **0 ms**. Conditions: Chromium 156,
+Lighthouse 13.5.0, 390×844, simulated 150 ms RTT/1,638.4 Kbps and 4× CPU slowdown.
+These are local laboratory results; INP and field Core Web Vitals were not measured.
+
+The final four scripts total **28,503 raw bytes / 10,712 independently gzipped
+bytes**. Theme bootstrap plus controller accounts for 22,101 raw / 7,952 gzip
+bytes, including the catalog and drum; the HelloWorld bundle remains 6,166 raw
+bytes. Inline scripts compress within HTML, so these totals are accounting
+measurements rather than CDN transfer measurements.
+
+The final 24 October build passed **74 theme checks, 6 spin checks and 3 scroll
+checks**, with no failures. The catalog contains 103 real themes. Its fixed
+three-column/two-row viewport now has a real vertical scrollbar and supports
+mouse wheels and touch gestures. It renders six cards on aligned rows and at
+most nine during partial scrolling. Keyboard navigation brings the selected
+row into view. A 1,000-entry browser-only fixture confirmed the bounded DOM;
+scrolling away while a chosen palette was delayed did not cancel that selection
+or leave Apply disabled. These fixtures are never published.
+
+The final inspected dialog measured **700 × 417 CSS pixels** at 1440 × 900 and
+**358 × 498** at 390 × 844. The local unthrottled probe, with 20 cached arrow
+events per viewport, measured:
+
+| Measurement | Desktop | Mobile |
+| --- | --- | --- |
+| First loaded-preview animation frame, one opening | 29.2 ms | 31.7 ms |
+| Cached reopening, one opening | 15.4 ms | 15.7 ms |
+| Cached arrow DOM update, p95 | 0.40 ms | 0.50 ms |
+| Cached arrow to next animation frame, p95 | 16.8 ms | 16.9 ms |
+
+Opening fetched one metadata document and six palettes. Cached arrows and
+reopening fetched nothing further and did not rebuild the visible cards.
+These are local synthetic-event/animation-frame observations, not input-to-photon
+or field measurements. Raw samples and screenshots: `artifacts/theme-latency/`.
+
+The current random selector moves names continuously through a fixed ASCII
+pointer over **3–5 seconds**, using cubic deceleration. It begins at roughly 24
+rows per second when enough candidates exist. Candidates are ordered by the
+validated background luminance metadata for this animation; the ordinary
+catalog keeps its alphabetical order. A candidate is never repeated in a spin,
+and the final choice remains uniform over all matching themes. The first six
+upcoming palettes and final choice are prepared before starting, and later
+previews use a bounded cache. Reduced motion and a single matching theme select
+immediately; Skip also ends the spin immediately. Apply alone persists the
+result; Cancel/Escape restores the earlier theme.
+
+One recorded real-time spin used **3.609 seconds** and displayed **30 genuine
+palettes**. The first crossing took **45.5 ms** and the last **1,187.3 ms**,
+demonstrating the fast start and deceleration. Wall time was **4.284 seconds**
+including an explicit 650 ms visibility suspension. Every center crossing
+matched the actual page/editor/console colors from its native JSON. Continuous
+fractional movement, cancellation, filtering, persistence, hidden-state pause
+and a visibility toggle during delayed preload passed. The Java demo's source,
+cursor and output remained unchanged. The visibility event was dispatched
+explicitly because headless browser tabs otherwise remain visible.
+
+Mouse-wheel and Chromium touch-gesture tests passed at 1440 px and 390 px;
+loaded previews and the moving ASCII drum were visually inspected. Reports and
+captures: `artifacts/theme-scroll-qa/`, `artifacts/theme-spin-qa/` and
+`artifacts/theme-qa/`. The slower measurements below describe earlier iterations.
+
+## Earlier compact catalog measurements
+
+These measurements precede the vertical-scrolling catalog and cubic 3–5-second
+drum update. The 17.792-second spin and 500 ms crossing limit below are obsolete;
+they are retained as historical notes, not current behavior or timings. The
+artifact directories have since been overwritten by the final validation runs;
+they do not preserve the raw reports for this earlier iteration.
+
+On 24 October 2026 (Europe/Zurich), the compact production catalog with
+**103 real themes** passed **74 theme browser checks** and **5 random-preview
+browser checks**. The main catalog displays six previews at a time. The three
+primary choices remain Turbo Classic, Modern Dark and Modern Light; the other
+100 palettes come from the documented native import workflow. They are distinct
+from the separate 1,000-entry synthetic scalability fixture used only in tests.
+
+The inspected catalog measured **700 × 417 CSS pixels** on the 1440 × 900
+desktop viewport and **358 × 550** on the 390 × 844 mobile viewport. Search and
+Random share a row; pagination and Apply/Cancel share the desktop footer. Cached
+arrow selection applies synchronously and keeps the existing preview elements.
+
+The local, unthrottled latency probe recorded:
+
+| Measurement | Desktop 1440 px | Mobile 390 px |
+| --- | --- | --- |
+| First loaded-preview animation frame, one opening | 29.2 ms | 29.2 ms |
+| Cached reopening, one opening | 15.4 ms | 15.4 ms |
+| Cached arrow DOM update, p95 of 20 events | 0.40 ms | 0.30 ms |
+| Cached arrow to next animation frame, p95 | 16.9 ms | 16.8 ms |
+
+The opening fetched one metadata document and six palettes. Cached arrows and
+reopening issued no additional requests. These measurements describe synthetic
+keyboard events and the next animation frame on this local machine; they are
+not input-to-photon measurements or field performance guarantees. The current
+`artifacts/theme-latency/` directory contains the newer scrolling-build results.
+
+Random theme uses an ASCII drum with five genuine names and a fixed center
+arrow. Every centered entry applies its actual palette to the page, source
+editor and console. A real-time test observed **15 live palettes** over a
+configured **17.792-second** spin; elapsed wall time was **18.480 seconds**,
+including a deliberate **650 ms visibility suspension**. Headless visibility
+was tested by dispatching the browser visibility contract explicitly. The
+selected source, cursor and output stayed unchanged. Crossing intervals remained
+above 500 ms; two pure scheduling/random-bound tests cover the timing limits and
+valid selection range. The final choice is uniform over the complete filtered
+catalog, with its palette prepared before the clock starts.
+
+Reduced-motion selections completed in **65 ms and 67 ms** in the two observed
+cases. Search filtering, empty-result disabling, Skip, Escape cancellation,
+Apply persistence and reload passed. The two selected-result axe audits reported
+zero WCAG violations; this is not an accessibility audit of all 103 palettes.
+The 390 px and 1440 px ASCII captures were visually inspected. The 10–25-second
+spin was intentional under the earlier brief and was superseded by the faster
+3–5-second request. `artifacts/theme-spin-qa/` now contains the final fast-spin
+reports, not this earlier run.
+
+## Unified native and website themes
+
+The earlier three-theme catalog build also passed Astro checking (0 errors, 0 warnings; one
+existing nonblocking hint), all **24 content/timeline/theme unit tests**, and
+all **25 interactive demo checks**. The demo's original source/output, one-time
+playback, pause/replay/skip, offscreen suspension, reduced motion and no-script
+screenshot fallback remain functional.
+
+An earlier Lighthouse mobile run at **2026-10-23 21:41:14 UTC**, with the local
+production server, Chromium 156, Lighthouse 13.5.0, 390 × 844 viewport,
+150 ms simulated RTT, 1,638.4 Kbps throughput and 4× CPU slowdown, measured:
+
+| Metric | Earlier three-preset build |
+| --- | --- |
+| Performance / Accessibility / Best Practices / SEO | 100 / 100 / 100 / 100 |
+| LCP | 1,654 ms |
+| FCP / Speed Index | 1,354 ms / 1,354 ms |
+| CLS | 0.000384 |
+| TBT | 0 ms |
+| INP | Not measured by this navigation audit |
+
+These are local laboratory measurements, not a public-host performance
+guarantee. These historical figures remain documented here; the files in
+`artifacts/lighthouse/` now track the latest validation run.
+
+The production HTML has four script tags: a 2,369-byte inline theme bootstrap,
+a 10,891-byte external theme controller, 236 bytes of inline mobile navigation,
+and the 6,166-byte demo bundle. Total JavaScript source is **19,662 bytes**.
+Compressing each payload independently with gzip level 9 yields 8,027 bytes;
+the theme bootstrap/controller subtotal is 5,267 gzip bytes. Inline scripts
+actually compress inside HTML, so these are bundle accounting values, not
+measured CDN transfer sizes. The two external bundles have no further imports.
+
+The shared-theme production build was tested again on 24 October 2026 with Chromium
+156.0.8078.4 and Playwright on macOS ARM64. `npm run test:themes` passed
+**74 checks with zero failures**. The general browser suite separately passed
+**40 checks with zero failures**. The theme suite reads the authoritative native JSON
+files, compares the public JSON export, and checks all 49 exported color tokens
+against the browser's actual CSS variables. Equivalent minified hexadecimal
+notation is normalized before comparing RGB values.
+
+All three primary themes were exercised at **390 × 844, 768 × 1024, 1440 × 900 and
+1920 × 1080**. The actual editor, syntax, cursor, menu, status and console colors
+matched the corresponding native values. The website's body, hero, features,
+workflow, performance panel, philosophy, FAQ and footer changed with the global
+theme. The authentic application screenshot retained its original image URL,
+opacity and lack of color filters.
+
+For each of the twelve theme/viewport combinations, axe reported zero WCAG
+2.2 AA violations with the FAQ answers and mobile navigation exposed. Separate
+keyboard tests verified visible focus outlines with at least 3:1 contrast on
+the theme menu, Replay and the actual-screenshot link. Two additional catalog
+audits at 390 px and 1440 px also reported zero violations. No page overflow,
+failed assets, external page requests or browser errors were observed.
+
+Keyboard switching through the single responsive **Options → Themes** menu,
+active state, persistent selection, invalid preferences and denied localStorage
+were verified. A saved
+preference was observed on the first animation frame after reload; the operating
+system's color preference did not override it. New visitors defaulted to Classic.
+
+Switching themes preserved the demo's geometry and its completed state. A paused
+replay retained the exact source, caret style/position, elapsed time, compiler
+status and output. A separate normal-motion test switched all three themes
+and previewed a catalog theme during typing: the source and elapsed time
+continued monotonically and the single demo completed its original eight-second illustrated timeline without
+resetting. These playback timings are not native compiler benchmarks.
+
+The **More themes…** dialog was tested for search focus, three columns and two
+reserved rows, exact native colors in each preview, arrow/PageUp/PageDown
+navigation, Enter/Apply persistence and Escape/Cancel restoration. Escape was
+also tested while the search field contained a query with no results; Apply
+remained disabled and the original theme was restored. Older delayed palette
+responses could not replace a newer search selection.
+
+A separate browser-only fixture supplied **1,000 catalog entries** through
+Playwright routing. The DOM contained at most six cards, and the exercised
+navigation/search sequence fetched **19 distinct palettes**, rather than loading
+the entire catalog. A selected fixture palette survived reload and appeared on
+the first animation frame. These fixtures are never written to the public
+catalog: the product ships 103 real themes, including the three primary choices.
+
+After the earlier cache-refresh and thumbnail styling changes, three targeted
+checks passed with zero failures (`npm run test:themes -- --cache-only`). A
+cached custom palette appeared immediately, then refreshed and persisted the
+current native colors under the same identifier. A retired identifier fell
+back to Classic, persisted that choice and removed the stale cached palette.
+The focused/hovered miniature retained an undecorated source preview and visible
+focus outline. Its final desktop capture was visually inspected. These three
+cases passed again within the current 74-check theme suite; the earlier isolated report and image
+are retained in `artifacts/theme-cache-qa/` without replacing the earlier report.
+
+Report, fourteen theme axe outputs and viewport captures are in `artifacts/theme-qa/`.
+The 390 px and 1440 px captures for all three themes were visually inspected;
+full-page versions and the catalog views are also retained. The general browser
+report is in `artifacts/qa/`. These checks do not establish complete
+WCAG conformance or field Core Web Vitals. Lighthouse is a separate measurement;
+the older hero numbers below should not be presented as a new theme-release run.
 
 ## Native Java intelligence capability update
 

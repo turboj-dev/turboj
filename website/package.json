@@ -3,19 +3,29 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22.23.4" },
+  "engines": {
+    "node": ">=22.23.4"
+  },
   "scripts": {
-    "dev": "astro dev --host 127.0.0.1",
+    "dev": "npm run themes && astro dev --host 127.0.0.1",
     "assets": "node scripts/prepare-assets.mjs",
-    "check": "astro check",
-    "build": "npm run assets && astro build",
+    "check": "npm run themes && astro check",
+    "build": "npm run themes && npm run assets && astro build",
     "preview": "astro preview --host 127.0.0.1",
-    "test": "node --test tests/content.test.mjs tests/demo-timeline.test.mjs",
+    "test": "npm run themes:check && node --test tests/content.test.mjs tests/demo-timeline.test.mjs tests/theme-export.test.mjs tests/theme-preference.test.mjs tests/theme-spin.test.mjs",
     "test:browser": "node tests/browser.mjs",
     "test:demo": "node tests/demo-browser.mjs",
-    "test:performance": "node tests/performance.mjs"
+    "test:performance": "node tests/performance.mjs",
+    "themes": "node scripts/export-themes.mjs",
+    "themes:check": "node scripts/export-themes.mjs --check",
+    "test:themes": "node tests/themes-browser.mjs",
+    "test:spin": "node tests/theme-spin-browser.mjs",
+    "test:scroll": "node tests/theme-scroll-browser.mjs",
+    "test:latency": "node tests/theme-latency.mjs"
   },
-  "dependencies": { "astro": "7.4.2" },
+  "dependencies": {
+    "astro": "7.4.2"
+  },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "typescript": "6.0.3",

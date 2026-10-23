@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "primary": [
+    "classic",
+    "dark",
+    "light"
+  ],
+  "themes": [
+    {
+      "id": "classic",
+      "file": "classic.json"
+    },
+    {
+      "id": "dark",
+      "file": "dark.json"
+    },
+    {
+      "id": "light",
+      "file": "light.json"
+    },
+    {
+      "id": "vscode-abyss",
+      "file": "vscode-abyss.json"
+    },
+    {
+      "id": "ayu-dark",
+      "file": "ayu-dark.json"
+    },
+    {
+      "id": "ayu-light",
+      "file": "ayu-light.json"
+    },
+    {
+      "id": "ayu-mirage",
+      "file": "ayu-mirage.json"
+    },
+    {
+      "id": "catppuccin-frappe",
+      "file": "catppuccin-frappe.json"
+    },
+    {
+      "id": "catppuccin-latte",
+      "file": "catppuccin-latte.json"
+    },
+    {
+      "id": "catppuccin-macchiato",
+      "file": "catppuccin-macchiato.json"
+    },
+    {
+      "id": "catppuccin-mocha",
+      "file": "catppuccin-mocha.json"
+    },
+    {
+      "id": "dracula",
+      "file": "dracula.json"
+    },
+    {
+      "id": "github-dark-default",
+      "file": "github-dark-default.json"
+    },
+    {
+      "id": "github-dark-dimmed",
+      "file": "github-dark-dimmed.json"
+    },
+    {
+      "id": "github-dark-high-contrast",
+      "file": "github-dark-high-contrast.json"
+    },
+    {
+      "id": "github-light-default",
+      "file": "github-light-default.json"
+    },
+    {
+      "id": "gruvbox-dark-medium",
+      "file": "gruvbox-dark-medium.json"
+    },
+    {
+      "id": "gruvbox-light-medium",
+      "file": "gruvbox-light-medium.json"
+    },
+    {
+      "id": "vscode-kimbie-dark",
+      "file": "vscode-kimbie-dark.json"
+    },
+    {
+      "id": "vscode-monokai",
+      "file": "vscode-monokai.json"
+    },
+    {
+      "id": "vscode-monokai-dimmed",
+      "file": "vscode-monokai-dimmed.json"
+    },
+    {
+      "id": "nord",
+      "file": "nord.json"
+    },
+    {
+      "id": "one-dark",
+      "file": "one-dark.json"
+    },
+    {
+      "id": "one-light",
+      "file": "one-light.json"
+    },
+    {
+      "id": "vscode-quietlight",
+      "file": "vscode-quietlight.json"
+    },
+    {
+      "id": "rainglow-absent",
+      "file": "rainglow-absent.json"
+    },
+    {
+      "id": "rainglow-allure",
+      "file": "rainglow-allure.json"
+    },
+    {
+      "id": "rainglow-allure-light",
+      "file": "rainglow-allure-light.json"
+    },
+    {
+      "id": "rainglow-arstotzka",
+      "file": "rainglow-arstotzka.json"
+    },
+    {
+      "id": "rainglow-arstotzka-light",
+      "file": "rainglow-arstotzka-light.json"
+    },
+    {
+      "id": "rainglow-azure",
+      "file": "rainglow-azure.json"
+    },
+    {
+      "id": "rainglow-banner",
+      "file": "rainglow-banner.json"
+    },
+    {
+      "id": "rainglow-banner-light",
+      "file": "rainglow-banner-light.json"
+    },
+    {
+      "id": "rainglow-brave",
+      "file": "rainglow-brave.json"
+    },
+    {
+      "id": "rainglow-brave-light",
+      "file": "rainglow-brave-light.json"
+    },
+    {
+      "id": "rainglow-carbonight",
+      "file": "rainglow-carbonight.json"
+    },
+    {
+      "id": "rainglow-chocolate",
+      "file": "rainglow-chocolate.json"
+    },
+    {
+      "id": "rainglow-chocolate-light",
+      "file": "rainglow-chocolate-light.json"
+    },
+    {
+      "id": "rainglow-codecourse",
+      "file": "rainglow-codecourse.json"
+    },
+    {
+      "id": "rainglow-coffee",
+      "file": "rainglow-coffee.json"
+    },
+    {
+      "id": "rainglow-coffee-light",
+      "file": "rainglow-coffee-light.json"
+    },
+    {
+      "id": "rainglow-comrade",
+      "file": "rainglow-comrade.json"
+    },
+    {
+      "id": "rainglow-crisp",
+      "file": "rainglow-crisp.json"
+    },
+    {
+      "id": "rainglow-darkside",
+      "file": "rainglow-darkside.json"
+    },
+    {
+      "id": "rainglow-downpour",
+      "file": "rainglow-downpour.json"
+    },
+    {
+      "id": "rainglow-earthsong",
+      "file": "rainglow-earthsong.json"
+    },
+    {
+      "id": "rainglow-earthsong-light",
+      "file": "rainglow-earthsong-light.json"
+    },
+    {
+      "id": "rainglow-freshcut",
+      "file": "rainglow-freshcut.json"
+    },
+    {
+      "id": "rainglow-freshcut-light",
+      "file": "rainglow-freshcut-light.json"
+    },
+    {
+      "id": "rainglow-frontier",
+      "file": "rainglow-frontier.json"
+    },
+    {
+      "id": "rainglow-gloom",
+      "file": "rainglow-gloom.json"
+    },
+    {
+      "id": "rainglow-goldfish",
+      "file": "rainglow-goldfish.json"
+    },
+    {
+      "id": "rainglow-goldfish-light",
+      "file": "rainglow-goldfish-light.json"
+    },
+    {
+      "id": "rainglow-grunge",
+      "file": "rainglow-grunge.json"
+    },
+    {
+      "id": "rainglow-halflife",
+      "file": "rainglow-halflife.json"
+    },
+    {
+      "id": "rainglow-hawaii",
+      "file": "rainglow-hawaii.json"
+    },
+    {
+      "id": "rainglow-horizon",
+      "file": "rainglow-horizon.json"
+    },
+    {
+      "id": "rainglow-hyrule",
+      "file": "rainglow-hyrule.json"
+    },
+    {
+      "id": "rainglow-iceberg",
+      "file": "rainglow-iceberg.json"
+    },
+    {
+      "id": "rainglow-iceberg-light",
+      "file": "rainglow-iceberg-light.json"
+    },
+    {
+      "id": "rainglow-joker",
+      "file": "rainglow-joker.json"
+    },
+    {
+      "id": "rainglow-joker-light",
+      "file": "rainglow-joker-light.json"
+    },
+    {
+      "id": "rainglow-laravel",
+      "file": "rainglow-laravel.json"
+    },
+    {
+      "id": "rainglow-laravel-light",
+      "file": "rainglow-laravel-light.json"
+    },
+    {
+      "id": "rainglow-lavender",
+      "file": "rainglow-lavender.json"
+    },
+    {
+      "id": "rainglow-lavender-light",
+      "file": "rainglow-lavender-light.json"
+    },
+    {
+      "id": "rainglow-lichen",
+      "file": "rainglow-lichen.json"
+    },
+    {
+      "id": "rainglow-lichen-light",
+      "file": "rainglow-lichen-light.json"
+    },
+    {
+      "id": "rainglow-mellow-light",
+      "file": "rainglow-mellow-light.json"
+    },
+    {
+      "id": "rainglow-mintchoc",
+      "file": "rainglow-mintchoc.json"
+    },
+    {
+      "id": "rainglow-monzo",
+      "file": "rainglow-monzo.json"
+    },
+    {
+      "id": "rainglow-peacock",
+      "file": "rainglow-peacock.json"
+    },
+    {
+      "id": "rainglow-peacock-light",
+      "file": "rainglow-peacock-light.json"
+    },
+    {
+      "id": "rainglow-rainbow",
+      "file": "rainglow-rainbow.json"
+    },
+    {
+      "id": "rainglow-rebellion",
+      "file": "rainglow-rebellion.json"
+    },
+    {
+      "id": "rainglow-slate",
+      "file": "rainglow-slate.json"
+    },
+    {
+      "id": "rainglow-slate-light",
+      "file": "rainglow-slate-light.json"
+    },
+    {
+      "id": "rainglow-solarflare",
+      "file": "rainglow-solarflare.json"
+    },
+    {
+      "id": "rainglow-stasis-light",
+      "file": "rainglow-stasis-light.json"
+    },
+    {
+      "id": "rainglow-stealth",
+      "file": "rainglow-stealth.json"
+    },
+    {
+      "id": "rainglow-tron",
+      "file": "rainglow-tron.json"
+    },
+    {
+      "id": "rainglow-tron-light",
+      "file": "rainglow-tron-light.json"
+    },
+    {
+      "id": "rainglow-turnip-light",
+      "file": "rainglow-turnip-light.json"
+    },
+    {
+      "id": "vscode-red",
+      "file": "vscode-red.json"
+    },
+    {
+      "id": "rose-pine",
+      "file": "rose-pine.json"
+    },
+    {
+      "id": "rose-pine-dawn",
+      "file": "rose-pine-dawn.json"
+    },
+    {
+      "id": "rose-pine-moon",
+      "file": "rose-pine-moon.json"
+    },
+    {
+      "id": "vscode-solarized-dark",
+      "file": "vscode-solarized-dark.json"
+    },
+    {
+      "id": "vscode-solarized-light",
+      "file": "vscode-solarized-light.json"
+    },
+    {
+      "id": "tokyo-night",
+      "file": "tokyo-night.json"
+    },
+    {
+      "id": "tokyo-night-light",
+      "file": "tokyo-night-light.json"
+    },
+    {
+      "id": "tokyo-night-storm",
+      "file": "tokyo-night-storm.json"
+    },
+    {
+      "id": "vscode-tomorrow-night-blue",
+      "file": "vscode-tomorrow-night-blue.json"
+    },
+    {
+      "id": "visual-studio-dark",
+      "file": "visual-studio-dark.json"
+    },
+    {
+      "id": "visual-studio-light",
+      "file": "visual-studio-light.json"
+    },
+    {
+      "id": "vscode-2026-dark",
+      "file": "vscode-2026-dark.json"
+    },
+    {
+      "id": "vscode-dark-modern",
+      "file": "vscode-dark-modern.json"
+    },
+    {
+      "id": "vscode-dark-plus",
+      "file": "vscode-dark-plus.json"
+    },
+    {
+      "id": "vscode-high-contrast-dark",
+      "file": "vscode-high-contrast-dark.json"
+    },
+    {
+      "id": "vscode-high-contrast-light",
+      "file": "vscode-high-contrast-light.json"
+    },
+    {
+      "id": "vscode-2026-light",
+      "file": "vscode-2026-light.json"
+    },
+    {
+      "id": "vscode-light-modern",
+      "file": "vscode-light-modern.json"
+    },
+    {
+      "id": "vscode-light-plus",
+      "file": "vscode-light-plus.json"
+    }
+  ]
+}

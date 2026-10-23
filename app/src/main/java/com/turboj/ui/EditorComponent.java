@@ -3,6 +3,7 @@ package com.turboj.ui;
 import com.turboj.compiler.CompilerDiagnostic;
 import com.turboj.editor.document.PieceTable;
 import com.turboj.editor.highlighting.JavaLexer;
+import com.turboj.ui.themes.Theme;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -51,13 +52,8 @@ public final class EditorComponent extends JComponent
     private int cellWidth = 10, cellHeight = 20, ascent = 15, gutterWidth = 60, tabWidth = 4;
     private FontMetrics fontMetrics;
     private Runnable onChange = () -> {}, onCaretChange = () -> {};
-    private Color foreground = Color.WHITE,
-            keyword = new Color(0xFFFF55),
-            string = new Color(0x55FFFF),
-            comment = new Color(0xAAAAAA),
-            selection = new Color(0x00AAAA),
-            cursor = new Color(0xFFFF55),
-            error = new Color(0xFF5555);
+    private Color foreground, keyword, string, comment, selection, cursor, error;
+    private Color ghost, selectionForeground, number, annotation, definition, identifier, operator;
     private boolean antialias, autoClose = true;
     private List<CompilerDiagnostic> diagnostics = List.of();
     private final List<JavaLexer.Line> lexed = new ArrayList<>();
@@ -120,7 +116,7 @@ public final class EditorComponent extends JComponent
 
     public EditorComponent() {
         setOpaque(true);
-        setBackground(new Color(0x0000AA));
+        setTheme(Theme.bundled("classic"));
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -499,6 +495,34 @@ public final class EditorComponent extends JComponent
         this.cursor = cursor;
         this.error = error;
         this.antialias = antialias;
+        this.ghost = comment;
+        this.selectionForeground = foreground;
+        this.number = string;
+        this.annotation = string;
+        this.definition = string;
+        this.identifier = foreground;
+        this.operator = foreground;
+        repaint();
+    }
+
+    public void setTheme(Theme theme) {
+        setPalette(
+                theme.background(),
+                theme.foreground(),
+                theme.keyword(),
+                theme.string(),
+                theme.comment(),
+                theme.selection(),
+                theme.cursor(),
+                theme.error(),
+                theme.antialias());
+        ghost = theme.color("intelligence", "ghost");
+        selectionForeground = theme.color("editor", "selectionForeground");
+        number = theme.color("syntax", "number");
+        annotation = theme.color("syntax", "annotation");
+        definition = theme.color("intelligence", "definition");
+        identifier = theme.color("syntax", "identifier");
+        operator = theme.color("syntax", "operator");
         repaint();
     }
 
@@ -1140,10 +1164,13 @@ public final class EditorComponent extends JComponent
 
     private Color tokenColor(JavaLexer.Kind kind) {
         return switch (kind) {
-            case KEYWORD, DECLARATION -> keyword;
-            case STRING, NUMBER, ANNOTATION -> string;
+            case KEYWORD -> keyword;
+            case DECLARATION, TEXT -> identifier;
+            case OPERATOR -> operator;
+            case STRING -> string;
+            case NUMBER -> number;
+            case ANNOTATION -> annotation;
             case COMMENT -> comment;
-            default -> foreground;
         };
     }
 
@@ -1226,6 +1253,9 @@ public final class EditorComponent extends JComponent
                         row.setColor(tokenColor(span.kind()));
                         drawRun(row, text, from, to, columns[from]);
                     }
+                    paintSelectedText(row, text, columns, start, selectionStart, selectionEnd);
+                    if (emphasisStart >= 0)
+                        paintSelectedText(row, text, columns, start, emphasisStart, emphasisEnd);
                     for (CompilerDiagnostic diagnostic : diagnostics) {
                         if (diagnostic.line() == line + 1
                                 && "ERROR".equalsIgnoreCase(diagnostic.kind())) {
@@ -1248,7 +1278,7 @@ public final class EditorComponent extends JComponent
                             && navigationStart <= start + text.length()) {
                         int a = columns[Math.max(0, navigationStart - start)];
                         int b = columns[Math.min(text.length(), navigationEnd - start)];
-                        row.setColor(string);
+                        row.setColor(definition);
                         row.drawLine(
                                 (a - leftColumn) * cellWidth,
                                 cellHeight - 2,
@@ -1336,11 +1366,15 @@ public final class EditorComponent extends JComponent
     }
 
     private Color ghostColor() {
-        Color background = getBackground();
-        return new Color(
-                (foreground.getRed() * 62 + background.getRed() * 38) / 100,
-                (foreground.getGreen() * 62 + background.getGreen() * 38) / 100,
-                (foreground.getBlue() * 62 + background.getBlue() * 38) / 100);
+        return ghost;
+    }
+
+    private void paintSelectedText(
+            Graphics2D row, String text, int[] columns, int lineStart, int from, int to) {
+        int begin = Math.max(0, from - lineStart), end = Math.min(text.length(), to - lineStart);
+        if (begin >= end) return;
+        row.setColor(selectionForeground);
+        drawRun(row, text, begin, end, columns[begin]);
     }
 
     private void drawRun(Graphics2D g, String text, int from, int to, int initialColumn) {

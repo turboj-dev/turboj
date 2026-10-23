@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-high-contrast-dark",
+  "name": "VS Code High Contrast Dark",
+  "editor": {
+    "background": "#000000",
+    "foreground": "#FFFFFF",
+    "cursor": "#FFFFFF",
+    "selection": "#FFFFFF",
+    "selectionForeground": "#000000",
+    "error": "#D94F4F"
+  },
+  "syntax": {
+    "keyword": "#C586C0",
+    "string": "#CE9178",
+    "comment": "#7CA668",
+    "number": "#B5CEA8",
+    "operator": "#D4D4D4",
+    "annotation": "#4EC9B0",
+    "identifier": "#FFFFFF"
+  },
+  "menu": {
+    "background": "#121212",
+    "foreground": "#FFFFFF",
+    "activeBackground": "#000000",
+    "activeForeground": "#FFFFFF"
+  },
+  "messages": {
+    "background": "#121212",
+    "foreground": "#FFFFFF",
+    "errorForeground": "#D94F4F",
+    "inputForeground": "#FFFFFF",
+    "cursor": "#FFFFFF"
+  },
+  "diagnostics": {
+    "error": "#D94F4F",
+    "warning": "#D9A441",
+    "success": "#CE9178"
+  },
+  "chrome": {
+    "border": "#737373",
+    "statusBackground": "#121212",
+    "statusForeground": "#FFFFFF"
+  },
+  "ui": {
+    "background": "#000000",
+    "foreground": "#FFFFFF",
+    "surface": "#121212",
+    "muted": "#7CA668",
+    "heading": "#FFFFFF",
+    "border": "#737373",
+    "accent": "#C586C0",
+    "accentForeground": "#000000",
+    "link": "#C586C0",
+    "focus": "#FFFFFF"
+  },
+  "documentation": {
+    "background": "#121212",
+    "foreground": "#FFFFFF",
+    "border": "#737373",
+    "code": "#CE9178",
+    "link": "#C586C0"
+  },
+  "intelligence": {
+    "ghost": "#7CA668",
+    "aiGhost": "#7CA668",
+    "selectionBackground": "#FFFFFF",
+    "selectionForeground": "#000000",
+    "definition": "#C586C0",
+    "activeParameter": "#C586C0"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -1,16 +1,12 @@
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-latin-variable.woff2') format('woff2')}
 @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:100 700;font-display:swap;src:url('/fonts/ibm-plex-sans-latin-variable.woff2') format('woff2')}
 :root {
-  --turbo-blue: #0000aa;
-  --turbo-cyan: #05aaaa;
-  --turbo-gray: #aaaaaa;
-  --turbo-black: #000000;
-  --turbo-white: #ffffff;
-  --turbo-yellow: #ffff55;
-  --turbo-aqua: #56ffff;
-  --page-ink: #111827;
-  --page-paper: #f4f4f0;
-  --page-surface: #ffffff;
+  --page-ink: var(--tj-ui-foreground);
+  --page-paper: var(--tj-ui-background);
+  --page-surface: var(--tj-ui-surface);
+  --page-border: var(--tj-ui-border);
+  --page-heading: var(--tj-ui-heading);
+  --page-link: var(--tj-ui-link);
   --border-width: 1px;
   --corner-radius: 0px;
   --content-width: 1280px;

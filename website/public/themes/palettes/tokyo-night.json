@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "tokyo-night",
+  "name": "Tokyo Night",
+  "editor": {
+    "background": "#1A1B26",
+    "foreground": "#A9B1D6",
+    "cursor": "#C0CAF5",
+    "selection": "#2B2F41",
+    "selectionForeground": "#FFFFFF",
+    "error": "#DD5656"
+  },
+  "syntax": {
+    "keyword": "#BB9AF7",
+    "string": "#9ECE6A",
+    "comment": "#7C829D",
+    "number": "#FF9E64",
+    "operator": "#89DDFF",
+    "annotation": "#BB9AF7",
+    "identifier": "#A9B1D6"
+  },
+  "menu": {
+    "background": "#16161E",
+    "foreground": "#7A7E9A",
+    "activeBackground": "#1A1B26",
+    "activeForeground": "#A9B1D6"
+  },
+  "messages": {
+    "background": "#16161E",
+    "foreground": "#7A7E9A",
+    "errorForeground": "#DC4F4F",
+    "inputForeground": "#A9B1D6",
+    "cursor": "#C0CAF5"
+  },
+  "diagnostics": {
+    "error": "#DD5656",
+    "warning": "#E0AF68",
+    "success": "#73DACA"
+  },
+  "chrome": {
+    "border": "#62667B",
+    "statusBackground": "#16161E",
+    "statusForeground": "#7A7E9A"
+  },
+  "ui": {
+    "background": "#1A1B26",
+    "foreground": "#A9B1D6",
+    "surface": "#16161E",
+    "muted": "#7C829D",
+    "heading": "#A9B1D6",
+    "border": "#62667B",
+    "accent": "#7183B0",
+    "accentForeground": "#000000",
+    "link": "#BB9AF7",
+    "focus": "#C0CAF5"
+  },
+  "documentation": {
+    "background": "#16161E",
+    "foreground": "#A9B1D6",
+    "border": "#5F6279",
+    "code": "#9ECE6A",
+    "link": "#BB9AF7"
+  },
+  "intelligence": {
+    "ghost": "#7C829D",
+    "aiGhost": "#7C829D",
+    "selectionBackground": "#2B2F41",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#BB9AF7",
+    "activeParameter": "#BB9AF7"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

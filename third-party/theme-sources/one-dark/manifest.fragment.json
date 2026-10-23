@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/akamud/vscode-theme-onedark",
+  "commit": "a8be970644982221f9b61fb1c4b3da74b4beab79",
+  "license": "MIT",
+  "licensePath": "third-party/theme-sources/one-dark/LICENSE",
+  "licenseSha256": "3ef9ebb4bf1676792b5c98efaaf27335a3f6c5861c68d952e565df2fa7524d5e",
+  "files": [
+    {
+      "path": "themes/OneDark.json",
+      "localPath": "third-party/theme-sources/one-dark/themes/OneDark.json",
+      "sha256": "9cba08f30e9f249ed5d00a33a582533cc611d9360e61973dcaddcad3f7ac8d7c",
+      "id": "one-dark",
+      "name": "One Dark",
+      "format": "vscode"
+    }
+  ]
+}

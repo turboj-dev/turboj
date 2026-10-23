@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "ayu-mirage",
+  "name": "Ayu Mirage",
+  "editor": {
+    "background": "#242936",
+    "foreground": "#CCCAC2",
+    "cursor": "#FFCC66",
+    "selection": "#2B4768",
+    "selectionForeground": "#FFFFFF",
+    "error": "#FF6666"
+  },
+  "syntax": {
+    "keyword": "#FFA659",
+    "string": "#D5FF80",
+    "comment": "#8591A1",
+    "number": "#DFBFFF",
+    "operator": "#F29E74",
+    "annotation": "#D9BE98",
+    "identifier": "#CCCAC2"
+  },
+  "menu": {
+    "background": "#1C212C",
+    "foreground": "#7F8898",
+    "activeBackground": "#242936",
+    "activeForeground": "#CCCAC2"
+  },
+  "messages": {
+    "background": "#1F2430",
+    "foreground": "#CCCAC2",
+    "errorForeground": "#FF6666",
+    "inputForeground": "#CCCAC2",
+    "cursor": "#FFCC66"
+  },
+  "diagnostics": {
+    "error": "#FF6666",
+    "warning": "#FFCC66",
+    "success": "#87D96C"
+  },
+  "chrome": {
+    "border": "#717275",
+    "statusBackground": "#1C212C",
+    "statusForeground": "#7F8898"
+  },
+  "ui": {
+    "background": "#242936",
+    "foreground": "#CCCAC2",
+    "surface": "#1F2430",
+    "muted": "#8591A1",
+    "heading": "#CCCAC2",
+    "border": "#717275",
+    "accent": "#FFCC66",
+    "accentForeground": "#000000",
+    "link": "#FFA659",
+    "focus": "#FFCC66"
+  },
+  "documentation": {
+    "background": "#1F2430",
+    "foreground": "#CCCAC2",
+    "border": "#707175",
+    "code": "#D5FF80",
+    "link": "#FFA659"
+  },
+  "intelligence": {
+    "ghost": "#8591A1",
+    "aiGhost": "#8591A1",
+    "selectionBackground": "#2B4768",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#FFA659",
+    "activeParameter": "#FFA659"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

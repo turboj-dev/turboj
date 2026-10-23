@@ -1,0 +1,33 @@
+{
+  "repository": "https://github.com/ayu-theme/vscode-ayu",
+  "commit": "7f438df22446f02e79cdfc2f3771b0b273f34654",
+  "license": "MIT",
+  "licensePath": "third-party/theme-sources/ayu/LICENSE",
+  "licenseSha256": "b2c797d3cd2f1c96c609ec99485f08a5ac1dfdec80c9cffdec11d35feb37ab52",
+  "files": [
+    {
+      "path": "ayu-dark.json",
+      "localPath": "third-party/theme-sources/ayu/ayu-dark.json",
+      "sha256": "8782e9876207553f84cdfe2f5bd2b625561b72b6b03f0bb747eac2ecee3648ca",
+      "id": "ayu-dark",
+      "name": "Ayu Dark",
+      "format": "vscode"
+    },
+    {
+      "path": "ayu-mirage.json",
+      "localPath": "third-party/theme-sources/ayu/ayu-mirage.json",
+      "sha256": "e08c742afbbeb686d9447caa16d95e4897cedf2591b554eed74778d9d4087b5e",
+      "id": "ayu-mirage",
+      "name": "Ayu Mirage",
+      "format": "vscode"
+    },
+    {
+      "path": "ayu-light.json",
+      "localPath": "third-party/theme-sources/ayu/ayu-light.json",
+      "sha256": "3d748e7a3666978e34fbab2830ce3c311da24a8b38d7a955fe833ca1d536f646",
+      "id": "ayu-light",
+      "name": "Ayu Light",
+      "format": "vscode"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "vscode-monokai",
+  "name": "Monokai",
+  "editor": {
+    "background": "#272822",
+    "foreground": "#F8F8F2",
+    "cursor": "#F8F8F0",
+    "selection": "#575A5A",
+    "selectionForeground": "#FFFFFF",
+    "error": "#D76A91"
+  },
+  "syntax": {
+    "keyword": "#FA4988",
+    "string": "#E6DB74",
+    "comment": "#928E7A",
+    "number": "#AE81FF",
+    "operator": "#FA4988",
+    "annotation": "#66D9EF",
+    "identifier": "#F8F8F2"
+  },
+  "menu": {
+    "background": "#1E1F1C",
+    "foreground": "#CCCCCC",
+    "activeBackground": "#272822",
+    "activeForeground": "#F8F8F2"
+  },
+  "messages": {
+    "background": "#1E1F1C",
+    "foreground": "#F8F8F2",
+    "errorForeground": "#D35E87",
+    "inputForeground": "#F8F8F2",
+    "cursor": "#F8F8F0"
+  },
+  "diagnostics": {
+    "error": "#D76A91",
+    "warning": "#B3B42B",
+    "success": "#86B42B"
+  },
+  "chrome": {
+    "border": "#858680",
+    "statusBackground": "#1E1F1C",
+    "statusForeground": "#CCCCCC"
+  },
+  "ui": {
+    "background": "#272822",
+    "foreground": "#F8F8F2",
+    "surface": "#1E1F1C",
+    "muted": "#928E7A",
+    "heading": "#F8F8F2",
+    "border": "#858680",
+    "accent": "#918E7E",
+    "accentForeground": "#000000",
+    "link": "#FA4988",
+    "focus": "#F8F8F0"
+  },
+  "documentation": {
+    "background": "#1E1F1C",
+    "foreground": "#F8F8F2",
+    "border": "#858680",
+    "code": "#E6DB74",
+    "link": "#F93078"
+  },
+  "intelligence": {
+    "ghost": "#928E7A",
+    "aiGhost": "#928E7A",
+    "selectionBackground": "#575A5A",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#FA4988",
+    "activeParameter": "#FA4988"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

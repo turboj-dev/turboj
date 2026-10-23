@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "id": "nord",
+  "name": "Nord",
+  "editor": {
+    "background": "#2E3440",
+    "foreground": "#D8DEE9",
+    "cursor": "#D8DEE9",
+    "selection": "#3F4758",
+    "selectionForeground": "#FFFFFF",
+    "error": "#CF888F"
+  },
+  "syntax": {
+    "keyword": "#81A1C1",
+    "string": "#A3BE8C",
+    "comment": "#939CAD",
+    "number": "#B590AF",
+    "operator": "#81A1C1",
+    "annotation": "#81A1C1",
+    "identifier": "#D8DEE9"
+  },
+  "menu": {
+    "background": "#2E3440",
+    "foreground": "#D8DEE9",
+    "activeBackground": "#2E3440",
+    "activeForeground": "#D8DEE9"
+  },
+  "messages": {
+    "background": "#2E3440",
+    "foreground": "#D8DEE9",
+    "errorForeground": "#CF888F",
+    "inputForeground": "#D8DEE9",
+    "cursor": "#D8DEE9"
+  },
+  "diagnostics": {
+    "error": "#CF888F",
+    "warning": "#EBCB8B",
+    "success": "#A3BE8C"
+  },
+  "chrome": {
+    "border": "#7A808C",
+    "statusBackground": "#2E3440",
+    "statusForeground": "#D8DEE9"
+  },
+  "ui": {
+    "background": "#2E3440",
+    "foreground": "#D8DEE9",
+    "surface": "#2E3440",
+    "muted": "#939CAD",
+    "heading": "#D8DEE9",
+    "border": "#7A808C",
+    "accent": "#82B7C6",
+    "accentForeground": "#000000",
+    "link": "#81A1C1",
+    "focus": "#D8DEE9"
+  },
+  "documentation": {
+    "background": "#2E3440",
+    "foreground": "#D8DEE9",
+    "border": "#7A808C",
+    "code": "#A3BE8C",
+    "link": "#81A1C1"
+  },
+  "intelligence": {
+    "ghost": "#939CAD",
+    "aiGhost": "#939CAD",
+    "selectionBackground": "#3F4758",
+    "selectionForeground": "#FFFFFF",
+    "definition": "#81A1C1",
+    "activeParameter": "#81A1C1"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "repository": "https://github.com/primer/github-vscode-theme",
+  "commit": "ad3f17519f2f7d7060afffac2b557c69c4534610",
+  "version": "6.3.5",
+  "artifact": "https://open-vsx.org/api/GitHub/github-vscode-theme/6.3.5/file/GitHub.github-vscode-theme-6.3.5.vsix",
+  "artifactSha256": "a85236a58ad490b1600ec5a0fd0cea7eec56fb9d33660a1ac82c6da639ad3af4",
+  "license": "MIT",
+  "licensePath": "third-party/theme-sources/github/LICENSE.txt",
+  "licenseSha256": "e2c871bb6effe9f6ec8d94d6596db33c4bfe4dd94969a6a9a2fb0473ebe6442e",
+  "files": [
+    {
+      "path": "themes/light-default.json",
+      "localPath": "third-party/theme-sources/github/themes/light-default.json",
+      "sha256": "cc0cf47f4089eab798a72c600c08eff05246abb0c233d37dabd02afb255fccfb",
+      "id": "github-light-default",
+      "name": "GitHub Light Default",
+      "format": "vscode"
+    },
+    {
+      "path": "themes/dark-default.json",
+      "localPath": "third-party/theme-sources/github/themes/dark-default.json",
+      "sha256": "a81623253b9441beef340f9417fa02e668b54ad7238735b5db72de6fd1eae9ba",
+      "id": "github-dark-default",
+      "name": "GitHub Dark Default",
+      "format": "vscode"
+    },
+    {
+      "path": "themes/dark-high-contrast.json",
+      "localPath": "third-party/theme-sources/github/themes/dark-high-contrast.json",
+      "sha256": "87a49281f145b8caa312bf06be804742d3310a785ff4877f5d7cfd69a42d15b2",
+      "id": "github-dark-high-contrast",
+      "name": "GitHub Dark High Contrast",
+      "format": "vscode"
+    },
+    {
+      "path": "themes/dark-dimmed.json",
+      "localPath": "third-party/theme-sources/github/themes/dark-dimmed.json",
+      "sha256": "af4c53a7a780228bda624d2a0771e216730eb6ea52598a6598614428498b159c",
+      "id": "github-dark-dimmed",
+      "name": "GitHub Dark Dimmed",
+      "format": "vscode"
+    }
+  ],
+  "tag": "v6.3.5"
+}

@@ -1,0 +1,620 @@
+[
+  {
+    "id": "classic",
+    "name": "Turbo Classic",
+    "url": "/themes/palettes/classic.json",
+    "previewBackground": "#F4F4F0"
+  },
+  {
+    "id": "dark",
+    "name": "Modern Dark",
+    "url": "/themes/palettes/dark.json",
+    "previewBackground": "#11151C"
+  },
+  {
+    "id": "light",
+    "name": "Modern Light",
+    "url": "/themes/palettes/light.json",
+    "previewBackground": "#F4F4F0"
+  },
+  {
+    "id": "vscode-abyss",
+    "name": "Abyss",
+    "url": "/themes/palettes/vscode-abyss.json",
+    "previewBackground": "#000C18"
+  },
+  {
+    "id": "ayu-dark",
+    "name": "Ayu Dark",
+    "url": "/themes/palettes/ayu-dark.json",
+    "previewBackground": "#10141C"
+  },
+  {
+    "id": "ayu-light",
+    "name": "Ayu Light",
+    "url": "/themes/palettes/ayu-light.json",
+    "previewBackground": "#FCFCFC"
+  },
+  {
+    "id": "ayu-mirage",
+    "name": "Ayu Mirage",
+    "url": "/themes/palettes/ayu-mirage.json",
+    "previewBackground": "#242936"
+  },
+  {
+    "id": "catppuccin-frappe",
+    "name": "Catppuccin Frappe",
+    "url": "/themes/palettes/catppuccin-frappe.json",
+    "previewBackground": "#303446"
+  },
+  {
+    "id": "catppuccin-latte",
+    "name": "Catppuccin Latte",
+    "url": "/themes/palettes/catppuccin-latte.json",
+    "previewBackground": "#EFF1F5"
+  },
+  {
+    "id": "catppuccin-macchiato",
+    "name": "Catppuccin Macchiato",
+    "url": "/themes/palettes/catppuccin-macchiato.json",
+    "previewBackground": "#24273A"
+  },
+  {
+    "id": "catppuccin-mocha",
+    "name": "Catppuccin Mocha",
+    "url": "/themes/palettes/catppuccin-mocha.json",
+    "previewBackground": "#1E1E2E"
+  },
+  {
+    "id": "dracula",
+    "name": "Dracula",
+    "url": "/themes/palettes/dracula.json",
+    "previewBackground": "#282A36"
+  },
+  {
+    "id": "github-dark-default",
+    "name": "GitHub Dark Default",
+    "url": "/themes/palettes/github-dark-default.json",
+    "previewBackground": "#0D1117"
+  },
+  {
+    "id": "github-dark-dimmed",
+    "name": "GitHub Dark Dimmed",
+    "url": "/themes/palettes/github-dark-dimmed.json",
+    "previewBackground": "#22272E"
+  },
+  {
+    "id": "github-dark-high-contrast",
+    "name": "GitHub Dark High Contrast",
+    "url": "/themes/palettes/github-dark-high-contrast.json",
+    "previewBackground": "#0A0C10"
+  },
+  {
+    "id": "github-light-default",
+    "name": "GitHub Light Default",
+    "url": "/themes/palettes/github-light-default.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "gruvbox-dark-medium",
+    "name": "Gruvbox Dark Medium",
+    "url": "/themes/palettes/gruvbox-dark-medium.json",
+    "previewBackground": "#282828"
+  },
+  {
+    "id": "gruvbox-light-medium",
+    "name": "Gruvbox Light Medium",
+    "url": "/themes/palettes/gruvbox-light-medium.json",
+    "previewBackground": "#FBF1C7"
+  },
+  {
+    "id": "vscode-kimbie-dark",
+    "name": "Kimbie Dark",
+    "url": "/themes/palettes/vscode-kimbie-dark.json",
+    "previewBackground": "#221A0F"
+  },
+  {
+    "id": "vscode-monokai",
+    "name": "Monokai",
+    "url": "/themes/palettes/vscode-monokai.json",
+    "previewBackground": "#272822"
+  },
+  {
+    "id": "vscode-monokai-dimmed",
+    "name": "Monokai Dimmed",
+    "url": "/themes/palettes/vscode-monokai-dimmed.json",
+    "previewBackground": "#1E1E1E"
+  },
+  {
+    "id": "nord",
+    "name": "Nord",
+    "url": "/themes/palettes/nord.json",
+    "previewBackground": "#2E3440"
+  },
+  {
+    "id": "one-dark",
+    "name": "One Dark",
+    "url": "/themes/palettes/one-dark.json",
+    "previewBackground": "#282C34"
+  },
+  {
+    "id": "one-light",
+    "name": "One Light",
+    "url": "/themes/palettes/one-light.json",
+    "previewBackground": "#FAFAFA"
+  },
+  {
+    "id": "vscode-quietlight",
+    "name": "Quiet Light",
+    "url": "/themes/palettes/vscode-quietlight.json",
+    "previewBackground": "#F5F5F5"
+  },
+  {
+    "id": "rainglow-absent",
+    "name": "Rainglow Absent",
+    "url": "/themes/palettes/rainglow-absent.json",
+    "previewBackground": "#252C33"
+  },
+  {
+    "id": "rainglow-allure",
+    "name": "Rainglow Allure",
+    "url": "/themes/palettes/rainglow-allure.json",
+    "previewBackground": "#32373D"
+  },
+  {
+    "id": "rainglow-allure-light",
+    "name": "Rainglow Allure Light",
+    "url": "/themes/palettes/rainglow-allure-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-arstotzka",
+    "name": "Rainglow Arstotzka",
+    "url": "/themes/palettes/rainglow-arstotzka.json",
+    "previewBackground": "#332E2E"
+  },
+  {
+    "id": "rainglow-arstotzka-light",
+    "name": "Rainglow Arstotzka Light",
+    "url": "/themes/palettes/rainglow-arstotzka-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-azure",
+    "name": "Rainglow Azure",
+    "url": "/themes/palettes/rainglow-azure.json",
+    "previewBackground": "#181D26"
+  },
+  {
+    "id": "rainglow-banner",
+    "name": "Rainglow Banner",
+    "url": "/themes/palettes/rainglow-banner.json",
+    "previewBackground": "#1D1A26"
+  },
+  {
+    "id": "rainglow-banner-light",
+    "name": "Rainglow Banner Light",
+    "url": "/themes/palettes/rainglow-banner-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-brave",
+    "name": "Rainglow Brave",
+    "url": "/themes/palettes/rainglow-brave.json",
+    "previewBackground": "#333846"
+  },
+  {
+    "id": "rainglow-brave-light",
+    "name": "Rainglow Brave Light",
+    "url": "/themes/palettes/rainglow-brave-light.json",
+    "previewBackground": "#F7F9F9"
+  },
+  {
+    "id": "rainglow-carbonight",
+    "name": "Rainglow Carbonight",
+    "url": "/themes/palettes/rainglow-carbonight.json",
+    "previewBackground": "#2E2C2B"
+  },
+  {
+    "id": "rainglow-chocolate",
+    "name": "Rainglow Chocolate",
+    "url": "/themes/palettes/rainglow-chocolate.json",
+    "previewBackground": "#261B0E"
+  },
+  {
+    "id": "rainglow-chocolate-light",
+    "name": "Rainglow Chocolate Light",
+    "url": "/themes/palettes/rainglow-chocolate-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-codecourse",
+    "name": "Rainglow Codecourse",
+    "url": "/themes/palettes/rainglow-codecourse.json",
+    "previewBackground": "#19272D"
+  },
+  {
+    "id": "rainglow-coffee",
+    "name": "Rainglow Coffee",
+    "url": "/themes/palettes/rainglow-coffee.json",
+    "previewBackground": "#282122"
+  },
+  {
+    "id": "rainglow-coffee-light",
+    "name": "Rainglow Coffee Light",
+    "url": "/themes/palettes/rainglow-coffee-light.json",
+    "previewBackground": "#F4F2F2"
+  },
+  {
+    "id": "rainglow-comrade",
+    "name": "Rainglow Comrade",
+    "url": "/themes/palettes/rainglow-comrade.json",
+    "previewBackground": "#343939"
+  },
+  {
+    "id": "rainglow-crisp",
+    "name": "Rainglow Crisp",
+    "url": "/themes/palettes/rainglow-crisp.json",
+    "previewBackground": "#221A22"
+  },
+  {
+    "id": "rainglow-darkside",
+    "name": "Rainglow Darkside",
+    "url": "/themes/palettes/rainglow-darkside.json",
+    "previewBackground": "#222324"
+  },
+  {
+    "id": "rainglow-downpour",
+    "name": "Rainglow Downpour",
+    "url": "/themes/palettes/rainglow-downpour.json",
+    "previewBackground": "#2C323D"
+  },
+  {
+    "id": "rainglow-earthsong",
+    "name": "Rainglow Earthsong",
+    "url": "/themes/palettes/rainglow-earthsong.json",
+    "previewBackground": "#36312C"
+  },
+  {
+    "id": "rainglow-earthsong-light",
+    "name": "Rainglow Earthsong Light",
+    "url": "/themes/palettes/rainglow-earthsong-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-freshcut",
+    "name": "Rainglow Freshcut",
+    "url": "/themes/palettes/rainglow-freshcut.json",
+    "previewBackground": "#2F3030"
+  },
+  {
+    "id": "rainglow-freshcut-light",
+    "name": "Rainglow Freshcut Light",
+    "url": "/themes/palettes/rainglow-freshcut-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-frontier",
+    "name": "Rainglow Frontier",
+    "url": "/themes/palettes/rainglow-frontier.json",
+    "previewBackground": "#36312C"
+  },
+  {
+    "id": "rainglow-gloom",
+    "name": "Rainglow Gloom",
+    "url": "/themes/palettes/rainglow-gloom.json",
+    "previewBackground": "#2A332B"
+  },
+  {
+    "id": "rainglow-goldfish",
+    "name": "Rainglow Goldfish",
+    "url": "/themes/palettes/rainglow-goldfish.json",
+    "previewBackground": "#2E3336"
+  },
+  {
+    "id": "rainglow-goldfish-light",
+    "name": "Rainglow Goldfish Light",
+    "url": "/themes/palettes/rainglow-goldfish-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-grunge",
+    "name": "Rainglow Grunge",
+    "url": "/themes/palettes/rainglow-grunge.json",
+    "previewBackground": "#31332C"
+  },
+  {
+    "id": "rainglow-halflife",
+    "name": "Rainglow Halflife",
+    "url": "/themes/palettes/rainglow-halflife.json",
+    "previewBackground": "#222222"
+  },
+  {
+    "id": "rainglow-hawaii",
+    "name": "Rainglow Hawaii",
+    "url": "/themes/palettes/rainglow-hawaii.json",
+    "previewBackground": "#333130"
+  },
+  {
+    "id": "rainglow-horizon",
+    "name": "Rainglow Horizon",
+    "url": "/themes/palettes/rainglow-horizon.json",
+    "previewBackground": "#474466"
+  },
+  {
+    "id": "rainglow-hyrule",
+    "name": "Rainglow Hyrule",
+    "url": "/themes/palettes/rainglow-hyrule.json",
+    "previewBackground": "#2D2C2B"
+  },
+  {
+    "id": "rainglow-iceberg",
+    "name": "Rainglow Iceberg",
+    "url": "/themes/palettes/rainglow-iceberg.json",
+    "previewBackground": "#323B3D"
+  },
+  {
+    "id": "rainglow-iceberg-light",
+    "name": "Rainglow Iceberg Light",
+    "url": "/themes/palettes/rainglow-iceberg-light.json",
+    "previewBackground": "#BDD6DB"
+  },
+  {
+    "id": "rainglow-joker",
+    "name": "Rainglow Joker",
+    "url": "/themes/palettes/rainglow-joker.json",
+    "previewBackground": "#32373D"
+  },
+  {
+    "id": "rainglow-joker-light",
+    "name": "Rainglow Joker Light",
+    "url": "/themes/palettes/rainglow-joker-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-laravel",
+    "name": "Rainglow Laravel",
+    "url": "/themes/palettes/rainglow-laravel.json",
+    "previewBackground": "#2E2C2B"
+  },
+  {
+    "id": "rainglow-laravel-light",
+    "name": "Rainglow Laravel Light",
+    "url": "/themes/palettes/rainglow-laravel-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-lavender",
+    "name": "Rainglow Lavender",
+    "url": "/themes/palettes/rainglow-lavender.json",
+    "previewBackground": "#29222E"
+  },
+  {
+    "id": "rainglow-lavender-light",
+    "name": "Rainglow Lavender Light",
+    "url": "/themes/palettes/rainglow-lavender-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-lichen",
+    "name": "Rainglow Lichen",
+    "url": "/themes/palettes/rainglow-lichen.json",
+    "previewBackground": "#1A252F"
+  },
+  {
+    "id": "rainglow-lichen-light",
+    "name": "Rainglow Lichen Light",
+    "url": "/themes/palettes/rainglow-lichen-light.json",
+    "previewBackground": "#E6E9ED"
+  },
+  {
+    "id": "rainglow-mellow-light",
+    "name": "Rainglow Mellow Light",
+    "url": "/themes/palettes/rainglow-mellow-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-mintchoc",
+    "name": "Rainglow Mintchoc",
+    "url": "/themes/palettes/rainglow-mintchoc.json",
+    "previewBackground": "#2B221C"
+  },
+  {
+    "id": "rainglow-monzo",
+    "name": "Rainglow Monzo",
+    "url": "/themes/palettes/rainglow-monzo.json",
+    "previewBackground": "#15243B"
+  },
+  {
+    "id": "rainglow-peacock",
+    "name": "Rainglow Peacock",
+    "url": "/themes/palettes/rainglow-peacock.json",
+    "previewBackground": "#2B2A27"
+  },
+  {
+    "id": "rainglow-peacock-light",
+    "name": "Rainglow Peacock Light",
+    "url": "/themes/palettes/rainglow-peacock-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-rainbow",
+    "name": "Rainglow Rainbow",
+    "url": "/themes/palettes/rainglow-rainbow.json",
+    "previewBackground": "#373C42"
+  },
+  {
+    "id": "rainglow-rebellion",
+    "name": "Rainglow Rebellion",
+    "url": "/themes/palettes/rainglow-rebellion.json",
+    "previewBackground": "#23231A"
+  },
+  {
+    "id": "rainglow-slate",
+    "name": "Rainglow Slate",
+    "url": "/themes/palettes/rainglow-slate.json",
+    "previewBackground": "#3D3D4C"
+  },
+  {
+    "id": "rainglow-slate-light",
+    "name": "Rainglow Slate Light",
+    "url": "/themes/palettes/rainglow-slate-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-solarflare",
+    "name": "Rainglow Solarflare",
+    "url": "/themes/palettes/rainglow-solarflare.json",
+    "previewBackground": "#222222"
+  },
+  {
+    "id": "rainglow-stasis-light",
+    "name": "Rainglow Stasis Light",
+    "url": "/themes/palettes/rainglow-stasis-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "rainglow-stealth",
+    "name": "Rainglow Stealth",
+    "url": "/themes/palettes/rainglow-stealth.json",
+    "previewBackground": "#27292B"
+  },
+  {
+    "id": "rainglow-tron",
+    "name": "Rainglow Tron",
+    "url": "/themes/palettes/rainglow-tron.json",
+    "previewBackground": "#14191F"
+  },
+  {
+    "id": "rainglow-tron-light",
+    "name": "Rainglow Tron Light",
+    "url": "/themes/palettes/rainglow-tron-light.json",
+    "previewBackground": "#D7E5ED"
+  },
+  {
+    "id": "rainglow-turnip-light",
+    "name": "Rainglow Turnip Light",
+    "url": "/themes/palettes/rainglow-turnip-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "vscode-red",
+    "name": "Red",
+    "url": "/themes/palettes/vscode-red.json",
+    "previewBackground": "#390000"
+  },
+  {
+    "id": "rose-pine",
+    "name": "Rosé Pine",
+    "url": "/themes/palettes/rose-pine.json",
+    "previewBackground": "#191724"
+  },
+  {
+    "id": "rose-pine-dawn",
+    "name": "Rosé Pine Dawn",
+    "url": "/themes/palettes/rose-pine-dawn.json",
+    "previewBackground": "#FAF4ED"
+  },
+  {
+    "id": "rose-pine-moon",
+    "name": "Rosé Pine Moon",
+    "url": "/themes/palettes/rose-pine-moon.json",
+    "previewBackground": "#232136"
+  },
+  {
+    "id": "vscode-solarized-dark",
+    "name": "Solarized Dark",
+    "url": "/themes/palettes/vscode-solarized-dark.json",
+    "previewBackground": "#002B36"
+  },
+  {
+    "id": "vscode-solarized-light",
+    "name": "Solarized Light",
+    "url": "/themes/palettes/vscode-solarized-light.json",
+    "previewBackground": "#FDF6E3"
+  },
+  {
+    "id": "tokyo-night",
+    "name": "Tokyo Night",
+    "url": "/themes/palettes/tokyo-night.json",
+    "previewBackground": "#1A1B26"
+  },
+  {
+    "id": "tokyo-night-light",
+    "name": "Tokyo Night Light",
+    "url": "/themes/palettes/tokyo-night-light.json",
+    "previewBackground": "#E6E7ED"
+  },
+  {
+    "id": "tokyo-night-storm",
+    "name": "Tokyo Night Storm",
+    "url": "/themes/palettes/tokyo-night-storm.json",
+    "previewBackground": "#24283B"
+  },
+  {
+    "id": "vscode-tomorrow-night-blue",
+    "name": "Tomorrow Night Blue",
+    "url": "/themes/palettes/vscode-tomorrow-night-blue.json",
+    "previewBackground": "#002451"
+  },
+  {
+    "id": "visual-studio-dark",
+    "name": "Visual Studio Dark",
+    "url": "/themes/palettes/visual-studio-dark.json",
+    "previewBackground": "#1E1E1E"
+  },
+  {
+    "id": "visual-studio-light",
+    "name": "Visual Studio Light",
+    "url": "/themes/palettes/visual-studio-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "vscode-2026-dark",
+    "name": "VS Code Dark 2026",
+    "url": "/themes/palettes/vscode-2026-dark.json",
+    "previewBackground": "#121314"
+  },
+  {
+    "id": "vscode-dark-modern",
+    "name": "VS Code Dark Modern",
+    "url": "/themes/palettes/vscode-dark-modern.json",
+    "previewBackground": "#1F1F1F"
+  },
+  {
+    "id": "vscode-dark-plus",
+    "name": "VS Code Dark+",
+    "url": "/themes/palettes/vscode-dark-plus.json",
+    "previewBackground": "#1E1E1E"
+  },
+  {
+    "id": "vscode-high-contrast-dark",
+    "name": "VS Code High Contrast Dark",
+    "url": "/themes/palettes/vscode-high-contrast-dark.json",
+    "previewBackground": "#000000"
+  },
+  {
+    "id": "vscode-high-contrast-light",
+    "name": "VS Code High Contrast Light",
+    "url": "/themes/palettes/vscode-high-contrast-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "vscode-2026-light",
+    "name": "VS Code Light 2026",
+    "url": "/themes/palettes/vscode-2026-light.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "vscode-light-modern",
+    "name": "VS Code Light Modern",
+    "url": "/themes/palettes/vscode-light-modern.json",
+    "previewBackground": "#FFFFFF"
+  },
+  {
+    "id": "vscode-light-plus",
+    "name": "VS Code Light+",
+    "url": "/themes/palettes/vscode-light-plus.json",
+    "previewBackground": "#FFFFFF"
+  }
+]

@@ -92,8 +92,14 @@ public final class IntelligenceController implements AutoCloseable {
                     row.setOpaque(true);
                     row.setFont(editor.getFont().deriveFont(13f));
                     if (theme != null) {
-                        row.setBackground(selected ? theme.selection() : theme.background());
-                        row.setForeground(theme.foreground());
+                        row.setBackground(
+                                selected
+                                        ? theme.color("intelligence", "selectionBackground")
+                                        : theme.color("documentation", "background"));
+                        row.setForeground(
+                                selected
+                                        ? theme.color("intelligence", "selectionForeground")
+                                        : theme.color("documentation", "foreground"));
                     }
                     return row;
                 });
@@ -329,15 +335,24 @@ public final class IntelligenceController implements AutoCloseable {
     public void setTheme(Theme value) {
         theme = value;
         for (JWindow w : List.of(completionWindow, documentationWindow, signatureWindow)) {
-            w.getRootPane().setBorder(BorderFactory.createLineBorder(value.foreground()));
+            w.getRootPane()
+                    .setBorder(
+                            BorderFactory.createLineBorder(value.color("documentation", "border")));
             color(w.getContentPane(), value);
         }
         choices.repaint();
+        documentationText.setSelectionColor(value.color("intelligence", "selectionBackground"));
+        documentationText.setSelectedTextColor(value.color("intelligence", "selectionForeground"));
+        for (Component component : signatures.getComponents()) {
+            if (component instanceof JLabel label
+                    && label.getClientProperty("turboj.signature") instanceof String markup)
+                label.setText(highlightParameter(markup, value));
+        }
     }
 
     private void color(Component c, Theme t) {
-        c.setBackground(t.background());
-        c.setForeground(t.foreground());
+        c.setBackground(t.color("documentation", "background"));
+        c.setForeground(t.color("documentation", "foreground"));
         if (c instanceof Container container)
             for (Component child : container.getComponents()) color(child, t);
     }
@@ -657,7 +672,9 @@ public final class IntelligenceController implements AutoCloseable {
         header.setFont(new Font(Font.MONOSPACED, Font.BOLD, 13));
         signatures.add(header);
         for (String signature : help.signatures().stream().limit(8).toList()) {
-            JLabel label = new JLabel(parameterMarkup(signature, help.activeParameter()));
+            String markup = parameterMarkup(signature, help.activeParameter());
+            JLabel label = new JLabel(theme == null ? markup : highlightParameter(markup, theme));
+            label.putClientProperty("turboj.signature", markup);
             label.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
             signatures.add(label);
         }
@@ -693,6 +710,15 @@ public final class IntelligenceController implements AutoCloseable {
             if (i == active) html.append("</u></b>");
         }
         return html.append(escape(signature.substring(close))).append("&nbsp;</html>").toString();
+    }
+
+    private static String highlightParameter(String markup, Theme theme) {
+        String color =
+                String.format(
+                        "#%06X",
+                        theme.color("intelligence", "activeParameter").getRGB() & 0xffffff);
+        return markup.replace("<b><u>", "<b><u><font color=\"" + color + "\">")
+                .replace("</u></b>", "</font></u></b>");
     }
 
     private static String escape(String value) {
