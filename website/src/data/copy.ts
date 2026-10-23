@@ -43,6 +43,21 @@ export const features = [
   },
 ] as const;
 
+export const javaIntelligenceFeatures = [
+  {
+    title: 'Inline Java completion',
+    description: 'Smart suggestions appear directly in your code. Press Tab to accept and keep typing.',
+  },
+  {
+    title: 'Navigate your code',
+    description: 'Command-click a method or class to jump to its declaration. Navigate back just as easily.',
+  },
+  {
+    title: 'Documentation at your fingertips',
+    description: 'Preview Java methods, parameters, and Javadoc without leaving the editor.',
+  },
+] as const;
+
 export const workflow = [
   {
     number: '01',

@@ -51,6 +51,26 @@ environment metadata, scores, LCP, CLS and TBT are written to
 `artifacts/lighthouse/`. Local measurements do not represent hosting latency or
 field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
 
+## Native Java intelligence capability update
+
+On 23 October 2026, after the native desktop acceptance harness passed, the
+Features section gained the three approved descriptions for inline Java
+completion, source navigation and quick documentation. The existing HelloWorld
+replay and its benchmark disclaimers were preserved.
+
+The updated production build passed `npm test` (12 checks), the general browser
+suite (38 checks), and Astro type checking (0 errors, 0 warnings; one existing
+nonblocking hint in `tests/performance.mjs`). The six responsive widths above
+passed without page overflow, failed assets, external requests or console
+errors. Desktop and mobile axe checks reported zero violations. The desktop
+capture was inspected: the three compact capabilities form a single row below
+the existing features, and stack on smaller screens. Fresh captures are in
+`artifacts/qa/`.
+
+The demo-specific suite and Lighthouse numbers below are results from the
+preceding hero release; they were not remeasured for this static copy/style
+update. No new JavaScript or dependencies were introduced.
+
 ## Interactive hero v2
 
 Validated on 23 October 2026 against the production build served at

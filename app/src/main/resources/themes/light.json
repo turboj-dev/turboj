@@ -1,0 +1,15 @@
+{
+  "name": "Turbo Modern Light",
+  "schemaVersion": 1,
+  "editor": {
+    "background": "#FAFAF7",
+    "foreground": "#1D2632",
+    "cursor": "#0000AA",
+    "selection": "#B9D5F3",
+    "error": "#B52127"
+  },
+  "menu": { "background": "#E1E4E8", "foreground": "#1D2632" },
+  "messages": { "background": "#EEF1F4", "foreground": "#1D2632" },
+  "syntax": { "keyword": "#57339B", "string": "#246D3D", "comment": "#596673" },
+  "font": { "family": "Monospaced", "size": 18, "antialias": true }
+}

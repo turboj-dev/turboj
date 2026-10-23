@@ -3,6 +3,8 @@ package com.turboj.app;
 import com.turboj.compiler.*;
 import com.turboj.config.*;
 import com.turboj.execution.*;
+import com.turboj.intelligence.*;
+import com.turboj.intelligence.JavaIntelligenceService.Declaration;
 import com.turboj.ui.*;
 import com.turboj.ui.themes.Theme;
 
@@ -47,7 +49,7 @@ public final class TurboFrame extends JFrame {
     private final ReplPane repl = new ReplPane();
     private boolean replVisible;
     private final JLabel status =
-            new JLabel(" F1 Help   F2 Save   F3 Open   F9 Make   ^F9 Run   F10 Menu");
+            new JLabel(" F1 Docs   F2 Save   F3 Open   F9 Make   ^F9 Run   F10 Menu");
     private final JLabel position = new JLabel(" 1:1 ", SwingConstants.RIGHT);
     private final JPanel editorPanel = new JPanel(new BorderLayout());
     private final JPanel messages = new JPanel(new BorderLayout());
@@ -55,6 +57,23 @@ public final class TurboFrame extends JFrame {
     private final JMenuBar menus = new JMenuBar();
     private final Map<String, Action> commands = new LinkedHashMap<>();
     private final Map<String, String> keymap;
+    private final Map<KeyStroke, String> editorBindings = new HashMap<>();
+    private final Map<Path, Buffer> buffers = new LinkedHashMap<>();
+    private final NavigationHistory<Visit> navigation = new NavigationHistory<>();
+    private Path bufferKey = untitledKey();
+    private IntelligenceController intelligence;
+    private com.turboj.editor.document.PieceTable observedDocument;
+
+    private record Buffer(
+            Path file, EditorComponent.EditorState state, byte[] fingerprint, long savedVersion) {}
+
+    private record Visit(Path key, EditorComponent.Location location, long version) {}
+
+    private static Path untitledKey() {
+        return Path.of(
+                System.getProperty("user.dir"), ".turboj-untitled-" + UUID.randomUUID() + ".java");
+    }
+
     private final AtomicLong generation = new AtomicLong();
     private final AtomicLong operation = new AtomicLong();
     private final AtomicLong bufferIdentity = new AtomicLong();
@@ -109,6 +128,30 @@ public final class TurboFrame extends JFrame {
         editor.setFontSize(settings.fontSize);
         editor.setTabWidth(settings.tabWidth);
         editor.setAutoClose(settings.autoClose);
+        intelligence =
+                new IntelligenceController(
+                        this,
+                        editor,
+                        this::intelligenceSnapshot,
+                        this::navigateDeclaration,
+                        text -> console.append(text + "\n", false));
+        intelligence.setTheme(theme);
+        KeyStroke acceptCompletion =
+                KeyStroke.getKeyStroke(keymap.getOrDefault("acceptCompletion", "TAB"));
+        KeyStroke dismissCompletion =
+                KeyStroke.getKeyStroke(keymap.getOrDefault("dismissCompletion", "ESCAPE"));
+        intelligence.setCompletionKeys(
+                acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
+                dismissCompletion == null ? KeyStroke.getKeyStroke("ESCAPE") : dismissCompletion);
+        editor.setKeyHandler(
+                e -> {
+                    if (intelligence.handleKey(e)) return true;
+                    if (e.getID() != KeyEvent.KEY_PRESSED) return false;
+                    String id = editorBindings.get(KeyStroke.getKeyStrokeForEvent(e));
+                    if (id == null) return false;
+                    commands.get(id).actionPerformed(null);
+                    return true;
+                });
         editor.setOnChange(this::changed);
         editor.setOnCaretChange(this::updatePosition);
         editor.setText(HELLO);
@@ -118,7 +161,7 @@ public final class TurboFrame extends JFrame {
                 new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
-                        withUnsaved(TurboFrame.this::shutdown);
+                        requestQuit();
                     }
                 });
         if (Desktop.isDesktopSupported()) {
@@ -127,20 +170,14 @@ public final class TurboFrame extends JFrame {
                 desktop.setQuitHandler(
                         (e, r) -> {
                             r.cancelQuit();
-                            SwingUtilities.invokeLater(() -> withUnsaved(this::shutdown));
+                            SwingUtilities.invokeLater(this::requestQuit);
                         });
             if (desktop.isSupported(Desktop.Action.APP_OPEN_FILE))
                 desktop.setOpenFileHandler(
                         e -> {
                             if (!e.getFiles().isEmpty())
                                 SwingUtilities.invokeLater(
-                                        () ->
-                                                withUnsaved(
-                                                        () ->
-                                                                openPath(
-                                                                        e.getFiles()
-                                                                                .getFirst()
-                                                                                .toPath())));
+                                        () -> openPath(e.getFiles().getFirst().toPath()));
                         });
         }
         worker.warmup()
@@ -153,6 +190,130 @@ public final class TurboFrame extends JFrame {
 
     public EditorComponent editor() {
         return editor;
+    }
+
+    public IntelligenceController intelligence() {
+        return intelligence;
+    }
+
+    public Path currentFile() {
+        return file;
+    }
+
+    private IntelligenceController.Snapshot intelligenceSnapshot() {
+        var open = new LinkedHashMap<Path, com.turboj.editor.document.PieceTable.Snapshot>();
+        buffers.forEach(
+                (key, value) -> {
+                    if (!value.state().readOnly())
+                        open.put(key, value.state().document().snapshot());
+                });
+        var source = editor.snapshot();
+        open.put(bufferKey, source);
+        return new IntelligenceController.Snapshot(bufferKey, source, Map.copyOf(open));
+    }
+
+    private void rememberBuffer() {
+        buffers.put(
+                bufferKey, new Buffer(file, editor.captureState(), diskFingerprint, savedVersion));
+    }
+
+    private Visit visit() {
+        return new Visit(bufferKey, editor.captureLocation(), editor.version());
+    }
+
+    private void activate(Path key, Buffer buffer) {
+        operation.incrementAndGet();
+        openRequest.incrementAndGet();
+        bufferIdentity.incrementAndGet();
+        bufferKey = key;
+        file = buffer.file();
+        diskFingerprint = buffer.fingerprint();
+        savedVersion = buffer.savedVersion();
+        editor.restoreState(buffer.state());
+        refreshTitle();
+        editor.requestFocusInWindow();
+    }
+
+    public void navigateBack() {
+        navigateHistory(false);
+    }
+
+    public void navigateForward() {
+        navigateHistory(true);
+    }
+
+    private void navigateHistory(boolean forward) {
+        Visit target = forward ? navigation.forward(visit()) : navigation.back(visit());
+        if (target == null) return;
+        rememberBuffer();
+        Buffer buffer = buffers.get(target.key());
+        if (buffer == null) return;
+        activate(target.key(), buffer);
+        editor.restoreLocation(target.location());
+    }
+
+    private void navigateDeclaration(Declaration target) {
+        if (target.file() == null || target.source() == null) return;
+        Path destination = target.file().toAbsolutePath().normalize();
+        Visit previous = visit();
+        if (destination.equals(bufferKey)) {
+            navigation.jumpedFrom(previous);
+            editor.gotoOffset(target.offset());
+            editor.emphasizeRange(target.offset(), target.offset() + target.length());
+            return;
+        }
+        rememberBuffer();
+        Buffer cached = buffers.get(destination);
+        if (cached != null) {
+            navigation.jumpedFrom(previous);
+            activate(destination, cached);
+            editor.gotoOffset(target.offset());
+            editor.emphasizeRange(target.offset(), target.offset() + target.length());
+            return;
+        }
+        long identity = bufferIdentity.get();
+        long version = editor.version();
+        long request = openRequest.incrementAndGet();
+        background.execute(
+                () -> {
+                    try {
+                        SafeFiles.Snapshot disk =
+                                target.readOnly() ? null : SafeFiles.readSnapshot(destination);
+                        if (disk != null && !disk.text().equals(target.source()))
+                            throw new IllegalStateException(
+                                    "The declaration changed on disk. Navigate again to resolve the"
+                                            + " new source.");
+                        SwingUtilities.invokeLater(
+                                () -> {
+                                    if (closing
+                                            || bufferIdentity.get() != identity
+                                            || editor.version() != version
+                                            || openRequest.get() != request) return;
+                                    rememberBuffer();
+                                    navigation.jumpedFrom(previous);
+                                    operation.incrementAndGet();
+                                    bufferIdentity.incrementAndGet();
+                                    bufferKey = destination;
+                                    file = destination;
+                                    diskFingerprint = disk == null ? null : disk.fingerprint();
+                                    var state =
+                                            new EditorComponent.EditorState(
+                                                    new com.turboj.editor.document.PieceTable(
+                                                            target.source()),
+                                                    new EditorComponent.Location(0, 0, 0, 0),
+                                                    target.readOnly());
+                                    savedVersion = state.document().version();
+                                    editor.restoreState(state);
+                                    editor.gotoOffset(target.offset());
+                                    editor.emphasizeRange(
+                                            target.offset(), target.offset() + target.length());
+                                    refreshTitle();
+                                    editor.requestFocusInWindow();
+                                });
+                    } catch (Exception e) {
+                        errorLater(e);
+                    }
+                });
     }
 
     public ConsolePane console() {
@@ -185,34 +346,40 @@ public final class TurboFrame extends JFrame {
         command(
                 "new",
                 "New",
-                () ->
-                        withUnsaved(
-                                () -> {
-                                    operation.incrementAndGet();
-                                    openRequest.incrementAndGet();
-                                    bufferIdentity.incrementAndGet();
-                                    file = null;
-                                    diskFingerprint = null;
-                                    editor.setText("");
-                                    savedVersion = editor.version();
-                                    refreshTitle();
-                                }));
+                () -> {
+                    rememberBuffer();
+                    operation.incrementAndGet();
+                    openRequest.incrementAndGet();
+                    bufferIdentity.incrementAndGet();
+                    file = null;
+                    bufferKey = untitledKey();
+                    diskFingerprint = null;
+                    editor.setText("");
+                    savedVersion = editor.version();
+                    refreshTitle();
+                });
         command(
                 "open",
                 "Open…",
-                () ->
-                        withUnsaved(
-                                () -> {
-                                    var c = new JFileChooser();
-                                    c.setFileFilter(
-                                            new javax.swing.filechooser.FileNameExtensionFilter(
-                                                    "Java source (*.java)", "java"));
-                                    if (c.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-                                        openPath(c.getSelectedFile().toPath());
-                                }));
+                () -> {
+                    var c = new JFileChooser();
+                    c.setFileFilter(
+                            new javax.swing.filechooser.FileNameExtensionFilter(
+                                    "Java source (*.java)", "java"));
+                    if (c.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+                        openPath(c.getSelectedFile().toPath());
+                });
         command("save", "Save", () -> save(false, () -> {}));
         command("saveAs", "Save as…", () -> save(true, () -> {}));
-        command("quit", "Quit TurboJ", () -> withUnsaved(this::shutdown));
+        command("quit", "Quit TurboJ", this::requestQuit);
+        command("complete", "Completion alternatives", () -> intelligence.complete(true));
+        command(
+                "declaration",
+                "Go to declaration",
+                () -> intelligence.goToDeclaration(editor.caretOffset()));
+        command("documentation", "Quick documentation", () -> intelligence.quickDocumentation());
+        command("back", "Navigate back", this::navigateBack);
+        command("forward", "Navigate forward", this::navigateForward);
         command("undo", "Undo", editor::undo);
         command("redo", "Redo", editor::redo);
         command("cut", "Cut", editor::cut);
@@ -404,6 +571,8 @@ public final class TurboFrame extends JFrame {
                                             ? "pending"
                                             : ms(currentResult.durationNanos()) + " ms")
                                     + "\n"
+                                    + intelligence.metrics()
+                                    + "\n"
                                     + "These are local measured samples, not performance"
                                     + " guarantees.",
                             "TurboJ Performance",
@@ -417,7 +586,8 @@ public final class TurboFrame extends JFrame {
                         JOptionPane.showMessageDialog(
                                 this,
                                 "TurboJ — edit, compile, run\n\n"
-                                    + "F1 Help   F2 Save   F3 Open   F5 Expand editor\n"
+                                    + "F1 Quick documentation   F2 Save   F3 Open   F5 Expand"
+                                    + " editor\n"
                                     + "F6 Editor / console   F9 Make   F10 Menu\n"
                                     + "Ctrl+F9 / Cmd+R Run   Alt+F9 Compile\n"
                                     + "Cmd+Enter Compile and run   Cmd+. Stop\n"
@@ -425,6 +595,10 @@ public final class TurboFrame extends JFrame {
                                     + "Cmd+F Find   Cmd+G Find next   Cmd+L Go to line\n"
                                     + "Cmd+Shift+P Commands   Cmd+/ Toggle comment\n"
                                     + "Cmd+Z Undo   Cmd+Shift+Z Redo\n\n"
+                                    + "Tab Accept inline suggestion   Esc Dismiss\n"
+                                    + "Ctrl+Space Completion alternatives\n"
+                                    + "Cmd+Click / Cmd+B / F12 Go to declaration\n"
+                                    + "Alt+Left Back   Alt+Right Forward\n\n"
                                     + "On macOS function keys may need Fn.\n"
                                     + "Fast Run is for trusted code; it is not a sandbox.\n"
                                     + "Run → Java REPL opens a persistent interactive session.\n"
@@ -457,8 +631,12 @@ public final class TurboFrame extends JFrame {
                 "-",
                 "indent",
                 "unindent",
-                "comment");
+                "comment",
+                "-",
+                "complete",
+                "documentation");
         menu("Search", "find", "findNext", "findPrevious", "replace", "goto");
+        menu("Navigate", "declaration", "back", "forward");
         menu(
                 "Run",
                 "run",
@@ -478,6 +656,7 @@ public final class TurboFrame extends JFrame {
                 "theme.classic",
                 "theme.amber",
                 "theme.modern",
+                "theme.light",
                 "theme.load",
                 "-",
                 "fontUp",
@@ -491,7 +670,11 @@ public final class TurboFrame extends JFrame {
 
     private void bindKeys() {
         var bindings = new LinkedHashMap<String, String>();
-        bindings.put("F1", "help");
+        bindings.put("F1", "documentation");
+        bindings.put("F12", "declaration");
+        bindings.put("ctrl SPACE", "complete");
+        bindings.put("alt LEFT", "back");
+        bindings.put("alt RIGHT", "forward");
         bindings.put("F2", "save");
         bindings.put("F3", "open");
         bindings.put("F5", "zoom");
@@ -501,6 +684,7 @@ public final class TurboFrame extends JFrame {
         bindings.put("alt F9", "compile");
         bindings.put("alt X", "quit");
         String mod = System.getProperty("os.name").contains("Mac") ? "meta " : "ctrl ";
+        bindings.put(mod + "B", "declaration");
         for (var e :
                 Map.of(
                                 "S",
@@ -539,6 +723,8 @@ public final class TurboFrame extends JFrame {
                     if (ks != null) {
                         im.put(ks, id);
                         am.put(id, commands.get(id));
+                        if (Set.of("complete", "declaration", "documentation", "back", "forward")
+                                .contains(id)) editorBindings.put(ks, id);
                     }
                 });
         im.put(KeyStroke.getKeyStroke("F10"), "menu");
@@ -555,6 +741,7 @@ public final class TurboFrame extends JFrame {
                 new AbstractAction() {
                     public void actionPerformed(ActionEvent e) {
                         MenuSelectionManager.defaultManager().clearSelectedPath();
+                        if (intelligence != null) intelligence.dismiss();
                         editor.requestFocusInWindow();
                     }
                 });
@@ -576,6 +763,7 @@ public final class TurboFrame extends JFrame {
                 t.antialias());
         console.setTheme(t);
         repl.setTheme(t);
+        if (intelligence != null) intelligence.setTheme(t);
         menus.setBackground(t.menuBackground());
         menus.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
         for (var m : menus.getComponents()) styleMenu(m, t);
@@ -641,7 +829,8 @@ public final class TurboFrame extends JFrame {
     private void refreshTitle() {
         if (theme == null) return;
         String name = file == null ? "UNTITLED.JAVA" : file.getFileName().toString();
-        String dirty = editor.version() != savedVersion ? " *" : "";
+        String dirty =
+                editor.isReadOnly() ? " [read only]" : editor.version() != savedVersion ? " *" : "";
         if (!getTitle().equals(name + dirty + " — TurboJ")) setTitle(name + dirty + " — TurboJ");
         if (!lastEditorTitle.equals(name + dirty)) {
             lastEditorTitle = name + dirty;
@@ -670,9 +859,17 @@ public final class TurboFrame extends JFrame {
 
     private void updatePosition() {
         position.setText(" " + editor.caretLine() + ":" + editor.caretColumn() + " ");
+        if (intelligence != null) intelligence.changed();
     }
 
     private void changed() {
+        if (observedDocument != editor.document()) {
+            observedDocument = editor.document();
+            operation.incrementAndGet();
+            bufferIdentity.incrementAndGet();
+            openRequest.incrementAndGet();
+        }
+        if (intelligence != null) intelligence.changed();
         programOutput = false;
         generation.set(editor.version());
         currentResult = null;
@@ -680,6 +877,13 @@ public final class TurboFrame extends JFrame {
         editor.setDiagnostics(List.of());
         refreshTitle();
         updatePosition();
+        if (editor.isReadOnly()) {
+            if (pendingAnalysis != null) pendingAnalysis.cancel(false);
+            if (pendingRecovery != null) pendingRecovery.cancel(false);
+            buildStatus = "SOURCE ATTACHMENT · READ ONLY";
+            refreshTitle();
+            return;
+        }
         var snap = editor.snapshot();
         String name = file == null ? null : file.getFileName().toString();
         long analysisOp = operation.get();
@@ -889,6 +1093,14 @@ public final class TurboFrame extends JFrame {
     }
 
     public void openPath(Path path) {
+        Path destination = path.toAbsolutePath().normalize();
+        if (destination.equals(bufferKey)) return;
+        Buffer cached = buffers.get(destination);
+        if (cached != null) {
+            rememberBuffer();
+            activate(destination, cached);
+            return;
+        }
         long request = openRequest.incrementAndGet();
         long identity = bufferIdentity.get();
         long version = editor.version();
@@ -908,9 +1120,11 @@ public final class TurboFrame extends JFrame {
                                                         + " again after saving your changes.");
                                         return;
                                     }
+                                    rememberBuffer();
                                     operation.incrementAndGet();
                                     bufferIdentity.incrementAndGet();
                                     file = p;
+                                    bufferKey = p;
                                     diskFingerprint = loaded.fingerprint();
                                     editor.setText(loaded.text());
                                     savedVersion = editor.version();
@@ -928,6 +1142,10 @@ public final class TurboFrame extends JFrame {
     }
 
     private void save(boolean as, Runnable next) {
+        if (editor.isReadOnly() && !as) {
+            showError("Attached source is read only. Use Save as to create an editable copy.");
+            return;
+        }
         if (saving) {
             deferredSave = new DeferredSave(as, next, bufferIdentity.get());
             return;
@@ -941,17 +1159,35 @@ public final class TurboFrame extends JFrame {
             target = chooser.getSelectedFile().toPath().toAbsolutePath().normalize();
         }
         Path chosen = target;
+        Buffer other = buffers.get(chosen);
+        if (!chosen.equals(bufferKey)
+                && other != null
+                && other.state().document() != editor.document()
+                && other.state().document().version() != other.savedVersion()) {
+            showError("The destination already has unsaved changes in another open buffer.");
+            return;
+        }
         boolean same = chosen.equals(file);
         byte[] expected = diskFingerprint;
         var snapshot = editor.snapshot();
         long identity = bufferIdentity.get();
+        Path originKey = bufferKey;
+        var originDocument = editor.document();
         saving = true;
         background.execute(
                 () -> {
                     try {
                         byte[] baseline = same ? expected : SafeFiles.fingerprint(chosen);
                         Runnable write =
-                                () -> writeSave(chosen, baseline, snapshot, identity, next);
+                                () ->
+                                        writeSave(
+                                                chosen,
+                                                baseline,
+                                                snapshot,
+                                                identity,
+                                                originKey,
+                                                originDocument,
+                                                next);
                         if (!same && baseline != null)
                             SwingUtilities.invokeLater(
                                     () -> {
@@ -984,24 +1220,53 @@ public final class TurboFrame extends JFrame {
             byte[] expected,
             com.turboj.editor.document.PieceTable.Snapshot snapshot,
             long identity,
+            Path originKey,
+            com.turboj.editor.document.PieceTable originDocument,
             Runnable next) {
         try {
             byte[] written =
                     SafeFiles.atomicWriteIfUnchanged(target, snapshot.toString(), expected);
             SwingUtilities.invokeLater(
                     () -> {
-                        if (!closing && bufferIdentity.get() == identity) {
-                            boolean renamed = !target.equals(file);
-                            file = target;
-                            diskFingerprint = written;
-                            savedVersion = snapshot.version();
+                        boolean active = editor.document() == originDocument;
+                        Buffer inactive = buffers.get(originKey);
+                        if (!closing
+                                && (active
+                                        || (inactive != null
+                                                && inactive.state().document()
+                                                        == originDocument))) {
+                            boolean renamed = !target.equals(originKey);
                             if (renamed) {
-                                operation.incrementAndGet();
-                                changed();
+                                buffers.remove(originKey);
+                                navigation.remap(
+                                        v ->
+                                                v.key().equals(originKey)
+                                                        ? new Visit(
+                                                                target, v.location(), v.version())
+                                                        : v);
                             }
-                            refreshTitle();
+                            var oldState = active ? editor.captureState() : inactive.state();
+                            var state =
+                                    new EditorComponent.EditorState(
+                                            originDocument, oldState.location(), false);
+                            buffers.put(
+                                    target, new Buffer(target, state, written, snapshot.version()));
+                            if (active) {
+                                file = target;
+                                bufferKey = target;
+                                editor.setReadOnly(false);
+                                diskFingerprint = written;
+                                savedVersion = snapshot.version();
+                                if (renamed) {
+                                    operation.incrementAndGet();
+                                    changed();
+                                }
+                                refreshTitle();
+                            }
                             console.append("Saved " + target.getFileName() + "\n", false);
-                            if (editor.version() == savedVersion) next.run();
+                            if (active
+                                    && bufferIdentity.get() == identity
+                                    && editor.version() == savedVersion) next.run();
                         }
                         finishSave();
                     });
@@ -1020,6 +1285,31 @@ public final class TurboFrame extends JFrame {
         deferredSave = null;
         if (!closing && pending != null && pending.identity() == bufferIdentity.get())
             save(pending.as(), pending.continuation());
+    }
+
+    private void requestQuit() {
+        rememberBuffer();
+        var dirty = new ArrayList<Path>();
+        buffers.forEach(
+                (key, value) -> {
+                    if (!value.state().readOnly()
+                            && value.state().document().version() != value.savedVersion())
+                        dirty.add(key);
+                });
+        confirmBuffers(dirty, 0);
+    }
+
+    private void confirmBuffers(List<Path> dirty, int index) {
+        if (index == dirty.size()) {
+            shutdown();
+            return;
+        }
+        Path key = dirty.get(index);
+        if (!key.equals(bufferKey)) {
+            rememberBuffer();
+            activate(key, buffers.get(key));
+        }
+        withUnsaved(() -> confirmBuffers(dirty, index + 1));
     }
 
     private void withUnsaved(Runnable next) {
@@ -1053,6 +1343,7 @@ public final class TurboFrame extends JFrame {
                                                     JOptionPane.YES_NO_OPTION)
                                             == JOptionPane.YES_OPTION) {
                                         editor.setText(text);
+                                        savedVersion = -1;
                                         refreshTitle();
                                     }
                                 });
@@ -1130,6 +1421,7 @@ public final class TurboFrame extends JFrame {
         worker.close();
         repl.close();
         compiler.close();
+        intelligence.close();
         background.execute(
                 () -> {
                     try {

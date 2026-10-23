@@ -21,7 +21,8 @@ The initial buffer is a working Hello World. Press **Ctrl+F9** or **Cmd+R**, cha
 ## Implemented
 
 - A custom Java2D editor backed by a piece table, incremental line index and immutable snapshots; selection, Unicode/UTF-8, CRLF, clipboard, undo/redo, indentation, search, comments, bracket matching and input-method composition.
-- Keyboard menus and command palette, three editable JSON themes, font sizes, save protection for external file changes, atomic writes and recoverable buffers.
+- Keyboard menus and command palette, four editable JSON themes (Classic, Amber, Dark and Light), font sizes, save protection for external file changes, atomic writes and recoverable buffers.
+- Offline JDT semantic assistance: inline ghost text (**Tab** accepts, **Esc** dismisses), alternatives (**Ctrl+Space**), declaration navigation (**Cmd+Click / Cmd+B / F12**), real Javadoc (**F1** or hover), argument hints and **Alt+Left / Right** source history. Navigation retains unsaved buffers and undo. Attached JDK/library sources open read-only; see [Java intelligence](docs/java-intelligence.md) for local project classpaths and limits.
 - Background JDT Java 25 recovery analysis and in-memory javac compilation, version checks, coalescing and bounded successful-source cache. Diagnostics navigate through **Compile → Go to first error**.
 - Persistent independent JVM for Fast Run, fresh class loader per run, Isolated Run, streaming stdout/stderr and stdin, timeout, Stop, crash recovery and bounded output. Java 25 compact sources and instance main methods are supported.
 - An integrated remote JShell console with multiline submission, history, completion, selection/statement evaluation, Stop/reset, plus standalone `tj` commands; see [CLI documentation](docs/cli.md).
@@ -32,6 +33,8 @@ This is the first usable implementation, not the completion of every planned mil
 ## Verify
 
 Tests launch child JVMs and local JShell/JDI sockets. Restricted execution sandboxes must permit those operations; normal local macOS execution was verified. See the [implementation session report](docs/session-2026-10-23.md).
+
+The [1.0.3 Java intelligence verification report](docs/java-intelligence-release-1.0.3.md) records the 98 automated tests, real-window acceptance checks, packaged-runtime validation and measured semantic latency.
 
 ```sh
 ./scripts/test.sh
@@ -45,6 +48,7 @@ The desktop smoke harness exercises new buffer → compile → run → edit → 
 
 ```sh
 java --enable-native-access=ALL-UNNAMED -cp 'app/target/test-classes:app/target/turboj-app.jar' com.turboj.app.GuiSmoke
+java --enable-native-access=ALL-UNNAMED -cp 'app/target/test-classes:app/target/turboj-app.jar' com.turboj.app.IntelligenceSmoke
 ```
 
 It opens a real window, emits `app/target/gui-smoke.txt` and paints the frame to `app/target/turboj-smoke.png`. This uses synthetic key events; it does not measure the operating system input queue or display scanout.
@@ -56,7 +60,7 @@ It opens a real window, emits `app/target/gui-smoke.txt` and paints the frame to
 ./scripts/package-macos.sh dmg path/to/new-output-directory
 ```
 
-Run packaging on the target architecture. The macOS bundle version is `1.0.2` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
+Run packaging on the target architecture. The macOS bundle version is `1.0.3` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
 
 [Architecture](docs/architecture.md) · [Compiler](docs/compiler.md) · [Performance](docs/performance.md) · [Shortcuts](docs/shortcuts.md) · [Themes](docs/themes.md) · [Worker protocol](worker/docs/protocol.md) · [Licenses](docs/licenses.md)
 

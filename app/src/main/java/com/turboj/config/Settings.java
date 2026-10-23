@@ -32,7 +32,7 @@ public final class Settings {
             s.width = Math.clamp(s.width, 640, 4000);
             s.height = Math.clamp(s.height, 420, 2400);
             if (s.recentFiles == null) s.recentFiles = new ArrayList<>();
-            if (s.theme == null || !List.of("classic", "amber", "modern").contains(s.theme))
+            if (s.theme == null || !List.of("classic", "amber", "modern", "light").contains(s.theme))
                 s.theme = "classic";
             return s;
         } catch (IOException | RuntimeException e) {

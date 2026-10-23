@@ -83,6 +83,9 @@ class FilesAndThemesTest {
         assertEquals("Turbo C Classic", Theme.bundled("classic").name());
         assertEquals("Turbo Amber", Theme.bundled("amber").name());
         assertEquals("Turbo Modern Dark", Theme.bundled("modern").name());
+        assertEquals("Turbo Modern Light", Theme.bundled("light").name());
+        assertEquals(4, Theme.BUNDLED.length);
+        assertTrue(Theme.bundled("light").background().getRed() > 240);
         assertEquals(0x0000aa, Theme.bundled("classic").background().getRGB() & 0xffffff);
         assertEquals("Turbo C Classic", Theme.bundled("missing").name());
         Path broken = directory.resolve("broken.json");

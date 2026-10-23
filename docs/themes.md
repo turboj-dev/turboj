@@ -1,6 +1,6 @@
 # Themes and settings
 
-The bundled themes are **Turbo C Classic**, **Turbo Amber**, and **Turbo Modern Dark**. Switch immediately through Options. Source, selection and caret are preserved. Classic uses exact DOS blue `#0000AA` and disables text antialiasing. Swing's logical Monospaced font is supplied by the operating system; no proprietary historical font is distributed. This is a DOS-inspired design, not a pixel-exact reproduction of an original font.
+The bundled themes are **Turbo C Classic**, **Turbo Amber**, **Turbo Modern Dark**, and **Turbo Modern Light**. Switch immediately through Options. Source, selection and caret are preserved. Classic uses exact DOS blue `#0000AA` and disables text antialiasing. Swing's logical Monospaced font is supplied by the operating system; no proprietary historical font is distributed. This is a DOS-inspired design, not a pixel-exact reproduction of an original font.
 
 Copy [classic.json](../app/src/main/resources/themes/classic.json) into `~/.config/turboj/themes/my-theme.json`, edit it and choose **Options → Load theme JSON**. The current schema is version 1. Required objects:
 

@@ -1,5 +1,5 @@
 ---
-import { features } from '../data/copy';
+import { features, javaIntelligenceFeatures } from '../data/copy';
 ---
 
 <section class="section features-section" id="features" aria-labelledby="features-heading">
@@ -19,5 +19,26 @@ import { features } from '../data/copy';
         </article>
       ))}
     </div>
+    <div class="semantic-feature-list">
+      {javaIntelligenceFeatures.map((feature) => (
+        <article class="semantic-feature">
+          <h3>{feature.title}</h3>
+          <p class="body-copy">{feature.description}</p>
+        </article>
+      ))}
+    </div>
   </div>
 </section>
+
+<style>
+  .semantic-feature-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 8px; }
+  .semantic-feature { border-top: 1px solid #b4b5bc; padding-top: 28px; }
+  .semantic-feature h3 { font-size: 19px; line-height: 1.4; letter-spacing: -.035em; margin-bottom: 14px; }
+  .semantic-feature .body-copy { font-size: 17px; }
+  @media (max-width: 1000px) { .semantic-feature-list { grid-template-columns: 1fr; gap: 28px; } }
+  @media (max-width: 720px) {
+    .semantic-feature { padding-top: 24px; }
+    .semantic-feature h3 { font-size: 18px; }
+    .semantic-feature .body-copy { font-size: 16px; }
+  }
+</style>

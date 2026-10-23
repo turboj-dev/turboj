@@ -32,16 +32,21 @@ import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
+import java.util.function.Predicate;
 
 import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleRole;
 import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 /** One painting component, with a UTF-16 piece table and code-point-aware caret motion. */
 public final class EditorComponent extends JComponent
         implements InputMethodListener, InputMethodRequests {
-    private final PieceTable document = new PieceTable();
+    private PieceTable document = new PieceTable();
     private int caret, anchor, topLine, leftColumn, preferredColumn = -1;
     private int cellWidth = 10, cellHeight = 20, ascent = 15, gutterWidth = 60, tabWidth = 4;
     private FontMetrics fontMetrics;
@@ -62,6 +67,56 @@ public final class EditorComponent extends JComponent
     private long pendingInputNanos, lastPaintNanos;
     private final long[] inputSamples = new long[1024];
     private int sampleCount;
+    private InlineCompletion inlineCompletion;
+    private KeyStroke acceptCompletionKey = KeyStroke.getKeyStroke("TAB");
+    private KeyStroke dismissCompletionKey = KeyStroke.getKeyStroke("ESCAPE");
+    private Predicate<KeyEvent> keyHandler = event -> false;
+    private Consumer<SymbolHover> onSymbolHover = hover -> {};
+    private IntConsumer onGoDeclaration = offset -> {};
+    private Point hoverPoint;
+    private boolean commandDown, readOnly;
+    private int navigationStart = -1, navigationEnd = -1;
+    private int emphasisStart = -1, emphasisEnd = -1;
+    private javax.swing.Timer emphasisTimer;
+
+    /** All offsets are UTF-16 offsets into the current source version. */
+    public record TextEdit(int start, int end, String text) {
+        public TextEdit {
+            Objects.requireNonNull(text);
+        }
+    }
+
+    public record InlineCompletion(
+            long version,
+            int caret,
+            int start,
+            int end,
+            String insertion,
+            int caretInInsertion,
+            List<TextEdit> additionalEdits) {
+        public InlineCompletion {
+            Objects.requireNonNull(insertion);
+            additionalEdits = List.copyOf(additionalEdits);
+        }
+
+        public InlineCompletion(
+                long version,
+                int caret,
+                int start,
+                int end,
+                String insertion,
+                int caretInInsertion) {
+            this(version, caret, start, end, insertion, caretInInsertion, List.of());
+        }
+    }
+
+    public record Location(int caret, int anchor, int topLine, int leftColumn) {}
+
+    /** EDT-owned document reference: switching buffers retains its undo/redo history. */
+    public record EditorState(PieceTable document, Location location, boolean readOnly) {}
+
+    /** Point is in editor coordinates. An offset of -1 means the pointer left the editor. */
+    public record SymbolHover(int offset, Point point, boolean commandDown) {}
 
     public EditorComponent() {
         setOpaque(true);
@@ -83,6 +138,9 @@ public final class EditorComponent extends JComponent
 
                     @Override
                     public void focusLost(FocusEvent e) {
+                        clearInlineCompletion();
+                        commandDown = false;
+                        clearNavigableRange();
                         repaintCaret();
                     }
                 });
@@ -92,6 +150,14 @@ public final class EditorComponent extends JComponent
                     public void mousePressed(MouseEvent e) {
                         requestFocusInWindow();
                         int offset = offsetAt(e.getPoint());
+                        if (SwingUtilities.isLeftMouseButton(e) && e.isMetaDown()) {
+                            int symbolOffset = symbolOffsetAt(e.getPoint());
+                            if (symbolOffset >= 0) {
+                                clearInlineCompletion();
+                                onGoDeclaration.accept(symbolOffset);
+                                return;
+                            }
+                        }
                         moveTo(offset, e.isShiftDown());
                         if (e.getClickCount() == 2) selectWord();
                         if (e.getClickCount() >= 3) {
@@ -103,6 +169,7 @@ public final class EditorComponent extends JComponent
 
                     @Override
                     public void mouseDragged(MouseEvent e) {
+                        clearNavigableRange();
                         if (e.getY() < 0) topLine = Math.max(0, topLine - 1);
                         if (e.getY() >= getHeight())
                             topLine = Math.min(document.lineCount() - 1, topLine + 1);
@@ -110,7 +177,26 @@ public final class EditorComponent extends JComponent
                     }
 
                     @Override
+                    public void mouseMoved(MouseEvent e) {
+                        hoverPoint = e.getPoint();
+                        commandDown = e.isMetaDown();
+                        int offset = symbolOffsetAt(hoverPoint);
+                        if (!commandDown || offset < navigationStart || offset >= navigationEnd)
+                            clearNavigableRange();
+                        notifyHover();
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        hoverPoint = null;
+                        clearNavigableRange();
+                        onSymbolHover.accept(new SymbolHover(-1, e.getPoint(), false));
+                    }
+
+                    @Override
                     public void mouseWheelMoved(MouseWheelEvent e) {
+                        clearNavigableRange();
+                        onSymbolHover.accept(new SymbolHover(-1, e.getPoint(), false));
                         int amount =
                                 (int)
                                         Math.copySign(
@@ -153,8 +239,20 @@ public final class EditorComponent extends JComponent
     }
 
     public void setText(String value) {
-        document.setText(value);
+        document = new PieceTable(value);
+        readOnly = false;
         caret = anchor = topLine = leftColumn = 0;
+        resetVisualState();
+        onChange.run();
+        onCaretChange.run();
+        repaint();
+    }
+
+    private void resetVisualState() {
+        clearInlineCompletion();
+        clearNavigableRange();
+        if (emphasisTimer != null) emphasisTimer.stop();
+        emphasisStart = emphasisEnd = -1;
         lexed.clear();
         lineTexts.clear();
         lineColumns.clear();
@@ -163,9 +261,215 @@ public final class EditorComponent extends JComponent
         pendingInputNanos = 0;
         preferredColumn = -1;
         metrics();
+    }
+
+    public EditorState captureState() {
+        return new EditorState(document, captureLocation(), readOnly);
+    }
+
+    public void restoreState(EditorState state) {
+        document = Objects.requireNonNull(state.document());
+        readOnly = state.readOnly();
+        // Reset coordinates before invalidating visuals: the previous buffer may have been longer.
+        caret = anchor = topLine = leftColumn = 0;
+        resetVisualState();
+        restoreLocation(state.location());
         onChange.run();
+    }
+
+    public Location captureLocation() {
+        return new Location(caret, anchor, topLine, leftColumn);
+    }
+
+    public void restoreLocation(Location location) {
+        clearInlineCompletion();
+        clearNavigableRange();
+        caret = Math.clamp(location.caret(), 0, document.length());
+        anchor = Math.clamp(location.anchor(), 0, document.length());
+        topLine = Math.clamp(location.topLine(), 0, document.lineCount() - 1);
+        leftColumn = Math.max(0, location.leftColumn());
+        preferredColumn = -1;
         onCaretChange.run();
         repaint();
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+        if (readOnly) {
+            clearInlineCompletion();
+            composition = "";
+        }
+        repaintCaret();
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setKeyHandler(Predicate<KeyEvent> handler) {
+        keyHandler = handler == null ? event -> false : handler;
+    }
+
+    public void setCompletionKeys(KeyStroke accept, KeyStroke dismiss) {
+        acceptCompletionKey = accept == null ? KeyStroke.getKeyStroke("TAB") : accept;
+        dismissCompletionKey = dismiss == null ? KeyStroke.getKeyStroke("ESCAPE") : dismiss;
+    }
+
+    public void setOnSymbolHover(Consumer<SymbolHover> callback) {
+        onSymbolHover = callback == null ? hover -> {} : callback;
+    }
+
+    public void setOnGoDeclaration(IntConsumer callback) {
+        onGoDeclaration = callback == null ? offset -> {} : callback;
+    }
+
+    private void notifyHover() {
+        if (hoverPoint != null)
+            onSymbolHover.accept(
+                    new SymbolHover(
+                            symbolOffsetAt(hoverPoint), new Point(hoverPoint), commandDown));
+    }
+
+    public void setNavigableRange(long version, int start, int end) {
+        clearNavigableRange();
+        if (version != version()
+                || !commandDown
+                || hoverPoint == null
+                || start < 0
+                || end <= start
+                || end > document.length()) return;
+        int hoverOffset = symbolOffsetAt(hoverPoint);
+        if (hoverOffset < start || hoverOffset >= end) return;
+        navigationStart = start;
+        navigationEnd = end;
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        repaintRange(start, end);
+    }
+
+    public void clearNavigableRange() {
+        if (navigationStart >= 0 && navigationEnd <= document.length())
+            repaintRange(navigationStart, navigationEnd);
+        navigationStart = navigationEnd = -1;
+        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+    }
+
+    public void emphasizeRange(int start, int end) {
+        if (emphasisTimer != null) emphasisTimer.stop();
+        if (emphasisStart >= 0 && emphasisEnd <= document.length())
+            repaintRange(emphasisStart, emphasisEnd);
+        emphasisStart = Math.clamp(start, 0, document.length());
+        emphasisEnd = Math.clamp(end, emphasisStart, document.length());
+        repaintRange(emphasisStart, emphasisEnd);
+        emphasisTimer =
+                new javax.swing.Timer(
+                        650,
+                        event -> {
+                            if (emphasisStart >= 0 && emphasisEnd <= document.length())
+                                repaintRange(emphasisStart, emphasisEnd);
+                            emphasisStart = emphasisEnd = -1;
+                        });
+        emphasisTimer.setRepeats(false);
+        emphasisTimer.start();
+    }
+
+    public Rectangle caretBounds() {
+        return offsetBounds(caret);
+    }
+
+    public Rectangle offsetBounds(int offset) {
+        offset = Math.clamp(offset, 0, document.length());
+        int line = document.lineAt(offset);
+        int column = visualColumn(document.lineText(line), offset - document.lineStart(line));
+        return new Rectangle(
+                gutterWidth + (column - leftColumn) * cellWidth,
+                (line - topLine) * cellHeight,
+                cellWidth,
+                cellHeight);
+    }
+
+    public InlineCompletion inlineCompletion() {
+        return inlineCompletion;
+    }
+
+    public boolean setInlineCompletion(InlineCompletion proposal) {
+        clearInlineCompletion();
+        if (!validCompletion(proposal) || proposal.end() != caret) return false;
+        String prefix = document.substring(proposal.start(), caret);
+        if (!proposal.insertion().startsWith(prefix)) return false;
+        String suffix = proposal.insertion().substring(prefix.length());
+        if (suffix.isEmpty() || suffix.indexOf('\n') >= 0 || suffix.indexOf('\r') >= 0)
+            return false;
+        // Ghost text never covers source after the caret. Such proposals remain available in the
+        // popup.
+        int endOfLine = document.lineEnd(document.lineAt(caret));
+        if (!document.substring(caret, endOfLine).isBlank()) return false;
+        inlineCompletion = proposal;
+        repaintCaret();
+        return true;
+    }
+
+    public void clearInlineCompletion() {
+        if (inlineCompletion != null) {
+            inlineCompletion = null;
+            repaintCaret();
+        }
+    }
+
+    public boolean acceptInlineCompletion() {
+        InlineCompletion proposal = inlineCompletion;
+        clearInlineCompletion();
+        return applyCompletion(proposal);
+    }
+
+    /** Applies replacement and import edits in one undo record, only after explicit acceptance. */
+    public boolean applyCompletion(InlineCompletion proposal) {
+        if (!validCompletion(proposal)) return false;
+        List<TextEdit> edits = new ArrayList<>(proposal.additionalEdits());
+        TextEdit primary = new TextEdit(proposal.start(), proposal.end(), proposal.insertion());
+        edits.add(primary);
+        edits.sort(
+                java.util.Comparator.comparingInt(TextEdit::start).thenComparingInt(TextEdit::end));
+        int begin = edits.getFirst().start(), end = edits.getLast().end();
+        int position = begin, target = -1;
+        StringBuilder replacement = new StringBuilder();
+        for (TextEdit edit : edits) {
+            if (edit.start() < position
+                    || edit.end() < edit.start()
+                    || edit.end() > document.length()) return false;
+            replacement.append(document.substring(position, edit.start()));
+            if (edit == primary)
+                target = begin + replacement.length() + proposal.caretInInsertion();
+            replacement.append(edit.text());
+            position = edit.end();
+        }
+        if (target < 0) return false;
+        edit(begin, end, replacement.toString());
+        moveTo(target, false);
+        return true;
+    }
+
+    private boolean validCompletion(InlineCompletion proposal) {
+        if (proposal == null
+                || readOnly
+                || !composition.isEmpty()
+                || caret != anchor
+                || proposal.version() != version()
+                || proposal.caret() != caret
+                || proposal.start() < 0
+                || proposal.start() > caret
+                || proposal.end() < caret
+                || proposal.end() > document.length()
+                || proposal.caretInInsertion() < 0
+                || proposal.caretInInsertion() > proposal.insertion().length()) return false;
+        for (TextEdit edit : proposal.additionalEdits())
+            if (edit.start() < 0 || edit.end() < edit.start() || edit.end() > document.length())
+                return false;
+        return true;
+    }
+
+    private void repaintRange(int start, int end) {
+        int first = document.lineAt(start), last = document.lineAt(end);
+        repaint(0, (first - topLine) * cellHeight, getWidth(), (last - first + 1) * cellHeight);
     }
 
     public void setOnChange(Runnable callback) {
@@ -265,6 +569,8 @@ public final class EditorComponent extends JComponent
             if (match < 0) match = text.lastIndexOf(query);
         }
         if (match < 0) return false;
+        clearInlineCompletion();
+        clearNavigableRange();
         anchor = match;
         caret = match + query.length();
         ensureCaretVisible();
@@ -278,6 +584,8 @@ public final class EditorComponent extends JComponent
     }
 
     public void selectAll() {
+        clearInlineCompletion();
+        clearNavigableRange();
         anchor = 0;
         caret = document.length();
         onCaretChange.run();
@@ -296,6 +604,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void cut() {
+        if (readOnly) return;
         if (caret != anchor) {
             copy();
             replaceSelection("");
@@ -303,6 +612,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void paste() {
+        if (readOnly) return;
         try {
             Object value =
                     Toolkit.getDefaultToolkit()
@@ -319,10 +629,12 @@ public final class EditorComponent extends JComponent
     }
 
     public void undo() {
+        if (readOnly) return;
         applyHistory(document.undo());
     }
 
     public void redo() {
+        if (readOnly) return;
         applyHistory(document.redo());
     }
 
@@ -335,6 +647,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void indent(boolean unindent) {
+        if (readOnly) return;
         int first = document.lineAt(Math.min(caret, anchor)),
                 last = document.lineAt(Math.max(caret, anchor));
         if (caret != anchor && Math.max(caret, anchor) == document.lineStart(last) && last > first)
@@ -362,6 +675,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void toggleComment() {
+        if (readOnly) return;
         int first = document.lineAt(Math.min(caret, anchor)),
                 last = document.lineAt(Math.max(caret, anchor));
         if (caret != anchor && Math.max(caret, anchor) == document.lineStart(last) && last > first)
@@ -414,6 +728,15 @@ public final class EditorComponent extends JComponent
 
     @Override
     protected void processKeyEvent(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_META) {
+            commandDown = e.getID() != KeyEvent.KEY_RELEASED;
+            if (!commandDown) clearNavigableRange();
+            notifyHover();
+        }
+        if (keyHandler.test(e)) {
+            e.consume();
+            return;
+        }
         if (e.getID() == KeyEvent.KEY_TYPED) {
             char c = e.getKeyChar();
             if (!e.isMetaDown()
@@ -421,12 +744,24 @@ public final class EditorComponent extends JComponent
                     && c >= ' '
                     && c != 127
                     && composition.isEmpty()) {
-                if (pendingInputNanos == 0) pendingInputNanos = System.nanoTime();
-                typeCharacter(c);
+                if (!readOnly) {
+                    if (pendingInputNanos == 0) pendingInputNanos = System.nanoTime();
+                    typeCharacter(c);
+                }
                 e.consume();
                 return;
             }
         } else if (e.getID() == KeyEvent.KEY_PRESSED) {
+            KeyStroke pressed = KeyStroke.getKeyStrokeForEvent(e);
+            if (pressed.equals(acceptCompletionKey) && acceptInlineCompletion()) {
+                e.consume();
+                return;
+            }
+            if (pressed.equals(dismissCompletionKey) && inlineCompletion != null) {
+                clearInlineCompletion();
+                e.consume();
+                return;
+            }
             boolean shift = e.isShiftDown(), command = e.isMetaDown() || e.isControlDown();
             int code = e.getKeyCode();
             if (command) {
@@ -626,6 +961,8 @@ public final class EditorComponent extends JComponent
     }
 
     private void selectWord() {
+        clearInlineCompletion();
+        clearNavigableRange();
         anchor = wordLeft(caret);
         caret = wordRight(anchor);
         onCaretChange.run();
@@ -633,6 +970,7 @@ public final class EditorComponent extends JComponent
     }
 
     private void edit(int start, int end, String value) {
+        if (readOnly) return;
         if (pendingInputNanos == 0) pendingInputNanos = System.nanoTime();
         int firstLine = document.lineAt(start);
         boolean multiline = document.lineAt(end) != firstLine || value.indexOf('\n') >= 0;
@@ -642,6 +980,10 @@ public final class EditorComponent extends JComponent
     }
 
     private void changed(int firstLine, boolean multiline) {
+        clearInlineCompletion();
+        clearNavigableRange();
+        if (emphasisTimer != null) emphasisTimer.stop();
+        emphasisStart = emphasisEnd = -1;
         boolean localDamage = false;
         if (!multiline && firstLine < lexed.size()) {
             JavaLexer.State initial =
@@ -678,6 +1020,8 @@ public final class EditorComponent extends JComponent
     }
 
     private void moveTo(int target, boolean extend) {
+        clearInlineCompletion();
+        clearNavigableRange();
         repaintMatchingBrackets();
         int oldLine = document.lineAt(caret), oldTop = topLine, oldLeft = leftColumn;
         boolean selected = caret != anchor || extend;
@@ -711,12 +1055,27 @@ public final class EditorComponent extends JComponent
         else if (column >= leftColumn + visibleColumns) leftColumn = column - visibleColumns + 1;
     }
 
-    private int offsetAt(Point point) {
+    public int offsetAt(Point point) {
         int line =
                 Math.clamp(
                         topLine + Math.max(0, point.y) / cellHeight, 0, document.lineCount() - 1);
         int col = Math.max(0, leftColumn + (point.x - gutterWidth + cellWidth / 2) / cellWidth);
         return document.lineStart(line) + offsetForColumn(document.lineText(line), col);
+    }
+
+    private int symbolOffsetAt(Point point) {
+        // Navigation targets the glyph under the pointer, rather than the nearest caret boundary.
+        if (point.x < gutterWidth || point.y < 0 || point.y >= getHeight()) return -1;
+        int line = topLine + point.y / cellHeight;
+        if (line >= document.lineCount()) return -1;
+        int offset = offsetAt(new Point(point.x - cellWidth / 2, point.y));
+        if (offset >= document.lineEnd(line)) return -1;
+        int cp = document.charAt(offset);
+        if (Character.isHighSurrogate((char) cp)
+                && offset + 1 < document.length()
+                && Character.isLowSurrogate(document.charAt(offset + 1)))
+            cp = Character.toCodePoint((char) cp, document.charAt(offset + 1));
+        return Character.isJavaIdentifierPart(cp) ? offset : -1;
     }
 
     private int width(int cp, int column) {
@@ -826,6 +1185,18 @@ public final class EditorComponent extends JComponent
                                         Math.max(0, getWidth() - gutterWidth),
                                         cellHeight);
                 try {
+                    if (emphasisStart >= 0
+                            && emphasisEnd > start
+                            && emphasisStart <= start + text.length()) {
+                        int a = columns[Math.max(0, emphasisStart - start)];
+                        int b = columns[Math.min(text.length(), emphasisEnd - start)];
+                        row.setColor(selection);
+                        row.fillRect(
+                                (a - leftColumn) * cellWidth,
+                                0,
+                                Math.max(cellWidth, (b - a) * cellWidth),
+                                cellHeight);
+                    }
                     if (selectionStart != selectionEnd
                             && selectionEnd > start
                             && selectionStart <= start + text.length()) {
@@ -872,13 +1243,36 @@ public final class EditorComponent extends JComponent
                                     x += 4) row.drawLine(x, cellHeight - 2, x + 2, cellHeight - 1);
                         }
                     }
+                    if (navigationStart >= 0
+                            && navigationEnd > start
+                            && navigationStart <= start + text.length()) {
+                        int a = columns[Math.max(0, navigationStart - start)];
+                        int b = columns[Math.min(text.length(), navigationEnd - start)];
+                        row.setColor(string);
+                        row.drawLine(
+                                (a - leftColumn) * cellWidth,
+                                cellHeight - 2,
+                                (b - leftColumn) * cellWidth,
+                                cellHeight - 2);
+                    }
+                    String ghost = "";
+                    if (inlineCompletion != null && document.lineAt(caret) == line) {
+                        ghost =
+                                inlineCompletion
+                                        .insertion()
+                                        .substring(caret - inlineCompletion.start());
+                        row.setColor(ghostColor());
+                        drawRun(row, ghost, 0, ghost.length(), columns[caret - start]);
+                    }
                     if (document.lineAt(caret) == line && isFocusOwner()) {
                         int x =
                                 (columns[Math.min(text.length(), caret - start)] - leftColumn)
                                         * cellWidth;
                         row.setColor(cursor);
                         row.fillRect(x, 1, cellWidth, cellHeight - 2);
-                        if (composition.isEmpty() && caret - start < text.length()) {
+                        if (composition.isEmpty()
+                                && ghost.isEmpty()
+                                && caret - start < text.length()) {
                             int cp = text.codePointAt(caret - start);
                             if (cp != '\t') {
                                 row.setColor(getBackground());
@@ -889,6 +1283,12 @@ public final class EditorComponent extends JComponent
                                         x,
                                         ascent);
                             }
+                        } else if (!ghost.isEmpty()) {
+                            row.setColor(getBackground());
+                            row.drawString(
+                                    ghost.substring(0, Character.charCount(ghost.codePointAt(0))),
+                                    x,
+                                    ascent);
                         }
                         if (!composition.isEmpty()) {
                             row.setColor(cursor);
@@ -933,6 +1333,14 @@ public final class EditorComponent extends JComponent
                 pendingInputNanos = 0;
             }
         }
+    }
+
+    private Color ghostColor() {
+        Color background = getBackground();
+        return new Color(
+                (foreground.getRed() * 62 + background.getRed() * 38) / 100,
+                (foreground.getGreen() * 62 + background.getGreen() * 38) / 100,
+                (foreground.getBlue() * 62 + background.getBlue() * 38) / 100);
     }
 
     private void drawRun(Graphics2D g, String text, int from, int to, int initialColumn) {
@@ -1010,6 +1418,12 @@ public final class EditorComponent extends JComponent
 
     @Override
     public void inputMethodTextChanged(InputMethodEvent event) {
+        if (readOnly) {
+            composition = "";
+            event.consume();
+            return;
+        }
+        clearInlineCompletion();
         AttributedCharacterIterator iterator = event.getText();
         StringBuilder text = new StringBuilder();
         if (iterator != null)

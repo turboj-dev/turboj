@@ -1,0 +1,15 @@
+PASS semantic ghost overlay, Tab/undo, Escape, Ctrl+Space/Down/Enter; four themes preserve source/caret
+PASS Cmd+B/F12/Cmd+Click resolve overloads across three files; Alt+Left/Right preserve positions and unsaved buffers
+PASS F1 genuine String.substring Javadoc and read-only attached JDK source
+PASS delayed hover shows genuine project Javadoc and parameter descriptions
+PASS receiver-resolved printf overload signatures and active argument
+PASS unresolved/incomplete source stays editable and obsolete navigation is rejected
+Warm completion, 10 warmups + 30 distinct source versions: request-to-result p50 6.372 / p95 7.926 / p99 9.523 ms
+Cached JDK documentation, 10 warmups + 30 lookups: request-to-result p50 1.929 / p95 4.011 / p99 4.029 ms
+Semantic UI measurements include context discovery and EDT delivery, observed by a 1 ms Swing timer; configured hover delay excluded.
+1000-line source, compiler + semantic service enabled, 120 synthetic keys: 120 paints; edit-to-paint p50 0.228 / p95 1.281 / p99 1.648 ms
+Paint measurement excludes OS event queue, compositor and display scanout; no hardware key-to-photon claim.
+Semantic completion n=47, p50 6.01 ms, p95 11.44 ms, p99 131.68 ms
+Documentation lookup n=42, p50 1.26 ms, p95 5.10 ms, p99 74.87 ms
+Times include context/source discovery; hover delay excluded.
+PASS native semantic acceptance checks completed

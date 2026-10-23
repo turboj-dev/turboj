@@ -23,7 +23,7 @@ public record Theme(
         Color messagesForeground,
         int fontSize,
         boolean antialias) {
-    public static final String[] BUNDLED = {"classic", "amber", "modern"};
+    public static final String[] BUNDLED = {"classic", "amber", "modern", "light"};
 
     public static Theme bundled(String id) {
         try (var in = Theme.class.getResourceAsStream("/themes/" + id + ".json")) {

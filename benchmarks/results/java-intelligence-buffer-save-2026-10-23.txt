@@ -1,0 +1,4 @@
+PASS blocked asynchronous Save + cached navigation: 0.54 ms local switch; inactive source, savedVersion, fingerprint and undo/redo preserved
+PASS return to saved buffer, edit and save again: disk updated and Saved A.java reported without a false external-change error
+PASS real external file changes are rejected; disk and local unsaved source remain intact, navigation remains responsive
+PASS BufferSaveSmoke completed in 0.26 s
