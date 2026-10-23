@@ -4,15 +4,13 @@ export const features = [
     title: 'Write Java',
     paragraphs: [
       'A clean source editor with syntax highlighting, line numbers, and a familiar keyboard-driven interface.',
-      'The code gets the space. Everything else stays out of the way.',
     ],
   },
   {
     number: '02',
     title: 'Compile without the ceremony',
     paragraphs: [
-      'Check and compile Java from the editor.',
-      'Compiler feedback appears directly in the message pane. No need to switch to another application just to see what went wrong.',
+      'Compile Java from the editor. Diagnostics appear directly in the message pane.',
     ],
   },
   {
@@ -20,16 +18,13 @@ export const features = [
     title: 'Run where you write',
     paragraphs: [
       'Run a Java program and see its output immediately below the source.',
-      'Edit. Compile. Run. Repeat.',
     ],
   },
   {
     number: '04',
     title: 'Keep your hands on the keyboard',
     paragraphs: [
-      'Save, open, compile, and run using shortcuts inspired by classic development tools.',
       'F2 to save. F9 to make. Ctrl+F9 to run.',
-      'A workflow designed around your keyboard, not endless clicking.',
     ],
   },
   {
@@ -37,7 +32,6 @@ export const features = [
     title: "See what's happening",
     paragraphs: [
       'Compiler status, errors, cache hits, and execution timings are visible without opening a separate dashboard.',
-      'Useful feedback, right when you need it.',
     ],
   },
   {
@@ -45,7 +39,6 @@ export const features = [
     title: 'Classic by design',
     paragraphs: [
       'Blue editor. Cyan console. Simple menus. Clear borders.',
-      'TurboJ brings back the development environment, not the limitations of the computers that ran it.',
     ],
   },
 ] as const;
@@ -56,7 +49,6 @@ export const workflow = [
     title: 'EDIT',
     paragraphs: [
       'Write your Java code directly in TurboJ.',
-      'No project wizard required for a simple example.',
     ],
   },
   {
@@ -69,7 +61,6 @@ export const workflow = [
     title: 'RUN',
     paragraphs: [
       'Execute your program and read the output without leaving TurboJ.',
-      'Then change something and do it again.',
     ],
   },
 ] as const;

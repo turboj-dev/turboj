@@ -1,0 +1,52 @@
+---
+import ProductScreenshot from './ProductScreenshot.astro';
+import { site } from '../data/site';
+import { DEMO_SOURCE } from '../scripts/demo-timeline';
+import '../styles/turboj-demo.css';
+---
+<section class="turboj-demo" id="demo" data-turboj-demo aria-label="TurboJ workflow replay" aria-describedby="demo-description">
+  <div class="sr-only">
+    <p id="demo-description">A visual replay shows an empty HelloWorld.java file, types the following program, compiles it, then displays Hello TurboJ! and a successful exit. This illustration does not compile or execute Java in your browser.</p>
+    <pre id="demo-accessible-source"><code>{DEMO_SOURCE}</code></pre>
+  </div>
+  <div class="demo-stage">
+    <ProductScreenshot />
+    <div class="demo-screen" data-demo-screen hidden>
+      <div class="demo-menu" aria-hidden="true"><span>File</span><span>Edit</span><span>Search</span><span>Run</span><span>Compile</span><span>Options</span><span>Help</span><strong>TurboJ</strong></div>
+      <div class="demo-editor">
+        <div class="demo-file-border" aria-hidden="true"><span>[■]</span><strong data-demo-filename>Untitled.java</strong></div>
+        <div class="demo-code-viewport" tabindex="0" role="region" aria-label="Java source example; use arrow keys to scroll horizontally" aria-describedby="demo-accessible-source">
+          <div class="demo-gutter" data-demo-lines aria-hidden="true"><span class="demo-line-number">1</span></div>
+          <div class="demo-code-body" aria-hidden="true">
+            <pre class="demo-source" data-demo-source><span class="demo-code-line"></span></pre>
+            <span class="demo-cursor" data-demo-cursor></span>
+          </div>
+        </div>
+        <span class="demo-shortcut" data-demo-shortcut aria-hidden="true"></span>
+      </div>
+      <div class="demo-console" aria-hidden="true">
+        <div class="demo-message-border"><span>Message · <strong data-demo-status>READY</strong></span></div>
+        <pre data-demo-output></pre>
+      </div>
+      <div class="demo-statusbar" aria-hidden="true"><span><b>F2</b> Save</span><span><b>F9</b> Make</span><span><b>^F9</b> Run</span><span data-demo-position>1:1</span></div>
+    </div>
+  </div>
+  <noscript><p class="demo-no-script">JavaScript is off. This is a screenshot of the actual native application.</p></noscript>
+  <div class="demo-controls-row">
+    <div class="demo-controls" data-demo-controls hidden role="group" aria-label="Replay controls">
+      <button type="button" data-demo-action="replay" class="demo-replay">Replay <span aria-hidden="true">↻</span></button>
+      <button type="button" data-demo-action="pause">Pause</button>
+      <button type="button" data-demo-action="skip">Skip to result <span aria-hidden="true">→</span></button>
+    </div>
+    <p class="demo-kind">Interactive UI replay · Native macOS application</p>
+  </div>
+  <progress class="demo-progress" data-demo-progress max="1" value="0" aria-label="Replay progress" hidden></progress>
+  <div class="demo-caption">
+    <p>An interactive replay of the TurboJ workflow. The actual editor runs natively on macOS.</p>
+    <a href={site.links.original} data-testid="screenshot-original" target="_blank" rel="noopener">View actual application screenshot <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+  </div>
+  <p class="sr-only" data-demo-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+</section>
+<script>
+  import '../scripts/turboj-demo';
+</script>

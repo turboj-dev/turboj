@@ -1,33 +1,10 @@
 ---
 interface Props {
-  section: 'idea' | 'philosophy' | 'status' | 'final';
+  section: 'philosophy' | 'status';
 }
 
 const { section } = Astro.props;
 ---
-
-{section === 'idea' && (
-  <section class="section idea-section" id="idea" aria-labelledby="idea-heading">
-    <div class="shell editorial-layout">
-      <header class="section-header">
-        <p class="eyebrow">BACK TO BASICS</p>
-        <h2 class="section-heading" id="idea-heading">You shouldn't need a complicated IDE to run ten lines of Java.</h2>
-      </header>
-      <div class="editorial-copy">
-        <p class="body-copy">Modern development tools are extraordinarily capable. But not every task needs an enormous workspace, dozens of panels, or a complex project configuration.</p>
-        <ul class="idea-uses" role="list">
-          <li>Sometimes you want to try an algorithm.</li>
-          <li>Understand how an API behaves.</li>
-          <li>Write a small program.</li>
-          <li>Fix a bug.</li>
-          <li>Or simply learn Java.</li>
-        </ul>
-        <p class="body-copy">That's what TurboJ is for.</p>
-        <p class="body-copy">A focused editor built around the shortest possible path between an idea and a running program.</p>
-      </div>
-    </div>
-  </section>
-)}
 
 {section === 'philosophy' && (
   <section class="section philosophy-section" id="philosophy" aria-labelledby="philosophy-heading">
@@ -59,22 +36,9 @@ const { section } = Astro.props;
         <p class="body-copy">TurboJ has moved beyond a concept.</p>
         <p class="body-copy">The first working editor can open Java source, compile, run programs, and display execution output in its classic interface.</p>
         <p class="body-copy">The next focus is improving the editing and execution loop, measuring latency, and making the application reliable enough for others to use.</p>
-        <p class="body-copy">We'll share builds, documentation, and source-code links when they're ready for public use.</p>
+        <p class="body-copy">Source code and documentation are available on GitHub. Public builds will follow when they're ready.</p>
         <a class="button button-secondary" href="#demo">Back to the editor</a>
       </div>
-    </div>
-  </section>
-)}
-
-{section === 'final' && (
-  <section class="section final-section" aria-labelledby="final-heading">
-    <div class="shell final-cta">
-      <p class="eyebrow">READY_</p>
-      <h2 class="section-heading" id="final-heading">Remember the joy of just writing code?</h2>
-      <p class="body-copy">We're bringing it back.</p>
-      <p class="final-brand">TurboJ — The ultra-fast Java editor.</p>
-      <p class="final-tagline">Old-school focus. Modern Java.</p>
-      <a class="button" href="#demo">Explore the editor</a>
     </div>
   </section>
 )}

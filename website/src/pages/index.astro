@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Hero from '../components/Hero.astro';
-import ProductScreenshot from '../components/ProductScreenshot.astro';
 import EditorialSections from '../components/EditorialSections.astro';
 import Features from '../components/Features.astro';
 import Workflow from '../components/Workflow.astro';
@@ -14,15 +13,18 @@ import SiteFooter from '../components/SiteFooter.astro';
   <SiteHeader />
   <main id="main" tabindex="-1">
     <Hero />
-    <ProductScreenshot />
-    <EditorialSections section="idea" />
+    <section class="product-introduction" aria-label="The TurboJ workflow">
+      <div class="shell">
+        <p>This is the workflow TurboJ is built for: a source file, a compiler, and the result. Nothing else in the way.</p>
+        <p class="introduction-tagline">Edit. Compile. Run. Repeat.</p>
+      </div>
+    </section>
     <Features />
     <Workflow />
     <Performance />
     <EditorialSections section="philosophy" />
     <EditorialSections section="status" />
     <FAQ />
-    <EditorialSections section="final" />
   </main>
   <SiteFooter />
 </BaseLayout>

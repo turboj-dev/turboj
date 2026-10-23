@@ -1,5 +1,6 @@
 ---
 import { workflow } from '../data/copy';
+import { site } from '../data/site';
 ---
 
 <section class="section workflow-section" id="workflow" aria-labelledby="workflow-heading">
@@ -17,6 +18,6 @@ import { workflow } from '../data/copy';
         </li>
       ))}
     </ol>
-    <p class="section-closing">Edit. Compile. Run. Repeat.</p>
+    <a class="button button-secondary" href={site.links.demo}>Watch the workflow</a>
   </div>
 </section>

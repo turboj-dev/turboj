@@ -10,6 +10,7 @@ npm test
 npm run preview -- --port 4321
 # In a second terminal, while preview is running:
 npm run test:browser
+npm run test:demo
 npm run test:performance
 ```
 
@@ -20,7 +21,7 @@ system Chrome, or a cached Playwright headless shell. No username or workstation
 path is embedded. `LH_RUNS=3 npm run test:performance` records three independent
 Lighthouse runs, retaining every run rather than choosing the best result.
 
-The content suite checks the supplied English copy against generated HTML,
+The content suite checks the approved English copy against generated HTML,
 metadata, section targets, unavailable link suppression, and accurate values
 from the available original application capture. That image records a 0.03 ms
 cache hit, 1.17 ms execution, and 2.22 ms round trip. These are a single captured
@@ -34,13 +35,95 @@ WCAG 2.2 AA tags with FAQ answers exposed. Results are written to
 `artifacts/qa/`. Automated accessibility checks cannot prove complete WCAG
 conformance; visual inspection and keyboard checks remain necessary.
 
+The separate demo suite runs one complete approximately eight-second replay
+using real browser time, observing the empty, typing, compiling, running and
+completed phases. It checks exact source/output, final-state hold, Replay,
+Pause/Resume, Skip, offscreen suspension, keyboard control, reduced-motion
+behavior and the genuine screenshot fallback when JavaScript is disabled.
+It also verifies first-viewport placement, code size of at least 14 CSS pixels,
+code-line alignment and absence of vertical code clipping. The animation is an
+illustration and its duration is never treated as compiler performance. Evidence
+is written to `artifacts/demo-qa/`.
+
 Lighthouse uses mobile emulation at 390 × 844, its default simulated mobile
 network/CPU throttling, and the actual installed browser. JSON and HTML reports,
 environment metadata, scores, LCP, CLS and TBT are written to
 `artifacts/lighthouse/`. Local measurements do not represent hosting latency or
 field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
 
-## Recorded results
+## Interactive hero v2
+
+Validated on 23 October 2026 against the production build served at
+`http://127.0.0.1:4321`, after the mobile code-region accessibility fix. Runtime:
+macOS 26.5.1 ARM64, Node 26.3.0, Chromium 156, Playwright 1.64.1,
+axe-core 4.14.0 and Lighthouse 13.5.0.
+
+| Validation | Actual v2 result |
+| --- | --- |
+| Content and timeline unit tests | 12 passed, 0 failed |
+| General browser suite | 38 passed, 0 failed |
+| Interactive demo browser suite | 25 passed, 0 failed |
+| General responsive sizes | 320 × 844, 390 × 844, 768 × 1024, 1280 × 800, 1440 × 900, 1920 × 1080 |
+| Demo-specific sizes | 390 × 844, 768 × 1024, 1440 × 900, 1920 × 1080 |
+| axe WCAG violations | 0, desktop and mobile |
+| Console errors / failed assets / external page requests | 0 / 0 / 0 |
+| Demo JavaScript bundle | 6,166 bytes raw / 2,583 gzip / 2,305 Brotli |
+
+The real-time journey took 8,121 ms including page navigation and observed 129
+distinct source/output/state samples: idle → typing → compiling → running →
+completed. `Hello TurboJ!` appeared during the running phase before the exit
+marker. This is the duration of an intentional animation, not a Java execution
+benchmark. Code and output matched the exact reviewed example. The final state
+remained stable and Replay, Pause/Resume and Skip worked with the keyboard.
+Scrolling offscreen froze progress; returning resumed it unless the user had
+paused. A separately labeled simulated `document.hidden` / `visibilitychange`
+test verified the background-visibility handler; an OS background-tab test was
+not performed.
+
+Reduced motion displayed the complete result immediately, including after
+Replay. Disabling JavaScript showed the genuine application screenshot and hid
+the inactive demo controls. The original PNG still passed the byte-for-byte
+integrity check. The rendered replay contains no invented millisecond timings;
+the native capture's numbers remain a separate, explicitly identified example.
+
+The whole editor fits in the first viewport at each demo-specific size. At
+390 × 844 it begins at approximately 297 px and ends at 677 px. Code sizes are
+14, 16, 16 and 18 CSS pixels respectively. Code lines align with the cursor's
+line height without vertical clipping. On mobile, the 413 px source region
+inside a 342 px viewport is reachable with Shift+Tab from Replay and scrolls
+with ArrowRight. It has an accessible region name and no hidden ancestor.
+Computed syntax colors matched the required yellow keywords (`#ffff55`) and
+aqua strings (`#56ffff`), including a partially typed keyword.
+
+Desktop/mobile screenshots were inspected for hierarchy, clipping and console
+visibility. The real screenshot fallback was also captured with JavaScript off.
+The sole incomplete axe category concerns decorative glyph contrast and was
+reviewed visually; automated checks do not prove complete assistive-technology
+support across browsers.
+
+### V2 Lighthouse mobile measurement
+
+One run on the final build at 20:31:53 UTC, after the browser suites finished,
+using the same 390 × 844 mobile simulation, 150 ms RTT, 1,638.4 Kbps throughput
+and 4× CPU slowdown documented above. No poor runs were discarded.
+
+| Metric | Actual v2 result |
+| --- | --- |
+| Performance / Accessibility / Best Practices / SEO | 100 / 100 / 100 / 100 |
+| Largest Contentful Paint | 1,508 ms |
+| First Contentful Paint / Speed Index | 1,208 ms / 1,208 ms |
+| Cumulative Layout Shift | 0.000384 |
+| Total Blocking Time | 0 ms |
+| INP | Not measured by this navigation audit |
+
+These are local laboratory results, not field Core Web Vitals or a performance
+guarantee for the public host. Current evidence: `artifacts/qa/`,
+`artifacts/demo-qa/` and `artifacts/lighthouse/`. Earlier static-release reports
+were retained separately in `artifacts/qa-local/`, `artifacts/qa-v1-published/`
+and `artifacts/lighthouse-v1/`. The historical results below describe that
+earlier release and are not reused as v2 measurements.
+
+## Initial static release results
 
 Measured on 23 October 2026 against the production build served by Astro preview
 at `http://127.0.0.1:4321`. Environment: macOS 26.5.1, ARM64, Node 26.3.0,

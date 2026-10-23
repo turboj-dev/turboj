@@ -2,7 +2,7 @@
 
 The official English product website, implemented with Astro 7.4.2, strict
 TypeScript 6.0.3 and plain CSS. The output is static HTML, CSS, local images and
-fonts, plus a small script for closing the mobile menu. No hydrated framework,
+fonts, a small mobile menu script and a deterministic TypeScript UI replay. No hydrated framework,
 server runtime, analytics, external font CDN or browser network dependency.
 
 ## Development
@@ -26,6 +26,7 @@ ASTRO_TELEMETRY_DISABLED=1 npm run build
 npm test
 ASTRO_TELEMETRY_DISABLED=1 npm run preview -- --port 4321
 npm run test:browser
+npm run test:demo
 npm run test:performance
 ```
 
@@ -38,6 +39,8 @@ Output goes to `dist/`; test reports go to ignored `artifacts/`.
 - `src/components/`: semantic page sections, native mobile menu and FAQ.
 - `src/data/site.ts`: central navigation, metadata and public URLs.
 - `src/data/copy.ts`: repeated feature, workflow and FAQ content.
+- `src/scripts/demo-timeline.ts`: the reviewed example and deterministic replay events.
+- `src/scripts/turboj-demo.ts`: incremental DOM rendering and playback controls.
 - `src/styles/`: exact DOS palette, local font faces and responsive layout.
 - `src/pages/`: homepage, generated robots.txt and sitemap.xml.
 - `assets/original/`: unmodified application screenshot and provenance.
@@ -50,13 +53,42 @@ The available authentic capture is 1060 × 740. Its values are a **0.03 ms cache
 hit**, **1.17 ms execution**, and **2.22 ms round trip**. The supplied marketing
 brief described a different capture (0.08/2.60/8.27 ms), which was unavailable.
 The page therefore uses the values actually visible in the repository image.
-All other supplied English marketing copy is preserved. These values describe
-one application run, not a benchmark or fresh compilation.
+The v2 hero and repeated feature text have been shortened to prioritize the
+interactive example. These values still describe one native application run,
+not a benchmark, fresh compilation, or the illustrated `HelloWorld.java` replay.
 
 The main lossless WebP is 15,308 bytes and is decoded/pixel-compared against the
 original in every asset build. The larger original PNG opens in a separate tab.
-The complete screenshot and console remain visible at every viewport. Font
+The screenshot remains accessible from the demo caption and is the visible
+fallback when JavaScript is unavailable. Font
 licenses and full asset provenance are documented in [ASSETS.md](ASSETS.md).
+
+## Interactive hero
+
+The eight-second sequence is an **illustration**, not a Java runtime. It reveals
+the fixed `HelloWorld.java` source, shows compilation status, then output and
+successful exit. Animation timestamps never appear as compiler measurements.
+The independent performance section continues to describe the original native
+`Hello.java` screenshot.
+
+One `requestAnimationFrame` scheduler advances an immutable event model using
+monotonic elapsed time. Source tokens are created once and only changed text is
+updated; there is no HTML injection, editor library or per-character timer.
+Replay resets source, filename, output, cursor, status and progress. Pause
+preserves position, and Skip renders the exact terminal state. Playback starts
+once when the frame enters view, suspends outside view or in a hidden document,
+and stops after completion. A manual pause survives scrolling and visibility
+changes. Reduced-motion users receive the completed example immediately,
+including after pressing Replay.
+
+Animated visual text is excluded from the accessibility tree so typed characters
+do not create repeated announcements. A static description and complete source
+accompany keyboard-operated buttons and concise state messages. The source pane
+is an accessible, focusable region, so mobile code retains readable text and
+supports arrow-key horizontal scrolling without scrolling the overall page.
+The screenshot fallback and replay share a reserved stage to prevent layout
+shifts. No native trace import/export is implemented yet; future measured traces
+must remain explicitly distinguished from this illustrative event sequence.
 
 ## Static deployment
 

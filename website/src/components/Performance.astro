@@ -1,4 +1,6 @@
 ---
+import { site } from '../data/site';
+
 // Values transcribed from the genuine capture at docs/images/turboj-classic.png.
 // A single cache hit and execution are evidence of this run, not a benchmark.
 const capturedRun = `Message · CACHE HIT
@@ -32,6 +34,7 @@ Completed`;
       </div>
     </div>
     <div class="performance-note">
+      <p class="body-copy">These measurements are from the <a href={site.links.original}>native Hello.java capture</a>, not the illustrated HelloWorld.java replay above.</p>
       <p class="body-copy">These values come from one captured prototype run. A cache hit is not a fresh compilation, and an individual execution is not a benchmark.</p>
       <p class="body-copy">We'll publish reproducible performance measurements as the project develops.</p>
       <p class="section-closing">No invented benchmarks. Just measured results.</p>

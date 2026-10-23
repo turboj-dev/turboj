@@ -53,7 +53,7 @@ try {
         viewport: document.documentElement.clientWidth,
         document: document.documentElement.scrollWidth,
         body: document.body.scrollWidth,
-        failedImages: [...document.images].filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.currentSrc),
+        failedImages: [...document.images].filter((image) => image.getClientRects().length > 0 && (!image.complete || image.naturalWidth === 0)).map((image) => image.currentSrc),
         overflow: [...document.querySelectorAll('main *')].filter((element) => {
           const rect = element.getBoundingClientRect();
           return rect.width && (rect.right > window.innerWidth + 1 || rect.left < -1);

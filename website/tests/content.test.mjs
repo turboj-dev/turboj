@@ -10,11 +10,25 @@ const decode = (value) => value.replace(/&#(\d+);/g, (_, n) => String.fromCodePo
   .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&')
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
 const text = normalizeText(decode(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
-  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ')));
+  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+  .replace(/<\/?(?:a|span|em|strong|b|i|kbd|code)\b[^>]*>/gi, '')
+  .replace(/<[^>]+>/g, ' ')));
 
-test('all supplied final English copy is present in the rendered HTML', () => {
+test('all approved v2 English copy is present in the rendered HTML', () => {
   const missing = requiredCopy.filter((copy) => !text.includes(normalizeText(copy)));
   assert.deepEqual(missing, [], `Missing supplied copy:\n${missing.join('\n')}`);
+});
+
+test('the illustrated replay remains distinct from the genuine native screenshot and measured capture', () => {
+  assert.ok(text.includes('This illustration does not compile or execute Java in your browser.'));
+  assert.ok(text.includes('These measurements are from the native Hello.java capture, not the illustrated HelloWorld.java replay above.'));
+  assert.match(html, /data-demo-action="replay"/);
+  assert.match(html, /data-demo-action="pause"/);
+  assert.match(html, /data-demo-action="skip"/);
+  assert.match(html, /data-demo-fallback/);
+  assert.doesNotMatch(html, /Remember the joy of just writing code\?/);
+  assert.doesNotMatch(html, /Remember when writing a program was simple\?/);
+  assert.doesNotMatch(html, /Yes, that blue screen is real\./);
 });
 
 test('page title and factual product metadata are rendered', () => {
