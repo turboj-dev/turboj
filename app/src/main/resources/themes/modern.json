@@ -1,0 +1,29 @@
+{
+  "name": "Turbo Modern Dark",
+  "schemaVersion": 1,
+  "editor": {
+    "background": "#171A21",
+    "foreground": "#D8DEE9",
+    "cursor": "#E5C07B",
+    "selection": "#36465F",
+    "error": "#FF5555"
+  },
+  "menu": {
+    "background": "#292F3B",
+    "foreground": "#D8DEE9"
+  },
+  "messages": {
+    "background": "#202631",
+    "foreground": "#D8DEE9"
+  },
+  "syntax": {
+    "keyword": "#B7A4ED",
+    "string": "#A8CE9D",
+    "comment": "#7F8A9B"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": true
+  }
+}

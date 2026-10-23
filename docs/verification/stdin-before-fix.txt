@@ -1,0 +1,8 @@
+Baseline: existing pre-fix app/target/turboj-app.jar, native Swing window.
+The exact Menu.java reached its first stdin prompt, but focus stayed in the source editor.
+Regression failed before entering any input:
+java.lang.AssertionError: Timed out: automatic stdin focus
+    at com.turboj.app.InteractiveRunSmoke.waitFor(InteractiveRunSmoke.java:342)
+    at com.turboj.app.InteractiveRunSmoke.awaitPrompt(InteractiveRunSmoke.java:247)
+    at com.turboj.app.InteractiveRunSmoke.main(InteractiveRunSmoke.java:56)
+Process exit code: 1.

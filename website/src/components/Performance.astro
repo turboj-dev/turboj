@@ -1,0 +1,40 @@
+---
+// Values transcribed from the genuine capture at docs/images/turboj-classic.png.
+// A single cache hit and execution are evidence of this run, not a benchmark.
+const capturedRun = `Message · CACHE HIT
+0 errors
+Cache-hit operation: 0.03 ms
+
+FAST RUN · Hello
+
+Hello TurboJ!
+
+exit 0
+Execution: 1.17 ms
+Round trip: 2.22 ms
+Completed`;
+---
+
+<section class="section performance-section" id="performance" aria-labelledby="performance-heading">
+  <div class="shell">
+    <header class="section-header">
+      <p class="eyebrow">REAL CODE. REAL MEASUREMENTS.</p>
+      <h2 class="section-heading" id="performance-heading">Fast is something you measure.</h2>
+    </header>
+    <div class="performance-layout">
+      <div class="performance-copy">
+        <p class="body-copy">TurboJ is being built around a simple engineering goal: make the time between changing Java code and seeing the result as short as possible.</p>
+        <p class="body-copy">The current prototype already reports compiler activity and execution timings directly in the interface.</p>
+      </div>
+      <div class="performance-console" role="group" aria-labelledby="capture-heading">
+        <h3 id="capture-heading">A captured prototype run</h3>
+        <pre><code>{capturedRun}</code></pre>
+      </div>
+    </div>
+    <div class="performance-note">
+      <p class="body-copy">These values come from one captured prototype run. A cache hit is not a fresh compilation, and an individual execution is not a benchmark.</p>
+      <p class="body-copy">We'll publish reproducible performance measurements as the project develops.</p>
+      <p class="section-closing">No invented benchmarks. Just measured results.</p>
+    </div>
+  </div>
+</section>

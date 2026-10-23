@@ -1,0 +1,9 @@
+Stdin caret: BlockCaret, visible=true, bounds=java.awt.Rectangle[x=246,y=21,width=0,height=18]
+Stdin caret: BlockCaret, visible=true, bounds=java.awt.Rectangle[x=264,y=21,width=0,height=18]
+PASS stdin and its visible caret share the output line: Quanti voti vuoi inserire? 20; no separate input row
+PASS exact Menu.java: staged hasNextInt/hasNextFloat input, invalid values, total 12.0, average 4.0, echo and unchanged source; no EOF submitted
+PASS Fast Run replaces a nonterminating previous program
+PASS Isolated Run replaces a nonterminating previous program
+PASS rapid Run requests supersede older versions and execute the latest buffer
+PASS Cmd+R from the stdin field restarts the same interactive program with a fresh Scanner and clears unsent input
+PASS all interactive stdin / restart desktop regressions

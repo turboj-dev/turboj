@@ -1,0 +1,22 @@
+---
+import { faq } from '../data/copy';
+---
+
+<section class="section faq-section" id="faq" aria-labelledby="faq-heading">
+  <div class="shell">
+    <header class="section-header">
+      <h2 class="section-heading" id="faq-heading">FAQ</h2>
+    </header>
+    <div class="faq-list">
+      {faq.map((item) => (
+        <details class="faq-item">
+          <summary>
+            <span>{item.question}</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <p class="body-copy">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

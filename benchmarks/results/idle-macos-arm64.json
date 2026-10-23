@@ -1,0 +1,53 @@
+{
+  "description": "Native app and immediate worker children, visible idle window after initial compilation; CPU-time counters rounded by ps; sum RSS is not private memory",
+  "samples": [
+    {
+      "wall_seconds": 5.0263846249999995,
+      "cpu_percent_one_core": 0.0,
+      "processes": [
+        {
+          "pid": 58498,
+          "cpu_seconds": 33.07,
+          "rss_kib": 143952
+        },
+        {
+          "pid": 59286,
+          "cpu_seconds": 0.12,
+          "rss_kib": 31056
+        }
+      ]
+    },
+    {
+      "wall_seconds": 5.025383165999999,
+      "cpu_percent_one_core": 0.0,
+      "processes": [
+        {
+          "pid": 58498,
+          "cpu_seconds": 33.07,
+          "rss_kib": 120272
+        },
+        {
+          "pid": 59286,
+          "cpu_seconds": 0.12,
+          "rss_kib": 26960
+        }
+      ]
+    },
+    {
+      "wall_seconds": 5.025840791,
+      "cpu_percent_one_core": 0.0,
+      "processes": [
+        {
+          "pid": 58498,
+          "cpu_seconds": 33.07,
+          "rss_kib": 119712
+        },
+        {
+          "pid": 59286,
+          "cpu_seconds": 0.12,
+          "rss_kib": 26912
+        }
+      ]
+    }
+  ]
+}

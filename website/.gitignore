@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.cache/
+.sites-runtime/
+.openai/runtime/
+.env.local
+.env.*.local
+artifacts/
+.DS_Store

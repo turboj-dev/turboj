@@ -1,0 +1,23 @@
+---
+import { features } from '../data/copy';
+---
+
+<section class="section features-section" id="features" aria-labelledby="features-heading">
+  <div class="shell">
+    <header class="section-header">
+      <p class="eyebrow">SMALL TOOL. SERIOUS ENGINEERING.</p>
+      <h2 class="section-heading" id="features-heading">Everything you need. Nothing in your way.</h2>
+    </header>
+    <div class="feature-list">
+      {features.map((feature) => (
+        <article class="feature">
+          <span class="feature-number" aria-hidden="true">{feature.number}</span>
+          <div class="feature-copy">
+            <h3>{feature.title}</h3>
+            {feature.paragraphs.map((paragraph) => <p class="body-copy">{paragraph}</p>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

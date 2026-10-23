@@ -1,0 +1,13 @@
+Harness start to visible window: 527.91 ms (not native launcher timing)
+PASS new buffer → compile → run: Hello TurboJ!
+PASS edit → warm run: Hello again!
+PASS Cmd+R executes and F10/Escape open/close the keyboard menu
+PASS three live themes preserve source and caret
+PASS unresolved symbol blocks execution and reports javac diagnostic
+PASS nonterminating program stops; editor accepts further edits
+PASS console input reaches Scanner(System.in)
+PASS isolated run
+1000-line file, compiler active, 120 synthetic keys: 120 paints; handler/edit→paint p50 0.752 / p95 1.650 / p99 1.972 ms
+Measurement excludes OS input queue, compositor and display scanout; coalesced paints report oldest pending edit.
+PASS rapid edits: only source version 131 is current
+PASS desktop smoke complete; screenshot app/target/turboj-smoke.png

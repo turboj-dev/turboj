@@ -1,0 +1,27 @@
+---
+import { site } from '../data/site';
+---
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="wordmark" href="#overview" aria-label="TurboJ overview">TurboJ<span class="brand-cursor" aria-hidden="true"></span></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {site.navigation.map(({ label, href }) => <a href={href}>{label}</a>)}
+    </nav>
+    <details class="mobile-menu">
+      <summary>Menu <span aria-hidden="true">≡</span></summary>
+      <nav aria-label="Mobile navigation">
+        {site.navigation.map(({ label, href }) => <a href={href}>{label}</a>)}
+      </nav>
+    </details>
+  </div>
+</header>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  menu?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu.open) {
+      menu.open = false;
+      menu.querySelector('summary')?.focus();
+    }
+  });
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menu.open = false; }));
+</script>

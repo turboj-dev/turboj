@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+TURBOJ_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ ! -f "$TURBOJ_ROOT/cli/target/turboj-cli.jar" ]; then (cd "$TURBOJ_ROOT" && ./mvnw -q -pl cli -am package); fi
+exec java --enable-native-access=ALL-UNNAMED -jar "$TURBOJ_ROOT/cli/target/turboj-cli.jar" "$@"

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import ProductScreenshot from '../components/ProductScreenshot.astro';
+import EditorialSections from '../components/EditorialSections.astro';
+import Features from '../components/Features.astro';
+import Workflow from '../components/Workflow.astro';
+import Performance from '../components/Performance.astro';
+import FAQ from '../components/FAQ.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+<BaseLayout>
+  <SiteHeader />
+  <main id="main" tabindex="-1">
+    <Hero />
+    <ProductScreenshot />
+    <EditorialSections section="idea" />
+    <Features />
+    <Workflow />
+    <Performance />
+    <EditorialSections section="philosophy" />
+    <EditorialSections section="status" />
+    <FAQ />
+    <EditorialSections section="final" />
+  </main>
+  <SiteFooter />
+</BaseLayout>

@@ -1,0 +1,53 @@
+{
+  "original": "turboj-editor.png",
+  "source": "../../../docs/images/turboj-classic.png",
+  "sha256": "27e0f5c593105574e60abd6e3055db525f119a20f80e3ddcf01ce3727cd9bcc8",
+  "width": 1060,
+  "height": 740,
+  "capture": {
+    "program": "Hello.java",
+    "output": "Hello TurboJ!",
+    "cacheHitMilliseconds": 0.03,
+    "executionMilliseconds": 1.17,
+    "roundTripMilliseconds": 2.22,
+    "note": "One captured prototype run. These are not benchmark averages or fresh compilation timings."
+  },
+  "transformations": "Original PNG copied byte-for-byte; full-size WebP pixel-verified lossless; smaller WebP images resized only; social preview includes the complete scaled screenshot.",
+  "generated": [
+    {
+      "file": "/images/turboj-editor.png",
+      "width": 1060,
+      "height": 740,
+      "bytes": 34679,
+      "sha256": "27e0f5c593105574e60abd6e3055db525f119a20f80e3ddcf01ce3727cd9bcc8"
+    },
+    {
+      "file": "/images/turboj-editor.webp",
+      "width": 1060,
+      "height": 740,
+      "bytes": 15308,
+      "sha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+    },
+    {
+      "file": "/images/turboj-editor-530.webp",
+      "width": 530,
+      "height": 370,
+      "bytes": 17888,
+      "sha256": "a7268e41cbe5651583a21ccbffa5f3e5366e23d4ccdb16d1ec3cc58b5aaad074"
+    },
+    {
+      "file": "/images/turboj-editor-795.webp",
+      "width": 795,
+      "height": 555,
+      "bytes": 28622,
+      "sha256": "4094a0083e084c24171fc711fd83bdf2debc8ebebd22c4a69830ceacf712cad9"
+    },
+    {
+      "file": "/images/turboj-social.png",
+      "width": 1200,
+      "height": 630,
+      "bytes": 74883,
+      "sha256": "32df05ce5f82fe1531a1fb1a48807c0992021aeb69e61a87789fa97fe96c2d49"
+    }
+  ]
+}

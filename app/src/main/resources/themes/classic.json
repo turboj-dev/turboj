@@ -1,0 +1,29 @@
+{
+  "name": "Turbo C Classic",
+  "schemaVersion": 1,
+  "editor": {
+    "background": "#0000AA",
+    "foreground": "#FFFFFF",
+    "cursor": "#FFFF55",
+    "selection": "#00AAAA",
+    "error": "#FF5555"
+  },
+  "menu": {
+    "background": "#AAAAAA",
+    "foreground": "#000000"
+  },
+  "messages": {
+    "background": "#00AAAA",
+    "foreground": "#000000"
+  },
+  "syntax": {
+    "keyword": "#FFFF55",
+    "string": "#55FFFF",
+    "comment": "#AAAAAA"
+  },
+  "font": {
+    "family": "Monospaced",
+    "size": 18,
+    "antialias": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "turboj-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.23.4" },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "assets": "node scripts/prepare-assets.mjs",
+    "check": "astro check",
+    "build": "npm run assets && astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "test": "node --test tests/content.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "test:performance": "node tests/performance.mjs"
+  },
+  "dependencies": { "astro": "7.4.2" },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "typescript": "6.0.3",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@fontsource-variable/ibm-plex-sans": "5.3.0",
+    "sharp": "0.35.5",
+    "playwright": "1.64.1",
+    "@axe-core/playwright": "4.14.0",
+    "lighthouse": "13.5.0"
+  }
+}

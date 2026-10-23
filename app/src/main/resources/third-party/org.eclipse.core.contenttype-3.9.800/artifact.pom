@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.platform</groupId>
+  <artifactId>org.eclipse.core.contenttype</artifactId>
+  <version>3.9.800</version>
+  <name>Eclipse Content Mechanism</name>
+  <description>Eclipse Content Mechanism</description>
+  <url>https://github.com/eclipse-platform/eclipse.platform/</url>
+  <organization>
+    <name>Eclipse Foundation</name>
+    <url>https://www.eclipse.org</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>EPL-2.0</name>
+      <url>https://www.eclipse.org/legal/epl-2.0/</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <url>https://github.com/eclipse-platform/eclipse.platform/graphs/contributors</url>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/eclipse-platform/eclipse.platform.git</connection>
+    <developerConnection>scm:git:https://github.com/eclipse-platform/eclipse.platform.git</developerConnection>
+    <tag>f3377bdd718fb8c7d77a8ecadfdcd37107c40ad2</tag>
+    <url>https://github.com/eclipse-platform/eclipse.platform/tree/f3377bdd718fb8c7d77a8ecadfdcd37107c40ad2/runtime/bundles/org.eclipse.core.contenttype</url>
+  </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/eclipse-platform/eclipse.platform/issues</url>
+  </issueManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.equinox.preferences</artifactId>
+      <version>3.12.100</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.equinox.registry</artifactId>
+      <version>3.12.600</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.equinox.common</artifactId>
+      <version>3.20.300</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.osgi</artifactId>
+      <version>3.24.0</version>
+      <optional>false</optional>
+    </dependency>
+  </dependencies>
+</project>
