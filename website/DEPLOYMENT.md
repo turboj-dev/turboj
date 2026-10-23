@@ -4,6 +4,7 @@ The static production build was deployed on 2026-10-23 to Cloudflare Workers
 Static Assets, project `turboj`.
 
 - Custom domain: https://turboj.dev
+- Public repository: https://github.com/turboj-dev/turboj
 - Cloudflare fallback: https://turboj.luca-marrocco.workers.dev
 - Initial deployment version: `8b79054e-6e8e-4faf-b552-c6f6c522c010`
 - Source/output: `website/src/` → `website/dist/`

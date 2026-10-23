@@ -64,6 +64,8 @@ Production: **https://turboj.dev**, served through Cloudflare Workers Static
 Assets. There is no application Worker handler: Cloudflare serves `dist/`.
 `wrangler.toml` declares the static directory and the verified custom domain.
 
+Public source: https://github.com/turboj-dev/turboj (desktop and website).
+
 After a successful build, an authenticated maintainer can redeploy with:
 
 ```sh

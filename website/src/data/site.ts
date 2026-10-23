@@ -11,5 +11,8 @@ export const site = {
     { label: 'Performance', href: '#performance' },
     { label: 'FAQ', href: '#faq' },
   ],
-  links: { demo: '#demo', features: '#features', original: '/images/turboj-editor.png' },
+  links: {
+    demo: '#demo', features: '#features', original: '/images/turboj-editor.png',
+    source: 'https://github.com/turboj-dev/turboj',
+  },
 };
