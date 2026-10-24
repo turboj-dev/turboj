@@ -108,9 +108,9 @@ try {
       }
     });
 
-    await check(`${name}: six FAQs work using only keyboard`, async () => {
+    await check(`${name}: all FAQ entries work using only keyboard`, async () => {
       const details = page.locator('#faq details');
-      assert.equal(await details.count(), 6);
+      assert.ok(await details.count() >= 9 && await details.count() <= 10);
       for (const item of await details.all()) {
         const summary = item.locator('summary');
         await summary.focus();

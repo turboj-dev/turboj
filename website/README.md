@@ -2,7 +2,7 @@
 
 The official English product website, implemented with Astro 7.4.2, strict
 TypeScript 6.0.3 and plain CSS. The output is static HTML, CSS, local images and
-fonts, a small shared theme switcher, mobile menu and deterministic TypeScript UI replay. No hydrated framework,
+fonts, a small shared theme switcher, mobile menu and an illustrated HelloWorld replay. No hydrated framework,
 server runtime, analytics, external font CDN or browser network dependency.
 
 ## Development
@@ -27,6 +27,7 @@ npm test
 ASTRO_TELEMETRY_DISABLED=1 npm run preview -- --port 4321
 npm run test:browser
 npm run test:demo
+node tests/session-browser.mjs
 npm run test:themes
 npm run test:spin
 npm run test:scroll
@@ -43,7 +44,11 @@ Output goes to `dist/`; test reports go to ignored `artifacts/`.
 - `src/components/`: semantic page sections, native mobile menu and FAQ.
 - `src/data/site.ts`: central navigation, metadata and public URLs.
 - `src/data/copy.ts`: repeated feature, workflow and FAQ content.
-- `src/scripts/demo-timeline.ts`: the reviewed example and deterministic replay events.
+- `src/scripts/demo-timeline.ts`: the eight-second illustrative HelloWorld sequence.
+- `src/data/recorded-session.json`: separate native-session evidence, full snapshots and measured intervals.
+- `scripts/prepare-session.mjs`: trace validation, evidence checksums and measurement data preparation.
+- `demo/`: reproducible projects, capture harness and control evidence.
+- `src/pages/session.astro`: public measurement conditions and source captures.
 - `src/scripts/turboj-demo.ts`: incremental DOM rendering and playback controls.
 - `src/scripts/theme-preference.ts`, `theme-switcher.ts`: initial preference and the single theme state.
 - `src/styles/`: native-generated palettes, local font faces and responsive layout.
@@ -110,9 +115,9 @@ Local Ollama FIM inference was verified on macOS against 12 compiled and execute
 examples covering method bodies and insertion between existing statements. The
 OpenAI Responses adapter has protocol-fixture coverage; live cloud validation
 remains pending. The article links to [setup, privacy, and validation](../docs/ai-completion.md)
-and does not add AI behavior to the browser's HelloWorld replay. Project-JUnit
-execution is not advertised as implemented. Reserved theme token names alone do
-not establish a native capability.
+and does not add AI behavior to the browser replay. The separate recorded session
+exercises actual bundled JUnit tests. Reserved theme token names alone do not
+establish a native capability.
 
 ## Assets and factual corrections
 
@@ -120,42 +125,61 @@ The available authentic capture is 1060 × 740. Its values are a **0.03 ms cache
 hit**, **1.17 ms execution**, and **2.22 ms round trip**. The supplied marketing
 brief described a different capture (0.08/2.60/8.27 ms), which was unavailable.
 The page therefore uses the values actually visible in the repository image.
-The v2 hero and repeated feature text have been shortened to prioritize the
-interactive example. These values still describe one native application run,
-not a benchmark, fresh compilation, or the illustrated `HelloWorld.java` replay.
+These values describe an earlier native prototype run, not a benchmark of
+TurboJ 1.0.10 or a fresh compilation. Neither the illustrative hero nor the
+separate recorded session reuses them as its timings.
 
 The main lossless WebP is 15,308 bytes and is decoded/pixel-compared against the
 original in every asset build. The larger original PNG opens in a separate tab.
-The screenshot remains accessible from the demo caption and is the visible
+The historical screenshot remains accessible from the performance section and is the visible
 fallback when JavaScript is unavailable. Font
 licenses and full asset provenance are documented in [ASSETS.md](ASSETS.md).
 
-## Interactive hero
+## Illustrative hero and separate native evidence
 
-The eight-second sequence is an **illustration**, not a Java runtime. It reveals
-the fixed `HelloWorld.java` source, shows compilation status, then output and
-successful exit. Animation timestamps never appear as compiler measurements.
-The independent performance section continues to describe the original native
-`Hello.java` screenshot.
+The homepage keeps the simple eight-second HelloWorld typing, compile and run
+illustration. It does not execute Java in the browser or display measured native
+operation times. Replay, Pause and Skip control the illustration; reduced motion
+shows its completed state. The native screenshot and recorded evidence are separate.
 
-One `requestAnimationFrame` scheduler advances an immutable event model using
-monotonic elapsed time. Source tokens are created once and only changed text is
-updated; there is no HTML injection, editor library or per-character timer.
-Replay resets source, filename, output, cursor, status and progress. Pause
-preserves position, and Skip renders the exact terminal state. Playback starts
-once when the frame enters view, suspends outside view or in a hidden document,
-and stops after completion. A manual pause survives scrolling and visibility
-changes. Reduced-motion users receive the completed example immediately,
-including after pressing Replay.
+The supporting `/session/` page documents one complete run of the **unmodified
+TurboJ application**, commit `5d801f84a183cc6d6415d6e605d442818d2e3310`.
+Its 61 captures and 18 measured intervals cover Hello World, two JUnit tests,
+Rename and Extract Method, tests after refactoring, separate automation on save,
+Maven import, Spring Boot and a real external curl request. This captured sequence
+is not the current hero animation.
 
-Animated visual text is excluded from the accessibility tree so typed characters
-do not create repeated announcements. A static description and complete source
-accompany keyboard-operated buttons and concise state messages. The source pane
-is an accessible, focusable region, so mobile code retains readable text and
-supports arrow-key horizontal scrolling without scrolling the overall page.
-The screenshot fallback and replay share a reserved stage to prevent layout
-shifts. No native trace import/export is implemented yet; future measured traces
-must remain explicitly distinguished from this illustrative event sequence.
+The session was nominated before its times were known, after control runs.
+Automated source entry and actual reading pauses remain in the data, alongside
+monotonic nanoseconds, wall timestamps, authentic output, source snapshots,
+unchanged screenshots, environment and cache conditions. See the
+[capture instructions](demo/capture/README.md), [control notes](demo/capture/CONTROL_RUNS.md),
+and [Spring measurement boundaries](demo/capture/SPRING_SESSION.md).
+The [earlier replay verification](demo/VERIFICATION.md) is a historical report,
+not validation of the current homepage.
+
+The Spring server uses the explicit Maven `spring-boot:run` command: Fast Run and
+Isolated Run retire its worker after main returns. Dependencies and the wrapper
+were cached; this is not a cold-download measurement. Live single-file diagnostics
+could not resolve the plain Java test classpath, while Run All Tests compiled and
+passed both tests. These limitations and the original output remain in the evidence.
+Internal compiler/test-runner durations are distinct from command-to-capture time.
+
+To replace the evidence, run controls and then capture a new full session using
+`demo/capture/README.md`. Inspect every screenshot for private data, then, from the
+repository root:
+
+```sh
+node website/scripts/prepare-session.mjs target/hero-session/your-unique-session
+python3 website/scripts/package-demo-projects.py
+```
+
+This refuses incomplete captures or private home paths in UI states. It copies
+unchanged PNGs, writes a SHA-256 manifest, and derives the public timeline. The
+selected evidence lives in `public/demo/session-2026-10-24/`; `/session/` explains
+measurement conditions and links the trace, screenshots and example archive.
+No video was recorded. Replacing this evidence does not change the illustrative
+hero. Run the website build and checks before publishing either change.
 
 ## Static deployment
 

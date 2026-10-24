@@ -1,9 +1,9 @@
 export const site = {
   name: 'TurboJ',
-  title: 'TurboJ — The Ultra-Fast Java Editor for macOS',
-  description: 'TurboJ is a fast, minimal Java editor inspired by classic DOS development tools. Write, compile, and run Java in one focused macOS application.',
+  title: 'TurboJ — Native Java Editor for macOS',
+  description: 'A lightweight, keyboard-first Java environment for macOS. Maven projects, semantic refactoring, fast compilation, JUnit tests, and optional AI completion.',
   ogTitle: 'TurboJ — Old-school Focus. Modern Java.',
-  ogDescription: 'The classic edit, compile, run workflow is back. Meet TurboJ, the ultra-fast Java editor for macOS.',
+  ogDescription: 'A minimal interface for real Java projects. Maven, semantic refactoring, fast compilation, and JUnit tests in one macOS window.',
   navigation: [
     { label: 'Overview', href: '#overview' },
     { label: 'Features', href: '#features' },

@@ -1,0 +1,2 @@
+# Preserve the upstream Windows Maven wrapper's CRLF bytes.
+demo/projects/spring-hello/mvnw.cmd -text whitespace=cr-at-eol

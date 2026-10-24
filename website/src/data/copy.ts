@@ -1,44 +1,44 @@
 export const features = [
   {
     number: '01',
-    title: 'Write Java',
+    title: 'Write & Navigate',
     paragraphs: [
-      'A clean source editor with syntax highlighting, line numbers, and a familiar keyboard-driven interface.',
+      'Edit Java with semantic completion, method signatures, Javadoc, and navigation across your source code.',
     ],
   },
   {
     number: '02',
-    title: 'Compile without the ceremony',
+    title: 'Compile & Run',
     paragraphs: [
-      'Compile Java from the editor. Diagnostics appear directly in the message pane.',
+      'Compile Java in memory, run programs through the integrated console, and evaluate code with JShell.',
     ],
   },
   {
     number: '03',
-    title: 'Run where you write',
+    title: 'Maven Projects',
     paragraphs: [
-      'Run a Java program and see its output immediately below the source.',
+      'Open Maven projects, resolve dependencies, and work across modules without rebuilding the project after every edit.',
     ],
   },
   {
     number: '04',
-    title: 'Keep your hands on the keyboard',
+    title: 'Refactor & Format',
     paragraphs: [
-      'F2 to save. F9 to make. Ctrl+F9 to run.',
+      'Use semantic Java refactoring, change previews, and consistent source formatting directly in the editor.',
     ],
   },
   {
     number: '05',
-    title: "See what's happening",
+    title: 'JUnit & Automation',
     paragraphs: [
-      'Compiler status, errors, cache hits, and execution timings are visible without opening a separate dashboard.',
+      'Run tests by method, class, or project. Optionally run programs or tests automatically after a successful save and compile.',
     ],
   },
   {
     number: '06',
-    title: 'Choose your theme',
+    title: 'Your Keyboard, Your Theme',
     paragraphs: [
-      '100 curated editor themes, plus Turbo Classic, Modern Dark, and Modern Light. Search, preview, or spin the random theme wheel.',
+      'Choose from four keyboard profiles, customize shortcuts, and select from 103 editor themes.',
     ],
   },
 ] as const;
@@ -46,11 +46,11 @@ export const features = [
 export const javaIntelligenceFeatures = [
   {
     title: 'Smart Java Completion',
-    description: 'Type-aware Java suggestions, directly inside the editor.',
+    description: 'Semantic and inline suggestions, overloads, and parameter hints, without AI.',
   },
   {
     title: 'Code Navigation',
-    description: 'Jump to method and class declarations with a click.',
+    description: 'Go to Declaration and retrace your steps with navigation history.',
   },
   {
     title: 'Quick Documentation',
@@ -61,29 +61,36 @@ export const javaIntelligenceFeatures = [
 export const aiCompletionFeature = {
   title: 'AI completion, when you want it.',
   label: 'Optional · Disabled by default',
-  description: 'Preview the next statement or a block of Java directly in your editor. Use an optional local FIM model, accept with Tab, or dismiss with Escape. Java intelligence stays available with AI off.',
-  status: 'Local Ollama inference verified on macOS. The OpenAI Responses adapter is implemented and protocol-tested; live cloud validation is pending.',
+  description: 'Optional local or cloud-assisted inline suggestions. Java completion, navigation, and refactoring continue to work without AI.',
+  status: 'Local Ollama inference verified with a real model. The llama.cpp FIM and OpenAI Responses adapters are protocol-tested; live cloud inference has not been verified. Cloud access requires explicit consent and credentials use macOS Keychain. Context is limited to the current buffer; models are not included.',
   linkLabel: 'AI setup, privacy, and validation',
 } as const;
 
 export const workflow = [
   {
     number: '01',
-    title: 'EDIT',
+    title: 'WRITE',
     paragraphs: [
-      'Write your Java code directly in TurboJ.',
+      'Write Java with semantic completion, source navigation, and quick documentation.',
     ],
   },
   {
     number: '02',
     title: 'COMPILE',
-    paragraphs: ['Use the compiler from the editor and get feedback in the message pane.'],
+    paragraphs: ['Compile the current code in memory and see diagnostics inside TurboJ.'],
   },
   {
     number: '03',
     title: 'RUN',
     paragraphs: [
-      'Execute your program and read the output without leaving TurboJ.',
+      'Run your program in the integrated console, with arguments and interactive input when needed.',
+    ],
+  },
+  {
+    number: '04',
+    title: 'TEST',
+    paragraphs: [
+      'Run JUnit tests, inspect failures, or enable automatic testing after a successful save and compile.',
     ],
   },
 ] as const;
@@ -91,26 +98,42 @@ export const workflow = [
 export const faq = [
   {
     question: 'What is TurboJ?',
-    answer: 'TurboJ is a lightweight Java development environment inspired by classic DOS editors, especially the Turbo C era. Its focus is a simple, fast workflow for editing, compiling, and executing Java programs.',
+    answer: 'TurboJ is a native Java development environment for macOS. It combines a minimal keyboard-first interface with Java completion, compilation, execution, Maven projects, refactoring, formatting, and testing.',
+  },
+  {
+    question: 'Does TurboJ support Maven projects?',
+    answer: "Yes. TurboJ can open Maven projects, resolve dependencies, and work across multiple modules. Its fast compiler handles everyday development, while explicit Maven commands run the project's full build lifecycle.",
+  },
+  {
+    question: 'Can TurboJ run JUnit tests automatically?',
+    answer: 'Yes. Auto Test on Save and Auto Run on Save are separate options, disabled by default. After saving, TurboJ compiles the current code and runs enabled actions only when compilation succeeds.',
+  },
+  {
+    question: 'Does Java completion require AI?',
+    answer: 'No. Semantic completion, source navigation, method signatures, and documentation work without AI. Generative completion is optional.',
+  },
+  {
+    question: 'Can I customize shortcuts and themes?',
+    answer: 'Yes. TurboJ supports IntelliJ, Eclipse, VS Code, and classic TurboJ keymaps, individual shortcut customization, and 103 editor themes.',
+  },
+  {
+    question: 'Can I use FormatJ, RefactorJ, and the other tools independently?',
+    answer: 'The components are designed as reusable Java libraries. Their source and local distributions exist, but publication to Maven Central and plugin marketplaces is still pending.',
   },
   {
     question: 'Is TurboJ a replacement for IntelliJ IDEA or Eclipse?',
-    answer: 'No. Those tools solve much larger problems. TurboJ focuses on small programs, learning, experimentation, and quick development tasks where a full IDE may be unnecessary.',
+    answer: 'TurboJ takes a different approach: a smaller, keyboard-first interface for Java development. It supports real Maven projects and modern tooling without attempting to reproduce every feature of larger IDEs.',
   },
   {
-    question: 'Can I write real Java programs?',
-    answer: "Yes. TurboJ works with Java source code and executes real Java programs. It's not a Java simulator or a browser-based playground.",
+    question: 'Which platforms are supported?',
+    answer: 'The current development preview has been validated on Apple Silicon macOS. Other platforms have not been verified.',
+  },
+  {
+    question: 'Can I download TurboJ?',
+    answer: 'The project is in development preview. Source and build instructions are available on GitHub; a signed and notarized public macOS release is not yet available.',
   },
   {
     question: 'Why does it look like an editor from the 1990s?',
     answer: "Because we liked that development experience. The keyboard shortcuts, compact layout, and immediate feedback were good ideas then. They're still good ideas today.",
-  },
-  {
-    question: 'What platforms does TurboJ support?',
-    answer: 'TurboJ is currently being developed for macOS. Other platforms have not been announced.',
-  },
-  {
-    question: 'Is TurboJ available to download?',
-    answer: 'A public download will be linked here once a distributable build is ready.',
   },
 ] as const;

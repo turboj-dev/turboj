@@ -1,0 +1,3324 @@
+{
+  "metadata": {
+    "schemaVersion": 1,
+    "startedAt": "2026-10-24T20:32:56.700236Z",
+    "clock": "System.nanoTime (relative nanoseconds); wall timestamps are Instant.now",
+    "measurementBoundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+    "capture": "Actual Swing frame painted into an image on the EDT; no desktop or other windows captured",
+    "input": "Deterministic automation enters source into the actual editor and dispatches real registered commands and dialog buttons",
+    "keymap": "TurboJ Classic (explicitly selected for this session)",
+    "fontSize": 18,
+    "editorFont": {
+      "name": "Monospaced",
+      "size": 18,
+      "family": "Monospaced"
+    },
+    "theme": "classic",
+    "menus": [
+      "File",
+      "Project",
+      "Build",
+      "Edit",
+      "Search",
+      "Navigate",
+      "Code",
+      "Refactor",
+      "Run",
+      "Test",
+      "Options",
+      "Help"
+    ],
+    "frameSize": [
+      1060,
+      740
+    ],
+    "jdk": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode)",
+    "javaVendor": "Amazon.com Inc.",
+    "os": "ProductName: macOS ProductVersion: 26.5.1 BuildVersion: 25F80",
+    "logicalProcessors": 10,
+    "turbojCommit": "5d801f84a183cc6d6415d6e605d442818d2e3310",
+    "cpu": "Apple M5",
+    "ramBytes": "17179869184",
+    "appJar": "target/release-interaction-1.0.10/TurboJ.app/Contents/app/turboj-app.jar",
+    "appJarSha256": "87997d6395e5dc5d06f2258ea2ad9572d0f64cf00bf116237ec07dde2feaf893",
+    "conditions": [
+      "Fresh app JVM, fresh private project/configuration directories. Bundled JUnit; no network needed for chapters A-D. Semantic/compiler workers warm progressively within this single session. No durations copied from control runs.",
+      "Captured in an ordinary development session with other development/browser work possible. The demo workspace and settings are isolated; the machine was not quiesced for a benchmark.",
+      "Actual pauses in this captured session: 1400 ms after state snapshots (600 ms for the empty file), 1600 ms after operation results, all outside operation measurement boundaries. Source input is automated in complete edits. Live compilation may finish during presentation pauses, so explicit Compile and Run may reuse its cache.",
+      "Automated input in the actual native application. Source entry and reading pauses are not measures of typing performance.",
+      "Successful Java Save. Unsaved changes were observed for 600 ms without execution. Save-to-result measurements include trigger scheduling and compilation; no inferred debounce duration is published.",
+      "Operation intervals play at 1×. This recording retains its actual scripted source entry and reading pauses; no timeline gaps were shortened.",
+      "Completion is sampled and painted on the Swing EDT. This is not a physical-display or browser millisecond-accuracy claim.",
+      "Spring Boot uses the explicit Maven spring-boot:run goal. Native Fast Run and Isolated Run retire this server when main returns.",
+      "curl is an external process, not a TurboJ terminal. Runner-reported durations in the output are separate from command-to-result elapsed time.",
+      "Dependencies and wrapper distribution were already downloaded during control runs. No MavenJ model existed for this fresh workspace.",
+      "Background Java HttpClient GET /hello until HTTP 200 with exact expected body. 25 ms between completed probes; timeout500ms. Measurement also includes final EDT paint checkpoint. This is not Spring's internal startup log duration.",
+      "Maven import is measured from Open through the settled model, including the configuration synchronization. The final publication reported model cacheHit=true, 39 dependencies, offline=false, native fast-path status PARTIAL. This is not a cold dependency-download measurement."
+    ],
+    "presentationPauses": "Actual pauses in this captured session: 1400 ms after state snapshots (600 ms for the empty file), 1600 ms after operation results, all outside operation measurement boundaries. Source input is automated in complete edits. Live compilation may finish during presentation pauses, so explicit Compile and Run may reuse its cache.",
+    "automationTrigger": "Successful Java Save. Unsaved changes were observed for 600 ms without execution. Save-to-result measurements include trigger scheduling and compilation; no inferred debounce duration is published.",
+    "springBoot": {
+      "launch": "Existing Build → Run Maven Goal → spring-boot:run. Real Maven lifecycle, not Fast Run.",
+      "javaRelease": 21,
+      "nativeLimitation": "Control runs confirmed Fast Run and Isolated Run retire the worker when main returns with Spring server threads still active. This session uses the supported explicit Maven lifecycle instead.",
+      "version": "4.1.1",
+      "mavenWrapper": "3.9.11",
+      "logging": "spring.main.log-startup-info=false omits the local username and working directory from Spring startup identity logs.",
+      "cache": "Dependencies and wrapper distribution were already downloaded during control runs. No MavenJ model existed for this fresh workspace."
+    },
+    "springImport": {
+      "moduleCount": 1,
+      "mavenJDurationNs": 8186541,
+      "cacheHit": true,
+      "offline": false,
+      "fastPath": "PARTIAL",
+      "dependencyCount": 39
+    },
+    "springReadiness": "Background Java HttpClient GET /hello until HTTP 200 with exact expected body. 25 ms between completed probes; timeout500ms. Measurement also includes final EDT paint checkpoint. This is not Spring's internal startup log duration.",
+    "curl": {
+      "boundary": "System.nanoTime immediately before ProcessBuilder.start through stdout EOF and waitFor return; includes curl process startup.",
+      "exitCode": 0,
+      "durationNs": 18131792,
+      "stdout": "Hello from TurboJ!\n",
+      "command": "curl --silent --show-error --fail http://127.0.0.1:18765/hello",
+      "startedAt": "2026-10-24T20:34:04.069856Z"
+    },
+    "springStopped": true,
+    "completed": true,
+    "id": "session-2026-10-24",
+    "verified": true,
+    "recordedAt": "2026-10-24T20:32:56.700236Z",
+    "commit": "5d801f84a183cc6d6415d6e605d442818d2e3310",
+    "memory": "16 GiB",
+    "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+    "rawTrace": "/demo/session-2026-10-24/trace.json",
+    "screenshotPolicy": "Unmodified frame-only PNG captures. No screenshot recoloring or compositing. Classic previews retain their captured theme.",
+    "framing": "The original hero dimensions are retained. The HTML source/output view is scrollable, and the project explorer is cropped out on narrow screens. Its labels were transcribed from the selected Maven import result frame; the original full frame remains available.",
+    "projectTreeEvidence": "/demo/session-2026-10-24/screenshots/049-maven-import-result.png",
+    "video": "No video was recorded. The evidence consists of actual EDT-painted frame captures, source snapshots and monotonic traces.",
+    "cuts": []
+  },
+  "chapters": [
+    {
+      "id": "hello-world",
+      "title": "Hello World",
+      "startMs": 0,
+      "endMs": 5477.943834
+    },
+    {
+      "id": "tests",
+      "title": "Test",
+      "startMs": 5477.943834,
+      "endMs": 11739.576959
+    },
+    {
+      "id": "refactoring",
+      "title": "Refactoring",
+      "startMs": 11739.576959,
+      "endMs": 33759.053167000005
+    },
+    {
+      "id": "automation",
+      "title": "AutoRun / AutoTest",
+      "startMs": 33759.053167000005,
+      "endMs": 51225.65916699999
+    },
+    {
+      "id": "spring-boot",
+      "title": "Spring Boot + curl",
+      "startMs": 51225.65916699999,
+      "endMs": 68354.52362499997
+    }
+  ],
+  "measurements": [
+    {
+      "durationNs": 18185583,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "hello-compile",
+      "chapter": "hello-world",
+      "endNs": 2822743583,
+      "success": true,
+      "label": "Fast Compile: explicit compilation (live compilation may have warmed the cache)",
+      "startNs": 2804558000,
+      "startedAt": "2026-10-24T20:32:59.504635Z",
+      "endedAt": "2026-10-24T20:32:59.522821Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 2111.196959,
+      "endMs": 2129.382542,
+      "durationMs": 18.185583
+    },
+    {
+      "durationNs": 38539375,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "hello-run",
+      "chapter": "hello-world",
+      "endNs": 4523798416,
+      "success": true,
+      "label": "Fast Run: compile and execute Hello World",
+      "startNs": 4485259041,
+      "startedAt": "2026-10-24T20:33:01.185359Z",
+      "endedAt": "2026-10-24T20:33:01.223899Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 3791.898,
+      "endMs": 3830.437375,
+      "durationMs": 38.539375
+    },
+    {
+      "durationNs": 282052583,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "tests-before-refactor",
+      "chapter": "tests",
+      "endNs": 9352879833,
+      "success": true,
+      "label": "Run All Tests: compile project and execute two JUnit tests",
+      "startNs": 9070827250,
+      "startedAt": "2026-10-24T20:33:05.770992Z",
+      "endedAt": "2026-10-24T20:33:06.053049Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 8377.466209,
+      "endMs": 8659.518792,
+      "durationMs": 282.052583
+    },
+    {
+      "durationNs": 30186916,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "rename-inspect",
+      "chapter": "refactoring",
+      "endNs": 13926010791,
+      "success": true,
+      "label": "Rename: resolve the selected symbol and show the inline form",
+      "startNs": 13895823875,
+      "startedAt": "2026-10-24T20:33:10.596058Z",
+      "endedAt": "2026-10-24T20:33:10.626244Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 13202.462834,
+      "endMs": 13232.64975,
+      "durationMs": 30.186916
+    },
+    {
+      "durationNs": 1502463167,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "rename-prepare",
+      "chapter": "refactoring",
+      "endNs": 18517246500,
+      "success": true,
+      "label": "Rename: prepare and validate the cross-file preview",
+      "startNs": 17014783333,
+      "startedAt": "2026-10-24T20:33:13.715061Z",
+      "endedAt": "2026-10-24T20:33:15.217545Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 16321.422292000001,
+      "endMs": 17823.885459,
+      "durationMs": 1502.463167
+    },
+    {
+      "durationNs": 15565959,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "rename-apply",
+      "chapter": "refactoring",
+      "endNs": 20172665000,
+      "success": true,
+      "label": "Rename: apply the validated workspace changes",
+      "startNs": 20157099041,
+      "startedAt": "2026-10-24T20:33:16.857420Z",
+      "endedAt": "2026-10-24T20:33:16.872987Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 19463.738,
+      "endMs": 19479.303959,
+      "durationMs": 15.565959
+    },
+    {
+      "durationNs": 31069833,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "extract-inspect",
+      "chapter": "refactoring",
+      "endNs": 24739674083,
+      "success": true,
+      "label": "Extract Method: resolve the statement selection and show options",
+      "startNs": 24708604250,
+      "startedAt": "2026-10-24T20:33:21.408993Z",
+      "endedAt": "2026-10-24T20:33:21.440061Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 24015.243209,
+      "endMs": 24046.313042,
+      "durationMs": 31.069833
+    },
+    {
+      "durationNs": 105010292,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "extract-prepare",
+      "chapter": "refactoring",
+      "endNs": 27925613250,
+      "success": true,
+      "label": "Extract Method: analyze data flow and prepare the preview",
+      "startNs": 27820602958,
+      "startedAt": "2026-10-24T20:33:24.521040Z",
+      "endedAt": "2026-10-24T20:33:24.626046Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 27127.241917000003,
+      "endMs": 27232.252209000002,
+      "durationMs": 105.010292
+    },
+    {
+      "durationNs": 18440250,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "extract-apply",
+      "chapter": "refactoring",
+      "endNs": 29596248083,
+      "success": true,
+      "label": "Extract Method: apply the validated changes",
+      "startNs": 29577807833,
+      "startedAt": "2026-10-24T20:33:26.278263Z",
+      "endedAt": "2026-10-24T20:33:26.296705Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 28884.446792000002,
+      "endMs": 28902.887042000002,
+      "durationMs": 18.44025
+    },
+    {
+      "durationNs": 120351208,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "tests-after-refactor",
+      "chapter": "refactoring",
+      "endNs": 31368755916,
+      "success": true,
+      "label": "Run the same tests after both refactorings",
+      "startNs": 31248404708,
+      "startedAt": "2026-10-24T20:33:27.948883Z",
+      "endedAt": "2026-10-24T20:33:28.069237Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 30555.043667,
+      "endMs": 30675.394875,
+      "durationMs": 120.351208
+    },
+    {
+      "durationNs": 607914459,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "autotest-wait",
+      "chapter": "automation",
+      "endNs": 37964475500,
+      "success": true,
+      "label": "Unsaved edit: no automatic test execution",
+      "startNs": 37356561041,
+      "startedAt": "2026-10-24T20:33:34.057127Z",
+      "endedAt": "2026-10-24T20:33:34.665051Z",
+      "method": "A 600 ms unsaved-edit observation window followed by an EDT paint checkpoint. This is a negative execution check, not an automatic-trigger latency.",
+      "startMs": 36663.200000000004,
+      "endMs": 37271.114459000004,
+      "durationMs": 607.914459
+    },
+    {
+      "durationNs": 251010750,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "autotest-fails",
+      "chapter": "automation",
+      "endNs": 39873036125,
+      "success": true,
+      "label": "Save triggers compilation and Auto Test: one failure",
+      "startNs": 39622025375,
+      "startedAt": "2026-10-24T20:33:36.322623Z",
+      "endedAt": "2026-10-24T20:33:36.573637Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 38928.664334,
+      "endMs": 39179.675084,
+      "durationMs": 251.01075
+    },
+    {
+      "durationNs": 260504250,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "autotest-passes",
+      "chapter": "automation",
+      "endNs": 43226877708,
+      "success": true,
+      "label": "Save the correction: compile and Auto Test return to green",
+      "startNs": 42966373458,
+      "startedAt": "2026-10-24T20:33:39.667020Z",
+      "endedAt": "2026-10-24T20:33:39.927532Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 42273.012417,
+      "endMs": 42533.516666999996,
+      "durationMs": 260.50425
+    },
+    {
+      "durationNs": 607482375,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "autorun-wait",
+      "chapter": "automation",
+      "endNs": 48379846833,
+      "success": true,
+      "label": "Unsaved output edit: no automatic run",
+      "startNs": 47772364458,
+      "startedAt": "2026-10-24T20:33:44.473078Z",
+      "endedAt": "2026-10-24T20:33:45.080570Z",
+      "method": "A 600 ms unsaved-edit observation window followed by an EDT paint checkpoint. This is a negative execution check, not an automatic-trigger latency.",
+      "startMs": 47079.00341699999,
+      "endMs": 47686.48579199999,
+      "durationMs": 607.482375
+    },
+    {
+      "durationNs": 207375584,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "autorun-saved",
+      "chapter": "automation",
+      "endNs": 50254651250,
+      "success": true,
+      "label": "Save triggers compilation and Auto Run",
+      "startNs": 50047275666,
+      "startedAt": "2026-10-24T20:33:46.748021Z",
+      "endedAt": "2026-10-24T20:33:46.955399Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 49353.91462499999,
+      "endMs": 49561.29020899999,
+      "durationMs": 207.375584
+    },
+    {
+      "durationNs": 574854417,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "maven-import",
+      "chapter": "spring-boot",
+      "endNs": 52493874625,
+      "success": true,
+      "label": "Open Maven project; resolve effective model and dependencies",
+      "startNs": 51919020208,
+      "startedAt": "2026-10-24T20:33:48.619791Z",
+      "endedAt": "2026-10-24T20:33:49.194654Z",
+      "method": "System.nanoTime before the actual TurboFrame.openPath(pom.xml) call through the settled model and EDT paint. Includes model/dependency work and pending configuration synchronization; no file chooser time.",
+      "startMs": 51225.65916699999,
+      "endMs": 51800.513583999986,
+      "durationMs": 574.854417
+    },
+    {
+      "durationNs": 2777520042,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "spring-startup",
+      "chapter": "spring-boot",
+      "endNs": 64275713375,
+      "success": true,
+      "label": "Run Maven goal → first successful HTTP response → UI paint",
+      "startNs": 61498193333,
+      "startedAt": "2026-10-24T20:33:58.199100Z",
+      "endedAt": "2026-10-24T20:34:00.976659Z",
+      "method": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "startMs": 60804.83229199998,
+      "endMs": 63582.35233399998,
+      "durationMs": 2777.520042
+    },
+    {
+      "durationNs": 21507000,
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "id": "curl",
+      "chapter": "spring-boot",
+      "endNs": 67390290708,
+      "success": true,
+      "label": "External curl process → response and exit → capture checkpoint",
+      "startNs": 67368783708,
+      "startedAt": "2026-10-24T20:34:04.069774Z",
+      "endedAt": "2026-10-24T20:34:04.091281Z",
+      "method": "System.nanoTime before external ProcessBuilder execution through stdout EOF, exit validation and the capture paint checkpoint. The curl process-only duration is stored separately in metadata.curl.",
+      "startMs": 66675.42266699998,
+      "endMs": 66696.92966699997,
+      "durationMs": 21.507
+    }
+  ],
+  "events": [
+    {
+      "id": "hello-empty",
+      "chapter": "hello-world",
+      "kind": "state",
+      "label": "A new Java source file",
+      "atNs": 693361041,
+      "wallTime": "2026-10-24T20:32:57.393407Z",
+      "state": {
+        "file": "hello-world/HelloWorld.java",
+        "source": "",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/001-hello-empty.png",
+      "atMs": 0
+    },
+    {
+      "id": "hello-source",
+      "chapter": "hello-world",
+      "kind": "state",
+      "label": "Write and save HelloWorld.java",
+      "atNs": 1351273083,
+      "wallTime": "2026-10-24T20:32:58.051329Z",
+      "state": {
+        "file": "hello-world/HelloWorld.java",
+        "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello world! TurboJ\");\n    }\n}\n",
+        "selectionStart": 130,
+        "selectionEnd": 130,
+        "cursorOffset": 130,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 19.25 ms\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/002-hello-source.png",
+      "atMs": 657.912042
+    },
+    {
+      "id": "hello-compile-start",
+      "chapter": "hello-world",
+      "kind": "start",
+      "label": "Fast Compile: explicit compilation (live compilation may have warmed the cache)",
+      "operationId": "hello-compile",
+      "atNs": 2804558000,
+      "wallTime": "2026-10-24T20:32:59.504635Z",
+      "state": {
+        "file": "hello-world/HelloWorld.java",
+        "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello world! TurboJ\");\n    }\n}\n",
+        "selectionStart": 130,
+        "selectionEnd": 130,
+        "cursorOffset": 130,
+        "topLine": 0,
+        "console": "",
+        "status": "BUILD OK | 0 errors | 21.37 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/003-hello-compile-start.png",
+      "atMs": 2111.196959
+    },
+    {
+      "id": "hello-compile-result",
+      "chapter": "hello-world",
+      "kind": "result",
+      "label": "Fast Compile: explicit compilation (live compilation may have warmed the cache)",
+      "operationId": "hello-compile",
+      "atNs": 2822743583,
+      "wallTime": "2026-10-24T20:32:59.522821Z",
+      "state": {
+        "file": "hello-world/HelloWorld.java",
+        "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello world! TurboJ\");\n    }\n}\n",
+        "selectionStart": 130,
+        "selectionEnd": 130,
+        "cursorOffset": 130,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.25 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.25 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/004-hello-compile-result.png",
+      "atMs": 2129.382542
+    },
+    {
+      "id": "hello-run-start",
+      "chapter": "hello-world",
+      "kind": "start",
+      "label": "Fast Run: compile and execute Hello World",
+      "operationId": "hello-run",
+      "atNs": 4485259041,
+      "wallTime": "2026-10-24T20:33:01.185359Z",
+      "state": {
+        "file": "hello-world/HelloWorld.java",
+        "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello world! TurboJ\");\n    }\n}\n",
+        "selectionStart": 130,
+        "selectionEnd": 130,
+        "cursorOffset": 130,
+        "topLine": 0,
+        "console": "",
+        "status": "CACHE HIT | 0 errors | 0.25 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/005-hello-run-start.png",
+      "atMs": 3791.898
+    },
+    {
+      "id": "hello-run-result",
+      "chapter": "hello-world",
+      "kind": "result",
+      "label": "Fast Run: compile and execute Hello World",
+      "operationId": "hello-run",
+      "atNs": 4523798416,
+      "wallTime": "2026-10-24T20:33:01.223899Z",
+      "state": {
+        "file": "hello-world/HelloWorld.java",
+        "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello world! TurboJ\");\n    }\n}\n",
+        "selectionStart": 130,
+        "selectionEnd": 130,
+        "cursorOffset": 130,
+        "topLine": 0,
+        "console": "FAST RUN · HelloWorld\nHello world! TurboJ\n\n[exit 0 · execution 14.48 ms · round trip 27.77 ms] Completed\n",
+        "status": "CACHE HIT | 0 errors | 0.03 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/006-hello-run-result.png",
+      "atMs": 3830.437375
+    },
+    {
+      "id": "price-source",
+      "chapter": "tests",
+      "kind": "state",
+      "label": "A small discount function using integer cents",
+      "atNs": 6171304875,
+      "wallTime": "2026-10-24T20:33:02.871430Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 290,
+        "selectionEnd": 290,
+        "cursorOffset": 290,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/007-price-source.png",
+      "atMs": 5477.943834
+    },
+    {
+      "id": "test-source",
+      "chapter": "tests",
+      "kind": "state",
+      "label": "Two deterministic tests: 800 cents and 1000 cents",
+      "atNs": 7625207291,
+      "wallTime": "2026-10-24T20:33:04.325354Z",
+      "state": {
+        "file": "price-demo/test/PriceTest.java",
+        "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+        "selectionStart": 333,
+        "selectionEnd": 333,
+        "cursorOffset": 333,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 22.05 ms\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/008-test-source.png",
+      "atMs": 6931.84625
+    },
+    {
+      "id": "tests-before-refactor-start",
+      "chapter": "tests",
+      "kind": "start",
+      "label": "Run All Tests: compile project and execute two JUnit tests",
+      "operationId": "tests-before-refactor",
+      "atNs": 9070827250,
+      "wallTime": "2026-10-24T20:33:05.770992Z",
+      "state": {
+        "file": "price-demo/test/PriceTest.java",
+        "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+        "selectionStart": 333,
+        "selectionEnd": 333,
+        "cursorOffset": 333,
+        "topLine": 0,
+        "console": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n",
+        "status": "BUILD FAILED | 7 errors",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/009-tests-before-refactor-start.png",
+      "atMs": 8377.466209
+    },
+    {
+      "id": "tests-before-refactor-result",
+      "chapter": "tests",
+      "kind": "result",
+      "label": "Run All Tests: compile project and execute two JUnit tests",
+      "operationId": "tests-before-refactor",
+      "atNs": 9352879833,
+      "wallTime": "2026-10-24T20:33:06.053049Z",
+      "state": {
+        "file": "price-demo/test/PriceTest.java",
+        "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+        "selectionStart": 333,
+        "selectionEnd": 333,
+        "cursorOffset": 333,
+        "topLine": 0,
+        "console": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.26 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 5.77 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 103.63 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "TurboTest — 2 passed, 0 failed"
+        ],
+        "dialogBounds": {
+          "width": 950,
+          "height": 600,
+          "x": 55,
+          "y": 84
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "PASSED · 2 passed · 0 failed · 0 skipped · 0 aborted · 103.63 ms · Source 3"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "[PASSED] PriceTest#appliesTwentyPercentDiscount\nDuration: 0.26 ms"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "No compiler diagnostics."
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Go to source",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Run failed",
+                "enabled": false,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Close",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "TurboTest — 2 passed, 0 failed"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/010-tests-before-refactor-result.png",
+      "atMs": 8659.518792
+    },
+    {
+      "id": "tests-output",
+      "chapter": "tests",
+      "kind": "state",
+      "label": "Actual TurboTest results in the output pane",
+      "atNs": 10988460208,
+      "wallTime": "2026-10-24T20:33:07.688653Z",
+      "state": {
+        "file": "price-demo/test/PriceTest.java",
+        "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+        "selectionStart": 333,
+        "selectionEnd": 333,
+        "cursorOffset": 333,
+        "topLine": 0,
+        "console": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.26 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 5.77 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 103.63 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/011-tests-output.png",
+      "atMs": 10295.099167
+    },
+    {
+      "id": "rename-selection",
+      "chapter": "refactoring",
+      "kind": "state",
+      "label": "Select the discount method",
+      "atNs": 12432938000,
+      "wallTime": "2026-10-24T20:33:09.133152Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/012-rename-selection.png",
+      "atMs": 11739.576959
+    },
+    {
+      "id": "rename-inspect-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Rename: resolve the selected symbol and show the inline form",
+      "operationId": "rename-inspect",
+      "atNs": 13895823875,
+      "wallTime": "2026-10-24T20:33:10.596058Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/013-rename-inspect-start.png",
+      "atMs": 13202.462834
+    },
+    {
+      "id": "rename-inspect-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Rename: resolve the selected symbol and show the inline form",
+      "operationId": "rename-inspect",
+      "atNs": 13926010791,
+      "wallTime": "2026-10-24T20:33:10.626244Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Rename discount"
+        ],
+        "dialogBounds": {
+          "width": 252,
+          "height": 115,
+          "x": 308,
+          "y": 114
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "input",
+                "text": "discount"
+              },
+              {
+                "type": "button",
+                "text": "Preview",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Rename discount"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/014-rename-inspect-result.png",
+      "atMs": 13232.64975
+    },
+    {
+      "id": "rename-form",
+      "chapter": "refactoring",
+      "kind": "state",
+      "label": "Rename discount to discountedPrice",
+      "atNs": 15550428208,
+      "wallTime": "2026-10-24T20:33:12.250686Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Rename discount"
+        ],
+        "dialogBounds": {
+          "width": 252,
+          "height": 115,
+          "x": 308,
+          "y": 114
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "input",
+                "text": "discountedPrice"
+              },
+              {
+                "type": "button",
+                "text": "Preview",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Rename discount"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/015-rename-form.png",
+      "atMs": 14857.067167000001
+    },
+    {
+      "id": "rename-prepare-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Rename: prepare and validate the cross-file preview",
+      "operationId": "rename-prepare",
+      "atNs": 17014783333,
+      "wallTime": "2026-10-24T20:33:13.715061Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Rename discount"
+        ],
+        "dialogBounds": {
+          "width": 252,
+          "height": 115,
+          "x": 308,
+          "y": 114
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "input",
+                "text": "discountedPrice"
+              },
+              {
+                "type": "button",
+                "text": "Preview",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Rename discount"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/016-rename-prepare-start.png",
+      "atMs": 16321.422292000001
+    },
+    {
+      "id": "rename-prepare-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Rename: prepare and validate the cross-file preview",
+      "operationId": "rename-prepare",
+      "atNs": 18517246500,
+      "wallTime": "2026-10-24T20:33:15.217545Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nPreparing rename…\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "RefactorJ — Rename"
+        ],
+        "dialogBounds": {
+          "width": 1040,
+          "height": 692,
+          "x": 10,
+          "y": 38
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "select",
+                "text": "src/Price.java"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "WARNING: Reflection strings, generated sources and external binary consumers cannot be verified by source refactoring"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Close",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Apply changes",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "RefactorJ — Rename"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/017-rename-prepare-result.png",
+      "atMs": 17823.885459
+    },
+    {
+      "id": "rename-apply-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Rename: apply the validated workspace changes",
+      "operationId": "rename-apply",
+      "atNs": 20157099041,
+      "wallTime": "2026-10-24T20:33:16.857420Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nPreparing rename…\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "RefactorJ — Rename"
+        ],
+        "dialogBounds": {
+          "width": 1040,
+          "height": 692,
+          "x": 10,
+          "y": 38
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "select",
+                "text": "src/Price.java"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "WARNING: Reflection strings, generated sources and external binary consumers cannot be verified by source refactoring"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Close",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Apply changes",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "RefactorJ — Rename"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/018-rename-apply-start.png",
+      "atMs": 19463.738
+    },
+    {
+      "id": "rename-apply-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Rename: apply the validated workspace changes",
+      "operationId": "rename-apply",
+      "atNs": 20172665000,
+      "wallTime": "2026-10-24T20:33:16.872987Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 43,
+        "selectionEnd": 43,
+        "cursorOffset": 43,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nPreparing rename…\nRefactoring applied\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/019-rename-apply-result.png",
+      "atMs": 19479.303959
+    },
+    {
+      "id": "renamed-tests",
+      "chapter": "refactoring",
+      "kind": "state",
+      "label": "The same tests now reference discountedPrice",
+      "atNs": 21802951250,
+      "wallTime": "2026-10-24T20:33:18.503298Z",
+      "state": {
+        "file": "price-demo/test/PriceTest.java",
+        "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discountedPrice(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discountedPrice(1000, 0));\n    }\n}\n",
+        "selectionStart": 347,
+        "selectionEnd": 347,
+        "cursorOffset": 347,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 19.30 ms\nSaved Price.java\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/020-renamed-tests.png",
+      "atMs": 21109.590209
+    },
+    {
+      "id": "extract-selection",
+      "chapter": "refactoring",
+      "kind": "state",
+      "label": "Select the two calculation statements",
+      "atNs": 23246764791,
+      "wallTime": "2026-10-24T20:33:19.947132Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/021-extract-selection.png",
+      "atMs": 22553.40375
+    },
+    {
+      "id": "extract-inspect-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Extract Method: resolve the statement selection and show options",
+      "operationId": "extract-inspect",
+      "atNs": 24708604250,
+      "wallTime": "2026-10-24T20:33:21.408993Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/022-extract-inspect-start.png",
+      "atMs": 24015.243209
+    },
+    {
+      "id": "extract-inspect-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Extract Method: resolve the statement selection and show options",
+      "operationId": "extract-inspect",
+      "atNs": 24739674083,
+      "wallTime": "2026-10-24T20:33:21.440061Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Extract Method"
+        ],
+        "dialogBounds": {
+          "width": 390,
+          "height": 173,
+          "x": 335,
+          "y": 297
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Method name"
+              },
+              {
+                "type": "input",
+                "text": "extracted"
+              },
+              {
+                "type": "label",
+                "text": "Visibility"
+              },
+              {
+                "type": "select",
+                "text": "PRIVATE"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "label",
+                "text": ""
+              },
+              {
+                "type": "button",
+                "text": "Replace duplicate statements",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Extract Method"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/023-extract-inspect-result.png",
+      "atMs": 24046.313042
+    },
+    {
+      "id": "extract-form",
+      "chapter": "refactoring",
+      "kind": "state",
+      "label": "Extract the calculation into applyDiscount",
+      "atNs": 26361207375,
+      "wallTime": "2026-10-24T20:33:23.061618Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Extract Method"
+        ],
+        "dialogBounds": {
+          "width": 390,
+          "height": 173,
+          "x": 335,
+          "y": 297
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Method name"
+              },
+              {
+                "type": "input",
+                "text": "applyDiscount"
+              },
+              {
+                "type": "label",
+                "text": "Visibility"
+              },
+              {
+                "type": "select",
+                "text": "PRIVATE"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "label",
+                "text": ""
+              },
+              {
+                "type": "button",
+                "text": "Replace duplicate statements",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Extract Method"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/024-extract-form.png",
+      "atMs": 25667.846334
+    },
+    {
+      "id": "extract-prepare-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Extract Method: analyze data flow and prepare the preview",
+      "operationId": "extract-prepare",
+      "atNs": 27820602958,
+      "wallTime": "2026-10-24T20:33:24.521040Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Extract Method"
+        ],
+        "dialogBounds": {
+          "width": 390,
+          "height": 173,
+          "x": 335,
+          "y": 297
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Method name"
+              },
+              {
+                "type": "input",
+                "text": "applyDiscount"
+              },
+              {
+                "type": "label",
+                "text": "Visibility"
+              },
+              {
+                "type": "select",
+                "text": "PRIVATE"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "label",
+                "text": ""
+              },
+              {
+                "type": "button",
+                "text": "Replace duplicate statements",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Extract Method"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/025-extract-prepare-start.png",
+      "atMs": 27127.241917000003
+    },
+    {
+      "id": "extract-prepare-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Extract Method: analyze data flow and prepare the preview",
+      "operationId": "extract-prepare",
+      "atNs": 27925613250,
+      "wallTime": "2026-10-24T20:33:24.626046Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nPreparing extract-method…\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "RefactorJ — Extract Method"
+        ],
+        "dialogBounds": {
+          "width": 1040,
+          "height": 692,
+          "x": 10,
+          "y": 38
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "select",
+                "text": "src/Price.java"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "Validated source changes. Preview does not modify files."
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Close",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Apply changes",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "RefactorJ — Extract Method"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/026-extract-prepare-result.png",
+      "atMs": 27232.252209000002
+    },
+    {
+      "id": "extract-apply-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Extract Method: apply the validated changes",
+      "operationId": "extract-apply",
+      "atNs": 29577807833,
+      "wallTime": "2026-10-24T20:33:26.278263Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 93,
+        "selectionEnd": 165,
+        "cursorOffset": 165,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nPreparing extract-method…\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "RefactorJ — Extract Method"
+        ],
+        "dialogBounds": {
+          "width": 1040,
+          "height": 692,
+          "x": 10,
+          "y": 38
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "select",
+                "text": "src/Price.java"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "Validated source changes. Preview does not modify files."
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Close",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Apply changes",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "RefactorJ — Extract Method"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/027-extract-apply-start.png",
+      "atMs": 28884.446792000002
+    },
+    {
+      "id": "extract-apply-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Extract Method: apply the validated changes",
+      "operationId": "extract-apply",
+      "atNs": 29596248083,
+      "wallTime": "2026-10-24T20:33:26.296705Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 209,
+        "selectionEnd": 281,
+        "cursorOffset": 281,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nPreparing extract-method…\nRefactoring applied\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/028-extract-apply-result.png",
+      "atMs": 28902.887042000002
+    },
+    {
+      "id": "tests-after-refactor-start",
+      "chapter": "refactoring",
+      "kind": "start",
+      "label": "Run the same tests after both refactorings",
+      "operationId": "tests-after-refactor",
+      "atNs": 31248404708,
+      "wallTime": "2026-10-24T20:33:27.948883Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 209,
+        "selectionEnd": 281,
+        "cursorOffset": 281,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 19.95 ms\n",
+        "status": "BUILD OK | 0 errors | 19.95 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/029-tests-after-refactor-start.png",
+      "atMs": 30555.043667
+    },
+    {
+      "id": "tests-after-refactor-result",
+      "chapter": "refactoring",
+      "kind": "result",
+      "label": "Run the same tests after both refactorings",
+      "operationId": "tests-after-refactor",
+      "atNs": 31368755916,
+      "wallTime": "2026-10-24T20:33:28.069237Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 209,
+        "selectionEnd": 281,
+        "cursorOffset": 281,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 19.95 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.22 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.03 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 55.19 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "TurboTest — 2 passed, 0 failed"
+        ],
+        "dialogBounds": {
+          "width": 950,
+          "height": 600,
+          "x": 55,
+          "y": 84
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "PASSED · 2 passed · 0 failed · 0 skipped · 0 aborted · 55.19 ms · Source 8"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "[PASSED] PriceTest#appliesTwentyPercentDiscount\nDuration: 0.22 ms"
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "text",
+                "text": "No compiler diagnostics."
+              },
+              {
+                "type": "button",
+                "text": "v",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "^",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": ">",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "<",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Go to source",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Run failed",
+                "enabled": false,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Close",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "TurboTest — 2 passed, 0 failed"
+          }
+        ]
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/030-tests-after-refactor-result.png",
+      "atMs": 30675.394875
+    },
+    {
+      "id": "refactoring-preserved",
+      "chapter": "refactoring",
+      "kind": "state",
+      "label": "Both tests still pass after Rename and Extract Method",
+      "atNs": 32998280958,
+      "wallTime": "2026-10-24T20:33:29.698786Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 209,
+        "selectionEnd": 281,
+        "cursorOffset": 281,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 19.95 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.22 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.03 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 55.19 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/031-refactoring-preserved.png",
+      "atMs": 32304.919917000003
+    },
+    {
+      "id": "autotest-enabled",
+      "chapter": "automation",
+      "kind": "state",
+      "label": "Enable Auto Test on Save independently of Auto Run",
+      "atNs": 34452414208,
+      "wallTime": "2026-10-24T20:33:31.152939Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 209,
+        "selectionEnd": 281,
+        "cursorOffset": 281,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 19.95 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.22 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.03 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 55.19 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [
+          "Options"
+        ],
+        "dialogDetails": [],
+        "menuBounds": {
+          "x": 584,
+          "y": 49,
+          "width": 366,
+          "height": 280
+        }
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/032-autotest-enabled.png",
+      "atMs": 33759.053167000005
+    },
+    {
+      "id": "autotest-edited",
+      "chapter": "automation",
+      "kind": "state",
+      "label": "Change the divisor; typing alone has not run tests",
+      "atNs": 35893782958,
+      "wallTime": "2026-10-24T20:33:32.594329Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/033-autotest-edited.png",
+      "atMs": 35200.42191700001
+    },
+    {
+      "id": "autotest-wait-start",
+      "chapter": "automation",
+      "kind": "start",
+      "label": "Unsaved edit: no automatic test execution",
+      "operationId": "autotest-wait",
+      "atNs": 37356561041,
+      "wallTime": "2026-10-24T20:33:34.057127Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.62 ms\n",
+        "status": "BUILD OK | 0 errors | 11.62 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/034-autotest-wait-start.png",
+      "atMs": 36663.200000000004
+    },
+    {
+      "id": "autotest-wait-result",
+      "chapter": "automation",
+      "kind": "result",
+      "label": "Unsaved edit: no automatic test execution",
+      "operationId": "autotest-wait",
+      "atNs": 37964475500,
+      "wallTime": "2026-10-24T20:33:34.665051Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.62 ms\n",
+        "status": "BUILD OK | 0 errors | 11.62 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/035-autotest-wait-result.png",
+      "atMs": 37271.114459000004
+    },
+    {
+      "id": "autotest-fails-start",
+      "chapter": "automation",
+      "kind": "start",
+      "label": "Save triggers compilation and Auto Test: one failure",
+      "operationId": "autotest-fails",
+      "atNs": 39622025375,
+      "wallTime": "2026-10-24T20:33:36.322623Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.62 ms\n",
+        "status": "BUILD OK | 0 errors | 11.62 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/036-autotest-fails-start.png",
+      "atMs": 38928.664334
+    },
+    {
+      "id": "autotest-fails-result",
+      "chapter": "automation",
+      "kind": "result",
+      "label": "Save triggers compilation and Auto Test: one failure",
+      "operationId": "autotest-fails",
+      "atNs": 39873036125,
+      "wallTime": "2026-10-24T20:33:36.573637Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.62 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [FAILED] PriceTest#appliesTwentyPercentDiscount · 2.86 ms\n    AssertionFailedError: expected: <800> but was: <900>\norg.opentest4j.AssertionFailedError: expected: <800> but was: <900>\n\tat org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)\n\tat org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)\n\tat org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)\n\tat org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)\n\tat PriceTest.appliesTwentyPercentDiscount(PriceTest.java:6)\n\tat java.base/java.lang.reflect.Method.invoke(Unknown Source)\n\tat java.base/java.util.ArrayList.forEach(Unknown Source)\n\tat java.base/java.util.ArrayList.forEach(Unknown Source)\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 3.86 ms\n\nFAILED · 2 tests · 1 passed · 1 failed · 0 skipped · 0 aborted · 52.08 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · FAILED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/037-autotest-fails-result.png",
+      "atMs": 39179.675084
+    },
+    {
+      "id": "autotest-fixed",
+      "chapter": "automation",
+      "kind": "state",
+      "label": "Restore the divisor to 100",
+      "atNs": 41504183750,
+      "wallTime": "2026-10-24T20:33:38.204809Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/038-autotest-fixed.png",
+      "atMs": 40810.822709
+    },
+    {
+      "id": "autotest-passes-start",
+      "chapter": "automation",
+      "kind": "start",
+      "label": "Save the correction: compile and Auto Test return to green",
+      "operationId": "autotest-passes",
+      "atNs": 42966373458,
+      "wallTime": "2026-10-24T20:33:39.667020Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\n",
+        "status": "CACHE HIT | 0 errors | 0.02 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/039-autotest-passes-start.png",
+      "atMs": 42273.012417
+    },
+    {
+      "id": "autotest-passes-result",
+      "chapter": "automation",
+      "kind": "result",
+      "label": "Save the correction: compile and Auto Test return to green",
+      "operationId": "autotest-passes",
+      "atNs": 43226877708,
+      "wallTime": "2026-10-24T20:33:39.927532Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.30 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 3.90 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.27 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": false,
+        "autoTestOnSave": true,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/040-autotest-passes-result.png",
+      "atMs": 42533.516666999996
+    },
+    {
+      "id": "autorun-enabled",
+      "chapter": "automation",
+      "kind": "state",
+      "label": "Enable Auto Run on Save with Auto Test off",
+      "atNs": 44864463625,
+      "wallTime": "2026-10-24T20:33:41.565136Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 420,
+        "selectionEnd": 420,
+        "cursorOffset": 420,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.02 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.30 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 3.90 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.27 ms\n══════════════════════════════════════════════════════════\n",
+        "status": "TURBOTEST · PASSED",
+        "autoRunOnSave": true,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [
+          "Options"
+        ],
+        "dialogDetails": [],
+        "menuBounds": {
+          "x": 584,
+          "y": 49,
+          "width": 366,
+          "height": 280
+        }
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/041-autorun-enabled.png",
+      "atMs": 44171.10258399999
+    },
+    {
+      "id": "autorun-edited",
+      "chapter": "automation",
+      "kind": "state",
+      "label": "Edit the displayed message; execution waits for Save",
+      "atNs": 46311422083,
+      "wallTime": "2026-10-24T20:33:43.012115Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 428,
+        "selectionEnd": 428,
+        "cursorOffset": 428,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": true,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/042-autorun-edited.png",
+      "atMs": 45618.061041999994
+    },
+    {
+      "id": "autorun-wait-start",
+      "chapter": "automation",
+      "kind": "start",
+      "label": "Unsaved output edit: no automatic run",
+      "operationId": "autorun-wait",
+      "atNs": 47772364458,
+      "wallTime": "2026-10-24T20:33:44.473078Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 428,
+        "selectionEnd": 428,
+        "cursorOffset": 428,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.01 ms\n",
+        "status": "BUILD OK | 0 errors | 11.01 ms",
+        "autoRunOnSave": true,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/043-autorun-wait-start.png",
+      "atMs": 47079.00341699999
+    },
+    {
+      "id": "autorun-wait-result",
+      "chapter": "automation",
+      "kind": "result",
+      "label": "Unsaved output edit: no automatic run",
+      "operationId": "autorun-wait",
+      "atNs": 48379846833,
+      "wallTime": "2026-10-24T20:33:45.080570Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 428,
+        "selectionEnd": 428,
+        "cursorOffset": 428,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.01 ms\n",
+        "status": "BUILD OK | 0 errors | 11.01 ms",
+        "autoRunOnSave": true,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/044-autorun-wait-result.png",
+      "atMs": 47686.48579199999
+    },
+    {
+      "id": "autorun-saved-start",
+      "chapter": "automation",
+      "kind": "start",
+      "label": "Save triggers compilation and Auto Run",
+      "operationId": "autorun-saved",
+      "atNs": 50047275666,
+      "wallTime": "2026-10-24T20:33:46.748021Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 428,
+        "selectionEnd": 428,
+        "cursorOffset": 428,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.01 ms\n",
+        "status": "BUILD OK | 0 errors | 11.01 ms",
+        "autoRunOnSave": true,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/045-autorun-saved-start.png",
+      "atMs": 49353.91462499999
+    },
+    {
+      "id": "autorun-saved-result",
+      "chapter": "automation",
+      "kind": "result",
+      "label": "Save triggers compilation and Auto Run",
+      "operationId": "autorun-saved",
+      "atNs": 50254651250,
+      "wallTime": "2026-10-24T20:33:46.955399Z",
+      "state": {
+        "file": "price-demo/src/Price.java",
+        "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+        "selectionStart": 428,
+        "selectionEnd": 428,
+        "cursorOffset": 428,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 11.01 ms\nSaved Price.java\n\n══ PROJECT BUILD ══════════════════════════════════════════════\nCompiling project…\nProject compiled.\nFAST RUN · Price\nUpdated price: 800 cents\n\n[exit 0 · execution 2.97 ms · round trip 5.35 ms] Completed\n",
+        "status": "PROJECT BUILD OK",
+        "autoRunOnSave": true,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/046-autorun-saved-result.png",
+      "atMs": 49561.29020899999
+    },
+    {
+      "id": "maven-import-start",
+      "chapter": "spring-boot",
+      "kind": "start",
+      "label": "Open Maven project; resolve effective model and dependencies",
+      "operationId": "maven-import",
+      "atNs": 51919020208,
+      "wallTime": "2026-10-24T20:33:48.619791Z",
+      "state": {
+        "file": "price-demo/test/PriceTest.java",
+        "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discountedPrice(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discountedPrice(1000, 0));\n    }\n}\n",
+        "selectionStart": 347,
+        "selectionEnd": 347,
+        "cursorOffset": 347,
+        "topLine": 0,
+        "console": "",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/047-maven-import-start.png",
+      "atMs": 51225.65916699999
+    },
+    {
+      "id": "maven-importing",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Maven project import requested",
+      "atNs": 51937328958,
+      "wallTime": "2026-10-24T20:33:48.638100Z",
+      "state": {
+        "file": "spring-hello/pom.xml",
+        "source": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>4.1.1</version>\n    <relativePath/>\n  </parent>\n  <groupId>dev.turboj.demo</groupId>\n  <artifactId>spring-hello</artifactId>\n  <version>1.0.0</version>\n  <properties>\n    <java.version>21</java.version>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-webmvc</artifactId>\n    </dependency>\n  </dependencies>\n  <build>\n    <plugins>\n      <plugin>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "",
+        "status": "XML CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": []
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/048-maven-importing.png",
+      "atMs": 51243.96791699999
+    },
+    {
+      "id": "maven-import-result",
+      "chapter": "spring-boot",
+      "kind": "result",
+      "label": "Open Maven project; resolve effective model and dependencies",
+      "operationId": "maven-import",
+      "atNs": 52493874625,
+      "wallTime": "2026-10-24T20:33:49.194654Z",
+      "state": {
+        "file": "spring-hello/pom.xml",
+        "source": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>4.1.1</version>\n    <relativePath/>\n  </parent>\n  <groupId>dev.turboj.demo</groupId>\n  <artifactId>spring-hello</artifactId>\n  <version>1.0.0</version>\n  <properties>\n    <java.version>21</java.version>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-webmvc</artifactId>\n    </dependency>\n  </dependencies>\n  <build>\n    <plugins>\n      <plugin>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required)\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required)\n",
+        "status": "MAVEN MODEL READY",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/049-maven-import-result.png",
+      "atMs": 51800.513583999986
+    },
+    {
+      "id": "spring-source",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "A real Spring Boot controller; Maven build required for the server",
+      "atNs": 54139834791,
+      "wallTime": "2026-10-24T20:33:50.840638Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required)\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required)\n",
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/050-spring-source.png",
+      "atMs": 53446.47374999998
+    },
+    {
+      "id": "spring-build-menu",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Choose Run Maven Goal",
+      "atNs": 55596025916,
+      "wallTime": "2026-10-24T20:33:52.296849Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 48.90 ms\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 48.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [
+          "Build"
+        ],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies",
+        "menuBounds": {
+          "x": 120,
+          "y": 49,
+          "width": 342,
+          "height": 375
+        }
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/051-spring-build-menu.png",
+      "atMs": 54902.66487499998
+    },
+    {
+      "id": "spring-goal",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Explicit Maven goal: spring-boot:run",
+      "atNs": 57034491958,
+      "wallTime": "2026-10-24T20:33:53.735335Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 48.90 ms\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 48.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Input"
+        ],
+        "dialogBounds": {
+          "width": 284,
+          "height": 124,
+          "x": 388,
+          "y": 322
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Maven goals (space separated):"
+              },
+              {
+                "type": "input",
+                "text": "spring-boot:run"
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Input"
+          }
+        ],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/052-spring-goal.png",
+      "atMs": 56341.13091699998
+    },
+    {
+      "id": "spring-trust",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Project trust is required before executing Maven",
+      "atNs": 58475277958,
+      "wallTime": "2026-10-24T20:33:55.176144Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 48.90 ms\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 48.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Project Trust"
+        ],
+        "dialogBounds": {
+          "width": 729,
+          "height": 164,
+          "x": 165,
+          "y": 302
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Trust this project for this session?"
+              },
+              {
+                "type": "label",
+                "text": "/private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello/pom.xml"
+              },
+              {
+                "type": "label",
+                "text": "Running Java, tests, Maven plugins, wrappers or annotation processors executes project-controlled code."
+              },
+              {
+                "type": "label",
+                "text": "Passive import and dependency inspection do not need this permission."
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Project Trust"
+          }
+        ],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/053-spring-trust.png",
+      "atMs": 57781.91691699998
+    },
+    {
+      "id": "spring-confirm",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Review the real Maven command and Java toolchain",
+      "atNs": 59934525208,
+      "wallTime": "2026-10-24T20:33:56.635411Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 48.90 ms\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 48.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Run Maven Build"
+        ],
+        "dialogBounds": {
+          "width": 1014,
+          "height": 164,
+          "x": 23,
+          "y": 302
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Command: /private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress spring-boot:run"
+              },
+              {
+                "type": "label",
+                "text": "Directory: /private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello"
+              },
+              {
+                "type": "label",
+                "text": "Maven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip"
+              },
+              {
+                "type": "label",
+                "text": "JDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home"
+              },
+              {
+                "type": "label",
+                "text": "Profiles: []"
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Run Maven Build"
+          }
+        ],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/054-spring-confirm.png",
+      "atMs": 59241.16416699998
+    },
+    {
+      "id": "spring-startup-start",
+      "chapter": "spring-boot",
+      "kind": "start",
+      "label": "Run Maven goal → first successful HTTP response → UI paint",
+      "operationId": "spring-startup",
+      "atNs": 61498193333,
+      "wallTime": "2026-10-24T20:33:58.199100Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 48.90 ms\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 48.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          "Run Maven Build"
+        ],
+        "dialogBounds": {
+          "width": 1014,
+          "height": 164,
+          "x": 23,
+          "y": 302
+        },
+        "menus": [],
+        "dialogDetails": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Command: /private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress spring-boot:run"
+              },
+              {
+                "type": "label",
+                "text": "Directory: /private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello"
+              },
+              {
+                "type": "label",
+                "text": "Maven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip"
+              },
+              {
+                "type": "label",
+                "text": "JDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home"
+              },
+              {
+                "type": "label",
+                "text": "Profiles: []"
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Run Maven Build"
+          }
+        ],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/055-spring-startup-start.png",
+      "atMs": 60804.83229199998
+    },
+    {
+      "id": "spring-starting",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Maven is compiling and starting Spring Boot",
+      "atNs": 61504830500,
+      "wallTime": "2026-10-24T20:33:58.205737Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "BUILD OK | 0 errors | 48.90 ms\nMAVEN BUILD\nCommand: /private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress spring-boot:run\nDirectory: /private/tmp/turboj-demo/session-2026-10-24/workspace/spring-hello\nMaven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip\nJDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home\nProfiles: []\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 48.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/056-spring-starting.png",
+      "atMs": 60811.46945899998
+    },
+    {
+      "id": "spring-startup-result",
+      "chapter": "spring-boot",
+      "kind": "result",
+      "label": "Run Maven goal → first successful HTTP response → UI paint",
+      "operationId": "spring-startup",
+      "atNs": 64275713375,
+      "wallTime": "2026-10-24T20:34:00.976659Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.90 ms\n2026-10-24T22:34:00.845+02:00  INFO 13851 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 268 ms2026-10-24T22:34:00.939+02:00  INFO 13851 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "status": "TURBOJ NATIVE · BUILD OK | 0.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/057-spring-startup-result.png",
+      "atMs": 63582.35233399998
+    },
+    {
+      "id": "curl-command",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "External terminal: request the running endpoint",
+      "atNs": 65901646541,
+      "wallTime": "2026-10-24T20:34:02.602616Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.90 ms\n2026-10-24T22:34:00.845+02:00  INFO 13851 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 268 ms2026-10-24T22:34:00.939+02:00  INFO 13851 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "status": "TURBOJ NATIVE · BUILD OK | 0.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "$ curl --silent --show-error --fail http://127.0.0.1:18765/hello\n",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/058-curl-command.png",
+      "atMs": 65208.28549999998
+    },
+    {
+      "id": "curl-start",
+      "chapter": "spring-boot",
+      "kind": "start",
+      "label": "External curl process → response and exit → capture checkpoint",
+      "operationId": "curl",
+      "atNs": 67368783708,
+      "wallTime": "2026-10-24T20:34:04.069774Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.90 ms\n2026-10-24T22:34:00.845+02:00  INFO 13851 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 268 ms2026-10-24T22:34:00.939+02:00  INFO 13851 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "status": "TURBOJ NATIVE · BUILD OK | 0.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "$ curl --silent --show-error --fail http://127.0.0.1:18765/hello\n",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/059-curl-start.png",
+      "atMs": 66675.42266699998
+    },
+    {
+      "id": "curl-result",
+      "chapter": "spring-boot",
+      "kind": "result",
+      "label": "External curl process → response and exit → capture checkpoint",
+      "operationId": "curl",
+      "atNs": 67390290708,
+      "wallTime": "2026-10-24T20:34:04.091281Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.90 ms\n2026-10-24T22:34:00.845+02:00  INFO 13851 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 268 ms2026-10-24T22:34:00.939+02:00  INFO 13851 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "status": "TURBOJ NATIVE · BUILD OK | 0.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "$ curl --silent --show-error --fail http://127.0.0.1:18765/hello\nHello from TurboJ!\n[exit 0]\n",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/060-curl-result.png",
+      "atMs": 66696.92966699997
+    },
+    {
+      "id": "spring-stopped",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Stop Maven terminates the demonstration service",
+      "atNs": 69047884666,
+      "wallTime": "2026-10-24T20:34:05.748899Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from TurboJ!\\n\";\n    }\n}\n",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.90 ms\n2026-10-24T22:34:00.845+02:00  INFO 13851 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 268 ms2026-10-24T22:34:00.939+02:00  INFO 13851 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-24T22:34:00.952+02:00  INFO 13851 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 msMaven exit 137 · 7535 ms · cancelled\n",
+        "status": "TURBOJ NATIVE · BUILD OK | 0.90 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "$ curl --silent --show-error --fail http://127.0.0.1:18765/hello\nHello from TurboJ!\n[exit 0]\n",
+        "dialogs": [],
+        "menus": [],
+        "dialogDetails": [],
+        "projectTree": "spring-hello\n└─spring-hello · Java 21\n  ├─Sources\n  ├─Tests\n  ├─Generated sources\n  ├─Generated tests\n  ├─Resources\n  ├─Test resources\n  └─Dependencies"
+      },
+      "screenshot": "/demo/session-2026-10-24/screenshots/061-spring-stopped.png",
+      "atMs": 68354.52362499997
+    }
+  ]
+}

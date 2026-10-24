@@ -267,7 +267,7 @@ try {
         };
       });
       assert.ok(layout.top >= 0 && layout.sourceTop < viewport.height - 50, `Editor/source is not meaningfully visible in first viewport: ${JSON.stringify(layout)}`);
-      assert.ok(Math.min(layout.bottom, viewport.height) - layout.top >= 150, `Too little editor visible: ${JSON.stringify(layout)}`);
+      assert.ok(layout.bottom <= viewport.height + 1, `The complete editor stage must fit in the first viewport: ${JSON.stringify(layout)}`);
       assert.ok(layout.codeFontPx >= 14, `Source text is ${layout.codeFontPx}px, below 14px minimum.`);
       assert.ok(layout.sourceHeight <= layout.codeViewportHeight + 1, `Source is clipped vertically: ${JSON.stringify(layout)}`);
       assert.ok(Math.abs(layout.lineAdvance - layout.lineHeight) <= 1, `Code rows and cursor line height do not align: ${JSON.stringify(layout)}`);

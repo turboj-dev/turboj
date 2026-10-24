@@ -1,0 +1,37 @@
+CONTROL ONLY — 2026-10-24T20:26:48.494792Z
+Spring Boot 4.1.1; Java 21 project; pre-existing Maven local repository
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+MEASURE import incl. settings + model + dependency resolution: 428.062 ms (System.nanoTime)
+resolved=true; cacheHit=false
+module=dev.turboj.demo:spring-hello:1.0.0; java=21; dependencies=39; fastPath=SUPPORTED
+MEASURE native compile incl. output publication: 251.459 ms (System.nanoTime)
+compile=true
+TurboJ Native uses resident javac 25 with project language/API settings; execution and explicit Maven builds use /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-24T22:26:49.579+02:00  INFO 12071 --- [urboj-program-1] dev.turboj.demo.HelloService             : Starting HelloService using Java 21.0.11 with PID 12071 (started by [local account redacted] in <working-directory>)
+2026-10-24T22:26:49.580+02:00  INFO 12071 --- [urboj-program-1] dev.turboj.demo.HelloService             : No active profile set, falling back to 1 default profile: "default"
+2026-10-24T22:26:49.886+02:00  INFO 12071 --- [urboj-program-1] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 18765 (http)
+2026-10-24T22:26:49.892+02:00  INFO 12071 --- [urboj-program-1] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-24T22:26:49.892+02:00  INFO 12071 --- [urboj-program-1] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-24T22:26:49.902+02:00  INFO 12071 --- [urboj-program-1] o.apache.catalina.loader.WebappLoader    : Unknown class loader [jdk.internal.loader.ClassLoaders$PlatformClassLoader@12ae819b] of class [class jdk.internal.loader.ClassLoaders$PlatformClassLoader]
+2026-10-24T22:26:49.909+02:00  INFO 12071 --- [urboj-program-1] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 301 ms
+2026-10-24T22:26:50.049+02:00  INFO 12071 --- [urboj-program-1] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'
+2026-10-24T22:26:50.053+02:00  INFO 12071 --- [urboj-program-1] dev.turboj.demo.HelloService             : Started HelloService in 0.623 seconds (process running for 0.755)
+
+first endpoint ready=false; response=
+curl: (7) Failed to connect to 127.0.0.1 port 18765 after 0 ms: Couldn't connect to server
+curl exit=7
+MEASURE external curl after 300ms including process creation: 9.694 ms (System.nanoTime)
+worker completed=true
+worker result=RunResult[exitCode=0, durationNanos=722199167, detail=Completed; worker restart required (residual threads, child process, or global state change)]

@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import recorded from '../data/recorded-session.json';
+interface Evidence {
+  metadata: { verified: boolean; id: string; recordedAt: string; commit: string; os: string;
+    cpu: string; memory: string; jdk: string; conditions: string[]; method: string;
+    appJarSha256?: string; rawTrace?: string; video?: string };
+  chapters: { id: string; title: string }[];
+  measurements: { id: string; chapter: string; label: string; durationMs: number; method: string }[];
+  events: { id: string; chapter: string; kind: string; label: string; screenshot: string;
+    state: { source: string; file: string; console: string; externalTerminal?: string } }[];
+}
+const session = recorded as unknown as Evidence;
+const { metadata } = session;
+const sample = (chapter: string) => session.events.filter((event) => event.chapter === chapter && event.kind === 'result').at(-1);
+---
+<BaseLayout>
+  <main id="main" class="session-evidence shell" tabindex="-1">
+    <nav aria-label="Back to TurboJ"><a href="/">← TurboJ · Back to the homepage</a></nav>
+    <p class="eyebrow">SESSION EVIDENCE</p>
+    <h1>One session. Recorded results.</h1>
+    {metadata.verified ? <>
+      <p>A technical record of one real TurboJ session: {session.events.length} captures and {session.measurements.length} measured operations. Timings were measured on the machine below; they are not guaranteed performance or a comparative benchmark.</p>
+      <p>The homepage shows a separate, illustrated HelloWorld sequence. It does not play this captured session or use its operation times.</p>
+      <dl>
+        <dt>Session</dt><dd>{metadata.id} · {metadata.recordedAt}</dd>
+        <dt>TurboJ</dt><dd>Commit <code>{metadata.commit}</code></dd>
+        <dt>Application JAR</dt><dd><code>{metadata.appJarSha256}</code> (SHA-256)</dd>
+        <dt>System</dt><dd>{metadata.os}</dd>
+        <dt>Hardware</dt><dd>{metadata.cpu} · {metadata.memory}</dd>
+        <dt>Runtime</dt><dd><pre>{metadata.jdk}</pre></dd>
+      </dl>
+      <h2>How the times were measured</h2>
+      <p>{metadata.method}</p>
+      <p>The capture harness enters source in the actual editor, invokes its registered commands and operates its real dialogs. It does not modify the IDE. A complete run is selected after control runs; times are not combined across sessions.</p>
+      <p>Compiler and test-runner times printed inside the output are their own measurements. The table below measures the stated command-to-result interval, including scheduling and UI handling. Save-to-result intervals include the automatic trigger and subsequent compilation/execution; the trigger is not inferred from a nominal debounce constant.</p>
+      <ul>{metadata.conditions.map((condition) => <li>{condition}</li>)}</ul>
+      <p>Source entry is automated. The downloadable timeline retains the actual reading pauses and all measured operation intervals. No browser animation or image-loading time is included in these native measurements.</p>
+      <div class="session-links">
+        <a href="/demo/session.json" download>Timeline and measurements (JSON)</a>
+        <a href={metadata.rawTrace} download>Original monotonic trace (JSON)</a>
+        <a href={`/demo/${metadata.id}/manifest.json`} download>Evidence checksums</a>
+        <a href="/demo/projects.zip" download>Reproducible example projects</a>
+      </div>
+      <h2>Times of this session</h2>
+      <p>Displayed to the nearest millisecond for readability. Exact nanosecond deltas are retained in the trace; polling and scheduling limit the observation accuracy.</p>
+      <div class="session-table" tabindex="0" role="region" aria-label="Measured operations; scroll horizontally if needed">
+        <table><thead><tr><th scope="col">Operation</th><th scope="col">Elapsed</th></tr></thead>
+          <tbody>{session.measurements.map((measurement) => <tr><td>{measurement.label}</td><td>{Math.round(measurement.durationMs).toLocaleString('en-US')} ms</td></tr>)}</tbody>
+        </table>
+      </div>
+      <h2>Actual native captures</h2>
+      <p>Unmodified captures of TurboJ’s own frame, painted on the Swing event thread. They contain no desktop or unrelated windows and retain the original Classic theme. Open each full-resolution image to inspect its text. Source and output are also available below as selectable text. {metadata.video}</p>
+      {session.chapters.map((chapter) => {
+        const event = sample(chapter.id);
+        return event && <details>
+          <summary>{chapter.title} — source capture and output</summary>
+          <p>{event.label}</p>
+          <a href={event.screenshot} target="_blank" rel="noopener">Open the full-resolution original capture ↗</a>
+          <img src={event.screenshot} alt={`Actual TurboJ frame: ${event.label}`} width="1060" height="740" loading="lazy" />
+          <h3>{event.state.file}</h3>
+          <pre><code>{event.state.source}</code></pre>
+          <h3>Native output</h3><pre>{event.state.console || '(No output in this captured state.)'}</pre>
+          {event.state.externalTerminal && <><h3>External terminal — real curl</h3><pre>{event.state.externalTerminal}</pre></>}
+        </details>;
+      })}
+      <h2>Spring Boot: the verified path</h2>
+      <p>MavenJ imports the project and resolves its dependencies in-process. This session starts the persistent server with TurboJ’s explicit Maven goal, <code>spring-boot:run</code>. It is a real Maven lifecycle execution, separate from TurboJ Native compilation. The HTTP request is an external <code>curl</code> process.</p>
+      <p>The control runs found that Fast Run and Isolated Run retire this Spring Boot process after its main method returns. They are therefore not presented as a working persistent-server path. No IDE code was changed to accommodate this demo.</p>
+      <h2>Other observed limitations</h2>
+      <p>In the plain Java test file, the live single-file compiler reports missing JUnit and Price symbols before Run All Tests. TurboTest then compiles the workspace with its test classpath and successfully executes both tests. The original diagnostics remain in the captured output; this record does not imply that live test-file diagnostics are already project-aware.</p>
+      <p>The Maven output pane concatenates some lifecycle log lines. The evidence preserves that output, including its original line breaks. These observations were documented without changing the IDE.</p>
+    </> : <p>The capture has not been verified yet. No operation times or successful outcomes are published here.</p>}
+    <p class="session-back"><a href="/">← Return to TurboJ</a></p>
+  </main>
+</BaseLayout>
+<style>
+  .session-evidence { max-width: 1060px; padding-block: 36px 64px; color: var(--page-ink); }
+  nav { margin-bottom: 40px; }
+  h1 { font-size: clamp(26px, 5vw, 44px); line-height: 1.25; margin: 12px 0 24px; }
+  h2 { font-size: 22px; margin: 36px 0 16px; }
+  h3 { font-size: 16px; margin: 20px 0 8px; overflow-wrap: anywhere; }
+  p, li, dd, dt { font-size: 15px; line-height: 1.7; }
+  p { margin-block: 14px; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 12px; }
+  dl { display: grid; grid-template-columns: 140px minmax(0,1fr); gap: 10px 22px; margin: 28px 0; }
+  dt { font-weight: 600; } dd { margin: 0; overflow-wrap: anywhere; }
+  pre { font: 13px/1.65 var(--mono); overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+  code { font-family: var(--mono); }
+  .session-links { display: flex; flex-wrap: wrap; gap: 14px 24px; margin-block: 24px; }
+  a { text-decoration: underline; text-underline-offset: 4px; }
+  a:focus-visible, summary:focus-visible, .session-table:focus-visible { outline: 2px solid var(--tj-ui-accent); outline-offset: 4px; }
+  .session-table { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--page-border); }
+  th:last-child, td:last-child { text-align: right; white-space: nowrap; font-family: var(--mono); }
+  details { border-block-end: 1px solid var(--page-border); padding: 16px 0; }
+  summary { cursor: pointer; font-size: 16px; line-height: 1.6; }
+  img { display: block; max-width: 100%; height: auto; margin-block: 20px; }
+  .session-back { margin-top: 40px; }
+  @media (max-width: 600px) { dl { grid-template-columns: 1fr; gap: 3px; } dd { margin-bottom: 12px; } }
+</style>

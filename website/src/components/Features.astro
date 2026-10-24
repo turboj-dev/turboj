@@ -28,6 +28,7 @@ import { site } from '../data/site';
         </article>
       ))}
     </div>
+    <p class="body-copy interface-note">Menus, explorer, dialogs, output, and refactoring previews share one monospaced interface with theme colors and character-drawn borders. Font size scales across the entire application, not just the source editor.</p>
     <article class="semantic-feature ai-feature" aria-labelledby="ai-feature-heading">
       <div>
         <p class="eyebrow">{aiCompletionFeature.label}</p>
@@ -51,6 +52,7 @@ import { site } from '../data/site';
   .ai-feature .eyebrow { color: var(--tj-ui-link); margin-bottom: 12px; }
   .ai-status { margin-top: 16px; font-size: 15px; line-height: 1.65; }
   .ai-feature .text-link { color: var(--tj-ui-link); margin-top: 8px; }
+  .interface-note { margin-top: 28px; max-width: 920px; }
   @media (max-width: 1000px) {
     .semantic-feature-list { grid-template-columns: 1fr; gap: 28px; }
     .ai-feature { grid-template-columns: 1fr; gap: 0; }

@@ -1,0 +1,44 @@
+{
+  "controls": [
+    {
+      "name": "standard-main",
+      "sourceSha256": "91ab43309b0e3f832d2c1c287e21881b345aa5d0cab69cd851241e32501498ee",
+      "evidenceFile": "standard-main.txt",
+      "purpose": "Headless control; never used as the displayed session timing",
+      "startedAt": "2026-10-24T20:26:33.733868Z",
+      "method": "Bundled TurboJ1.0.10 DefaultMavenJ, Toolchains, MavenCompilationWorkspace and WorkerClient/MavenLifecycle; System.nanoTime",
+      "redactions": [
+        "local account in Spring identity line",
+        "home and working-directory paths",
+        "temporary paths"
+      ]
+    },
+    {
+      "name": "isolated-main",
+      "sourceSha256": "584d7440c5e3e632b579fcc867ef62dae3a19c6e1dcc45d90016f75ea2d50549",
+      "evidenceFile": "isolated-main.txt",
+      "purpose": "Headless control; never used as the displayed session timing",
+      "startedAt": "2026-10-24T20:26:48.494792Z",
+      "method": "Bundled TurboJ1.0.10 DefaultMavenJ, Toolchains, MavenCompilationWorkspace and WorkerClient/MavenLifecycle; System.nanoTime",
+      "redactions": [
+        "local account in Spring identity line",
+        "home and working-directory paths",
+        "temporary paths"
+      ]
+    },
+    {
+      "name": "maven-main",
+      "sourceSha256": "9a15b68190c0c265549eb17d147a813213564154cdf0902b202d6b05ea5463a8",
+      "evidenceFile": "maven-main.txt",
+      "purpose": "Headless control; never used as the displayed session timing",
+      "startedAt": "2026-10-24T20:27:54.324946Z",
+      "method": "Bundled TurboJ1.0.10 DefaultMavenJ, Toolchains, MavenCompilationWorkspace and WorkerClient/MavenLifecycle; System.nanoTime",
+      "redactions": [
+        "local account in Spring identity line",
+        "home and working-directory paths",
+        "temporary paths"
+      ]
+    }
+  ],
+  "note": "Maven control preceded privacy-only logging configuration. Final UI session is captured separately after setting spring.main.log-startup-info=false."
+}

@@ -41,10 +41,12 @@ test results without changing user example source files.
 
 ## Verification
 
-`./mvnw -q -l target/interaction-final-verify.log verify` passed 419 tests with
-zero failures, errors or skips. The final status, dialog-sizing and cancellation
-changes were then rebuilt with 46 targeted tests, also all passing. The combined
-reports contain 421 distinct test cases, including two additional regressions.
+`./mvnw -q -l target/interaction-final-verify.log verify` passed 419 Surefire
+tests and 77 Failsafe integration tests (496 total), with zero failures, errors
+or skips. The final status, dialog-sizing and cancellation changes were then
+rebuilt with 46 targeted tests, also all passing. The combined reports contain
+421 Surefire and 77 Failsafe cases (498 total), including two additional regressions.
+The earlier 419/421 figures counted only Surefire and omitted the Failsafe reports.
 The targeted command was:
 
 ```sh

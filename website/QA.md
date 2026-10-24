@@ -11,6 +11,7 @@ npm run preview -- --port 4321
 # In a second terminal, while preview is running:
 npm run test:browser
 npm run test:demo
+node tests/session-browser.mjs
 npm run test:themes
 npm run test:spin
 npm run test:scroll
@@ -32,7 +33,7 @@ cache hit, 1.17 ms execution, and 2.22 ms round trip. These are a single capture
 application run, not website performance measurements or general Java benchmarks.
 
 The browser suite checks widths 320, 390, 768, 1280, 1440, and 1920 pixels;
-mobile navigation, Escape, anchor navigation, six keyboard-operated FAQs, the
+mobile navigation, Escape, anchor navigation, keyboard-operated FAQs, the
 skip link, screenshot access, image loading, external requests and browser
 errors. It saves desktop/mobile full-page screenshots and runs axe against
 WCAG 2.2 AA tags with FAQ answers exposed. Results are written to
@@ -54,6 +55,68 @@ network/CPU throttling, and the actual installed browser. JSON and HTML reports,
 environment metadata, scores, LCP, CLS and TBT are written to
 `artifacts/lighthouse/`. Local measurements do not represent hosting latency or
 field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
+
+## Targeted 1.0.10 homepage update — 24 October 2026
+
+The existing HelloWorld illustration, stage dimensions, 103 themes, authentic
+prototype image and static architecture are preserved. The six feature cards,
+four-step workflow, Maven/ecosystem copy, preview status, FAQ and one compact
+roadmap now follow `docs/website-handoff-2026-10-24.md`. Shortcuts are qualified by
+keymap. The earlier prototype numbers are explicitly not a 1.0.10 benchmark.
+The separately retained `/session/` evidence does not supply the hero's timing.
+
+Executed against the production artifact at `http://127.0.0.1:4323`:
+
+| Check | Result |
+| --- | --- |
+| Astro checking / static build | Passed; zero errors/warnings, existing performance-helper hint |
+| Unit/content/native-evidence checks | 32 passed |
+| General browser checks | 40 passed at 320, 390, 768, 1280, 1440 and 1920 px |
+| HelloWorld controls and timeline | 25 passed |
+| Themes, persistence, native palette parity and catalog | 74 passed |
+| Random theme / wheel and touch scrolling | 6 / 3 passed |
+| Separate evidence page and real downloads | 8 passed at 390 and 1440 px |
+| Theme latency probe | Completed at 390 and 1440 px |
+| Linked destinations | 8 HTTP 200 results, including six public GitHub links |
+
+Classic, Dark and Light were checked at 390, 768, 1440 and 1920 px. Browser
+checks include keyboard navigation, all ten FAQ entries, Replay/Pause/Skip,
+reduced motion, offscreen/hidden suspension, no-JavaScript fallback, real image
+loading and automated axe audits. No browser errors or horizontal page overflow
+remain. An expanded evidence filename initially overflowed on mobile; wrapping
+was corrected and all eight evidence checks were rerun successfully.
+
+The entire demo stage fits the first viewport without reducing its text size:
+
+| Viewport | Stage top–bottom (CSS px) | Stage height | Code size |
+| --- | --- | --- | --- |
+| 390 × 844 | 320.875–700.875 | 380 | 14 px |
+| 768 × 1024 | 279.375–743.375 | 464 | 16 px |
+| 1440 × 900 | 268.797–732.797 | 464 | 16 px |
+| 1920 × 1080 | 269.578–779.578 | 510 | 18 px |
+
+Long code lines remain horizontally scrollable at readable sizes. The short
+explanatory footer may continue below the fold on a phone. A regression assertion
+checks the full stage boundary. Fresh viewport screenshots were visually inspected.
+
+Evidence: `artifacts/qa/`, `demo-qa/`, `theme-qa/`, `theme-spin-qa/`,
+`theme-scroll-qa/`, `theme-latency/`, `session-qa/` and `qa-links.json`.
+These Chromium checks are not a Safari/Firefox or complete assistive-technology
+certification. No IDE source or user example was changed for this website update.
+
+One local Lighthouse 13.5.0 run on the final artifact at **2026-10-24
+21:10:01 UTC** passed all budgets: **100 Performance / 100 Accessibility /
+100 Best Practices / 100 SEO**, LCP **1,656.982 ms**, CLS **0.000384**, TBT
+**0 ms**. Chromium 156 used 390 × 844 mobile emulation, simulated 150 ms RTT,
+1,638.4 Kbps and 4× CPU slowdown, after other browser checks finished. This is
+one local laboratory observation, not a native Java timing or a production/field
+performance guarantee. INP was not measured. The sandbox initially prevented
+Chrome from opening its debugging port; the authorized rerun produced this result.
+
+Final homepage SHA-256:
+`1c10632a458e650e7631e87bb150a4d8f66535ebbc37327ca7a9aa8735ccdf5b`.
+The deployment must be compared independently with this artifact over verified
+HTTPS, following [DEPLOYMENT.md](DEPLOYMENT.md). No intermediate build was deployed.
 
 ## Current scrolling catalog and fast ASCII drum
 

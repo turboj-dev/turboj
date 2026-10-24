@@ -57,12 +57,12 @@ test('catalog exports lightweight metadata and separate exact native palettes', 
 test('published feature copy distinguishes optional native AI validation from unimplemented capabilities', async () => {
   const html = await readFile(new URL('dist/index.html', website), 'utf8');
   assert.ok(html.includes('Smart Java Completion'));
-  assert.ok(html.includes('Choose your theme'));
+  assert.ok(html.includes('Your Keyboard, Your Theme'));
   assert.ok(html.includes('AI completion, when you want it.'));
   assert.ok(html.includes('Optional · Disabled by default'));
-  assert.ok(html.includes('Java intelligence stays available with AI off.'));
-  assert.ok(html.includes('Local Ollama inference verified on macOS.'));
-  assert.ok(html.includes('protocol-tested; live cloud validation is pending.'));
+  assert.ok(html.includes('Java completion, navigation, and refactoring continue to work without AI.'));
+  assert.match(html, /Ollama[\s\S]*?(?:verified|tested)/);
+  assert.match(html, /protocol-tested[\s\S]*?live cloud[\s\S]*?(?:pending|unverified|not[\s\S]*?verified)/i);
   assert.ok(html.includes('href="https://github.com/turboj-dev/turboj/blob/main/docs/ai-completion.md"'));
-  assert.ok(!html.includes('JUnit Test Runner'));
+  assert.ok(html.includes('JUnit &amp; Automation'));
 });

@@ -14,32 +14,39 @@ const text = normalizeText(decode(html.replace(/<script\b[^>]*>[\s\S]*?<\/script
   .replace(/<\/?(?:a|span|em|strong|b|i|kbd|code)\b[^>]*>/gi, '')
   .replace(/<[^>]+>/g, ' ')));
 
-test('all approved v2 English copy is present in the rendered HTML', () => {
+test('approved 1.0.10 English copy is present in the rendered HTML', () => {
   const missing = requiredCopy.filter((copy) => !text.includes(normalizeText(copy)));
   assert.deepEqual(missing, [], `Missing supplied copy:\n${missing.join('\n')}`);
 });
 
-test('the illustrated replay remains distinct from the genuine native screenshot and measured capture', () => {
-  assert.ok(text.includes('This illustration does not compile or execute Java in your browser.'));
-  assert.ok(text.includes('These measurements are from the native Hello.java capture, not the illustrated HelloWorld.java replay above.'));
-  assert.match(html, /data-demo-action="replay"/);
-  assert.match(html, /data-demo-action="pause"/);
-  assert.match(html, /data-demo-action="skip"/);
+test('the HelloWorld illustration stays distinct from native measurements and keymaps', () => {
+  assert.match(text, /browser illustration/i);
+  assert.match(text, /Java does not (?:execute|run) in (?:the|your|this) browser/i);
+  assert.match(text, /Classic keymap/i);
+  for (const action of ['replay', 'pause', 'skip']) assert.ok(html.includes(`data-demo-action="${action}"`));
   assert.match(html, /data-demo-fallback/);
-  assert.doesNotMatch(html, /Remember the joy of just writing code\?/);
-  assert.doesNotMatch(html, /Remember when writing a program was simple\?/);
-  assert.doesNotMatch(html, /Yes, that blue screen is real\./);
+  assert.ok(text.includes('An earlier native prototype capture'));
+  assert.match(text, /(?:not|isn’t|is not) a (?:current |TurboJ )?1\.0\.10 benchmark/i);
 });
 
 test('page title and factual product metadata are rendered', () => {
-  assert.match(decode(html), /<title>TurboJ — The Ultra-Fast Java Editor for macOS<\/title>/);
-  assert.ok(html.includes('TurboJ is a fast, minimal Java editor inspired by classic DOS development tools. Write, compile, and run Java in one focused macOS application.'));
-  assert.ok(html.includes('TurboJ — Old-school Focus. Modern Java.'));
-  assert.ok(html.includes('The classic edit, compile, run workflow is back. Meet TurboJ, the ultra-fast Java editor for macOS.'));
+  assert.match(decode(html), /<title>TurboJ — Native Java Editor for macOS<\/title>/);
+  assert.ok(html.includes('A lightweight, keyboard-first Java environment for macOS. Maven projects, semantic refactoring, fast compilation, JUnit tests, and optional AI completion.'));
   assert.ok(html.includes('summary_large_image'));
   assert.ok(decode(html).includes(screenshotAlt));
   assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1);
   assert.match(html, /<html[^>]*lang="en"/);
+  assert.match(html, /rel="canonical" href="https:\/\/turboj\.dev\/"/);
+});
+
+test('the existing content structure has six features, four steps and one roadmap', () => {
+  assert.equal((html.match(/class="feature"/g) ?? []).length, 6);
+  assert.equal((html.match(/class="workflow-step"/g) ?? []).length, 4);
+  assert.equal((html.match(/id="roadmap"/g) ?? []).length, 1);
+  assert.equal((text.match(/Maven Projects\. Zero Friction\./g) ?? []).length, 1);
+  assert.equal((text.match(/Native inside TurboJ, standalone everywhere else\./g) ?? []).length, 1);
+  assert.ok(html.includes('https://github.com/turboj-dev/turboj/blob/main/TODO.md'));
+  assert.doesNotMatch(text, /Three steps\. One window\.|The first working editor|F2 to save\. F9 to make\. Ctrl\+F9 to run\./);
 });
 
 test('navigation has real section targets and no placeholder links', () => {

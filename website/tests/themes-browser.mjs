@@ -309,7 +309,7 @@ try {
       await page.screenshot({ path: new URL(`${theme.id}-${viewport.width}.png`, directory).pathname });
       if ([390, 1440].includes(viewport.width)) await page.screenshot({ path: new URL(`${theme.id}-${viewport.width}-full.png`, directory).pathname, fullPage: true });
       websiteAppearances.push(await page.evaluate(() => Object.fromEntries(
-        ['body', '.hero', '.features-section', '.workflow-section', '.performance-console', '.philosophy-section', '.faq-section', '.site-footer']
+        ['body', '.hero', '.features-section', '.workflow-section', '.performance-console', '.philosophy-section', '#roadmap', '.faq-section', '.site-footer']
           .map((selector) => { const s = getComputedStyle(document.querySelector(selector)); return [selector, { background: s.backgroundColor, color: s.color }]; }))));
     }
     await check(`${viewport.width}: each theme changes the whole site, not only the editor`, async () => {

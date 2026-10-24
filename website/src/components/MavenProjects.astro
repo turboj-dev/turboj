@@ -9,10 +9,11 @@ import { site } from '../data/site';
       <h2 class="section-heading" id="maven-heading">Maven Projects. Zero Friction.</h2>
     </header>
     <div class="editorial-copy">
-      <p class="body-copy">Open an existing Maven project and start writing Java. TurboJ resolves dependencies, understands modules, and provides code intelligence without running a full Maven build after every edit.</p>
-      <p class="body-copy">Work across modules, run JUnit tests, and keep the project's Java version and toolchain settings. A compact project explorer keeps source, tests, and dependencies close at hand.</p>
-      <p class="body-copy">Fast Compile keeps the editing loop moving. Explicit Maven Build commands run the project's full lifecycle when you need its plugins and build phases.</p>
-      <p class="body-copy">MavenJ is an independent Java library, embedded directly in TurboJ and reusable by other tools and coding agents.</p>
+      <p class="body-copy">Open a Maven project or <code>pom.xml</code>. TurboJ resolves dependencies, understands reactor modules, and uses the project's Java configuration.</p>
+      <p class="body-copy">Use configured Maven repositories and mirrors, project Java versions and toolchains, and navigation through sources and dependencies. First-time dependency resolution may need network access.</p>
+      <p class="body-copy">Fast Compile keeps everyday editing responsive. When you need the complete Maven lifecycle, run Maven Build explicitly.</p>
+      <p class="body-copy">Run and Run All Tests work from an imported Maven workspace, even when the <code>pom.xml</code> is the active editor file.</p>
+      <p class="body-copy">MavenJ is an independent Java library, embedded directly in TurboJ. Importing a project does not execute its wrappers, plugins, or annotation processors.</p>
       <a class="text-link" href={`${site.links.source}/tree/main/mavenj`}>Explore MavenJ source and documentation</a>
     </div>
   </div>
