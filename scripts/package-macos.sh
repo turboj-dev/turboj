@@ -16,8 +16,8 @@ cp app/target/turboj-app.jar "$TURBOJ_STAGE/input/"
 "$TURBOJ_JDK/bin/jlink" --add-modules java.se,jdk.compiler,jdk.jshell,jdk.jdi,jdk.jfr,jdk.unsupported,jdk.zipfs --strip-debug --no-header-files --no-man-pages --compress=zip-6 --output "$TURBOJ_STAGE/runtime"
 # Preserve the platform symbol archive for compiler toolchain compatibility.
 if [ -f "$TURBOJ_JDK/lib/ct.sym" ]; then cp "$TURBOJ_JDK/lib/ct.sym" "$TURBOJ_STAGE/runtime/lib/ct.sym"; fi
-"$TURBOJ_JDK/bin/jpackage" --type app-image --name TurboJ --app-version 1.0.7 --vendor TurboJ --description 'A focused Java editor and execution environment' --input "$TURBOJ_STAGE/input" --main-jar turboj-app.jar --main-class dev.turboj.app.TurboJ --runtime-image "$TURBOJ_STAGE/runtime" --dest "$TURBOJ_DEST" --mac-package-identifier dev.turboj.app --java-options '-Xmx768m' --java-options '--enable-native-access=ALL-UNNAMED'
+"$TURBOJ_JDK/bin/jpackage" --type app-image --name TurboJ --app-version 1.0.8 --vendor TurboJ --description 'A focused Java editor and execution environment' --input "$TURBOJ_STAGE/input" --main-jar turboj-app.jar --main-class dev.turboj.app.TurboJ --runtime-image "$TURBOJ_STAGE/runtime" --dest "$TURBOJ_DEST" --mac-package-identifier dev.turboj.app --java-options '-Xmx768m' --java-options '--enable-native-access=ALL-UNNAMED'
 if [ "$TURBOJ_FORMAT" = dmg ]; then
-  "$TURBOJ_JDK/bin/jpackage" --type dmg --name TurboJ --app-version 1.0.7 --app-image "$TURBOJ_DEST/TurboJ.app" --dest "$TURBOJ_DEST"
+  "$TURBOJ_JDK/bin/jpackage" --type dmg --name TurboJ --app-version 1.0.8 --app-image "$TURBOJ_DEST/TurboJ.app" --dest "$TURBOJ_DEST"
 fi
 printf 'Created %s/TurboJ.app (local development build; not notarized).\n' "$TURBOJ_DEST"

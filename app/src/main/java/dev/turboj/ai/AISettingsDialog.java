@@ -159,13 +159,7 @@ public final class AISettingsDialog extends EmbeddedDialog {
                 };
         cloudEndpoint.getDocument().addDocumentListener(consentInvalidation);
         cloudModel.getDocument().addDocumentListener(consentInvalidation);
-        addInternalFrameListener(
-                new InternalFrameAdapter() {
-                    @Override
-                    public void internalFrameClosing(InternalFrameEvent e) {
-                        close();
-                    }
-                });
+        onClosing(this::close);
         getRootPane()
                 .registerKeyboardAction(
                         e -> close(),
@@ -305,25 +299,11 @@ public final class AISettingsDialog extends EmbeddedDialog {
     }
 
     public void setTheme(Theme theme) {
-        style(getContentPane(), theme);
-        result.setForeground(theme.color("ui", "muted"));
-        getRootPane().setBorder(BorderFactory.createLineBorder(theme.color("ui", "border")));
-        revalidate();
-        repaint();
-    }
-
-    private void style(Component component, Theme theme) {
-        component.setBackground(theme.color("ui", "surface"));
-        component.setForeground(theme.color("ui", "foreground"));
-        component.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        if (component instanceof JTextField || component instanceof JTextArea area && area.isEditable()) {
-            component.setBackground(theme.color("editor", "background"));
-            component.setForeground(theme.color("editor", "foreground"));
-            if (component instanceof javax.swing.text.JTextComponent text)
-                text.setCaretColor(theme.color("editor", "cursor"));
-        }
-        if (component instanceof Container container)
-            for (Component child : container.getComponents()) style(child, theme);
+        var palette = dev.turboj.ui.AsciiChrome.editor(theme);
+        dev.turboj.commandj.swing.AsciiStyle.apply(getContentPane(), palette);
+        result.setForeground(dev.turboj.commandj.swing.AsciiPalette.readable(palette.muted(), palette.background(), 4.5));
+        getRootPane().setBorder(BorderFactory.createEmptyBorder());
+        revalidate(); repaint();
     }
 
     private AIConfig configuration(boolean checkOnly) {

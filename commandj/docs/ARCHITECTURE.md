@@ -21,7 +21,7 @@ recent-command preference. It includes unavailable matches with explanations. Or
 and locale-independent. No external index or inference exists.
 
 `swing` owns Action wrappers, a window-scoped KeyEventDispatcher, nonmodal palette/keymap
-windows and a shortcut recorder. Key events in other windows (including dialogs) remain available
+surfaces and a shortcut recorder. Key events in other windows remain available
 to their controls. The bridge rejects dead-key/AltGraph/undefined events to avoid interfering with
 input methods. It uses logical AWT key codes rather than claiming physical layout independence.
 
@@ -33,8 +33,9 @@ bindings for IDs absent from a host; such bindings are inert and are absent from
 ## Embedded Swing surfaces
 
 `commandj-swing` provides one `OverlayHost` in the application's existing root layered pane.
-`EmbeddedDialog` is a `JInternalFrame`: palette, keymap, shortcut recording, confirmation,
-input and file browsing create no additional native window. The optional synchronous modal
+`EmbeddedDialog` is a plain `JPanel` with its own `JRootPane` and accessible dialog role.
+Palette, keymap, shortcut recording, confirmation, input and file browsing create no additional
+native window or desktop-style internal frame. The optional synchronous modal
 API runs a Swing secondary event loop, so painting and background completion delivery remain
 live. Nested overlays block their parent's controls, Escape closes only the top overlay,
 and closing restores the previous focus. Bounds are clamped when the host resizes.
@@ -42,7 +43,15 @@ and closing restores the previous focus. Bounds are clamped when the host resize
 A host application must suspend global command routing while `OverlayHost.active(owner)` is
 true; `CommandKeyDispatcher` does this automatically. Applications can observe the root-pane
 property `commandj.overlay.active` to dismiss transient documentation/completion previews.
-The library does not import application themes: `setTheme(surface, foreground, border)` applies
-host colors to internal controls. `EmbeddedFileChooser` uses the familiar selection/filter API
+The library does not import application themes: `setTheme(AsciiPalette)` supplies the host's
+editor background, foreground, selection, muted text, border and monospaced font. Foreground
+contrast is normalized to 4.5:1 and muted/border contrast to 3:1. `AsciiBorder` paints terminal
+box-drawing glyphs and embeds titles in their top row. `AsciiStyle.installDefaults` and `apply`
+use flat Basic Swing delegates, bracket buttons, text-cell rules and block scrollbars. The
+transparent overlay does not dim the editor. Close buttons stay keyboard accessible and
+`onOpened`, `onClosing`, `onClosed` preserve explicit lifecycle and preview-cancel handling.
+The three-color `setTheme` overload remains available for existing embedders.
+
+`EmbeddedFileChooser` uses the familiar selection/filter API
 but its own lightweight browser; directory enumeration and file checks run on Swing workers,
 and folder/overwrite prompts use the same overlay host.

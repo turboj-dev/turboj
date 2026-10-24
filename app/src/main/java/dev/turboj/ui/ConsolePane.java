@@ -1,6 +1,8 @@
 package dev.turboj.ui;
 
 import dev.turboj.ui.themes.Theme;
+import dev.turboj.commandj.swing.AsciiStyle;
+import dev.turboj.commandj.swing.AsciiBorder;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -43,7 +45,7 @@ public final class ConsolePane extends JPanel {
         error.addAttribute(STDERR_ATTRIBUTE, true);
         this.send = send;
         output.setEditable(false);
-        output.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+        output.setFont(AsciiChrome.font());
         ((AbstractDocument) output.getDocument()).setDocumentFilter(new InputFilter());
         var scroll = new JScrollPane(output);
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -271,6 +273,7 @@ public final class ConsolePane extends JPanel {
     }
 
     public void setTheme(Theme t) {
+        AsciiStyle.apply(this, AsciiChrome.output(t));
         setBackground(t.messagesBackground());
         output.setBackground(t.messagesBackground());
         output.setForeground(t.messagesForeground());
@@ -288,7 +291,7 @@ public final class ConsolePane extends JPanel {
         inputHint.setForeground(t.messagesForeground());
         inputRow.setBorder(
                 BorderFactory.createCompoundBorder(
-                        BorderFactory.createMatteBorder(1, 0, 0, 0, t.messagesForeground()),
+                        AsciiBorder.rule(AsciiChrome.output(t)),
                         BorderFactory.createEmptyBorder(4, 5, 4, 5)));
         StyleConstants.setForeground(normal, t.messagesForeground());
         StyleConstants.setForeground(error, t.color("messages", "errorForeground"));

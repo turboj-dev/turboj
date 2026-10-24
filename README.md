@@ -49,6 +49,10 @@ The [1.0.5 AI completion report](docs/ai-release-1.0.5.md) separates automated
 protocol tests, native editor checks, real local inference and unverified live
 cloud access. AI remains disabled until configured in Options.
 
+The [1.0.8 Maven and ASCII interface report](docs/maven-ascii-release-1.0.8.md)
+records native Maven project integration, independent MavenJ artifacts and the
+unified terminal-style interface.
+
 The [1.0.7 ecosystem report](docs/ecosystem-release-1.0.7.md) records the native
 RefactorJ/CommandJ/TurboTest integration, unified window, theme contrast and
 `dev.turboj` namespace migration, with executed tests and measured limits.
@@ -77,7 +81,7 @@ It opens a real window, emits `app/target/gui-smoke.txt` and paints the frame to
 ./scripts/package-macos.sh dmg path/to/new-output-directory
 ```
 
-Run packaging on the target architecture. The macOS bundle version is `1.0.7` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
+Run packaging on the target architecture. The macOS bundle version is `1.0.8` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
 
 [Architecture](docs/architecture.md) · [Compiler](docs/compiler.md) · [Performance](docs/performance.md) · [Shortcuts](docs/shortcuts.md) · [Themes](docs/themes.md) · [Worker protocol](worker/docs/protocol.md) · [Licenses](docs/licenses.md)
 

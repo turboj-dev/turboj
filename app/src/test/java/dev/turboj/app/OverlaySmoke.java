@@ -109,10 +109,15 @@ public final class OverlaySmoke {
                     frame.applyTheme(dev.turboj.ui.themes.Theme.bundled(theme));
                     var dialog = OverlayHost.dialogs(frame).getLast();
                     dialog.doLayout();
-                    return dialog.getUI().getClass() == javax.swing.plaf.basic.BasicInternalFrameUI.class
-                            && ((javax.swing.plaf.basic.BasicInternalFrameUI) dialog.getUI()).getNorthPane().getParent() == dialog
-                            && ((javax.swing.plaf.basic.BasicInternalFrameUI) dialog.getUI()).getNorthPane().getHeight() > 0;
-                }), "internal title survives live theme refresh: " + theme);
+                    var palette = dev.turboj.ui.AsciiChrome.editor(dev.turboj.ui.themes.Theme.bundled(theme));
+                    return !JInternalFrame.class.isAssignableFrom(dialog.getClass())
+                            && dialog.getBorder() instanceof AsciiBorder border && border.title().equals(dialog.getTitle())
+                            && dialog.getBackground().equals(palette.background())
+                            && dialog.getContentPane().getBackground().equals(palette.background())
+                            && dialog.getFont().getFamily().equals(Font.MONOSPACED)
+                            && dialog.getAccessibleContext().getAccessibleRole() == javax.accessibility.AccessibleRole.DIALOG
+                            && dialog.closeButton().isFocusable();
+                }), "editor surface and accessible title survive live theme refresh: " + theme);
                 edt(() -> {
                     var image = new java.awt.image.BufferedImage(frame.getWidth(), frame
                             .getHeight(), java.awt.image.BufferedImage.TYPE_INT_RGB);

@@ -19,10 +19,13 @@ class OverlayHostTest {
             parent.setSize(900, 700);
             parent.setVisible(true);
             parent.doLayout();
-            var header = ((javax.swing.plaf.basic.BasicInternalFrameUI) parent.getUI()).getNorthPane();
-            assertNotNull(header);
-            assertSame(parent, header.getParent(), "Title belongs to frame chrome, not its content layout");
-            assertTrue(header.getHeight() > 0);
+            assertInstanceOf(JPanel.class, parent);
+            assertFalse(JInternalFrame.class.isAssignableFrom(parent.getClass()));
+            assertInstanceOf(AsciiBorder.class, parent.getBorder());
+            assertEquals("Parent", ((AsciiBorder) parent.getBorder()).title());
+            assertEquals(javax.accessibility.AccessibleRole.DIALOG, parent.getAccessibleContext().getAccessibleRole());
+            assertTrue(parent.closeButton().isFocusable());
+            assertTrue(parent.closeButton().getHeight() > 0);
             assertTrue(SwingUtilities.isDescendingFrom(parent, root));
             assertTrue(parent.getWidth() <= 640 && parent.getHeight() <= 480);
             var nested = new EmbeddedDialog(field, "Nested", false);

@@ -28,6 +28,7 @@ public final class MenuSmoke {
             for (String id : Theme.BUNDLED) {
                 SwingUtilities.invokeAndWait(() -> menu(Theme.bundled(id)));
                 Thread.sleep(120);
+                capture(directory.resolve(id + "-menu.png"));
                 SwingUtilities.invokeAndWait(() -> submenu.doClick());
                 Thread.sleep(120);
                 capture(directory.resolve(id + "-submenu.png"));
@@ -38,7 +39,7 @@ public final class MenuSmoke {
                 capture(directory.resolve(id + "-combo.png"));
                 SwingUtilities.invokeAndWait(() -> { combo.setPopupVisible(false); dialog.dispose(); });
             }
-            System.out.println("PASS: three themes, nested scrollable menus and internal-dialog combo choices; one native window only");
+            System.out.println("PASS: three themes, ASCII menu labels/checks/shortcuts, nested scrollable menus and internal-dialog combo choices; one native window only");
         } finally { if (frame != null) SwingUtilities.invokeAndWait(() -> frame.dispose()); }
     }
 
@@ -51,7 +52,10 @@ public final class MenuSmoke {
         code.setBorder(BorderFactory.createEmptyBorder(28, 22, 0, 0)); frame.add(code);
         var bar = new JMenuBar(); bar.setBackground(theme.menuBackground()); options = new JMenu("Options");
         var disabled = new JMenuItem("Unavailable command"); disabled.setAccelerator(KeyStroke.getKeyStroke("meta F6")); disabled.setEnabled(false);
-        options.add(disabled); options.addSeparator(); options.add(new JCheckBoxMenuItem("Automatic completion", true));
+        options.add(disabled);
+        var format = new JMenuItem("Format document");
+        format.setAccelerator(KeyStroke.getKeyStroke("meta alt L")); options.add(format);
+        options.addSeparator(); options.add(new JCheckBoxMenuItem("Automatic completion", true));
         options.add(new JRadioButtonMenuItem("Current keymap", true)); submenu = new JMenu("Themes");
         for (int i = 0; i < 35; i++) submenu.add(new JMenuItem("Theme preview " + (i + 1)));
         options.add(submenu); bar.add(options); frame.setJMenuBar(bar); MenuStyler.style(bar, theme);

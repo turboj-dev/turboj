@@ -89,7 +89,7 @@ public final class TurboFrame extends JFrame {
     private final JLabel projectStatus = new JLabel();
     private final MavenProjectController maven;
     private JSplitPane projectSplit;
-    private final JMenuBar menus = new JMenuBar();
+    private final AsciiMenuBar menus = new AsciiMenuBar();
     private long themeChoiceGeneration;
     private final Map<String, Action> commands = new LinkedHashMap<>();
     private final Map<String, String> keymap;
@@ -222,7 +222,7 @@ public final class TurboFrame extends JFrame {
         messages.add(console, BorderLayout.CENTER);
         console.setInlineInput(true);
         console.setProgramRunning(false);
-        var content = new JPanel(new BorderLayout(0, 4));
+        var content = new JPanel(new BorderLayout());
         projectSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, maven.panel(), editorPanel);
         projectSplit.setBorder(null); projectSplit.setDividerSize(0); projectSplit.setResizeWeight(0);
         content.add(projectSplit, BorderLayout.CENTER);
@@ -239,6 +239,7 @@ public final class TurboFrame extends JFrame {
         InFramePopupFactory.install(getRootPane());
         createCommands();
         createMenus();
+        menus.sealMenus();
         bindKeys();
         applyTheme(Theme.bundled(settings.theme));
         editor.setFontSize(settings.fontSize);
@@ -1167,7 +1168,7 @@ public final class TurboFrame extends JFrame {
         menu("File", "new", "open", "openFolder", "save", "saveAs", "-", "quit");
         menu("Project", "project.open", "project.reload", "project.explorer", "project.findFile", "project.findModule", "-", "project.structure", "project.dependencies", "project.dependencyTree", "project.profiles", "project.settings", "project.effectivePom", "project.parentPom", "project.pomDeclaration", "project.sources", "project.javadoc", "-",
                 "project.pom.add-dependency", "project.pom.update-dependency-version", "project.pom.remove-dependency", "project.pom.add-module");
-        menu("Build", "compile", "compileProject", "project.processors", "-", "maven.build.validate", "maven.build.compile", "maven.build.test", "maven.build.package", "maven.build.verify", "maven.build.install", "maven.build.clean", "maven.build.dependency:tree", "maven.build.help:effective-pom", "maven.build.custom", "maven.refresh", "maven.stop");
+        menu("Build", "compile", "compileProject", "make", "error", "project.processors", "-", "maven.build.validate", "maven.build.compile", "maven.build.test", "maven.build.package", "maven.build.verify", "maven.build.install", "maven.build.clean", "maven.build.dependency:tree", "maven.build.help:effective-pom", "maven.build.custom", "maven.refresh", "maven.stop");
         menu(
                 "Edit",
                 "undo",
@@ -1229,7 +1230,6 @@ public final class TurboFrame extends JFrame {
                 "replReset",
                 "evaluateSelection",
                 "evaluateStatement");
-        menu("Compile", "compile", "compileProject", "make", "error");
         JMenu testMenu = new JMenu("Test");
 
         for (String id : List.of("tests.current", "tests.class", "tests.all", "tests.failed",
@@ -1458,8 +1458,7 @@ public final class TurboFrame extends JFrame {
     public void applyTheme(Theme t) {
         theme = t;
         MenuStyler.install(t);
-        OverlayHost.forOwner(this).setTheme(t.color("ui", "surface"),
-                t.color("ui", "foreground"), t.color("ui", "border"));
+        OverlayHost.forOwner(this).setTheme(AsciiChrome.editor(t));
         lastEditorTitle = "";
         lastMessageTitle = "";
         editor.setTheme(t);
@@ -1482,10 +1481,12 @@ public final class TurboFrame extends JFrame {
                             Action.SELECTED_KEY,
                             id.equals(t.id()) && preset.colors().equals(t.colors()));
         }
-        Font mono = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+        Font mono = AsciiChrome.font();
         status.setFont(mono);
         aiStatus.setFont(mono);
         position.setFont(mono);
+        projectStatus.setFont(mono);
+        AsciiChrome.splitPane(projectSplit, AsciiChrome.editor(t));
         editorPanel.setBackground(t.background());
         getContentPane().setBackground(t.background());
         refreshTitle();
@@ -1537,25 +1538,12 @@ public final class TurboFrame extends JFrame {
         if (!getTitle().equals(name + dirty + " — TurboJ")) setTitle(name + dirty + " — TurboJ");
         if (!lastEditorTitle.equals(name + dirty)) {
             lastEditorTitle = name + dirty;
-            editorPanel.setBorder(
-                    BorderFactory.createTitledBorder(
-                            BorderFactory.createLineBorder(theme.color("chrome", "border")),
-                            "[■]  " + name + dirty + "  ",
-                            TitledBorder.CENTER,
-                            TitledBorder.TOP,
-                            new Font(Font.MONOSPACED, Font.PLAIN, 15),
-                            theme.foreground()));
+            editorPanel.setBorder(new AsciiBorder(name + dirty, AsciiChrome.editor(theme)));
         }
         if (!lastMessageTitle.equals(buildStatus)) {
             lastMessageTitle = buildStatus;
-            messages.setBorder(
-                    BorderFactory.createTitledBorder(
-                            BorderFactory.createLineBorder(theme.messagesForeground()),
-                            (replVisible ? " Java REPL " : " Message · " + buildStatus + " "),
-                            TitledBorder.CENTER,
-                            TitledBorder.TOP,
-                            new Font(Font.MONOSPACED, Font.PLAIN, 14),
-                            theme.messagesForeground()));
+            messages.setBorder(new AsciiBorder(replVisible ? "Java REPL" : "Output · " + buildStatus,
+                    AsciiChrome.output(theme)));
         }
         messages.setBackground(theme.messagesBackground());
     }

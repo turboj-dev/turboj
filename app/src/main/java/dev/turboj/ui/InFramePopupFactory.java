@@ -1,5 +1,7 @@
 package dev.turboj.ui;
 
+import dev.turboj.commandj.swing.AsciiPalette;
+import dev.turboj.commandj.swing.AsciiStyle;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -22,7 +24,7 @@ public final class InFramePopupFactory extends PopupFactory {
     @Override public Popup getPopup(Component owner, Component contents, int x, int y) {
         JRootPane root = registeredRoot(owner);
         if (root == null) return fallback.getPopup(owner, contents, x, y);
-        return new LayerPopup(root.getLayeredPane(), contents, x, y);
+        return new LayerPopup(root.getLayeredPane(), owner, contents, x, y);
     }
 
     private static JRootPane registeredRoot(Component owner) {
@@ -46,7 +48,7 @@ public final class InFramePopupFactory extends PopupFactory {
         };
         private final ChangeListener selection = event -> revealSelection();
 
-        LayerPopup(JLayeredPane layer, Component contents, int x, int y) {
+        LayerPopup(JLayeredPane layer, Component owner, Component contents, int x, int y) {
             this.layer = layer; this.contents = contents;
             surface.setName("turboj-in-frame-popup"); surface.setOpaque(false);
             surface.setFocusable(false);
@@ -56,11 +58,24 @@ public final class InFramePopupFactory extends PopupFactory {
                 scroll.setBorder(BorderFactory.createEmptyBorder());
                 scroll.setFocusable(false); scroll.getViewport().setBackground(contents.getBackground());
                 scroll.getVerticalScrollBar().setUnitIncrement(24);
+                var palette = contents instanceof javax.swing.plaf.basic.BasicComboPopup
+                        ? AsciiStyle.palette(owner)
+                        : new AsciiPalette(contents.getBackground(), contents.getForeground(),
+                                color("MenuItem.selectionBackground", contents.getForeground()),
+                                color("MenuItem.selectionForeground", contents.getBackground()),
+                                color("MenuItem.disabledForeground", contents.getForeground()),
+                                contents.getForeground(), AsciiChrome.font());
+                AsciiStyle.apply(scroll, palette);
                 surface.add(scroll);
             } else { scroll = null; surface.add(contents); }
             position = new Point(x, y);
             SwingUtilities.convertPointFromScreen(position, layer);
             constrain();
+        }
+
+        private static Color color(String key, Color fallback) {
+            Color value = UIManager.getColor(key);
+            return value == null ? fallback : value;
         }
 
         @Override public void show() {

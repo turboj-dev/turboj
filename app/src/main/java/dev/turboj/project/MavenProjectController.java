@@ -9,6 +9,7 @@ import dev.turboj.mavenj.api.MavenModels.*;
 import dev.turboj.mavenj.core.DefaultMavenJ;
 import dev.turboj.mavenj.workspace.*;
 import dev.turboj.ui.themes.Theme;
+import dev.turboj.ui.AsciiChrome;
 import java.awt.*;
 import java.awt.event.*;
 import java.nio.file.*;
@@ -42,8 +43,7 @@ public final class MavenProjectController implements AutoCloseable {
         Thread thread = new Thread(runnable, "mavenj-project"); thread.setDaemon(true); return thread;
     });
     private final AtomicLong requests = new AtomicLong();
-    private final JPanel panel = new JPanel(new BorderLayout(0, 4));
-    private final JLabel heading = new JLabel(" MAVEN PROJECT ");
+    private final JPanel panel = new JPanel(new BorderLayout());
     private final JLabel summary = new JLabel(" No Maven project ");
     private final JTree tree = new JTree(new DefaultMutableTreeNode("No project"));
     private volatile Workspace workspace;
@@ -71,15 +71,15 @@ public final class MavenProjectController implements AutoCloseable {
         this.host = Objects.requireNonNull(host); this.engine = engine;
         panel.setPreferredSize(new Dimension(235, 400));
         panel.setMinimumSize(new Dimension(130, 100));
-        JPanel title = new JPanel(new BorderLayout());
-        title.add(heading, BorderLayout.CENTER);
-        JButton collapse = new JButton("×");
+        JPanel footer = new JPanel(new BorderLayout());
+        footer.add(summary, BorderLayout.CENTER);
+        JButton collapse = new JButton("x");
+        collapse.getAccessibleContext().setAccessibleName("Collapse project explorer");
         collapse.setToolTipText("Collapse project explorer");
         collapse.addActionListener(event -> { panel.setVisible(false); host.stateChanged(); });
-        title.add(collapse, BorderLayout.EAST);
-        panel.add(title, BorderLayout.NORTH);
+        footer.add(collapse, BorderLayout.EAST);
         panel.add(new JScrollPane(tree), BorderLayout.CENTER);
-        panel.add(summary, BorderLayout.SOUTH);
+        panel.add(footer, BorderLayout.SOUTH);
         tree.setRootVisible(true);
         tree.setShowsRootHandles(true);
         tree.addMouseListener(new MouseAdapter() {
@@ -212,7 +212,7 @@ public final class MavenProjectController implements AutoCloseable {
     }
 
     private void buildTree(Workspace value) {
-        heading.setText(" PROJECT — " + value.root().getFileName());
+        if (theme != null) panel.setBorder(new AsciiBorder("Project", AsciiChrome.editor(theme)));
         summary.setText(" " + value.modules().size() + " modules · " + (value.resolved() ? "Dependencies resolved" : "Dependencies incomplete") + " ");
         summary.setToolTipText(statusText(value));
         var root = new DefaultMutableTreeNode(new Entry(value.root().getFileName().toString(), value.rootPom()));
@@ -559,14 +559,16 @@ public final class MavenProjectController implements AutoCloseable {
 
     public void setTheme(Theme value) {
         theme = value;
-        SwingUtilities.updateComponentTreeUI(panel);
-        panel.setBackground(value.color("ui", "surface"));
-        heading.setForeground(value.color("ui", "foreground")); summary.setForeground(value.color("ui", "foreground"));
-        tree.setBackground(value.color("ui", "surface")); tree.setForeground(value.color("ui", "foreground"));
-        tree.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        AsciiPalette palette = AsciiChrome.editor(value);
+        AsciiStyle.apply(panel, palette);
+        panel.setBorder(new AsciiBorder("Project", palette));
+        tree.setFont(palette.font());
+        tree.setRowHeight(tree.getFontMetrics(tree.getFont()).getHeight());
         if (tree.getCellRenderer() instanceof DefaultTreeCellRenderer renderer) {
-            renderer.setBackgroundNonSelectionColor(value.color("ui", "surface")); renderer.setTextNonSelectionColor(value.color("ui", "foreground"));
-            renderer.setBackgroundSelectionColor(value.color("intelligence", "selectionBackground")); renderer.setTextSelectionColor(value.color("intelligence", "selectionForeground"));
+            renderer.setLeafIcon(null); renderer.setOpenIcon(null); renderer.setClosedIcon(null);
+            renderer.setBackgroundNonSelectionColor(palette.background()); renderer.setTextNonSelectionColor(palette.foreground());
+            renderer.setBackgroundSelectionColor(palette.selectionBackground()); renderer.setTextSelectionColor(palette.selectionForeground());
+            renderer.setBorderSelectionColor(palette.selectionBackground());
         }
     }
 

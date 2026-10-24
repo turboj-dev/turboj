@@ -85,7 +85,7 @@ public final class ThemeBrowserDialog extends EmbeddedDialog {
             final int index = i;
             tiles[i] = new PreviewButton();
             tiles[i].setName("theme-preview-" + i);
-            tiles[i].addActionListener(e -> choose(page.firstIndex() + index));
+            tiles[i].addActionListener(e -> { if (page != null) choose(page.firstIndex() + index); });
             cards.add(tiles[i]);
         }
         cards.setName("theme-grid");
@@ -191,23 +191,9 @@ public final class ThemeBrowserDialog extends EmbeddedDialog {
         bind("PAGE_DOWN", () -> move(ThemeCatalog.PAGE_SIZE));
         bind("ENTER", this::accept);
         bind("ESCAPE", this::cancel);
-        addInternalFrameListener(
-                new InternalFrameAdapter() {
-                    @Override
-                    public void internalFrameClosing(InternalFrameEvent e) {
-                        cancel();
-                    }
-
-                    @Override
-                    public void internalFrameOpened(InternalFrameEvent e) {
-                        search.requestFocusInWindow();
-                    }
-
-                    @Override
-                    public void internalFrameClosed(InternalFrameEvent e) {
-                        if (!finished) cancel();
-                    }
-                });
+        onClosing(this::cancel);
+        onOpened(() -> search.requestFocusInWindow());
+        onClosed(() -> { if (!finished) cancel(); });
         style(initial);
         setLocationRelativeTo(owner);
         load(-1, selectedKey, -1);
@@ -542,36 +528,15 @@ public final class ThemeBrowserDialog extends EmbeddedDialog {
     private void style(Theme theme) {
         visibleTheme = theme;
         drum.setTheme(theme);
-        styleComponent(getContentPane(), theme);
-        search.setBackground(theme.color("ui", "surface"));
-        search.setForeground(theme.color("ui", "foreground"));
-        search.setCaretColor(theme.color("ui", "foreground"));
-        search.setSelectionColor(theme.color("editor", "selection"));
-        search.setSelectedTextColor(theme.color("editor", "selectionForeground"));
+        dev.turboj.commandj.swing.AsciiStyle.apply(getContentPane(), dev.turboj.ui.AsciiChrome.editor(theme));
         cards.repaint();
-    }
-
-    private void styleComponent(Component component, Theme theme) {
-        component.setBackground(theme.color("ui", "background"));
-        component.setForeground(theme.color("ui", "foreground"));
-        component.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        if (component instanceof JButton button) {
-            button.setOpaque(true);
-            button.setContentAreaFilled(true);
-            button.setBackground(theme.color("ui", "surface"));
-            button.setBorder(
-                    BorderFactory.createCompoundBorder(
-                            BorderFactory.createLineBorder(theme.color("ui", "border")),
-                            BorderFactory.createEmptyBorder(4, 7, 4, 7)));
-        }
-        if (component instanceof Container container)
-            for (Component child : container.getComponents()) styleComponent(child, theme);
     }
 
     private final class PreviewButton extends JToggleButton {
         private ThemeCatalog.Preview value;
 
         PreviewButton() {
+            setEnabled(false);
             setContentAreaFilled(false);
             setBorderPainted(false);
             setFocusable(true);
@@ -599,16 +564,16 @@ public final class ThemeBrowserDialog extends EmbeddedDialog {
                 if (value == null) return;
                 Theme t = value.theme() == null ? visibleTheme : value.theme();
                 int w = getWidth(), h = getHeight();
-                g.setColor(visibleTheme.color("ui", "surface"));
+                g.setColor(visibleTheme.background());
                 g.fillRect(0, 0, w, h);
                 g.setColor(
-                        visibleTheme.color("ui", isSelected() || hasFocus() ? "focus" : "border"));
+                        dev.turboj.ui.AsciiChrome.editor(visibleTheme).border());
                 g.setStroke(new BasicStroke(isSelected() || hasFocus() ? 3 : 1));
                 g.drawRect(2, 2, w - 5, h - 5);
                 g.setClip(8, 8, w - 16, h - 16);
                 g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 11));
-                g.setColor(visibleTheme.color("ui", "foreground"));
-                g.drawString((isSelected() ? "✓ " : "") + value.entry().name(), 8, 17);
+                g.setColor(dev.turboj.ui.AsciiChrome.editor(visibleTheme).foreground());
+                g.drawString((isSelected() ? "[x] " : "[ ] ") + value.entry().name(), 8, 17);
                 if (value.theme() == null) {
                     g.drawString("Invalid theme JSON", 8, 38);
                     return;

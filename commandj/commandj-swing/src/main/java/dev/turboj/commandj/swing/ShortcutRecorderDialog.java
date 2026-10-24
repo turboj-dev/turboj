@@ -81,11 +81,7 @@ public final class ShortcutRecorderDialog extends EmbeddedDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(590, 190);
         setLocationRelativeTo(owner);
-        addInternalFrameListener(new InternalFrameAdapter() {
-            public void internalFrameOpened(InternalFrameEvent e) {
-                field.requestFocusInWindow();
-            }
-        });
+        onOpened(() -> field.requestFocusInWindow());
     }
 
     private void addStroke(KeyStrokeSpec key) {

@@ -2,20 +2,19 @@ package dev.turboj.commandj.swing;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyVetoException;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
-/** One internal window surface per RootPane, with stacking, focus restoration and resize bounds. */
-public final class OverlayHost extends JDesktopPane {
+/** One transparent editor overlay per root, with focus restoration and bounded surfaces. */
+public final class OverlayHost extends JLayeredPane {
     private static final String PROPERTY = OverlayHost.class.getName();
     private final JRootPane root;
     private final Deque<EmbeddedDialog> dialogs = new ArrayDeque<> ();
     private final Map<EmbeddedDialog, Component> previousFocus = new IdentityHashMap<> ();
     private Component backgroundFocus;
-    private Color surface = new Color(0xAAAAAA), foreground = Color.BLACK, border = Color.BLACK;
+    private AsciiPalette palette = AsciiPalette.defaults();
     private final PropertyChangeListener focusGuard;
     private final KeyEventDispatcher keys;
 
@@ -155,18 +154,16 @@ public final class OverlayHost extends JDesktopPane {
                 Math.clamp(position.y, 0, Math.max(0, getHeight() - dialog.getHeight())));
         setVisible(true);
         dialog.showInHost();
-        dialog.moveToFront();
+        if (!dialogs.contains(dialog)) return;
+        moveToFront(dialog);
         blockLowerDialogs();
-        try {
-            dialog.setSelected(true);
-        } catch (PropertyVetoException ignored) {}
         SwingUtilities.invokeLater(this::focusTop);
         revalidate();
         repaint();
     }
 
     void closed(EmbeddedDialog dialog) {
-        dialogs.remove(dialog);
+        if (!dialogs.remove(dialog)) return;
         remove(dialog);
         Component focus = previousFocus.remove(dialog);
         setVisible(!dialogs.isEmpty());
@@ -200,7 +197,17 @@ public final class OverlayHost extends JDesktopPane {
                     }
                 });
             glass.setVisible(dialog != dialogs.peekLast());
+            dialog.closeButton().setEnabled(dialog == dialogs.peekLast());
         }
+    }
+
+    void activate(EmbeddedDialog dialog) {
+        if (!dialogs.contains(dialog)) return;
+        EmbeddedDialog current = dialogs.peekLast();
+        if (current != dialog && current != null && current.isModal()) return;
+        int highest = dialogs.stream().mapToInt(surface -> getLayer((Component) surface)).max().orElse(0);
+        dialogs.remove(dialog); dialogs.addLast(dialog); setLayer(dialog, highest + 1);
+        blockLowerDialogs(); focusTop();
     }
 
     private void focusTop() {
@@ -208,10 +215,7 @@ public final class OverlayHost extends JDesktopPane {
 
         if (top == null)
             return;
-        top.moveToFront();
-        try {
-            top.setSelected(true);
-        } catch (PropertyVetoException ignored) {}
+        moveToFront(top);
         Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 
         if (focus != null && SwingUtilities.isDescendingFrom(focus, top))
@@ -221,12 +225,25 @@ public final class OverlayHost extends JDesktopPane {
         if (policy == null)
             policy = KeyboardFocusManager.getCurrentKeyboardFocusManager()
                     .getDefaultFocusTraversalPolicy();
-        Component target = policy.getDefaultComponent(top);
+        Component target = firstTextInput(top.getContentPane());
+        if (target == null) target = policy.getDefaultComponent(top);
 
         if (target != null)
             target.requestFocusInWindow();
         else
             top.requestFocusInWindow();
+    }
+
+    private static Component firstTextInput(Container container) {
+        for (Component child : container.getComponents()) {
+            if (!child.isVisible() || !child.isEnabled()) continue;
+            // The shortcut recorder deliberately uses a read-only text field as its key target.
+            if (child instanceof JTextField && child.isFocusable()) return child;
+            if (child instanceof Container nested) {
+                Component found = firstTextInput(nested); if (found != null) return found;
+            }
+        }
+        return null;
     }
 
     private void resize() {
@@ -240,111 +257,18 @@ public final class OverlayHost extends JDesktopPane {
         }
     }
 
-    public void setTheme(Color surface, Color foreground, Color border) {
-        this.surface = surface;
-        this.foreground = foreground;
-        this.border = border;
-        dialogs.forEach(dialog -> {
-            SwingUtilities.updateComponentTreeUI(dialog.getContentPane());
-            style(dialog);
-        });
+    public void setTheme(AsciiPalette palette) {
+        this.palette = java.util.Objects.requireNonNull(palette);
+        dialogs.forEach(this::style);
         repaint();
     }
 
-    private void style(EmbeddedDialog dialog) {
-        dialog.setBorder(BorderFactory.createLineBorder(border, 1));
-        styleTree(dialog.getContentPane());
-        if (dialog.getUI() instanceof javax.swing.plaf.basic.BasicInternalFrameUI ui) {
-            if (!(ui.getNorthPane() instanceof Header))
-                dialog.setHeader(new Header(dialog));
-            styleTree(ui.getNorthPane());
-        }
+    /** Compatibility for embedders that have not yet supplied all editor tokens. */
+    public void setTheme(Color surface, Color foreground, Color border) {
+        Color selectedText = AsciiPalette.contrast(Color.BLACK, border) >= AsciiPalette.contrast(Color.WHITE, border) ? Color.BLACK : Color.WHITE;
+        setTheme(new AsciiPalette(surface, foreground, border, selectedText, foreground, border,
+                new Font(Font.MONOSPACED, Font.PLAIN, 14)));
     }
 
-    private final class Header extends JPanel {
-        Header(EmbeddedDialog dialog) {
-            super(new BorderLayout(8, 0));
-            setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 5));
-            var title = new JLabel(dialog.getTitle());
-            dialog.addPropertyChangeListener("title", event -> title.setText(dialog.getTitle()));
-            add(title, BorderLayout.CENTER);
-            var close = new JButton("×");
-            close.setFocusable(false);
-            close.setMargin(new Insets(0, 7, 0, 7));
-            close.getAccessibleContext().setAccessibleName("Close " + dialog.getTitle());
-            close.addActionListener(event -> dialog.doDefaultCloseAction());
-            add(close, BorderLayout.EAST);
-            MouseAdapter drag = new MouseAdapter() {
-                Point start;
-
-                public void mousePressed(MouseEvent event) {
-                    start = SwingUtilities.convertPoint(Header.this, event.getPoint(),
-                            OverlayHost.this);
-                }
-
-                public void mouseDragged(MouseEvent event) {
-                    if (start == null)
-                        return;
-                    Point point = SwingUtilities.convertPoint(Header.this, event.getPoint(),
-                            OverlayHost.this);
-                    dialog.setLocation(Math.clamp(dialog.getX() + point.x - start.x, 0, Math.max(0,
-                            getWidthInHost() - dialog.getWidth())), Math.clamp(dialog.getY()
-                            + point.y - start.y, 0, Math.max(0, OverlayHost.this.getHeight()
-                            - dialog.getHeight())));
-                    start = point;
-                }
-            };
-            addMouseListener(drag);
-            addMouseMotionListener(drag);
-        }
-
-        private int getWidthInHost() {
-            return OverlayHost.this.getWidth();
-        }
-    }
-
-    private void styleTree(Component component) {
-        component.setForeground(foreground);
-        component.setBackground(surface);
-        Color selected = border;
-        Color selectedText = contrastText(selected);
-
-        if (component instanceof javax.swing.text.JTextComponent text) {
-            text.setCaretColor(foreground);
-            text.setSelectionColor(selected);
-            text.setSelectedTextColor(selectedText);
-            text.setDisabledTextColor(foreground);
-        }
-        if (component instanceof JList<?> list) {
-            list.setSelectionBackground(selected);
-            list.setSelectionForeground(selectedText);
-        }
-        if (component instanceof JTable table) {
-            table.setSelectionBackground(selected);
-            table.setSelectionForeground(selectedText);
-            table.setGridColor(border);
-        }
-        if (component instanceof JComponent swing)
-            swing.putClientProperty("html.disable", Boolean.TRUE);
-        if (component instanceof Container container)
-            for (Component child : container.getComponents())
-                styleTree(child);
-    }
-
-    private static Color contrastText(Color value) {
-        double luminance = linear(value.getRed()) * .2126 + linear(value.getGreen()) * .7152
-                + linear(value.getBlue()) * .0722;
-        return (luminance + .05) / .05 >= 1.05 / (luminance + .05) ? Color.BLACK : Color.WHITE;
-    }
-
-    private static double linear(int channel) {
-        double value = channel / 255.0;
-        return value <= .04045 ? value / 12.92 : Math.pow((value + .055) / 1.055, 2.4);
-    }
-
-    @Override
-    protected void paintComponent(Graphics graphics) {
-        graphics.setColor(new Color(0, 0, 0, 80));
-        graphics.fillRect(0, 0, getWidth(), getHeight());
-    }
+    private void style(EmbeddedDialog dialog) { dialog.restyle(palette); }
 }

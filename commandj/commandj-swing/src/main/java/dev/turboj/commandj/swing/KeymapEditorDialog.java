@@ -48,7 +48,10 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         profileLine.add(button("Duplicate…", this::duplicate), BorderLayout.EAST);
         top.add(profileLine, BorderLayout.NORTH);
         search.getAccessibleContext().setAccessibleName("Search commands or shortcuts");
-        top.add(search, BorderLayout.SOUTH);
+        var searchLine = new JPanel(new BorderLayout(6, 0));
+        var searchLabel = new JLabel("Search:"); searchLabel.setLabelFor(search);
+        searchLine.add(searchLabel, BorderLayout.WEST); searchLine.add(search, BorderLayout.CENTER);
+        top.add(searchLine, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
         var buttons = new JPanel(new GridLayout(2, 4, 4, 4));

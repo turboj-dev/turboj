@@ -101,16 +101,16 @@ public final class IntelligenceController implements AutoCloseable {
                 (list, value, index, selected, focus) -> {
                     JLabel row = new JLabel(" " + value.display() + "  " + value.detail() + " ");
                     row.setOpaque(true);
-                    row.setFont(editor.getFont().deriveFont(13f));
+                    row.setFont(dev.turboj.ui.AsciiChrome.font());
                     if (theme != null) {
                         row.setBackground(
                                 selected
-                                        ? theme.color("intelligence", "selectionBackground")
-                                        : theme.color("documentation", "background"));
+                                        ? dev.turboj.ui.AsciiChrome.editor(theme).selectionBackground()
+                                        : theme.background());
                         row.setForeground(
                                 selected
-                                        ? theme.color("intelligence", "selectionForeground")
-                                        : theme.color("documentation", "foreground"));
+                                        ? dev.turboj.ui.AsciiChrome.editor(theme).selectionForeground()
+                                        : dev.turboj.ui.AsciiChrome.editor(theme).foreground());
                     }
                     return row;
                 });
@@ -355,14 +355,15 @@ public final class IntelligenceController implements AutoCloseable {
     public void setTheme(Theme value) {
         theme = value;
         for (InlinePopup w : List.of(completionWindow, documentationWindow, signatureWindow)) {
-            w.getRootPane()
-                    .setBorder(
-                            BorderFactory.createLineBorder(value.color("documentation", "border")));
-            color(w.getContentPane(), value);
+            var palette = dev.turboj.ui.AsciiChrome.editor(value);
+            w.getRootPane().setBorder(BorderFactory.createEmptyBorder());
+            w.setBorder(new dev.turboj.commandj.swing.AsciiBorder("", palette,
+                    dev.turboj.commandj.swing.AsciiBorder.Line.SINGLE));
+            dev.turboj.commandj.swing.AsciiStyle.apply(w.getContentPane(), palette);
         }
         choices.repaint();
-        documentationText.setSelectionColor(value.color("intelligence", "selectionBackground"));
-        documentationText.setSelectedTextColor(value.color("intelligence", "selectionForeground"));
+        documentationText.setSelectionColor(dev.turboj.ui.AsciiChrome.editor(value).selectionBackground());
+        documentationText.setSelectedTextColor(dev.turboj.ui.AsciiChrome.editor(value).selectionForeground());
         for (Component component : signatures.getComponents()) {
             if (component instanceof JLabel label
                     && label.getClientProperty("turboj.signature") instanceof String markup)
@@ -371,10 +372,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     private void color(Component c, Theme t) {
-        c.setBackground(t.color("documentation", "background"));
-        c.setForeground(t.color("documentation", "foreground"));
-        if (c instanceof Container container)
-            for (Component child : container.getComponents()) color(child, t);
+        dev.turboj.commandj.swing.AsciiStyle.apply(c, dev.turboj.ui.AsciiChrome.editor(t));
     }
 
     private Ticket ticket(int offset) {

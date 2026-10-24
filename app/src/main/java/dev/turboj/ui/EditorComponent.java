@@ -1696,7 +1696,7 @@ public final class EditorComponent extends JComponent
                 }
             }
             g.setColor(comment);
-            g.drawLine(gutterWidth - cellWidth / 2, 0, gutterWidth - cellWidth / 2, getHeight());
+            paintGutterRule(g);
         } finally {
             g.dispose();
             lastPaintNanos = System.nanoTime() - started;
@@ -1706,6 +1706,14 @@ public final class EditorComponent extends JComponent
                 pendingInputNanos = 0;
             }
         }
+    }
+
+    private void paintGutterRule(Graphics2D graphics) {
+        FontMetrics metrics = graphics.getFontMetrics();
+        int height = metrics.getHeight();
+        int x = gutterWidth - cellWidth;
+        for (int y = 0; y < getHeight(); y += height)
+            graphics.drawString("│", x, y + metrics.getAscent());
     }
 
     private Color ghostColor() {
@@ -1779,7 +1787,7 @@ public final class EditorComponent extends JComponent
             }
         }
         g.setColor(comment);
-        g.drawLine(gutterWidth - cellWidth / 2, 0, gutterWidth - cellWidth / 2, getHeight());
+        paintGutterRule(g);
     }
 
     private void paintSourceSlice(Graphics2D row, int line, int from, int to, int column) {

@@ -123,16 +123,16 @@ public final class AISettingsSmoke {
                         () -> {
                             Theme palette = Theme.bundled(theme);
                             MenuStyler.install(palette);
-                            OverlayHost.forOwner(owner).setTheme(palette.color("ui", "surface"),
-                                    palette.color("ui", "foreground"), palette.color("ui", "border"));
+                            var surface = dev.turboj.ui.AsciiChrome.editor(palette);
+                            OverlayHost.forOwner(owner).setTheme(surface);
                             dialog.setTheme(palette);
                             dialog.validate();
-                            checkExplanationContrast(dialog, palette.color("ui", "surface"));
+                            checkExplanationContrast(dialog, surface.background());
                             check(MenuStyler.contrast(named(dialog, "ai-settings-status", JLabel.class)
-                                    .getForeground(), palette.color("ui", "surface")) >= 4.5,
+                                    .getForeground(), surface.background()) >= 4.5,
                                     "AI status text remains readable in " + theme);
-                            check(MenuStyler.contrast(UIManager.getColor("TabbedPane.selectionForeground"),
-                                    UIManager.getColor("TabbedPane.selected")) >= 4.5,
+                            check(MenuStyler.contrast(surface.selectionForeground(),
+                                    surface.selectionBackground()) >= 4.5,
                                     "Selected AI tab remains readable in " + theme);
                             BufferedImage capture =
                                     new BufferedImage(
