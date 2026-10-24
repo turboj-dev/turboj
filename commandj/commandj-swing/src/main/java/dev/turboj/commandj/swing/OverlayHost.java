@@ -140,7 +140,15 @@ public final class OverlayHost extends JLayeredPane {
         if (size.width <= 0 || size.height <= 0) {
             dialog.pack();
             size = dialog.getSize();
+        } else {
+            // Explicit dialog dimensions use the default 14-point text grid. Packed content
+            // and reused surfaces record the font that already sized their dimensions.
+            Object measured = dialog.getClientProperty("commandj.overlay.layoutFontSize");
+            double base = measured instanceof Number number ? number.doubleValue() : 14.0;
+            double scale = palette.font().getSize2D() / base;
+            size = new Dimension((int) Math.round(size.width * scale), (int) Math.round(size.height * scale));
         }
+        dialog.putClientProperty("commandj.overlay.layoutFontSize", palette.font().getSize());
         dialog.setSize(Math.min(Math.max(220, size.width), Math.max(220, getWidth() - 20)), Math
                 .min(Math.max(100, size.height), Math.max(100, getHeight() - 20)));
         Point position = dialog.requestedScreenLocation();
@@ -258,8 +266,21 @@ public final class OverlayHost extends JLayeredPane {
     }
 
     public void setTheme(AsciiPalette palette) {
+        double scale = palette.font().getSize2D() / this.palette.font().getSize2D();
         this.palette = java.util.Objects.requireNonNull(palette);
-        dialogs.forEach(this::style);
+        for (var dialog : dialogs) {
+            if (scale != 1) {
+                int width = (int) Math.round(dialog.getWidth() * scale);
+                int height = (int) Math.round(dialog.getHeight() * scale);
+                dialog.setLocation(dialog.getX() + (dialog.getWidth() - width) / 2,
+                        dialog.getY() + (dialog.getHeight() - height) / 2);
+                dialog.setSize(width, height);
+            }
+            dialog.putClientProperty("commandj.overlay.layoutFontSize", palette.font().getSize());
+            style(dialog);
+        }
+        resize();
+        revalidate();
         repaint();
     }
 

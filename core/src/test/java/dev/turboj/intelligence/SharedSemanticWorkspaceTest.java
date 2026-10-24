@@ -56,4 +56,42 @@ class SharedSemanticWorkspaceTest {
             assertEquals(second,service.sharedRefactorJ(context).workspace().snapshot().sources().getFirst().file());
         }
     }
+
+    @Test void looseSourcesDoNotAbsorbNestedProjectsOrTheirRetainedOpenBuffers() throws Exception {
+        Path file = root.resolve("Calculator.java");
+        String source = "public class Calculator { int value(){return 7;} }";
+        Files.writeString(file, source);
+        Path nested = Files.createDirectories(root.resolve("sample/src"));
+        Files.writeString(root.resolve("sample/pom.xml"), "<project/>");
+        Path other = nested.resolve("Calculator.java");
+        Files.writeString(other, "public class Calculator { int other(){return 9;} }");
+        Path plain = Files.createDirectories(root.resolve("plain/src"));
+        Files.createDirectories(root.resolve("plain/.turboj"));
+        Files.writeString(plain.resolve("Calculator.java"), source);
+
+        try (var service = new JdtJavaIntelligenceService()) {
+            var context = new Context(file, source, 1, Map.of(other, Files.readString(other)), List.of(root), List.of(), 1);
+            var workspace = service.sharedRefactorJ(context).workspace().snapshot();
+            assertEquals(List.of(file), workspace.sources().stream().map(Model.SourceSnapshot::file).toList());
+            assertNotNull(service.resolveSymbol(context, source.indexOf("value")));
+
+            var separate = new Context(other, Files.readString(other), 2, Map.of(file, source), List.of(nested), List.of(), 2);
+            assertEquals(List.of(other), service.sharedRefactorJ(separate).workspace().snapshot().sources().stream().map(Model.SourceSnapshot::file).toList());
+            assertNotNull(service.resolveSymbol(separate, separate.source().indexOf("other")));
+            assertEquals(List.of(file), service.sharedRefactorJ(context).workspace().snapshot().sources().stream().map(Model.SourceSnapshot::file).toList());
+        }
+    }
+
+    @Test void realDuplicateSourceIdentityKeepsItsActionableCauseAndCanRecover() throws Exception {
+        Path first = root.resolve("Duplicate.java"), second = Files.createDirectories(root.resolve("other")).resolve("Duplicate.java");
+        Files.writeString(first, "class Duplicate {}");
+        Files.writeString(second, "class Duplicate {}");
+        var context = new Context(first, Files.readString(first), 1, Map.of(), List.of(root), List.of(), 1);
+        try (var service = new JdtJavaIntelligenceService()) {
+            var failure = assertThrows(IllegalArgumentException.class, () -> service.sharedRefactorJ(context));
+            assertTrue(failure.getMessage().contains("Duplicate Java source identity"));
+            Files.delete(second);
+            assertEquals(1, service.sharedRefactorJ(context).workspace().snapshot().sources().size());
+        }
+    }
 }

@@ -21,6 +21,9 @@ public final class AsciiBorder extends AbstractBorder {
     }
     public String title() { return title; }
     public AsciiPalette palette() { return palette; }
+    AsciiBorder withPalette(AsciiPalette replacement) {
+        return new AsciiBorder(title, replacement, line, rightReserve);
+    }
 
     /** One text-cell rule, useful between output and its input row. */
     public static javax.swing.border.Border rule(AsciiPalette palette) {

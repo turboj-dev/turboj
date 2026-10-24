@@ -1,0 +1,2 @@
+# This navigation example is independent from the loose files in examples/.
+.

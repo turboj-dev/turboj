@@ -8,6 +8,7 @@ import dev.turboj.formatting.FormattingController;
 import dev.turboj.commandj.core.*;
 import dev.turboj.refactoring.*;
 import dev.turboj.testing.TurboTestController;
+import dev.turboj.testing.TestOutput;
 import dev.turboj.turbotest.TestEngine;
 import dev.turboj.refactorj.api.Operation;
 import dev.turboj.refactorj.api.Model;
@@ -82,13 +83,12 @@ public final class TurboFrame extends JFrame {
                     });
     private final ReplPane repl = new ReplPane();
     private boolean replVisible;
-    private final JLabel status =
-            new JLabel(" F1 Docs   F2 Save   F3 Open   F9 Make   ^F9 Run   F10 Menu");
+    private final JLabel status = new JLabel(" READY");
+    private String projectStatusText = "", projectStatusDetail = "";
     private final JLabel position = new JLabel(" 1:1 ", SwingConstants.RIGHT);
     private final JPanel editorPanel = new JPanel(new BorderLayout());
     private final JPanel messages = new JPanel(new BorderLayout());
     private final JPanel bottom = new JPanel(new BorderLayout());
-    private final JLabel projectStatus = new JLabel();
     private final MavenProjectController maven;
     private JSplitPane projectSplit;
     private final AsciiMenuBar menus = new AsciiMenuBar();
@@ -116,10 +116,19 @@ public final class TurboFrame extends JFrame {
     private FormattingController formatting;
     private RefactoringController refactoring;
     private TurboTestController tests;
+    private final TestOutput testOutput = new TestOutput(console);
+    private List<String> testCompilerDetails = List.of();
     private NativeWorkspaceCommitter.Capture testCapture;
     private Model.WorkspaceSnapshot testWorkspace;
     private EmbeddedDialog testResults;
     private boolean pendingTestSnapshot;
+    private long testSelectionRequest;
+    private boolean saveTestRun;
+    private record SaveAutomation(Path file, long version, long revision, long runGeneration, boolean run, boolean tests) {}
+    private SaveAutomation queuedSaveAutomation, runningSaveAutomation, pendingSaveRun;
+    private final javax.swing.Timer saveAutomationTimer = new javax.swing.Timer(150, event -> trySaveAutomation());
+    private MavenRunTargets.Target lastMavenRunTarget;
+    private String lastPlainRunTarget;
 
     private record TestInvocation(Model.WorkspaceSnapshot workspace,
             TurboTestController.Selection selection) {}
@@ -134,7 +143,7 @@ public final class TurboFrame extends JFrame {
             Path activeAfter) {}
 
     private final CredentialStore aiCredentials = new MacKeychainCredentialStore();
-    private final JLabel aiStatus = new JLabel();
+    private String aiStatus = "";
     private dev.turboj.editor.document.PieceTable observedDocument;
 
     private record Buffer(
@@ -176,6 +185,7 @@ public final class TurboFrame extends JFrame {
     public TurboFrame(Settings settings, Map<String, String> keymap) {
         super("TurboJ");
         this.settings = settings;
+        editor.setShowPressedShortcuts(settings.showPressedShortcuts);
         this.themeCatalog =
                 new ThemeCatalog(Settings.directory().resolve("themes"), externalThemePath());
         this.keymap = keymap;
@@ -234,14 +244,18 @@ public final class TurboFrame extends JFrame {
         projectSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, maven.panel(), editorPanel);
         projectSplit.setBorder(null); projectSplit.setDividerSize(0); projectSplit.setResizeWeight(0);
         content.add(projectSplit, BorderLayout.CENTER);
-        projectStatus.setVisible(false);
-        content.add(projectStatus, BorderLayout.NORTH);
         content.add(messages, BorderLayout.SOUTH);
         setLayout(new BorderLayout());
         add(content, BorderLayout.CENTER);
         bottom.add(status, BorderLayout.CENTER);
-        bottom.add(aiStatus, BorderLayout.WEST);
         bottom.add(position, BorderLayout.EAST);
+        bottom.setName("workspace-status-line");
+        status.setName("workspace-status");
+        status.getAccessibleContext().setAccessibleName("Workspace status");
+        position.setName("caret-status");
+        bottom.addComponentListener(new ComponentAdapter() {
+            @Override public void componentResized(ComponentEvent event) { updatePositionLabel(); }
+        });
         add(bottom, BorderLayout.SOUTH);
         setJMenuBar(menus);
         InFramePopupFactory.install(getRootPane());
@@ -250,7 +264,6 @@ public final class TurboFrame extends JFrame {
         menus.sealMenus();
         bindKeys();
         applyTheme(Theme.bundled(settings.theme));
-        editor.setFontSize(settings.fontSize);
         editor.setTabWidth(settings.tabWidth);
         editor.setAutoClose(settings.autoClose);
         intelligence =
@@ -300,11 +313,8 @@ public final class TurboFrame extends JFrame {
                                         }),
                         text -> console.append(text + "\n", false),
                         text -> {
-                            aiStatus.setText(text.isEmpty() ? "" : " " + text + "  ");
-                            aiStatus.setToolTipText(
-                                    text.isEmpty()
-                                            ? null
-                                            : "Optional AI completion · Options → AI Completion");
+                            aiStatus = text;
+                            refreshStatusLine();
                         });
         aiCompletion.setKeys(
                 acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
@@ -413,12 +423,38 @@ public final class TurboFrame extends JFrame {
     private void updateMavenStatus() {
         if (maven == null) return;
         var value = maven.workspace();
-        projectStatus.setVisible(value != null || maven.busy());
-        projectStatus.setText(value == null ? " MAVEN PROJECT — Synchronizing… " : " "
-                + MavenProjectController.statusText(value) + "   " + commandKeymaps.shortcutText("compile")
-                + " Fast Compile   " + commandKeymaps.shortcutText("run") + " Run "
-                + (maven.busy() ? " · Synchronizing…" : "") + (maven.lifecycleRunning() ? " · Maven build…" : ""));
-        projectStatus.setToolTipText(value == null ? null : MavenProjectController.statusText(value));
+        String project = "";
+        if (value != null) {
+            String java = value.modules().stream().filter(module -> !module.packaging().equals("pom"))
+                    .map(module -> module.mainJava().languageLevel()).filter(level -> !level.isBlank())
+                    .distinct().sorted().reduce((a, b) -> a + "/" + b).orElse("?");
+            project = "Maven · Java " + java + (value.resolved() ? "" : " · Dependencies incomplete")
+                    + (value.offline() ? " · Offline" : "");
+        }
+        projectStatusText = project;
+        projectStatusDetail = value == null ? project : MavenProjectController.statusText(value);
+        refreshStatusLine();
+    }
+
+    private void refreshStatusLine() {
+        String state = compactStatus(buildStatus);
+        if (maven != null && maven.lifecycleRunning()) state = "MAVEN BUILD…";
+        else if (maven != null && maven.busy()) state = "MAVEN SYNC…";
+        else if (maven != null && maven.workspace() != null && !maven.workspace().resolved()
+                && !state.contains("FAILED")) state = "DEPENDENCIES INCOMPLETE";
+        if (aiStatus.endsWith("unavailable")) state += " | " + aiStatus;
+        status.setText(" " + state + (projectStatusText.isEmpty() ? "" : " | " + projectStatusText));
+        String shortcuts = commandKeymaps.shortcutText("save") + " Save   " + commandKeymaps.shortcutText("compile")
+                + " Fast Compile   " + commandKeymaps.shortcutText("run") + " Run   "
+                + commandKeymaps.shortcutText("palette") + " Actions";
+        status.setToolTipText((projectStatusDetail.isEmpty() ? "" : projectStatusDetail + "   ") + buildStatus
+                + (aiStatus.isEmpty() ? "" : "   " + aiStatus) + "   " + shortcuts);
+    }
+
+    static String compactStatus(String value) {
+        String first = value.split("\\|", 2)[0].strip();
+        if (first.equals("CACHE HIT")) return "BUILD OK";
+        return first.replace("TURBOJ NATIVE · ", "NATIVE ");
     }
 
     private java.nio.charset.Charset sourceEncoding(Path path) {
@@ -778,8 +814,10 @@ public final class TurboFrame extends JFrame {
         if (id.equals("redo") && !editor.document().canRedo() && (refactoring == null
                 || !refactoring.canRedo()))
             return Availability.disabled("Nothing to redo");
-        if (Set.of("stop", "eof").contains(id) && !running)
+        if (id.equals("eof") && !running)
             return Availability.disabled("No program is running");
+        if (id.equals("stop") && !running && !hasPendingSaveRun())
+            return Availability.disabled("No program is running or waiting to run");
         if (id.equals("completion.accept") && !context.has("completion"))
             return Availability.disabled("No completion is visible");
         if (Set.of("completion.next", "completion.previous").contains(id) && !context
@@ -796,8 +834,9 @@ public final class TurboFrame extends JFrame {
         if (id.startsWith("tests.") || id.equals("compileProject") || id.equals("make")) {
             if (tests == null)
                 return Availability.disabled("Test controller is initializing");
-            if (id.equals("tests.stop") && !tests.busy())
-                return Availability.disabled("No tests are running");
+            if (id.equals("tests.stop") && !tests.busy() && !pendingTestSnapshot
+                    && (queuedSaveAutomation == null || !queuedSaveAutomation.tests()))
+                return Availability.disabled("No tests are running or waiting to run");
             if (Set.of("tests.current", "tests.class", "tests.all", "tests.failed",
                     "compileProject", "make").contains(id)) {
                 if (tests.busy() || pendingTestSnapshot || (refactoring != null && refactoring
@@ -829,12 +868,12 @@ public final class TurboFrame extends JFrame {
             return "Formatting";
         if (id.startsWith("ai.") || id.startsWith("completion.") || id.equals("complete"))
             return "Java Intelligence";
-        if (id.startsWith("theme.") || Set.of("fontUp", "fontDown", "zoom", "fullscreen")
+        if (id.startsWith("theme.") || Set.of("fontUp", "fontDown", "zoom", "fullscreen", "showPressedShortcuts")
                 .contains(id))
             return "Appearance";
         if (Set.of("new", "open", "save", "saveAs", "quit").contains(id))
             return "File";
-        if (Set.of("run", "isolated", "stop", "eof", "clear", "repl", "replReset", "output",
+        if (Set.of("run", "run.onSave", "isolated", "stop", "eof", "clear", "repl", "replReset", "output",
                 "focus", "evaluateSelection", "evaluateStatement").contains(id))
             return "Execution";
         if (Set.of("compile", "error").contains(id))
@@ -1023,6 +1062,10 @@ public final class TurboFrame extends JFrame {
                 () -> {
                     if (replVisible) repl.cancel();
                     ++runRequest;
+                    queuedSaveAutomation = withoutSaveAction(queuedSaveAutomation, true);
+                    runningSaveAutomation = withoutSaveAction(runningSaveAutomation, true);
+                    pendingSaveRun = null;
+                    if (queuedSaveAutomation == null) saveAutomationTimer.stop();
                     programWorker.stop();
                     running = false;
                     console.setProgramRunning(false);
@@ -1110,17 +1153,11 @@ public final class TurboFrame extends JFrame {
         command(
                 "fontUp",
                 "Larger font",
-                () -> {
-                    settings.fontSize = Math.min(48, settings.fontSize + 2);
-                    editor.setFontSize(settings.fontSize);
-                });
+                () -> changeInterfaceFontSize(settings.fontSize + 2));
         command(
                 "fontDown",
                 "Smaller font",
-                () -> {
-                    settings.fontSize = Math.max(10, settings.fontSize - 2);
-                    editor.setFontSize(settings.fontSize);
-                });
+                () -> changeInterfaceFontSize(settings.fontSize - 2));
         command(
                 "fullscreen",
                 "Toggle full screen",
@@ -1209,9 +1246,9 @@ public final class TurboFrame extends JFrame {
                 false));
         command("tests.failed", "Run Failed Tests",
                 () -> startTests(TurboTestController.Mode.FAILED, false));
-        command("tests.stop", "Stop Tests", () -> tests.stop());
+        command("tests.stop", "Stop Tests", this::stopTests);
         command("tests.results", "Test Results…", this::showTestResults);
-        command("tests.auto", "Auto Test", () -> {
+        command("tests.auto", "Auto Test on Changes", () -> {
             if (!settings.autoTest && maven.workspace() != null && !maven.requireTrust()) return;
             settings.autoTest = !settings.autoTest;
             tests.setAutomatic(settings.autoTest);
@@ -1226,6 +1263,21 @@ public final class TurboFrame extends JFrame {
             });
         });
         commands.get("tests.auto").putValue(Action.SELECTED_KEY, settings.autoTest);
+        command("run.onSave", "Auto Run on Save", () -> toggleSaveAutomation(true));
+        commands.get("run.onSave").putValue(Action.SELECTED_KEY, settings.autoRunOnSave);
+        command("tests.onSave", "Auto Test on Save", () -> toggleSaveAutomation(false));
+        commands.get("tests.onSave").putValue(Action.SELECTED_KEY, settings.autoTestOnSave);
+        command("showPressedShortcuts", "Show Pressed Shortcuts", () -> {
+            settings.showPressedShortcuts = !settings.showPressedShortcuts;
+            editor.setShowPressedShortcuts(settings.showPressedShortcuts);
+            commands.get("showPressedShortcuts").putValue(Action.SELECTED_KEY, settings.showPressedShortcuts);
+            String snapshot = settings.snapshotJson();
+            background.execute(() -> {
+                try { Settings.saveSnapshot(snapshot); }
+                catch (java.io.IOException failure) { errorLater(failure); }
+            });
+        });
+        commands.get("showPressedShortcuts").putValue(Action.SELECTED_KEY, settings.showPressedShortcuts);
     }
 
     private void completionKey(String key) {
@@ -1353,6 +1405,9 @@ public final class TurboFrame extends JFrame {
             aiMenu.add(new JMenuItem(commands.get(id)));
         options.add(aiMenu);
         options.addSeparator();
+        options.add(new JCheckBoxMenuItem(commands.get("run.onSave")));
+        options.add(new JCheckBoxMenuItem(commands.get("tests.onSave")));
+        options.add(new JCheckBoxMenuItem(commands.get("showPressedShortcuts")));
         for (String id : List.of("fontUp", "fontDown", "zoom", "fullscreen", "metrics", "palette",
                 "keymap"))
             options.add(new JMenuItem(commands.get(id)));
@@ -1417,7 +1472,10 @@ public final class TurboFrame extends JFrame {
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .addPropertyChangeListener("permanentFocusOwner", textCommandFocus);
         commandDispatcher = new CommandKeyDispatcher(this, commandRegistry, commandKeymaps,
-                this::commandContext, text -> console.append(text + "\n", false));
+                this::commandContext, text -> console.append(text + "\n", false), (id, sequence) -> {
+                    if (!editor.hasInputComposition()) editor.showPressedShortcut(sequence.display() + "  "
+                            + commandRegistry.find(id).map(Command::title).orElse(id));
+                });
         keymapListener = commandKeymaps.onChange(() -> {
             Runnable update = () -> {
                 refreshShortcutPresentation();
@@ -1449,9 +1507,6 @@ public final class TurboFrame extends JFrame {
             entry.getValue().putValue(Action.SHORT_DESCRIPTION, commandKeymaps.shortcutText(entry
                     .getKey()));
         }
-        status.setText(" " + commandKeymaps.shortcutText("save") + " Save   " + commandKeymaps
-                .shortcutText("compile") + " Make   " + commandKeymaps.shortcutText("run")
-                + " Run   " + commandKeymaps.shortcutText("palette") + " Actions");
     }
 
     private void persistKeymap() {
@@ -1551,8 +1606,22 @@ public final class TurboFrame extends JFrame {
                 });
     }
 
+    private void changeInterfaceFontSize(int size) {
+        int next = Math.clamp(size, 10, 48);
+        if (settings.fontSize == next) return;
+        settings.fontSize = next;
+        applyTheme(theme);
+        String preferences = settings.snapshotJson();
+        background.execute(() -> {
+            try { Settings.saveSnapshot(preferences); }
+            catch (Exception error) { errorLater(error); }
+        });
+    }
+
     public void applyTheme(Theme t) {
         theme = t;
+        AsciiChrome.setEditorFontSize(settings.fontSize);
+        if (editor.getFont().getSize() != settings.fontSize) editor.setFontSize(settings.fontSize);
         MenuStyler.install(t);
         OverlayHost.forOwner(this).setTheme(AsciiChrome.editor(t));
         lastEditorTitle = "";
@@ -1562,14 +1631,12 @@ public final class TurboFrame extends JFrame {
         repl.setTheme(t);
         if (intelligence != null) intelligence.setTheme(t);
         if (maven != null) maven.setTheme(t);
-        projectStatus.setOpaque(true);
-        projectStatus.setBackground(t.color("chrome", "statusBackground"));
-        projectStatus.setForeground(t.color("chrome", "statusForeground"));
         MenuStyler.style(menus, t);
         bottom.setBackground(t.color("chrome", "statusBackground"));
-        status.setForeground(t.color("chrome", "statusForeground"));
-        aiStatus.setForeground(t.color("chrome", "statusForeground"));
-        position.setForeground(t.color("chrome", "statusForeground"));
+        Color statusForeground = AsciiPalette.readable(t.color("chrome", "statusForeground"),
+                t.color("chrome", "statusBackground"), 4.5);
+        status.setForeground(statusForeground);
+        position.setForeground(statusForeground);
         for (String id : Theme.BUNDLED) {
             Theme preset = Theme.bundled(id);
             commands.get("theme." + id)
@@ -1579,13 +1646,12 @@ public final class TurboFrame extends JFrame {
         }
         Font mono = AsciiChrome.font();
         status.setFont(mono);
-        aiStatus.setFont(mono);
         position.setFont(mono);
-        projectStatus.setFont(mono);
         AsciiChrome.splitPane(projectSplit, AsciiChrome.editor(t));
         editorPanel.setBackground(t.background());
         getContentPane().setBackground(t.background());
         refreshTitle();
+        revalidate();
         repaint();
     }
 
@@ -1636,18 +1702,37 @@ public final class TurboFrame extends JFrame {
             lastEditorTitle = name + dirty;
             editorPanel.setBorder(new AsciiBorder(name + dirty, AsciiChrome.editor(theme)));
         }
-        if (!lastMessageTitle.equals(buildStatus)) {
-            lastMessageTitle = buildStatus;
-            messages.setBorder(new AsciiBorder(replVisible ? "Java REPL" : "Output · " + buildStatus,
-                    AsciiChrome.output(theme)));
+        String messageTitle = replVisible ? "Java REPL" : "Output";
+        if (!lastMessageTitle.equals(messageTitle)) {
+            lastMessageTitle = messageTitle;
+            messages.setBorder(new AsciiBorder(messageTitle, AsciiChrome.output(theme)));
         }
         messages.setBackground(theme.messagesBackground());
+        refreshStatusLine();
+        updatePositionLabel();
     }
 
     private void updatePosition() {
-        position.setText(" " + editor.caretLine() + ":" + editor.caretColumn() + " ");
+        updatePositionLabel();
         if (intelligence != null && isJavaBuffer()) intelligence.changed();
         if (aiCompletion != null && isJavaBuffer()) aiCompletion.changed();
+    }
+
+    private void updatePositionLabel() {
+        String name = file == null ? "Untitled.java" : file.getFileName().toString();
+        String suffix = (editor.version() != savedVersion ? " *" : "")
+                + " · " + editor.caretLine() + ":" + editor.caretColumn() + " ";
+        FontMetrics metrics = position.getFontMetrics(position.getFont());
+        int width = bottom.getWidth() > 0 ? bottom.getWidth() : getWidth();
+        int available = Math.max(0, width / 2 - metrics.stringWidth(" " + suffix));
+        if (metrics.stringWidth(name) > available) {
+            int end = name.length();
+            while (end > 0 && metrics.stringWidth(name.substring(0, end) + "…") > available)
+                end = name.offsetByCodePoints(end, -1);
+            name = metrics.stringWidth("…") <= available ? name.substring(0, end) + "…" : "";
+        }
+        position.setText(" " + name + suffix);
+        position.setToolTipText(file == null ? "Unsaved source" : file.toString());
     }
 
     private void changed() {
@@ -1856,24 +1941,34 @@ public final class TurboFrame extends JFrame {
     private void launchMavenTarget(MavenModels.Workspace model, MavenRunTargets.Target target,
             CompilationResult compiled, long revision, long op, long request, boolean isolated,
             CompletableFuture<RunResult> previous) {
+        launchMavenTarget(model, target, compiled, revision, op, request, isolated, previous, false, null);
+    }
+
+    private void launchMavenTarget(MavenModels.Workspace model, MavenRunTargets.Target target,
+            CompilationResult compiled, long revision, long op, long request, boolean isolated,
+            CompletableFuture<RunResult> previous, boolean preserveOutput, SaveAutomation saveRequest) {
+        lastMavenRunTarget = target;
         CompletableFuture.supplyAsync(() -> {
             try { return nativeMavenCompiler().pinExecution(target.moduleId(), target.tests(), model.generation(), revision); }
             catch (java.io.IOException failure) { throw new UncheckedIOException(failure); }
         }, nativeProjectCompiler).whenComplete((pin, failure) -> SwingUtilities.invokeLater(() -> {
-            if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) { releaseExecution(pin); return; }
-            if (failure != null) { console.append("Unable to start Maven project: " + message(failure) + "\n", true); return; }
+            if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()
+                    || (preserveOutput && !settings.autoRunOnSave)) { finishPendingSaveRun(saveRequest); releaseExecution(pin); return; }
+            if (failure != null) { finishPendingSaveRun(saveRequest); console.append("Unable to start Maven project: " + message(failure) + "\n", true); return; }
             var module = model.module(target.moduleId()).orElseThrow();
             Path javaHome = (target.tests() ? module.testJava() : module.mainJava()).javaHome();
             Path selectedJdk = javaHome == null ? Path.of(System.getProperty("java.home")) : javaHome;
             var executable = new CompilationResult(compiled.version(), true, compiled.diagnostics(), pin.bytecode(),
                     compiled.durationNanos(), compiled.cacheHit(), target.mainClass());
             previous.whenComplete((ignored, error) -> SwingUtilities.invokeLater(() -> {
-                if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) { releaseExecution(pin); return; }
+                if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()
+                        || (preserveOutput && !settings.autoRunOnSave)) { finishPendingSaveRun(saveRequest); releaseExecution(pin); return; }
                 var key = new ProjectWorkerKey(selectedJdk, pin.modulePath(), pin.moduleName(), pin.moduleName().isBlank() ? "" : target.mainClass());
                 boolean modular = !key.moduleName().isBlank();
                 programWorker = modular ? new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, key.home(), key.modulePath(), key.moduleName(), key.mainClass())
                         : projectWorkers.computeIfAbsent(key, config -> new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, config.home()));
-                showRepl(false); startRun(executable, isolated, request, pin.classpath());
+                finishPendingSaveRun(saveRequest);
+                showRepl(false); startRun(executable, isolated, request, pin.classpath(), !preserveOutput);
                 WorkerClient launched = programWorker;
                 execution.whenComplete((completed, problem) -> { releaseExecution(pin); if (modular) launched.close(); });
             }));
@@ -1963,17 +2058,22 @@ public final class TurboFrame extends JFrame {
 
     private void startRun(CompilationResult result, boolean isolated, long request) {
         programWorker = worker;
+        lastPlainRunTarget = result.mainClass();
         startRun(result, isolated, request, List.of());
     }
 
     private void startRun(CompilationResult result, boolean isolated, long request, List<Path> classpath) {
+        startRun(result, isolated, request, classpath, true);
+    }
+
+    private void startRun(CompilationResult result, boolean isolated, long request, List<Path> classpath, boolean clearOutput) {
         if (result.mainClass() == null || result.mainClass().isBlank()) {
             console.append("No supported main entry point found.\n", true);
             return;
         }
         running = true;
         programOutput = true;
-        console.clear();
+        if (clearOutput) console.clear();
         console.setProgramRunning(true);
         console.append(
                 (isolated ? "ISOLATED RUN" : "FAST RUN") + " · " + result.mainClass() + "\n",
@@ -2110,7 +2210,7 @@ public final class TurboFrame extends JFrame {
         if (as || target == null) {
             var chooser = new EmbeddedFileChooser();
             chooser.setSelectedFile(
-                    new java.io.File(file == null ? "Hello.java" : file.getFileName().toString()));
+                    new java.io.File(file == null ? SourceSnapshot.forBuffer(editor.getText(), editor.version()).fileName() : file.getFileName().toString()));
             if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) return;
             target = chooser.getSelectedFile().toPath().toAbsolutePath().normalize();
         }
@@ -2247,7 +2347,11 @@ public final class TurboFrame extends JFrame {
                             console.append("Saved " + target.getFileName() + "\n", false);
                             if (active
                                     && bufferIdentity.get() == identity
-                                    && editor.version() == savedVersion) next.run();
+                                    && editor.version() == savedVersion) {
+                                next.run();
+                                if (!closing && target.equals(file) && editor.version() == snapshot.version())
+                                    scheduleSaveAutomation();
+                            }
                         }
                         finishSave();
                     });
@@ -2342,6 +2446,9 @@ public final class TurboFrame extends JFrame {
     public void shutdown() {
         if (closing) return;
         closing = true;
+        saveAutomationTimer.stop();
+        queuedSaveAutomation = runningSaveAutomation = pendingSaveRun = null;
+        testSelectionRequest++;
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
                 .removePropertyChangeListener("permanentFocusOwner", textCommandFocus);
         settings.width = getWidth();
@@ -2395,7 +2502,143 @@ public final class TurboFrame extends JFrame {
         return value == null ? KeyStroke.getKeyStroke(fallback) : value;
     }
 
+    private void toggleSaveAutomation(boolean run) {
+        boolean enabling = run ? !settings.autoRunOnSave : !settings.autoTestOnSave;
+        if (enabling && maven.workspace() != null && !maven.requireTrust()) return;
+        if (run) settings.autoRunOnSave = enabling;
+        else settings.autoTestOnSave = enabling;
+        commands.get(run ? "run.onSave" : "tests.onSave").putValue(Action.SELECTED_KEY, enabling);
+        if (!settings.autoRunOnSave && !settings.autoTestOnSave) {
+            saveAutomationTimer.stop(); queuedSaveAutomation = runningSaveAutomation = null;
+        }
+        String snapshot = settings.snapshotJson();
+        background.execute(() -> { try { Settings.saveSnapshot(snapshot); } catch (java.io.IOException failure) { errorLater(failure); } });
+    }
+
+    private void scheduleSaveAutomation() {
+        if (!isJavaBuffer() || file == null || (!settings.autoRunOnSave && !settings.autoTestOnSave)) return;
+        queuedSaveAutomation = new SaveAutomation(file, editor.version(), refactoringRevision, runRequest,
+                settings.autoRunOnSave, settings.autoTestOnSave);
+        saveAutomationTimer.setRepeats(false);
+        saveAutomationTimer.restart();
+    }
+
+    private boolean currentSave(SaveAutomation request) {
+        return request != null && !closing && request.file().equals(file)
+                && request.version() == editor.version() && request.revision() == refactoringRevision;
+    }
+
+    private boolean hasPendingSaveRun() {
+        return pendingSaveRun != null || queuedSaveAutomation != null && queuedSaveAutomation.run()
+                || runningSaveAutomation != null && runningSaveAutomation.run();
+    }
+
+    private static SaveAutomation withoutSaveAction(SaveAutomation request, boolean run) {
+        if (request == null) return null;
+        boolean keepRun = !run && request.run(), keepTests = run && request.tests();
+        return keepRun || keepTests ? new SaveAutomation(request.file(), request.version(),
+                request.revision(), request.runGeneration(), keepRun, keepTests) : null;
+    }
+
+    private void finishPendingSaveRun(SaveAutomation request) {
+        if (pendingSaveRun == request) pendingSaveRun = null;
+    }
+
+    private void stopTests() {
+        ++testSelectionRequest;
+        pendingTestSnapshot = false;
+        queuedSaveAutomation = withoutSaveAction(queuedSaveAutomation, false);
+        SaveAutomation remainingRun = withoutSaveAction(runningSaveAutomation, false);
+        runningSaveAutomation = null;
+        tests.stop();
+        buildStatus = "TESTS STOPPED";
+        refreshTitle();
+        // Canceling tests must not cancel the independently requested automatic program run.
+        if (queuedSaveAutomation == null && currentSave(remainingRun)) queuedSaveAutomation = remainingRun;
+        if (queuedSaveAutomation == null) saveAutomationTimer.stop();
+        else saveAutomationTimer.restart();
+    }
+
+    private void trySaveAutomation() {
+        SaveAutomation request = queuedSaveAutomation;
+        if (!currentSave(request)) { queuedSaveAutomation = null; return; }
+        if (saving || formattingSave || pendingTestSnapshot || tests.busy() || maven.busy()
+                || refactoring.busy()) { saveAutomationTimer.restart(); return; }
+        queuedSaveAutomation = null;
+        if (maven.importRequest() != null && (maven.workspace() == null || !maven.workspace().resolved() || !maven.trusted())) {
+            console.append("Save automation paused: resolve dependencies and trust this Maven project through Run or Test.\n", false);
+            return;
+        }
+        boolean run = request.run() && settings.autoRunOnSave && request.runGeneration() == runRequest;
+        boolean test = request.tests() && settings.autoTestOnSave;
+        if (!run && !test) return;
+        if (pendingAnalysis != null) pendingAnalysis.cancel(false);
+        if (pendingMavenCompile != null) pendingMavenCompile.cancel(false);
+        runningSaveAutomation = new SaveAutomation(request.file(), request.version(), request.revision(), request.runGeneration(), run, test);
+        startTests(test ? TurboTestController.Mode.ALL : TurboTestController.Mode.COMPILE, true, true);
+    }
+
+    /** The test controller compiles the coherent workspace once before either automatic action. */
+    private void afterSaveCompilation(WorkspaceCompilationResult compiled) {
+        SaveAutomation request = runningSaveAutomation;
+        runningSaveAutomation = null;
+        if (!currentSave(request) || !compiled.success() || !request.run() || !settings.autoRunOnSave
+                || request.runGeneration() != runRequest) return;
+        pendingSaveRun = request;
+        var model = maven.workspace();
+        if (model != null) {
+            CompletableFuture.supplyAsync(() -> nativeMavenCompiler().latest().orElseThrow(), nativeProjectCompiler)
+                    .whenComplete((result, failure) -> SwingUtilities.invokeLater(() -> {
+                        if (!currentSave(request) || model != maven.workspace() || !settings.autoRunOnSave
+                                || request.runGeneration() != runRequest) { finishPendingSaveRun(request); return; }
+                        if (failure != null || result.sourceGeneration() != compiled.version()) {
+                            finishPendingSaveRun(request);
+                            console.append("Auto Run on Save: compilation changed before execution.\n", false); return;
+                        }
+                        var candidates = MavenRunTargets.candidates(result, request.file());
+                        MavenRunTargets.Target target = candidates.size() == 1 ? candidates.getFirst()
+                                : candidates.contains(lastMavenRunTarget) ? lastMavenRunTarget : null;
+                        if (target == null) { finishPendingSaveRun(request); autoRunUnavailable(candidates.size()); return; }
+                        long run = ++runRequest, op = operation.get();
+                        var previous = execution;
+                        programWorker.stop(); running = false; console.setProgramRunning(false);
+                        var value = new CompilationResult(editor.version(), true, List.of(), Map.of(), result.durationNanos(), false, target.mainClass());
+                        launchMavenTarget(model, target, value, request.revision(), op, run, settings.isolated, previous, true, request);
+                    }));
+        } else {
+            var bytes = compiled.bytecode();
+            String selected = JavacCompilerBackend.findMainForSource(bytes, request.file().toString());
+            if (selected == null) {
+                var candidates = bytes.entrySet().stream().filter(entry -> JavacCompilerBackend.findMain(
+                        Map.of(entry.getKey(), entry.getValue()), entry.getKey() + ".java") != null).map(Map.Entry::getKey).sorted().toList();
+                selected = candidates.size() == 1 ? candidates.getFirst() : candidates.contains(lastPlainRunTarget) ? lastPlainRunTarget : null;
+                if (selected == null) { finishPendingSaveRun(request); autoRunUnavailable(candidates.size()); return; }
+            }
+            String main = selected;
+            List<Path> classpath = testWorkspace == null ? List.of() : testWorkspace.classpath();
+            long run = ++runRequest;
+            var previous = execution;
+            programWorker.stop(); running = false; console.setProgramRunning(false);
+            previous.whenComplete((ignored, failure) -> SwingUtilities.invokeLater(() -> {
+                if (!currentSave(request) || run != runRequest || !settings.autoRunOnSave) { finishPendingSaveRun(request); return; }
+                finishPendingSaveRun(request);
+                programWorker = worker; lastPlainRunTarget = main;
+                showRepl(false);
+                startRun(new CompilationResult(editor.version(), true, List.of(), bytes, compiled.durationNanos(), false, main), settings.isolated, run, classpath, false);
+            }));
+        }
+    }
+
+    private void autoRunUnavailable(int candidates) {
+        console.append(candidates == 0 ? "Auto Run on Save: this project has no runnable main.\n"
+                : "Auto Run on Save: use Run once to choose a main class.\n", false);
+    }
+
     private void startTests(TurboTestController.Mode mode, boolean automatic) {
+        startTests(mode, automatic, false);
+    }
+
+    private void startTests(TurboTestController.Mode mode, boolean automatic, boolean onSave) {
         if (pendingTestSnapshot || closing || (!automatic && tests.busy()))
             return;
         var mavenModel = maven.workspace();
@@ -2407,10 +2650,12 @@ public final class TurboFrame extends JFrame {
         if (mavenModel != null && mode != TurboTestController.Mode.COMPILE && !maven.trusted()) {
             if (automatic || !maven.requireTrust()) return;
         }
+        saveTestRun = onSave;
         var capture = new NativeRefactoringHost().capture();
         var semantic = intelligenceSnapshot();
         int offset = editor.caretOffset();
         long sourceGeneration = refactoringRevision;
+        long selectionRequest = ++testSelectionRequest;
         pendingTestSnapshot = true;
         CompletableFuture<TestInvocation> selected;
         if (mavenModel != null && mode != TurboTestController.Mode.METHOD && mode != TurboTestController.Mode.CLASS) {
@@ -2442,40 +2687,58 @@ public final class TurboFrame extends JFrame {
             return new TestInvocation(engine.workspace().snapshot(), selection);
         });
         selected.whenComplete((invocation, failure) -> SwingUtilities.invokeLater(() -> {
-            pendingTestSnapshot = false;
-            if (closing)
+            if (closing || selectionRequest != testSelectionRequest)
                 return;
             if (failure != null) {
+                pendingTestSnapshot = false;
+                if (onSave) runningSaveAutomation = null;
                 console.append("TurboTest: " + message(failure) + "\n", false);
                 return;
             }
             if (!capture.equals(new NativeRefactoringHost().capture())) {
+                pendingTestSnapshot = false;
+                if (onSave) runningSaveAutomation = null;
                 console.append("Source changed while selecting tests; run again.\n", false);
                 return;
             }
             testCapture = capture;
             testWorkspace = invocation.workspace();
             if (mavenModel != null) {
-                if (maven.workspace() != mavenModel) return;
+                if (maven.workspace() != mavenModel) { pendingTestSnapshot = false; if (onSave) runningSaveAutomation = null; return; }
                 Map<Path, String> overlays = new LinkedHashMap<>();
                 invocation.workspace().sources().forEach(source -> overlays.put(source.file(), source.text()));
                 String moduleId = mode == TurboTestController.Mode.METHOD || mode == TurboTestController.Mode.CLASS
                         ? mavenModel.moduleFor(bufferKey).map(MavenModels.Module::id).orElse("") : "";
                 CompletableFuture.supplyAsync(this::nativeMavenCompiler, nativeProjectCompiler).whenComplete((coordinator, error) -> SwingUtilities.invokeLater(() -> {
-                    if (closing || maven.workspace() != mavenModel || !capture.equals(new NativeRefactoringHost().capture())) return;
-                    if (error != null) { console.append(message(error) + "\n", true); return; }
+                    if (closing || selectionRequest != testSelectionRequest) return;
+                    pendingTestSnapshot = false;
+                    if (maven.workspace() != mavenModel || !capture.equals(new NativeRefactoringHost().capture())) {
+                        if (onSave) runningSaveAutomation = null;
+                        return;
+                    }
+                    if (error != null) { if (onSave) runningSaveAutomation = null; console.append(message(error) + "\n", true); return; }
                     tests.setMavenCompiler(coordinator);
                     tests.runMaven(invocation.workspace(), mavenModel, overlays, invocation.selection(), moduleId,
                             () -> !closing && maven.workspace() == mavenModel && capture.equals(new NativeRefactoringHost().capture()), maven.trusted(), automatic);
                 }));
-            } else if (automatic)
-                tests.afterRefactoring(testWorkspace);
-            else
-                tests.run(testWorkspace, invocation.selection());
+            } else {
+                pendingTestSnapshot = false;
+                if (automatic && !onSave) tests.afterRefactoring(testWorkspace);
+                else tests.run(testWorkspace, invocation.selection());
+            }
         }));
     }
 
     private final class NativeTestHost implements TurboTestController.Host {
+        @Override
+        public void begin(boolean compilationOnly) {
+            showRepl(false);
+            messages.setVisible(true);
+            testOutput.begin(compilationOnly);
+            buildStatus = compilationOnly ? "PROJECT COMPILING…" : "TURBOTEST · COMPILING…";
+            refreshTitle();
+        }
+
         @Override
         public boolean current(Model.WorkspaceSnapshot snapshot) {
             return !closing && testWorkspace != null && testWorkspace.equals(snapshot)
@@ -2485,7 +2748,13 @@ public final class TurboFrame extends JFrame {
 
         @Override
         public void status(String text) {
-            console.append(text + "\n", false);
+            testOutput.status(text);
+        }
+
+        @Override
+        public void completed(String message, TestEngine.Report result) {
+            if (result == null) status(message);
+            else report(result);
         }
 
         @Override
@@ -2503,17 +2772,18 @@ public final class TurboFrame extends JFrame {
             editor.setDiagnostics(active);
             buildStatus = result.success() ? "PROJECT BUILD OK" : "PROJECT BUILD FAILED";
             refreshTitle();
-            for (var diagnostic : result.diagnostics())
-                console.append(diagnostic.fileName() + ":" + diagnostic.diagnostic().line() + ": "
-                        + diagnostic.diagnostic().message() + "\n", false);
+            testOutput.compilation(result, model != null ? model.root()
+                    : testWorkspace == null ? null : testWorkspace.root());
+            afterSaveCompilation(result);
         }
 
         @Override
         public void report(TestEngine.Report result) {
-            for (var test : result.tests())
-                console.append(test.status() + " " + test.className() + "#" + test.methodName()
-                        + "\n", test.status() == TestEngine.Status.FAILED);
-            if (!tests.automatic())
+            testCompilerDetails = testOutput.compilerDetails();
+            testOutput.report(result);
+            buildStatus = "TURBOTEST · " + TestOutput.outcome(result);
+            refreshTitle();
+            if (!tests.automatic() && !saveTestRun)
                 showTestResults();
         }
 
@@ -2535,11 +2805,14 @@ public final class TurboFrame extends JFrame {
         var list = new JList<TestEngine.Test> (report.tests().toArray(TestEngine.Test[]::new));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setCellRenderer((view, test, index, selected, focus) -> {
-            JLabel row = new JLabel(test.status() + "  " + test.className() + " · " + test.name());
+            JLabel row = new JLabel("[" + test.status() + "] " + TestOutput.name(test) + " · "
+                    + TestOutput.duration(test.durationNanos()));
+            row.setFont(AsciiChrome.font());
             row.setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 8));
             row.setOpaque(true);
             row.setBackground(selected ? view.getSelectionBackground() : view.getBackground());
-            row.setForeground(selected ? view.getSelectionForeground() : view.getForeground());
+            row.setForeground(selected ? view.getSelectionForeground()
+                    : ConsolePane.colorFor(theme, TestOutput.role(test.status()), view.getBackground()));
             return row;
         });
         JTextArea detail = new JTextArea();
@@ -2547,20 +2820,39 @@ public final class TurboFrame extends JFrame {
         detail.setFont(editor.getFont().deriveFont(12f));
         list.addListSelectionListener(event -> {
             var selected = list.getSelectedValue();
-            detail.setText(selected == null ? "" : selected.failure() + "\n" + selected.trace());
+            detail.setText(selected == null ? "" : "[" + selected.status() + "] "
+                    + TestOutput.name(selected) + "\nDuration: "
+                    + TestOutput.duration(selected.durationNanos())
+                    + (selected.failure() == null || selected.failure().isBlank() ? "" : "\n\n" + selected.failure())
+                    + (selected.trace() == null || selected.trace().isBlank() ? "" : "\n\n" + selected.trace()));
             detail.setCaretPosition(0);
         });
         if (!report.tests().isEmpty())
             list.setSelectedIndex(0);
         else
             detail.setText(String.join("\n", report.engineFailures()));
-        var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(list),
-                new JScrollPane(detail));
+        var details = new JTabbedPane();
+        details.addTab("Test details", new JScrollPane(detail));
+        JTextArea compilationDetails = new JTextArea(testCompilerDetails.isEmpty()
+                ? "No compiler diagnostics." : String.join("\n\n", testCompilerDetails));
+        compilationDetails.setEditable(false);
+        compilationDetails.setFont(detail.getFont());
+        compilationDetails.setCaretPosition(0);
+        details.addTab("Compilation details (" + testCompilerDetails.size() + ")",
+                new JScrollPane(compilationDetails));
+        if (!report.engineFailures().isEmpty()) {
+            JTextArea failures = new JTextArea(String.join("\n\n", report.engineFailures()));
+            failures.setEditable(false);
+            failures.setFont(detail.getFont());
+            failures.setCaretPosition(0);
+            details.addTab("Engine errors", new JScrollPane(failures));
+        }
+        var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(list), details);
         split.setResizeWeight(.45);
         JPanel panel = new JPanel(new BorderLayout(6, 6));
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        panel.add(new JLabel("Source version " + report.sourceVersion() + " · " + report.tests()
-                .size() + " tests"), BorderLayout.NORTH);
+        panel.add(new JLabel(TestOutput.summary(report) + " · Source " + report.sourceVersion()),
+                BorderLayout.NORTH);
         panel.add(split, BorderLayout.CENTER);
         JButton open = new JButton("Go to source"), failed = new JButton("Run failed"),
                 close = new JButton("Close");

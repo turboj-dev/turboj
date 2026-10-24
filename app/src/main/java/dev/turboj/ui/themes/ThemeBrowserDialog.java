@@ -563,7 +563,9 @@ public final class ThemeBrowserDialog extends EmbeddedDialog {
             try {
                 if (value == null) return;
                 Theme t = value.theme() == null ? visibleTheme : value.theme();
-                int w = getWidth(), h = getHeight();
+                double scale = dev.turboj.ui.AsciiChrome.scale();
+                int w = (int) Math.ceil(getWidth() / scale), h = (int) Math.ceil(getHeight() / scale);
+                g.scale(scale, scale);
                 g.setColor(visibleTheme.background());
                 g.fillRect(0, 0, w, h);
                 g.setColor(

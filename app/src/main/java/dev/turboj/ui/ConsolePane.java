@@ -3,11 +3,14 @@ package dev.turboj.ui;
 import dev.turboj.ui.themes.Theme;
 import dev.turboj.commandj.swing.AsciiStyle;
 import dev.turboj.commandj.swing.AsciiBorder;
+import dev.turboj.commandj.swing.AsciiPalette;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayDeque;
+import java.util.EnumMap;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import javax.swing.*;
@@ -33,16 +36,18 @@ public final class ConsolePane extends JPanel {
     private int pendingChars;
     private boolean scheduled;
     private boolean truncated;
-    private final SimpleAttributeSet normal = new SimpleAttributeSet(),
-            error = new SimpleAttributeSet();
+    /** Semantic output roles survive theme changes; plain stdout remains NORMAL. */
+    public enum Role { NORMAL, ERROR, SUCCESS, WARNING, SKIPPED, HEADING, MUTED }
+    private final EnumMap<Role, SimpleAttributeSet> styles = new EnumMap<>(Role.class);
+    private final SimpleAttributeSet normal = new SimpleAttributeSet();
+    private static final String ROLE_ATTRIBUTE = "turboj.output-role";
     private static final String STDERR_ATTRIBUTE = "turboj.stderr";
 
-    private record Chunk(String text, boolean error) {}
+    private record Chunk(String text, Role role) {}
 
     public ConsolePane(Consumer<String> send) {
         super(new BorderLayout());
-        normal.addAttribute(STDERR_ATTRIBUTE, false);
-        error.addAttribute(STDERR_ATTRIBUTE, true);
+        for (Role role : Role.values()) styles.put(role, role == Role.NORMAL ? normal : new SimpleAttributeSet());
         this.send = send;
         output.setEditable(false);
         output.setFont(AsciiChrome.font());
@@ -175,11 +180,18 @@ public final class ConsolePane extends JPanel {
     }
 
     public void append(String text, boolean err) {
+        append(text, err ? Role.ERROR : Role.NORMAL);
+    }
+
+    /** Thread-safe append with semantic styling; only the EDT mutates Swing attributes. */
+    public void append(String text, Role role) {
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(role);
         synchronized (pending) {
             int room = 131072 - pendingChars;
             if (room > 0) {
                 String s = text.substring(0, Math.min(room, text.length()));
-                pending.add(new Chunk(s, err));
+                pending.add(new Chunk(s, role));
                 pendingChars += s.length();
             }
             if (text.length() > room) truncated = true;
@@ -207,7 +219,7 @@ public final class ConsolePane extends JPanel {
         }
         mutateOutput(
                 () -> {
-                    for (var c : batch) insertOutput(c.text(), c.error());
+                    for (var c : batch) insertOutput(c.text(), c.role());
                     if (drop) insertOutput("\n[output truncated]\n", true);
                     var doc = output.getDocument();
                     if (doc.getLength() > 200000) {
@@ -239,7 +251,11 @@ public final class ConsolePane extends JPanel {
     }
 
     private void insertOutput(String text, boolean err) throws BadLocationException {
-        output.getStyledDocument().insertString(inputStart, text, err ? error : normal);
+        insertOutput(text, err ? Role.ERROR : Role.NORMAL);
+    }
+
+    private void insertOutput(String text, Role role) throws BadLocationException {
+        output.getStyledDocument().insertString(inputStart, text, styles.get(role));
         inputStart += text.length();
     }
 
@@ -322,19 +338,36 @@ public final class ConsolePane extends JPanel {
                 BorderFactory.createCompoundBorder(
                         AsciiBorder.rule(AsciiChrome.output(t)),
                         BorderFactory.createEmptyBorder(4, 5, 4, 5)));
-        StyleConstants.setForeground(normal, t.messagesForeground());
-        StyleConstants.setForeground(error, t.color("messages", "errorForeground"));
-        normal.addAttribute(STDERR_ATTRIBUTE, false);
-        error.addAttribute(STDERR_ATTRIBUTE, true);
+        for (Role role : Role.values()) {
+            SimpleAttributeSet attributes = styles.get(role);
+            StyleConstants.setForeground(attributes, colorFor(t, role, t.messagesBackground()));
+            StyleConstants.setBold(attributes, role == Role.HEADING || role == Role.SUCCESS);
+            attributes.addAttribute(ROLE_ATTRIBUTE, role);
+            attributes.addAttribute(STDERR_ATTRIBUTE, role == Role.ERROR);
+        }
         var document = output.getStyledDocument();
         for (int offset = 0; offset < document.getLength(); ) {
             var element = document.getCharacterElement(offset);
             int end = Math.min(element.getEndOffset(), document.getLength());
-            boolean stderr =
-                    Boolean.TRUE.equals(element.getAttributes().getAttribute(STDERR_ATTRIBUTE));
-            document.setCharacterAttributes(offset, end - offset, stderr ? error : normal, true);
+            Object stored = element.getAttributes().getAttribute(ROLE_ATTRIBUTE);
+            Role role = stored instanceof Role value ? value
+                    : Boolean.TRUE.equals(element.getAttributes().getAttribute(STDERR_ATTRIBUTE)) ? Role.ERROR : Role.NORMAL;
+            document.setCharacterAttributes(offset, end - offset, styles.get(role), true);
             offset = end;
         }
+    }
+
+    /** Derive result colors from the active theme and make small text readable on its surface. */
+    public static Color colorFor(Theme theme, Role role, Color background) {
+        Color candidate = switch (role) {
+            case NORMAL -> theme.messagesForeground();
+            case ERROR -> theme.color("messages", "errorForeground");
+            case SUCCESS -> theme.color("diagnostics", "success");
+            case WARNING -> theme.color("diagnostics", "warning");
+            case SKIPPED, MUTED -> theme.color("ui", "muted");
+            case HEADING -> theme.color("ui", "accent");
+        };
+        return AsciiPalette.readable(candidate, background, 4.5);
     }
 
     /** Output is immutable to editing; only unsent stdin may be changed or removed. */

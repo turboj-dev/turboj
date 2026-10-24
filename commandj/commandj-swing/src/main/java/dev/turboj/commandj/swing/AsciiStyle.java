@@ -134,7 +134,7 @@ public final class AsciiStyle {
             if (table.getUI().getClass() != BasicTableUI.class) table.setUI(new BasicTableUI());
             table.setSelectionBackground(palette.selectionBackground()); table.setSelectionForeground(palette.selectionForeground());
             table.setGridColor(palette.border()); table.setShowGrid(false); table.setIntercellSpacing(new Dimension(0, 0));
-            table.setRowHeight(Math.max(table.getRowHeight(), table.getFontMetrics(palette.font()).getHeight() + 4));
+            table.setRowHeight(table.getFontMetrics(palette.font()).getHeight() + 4);
             if (table.getTableHeader() != null) table.getTableHeader().setDefaultRenderer(new HeaderRenderer());
         }
         if (component instanceof JTableHeader header && header.getUI().getClass() != BasicTableHeaderUI.class)
@@ -152,6 +152,8 @@ public final class AsciiStyle {
         }
         if (component instanceof JComponent swing && swing.getBorder() instanceof TitledBorder titled)
             swing.setBorder(new AsciiBorder(titled.getTitle(), palette, AsciiBorder.Line.SINGLE));
+        else if (component instanceof JComponent swing && swing.getBorder() instanceof AsciiBorder ascii)
+            swing.setBorder(ascii.withPalette(palette));
         if (component instanceof Container container)
             for (Component child : container.getComponents()) apply(child, palette);
     }

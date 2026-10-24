@@ -12,9 +12,13 @@ public final class ShortcutResolver {
         CONFLICT
     }
 
-    public record Resolution(Kind kind, String command, List<String> candidates) {
+    public record Resolution(Kind kind, String command, List<String> candidates, KeySequence sequence) {
         public Resolution {
             candidates = List.copyOf(candidates);
+        }
+
+        public Resolution(Kind kind, String command, List<String> candidates) {
+            this(kind, command, candidates, null);
         }
     }
 
@@ -62,6 +66,8 @@ public final class ShortcutResolver {
             prefix.add(stroke);
             result = resolve(context);
         }
+        if (result.kind() != Kind.NONE)
+            result = new Resolution(result.kind(), result.command(), result.candidates(), new KeySequence(prefix));
         if (result.kind() != Kind.PENDING)
             reset();
         return result;

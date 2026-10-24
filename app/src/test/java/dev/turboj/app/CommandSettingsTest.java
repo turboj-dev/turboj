@@ -10,6 +10,26 @@ class CommandSettingsTest {
     @TempDir
     Path temp;
 
+    @Test void pressedShortcutPreferenceDefaultsOffAndPersistsBothChoices() throws Exception {
+        String old = System.getProperty("turboj.config");
+        System.setProperty("turboj.config", temp.toString());
+        try {
+            assertFalse(Settings.load().showPressedShortcuts);
+            Files.writeString(temp.resolve("config.json"), "{\"theme\":\"classic\"}");
+            assertFalse(Settings.load().showPressedShortcuts, "old installations remain unchanged");
+            var settings = Settings.load();
+            settings.showPressedShortcuts = true;
+            settings.save();
+            assertTrue(Settings.load().showPressedShortcuts);
+            settings.showPressedShortcuts = false;
+            settings.save();
+            assertFalse(Settings.load().showPressedShortcuts);
+        } finally {
+            if (old == null) System.clearProperty("turboj.config");
+            else System.setProperty("turboj.config", old);
+        }
+    }
+
     @Test
     void migratesExistingSettingsAndRetainsExplicitProfile() throws Exception {
         String old = System.getProperty("turboj.config");

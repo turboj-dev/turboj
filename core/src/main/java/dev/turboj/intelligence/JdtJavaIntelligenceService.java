@@ -30,7 +30,7 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
             if(engine==null){engine=runtime.openWorkspace(snapshot);delegate=((JavaIntelligenceProvider)engine).intelligence();}
             else engine.workspace().synchronize(snapshot,Cancellation.NONE);
             return engine;
-        }catch(RuntimeException ex){throw ex;}catch(Exception ex){throw new IllegalStateException("Cannot initialize embedded Java semantic workspace",ex);}
+        }catch(RuntimeException ex){throw ex;}catch(Exception ex){throw new IllegalStateException("Cannot initialize embedded Java semantic workspace: "+Objects.requireNonNullElse(ex.getMessage(),ex.getClass().getSimpleName()),ex);}
     }
     private JavaIntelligence intelligence(Context context){
         ensureOpen();try{
@@ -44,7 +44,7 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
             if(!inventoryChanged)for(var entry:directoryStamps.entrySet())if(!Files.isDirectory(entry.getKey())||Files.getLastModifiedTime(entry.getKey()).toMillis()!=entry.getValue()){inventoryChanged=true;break;}
             if(inventoryChanged){
                 indexedRoots=roots;indexedProjectVersion=context.projectVersion();
-                var inventory=memoryOnly?new SourceInventory.Inventory(List.of(),List.of()):SourceInventory.scanDetailed(root,roots,100000);
+                var inventory=memoryOnly?new SourceInventory.Inventory(List.of(),List.of()):SourceInventory.scanProjectDetailed(root,roots,100000);
                 Set<Path> found=new LinkedHashSet<>(inventory.sources());
                 diskSources.keySet().retainAll(found);stamps.keySet().retainAll(found);directoryStamps.clear();
                 for(Path path:found)if(!diskSources.containsKey(path))read(path);
@@ -53,7 +53,7 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
             }
             for(Path path:new ArrayList<>(diskSources.keySet())){if(!Files.isRegularFile(path)){diskSources.remove(path);stamps.remove(path);}else if(Files.getLastModifiedTime(path).toMillis()!=stamps.getOrDefault(path,-1L))read(path);}
             var sources=new LinkedHashMap<Path,String>(diskSources);
-            for(var entry:context.openSources().entrySet()){Path path=entry.getKey().toAbsolutePath().normalize();if(path.startsWith(root))sources.put(path,entry.getValue());}
+            for(var entry:context.openSources().entrySet()){Path path=entry.getKey().toAbsolutePath().normalize();if(SourceInventory.isProjectSource(roots,path))sources.put(path,entry.getValue());}
             sources.put(context.file(),context.source());
             var snapshots=new ArrayList<SourceSnapshot>();for(var entry:sources.entrySet()){Path path=entry.getKey().toAbsolutePath().normalize();boolean open=context.openSources().containsKey(path)||path.equals(context.file());long version=path.equals(context.file())?context.version():open?entry.getValue().hashCode():stamps.getOrDefault(path,0L);snapshots.add(new SourceSnapshot(path,entry.getValue(),version,open));}
             var candidate=new WorkspaceSnapshot(root,workspaceVersion,snapshots,roots,context.classpath(),context.projects());

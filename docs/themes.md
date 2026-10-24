@@ -8,7 +8,7 @@ Choose **Options → Themes** for the three presets. Its last command, **More th
 
 Switching preserves source text, caret, viewport, selection, undo, semantic proposals, documentation content, console output and unsent stdin. It does not compile, execute or restart the current program. Confirmed selections are saved asynchronously from an immutable preference snapshot and restored at next launch. New installations default to Classic. Existing `modern` preferences migrate to `dark`; the retired `amber` preset and invalid IDs fall back to `classic`.
 
-Classic uses exact DOS blue `#0000AA`, console cyan `#05AAAA`, yellow keywords and aqua strings. The editor and stdin cursors have separate tokens to remain visible against their different surfaces. Swing's logical Monospaced font is supplied by the operating system; no proprietary historical font is distributed. Classic disables Java2D text antialiasing. Font size is a separate editor preference and does not change when choosing a palette.
+Classic uses exact DOS blue `#0000AA`, console cyan `#05AAAA`, yellow keywords and aqua strings. The editor and stdin cursors have separate tokens to remain visible against their different surfaces. Swing's logical Monospaced font is supplied by the operating system; no proprietary historical font is distributed. Classic disables Java2D text antialiasing. Font size is a separate interface preference and does not change when choosing a palette. Smaller/Larger Font scale editor text and the surrounding menus, output, panels, status and embedded dialogs together, preserving their relative sizes.
 
 ## Authoritative schema
 

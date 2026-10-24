@@ -14,6 +14,11 @@ API references: [JDT ASTParser](https://help.eclipse.org/latest/ntopic/org.eclip
 
 Opening a Java file discovers its package root and conventional Maven/Gradle source and compiled-class directories. The nearest `.turboj`, `pom.xml`, Gradle build file or `.git` marks the local project root. This is source/classpath discovery; it does not import an effective Maven or Gradle model or infer transitive dependencies from dependency names.
 
+Source discovery stops at nested project markers so independent examples or
+checkouts do not become duplicate compilation units in the current workspace.
+Explicit source roots, including roots supplied by a Maven reactor model, remain
+included. Retained open buffers follow the same boundaries.
+
 Optional UTF-8 files relative to that root configure semantic assistance:
 
 | File | Contents |
@@ -43,6 +48,9 @@ Source from archives is read-only. If no attached source exists, the UI shows re
 ## Manual example
 
 Open [`examples/intelligence/Main.java`](../examples/intelligence/Main.java). Its two calls to `Calculator.add` exercise integer and String overloads. The integer declaration calls `MathUtils.sum`, giving a three-file navigation chain. `String.substring` exercises JDK source and documentation lookup. Project Javadoc includes genuine parameter names and return descriptions.
+
+The example's `.turboj/source-roots.txt` marks it as an independent project,
+separate from the loose example files and the Maven/plain-Java samples.
 
 The native acceptance harness, `dev.turboj.app.IntelligenceSmoke`, opens a real desktop window and exercises ghost text, Tab acceptance and undo, Escape, completion alternatives, both method overloads, three-file navigation, retained unsaved buffers, JDK source and documentation, delayed project-documentation hover, parameter hints, incomplete-source recovery and typing with analysis active. It also switches among Classic, Amber, Dark and Light while a suggestion is visible. This harness is separate from headless JUnit tests; it must be run on a desktop.
 

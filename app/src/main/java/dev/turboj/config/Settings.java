@@ -17,6 +17,9 @@ public final class Settings {
     public boolean autoClose = true;
     public boolean formatOnSave = false;
     public boolean autoTest = false;
+    public boolean autoRunOnSave = false;
+    public boolean autoTestOnSave = false;
+    public boolean showPressedShortcuts = false;
     public String keymapProfile = "intellij-macos";
     public transient String commandKeymapJson;
     public List<String> recentFiles = new ArrayList<>();

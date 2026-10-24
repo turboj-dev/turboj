@@ -92,7 +92,11 @@ public class EmbeddedDialog extends JPanel implements RootPaneContainer, WindowC
         Dimension body = root.getPreferredSize(); Insets insets = getInsets();
         return new Dimension(Math.max(220, body.width + insets.left + insets.right), Math.max(100, body.height + insets.top + insets.bottom));
     }
-    public void pack() { setSize(getPreferredSize()); doLayout(); }
+    public void pack() {
+        setSize(getPreferredSize());
+        putClientProperty("commandj.overlay.layoutFontSize", AsciiStyle.palette(this).font().getSize());
+        doLayout();
+    }
     void restyle(AsciiPalette palette) {
         AsciiStyle.apply(this, palette);
         root.setBorder(BorderFactory.createEmptyBorder());

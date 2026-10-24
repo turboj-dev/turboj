@@ -14,15 +14,24 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
     private final ShortcutResolver resolver;
     private final Supplier<CommandContext> context;
     private final Consumer<String> notice;
+    private final BiConsumer<String, KeySequence> shortcut;
     private boolean suppressedTyped;
 
     public CommandKeyDispatcher(Window window, CommandRegistry registry, KeymapManager maps,
             Supplier<CommandContext> context, Consumer<String> notice) {
+        this(window, registry, maps, context, notice, (command, sequence) -> {});
+    }
+
+    /** Observes resolved keyboard commands only; ordinary typing and dialog input are excluded. */
+    public CommandKeyDispatcher(Window window, CommandRegistry registry, KeymapManager maps,
+            Supplier<CommandContext> context, Consumer<String> notice,
+            BiConsumer<String, KeySequence> shortcut) {
         this.window = window;
         this.registry = registry;
         this.resolver = new ShortcutResolver(maps, registry);
         this.context = context;
         this.notice = notice;
+        this.shortcut = java.util.Objects.requireNonNull(shortcut);
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
     }
 
@@ -35,7 +44,7 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
     public boolean dispatchKeyEvent(KeyEvent event) {
         Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 
-        if (OverlayHost.active(window) || focus == null || SwingUtilities.getWindowAncestor(focus) != window || !window
+        if (OverlayHost.active(window) || focus == null || focus instanceof JPasswordField || SwingUtilities.getWindowAncestor(focus) != window || !window
                 .isActive()) {
             reset();
             return false;
@@ -73,6 +82,7 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
                 notice.accept("Conflicting shortcuts: " + String.join(", ", outcome.candidates()));
             }
             case MATCH -> {
+                shortcut.accept(outcome.command(), outcome.sequence());
                 registry.execute(outcome.command(), context.get()).stage().thenAccept(r -> {
                     if (r.status() != CommandResult.Status.SUCCEEDED)
                         SwingUtilities.invokeLater(() -> notice.accept(r.message()));

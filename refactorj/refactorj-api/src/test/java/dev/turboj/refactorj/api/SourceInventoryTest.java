@@ -32,4 +32,27 @@ class SourceInventoryTest {
         assertTrue(inventory.sources().isEmpty());
         assertTrue(inventory.directories().contains(nested));
     }
+
+    @Test void projectScanExcludesNestedBuildsButKeepsExplicitModuleSourceRoots() throws Exception {
+        Path loose = file("Main.java"), ordinary = file("example/Helper.java");
+        Path maven = file("nested-maven/src/main/java/Main.java");
+        Path test = file("nested-maven/src/test/java/MainTest.java");
+        Path plain = file("nested-plain/src/Main.java");
+        Files.writeString(root.resolve("nested-maven/pom.xml"), "<project/>");
+        Files.createDirectory(root.resolve("nested-plain/.turboj"));
+
+        var isolated = SourceInventory.scanProjectDetailed(root, List.of(root), 20);
+        assertEquals(List.of(loose, ordinary), isolated.sources());
+        assertTrue(isolated.directories().contains(root.resolve("nested-maven")));
+        assertEquals(List.of(loose, ordinary, maven), SourceInventory.scanProjectDetailed(root,
+                List.of(root, maven.getParent()), 20).sources());
+        assertTrue(SourceInventory.scanDetailed(root, List.of(root), 20).sources().containsAll(List.of(maven, test, plain)),
+                "The broad inventory API retains its previous semantics");
+        assertFalse(SourceInventory.isProjectSource(List.of(root), maven));
+        assertFalse(SourceInventory.isProjectSource(List.of(root), plain));
+        assertTrue(SourceInventory.isProjectSource(List.of(root, maven.getParent()), maven));
+        assertFalse(SourceInventory.isProjectSource(List.of(root, maven.getParent()), test));
+        assertTrue(SourceInventory.isProjectSource(List.of(root), root.resolve("example/new/NeverSaved.java")));
+        assertFalse(SourceInventory.isProjectSource(List.of(root), root.resolve("target/Generated.java")));
+    }
 }

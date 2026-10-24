@@ -3,6 +3,8 @@ package dev.turboj.ui;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import dev.turboj.ui.themes.Theme;
+import dev.turboj.commandj.swing.AsciiPalette;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -13,12 +15,52 @@ import java.util.concurrent.FutureTask;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.JTextPane;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
 class ConsolePaneTest {
     private static final String PROMPT = "Quanti voti vuoi inserire? ";
+
+    @Test
+    void semanticOutputRetainsRolesAndSelectionWhenEveryBundledThemeChanges() throws Exception {
+        ConsolePane pane = edt(() -> {
+            var output = new ConsolePane(ignored -> {});
+            output.setInlineInput(true);
+            for (var role : ConsolePane.Role.values()) output.append(role + "\n", role);
+            output.append("stdout\n", false);
+            output.append("stderr\n", true);
+            return output;
+        });
+        edt(() -> {
+            var component = (JTextPane) pane.inputComponent();
+            var document = component.getStyledDocument();
+            component.select(0, "NORMAL".length());
+            String original = pane.text();
+            for (String id : Theme.bundledResources().keySet()) {
+                var theme = Theme.bundled(id);
+                pane.setTheme(theme);
+                assertEquals(original, pane.text(), id);
+                assertEquals("NORMAL", component.getSelectedText(), id);
+                for (var role : ConsolePane.Role.values()) {
+                    int offset = original.indexOf(role + "\n");
+                    var color = StyleConstants.getForeground(document.getCharacterElement(offset).getAttributes());
+                    assertEquals(ConsolePane.colorFor(theme, role, theme.messagesBackground()), color, id + " / " + role);
+                    assertTrue(AsciiPalette.contrast(color, theme.messagesBackground()) >= 4.5, id + " / " + role);
+                }
+                int stdout = original.indexOf("stdout"), stderr = original.indexOf("stderr");
+                assertEquals(ConsolePane.colorFor(theme, ConsolePane.Role.NORMAL, theme.messagesBackground()),
+                        StyleConstants.getForeground(document.getCharacterElement(stdout).getAttributes()));
+                assertEquals(ConsolePane.colorFor(theme, ConsolePane.Role.ERROR, theme.messagesBackground()),
+                        StyleConstants.getForeground(document.getCharacterElement(stderr).getAttributes()));
+                assertFalse(StyleConstants.isBold(document.getCharacterElement(stdout).getAttributes()));
+                assertFalse(StyleConstants.isBold(document.getCharacterElement(stderr).getAttributes()));
+            }
+            return null;
+        });
+    }
 
     @Test
     void typedValueSharesThePromptLineInTheSameTextDocument() throws Exception {

@@ -128,7 +128,7 @@ public final class IntelligenceController implements AutoCloseable {
         documentationText.setLineWrap(true);
         documentationText.setWrapStyleWord(true);
         documentationText.setMargin(new Insets(8, 10, 8, 10));
-        documentationText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+        documentationText.setFont(dev.turboj.ui.AsciiChrome.font());
         documentationText.getAccessibleContext().setAccessibleName("Java documentation");
         JPanel doc = new JPanel(new BorderLayout(0, 4));
         doc.add(new JScrollPane(documentationText), BorderLayout.CENTER);
@@ -360,6 +360,10 @@ public final class IntelligenceController implements AutoCloseable {
             w.setBorder(new dev.turboj.commandj.swing.AsciiBorder("", palette,
                     dev.turboj.commandj.swing.AsciiBorder.Line.SINGLE));
             dev.turboj.commandj.swing.AsciiStyle.apply(w.getContentPane(), palette);
+            if (w.isVisible()) {
+                w.pack();
+                place(w, editor.caretOffset());
+            }
         }
         choices.repaint();
         documentationText.setSelectionColor(dev.turboj.ui.AsciiChrome.editor(value).selectionBackground());
@@ -725,13 +729,13 @@ public final class IntelligenceController implements AutoCloseable {
             return;
         }
         JLabel header = new JLabel(" Parameter " + (help.activeParameter() + 1) + " ");
-        header.setFont(new Font(Font.MONOSPACED, Font.BOLD, 13));
+        header.setFont(dev.turboj.ui.AsciiChrome.font().deriveFont(Font.BOLD));
         signatures.add(header);
         for (String signature : help.signatures().stream().limit(8).toList()) {
             String markup = parameterMarkup(signature, help.activeParameter());
             JLabel label = new JLabel(theme == null ? markup : highlightParameter(markup, theme));
             label.putClientProperty("turboj.signature", markup);
-            label.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
+            label.setFont(dev.turboj.ui.AsciiChrome.font());
             signatures.add(label);
         }
         if (theme != null) color(signatures, theme);

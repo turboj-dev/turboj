@@ -7,6 +7,7 @@ import dev.turboj.turbotest.TestEngine;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 import javax.swing.SwingUtilities;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.*;
@@ -58,6 +59,24 @@ class TurboTestControllerTest {
         }
     }
 
+    @Test void sourceChangedDuringCompilationPreventsExecutingObsoleteTestCode() throws Exception {
+        TestHost host = new TestHost();
+        host.invalidateAfterCompilation = true;
+        Path marker = directory.resolve("obsolete-test-executed");
+        String escaped = marker.toString().replace("\\", "\\\\").replace("\"", "\\\"");
+        WorkspaceSnapshot snapshot = workspace(1, "return n*n;",
+                "java.nio.file.Files.writeString(java.nio.file.Path.of(\"" + escaped + "\"), \"executed\");");
+        try (var controller = new TurboTestController(host)) {
+            edt(() -> controller.run(snapshot, TurboTestController.Selection.all()));
+            assertTrue(host.compilation.await(20, TimeUnit.SECONDS));
+            assertTrue(host.compiled.get().success());
+            assertTrue(host.stale.await(20, TimeUnit.SECONDS), () -> host.statuses.toString());
+            assertFalse(Files.exists(marker), "Obsolete tests must never execute, even if their report would be discarded");
+            assertTrue(host.reports.isEmpty());
+            edt(() -> assertFalse(controller.busy(), "The rejected generation must release the execution lane"));
+        }
+    }
+
     private WorkspaceSnapshot workspace(long version, String calculation, String test) {
         return new WorkspaceSnapshot(directory, version, List.of(
                 new SourceSnapshot(directory.resolve("Calc.java"), "class Calc { static int square(int n) { " + calculation + " } }", version, true),
@@ -65,13 +84,14 @@ class TurboTestControllerTest {
     }
     private static final class TestHost implements TurboTestController.Host {
         volatile long version = 1;
+        boolean invalidateAfterCompilation;
         final BlockingQueue<TestEngine.Report> reports = new LinkedBlockingQueue<>();
         final List<String> statuses = new CopyOnWriteArrayList<>();
         final AtomicReference<WorkspaceCompilationResult> compiled = new AtomicReference<>();
         final CountDownLatch compilation = new CountDownLatch(1), stale = new CountDownLatch(1);
         public boolean current(WorkspaceSnapshot snapshot) { assertTrue(SwingUtilities.isEventDispatchThread()); return snapshot.version() == version; }
         public void status(String message) { assertTrue(SwingUtilities.isEventDispatchThread()); statuses.add(message); if (message.contains("older source version")) stale.countDown(); }
-        public void compilation(WorkspaceCompilationResult result) { assertTrue(SwingUtilities.isEventDispatchThread()); compiled.set(result); compilation.countDown(); }
+        public void compilation(WorkspaceCompilationResult result) { assertTrue(SwingUtilities.isEventDispatchThread()); compiled.set(result); if(invalidateAfterCompilation)version++; compilation.countDown(); }
         public void report(TestEngine.Report report) { assertTrue(SwingUtilities.isEventDispatchThread()); reports.add(report); }
         public void output(OutputEvent event) { assertTrue(SwingUtilities.isEventDispatchThread()); }
     }

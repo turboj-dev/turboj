@@ -31,13 +31,25 @@ Open a Maven folder or `pom.xml`, wait for **Dependencies Resolved**, then use
 Maven Central or user-configured mirrors; explicit offline preferences remain
 respected. Run discovers the project's main class and offers a choice if needed.
 
+Options → **Auto Run on Save** and **Auto Test on Save** are independent, off by
+default, and remembered. Saving Java source first writes the file, then compiles
+the workspace. Only a successful, still-current compilation can launch the
+enabled actions. Maven projects must have resolved dependencies and execution
+trust. **Auto Test on Changes** remains a separate Test-menu option.
+
+Options → **Show Pressed Shortcuts** briefly displays the executed shortcut in
+the editor's bottom-right corner using the current theme's accent. It is off by
+default. **Smaller Font / Larger Font** scale the whole interface, including
+menus, output and embedded dialogs. Workspace and activity information share one
+compact status line at the bottom; details remain available in its tooltip.
+
 ## Implemented
 
 - A custom Java2D editor backed by a piece table, incremental line index and immutable snapshots; selection, Unicode/UTF-8, CRLF, clipboard, undo/redo, indentation, search, comments, bracket matching and input-method composition.
 - Keyboard menus and command palette, a compact searchable catalog with 100 curated editor themes plus Turbo Classic, Modern Dark and Modern Light, six live previews and an ASCII random-theme drum. Shared native/site JSON palettes, font sizes, save protection for external file changes, atomic writes and recoverable buffers.
 - Independent [CommandJ](commandj/README.md) registry, four macOS keymaps, chord shortcuts, conflict-aware customization and a local command palette. Dialogs, previews and auxiliary editor surfaces stay inside the main frame.
 - Native [RefactorJ](refactorj/README.md): semantic previews, source-version checks, cross-file edits and workspace undo/redo. The editor and refactoring engine share the same semantic workspace.
-- [TurboTest](turbotest/README.md): current-method/class/project JUnit execution, failed-test reruns, results and optional Auto Test after committed refactorings, using the existing resident worker.
+- [TurboTest](turbotest/README.md): current-method/class/project JUnit execution, failed-test reruns, theme-colored results and optional automatic testing on changes or saves, using the existing resident worker.
 - Native in-process [javafmt](javafmt/README.md): Code → Format Document / Selection, optional Format on Save, versioned minimal edits and one-step undo.
 - Optional native AI completion: multiline ghost text, semantic-completion priority, cancellation and insertion-only acceptance. Local Ollama/llama.cpp FIM and opt-in OpenAI Responses adapters; endpoint-bound macOS Keychain credentials. Disabled by default. See [setup and validation boundaries](docs/ai-completion.md).
 - Offline JDT semantic assistance: inline ghost text, completion alternatives, declaration navigation, real Javadoc, argument hints and source history. Menus show the selected keymap's bindings. Navigation retains unsaved buffers and undo. Attached JDK/library sources open read-only; see [Java intelligence](docs/java-intelligence.md) for local project classpaths and limits.
@@ -62,6 +74,9 @@ cloud access. AI remains disabled until configured in Options.
 
 The [1.0.9 Maven first-open and clipboard report](docs/maven-open-copy-release-1.0.9.md)
 records fresh dependency downloads, project Run/Test and output clipboard checks.
+
+The [1.0.10 interaction report](docs/interaction-release-1.0.10.md) records save
+automation, themed test output, shortcut feedback and consistent interface sizing.
 
 The [1.0.8 Maven and ASCII interface report](docs/maven-ascii-release-1.0.8.md)
 records native Maven project integration, independent MavenJ artifacts and the
@@ -95,7 +110,7 @@ It opens a real window, emits `app/target/gui-smoke.txt` and paints the frame to
 ./scripts/package-macos.sh dmg path/to/new-output-directory
 ```
 
-Run packaging on the target architecture. The macOS bundle version is `1.0.9` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
+Run packaging on the target architecture. The macOS bundle version is `1.0.10` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
 
 [Architecture](docs/architecture.md) · [Compiler](docs/compiler.md) · [Performance](docs/performance.md) · [Shortcuts](docs/shortcuts.md) · [Themes](docs/themes.md) · [Worker protocol](worker/docs/protocol.md) · [Licenses](docs/licenses.md)
 

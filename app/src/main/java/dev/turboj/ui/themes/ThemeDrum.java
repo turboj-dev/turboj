@@ -35,7 +35,7 @@ final class ThemeDrum extends JPanel {
         try {
             g.setColor(theme.color("ui", "background"));
             g.fillRect(0, 0, getWidth(), getHeight());
-            int size = getWidth() < 780 ? 15 : 18;
+            int size = dev.turboj.ui.AsciiChrome.scaled(getWidth() < dev.turboj.ui.AsciiChrome.scaled(780) ? 15 : 18);
             g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, size));
             FontMetrics metrics = g.getFontMetrics();
             int cw = metrics.charWidth('M'), lh = metrics.getHeight() + 3;

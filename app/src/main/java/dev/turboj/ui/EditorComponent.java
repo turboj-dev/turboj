@@ -89,6 +89,7 @@ public final class EditorComponent extends JComponent
     private String[] aiLines;
     private int aiLine, aiCaretInLine, aiScrollOffset;
     private boolean externalCommandBindings;
+    private final PressedShortcutDisplay pressedShortcut = new PressedShortcutDisplay(this::repaint);
     private KeyStroke acceptCompletionKey = KeyStroke.getKeyStroke("TAB");
     private KeyStroke dismissCompletionKey = KeyStroke.getKeyStroke("ESCAPE");
     private Predicate<KeyEvent> keyHandler = event -> false;
@@ -692,6 +693,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void setTheme(Theme theme) {
+        pressedShortcut.setTheme(theme);
         setPalette(
                 theme.background(),
                 theme.foreground(),
@@ -802,6 +804,16 @@ public final class EditorComponent extends JComponent
     /** When embedded, CommandJ owns action shortcuts; standalone editor tests retain defaults. */
     public void setExternalCommandBindings(boolean value) {
         externalCommandBindings = value;
+    }
+
+    public void setShowPressedShortcuts(boolean enabled) { pressedShortcut.setEnabled(enabled); }
+    public boolean showsPressedShortcuts() { return pressedShortcut.enabled(); }
+    public void showPressedShortcut(String shortcut) { pressedShortcut.show(shortcut); }
+    public String pressedShortcutText() { return pressedShortcut.text(); }
+
+    @Override public void removeNotify() {
+        pressedShortcut.clear();
+        super.removeNotify();
     }
 
     public boolean hasInputComposition() {
@@ -1698,6 +1710,7 @@ public final class EditorComponent extends JComponent
             g.setColor(comment);
             paintGutterRule(g);
         } finally {
+            pressedShortcut.paint(g, getWidth(), getHeight());
             g.dispose();
             lastPaintNanos = System.nanoTime() - started;
             if (pendingInputNanos != 0) {

@@ -26,6 +26,13 @@ public final class TurboTestController implements AutoCloseable {
         void compilation(WorkspaceCompilationResult result);
         void report(TestEngine.Report result);
         void output(OutputEvent event);
+        /** Starts a fresh output section only once an execution request has been accepted. */
+        default void begin(boolean compilationOnly) {}
+        /** Hosts with a structured reporter can replace the plain status summary. */
+        default void completed(String message, TestEngine.Report result) {
+            status(message);
+            if (result != null) report(result);
+        }
     }
     private final Host host;
     private final ExecutorService executor = Executors.newSingleThreadExecutor(Thread.ofPlatform().daemon().name("turboj-tests").factory());
@@ -76,6 +83,7 @@ public final class TurboTestController implements AutoCloseable {
         if (selection.mode == Mode.FAILED && failures.isEmpty()) { host.status("No failed tests to rerun."); return; }
         busy = true;
         long request = ++sequence;
+        host.begin(selection.mode == Mode.COMPILE);
         host.status(selection.mode == Mode.COMPILE ? "Compiling project…" : "Compiling tests…");
         executor.execute(() -> compileAndRun(snapshot, selection, failures, request));
     }
@@ -97,6 +105,7 @@ public final class TurboTestController implements AutoCloseable {
         if(selection.mode()==Mode.FAILED&&failures.isEmpty()){host.status("No failed tests to rerun.");return;}
         busy=true;long request=++sequence;Map<Path,String> buffers=Map.copyOf(overlays);
         Map<String,TestEngine.Report> previousReports=moduleReports;Map<String,String> previousFingerprints=testedFingerprints;
+        host.begin(selection.mode()==Mode.COMPILE);
         host.status("Compiling Maven test sources with TurboJ Native…");
         projectTask=executor.submit(()->{
             try {
@@ -132,6 +141,10 @@ public final class TurboTestController implements AutoCloseable {
                         List<Path> runtime=junit.projectExecutionClasspath(pinned.classpath());
                         if(!pinned.modulePath().isEmpty())throw new IllegalStateException("Named-module JUnit patch-module execution requires an explicit Maven Test build");
                         Path report=directory.resolve("report.json");String encoded=Base64.getEncoder().encodeToString(new Gson().toJson(testRequest).getBytes(StandardCharsets.UTF_8));
+                        var readyToExecute=new CompletableFuture<Boolean>();
+                        onEdt(()->readyToExecute.complete(active(request)&&current.getAsBoolean()));
+                        if(!readyToExecute.get()){finishMaven(request,"Source generation changed before test execution.",null,current);return;}
+                        if(!active(request))return;
                         var execution=projectWorker.run(snapshot.version(),compiled.compilation().bytecode(),WorkerEntry.class.getName(),List.of(encoded,report.toString()),runtime,false,event->onEdt(()->{if(active(request)&&current.getAsBoolean())host.output(event);})).get();
                         if(execution.exitCode()!=0||!Files.isRegularFile(report))throw new IllegalStateException("Test worker failed: "+execution.detail());
                         if(Files.size(report)>16*1024*1024)throw new IllegalStateException("Test report exceeds size limit");
@@ -165,7 +178,7 @@ public final class TurboTestController implements AutoCloseable {
         });
     }
     private void finishMaven(long request,String message,TestEngine.Report report,java.util.function.BooleanSupplier current){
-        onEdt(()->{if(!active(request))return;busy=false;if(!current.getAsBoolean()){host.status("Test results belong to an older project/source generation.");return;}host.status(message);if(report!=null){lastReport=report;host.report(report);}});
+        onEdt(()->{if(!active(request))return;busy=false;if(!current.getAsBoolean()){host.status("Test results belong to an older project/source generation.");return;}if(report!=null)lastReport=report;host.completed(message,report);});
     }
 
     private void compileAndRun(WorkspaceSnapshot snapshot, Selection selection, List<String> failures, long request) {
@@ -203,7 +216,19 @@ public final class TurboTestController implements AutoCloseable {
             Path report = reportDirectory.resolve("result.json");
             String encoded = Base64.getEncoder().encodeToString(new Gson().toJson(testRequest).getBytes(StandardCharsets.UTF_8));
             Path cleanup = reportDirectory;
-            onEdt(() -> { if (active(request)) host.status("Running JUnit tests…"); });
+            // Publishing diagnostics can yield to edits on the EDT. Validate after runtime
+            // preparation, immediately before dispatching project-controlled test code.
+            var stillCurrent = new CompletableFuture<Boolean>();
+            onEdt(() -> {
+                boolean current = active(request) && host.current(snapshot);
+                if (current) host.status("Running JUnit tests…");
+                stillCurrent.complete(current);
+            });
+            if (!stillCurrent.get()) {
+                finish(request, "Source generation changed before test execution.", null, snapshot);
+                return;
+            }
+            if (!active(request)) return;
             worker.run(snapshot.version(), compiled.bytecode(), WorkerEntry.class.getName(), List.of(encoded, report.toString()),
                     List.copyOf(runtimePaths), false, event -> onEdt(() -> { if (active(request)) host.output(event); }))
                     .whenCompleteAsync((result, error) -> {
@@ -230,8 +255,8 @@ public final class TurboTestController implements AutoCloseable {
             if (!active(request)) return;
             busy = false;
             if (host.current(snapshot)) {
-                host.status(message);
-                if (report != null) { lastReport = report; host.report(report); }
+                if (report != null) lastReport = report;
+                host.completed(message, report);
             } else host.status("Test results belong to an older source version; run again for current results.");
             WorkspaceSnapshot pending = pendingAutomatic; pendingAutomatic = null;
             if (automatic && pending != null && host.current(pending)) run(pending, Selection.all());

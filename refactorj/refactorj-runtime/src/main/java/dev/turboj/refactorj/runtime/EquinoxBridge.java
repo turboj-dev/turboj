@@ -50,7 +50,14 @@ public final class EquinoxBridge implements FrameworkBridge {
 
     @Override public RefactorJ open(WorkspaceSnapshot snapshot) throws Exception {
         Class<?> type = implementation.loadClass("dev.turboj.refactorj.jdt.LtkRefactorJ");
-        return (RefactorJ) type.getConstructor(WorkspaceSnapshot.class).newInstance(snapshot);
+        try {
+            return (RefactorJ) type.getConstructor(WorkspaceSnapshot.class).newInstance(snapshot);
+        } catch (java.lang.reflect.InvocationTargetException invocation) {
+            Throwable failure = invocation.getCause();
+            if (failure instanceof Exception exception) throw exception;
+            if (failure instanceof Error error) throw error;
+            throw invocation;
+        }
     }
     @Override public boolean stop() throws Exception {
         if (framework == null) return true;

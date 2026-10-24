@@ -9,6 +9,20 @@ See [profiles, verified sources and customization](../commandj/docs/KEYMAPS.md).
 Find Action defaults to Cmd+Shift+A in IntelliJ, Cmd+3 in Eclipse,
 Cmd+Shift+P/F1 in VS Code, and Cmd+Shift+P in Classic.
 
+Options → **Show Pressed Shortcuts** (`showPressedShortcuts`) adds a brief,
+theme-accent indicator in the editor's bottom-right corner. It displays actual
+executed bindings, including remapped shortcuts and multi-stroke sequences;
+ordinary typing and password input are excluded. The preference defaults off.
+
+**Smaller Font / Larger Font** (`fontDown` / `fontUp`) scale the editor, menus,
+output, project explorer, status line and embedded dialogs together. The font
+preference persists independently of the selected theme.
+
+Options → **Auto Run on Save** (`run.onSave`) and **Auto Test on Save**
+(`tests.onSave`) enable the corresponding actions after saving and successful
+workspace compilation. They default off and are independent of Test → **Auto
+Test on Changes** (`tests.auto`). All three actions can receive custom shortcuts.
+
 ## Preserved TurboJ Classic bindings
 
 | Shortcut | Action |

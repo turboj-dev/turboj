@@ -14,6 +14,38 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AsciiSurfaceTest {
+    @Test void zoomScalesExplicitSurfacesOnceAndNeverDoubleScalesPackedSurfaces() throws Exception {
+        edt(() -> {
+            AsciiPalette original = AsciiStyle.palette(new JPanel());
+            var base = AsciiPalette.defaults();
+            var large = new AsciiPalette(base.background(), base.foreground(), base.selectionBackground(),
+                    base.selectionForeground(), base.muted(), base.border(), base.font().deriveFont(28f));
+            try {
+                AsciiStyle.installDefaults(large);
+                JRootPane root = new JRootPane(); root.setSize(1400, 1000); root.getLayeredPane().setSize(1400, 1000);
+                OverlayHost host = OverlayHost.forOwner(root); host.setTheme(large);
+                var packed = new EmbeddedDialog(root, "Packed", false);
+                packed.add(new JTextField("query", 12)); packed.pack();
+                Dimension measured = packed.getSize();
+                packed.setVisible(true);
+                assertEquals(measured, packed.getSize(), "pack already used the current font");
+                packed.setVisible(false);
+                host.setTheme(base); packed.setVisible(true);
+                assertEquals(new Dimension(Math.max(220, Math.round(measured.width / 2f)),
+                        Math.max(100, Math.round(measured.height / 2f))), packed.getSize(), "hidden surface follows a later font change once");
+                packed.dispose();
+
+                host.setTheme(large);
+                var fixed = new EmbeddedDialog(root, "Explicit", false);
+                fixed.add(new JTextField("value")); fixed.setSize(300, 180); fixed.setVisible(true);
+                assertEquals(new Dimension(600, 360), fixed.getSize(), "explicit dimensions scale from the baseline font");
+                host.setTheme(large); assertEquals(new Dimension(600, 360), fixed.getSize(), "same-size theme switch does not compound zoom");
+                host.setTheme(base); assertEquals(new Dimension(300, 180), fixed.getSize());
+                fixed.dispose();
+            } finally { AsciiStyle.installDefaults(original); }
+        });
+    }
+
     @Test void asciiTextSurfacesRetainPlatformClipboardActions() throws Exception {
         edt(() -> {
             int mask = System.getProperty("os.name", "").startsWith("Mac")

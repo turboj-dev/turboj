@@ -1,6 +1,8 @@
 package dev.turboj.ui;
 
 import dev.turboj.commandj.swing.AsciiPalette;
+import dev.turboj.commandj.swing.AsciiBorder;
+import dev.turboj.commandj.swing.AsciiStyle;
 import dev.turboj.ui.themes.Theme;
 import java.awt.Font;
 import javax.swing.*;
@@ -8,6 +10,45 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AsciiChromeTest {
+    @Test void interfaceZoomScalesMenusOutputFormsAndTextCellBordersBothWays() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            int previous = AsciiChrome.editorFontSize();
+            try {
+                var menu = new JMenu("File");
+                var item = new JMenuItem("Save");
+                item.setAccelerator(KeyStroke.getKeyStroke("meta S")); menu.add(item);
+                var console = new ConsolePane(ignored -> {});
+                console.setInlineInput(true);
+                var field = new JTextField("retain my text"); field.setCaretPosition(4);
+                var table = new JTable(2, 2);
+                var form = new JPanel(); form.add(field); form.add(table);
+                form.setBorder(new AsciiBorder("Details", AsciiChrome.editor(Theme.bundled("classic"))));
+                int smallRow = 0;
+                for (int size : new int[] {18, 28, 12, 18}) {
+                    AsciiChrome.setEditorFontSize(size);
+                    for (String id : Theme.bundledResources().keySet()) {
+                        Theme theme = Theme.bundled(id);
+                        MenuStyler.install(theme); MenuStyler.style(menu, theme);
+                        console.setTheme(theme); AsciiStyle.apply(form, AsciiChrome.editor(theme));
+                        int expected = Math.round(size * 14f / 18);
+                        assertEquals(expected, item.getFont().getSize(), id + " menu");
+                        assertEquals(expected, UIManager.getFont("MenuItem.acceleratorFont").getSize(), id + " shortcut");
+                        assertEquals(expected, console.inputComponent().getFont().getSize(), id + " output");
+                        assertEquals(expected, field.getFont().getSize(), id + " input");
+                        assertEquals(expected, ((AsciiBorder) form.getBorder()).palette().font().getSize(), id + " border");
+                        assertEquals(table.getFontMetrics(table.getFont()).getHeight() + 4, table.getRowHeight());
+                        assertEquals("retain my text", field.getText()); assertEquals(4, field.getCaretPosition());
+                    }
+                    if (size == 12) smallRow = table.getRowHeight();
+                }
+                assertTrue(table.getRowHeight() > smallRow, "row geometry also follows zooming back in");
+            } finally {
+                AsciiChrome.setEditorFontSize(previous);
+                MenuStyler.install(Theme.bundled("classic"));
+            }
+        });
+    }
+
     @Test void everyCatalogThemeKeepsEditorAndOutputSurfacesReadableAndDistinct() {
         for (String id : Theme.bundledResources().keySet()) {
             Theme theme = Theme.bundled(id);

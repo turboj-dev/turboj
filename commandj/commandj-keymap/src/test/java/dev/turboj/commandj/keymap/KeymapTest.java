@@ -11,6 +11,26 @@ class KeymapTest {
     @TempDir
     Path temporary;
 
+    @Test void resolvedShortcutReportsExactChordIncludingTimeoutAndRebinding() {
+        var maps = new KeymapManager();
+        maps.select("vscode-macos");
+        try (var registry = new CommandRegistry()) {
+            registry.register(Command.action("keymap", "Keymap", "Settings", () -> {}));
+            registry.register(Command.action("save", "Save", "File", () -> {}));
+            var resolver = new ShortcutResolver(maps, registry, 100);
+            var context = CommandContext.of("editor");
+            assertNull(resolver.accept(KeyStrokeSpec.parse("A"), context, 1).sequence());
+            assertEquals(KeySequence.parse("META+K"), resolver.accept(KeyStrokeSpec.parse("META+K"), context, 2).sequence());
+            assertEquals(KeySequence.parse("META+K, META+S"), resolver.accept(KeyStrokeSpec.parse("META+S"), context, 3).sequence());
+            resolver.accept(KeyStrokeSpec.parse("META+K"), context, 4);
+            assertEquals(KeySequence.parse("META+S"), resolver.accept(KeyStrokeSpec.parse("META+S"), context, 200).sequence());
+            assertTrue(maps.replaceBindings("save", List.of(KeyBinding.of("CTRL+ALT+F12"))).applied());
+            var remapped = resolver.accept(KeyStrokeSpec.parse("CTRL+ALT+F12"), context, 201);
+            assertEquals("save", remapped.command());
+            assertEquals(KeySequence.parse("CTRL+ALT+F12"), remapped.sequence());
+        }
+    }
+
     @Test
     void verifiedProfilesAreConflictFreeAndDistinct() {
         var maps = new KeymapManager();

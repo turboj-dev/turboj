@@ -104,9 +104,11 @@ class MavenAutoTestControllerTest {
             // deterministic rather than relying on a test sleep racing EDT completion.
             String gate = "System.out.println(\"STALE_GENERATION_STARTED\"); long until=System.nanoTime()+java.util.concurrent.TimeUnit.SECONDS.toNanos(10); while(!java.nio.file.Files.exists(java.nio.file.Path.of("+literal(release)+"))){ if(System.nanoTime()>until)throw new AssertionError(\"release gate timed out\"); Thread.sleep(5); }";
             buffers.put(tests.get("good"), test("good", order, gate));
+            buffers.put(tests.get("bad"), test("bad", order, gate));
             host.onOutput.set(() -> { host.generation.set(8); try { Files.writeString(release, "release"); } catch (Exception error) { throw new AssertionError(error); } });
             run(controller, host, model, buffers, 7);
             assertTrue(Files.exists(release), "The current worker executed before its generation became stale");
+            assertEquals(1, Files.readAllLines(order).size(), "The second changed module must not execute after the first module's generation becomes stale");
             assertTrue(host.reports.isEmpty());
             assertTrue(host.statuses.contains("Test results belong to an older project/source generation."));
             edt(() -> assertSame(affected, controller.lastReport()));
@@ -116,7 +118,8 @@ class MavenAutoTestControllerTest {
             run(controller, host, model, buffers, 8);
             TestEngine.Report current = host.reports.remove();
             assertEquals(8, current.sourceVersion()); assertEquals(2, current.passed());
-            assertEquals(List.of("good"), Files.readAllLines(order));
+            assertEquals(Set.of("good", "bad"), Set.copyOf(Files.readAllLines(order)));
+            assertEquals(2, Files.readAllLines(order).size(), "Both invalidated modules must execute once in the current generation");
 
             // Removing a failed module must remove its result even if no remaining module needs
             // execution. The same rule applies when the last test source disappears.
