@@ -20,6 +20,9 @@ The initial buffer is a working Hello World. New installations use the IntelliJ 
 
 Run works from unsaved buffers. Open Run → Java REPL for expressions and declarations without a main method. For `Scanner(System.in)`, type directly after the program prompt in the output pane and press Enter. The execution timeout pauses while the program waits for stdin. Use Run → Stop to terminate a program.
 
+[Example projects](examples/README.md) include the same small calculator with and
+without Maven, each with two runnable JUnit tests.
+
 ## Implemented
 
 - A custom Java2D editor backed by a piece table, incremental line index and immutable snapshots; selection, Unicode/UTF-8, CRLF, clipboard, undo/redo, indentation, search, comments, bracket matching and input-method composition.
