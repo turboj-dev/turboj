@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion>
+<groupId>dev.turboj.mavenj</groupId><artifactId>mavenj</artifactId><version>0.1.0</version><packaging>pom</packaging>
+<name>MavenJ</name><description>Native Maven project models and dependency resolution</description>
+<url>https://turboj.dev/</url>
+<licenses><license><name>MIT License</name><url>https://opensource.org/license/mit</url><distribution>repo</distribution></license></licenses>
+<developers><developer><id>turboj</id><name>TurboJ contributors</name><url>https://turboj.dev/</url></developer></developers>
+<scm><connection>scm:git:https://github.com/turboj-dev/turboj.git</connection><developerConnection>scm:git:ssh://git@github.com/turboj-dev/turboj.git</developerConnection><url>https://github.com/turboj-dev/turboj/tree/main/mavenj</url></scm>
+<modules><module>mavenj-api</module><module>mavenj-core</module><module>mavenj-workspace</module><module>mavenj-cli</module><module>mavenj-mcp</module><module>mavenj-benchmarks</module></modules>
+<properties><maven.compiler.release>25</maven.compiler.release><project.build.outputTimestamp>2026-10-24T00:00:00Z</project.build.outputTimestamp><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding><apache.maven.version>3.10.0</apache.maven.version><junit.version>5.13.4</junit.version></properties>
+<dependencyManagement><dependencies><dependency><groupId>org.junit</groupId><artifactId>junit-bom</artifactId><version>${junit.version}</version><type>pom</type><scope>import</scope></dependency></dependencies></dependencyManagement>
+<dependencies><dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency></dependencies>
+<build><pluginManagement><plugins>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.14.1</version></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.5.4</version><configuration><useModulePath>false</useModulePath></configuration></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId><version>3.4.2</version></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><version>3.3.1</version></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-shade-plugin</artifactId><version>3.6.1</version></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-install-plugin</artifactId><version>3.1.4</version></plugin>
+</plugins></pluginManagement></build>
+<profiles><profile><id>release-artifacts</id><build><plugins>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-source-plugin</artifactId><version>3.3.1</version><executions><execution><id>sources</id><goals><goal>jar-no-fork</goal></goals></execution></executions></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId><version>3.12.0</version><configuration><doclint>all,-missing</doclint></configuration><executions><execution><id>javadoc</id><goals><goal>jar</goal></goals></execution></executions></plugin>
+<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId><version>3.8.1</version><executions><execution><id>runtime-inventory</id><phase>package</phase><goals><goal>list</goal></goals><configuration><includeScope>runtime</includeScope><outputAbsoluteArtifactFilename>true</outputAbsoluteArtifactFilename><outputFile>${project.build.directory}/runtime-dependencies.txt</outputFile></configuration></execution></executions></plugin>
+</plugins></build></profile></profiles></project>

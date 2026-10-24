@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+MAVENJ_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+MAVENJ_JAVA=java
+if [ -n "${JAVA_HOME:-}" ]; then MAVENJ_JAVA="$JAVA_HOME/bin/java"; fi
+exec "$MAVENJ_JAVA" -cp "$MAVENJ_ROOT/lib/*" dev.turboj.mavenj.cli.Main "$@"

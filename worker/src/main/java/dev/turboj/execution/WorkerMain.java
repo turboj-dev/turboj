@@ -112,7 +112,7 @@ public final class WorkerMain {
                         outputLimit,
                         stdin);
         active = run;
-        Thread.ofPlatform().daemon().name("turboj-program-" + id).start(() -> execute(run));
+        Thread thread=new Thread(() -> execute(run),"turboj-program-"+id);thread.setDaemon(true);thread.start();
     }
 
     private void execute(Execution run) {
@@ -161,8 +161,10 @@ public final class WorkerMain {
         System.setOut(stdout);
         System.setErr(stderr);
         try (BytecodeLoader loader = new BytecodeLoader(run.classes, run.paths)) {
-            Thread.currentThread().setContextClassLoader(loader);
-            Class<?> entry = Class.forName(run.mainClass, false, loader);
+            String moduleName=System.getProperty("turboj.run.module","");
+            ClassLoader executionLoader=moduleName.isEmpty()?loader:ModuleLayer.boot().findLoader(moduleName);
+            Thread.currentThread().setContextClassLoader(executionLoader);
+            Class<?> entry = Class.forName(run.mainClass, false, executionLoader);
             Method main = findMain(entry);
             Object receiver = null;
             if (!Modifier.isStatic(main.getModifiers())) {

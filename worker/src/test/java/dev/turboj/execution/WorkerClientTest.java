@@ -16,6 +16,30 @@ import javax.tools.*;
 
 @Timeout(25)
 class WorkerClientTest {
+    @Test void namedModuleExecutionPreservesModuleIdentityAndFreshState()throws Exception {
+        var directory=java.nio.file.Files.createTempDirectory("turboj-jpms-worker-test-");
+        try(var compiler=new dev.turboj.compiler.JavacCompilerBackend(17,List.of())) {
+            var result=compiler.compileSources(List.of(new dev.turboj.compiler.SourceSnapshot("module-info.java","module sample.application {}",1),new dev.turboj.compiler.SourceSnapshot("app/Main.java","package app; public class Main { static int count; public static void main(String[] args){System.out.print(Main.class.getModule().getName()+\":\"+(++count));} }",1)),1);
+            assertTrue(result.success(),result.diagnostics().toString());
+            for(var entry:result.bytecode().entrySet()){var file=directory.resolve(entry.getKey().replace('.','/')+".class");java.nio.file.Files.createDirectories(file.getParent());java.nio.file.Files.write(file,entry.getValue());}
+            try(var worker=new WorkerClient(Duration.ofSeconds(10),4096,64,java.nio.file.Path.of(System.getProperty("java.home")),List.of(directory),"sample.application","app.Main")) {
+                StringBuffer output=new StringBuffer();assertEquals(0,worker.run(result.bytecode(),"app.Main",List.of(),false,e->output.append(e.text())).get().exitCode());assertEquals("sample.application:1",output.toString());long pid=worker.workerPid().orElseThrow();output.setLength(0);
+                assertEquals(0,worker.run(result.bytecode(),"app.Main",List.of(),false,e->output.append(e.text())).get().exitCode());assertEquals("sample.application:1",output.toString());assertNotEquals(pid,worker.workerPid().orElseThrow());
+            }
+        }finally{try(var files=java.nio.file.Files.walk(directory)){for(var file:files.sorted(java.util.Comparator.reverseOrder()).toList())java.nio.file.Files.deleteIfExists(file);}}
+    }
+    @Test void selectedProjectJdkRunsResidentWorkerWithoutUsingEditorRuntime()throws Exception {
+        var javaHome=java.nio.file.Path.of("/Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home");
+        org.junit.jupiter.api.Assumptions.assumeTrue(java.nio.file.Files.isExecutable(javaHome.resolve("bin/java")),"Installed Java21 fixture is unavailable");
+        try(var compiler=new dev.turboj.compiler.JavacCompilerBackend(21,List.of());var worker=new WorkerClient(Duration.ofSeconds(10),4096,64,javaHome)) {
+            var compiled=compiler.compile(new dev.turboj.compiler.SourceSnapshot("Version.java","public class Version { public static void main(String[] args){System.out.print(System.getProperty(\"java.specification.version\"));} }",1));
+            assertTrue(compiled.success());StringBuffer output=new StringBuffer();
+            assertEquals(0,worker.run(compiled.bytecode(),"Version",List.of(),false,e->output.append(e.text())).get().exitCode());
+            assertEquals("21",output.toString());long pid=worker.workerPid().orElseThrow();output.setLength(0);
+            assertEquals(0,worker.run(compiled.bytecode(),"Version",List.of(),false,e->output.append(e.text())).get().exitCode());
+            assertEquals(pid,worker.workerPid().orElseThrow());assertEquals("21",output.toString());
+        }
+    }
     @Test
     void helloAndChangedBytecodeUseSameWarmJvmAndFreshStaticState() throws Exception {
         try (WorkerClient worker = new WorkerClient()) {

@@ -20,6 +20,7 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
     private final Map<Path,String> diskSources=new HashMap<>();
     private final Map<Path,Long> directoryStamps=new HashMap<>();
     private long inventoryAt;
+    private List<JavaProjectConfiguration> projectConfigurations=List.of();
 
     @Override public RefactorJ sharedRefactorJ(Context context){intelligence(context);return engine;}
     @Override public RefactorJ sharedRefactorJ(Context context,WorkspaceSnapshot snapshot){
@@ -38,6 +39,7 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
             if(!memoryOnly&&roots.stream().noneMatch(context.file()::startsWith))roots=List.of(context.file().getParent());
             Path root=memoryOnly?context.file().getParent():roots.getFirst();for(Path sourceRoot:roots)while(!sourceRoot.startsWith(root)&&root.getParent()!=null)root=root.getParent();
             boolean configurationChanged=!indexedRoots.equals(roots)||indexedProjectVersion!=context.projectVersion();
+            if(!projectConfigurations.equals(context.projects())){configurationChanged=true;projectConfigurations=context.projects();diskSources.clear();stamps.clear();}
             boolean inventoryChanged=configurationChanged||System.nanoTime()-inventoryAt>5_000_000_000L;
             if(!inventoryChanged)for(var entry:directoryStamps.entrySet())if(!Files.isDirectory(entry.getKey())||Files.getLastModifiedTime(entry.getKey()).toMillis()!=entry.getValue()){inventoryChanged=true;break;}
             if(inventoryChanged){
@@ -54,12 +56,12 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
             for(var entry:context.openSources().entrySet()){Path path=entry.getKey().toAbsolutePath().normalize();if(path.startsWith(root))sources.put(path,entry.getValue());}
             sources.put(context.file(),context.source());
             var snapshots=new ArrayList<SourceSnapshot>();for(var entry:sources.entrySet()){Path path=entry.getKey().toAbsolutePath().normalize();boolean open=context.openSources().containsKey(path)||path.equals(context.file());long version=path.equals(context.file())?context.version():open?entry.getValue().hashCode():stamps.getOrDefault(path,0L);snapshots.add(new SourceSnapshot(path,entry.getValue(),version,open));}
-            var candidate=new WorkspaceSnapshot(root,workspaceVersion,snapshots,roots,context.classpath());
-            if(engine!=null){var previous=engine.workspace().snapshot();workspaceVersion=Math.max(workspaceVersion,previous.version());if(configurationChanged||!previous.sources().equals(candidate.sources())||!previous.classpath().equals(candidate.classpath())||!previous.sourceRoots().equals(candidate.sourceRoots()))candidate=new WorkspaceSnapshot(root,++workspaceVersion,snapshots,roots,context.classpath());else candidate=previous;}
+            var candidate=new WorkspaceSnapshot(root,workspaceVersion,snapshots,roots,context.classpath(),context.projects());
+            if(engine!=null){var previous=engine.workspace().snapshot();workspaceVersion=Math.max(workspaceVersion,previous.version());if(configurationChanged||!previous.sources().equals(candidate.sources())||!previous.classpath().equals(candidate.classpath())||!previous.sourceRoots().equals(candidate.sourceRoots())||!previous.projects().equals(context.projects()))candidate=new WorkspaceSnapshot(root,++workspaceVersion,snapshots,roots,context.classpath(),context.projects());else candidate=previous;}
             sharedRefactorJ(context,candidate);return delegate;
         }catch(IOException ex){throw new UncheckedIOException(ex);}
     }
-    private void read(Path path)throws IOException{path=path.toAbsolutePath().normalize();diskSources.put(path,Files.readString(path));stamps.put(path,Files.getLastModifiedTime(path).toMillis());}
+    private void read(Path path)throws IOException{path=path.toAbsolutePath().normalize();Path file=path;String encoding=projectConfigurations.stream().filter(p->p.sourceRoots().stream().anyMatch(file::startsWith)).map(JavaProjectConfiguration::encoding).findFirst().orElse("UTF-8");diskSources.put(path,Files.readString(path,java.nio.charset.Charset.forName(encoding)));stamps.put(path,Files.getLastModifiedTime(path).toMillis());}
     @Override public TestTarget testTarget(Context context,int offset){return intelligence(context).testTarget(context,offset);}
     @Override public CompletionResult complete(Context context,int offset){return intelligence(context).complete(context,offset);}
     @Override public Symbol resolveSymbol(Context context,int offset){return intelligence(context).resolveSymbol(context,offset);}

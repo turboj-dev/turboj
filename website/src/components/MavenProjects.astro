@@ -1,0 +1,23 @@
+---
+import { site } from '../data/site';
+---
+
+<section class="section" id="maven" aria-labelledby="maven-heading">
+  <div class="shell editorial-layout">
+    <header class="section-header">
+      <p class="eyebrow">POWERED BY MAVENJ</p>
+      <h2 class="section-heading" id="maven-heading">Maven Projects. Zero Friction.</h2>
+    </header>
+    <div class="editorial-copy">
+      <p class="body-copy">Open an existing Maven project and start writing Java. TurboJ resolves dependencies, understands modules, and provides code intelligence without running a full Maven build after every edit.</p>
+      <p class="body-copy">Work across modules, run JUnit tests, and keep the project's Java version and toolchain settings. A compact project explorer keeps source, tests, and dependencies close at hand.</p>
+      <p class="body-copy">Fast Compile keeps the editing loop moving. Explicit Maven Build commands run the project's full lifecycle when you need its plugins and build phases.</p>
+      <p class="body-copy">MavenJ is an independent Java library, embedded directly in TurboJ and reusable by other tools and coding agents.</p>
+      <a class="text-link" href={`${site.links.source}/tree/main/mavenj`}>Explore MavenJ source and documentation</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .text-link { color: var(--tj-ui-link); display: inline-block; margin-top: 12px; }
+</style>

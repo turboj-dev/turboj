@@ -8,7 +8,11 @@ import java.util.*;
 
 /** Optional FormatJ integration. Changes layout only inside generated replacement ranges. */
 public final class GeneratedCodeFormatter {
-    private final JavaFormatter formatter = new JavaFormatter();
+    private final Map<String,JavaFormatter> formatters=new HashMap<>();
+    private JavaFormatter formatter(Plan plan,java.nio.file.Path path){
+        String level=plan.before().projects().stream().filter(p->p.sourceRoots().stream().anyMatch(path::startsWith)).map(JavaProjectConfiguration::languageLevel).findFirst().orElse("25");
+        return formatters.computeIfAbsent(level,l->new JavaFormatter(new dev.javafmt.parser.JdtJavaParser(l)));
+    }
     public Plan format(Plan plan) {
         if (!plan.valid()) return plan;
         boolean generated = switch (plan.operation()) {
@@ -31,7 +35,7 @@ public final class GeneratedCodeFormatter {
                 int start = range.start(), end = range.end();
                 while (start < end && Character.isWhitespace(candidate.charAt(start))) start++;
                 while (end > start && Character.isWhitespace(candidate.charAt(end - 1))) end--;
-                var result = formatter.formatRange(new FormatRequest(candidate, plan.before().version(), LineEndingPolicy.PRESERVE), new TextRange(start, end));
+                var result = formatter(plan,file.file()).formatRange(new FormatRequest(candidate, plan.before().version(), LineEndingPolicy.PRESERVE), new TextRange(start, end));
                 if (!result.success()) continue; // Optional formatting never discards a validated semantic plan.
                 for (var edit : result.edits()) {
                     if (edit.start() >= range.start() && edit.end() <= range.end()) {
@@ -48,7 +52,7 @@ public final class GeneratedCodeFormatter {
         List<FileOperation> operations = new ArrayList<>();
         for (FileOperation operation : plan.fileOperations()) {
             if (operation.kind() == FileOperationKind.CREATE) {
-                var formatted = formatter.format(new FormatRequest(operation.content(), plan.before().version(), LineEndingPolicy.PRESERVE));
+                var formatted = formatter(plan,operation.path()).format(new FormatRequest(operation.content(), plan.before().version(), LineEndingPolicy.PRESERVE));
                 operations.add(formatted.success() ? new FileOperation(operation.kind(), operation.path(), operation.destination(), formatted.formattedText()) : operation);
             } else operations.add(operation);
         }

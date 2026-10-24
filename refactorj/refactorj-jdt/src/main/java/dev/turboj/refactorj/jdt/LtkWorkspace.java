@@ -29,6 +29,9 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
     private final Map<String,IJavaElement> elements = new LinkedHashMap<>(64,.75f,true){@Override protected boolean removeEldestEntry(Map.Entry<String,IJavaElement> e){return size()>2048;}};
     private final Map<Location,Symbol> resolved=new LinkedHashMap<>(32,.75f,true){@Override protected boolean removeEldestEntry(Map.Entry<Location,Symbol> e){return size()>512;}};
     private final Map<String,List<Location>> referenceCache=new LinkedHashMap<>(32,.75f,true){@Override protected boolean removeEldestEntry(Map.Entry<String,List<Location>> e){return size()>128;}};
+    private record ProjectState(String id,IProject project,IJavaProject java,IPackageFragmentRoot root,JavaProjectConfiguration configuration) {}
+    private final Map<String,ProjectState> projects=new LinkedHashMap<>();
+    private final JdkApiImages apiImages=new JdkApiImages();
     private boolean closed;
     private boolean synchronizedModel;
 
@@ -54,6 +57,50 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
     }
     @Override public WorkspaceSnapshot snapshot(){ ensureOpen();return snapshot; }
     public IJavaProject javaProject(){return javaProject;}
+    public IJavaProject javaProject(Path file){return unit(file).getJavaProject();}
+    private ProjectState owner(Path file,WorkspaceSnapshot model){
+        return projects.values().stream().filter(p->p.configuration().sourceRoots().stream().anyMatch(file::startsWith))
+                .max(Comparator.comparingInt(p->p.configuration().sourceRoots().stream().filter(file::startsWith).mapToInt(Path::getNameCount).max().orElse(0))).orElse(null);
+    }
+    private IJavaElement[] searchProjects(){var all=new ArrayList<IJavaElement>();all.add(javaProject);projects.values().forEach(p->all.add(p.java()));return all.toArray(IJavaElement[]::new);}
+    private void configureProjects(WorkspaceSnapshot next)throws CoreException{
+        boolean changed=snapshot==null||!snapshot.projects().equals(next.projects());
+        if(!changed)return;
+        for(var unit:units.values()){unit.discardWorkingCopy();unit.getResource().delete(true,null);}units.clear();resourcePaths.clear();
+        for(var state:projects.values())state.project().delete(true,true,null);projects.clear();
+        for(var configuration:next.projects()){
+            IProject p=ResourcesPlugin.getWorkspace().getRoot().getProject("refactorj_"+UUID.randomUUID().toString().replace("-",""));
+            p.create(null);p.open(null);p.setDefaultCharset(configuration.encoding(),null);
+            var description=p.getDescription();description.setNatureIds(new String[]{JavaCore.NATURE_ID});p.setDescription(description,null);
+            IFolder src=p.getFolder("src"),bin=p.getFolder("bin");src.create(true,true,null);bin.create(true,true,null);
+            IJavaProject java=JavaCore.create(p);IPackageFragmentRoot root=java.getPackageFragmentRoot(src);
+            var options=new HashMap<>(javaProject.getOptions(true));JavaCore.setComplianceOptions(configuration.languageLevel(),options);
+            if(!configuration.source().isBlank())options.put(JavaCore.COMPILER_SOURCE,configuration.source());
+            if(!configuration.target().isBlank())options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,configuration.target());
+            options.put(JavaCore.COMPILER_RELEASE,configuration.release().isBlank()?JavaCore.DISABLED:JavaCore.ENABLED);
+            options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES,configuration.preview()?JavaCore.ENABLED:JavaCore.DISABLED);java.setOptions(options);
+            projects.put(configuration.id(),new ProjectState(configuration.id(),p,java,root,configuration));
+        }
+        for(var state:projects.values()){
+            var config=state.configuration();var entries=new ArrayList<IClasspathEntry>();entries.add(JavaCore.newSourceEntry(state.root().getPath()));
+            try{
+                Path home=config.javaHome()==null?Path.of(System.getProperty("java.home")):config.javaHome();
+                for(Path library:apiImages.libraries(home,config.release())) {
+                    if(!java.nio.file.Files.isRegularFile(library))throw new IllegalArgumentException("Selected JDK has no Java runtime image: "+home);
+                    entries.add(JavaCore.newLibraryEntry(new org.eclipse.core.runtime.Path(library.toString()),null,null,null,new IClasspathAttribute[]{JavaCore.newClasspathAttribute(IClasspathAttribute.MODULE,"true")},false));
+                }
+            }catch(IOException error){throw new IllegalStateException("Cannot establish project Java API level",error);}
+            for(Path cp:config.classpath())if(java.nio.file.Files.exists(cp))entries.add(JavaCore.newLibraryEntry(new org.eclipse.core.runtime.Path(cp.toString()),null,null));
+            var attributes=new IClasspathAttribute[]{JavaCore.newClasspathAttribute(IClasspathAttribute.MODULE,"true")};
+            for(Path mp:config.modulePath())if(java.nio.file.Files.exists(mp))entries.add(JavaCore.newLibraryEntry(new org.eclipse.core.runtime.Path(mp.toString()),null,null,null,attributes,false));
+            for(String dependency:config.dependencies()){
+                var target=projects.get(dependency);
+                boolean modular=next.sources().stream().anyMatch(s->s.file().getFileName().toString().equals("module-info.java")&&target.configuration().sourceRoots().stream().anyMatch(s.file()::startsWith));
+                entries.add(JavaCore.newProjectEntry(target.project().getFullPath(),null,false,modular?attributes:new IClasspathAttribute[0],false));
+            }
+            state.java().setRawClasspath(entries.toArray(IClasspathEntry[]::new),state.project().getFolder("bin").getFullPath(),null);
+        }
+    }
     public Collection<ICompilationUnit> units(){return List.copyOf(units.values());}
     public ICompilationUnit unit(Path path){ensureOpen();var u=units.get(path.toAbsolutePath().normalize());if(u==null)throw new IllegalArgumentException("Source is outside the Java workspace");return u;}
     public Path original(IResource resource){
@@ -62,7 +109,8 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
         if(known!=null)return known;
         // New files inherit the real source root of existing units in the same package.
         String relative=resource.getProjectRelativePath().toString();if(relative.startsWith("src/"))relative=relative.substring(4);
-        Path root=snapshot.sourceRoots().stream().filter(p->p.startsWith(snapshot.root())).findFirst().orElse(snapshot.root());
+        ProjectState state=projects.values().stream().filter(p->p.project().equals(resource.getProject())).findFirst().orElse(null);
+        Path root=(state==null?snapshot.sourceRoots():state.configuration().sourceRoots()).stream().filter(p->p.startsWith(snapshot.root())).findFirst().orElse(snapshot.root());
         return root.resolve(relative).normalize();
     }
     public Path original(ICompilationUnit unit){return original(unit.getResource());}
@@ -73,10 +121,11 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
         if(synchronizedModel&&snapshot!=null&&snapshot.equals(next))return;
         if(snapshot!=null&&!snapshot.root().equals(next.root()))throw new IllegalArgumentException("Cannot change workspace identity");
         try{
+            configureProjects(next);
             var sourceNames=new LinkedHashMap<Path,UnitIdentity>();Set<String> identities=new HashSet<>();
             for(var source:next.sources()){
-                cancel.check();UnitIdentity identity=identity(source);sourceNames.put(source.file(),identity);
-                if(!identities.add(identity.packageName()+"/"+identity.fileName()))throw new IllegalArgumentException("Duplicate Java source identity: "+identity.packageName()+"/"+identity.fileName());
+                cancel.check();ProjectState state=owner(source.file(),next);UnitIdentity identity=identity(source,state==null?javaProject:state.java());sourceNames.put(source.file(),identity);
+                if(!identities.add((state==null?"":state.id())+"/"+identity.packageName()+"/"+identity.fileName()))throw new IllegalArgumentException("Duplicate Java source identity: "+identity.packageName()+"/"+identity.fileName());
             }
             synchronizedModel=false;
             if(snapshot==null||!snapshot.classpath().equals(next.classpath())){
@@ -92,7 +141,7 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
                 if(unit!=null&&(!unit.getParent().getElementName().equals(pkg)||!unit.getElementName().equals(fileName))){
                     resourcePaths.remove(unit.getResource().getFullPath().toString());unit.discardWorkingCopy();unit.getResource().delete(true,null);units.remove(source.file());unit=null;
                 }
-                if(unit==null){var fragment=sourceRoot.createPackageFragment(pkg,true,new NullProgressMonitor());unit=fragment.createCompilationUnit(fileName,source.text(),true,new NullProgressMonitor());unit.becomeWorkingCopy(new NullProgressMonitor());units.put(source.file(),unit);resourcePaths.put(unit.getResource().getFullPath().toString(),source.file());}
+                if(unit==null){ProjectState state=owner(source.file(),next);var fragment=(state==null?sourceRoot:state.root()).createPackageFragment(pkg,true,new NullProgressMonitor());unit=fragment.createCompilationUnit(fileName,source.text(),true,new NullProgressMonitor());unit.becomeWorkingCopy(new NullProgressMonitor());units.put(source.file(),unit);resourcePaths.put(unit.getResource().getFullPath().toString(),source.file());}
                 if(!unit.getSource().equals(source.text()))unit.getBuffer().setContents(source.text());
                 unit.reconcile(ICompilationUnit.NO_AST, true, null, monitor(cancel));
                 if(unit.hasUnsavedChanges())unit.commitWorkingCopy(true, monitor(cancel));
@@ -103,13 +152,13 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
     }
     public CompilationUnit ast(Path path){
         ensureOpen();return asts.computeIfAbsent(path.toAbsolutePath().normalize(),p->{
-            ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setSource(unit(p));parser.setResolveBindings(true);parser.setBindingsRecovery(false);parser.setStatementsRecovery(false);parser.setCompilerOptions(javaProject.getOptions(true));
+            ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setSource(unit(p));parser.setResolveBindings(true);parser.setBindingsRecovery(false);parser.setStatementsRecovery(false);parser.setCompilerOptions(unit(p).getJavaProject().getOptions(true));
             return (CompilationUnit)parser.createAST(new NullProgressMonitor());
         });
     }
     /** Candidate verification consumes the immutable snapshot, bypassing cached Eclipse file-buffer ASTs. */
     public CompilationUnit validationAst(Path path){
-        Path normalized=path.toAbsolutePath().normalize();ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setProject(javaProject);parser.setSource(snapshot.source(normalized).text().toCharArray());parser.setUnitName(unit(normalized).getPath().toString());parser.setResolveBindings(true);parser.setBindingsRecovery(false);parser.setStatementsRecovery(false);parser.setCompilerOptions(javaProject.getOptions(true));return (CompilationUnit)parser.createAST(new NullProgressMonitor());
+        Path normalized=path.toAbsolutePath().normalize();ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setProject(javaProject(normalized));parser.setSource(snapshot.source(normalized).text().toCharArray());parser.setUnitName(unit(normalized).getPath().toString());parser.setResolveBindings(true);parser.setBindingsRecovery(false);parser.setStatementsRecovery(false);parser.setCompilerOptions(javaProject(normalized).getOptions(true));return (CompilationUnit)parser.createAST(new NullProgressMonitor());
     }
     /** One binding environment for the whole verification pass; private secondary copies pin snapshot text. */
     public Map<String,Integer> validationErrors(Cancellation cancellation){
@@ -120,12 +169,17 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
                 cancellation.check();ICompilationUnit copy=unit(source.file()).getWorkingCopy(owner,monitor(cancellation));
                 copy.getBuffer().setContents(source.text());copies.add(copy);
             }
-            ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setProject(javaProject);parser.setWorkingCopyOwner(owner);parser.setResolveBindings(true);parser.setBindingsRecovery(false);parser.setStatementsRecovery(false);parser.setCompilerOptions(javaProject.getOptions(true));
-            parser.createASTs(copies.toArray(ICompilationUnit[]::new),new String[0],new ASTRequestor(){
-                @Override public void acceptAST(ICompilationUnit source,CompilationUnit tree){
-                    cancellation.check();String file=original(source).toString();for(var problem:tree.getProblems())if(problem.isError())errors.merge(file+" | "+problem.getID()+": "+problem.getMessage(),1,Integer::sum);
-                }
-            },monitor(cancellation));return Map.copyOf(errors);
+            for(IJavaElement projectElement:searchProjects()){
+                IJavaProject current=(IJavaProject)projectElement;
+                ICompilationUnit[] projectCopies=copies.stream().filter(c->c.getJavaProject().equals(current)).toArray(ICompilationUnit[]::new);
+                if(projectCopies.length==0)continue;
+                ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setProject(current);parser.setWorkingCopyOwner(owner);parser.setResolveBindings(true);parser.setBindingsRecovery(false);parser.setStatementsRecovery(false);parser.setCompilerOptions(current.getOptions(true));
+                parser.createASTs(projectCopies,new String[0],new ASTRequestor(){
+                    @Override public void acceptAST(ICompilationUnit source,CompilationUnit tree){
+                        cancellation.check();String file=original(source).toString();for(var problem:tree.getProblems())if(problem.isError())errors.merge(file+" | "+problem.getID()+": "+problem.getMessage(),1,Integer::sum);
+                    }
+                },monitor(cancellation));
+            }return Map.copyOf(errors);
         }catch(JavaModelException ex){throw new IllegalStateException("Cannot verify source snapshots",ex);}
         finally{for(var copy:copies)try{copy.discardWorkingCopy();}catch(JavaModelException ignored){}}
     }
@@ -153,13 +207,14 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
     /** Opaque, versioned identity scoped to the original workspace, independent of its private Eclipse project. */
     public String symbolId(IJavaElement element) {
         ensureOpen();
-        if (element == null || !javaProject.equals(element.getJavaProject()))
+        if (element == null || Arrays.stream(searchProjects()).noneMatch(p->p.equals(element.getJavaProject())))
             throw new IllegalArgumentException("Symbol is outside this semantic workspace");
-        String projectHandle = javaProject.getHandleIdentifier();
+        String projectHandle = element.getJavaProject().getHandleIdentifier();
+        String projectId=projects.values().stream().filter(p->p.java().equals(element.getJavaProject())).map(ProjectState::id).findFirst().orElse("");
         String handle = element.getHandleIdentifier();
         if (!handle.startsWith(projectHandle)) throw new IllegalArgumentException("Invalid Java symbol identity");
         return symbolPrefix + Base64.getUrlEncoder().withoutPadding().encodeToString(
-                handle.substring(projectHandle.length()).getBytes(StandardCharsets.UTF_8));
+                (projectId.isEmpty()?handle.substring(projectHandle.length()):"#"+projectId+"\n"+handle.substring(projectHandle.length())).getBytes(StandardCharsets.UTF_8));
     }
     public IJavaElement element(String id) {
         ensureOpen();
@@ -171,8 +226,10 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
         String relative = new String(Base64.getUrlDecoder().decode(encoded), StandardCharsets.UTF_8);
         if (!Base64.getUrlEncoder().withoutPadding().encodeToString(relative.getBytes(StandardCharsets.UTF_8)).equals(encoded))
             throw new IllegalArgumentException("Invalid Java symbol identity encoding");
-        IJavaElement result = JavaCore.create(javaProject.getHandleIdentifier() + relative);
-        if (result != null && !javaProject.equals(result.getJavaProject()))
+        IJavaProject target=javaProject;
+        if(relative.startsWith("#")){int separator=relative.indexOf('\n');if(separator<0)throw new IllegalArgumentException("Invalid project symbol");ProjectState state=projects.get(relative.substring(1,separator));if(state==null)throw new IllegalArgumentException("Symbol project no longer exists");target=state.java();relative=relative.substring(separator+1);}
+        IJavaElement result = JavaCore.create(target.getHandleIdentifier() + relative);
+        if (result != null && !target.equals(result.getJavaProject()))
             throw new IllegalArgumentException("Symbol is outside this semantic workspace");
         return result;
     }
@@ -190,19 +247,19 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
         try{
             var pattern=SearchPattern.createPattern(element,IJavaSearchConstants.REFERENCES,SearchPattern.R_EXACT_MATCH|SearchPattern.R_CASE_SENSITIVE);
             if(pattern==null)return List.of();
-            new SearchEngine(units.values().toArray(ICompilationUnit[]::new)).search(pattern,new SearchParticipant[]{SearchEngine.getDefaultSearchParticipant()},SearchEngine.createJavaSearchScope(new IJavaElement[]{javaProject}),new SearchRequestor(){@Override public void acceptSearchMatch(SearchMatch match){cancel.check();if(match.getAccuracy()!=SearchMatch.A_ACCURATE)return;Path path=original(match.getResource());if(path!=null)found.add(new Location(path,match.getOffset(),match.getOffset()+match.getLength()));}},monitor(cancel));
+            new SearchEngine(units.values().toArray(ICompilationUnit[]::new)).search(pattern,new SearchParticipant[]{SearchEngine.getDefaultSearchParticipant()},SearchEngine.createJavaSearchScope(searchProjects()),new SearchRequestor(){@Override public void acceptSearchMatch(SearchMatch match){cancel.check();if(match.getAccuracy()!=SearchMatch.A_ACCURATE)return;Path path=original(match.getResource());if(path!=null)found.add(new Location(path,match.getOffset(),match.getOffset()+match.getLength()));}},monitor(cancel));
         }catch(CoreException e){throw new IllegalStateException(e);}
         List<Location> result=found.stream().distinct().sorted(Comparator.comparing((Location l)->l.file().toString()).thenComparingInt(Location::start)).toList();referenceCache.put(id,result);return result;
     }
-    @Override public Hierarchy hierarchy(String id,Cancellation cancel){cancel.check();IJavaElement e=element(id);if(!(e instanceof IType type))return null;try{var h=type.newTypeHierarchy(javaProject,monitor(cancel));return new Hierarchy(symbol(type),Arrays.stream(h.getAllSupertypes(type)).map(this::symbol).toList(),Arrays.stream(h.getAllSubtypes(type)).map(this::symbol).toList());}catch(JavaModelException ex){throw new IllegalStateException(ex);}}
+    @Override public Hierarchy hierarchy(String id,Cancellation cancel){cancel.check();IJavaElement e=element(id);if(!(e instanceof IType type))return null;try{var h=type.newTypeHierarchy(monitor(cancel));return new Hierarchy(symbol(type),Arrays.stream(h.getAllSupertypes(type)).map(this::symbol).toList(),Arrays.stream(h.getAllSubtypes(type)).map(this::symbol).toList());}catch(JavaModelException ex){throw new IllegalStateException(ex);}}
     @Override public List<Symbol> symbols(String query,Cancellation cancel){var result=new ArrayList<Symbol>();String needle=query.toLowerCase(Locale.ROOT);try{for(var unit:units.values())collect(unit,needle,cancel,result);}catch(JavaModelException e){throw new IllegalStateException(e);}return List.copyOf(result);}
     private void collect(IJavaElement element,String needle,Cancellation cancel,List<Symbol> out)throws JavaModelException{cancel.check();if(element instanceof IMember&&element.getElementName().toLowerCase(Locale.ROOT).contains(needle))out.add(symbol(element));if(element instanceof IParent parent)for(var child:parent.getChildren())collect(child,needle,cancel,out);}
     public static IProgressMonitor monitor(Cancellation cancellation){return new NullProgressMonitor(){@Override public boolean isCanceled(){return cancellation.cancelled()||Thread.currentThread().isInterrupted();}};}
     private record UnitIdentity(String packageName,String fileName){}
-    private UnitIdentity identity(SourceSnapshot source){
+    private UnitIdentity identity(SourceSnapshot source,IJavaProject javaProject){
         ASTParser parser=ASTParser.newParser(AST.JLS25);parser.setCompilerOptions(javaProject.getOptions(true));parser.setSource(source.text().toCharArray());CompilationUnit tree=(CompilationUnit)parser.createAST(null);
         String name=source.file().getFileName().toString();
-        if(JavaConventions.validateCompilationUnitName(name,JavaCore.VERSION_25,JavaCore.VERSION_25).matches(IStatus.ERROR)){
+        if(JavaConventions.validateCompilationUnitName(name,javaProject.getOption(JavaCore.COMPILER_SOURCE,true),javaProject.getOption(JavaCore.COMPILER_COMPLIANCE,true)).matches(IStatus.ERROR)){
             if(!source.open()||java.nio.file.Files.exists(source.file()))throw new IllegalArgumentException("Invalid Java source file name: "+name);
             name="Scratch_"+Integer.toUnsignedString(source.file().toString().hashCode(),16)+".java";
             boolean chosen=false;
@@ -213,5 +270,5 @@ public final class LtkWorkspace implements JavaSemanticWorkspace {
         return new UnitIdentity(tree.getPackage()==null?"":tree.getPackage().getName().getFullyQualifiedName(),name);
     }
     private void ensureOpen(){if(closed)throw new IllegalStateException("Semantic workspace is closed");}
-    @Override public void close(){if(closed)return;closed=true;for(var unit:units.values())try{unit.discardWorkingCopy();}catch(JavaModelException ignored){}try{project.delete(true,true,new NullProgressMonitor());}catch(CoreException ignored){}units.clear();asts.clear();elements.clear();resolved.clear();referenceCache.clear();}
+    @Override public void close(){if(closed)return;closed=true;for(var unit:units.values())try{unit.discardWorkingCopy();}catch(JavaModelException ignored){}for(var state:projects.values())try{state.project().delete(true,true,null);}catch(CoreException ignored){}projects.clear();try{project.delete(true,true,new NullProgressMonitor());}catch(CoreException ignored){}apiImages.close();units.clear();asts.clear();elements.clear();resolved.clear();referenceCache.clear();}
 }

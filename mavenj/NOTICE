@@ -1,0 +1,10 @@
+MavenJ
+Copyright 2026 TurboJ contributors
+
+MavenJ source code is available under the MIT License in LICENSE.
+This product incorporates Apache Maven and Apache Maven Resolver software developed
+by The Apache Software Foundation (https://www.apache.org/).
+Third-party artifacts retain their upstream licenses. The standalone distribution
+preserves their original JARs, POMs, LICENSE/NOTICE resources and SHA-256 inventory
+under docs/third-party and docs/runtime-dependencies.json.
+MavenJ is an independent project and is not an Apache Software Foundation project.

@@ -16,6 +16,14 @@ class WorkspaceTransactionsTest {
     @TempDir
     Path root;
 
+    @Test void absentMavenSourceRootsRemainPassiveAndCannotEscapeWorkspace()throws Exception {
+        Path main=Files.createDirectories(root.resolve("module/src/main/java"));Files.writeString(main.resolve("Main.java"),"class Main {}");
+        Path absent=root.resolve("module/target/generated-sources/annotations"),tests=root.resolve("module/src/test/java");
+        var store=DiskWorkspace.open(root,List.of(main,absent,tests),List.of());
+        assertEquals(1,store.snapshot().sources().size());assertFalse(Files.exists(absent));assertFalse(Files.exists(tests));
+        assertThrows(TransactionException.class,()->DiskWorkspace.open(root,List.of(root.getParent().resolve("outside-missing-source-root")),List.of()));
+    }
+
     @BeforeEach
     void canonicalRoot() throws IOException {
         root = root.toRealPath();

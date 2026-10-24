@@ -16,12 +16,29 @@ public final class Model {
     public record SourceSnapshot(Path file, String text, long version, boolean open) {
         public SourceSnapshot { file = Objects.requireNonNull(file).toAbsolutePath().normalize(); Objects.requireNonNull(text); }
     }
+    /** One compilation boundary (for example a Maven module's main or test source set). */
+    public record JavaProjectConfiguration(String id, List<Path> sourceRoots, List<Path> classpath,
+            List<Path> modulePath, List<String> dependencies, String release, String source,
+            String target, Path javaHome, String encoding, boolean preview) {
+        public JavaProjectConfiguration {
+            if(id==null||id.isBlank())throw new IllegalArgumentException("Missing project id");
+            sourceRoots=sourceRoots.stream().map(p->p.toAbsolutePath().normalize()).toList();
+            classpath=List.copyOf(classpath);modulePath=List.copyOf(modulePath);dependencies=List.copyOf(dependencies);
+            release=Objects.requireNonNullElse(release,"");source=Objects.requireNonNullElse(source,"");target=Objects.requireNonNullElse(target,"");encoding=Objects.requireNonNullElse(encoding,"UTF-8");
+            if(release.isBlank()&&source.isBlank())throw new IllegalArgumentException("Missing project language level");
+        }
+        public String languageLevel(){return release.isBlank()?source:release;}
+    }
     public record WorkspaceSnapshot(Path root, long version, List<SourceSnapshot> sources,
-                                    List<Path> sourceRoots, List<Path> classpath) {
+                                    List<Path> sourceRoots, List<Path> classpath,
+                                    List<JavaProjectConfiguration> projects) {
+        public WorkspaceSnapshot(Path root,long version,List<SourceSnapshot> sources,List<Path> sourceRoots,List<Path> classpath){this(root,version,sources,sourceRoots,classpath,List.of());}
         public WorkspaceSnapshot {
             root = Objects.requireNonNull(root).toAbsolutePath().normalize();
             sources = sources.stream().sorted(Comparator.comparing(s -> s.file().toString())).toList();
             sourceRoots = List.copyOf(sourceRoots); classpath = List.copyOf(classpath);
+            projects=List.copyOf(projects);Set<String> ids=new HashSet<>();for(var project:projects)if(!ids.add(project.id()))throw new IllegalArgumentException("Duplicate Java project id");
+            for(var project:projects)if(!ids.containsAll(project.dependencies()))throw new IllegalArgumentException("Unknown Java project dependency");
             Set<Path> seen = new HashSet<>();
             for (var source : sources) if (!source.file().startsWith(root) || !seen.add(source.file()))
                 throw new IllegalArgumentException("Duplicate or out-of-root source");

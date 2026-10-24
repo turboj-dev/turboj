@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-24",
+  "repository": "https://repo.maven.apache.org/maven2",
+  "fixture": "examples/junit",
+  "dependencies": 8,
+  "samples": [
+    {
+      "mode": "empty local repository; remote artifact resolution",
+      "resolved": true,
+      "modelMillis": 2451.307708
+    },
+    {
+      "mode": "populated local repository; fresh JVM",
+      "resolved": true,
+      "modelMillis": 150.05725,
+      "wallMillis": 309
+    }
+  ]
+}

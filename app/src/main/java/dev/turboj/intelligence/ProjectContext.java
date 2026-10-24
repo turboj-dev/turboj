@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import dev.turboj.mavenj.api.MavenModels.Workspace;
+import dev.turboj.project.MavenSemanticAdapter;
+import dev.turboj.refactorj.api.Model.JavaProjectConfiguration;
 
 /** Local, bounded project discovery. Call on the semantic worker, never the EDT. */
 public final class ProjectContext {
@@ -21,13 +24,39 @@ public final class ProjectContext {
     private ProjectContext() {}
 
     public record Config(Path projectRoot, List<Path> sourceRoots, List<Path> classPath,
-                         List<Path> sourceArchives, long revision, List<String> warnings) {
+                         List<Path> sourceArchives, long revision, List<String> warnings,
+                         List<JavaProjectConfiguration> projects) {
+        public Config(Path root, List<Path> roots, List<Path> cp, List<Path> archives, long revision, List<String> warnings) {
+            this(root, roots, cp, archives, revision, warnings, List.of());
+        }
         public Config {
             sourceRoots = List.copyOf(sourceRoots);
             classPath = List.copyOf(classPath);
             sourceArchives = List.copyOf(sourceArchives);
             warnings = List.copyOf(warnings);
+            projects = List.copyOf(projects);
         }
+    }
+
+    public static Config fromMaven(Workspace workspace) {
+        return fromMaven(workspace, null, 0);
+    }
+
+    public static Config fromMaven(Workspace workspace, dev.turboj.project.MavenCompilationWorkspace compiler, long generatedRevision) {
+        var archives = new LinkedHashSet<Path>();
+        for (var module : workspace.modules()) {
+            if (module.mainJava().javaHome() != null) addFile(archives, module.mainJava().javaHome().resolve("lib/src.zip"));
+            if (compiler != null) {
+                addFile(archives, compiler.generatedSourceArchive(module.id(), false));
+                addFile(archives, compiler.generatedSourceArchive(module.id(), true));
+            }
+            for (Path artifact : module.classpaths().forScope(dev.turboj.mavenj.api.MavenModels.ClasspathScope.TEST_COMPILE)) {
+                String name = artifact.getFileName().toString();
+                if (name.endsWith(".jar")) addFile(archives, artifact.resolveSibling(name.substring(0, name.length() - 4) + "-sources.jar"));
+            }
+        }
+        return new Config(workspace.root(), MavenSemanticAdapter.sourceRoots(workspace), List.of(), new ArrayList<>(archives),
+                workspace.generation() * 31 + generatedRevision, workspace.diagnostics().stream().map(d -> d.message()).toList(), MavenSemanticAdapter.configurations(workspace, compiler));
     }
 
     public static Config detect(Path activeFile, String activeSource) throws IOException {

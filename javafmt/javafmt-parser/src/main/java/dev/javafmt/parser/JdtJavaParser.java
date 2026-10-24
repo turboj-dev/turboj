@@ -22,11 +22,16 @@ import org.eclipse.jdt.core.dom.TypePattern;
 
 /** Java 25 syntax and exact token spans, without bindings, workspace state or formatter reuse. */
 public final class JdtJavaParser implements JavaParser {
-    private static final Map<String, String> OPTIONS = options();
+    private final String languageLevel;
+    private final Map<String,String> options;
+    public JdtJavaParser(){this("25");}
+    /** Formats using the project language grammar, without changing canonical layout rules. */
+    public JdtJavaParser(String languageLevel){this.languageLevel=Objects.requireNonNull(languageLevel);this.options=options(languageLevel);}
 
-    private static Map<String, String> options() {
+
+    private static Map<String, String> options(String languageLevel) {
         Map<String, String> result = new HashMap<> ();
-        JavaCore.setComplianceOptions(JavaCore.VERSION_25, result);
+        JavaCore.setComplianceOptions(languageLevel, result);
         result.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, JavaCore.DISABLED);
         result.put(JavaCore.COMPILER_PB_REPORT_PREVIEW_FEATURES, JavaCore.IGNORE);
         result.put(JavaCore.COMPILER_DOC_COMMENT_SUPPORT, JavaCore.ENABLED);
@@ -38,7 +43,7 @@ public final class JdtJavaParser implements JavaParser {
         Objects.requireNonNull(source, "source");
         List<JavaToken> tokens = new ArrayList<> ();
         List<ParseDiagnostic> diagnostics = new ArrayList<> ();
-        IScanner scanner = ToolFactory.createScanner(true, false, false, "25", "25", false);
+        IScanner scanner = ToolFactory.createScanner(true, false, false, languageLevel, languageLevel, false);
         scanner.setSource(source.toCharArray());
         try {
             int kind;
@@ -161,12 +166,12 @@ public final class JdtJavaParser implements JavaParser {
         }
     }
 
-    private static CompilationUnit parseUnit(String source, String name) {
+    private CompilationUnit parseUnit(String source, String name) {
         ASTParser parser = ASTParser.newParser(AST.JLS25);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setSource(source.toCharArray());
         parser.setUnitName(name);
-        parser.setCompilerOptions(OPTIONS);
+        parser.setCompilerOptions(options);
         parser.setResolveBindings(false);
         parser.setBindingsRecovery(false);
         parser.setStatementsRecovery(false);

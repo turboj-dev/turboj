@@ -9,6 +9,11 @@ import java.util.concurrent.Executors;
 import org.junit.jupiter.api.Test;
 
 class JdtJavaParserTest {
+    @org.junit.jupiter.api.Test void projectLanguageLevelRejectsNewerGrammar(){
+        String source="class Example { int length(Object value){return switch(value){case String s -> s.length();default -> 0;};} }";
+        org.junit.jupiter.api.Assertions.assertFalse(new JdtJavaParser("17").parse(source).valid());
+        org.junit.jupiter.api.Assertions.assertTrue(new JdtJavaParser("21").parse(source).valid());
+    }
     private final JavaParser parser = new JdtJavaParser();
 
     @Test

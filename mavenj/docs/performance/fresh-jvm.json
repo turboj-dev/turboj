@@ -1,0 +1,34 @@
+{
+  "kind": "fresh JVM process import; filesystem/dependency caches warm",
+  "samples": [
+    {
+      "wallMillis": 257.737125,
+      "modelMillis": 115.50175,
+      "resolved": true
+    },
+    {
+      "wallMillis": 242.888667,
+      "modelMillis": 121.3215,
+      "resolved": true
+    },
+    {
+      "wallMillis": 241.508416,
+      "modelMillis": 118.099,
+      "resolved": true
+    },
+    {
+      "wallMillis": 224.82225,
+      "modelMillis": 109.692084,
+      "resolved": true
+    },
+    {
+      "wallMillis": 235.463875,
+      "modelMillis": 113.150458,
+      "resolved": true
+    }
+  ],
+  "hardware": "Apple M5, 16 GB",
+  "jdk": "Corretto 25.0.4.1",
+  "javaModules": 3,
+  "sourceFiles": 3
+}

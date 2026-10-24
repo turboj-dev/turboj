@@ -127,7 +127,7 @@ public final class LtkRefactorJ implements RefactorJ, JavaIntelligenceProvider {
             case DELETE->{if(files.remove(operation.path())==null)throw new IllegalArgumentException("Missing deletion target");}
             case MOVE->{var source=files.remove(operation.path());if(source==null||files.containsKey(operation.destination()))throw new IllegalArgumentException("Invalid move or destination collision");files.put(operation.destination(),new SourceSnapshot(operation.destination(),source.text(),source.version()+1,source.open()));}
         }
-        return new WorkspaceSnapshot(plan.before().root(),plan.before().version()+1,List.copyOf(files.values()),plan.before().sourceRoots(),plan.before().classpath());
+        return new WorkspaceSnapshot(plan.before().root(),plan.before().version()+1,List.copyOf(files.values()),plan.before().sourceRoots(),plan.before().classpath(),plan.before().projects());
     }
     private static Plan result(Request request,WorkspaceSnapshot before,List<Symbol> symbols,List<FileEdits> edits,List<FileOperation> files,List<Diagnostic> diagnostics,ValidationStatus status){return new Plan(UUID.randomUUID().toString(),request.operation(),before,symbols,edits,files,diagnostics,status,request.operation().id());}
     private static void append(RefactoringStatus status,Location at,List<Diagnostic> into){for(var entry:status.getEntries()){Severity severity=switch(entry.getSeverity()){case RefactoringStatus.FATAL->Severity.FATAL;case RefactoringStatus.ERROR->Severity.ERROR;case RefactoringStatus.WARNING->Severity.WARNING;default->Severity.INFO;};into.add(new Diagnostic(severity,"jdt."+entry.getCode(),entry.getMessage(),at));}}

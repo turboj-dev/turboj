@@ -59,7 +59,7 @@ final class ChangePlans {
     }
     void appendRewrite(Path path,ASTRewrite rewrite)throws CoreException{
         var document=new org.eclipse.jface.text.Document(workspace.snapshot().source(path).text());
-        var edit=rewrite.rewriteAST(document,workspace.javaProject().getOptions(true));
+        var edit=rewrite.rewriteAST(document,workspace.javaProject(path).getOptions(true));
         var converted=new ArrayList<dev.turboj.refactorj.api.Model.TextEdit>();if(!flatten(edit,converted))throw new IllegalArgumentException("Unsupported implicit Java-model rewrite");
         if(!converted.isEmpty())edits.add(new FileEdits(path,converted));
     }

@@ -36,6 +36,11 @@ public final class IntelligenceController implements AutoCloseable {
     private final Consumer<Declaration> navigate;
     private final Consumer<String> notice;
     private JavaIntelligenceService service;
+    @FunctionalInterface
+    public interface ProjectProvider { ProjectContext.Config context(Path file, String source) throws Exception; }
+    private volatile ProjectProvider projectProvider = ProjectContext::detect;
+
+    public void setProjectProvider(ProjectProvider provider) { projectProvider = Objects.requireNonNull(provider); changed(); }
 
     private JavaIntelligenceService service() {
         if (service == null) service = new JdtJavaIntelligenceService();
@@ -52,6 +57,8 @@ public final class IntelligenceController implements AutoCloseable {
     private final EnumMap<Lane, Runnable> pending = new EnumMap<>(Lane.class);
     private boolean draining;
     private volatile boolean closed;
+    private boolean enabled = true;
+    public void setEnabled(boolean value) { if (enabled == value) return; enabled = value; changed(); }
     private long epoch;
     private CompletableFuture<?> semanticRequest;
     private int hoverOffset = -1;
@@ -334,7 +341,8 @@ public final class IntelligenceController implements AutoCloseable {
         editor.clearNavigableRange();
         lastCompletion = null;
         lastSignature = null;
-        if (!closed && !editor.isReadOnly()) completionTimer.restart();
+        if (!closed && enabled && !editor.isReadOnly()) completionTimer.restart();
+        else completionTimer.stop();
     }
 
     public void dismiss() {
@@ -374,7 +382,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     private boolean valid(Ticket t) {
-        return !closed
+        return !closed && enabled
                 && t.epoch == epoch
                 && t.snapshot.source.version() == editor.version()
                 && t.snapshot.file.equals(snapshots.get().file);
@@ -384,8 +392,8 @@ public final class IntelligenceController implements AutoCloseable {
         String source = ticket.snapshot.source.toString();
         Map<Path, String> open = new LinkedHashMap<>();
         ticket.snapshot.openSources.forEach(
-                (path, snapshot) -> open.put(path, snapshot.toString()));
-        ProjectContext.Config project = ProjectContext.detect(ticket.snapshot.file, source);
+                (path, snapshot) -> { if (path.getFileName().toString().endsWith(".java")) open.put(path, snapshot.toString()); });
+        ProjectContext.Config project = projectProvider.context(ticket.snapshot.file, source);
         // Empty roots explicitly mean an isolated, unsaved source snapshot. Retained
         // buffers from unrelated projects do not become its dependencies by accident.
         if (project.sourceRoots().isEmpty()) open.clear();
@@ -397,7 +405,8 @@ public final class IntelligenceController implements AutoCloseable {
                 project.sourceRoots(),
                 project.classPath(),
                 project.revision(),
-                project.sourceArchives());
+                project.sourceArchives(),
+                project.projects());
     }
 
     @FunctionalInterface
@@ -469,6 +478,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     public void complete(boolean alternatives) {
+        if (!enabled) return;
         completionTimer.stop();
         if (closed || editor.isReadOnly() || !editor.getSelectedText().isEmpty()) return;
         Ticket t = ticket(editor.caretOffset());
@@ -577,6 +587,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     private void hover(EditorComponent.SymbolHover hover) {
+        if (!enabled) return;
         if (hover.offset() == hoverOffset && hover.commandDown() == hoverCommand) return;
         hoverTimer.stop();
         hoverOffset = hover.offset();
@@ -613,6 +624,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     public void quickDocumentation() {
+        if (!enabled) return;
         document(editor.caretOffset(), true);
     }
 

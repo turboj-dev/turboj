@@ -23,6 +23,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
     private final Path scratch;
     private final LtkWorkspace workspace;
     private final Map<Path, String> staged = new HashMap<>();
+    private long stagedWorkspaceVersion=Long.MIN_VALUE;
     private final Map<String, Path> sourceIdentities = new HashMap<>();
     private final LinkedHashMap<String, Parsed> parses = bounded(12);
     private final LinkedHashMap<String, Resolved> symbols = bounded(256);
@@ -348,7 +349,8 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             tree = workspace.ast(context.file());
         } else {
             var parser = parser();
-            parser.setProject(workspace.javaProject());
+            parser.setProject(workspace.javaProject(context.file()));
+            parser.setCompilerOptions(workspace.javaProject(context.file()).getOptions(true));
             parser.setResolveBindings(true);
             parser.setBindingsRecovery(true);
             parser.setSource(source.toCharArray());
@@ -437,9 +439,9 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         }
         Map<Path,String> current = new HashMap<>();
         for (var source : workspace.snapshot().sources()) current.put(source.file(), source.text());
-        if (!staged.equals(current)) {
+        if (!staged.equals(current) || stagedWorkspaceVersion!=workspace.snapshot().version()) {
             parses.clear(); symbols.clear(); locations.clear(); typeBindings.clear();
-            staged.clear(); staged.putAll(current);
+            staged.clear(); staged.putAll(current);stagedWorkspaceVersion=workspace.snapshot().version();
         }
     }
 
@@ -831,7 +833,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
 
     private ITypeBinding resolveType(Context context, String qualified, String currentPackage) {
         String key =
-                context.projectVersion()
+                context.file()+"|"+context.projectVersion()
                         + "|"
                         + context.classpath()
                         + "|"
@@ -1030,6 +1032,21 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         ITypeBinding type = declaringType(binding);
         if (type == null) return null;
         String relative = topLevel(type).getQualifiedName().replace('.', '/') + ".java";
+        var javaElement=binding.getJavaElement();
+        if(javaElement!=null&&javaElement.getAncestor(org.eclipse.jdt.core.IJavaElement.COMPILATION_UNIT) instanceof org.eclipse.jdt.core.ICompilationUnit sourceUnit){
+            Path original=workspace.original(sourceUnit);
+            // A legacy folder inventory can include the source used to build a dependency JAR
+            // below an unrelated nested directory. Only explicit project boundaries, declared
+            // package roots or open buffers identify writable workspace source here.
+            boolean declaredSource=original!=null&&(!context.projects().isEmpty()
+                    ||context.sourceRoots().stream().anyMatch(root->root.resolve(relative).normalize().equals(original))
+                    ||context.openSources().containsKey(original)||context.file().equals(original));
+            if(declaredSource&&workspace.snapshot().sources().stream().anyMatch(s->s.file().equals(original))){
+                Located exact=locateProjectFile(context,original,workspace.snapshot().source(original).text(),binding,cacheKey);
+                if(exact!=null)return exact;
+            }
+        }
+        if(type.isFromSource()) {
         Path memoryFile = sourceIdentities.get(relative);
         if (memoryFile != null) {
             String source =
@@ -1060,6 +1077,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
                 /* An unavailable attachment must not break editing. */
             }
         }
+        }
         for (Path archive : archives(context)) {
             Located attached = locateArchive(archive, relative, binding, cacheKey);
             if (attached != null) return attached;
@@ -1080,7 +1098,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
                         context.sourceRoots(),
                         context.classpath(),
                         context.projectVersion(),
-                        context.sourceArchives());
+                        context.sourceArchives(),context.projects());
         Parsed parsed = parse(target, source, "declaration");
         ASTNode declaration = declarationNode(parsed.unit(), binding, false);
         if (declaration == null) return null;

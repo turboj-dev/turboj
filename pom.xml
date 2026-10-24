@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion><groupId>dev.turboj</groupId><artifactId>turboj</artifactId><version>0.1.0-SNAPSHOT</version><packaging>pom</packaging>
   <name>TurboJ</name><description>A focused Java desktop editor and execution environment</description>
-  <modules><module>javafmt</module><module>commandj</module><module>refactorj</module><module>turbotest</module><module>core</module><module>worker</module><module>app</module><module>cli</module><module>benchmarks</module></modules>
+  <modules><module>javafmt</module><module>commandj</module><module>refactorj</module><module>turbotest</module><module>mavenj</module><module>core</module><module>worker</module><module>app</module><module>cli</module><module>benchmarks</module></modules>
   <properties><maven.compiler.release>25</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding><junit.version>5.13.4</junit.version></properties>
   <dependencyManagement><dependencies>
     <dependency><groupId>org.junit</groupId><artifactId>junit-bom</artifactId><version>${junit.version}</version><type>pom</type><scope>import</scope></dependency>
@@ -28,6 +28,45 @@
     <dependency><groupId>org.eclipse.platform</groupId><artifactId>org.eclipse.core.commands</artifactId><version>3.12.500</version></dependency>
     <dependency><groupId>org.eclipse.jdt</groupId><artifactId>ecj</artifactId><version>3.44.0</version></dependency>
     <dependency><groupId>com.google.errorprone</groupId><artifactId>error_prone_annotations</artifactId><version>2.41.0</version></dependency>
+    <!-- MavenJ resolved runtime pins; these match the audited shaded application inventory. -->
+    <dependency><groupId>aopalliance</groupId><artifactId>aopalliance</artifactId><version>1.0</version></dependency>
+    <dependency><groupId>com.google.guava</groupId><artifactId>failureaccess</artifactId><version>1.0.3</version></dependency>
+    <dependency><groupId>com.google.guava</groupId><artifactId>guava</artifactId><version>33.7.1-jre</version></dependency>
+    <dependency><groupId>com.google.inject</groupId><artifactId>guice</artifactId><version>5.1.0</version><classifier>classes</classifier></dependency>
+    <dependency><groupId>commons-codec</groupId><artifactId>commons-codec</artifactId><version>1.22.1</version></dependency>
+    <dependency><groupId>javax.inject</groupId><artifactId>javax.inject</artifactId><version>1</version></dependency>
+    <dependency><groupId>org.apache.httpcomponents</groupId><artifactId>httpclient</artifactId><version>4.5.14</version></dependency>
+    <dependency><groupId>org.apache.httpcomponents</groupId><artifactId>httpcore</artifactId><version>4.4.16</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-artifact</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-builder-support</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-core</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-model</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-model-builder</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-plugin-api</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-repository-metadata</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-resolver-provider</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-settings</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven</groupId><artifactId>maven-settings-builder</artifactId><version>3.10.0</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-api</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-connector-basic</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-impl</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-named-locks</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-spi</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-transport-apache</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-transport-file</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.apache.maven.resolver</groupId><artifactId>maven-resolver-util</artifactId><version>2.0.24</version></dependency>
+    <dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-cipher</artifactId><version>2.0</version></dependency>
+    <dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-classworlds</artifactId><version>2.12.1</version></dependency>
+    <dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-component-annotations</artifactId><version>2.2.0</version></dependency>
+    <dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-interpolation</artifactId><version>1.30.0</version></dependency>
+    <dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-sec-dispatcher</artifactId><version>2.0</version></dependency>
+    <dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-utils</artifactId><version>3.6.2</version></dependency>
+    <dependency><groupId>org.eclipse.sisu</groupId><artifactId>org.eclipse.sisu.inject</artifactId><version>1.1.0</version></dependency>
+    <dependency><groupId>org.eclipse.sisu</groupId><artifactId>org.eclipse.sisu.plexus</artifactId><version>1.1.0</version></dependency>
+    <dependency><groupId>org.jspecify</groupId><artifactId>jspecify</artifactId><version>1.0.1</version></dependency>
+    <dependency><groupId>org.ow2.asm</groupId><artifactId>asm</artifactId><version>9.10.1</version></dependency>
+    <dependency><groupId>org.slf4j</groupId><artifactId>jcl-over-slf4j</artifactId><version>2.0.19</version></dependency>
+    <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId><version>2.0.19</version></dependency>
   </dependencies></dependencyManagement>
   <dependencies><dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency></dependencies>
   <build><pluginManagement><plugins>

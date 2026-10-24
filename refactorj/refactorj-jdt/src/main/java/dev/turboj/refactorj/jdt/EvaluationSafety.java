@@ -54,7 +54,7 @@ final class EvaluationSafety {
         IVariableBinding binding=declaration.resolveBinding();if(binding!=null&&binding.getConstantValue()!=null)return;
         if(declaration.getInitializer().resolveConstantExpressionValue()==null)throw new IllegalArgumentException("Moving an instance field with a nonconstant initializer may change construction-time evaluation");
         // A non-final constant-valued initializer is safe only if no earlier construction step can observe it.
-        IType destination=workspace.javaProject().findType(request.destination());if(destination==null)return;
+        IType destination=workspace.javaProject(request.location().file()).findType(request.destination());if(destination==null)return;
         var hierarchy=field.getDeclaringType().newSupertypeHierarchy(null);
         var types=new ArrayList<IType>();types.add(field.getDeclaringType());types.add(destination);types.addAll(Arrays.asList(hierarchy.getAllSuperclasses(field.getDeclaringType())));
         for(IType type:types){

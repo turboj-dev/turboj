@@ -35,7 +35,7 @@ Run works from unsaved buffers. Open Run → Java REPL for expressions and decla
 - An integrated remote JShell console with multiline submission, history, completion, selection/statement evaluation, Stop/reset, plus standalone `tj` commands; see [CLI documentation](docs/cli.md).
 - Unit/integration tests, desktop smoke harness, JMH and end-to-end benchmarks, and macOS packaging scripts.
 
-Automatic Maven/Gradle project import, dependency-aware incremental compilation and the debugger remain open. Refactoring eligibility and external-host limitations are documented per operation. Read [limitations](docs/limitations.md) before using it on a larger project. Fast Run executes trusted local code and is **not a sandbox**.
+Maven projects use the independent [MavenJ library](mavenj/README.md) for effective POMs, dependency resolution, profiles, toolchains and reactor graphs. Fast Compile uses current native module outputs; explicit Maven Build runs the real lifecycle. Gradle import and the debugger remain open. Refactoring eligibility, plugin parity and external-host limitations are documented per operation. Read [limitations](docs/limitations.md) before using it on a larger project. Fast Run executes trusted local code and is **not a sandbox**.
 
 ## Verify
 

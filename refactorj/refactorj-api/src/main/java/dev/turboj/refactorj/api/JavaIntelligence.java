@@ -18,7 +18,9 @@ public interface JavaIntelligence extends AutoCloseable {
             List<Path> sourceRoots,
             List<Path> classpath,
             long projectVersion,
-            List<Path> sourceArchives) {
+            List<Path> sourceArchives,
+            List<Model.JavaProjectConfiguration> projects) {
+        public Context(Path file,String source,long version,Map<Path,String> openSources,List<Path> sourceRoots,List<Path> classpath,long projectVersion,List<Path> sourceArchives){this(file,source,version,openSources,sourceRoots,classpath,projectVersion,sourceArchives,List.of());}
         public Context(
                 Path file,
                 String source,
@@ -44,6 +46,7 @@ public interface JavaIntelligence extends AutoCloseable {
             sourceRoots = List.copyOf(sourceRoots);
             classpath = List.copyOf(classpath);
             sourceArchives = List.copyOf(sourceArchives);
+            projects = List.copyOf(projects);
         }
     }
 

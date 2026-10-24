@@ -1,0 +1,166 @@
+{
+  "aopalliance:aopalliance:1.0": [
+    {
+      "file": "artifact.pom",
+      "source": "https://repo.maven.apache.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.pom",
+      "sha256": "26e82330157d6b844b67a8064945e206581e772977183e3e31fec6058aa9a59b",
+      "note": "Unmodified upstream POM explicitly declares Public Domain."
+    }
+  ],
+  "com.google.code.gson:gson:2.13.2": [
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "note": "Unmodified full Apache License 2.0 text retained for the upstream artifact."
+    }
+  ],
+  "com.google.errorprone:error_prone_annotations:2.41.0": [
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "note": "Unmodified full Apache License 2.0 text retained for the upstream artifact."
+    }
+  ],
+  "javax.inject:javax.inject:1": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1-sources.jar",
+      "sourceArchiveSha256": "c4b87ee2911c139c3daf498a781967f1eb2e75bc1a8529a2e7b328a15d0e433e",
+      "sha256": "d9f8035170a59ed7ec62a743a68e5d13812f9edc6f71e751bbae8e4289bb8f11",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.codehaus.plexus:plexus-cipher:2.0": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0-sources.jar",
+      "sourceArchiveSha256": "0a98fd1e8d3e9f104f1d158946f5c063ed66af2d85127b70092003c885fe7b0c",
+      "sha256": "8733dc19eb1a8a160ae60aa022183fd4068f59c3549564f130881977c098099a",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.codehaus.plexus:plexus-classworlds:2.12.1": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.12.1/plexus-classworlds-2.12.1-sources.jar",
+      "sourceArchiveSha256": "cfe0bc04ba7b870d2b4f5791fb283ffdab5117f5e4a667d3ec35079b6c9a0190",
+      "sha256": "2770a555be8fd3672a4e2b92b04845d35b63c92861d62bf2a90526de61db1479",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.codehaus.plexus:plexus-component-annotations:2.2.0": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-component-annotations/2.2.0/plexus-component-annotations-2.2.0-sources.jar",
+      "sourceArchiveSha256": "205bdeb24bb48dec548232b6faddff33a6d5800a1bafc9ed7e563845fd0eb736",
+      "sha256": "f441251f6d01c61fd8be279368c235f07a3110b55ccc009766f98ce859c76c29",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.codehaus.plexus:plexus-interpolation:1.30.0": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.30.0/plexus-interpolation-1.30.0-sources.jar",
+      "sourceArchiveSha256": "feaa09cda50a32adfaab59e22be5bfb87caaaa3d1ee7a4214cd4b6acc41defc2",
+      "sha256": "02a21124bcbeb13c70f1d0818a321aa4af4711b6e8bc89665ede88e79ee187ce",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.codehaus.plexus:plexus-sec-dispatcher:2.0": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0-sources.jar",
+      "sourceArchiveSha256": "ba4508f478d47717c8aeb41cf0ad9bc67e3c6bc7bf8f8bded2ca77b5885435a2",
+      "sha256": "79cae1697107862c407db70f59610378a60ab64cb4e7f56f2864a98394b73e54",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.eclipse.sisu:org.eclipse.sisu.inject:1.1.0": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/1.1.0/org.eclipse.sisu.inject-1.1.0-sources.jar",
+      "sourceArchiveSha256": "475d8ae19d316890cdac516bf565cff8ab7d981f7fb94ce3f5130bcfafcdf2f5",
+      "sha256": "128c7e74f998b5ffe048aa8e184c63991150b1b1b4fff5b0bee4bb2b752b5d04",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.eclipse.org/legal/epl-2.0/",
+      "sha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303"
+    }
+  ],
+  "org.eclipse.sisu:org.eclipse.sisu.plexus:1.1.0": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/1.1.0/org.eclipse.sisu.plexus-1.1.0-sources.jar",
+      "sourceArchiveSha256": "110c127029e2a254965b7f1c70138a9da075839f2deea40662847d61e01c9651",
+      "sha256": "df9d0d6175c4651b14ef3603e9589ff39887c9d5bb408988aa8df692ed3f7075",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.eclipse.org/legal/epl-2.0/",
+      "sha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303"
+    }
+  ],
+  "org.jspecify:jspecify:1.0.1": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar",
+      "sourceArchiveSha256": "230c491aac6d2a2b7e66b68d4331b1d2626f1bf3a372c33bbe2b077297e46c45",
+      "sha256": "f9023eaac798d831a39cac5f24742293a00db763d6f5a658c37a6e2e2b8d4d78",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "org.ow2.asm:asm:9.10.1": [
+    {
+      "file": "SOURCE-NOTICES.txt",
+      "source": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.10.1/asm-9.10.1-sources.jar",
+      "sourceArchiveSha256": "cb29bf42b4008972c566944d377192aa1b2d90275b9cfa9a7fa86de669fde11c",
+      "sha256": "ff1474dc4bb841fcb6920ddc45d7eae4a223386389d877378e912b4048a6c2c1",
+      "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+    },
+    {
+      "file": "LICENSE",
+      "source": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.10.1/asm-9.10.1-sources.jar",
+      "sha256": "13da67bf86d182ba5f0ffd4900e7318f693a723a5318fa1119e6323faacb82fb"
+    }
+  ]
+}

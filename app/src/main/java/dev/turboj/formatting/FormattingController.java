@@ -32,6 +32,7 @@ public final class FormattingController implements AutoCloseable {
     @FunctionalInterface
     public interface Engine {
         FormatResult format(FormatRequest request, TextRange range);
+        default FormatResult format(FormatRequest request,TextRange range,String languageLevel){return format(request,range);}
     }
 
     public record Applied(
@@ -45,6 +46,7 @@ public final class FormattingController implements AutoCloseable {
             PieceTable document,
             PieceTable.Snapshot source,
             TextRange range,
+            String languageLevel,
             Consumer<Outcome> done) {}
 
     private final EditorComponent editor;
@@ -66,6 +68,8 @@ public final class FormattingController implements AutoCloseable {
                     new ThreadPoolExecutor.DiscardOldestPolicy());
     private Pending pending;
     private long generation;
+    private String languageLevel="25";
+    public void setLanguageLevel(String level){requireEdt();languageLevel=Objects.requireNonNull(level);}
     private volatile boolean closed;
 
     public FormattingController(
@@ -74,6 +78,11 @@ public final class FormattingController implements AutoCloseable {
                 editor,
                 new Engine() {
                     private JavaFormatter formatter;
+                    private String currentLevel="";
+                    @Override public FormatResult format(FormatRequest request,TextRange range,String level){
+                        if(formatter==null||!currentLevel.equals(level)){formatter=new JavaFormatter(new dev.javafmt.parser.JdtJavaParser(level));currentLevel=level;}
+                        return format(request,range);
+                    }
 
                     @Override
                     public FormatResult format(FormatRequest request, TextRange range) {
@@ -125,7 +134,7 @@ public final class FormattingController implements AutoCloseable {
                                 Math.min(location.caret(), location.anchor()),
                                 Math.max(location.caret(), location.anchor()))
                         : null;
-        var request = new Pending(++generation, editor.document(), source, range, done);
+        var request = new Pending(++generation, editor.document(), source, range, languageLevel, done);
         pending = request;
         worker.execute(() -> run(request));
     }
@@ -139,7 +148,7 @@ public final class FormattingController implements AutoCloseable {
                             pending.source().toString(),
                             pending.source().version(),
                             LineEndingPolicy.PRESERVE);
-            FormatResult result = engine.format(request, pending.range());
+            FormatResult result = engine.format(request, pending.range(),pending.languageLevel());
             long duration = System.nanoTime() - started;
             SwingUtilities.invokeLater(() -> deliver(pending, result, duration));
         } catch (RuntimeException | LinkageError error) {

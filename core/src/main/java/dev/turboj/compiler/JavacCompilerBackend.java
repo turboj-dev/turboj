@@ -43,22 +43,50 @@ public final class JavacCompilerBackend implements CompilerBackend {
 
     /** Explicit toolchain language level and classpath; no annotation processors are executed. */
     public JavacCompilerBackend(int release, List<Path> classpath) {
+        this(Integer.toString(release), "", "", "UTF-8", classpath, List.of(), false);
+    }
+
+    /** Explicit project settings. Processors remain disabled, including on the project classpath. */
+    public JavacCompilerBackend(String release, String source, String target, String encoding,
+            List<Path> classpath, List<Path> modulePath, boolean preview) {
+        this(release,source,target,encoding,classpath,modulePath,preview,List.of());
+    }
+    public JavacCompilerBackend(String release, String source, String target, String encoding,
+            List<Path> classpath, List<Path> modulePath, boolean preview,List<String> compilerArguments) {
+        this(release,source,target,encoding,classpath,modulePath,preview,compilerArguments,null);
+    }
+    public JavacCompilerBackend(String release, String source, String target, String encoding,
+            List<Path> classpath, List<Path> modulePath, boolean preview,List<String> compilerArguments,Path systemHome) {
         compiler = ToolProvider.getSystemJavaCompiler();
         if (compiler == null)
             throw new IllegalStateException("TurboJ requires the jdk.compiler module / a full JDK");
-        if (Runtime.version().feature() < release)
+        String level = release.isBlank() ? source : release;
+        if (level.isBlank()) throw new IllegalArgumentException("Project Java language level is not configured");
+        int version = Integer.parseInt(level.startsWith("1.") ? level.substring(2) : level);
+        if (Runtime.version().feature() < version)
             throw new IllegalArgumentException(
-                    "Java " + release + " requires a matching or newer JDK");
-        standard = compiler.getStandardFileManager(null, Locale.ROOT, StandardCharsets.UTF_8);
-        var values =
-                new ArrayList<>(
-                        List.of(
-                                "--release",
-                                Integer.toString(release),
-                                "-proc:none",
-                                "-g",
-                                "-encoding",
-                                "UTF-8"));
+                    "Java " + version + " requires a matching or newer JDK");
+        standard = compiler.getStandardFileManager(null, Locale.ROOT, java.nio.charset.Charset.forName(encoding));
+        var values = new ArrayList<String>();
+        if (!release.isBlank()) values.addAll(List.of("--release", release));
+        else { values.addAll(List.of("-source", source)); if (!target.isBlank()) values.addAll(List.of("-target", target)); }
+        if(release.isBlank()&&systemHome!=null) {
+            if(version>=9) values.addAll(List.of("--system",systemHome.toAbsolutePath().toString()));
+            else {
+                // javac forbids --system with a target below 9. A selected Java 8 platform uses
+                // its actual bootstrap libraries; source/target is intentionally not --release.
+                Path libraries=systemHome.resolve("jre/lib");
+                if(!java.nio.file.Files.isRegularFile(libraries.resolve("rt.jar")))libraries=systemHome.resolve("lib");
+                if(!java.nio.file.Files.isRegularFile(libraries.resolve("rt.jar")))throw new IllegalArgumentException("Native source/target "+version+" cannot reproduce platform APIs from the selected alternate modular JDK. Use an explicit Maven build or configure --release.");
+                var bootstrap=new ArrayList<String>();
+                for(String name:List.of("resources.jar","rt.jar","sunrsasign.jar","jsse.jar","jce.jar","charsets.jar","jfr.jar")){Path jar=libraries.resolve(name);if(java.nio.file.Files.isRegularFile(jar))bootstrap.add(jar.toAbsolutePath().toString());}
+                values.addAll(List.of("-bootclasspath",String.join(java.io.File.pathSeparator,bootstrap)));
+            }
+        }
+        values.addAll(List.of("-proc:none", "-g", "-encoding", encoding));
+        values.addAll(safeCompilerArguments(compilerArguments));
+        if (preview) values.add("--enable-preview");
+        if (!modulePath.isEmpty()) values.addAll(List.of("--module-path", String.join(java.io.File.pathSeparator, modulePath.stream().map(Path::toString).toList())));
         // Never inherit the editor's own classpath as a user's program dependencies.
         values.add("-classpath");
         values.add(
@@ -72,6 +100,12 @@ public final class JavacCompilerBackend implements CompilerBackend {
         values.add("-sourcepath");
         values.add(emptyClasspath());
         options = List.copyOf(values);
+    }
+
+    /** Additional compiler flags cannot enable plugins, processors or change managed paths. */
+    public static List<String> safeCompilerArguments(List<String> arguments) {
+        for(String option:arguments)if(!(option.equals("-parameters")||option.equals("-Werror")||option.equals("-deprecation")||option.equals("-nowarn")||option.equals("-g")||option.equals("-g:none")||option.startsWith("-Xlint")||option.startsWith("-Xdoclint")||option.matches("-g:(lines|vars|source)(,(lines|vars|source))*")))throw new IllegalArgumentException("Native compilation cannot safely reproduce compiler argument: "+option+". Use an explicit Maven build.");
+        return List.copyOf(arguments);
     }
 
     private static String emptyClasspath() {
@@ -187,7 +221,7 @@ public final class JavacCompilerBackend implements CompilerBackend {
     }
 
     /** Inspects bytecode without loading or initializing user classes in the editor JVM. */
-    private static String findMain(Map<String, byte[]> classes, String fileName) {
+    public static String findMain(Map<String, byte[]> classes, String fileName) {
         String simpleName = Path.of(fileName).getFileName().toString().replaceFirst("\\.java$", "");
         var candidates = new ArrayList<String>();
         classes.forEach(
@@ -198,6 +232,7 @@ public final class JavacCompilerBackend implements CompilerBackend {
                                     method ->
                                             method.methodName().equalsString("main")
                                                     && !method.flags().has(AccessFlag.PRIVATE)
+                                                    && (model.majorVersion() >= 69 || (method.flags().has(AccessFlag.PUBLIC) && method.flags().has(AccessFlag.STATIC) && method.methodType().equalsString("([Ljava/lang/String;)V")))
                                                     && (method.methodType()
                                                                     .equalsString(
                                                                             "([Ljava/lang/String;)V")
@@ -209,6 +244,20 @@ public final class JavacCompilerBackend implements CompilerBackend {
                 .filter(n -> n.equals(simpleName) || n.endsWith("." + simpleName))
                 .findFirst()
                 .orElse(candidates.isEmpty() ? null : candidates.getFirst());
+    }
+
+    /** Chooses an entrypoint declared by this source file, never an unrelated reactor class. */
+    public static String findMainForSource(Map<String,byte[]> classes,String fileName) {
+        String name=Path.of(fileName).getFileName().toString();
+        var matching=new LinkedHashMap<String,byte[]>();
+        classes.forEach((binary,bytes)->{
+            var model=ClassFile.of().parse(bytes);
+            int separator=binary.lastIndexOf('.');String relative=(separator<0?"":binary.substring(0,separator).replace('.','/')+"/")+name;
+            String normalized=Path.of(fileName).normalize().toString().replace('\\','/');
+            if(Path.of(fileName).getNameCount()>1&&!normalized.equals(relative)&&!normalized.endsWith("/"+relative))return;
+            if(model.findAttribute(java.lang.classfile.Attributes.sourceFile()).map(attribute->attribute.sourceFile().stringValue().equals(name)).orElse(false))matching.put(binary,bytes);
+        });
+        return findMain(matching,fileName);
     }
 
     public synchronized void invalidate() {
@@ -231,7 +280,8 @@ public final class JavacCompilerBackend implements CompilerBackend {
     private record Key(String name, String source) {}
 
     private static URI sourceUri(String filename) {
-        String name = Path.of(filename).getFileName().toString();
+        String name = Path.of(filename).normalize().toString().replace('\\', '/');
+        if (name.startsWith("/")) name = name.substring(1);
         if (!name.endsWith(".java")) name += ".java";
         try {
             return new URI("string", null, "/" + name, null);
@@ -273,6 +323,12 @@ public final class JavacCompilerBackend implements CompilerBackend {
 
         MemoryFiles(StandardJavaFileManager manager) {
             super(manager);
+        }
+
+        @Override public boolean contains(JavaFileManager.Location location,FileObject file)throws IOException {
+            if(file instanceof SourceFile)return location==javax.tools.StandardLocation.SOURCE_PATH;
+            if(file instanceof ClassFileOutput)return location==javax.tools.StandardLocation.CLASS_OUTPUT;
+            return super.contains(location,file);
         }
 
         @Override

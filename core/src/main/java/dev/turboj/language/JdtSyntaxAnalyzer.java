@@ -64,8 +64,13 @@ public final class JdtSyntaxAnalyzer {
     }
 
     public SyntaxResult analyze(SourceSnapshot source) {
+        return analyze(source,"25",false);
+    }
+
+    /** Language policy comes from the imported project's effective compiler configuration. */
+    public SyntaxResult analyze(SourceSnapshot source,String languageLevel,boolean preview) {
         long started = System.nanoTime();
-        var unit = parse(source);
+        var unit = parse(source,languageLevel,preview);
         var diagnostics = new ArrayList<CompilerDiagnostic>();
         for (var problem : unit.getProblems()) {
             int start = problem.getSourceStart();
@@ -109,10 +114,13 @@ public final class JdtSyntaxAnalyzer {
     }
 
     private static CompilationUnit parse(SourceSnapshot source) {
+        return parse(source,"25",false);
+    }
+    private static CompilationUnit parse(SourceSnapshot source,String languageLevel,boolean preview) {
         var parser = ASTParser.newParser(AST.JLS25);
         var options = new HashMap<String, String>();
-        JavaCore.setComplianceOptions(JavaCore.VERSION_25, options);
-        options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, JavaCore.DISABLED);
+        JavaCore.setComplianceOptions(languageLevel, options);
+        options.put(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, preview?JavaCore.ENABLED:JavaCore.DISABLED);
         parser.setCompilerOptions(options);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setSource(source.source().toCharArray());

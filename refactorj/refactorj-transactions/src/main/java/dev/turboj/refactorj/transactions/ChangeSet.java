@@ -143,7 +143,7 @@ public record ChangeSet(List<Transition> transitions) {
                         .version() + 1), t.after().open()));
         }
         return new WorkspaceSnapshot(current.root(), version, new ArrayList<> (sources.values()),
-                current.sourceRoots(), current.classpath());
+                current.sourceRoots(), current.classpath(), current.projects());
     }
 
     private static void validateUnicode(String source, List<TextEdit> edits) {

@@ -62,6 +62,20 @@ public final class EditorComponent extends JComponent
             identifier,
             operator;
     private boolean antialias, autoClose = true;
+    private boolean xmlSyntax;
+
+    public void setXmlSyntax(boolean xml) {
+        if (xmlSyntax == xml) return;
+        xmlSyntax = xml;
+        lexed.clear(); lineTexts.clear(); lineColumns.clear();
+        repaint();
+    }
+
+    public boolean xmlSyntax() { return xmlSyntax; }
+
+    private JavaLexer.Line lex(String text, JavaLexer.State state) {
+        return xmlSyntax ? XmlLexer.lex(text, state) : JavaLexer.lex(text, state);
+    }
     private List<CompilerDiagnostic> diagnostics = List.of();
     private final List<JavaLexer.Line> lexed = new ArrayList<>();
     private final List<String> lineTexts = new ArrayList<>();
@@ -1272,7 +1286,7 @@ public final class EditorComponent extends JComponent
             JavaLexer.State initial =
                     firstLine == 0 ? JavaLexer.State.NORMAL : lexed.get(firstLine - 1).endState();
             String text = document.lineText(firstLine);
-            JavaLexer.Line next = JavaLexer.lex(text, initial);
+            JavaLexer.Line next = lex(text, initial);
             localDamage = next.endState() == lexed.get(firstLine).endState();
             if (localDamage) {
                 lexed.set(firstLine, next);
@@ -1463,7 +1477,7 @@ public final class EditorComponent extends JComponent
             JavaLexer.State state =
                     index == 0 ? JavaLexer.State.NORMAL : lexed.get(index - 1).endState();
             lineTexts.add(text);
-            lexed.add(JavaLexer.lex(text, state));
+            lexed.add(lex(text, state));
             lineColumns.add(null);
         }
         return lexed.get(line);

@@ -84,7 +84,7 @@ public final class DiskWorkspace implements WorkspaceStore {
                             .equals(text) ? source.version() : source.version() + 1, false));
             }
             current = new WorkspaceSnapshot(root, initial.version(), entries, initial.sourceRoots(),
-                    initial.classpath());
+                    initial.classpath(), initial.projects());
             captureFingerprints();
             refresh();
         } catch (IOException error) {
@@ -108,8 +108,15 @@ public final class DiskWorkspace implements WorkspaceStore {
             Path real = root.toRealPath();
             List<Path> roots = new ArrayList<> ();
 
-            for (Path sourceRoot : sourceRoots)
-                roots.add(sourceRoot.toRealPath());
+            for (Path sourceRoot : sourceRoots) {
+                Path normalized=sourceRoot.toAbsolutePath().normalize();
+                Path existing=normalized;
+                while(existing!=null&&!Files.exists(existing,LinkOption.NOFOLLOW_LINKS))existing=existing.getParent();
+                if(existing==null)throw new IOException("Source root has no existing ancestor");
+                Path canonical=existing.toRealPath().resolve(existing.relativize(normalized)).normalize();
+                if(!canonical.startsWith(real))throw new IOException("Source root is outside the workspace");
+                roots.add(canonical);
+            }
             var workspace = new WorkspaceSnapshot(real, 0, List.of(), roots.isEmpty() ? List
                     .of(real) : roots, classpath);
             return new DiskWorkspace(workspace, FaultInjector.NONE, recover);
@@ -319,7 +326,7 @@ public final class DiskWorkspace implements WorkspaceStore {
         }
         if (changed)
             current = new WorkspaceSnapshot(root, current.version() + 1, sources, current
-                    .sourceRoots(), current.classpath());
+                    .sourceRoots(), current.classpath(), current.projects());
         fingerprints.clear();
         fingerprints.putAll(observed);
     }

@@ -1,0 +1,1 @@
+<project><modelVersion>4.0.0</modelVersion><groupId>dev.turboj.examples</groupId><artifactId>java-25</artifactId><version>1.0</version><properties><maven.compiler.release>25</maven.compiler.release></properties></project>

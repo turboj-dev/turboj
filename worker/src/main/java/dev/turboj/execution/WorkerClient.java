@@ -19,6 +19,9 @@ public final class WorkerClient implements AutoCloseable {
     private final ThreadPoolExecutor writer;
     private final ScheduledExecutorService timers;
     private final Duration timeout;
+    private final Path javaHome;
+    private final List<Path> modulePath;
+    private final String moduleName, moduleMainClass;
     private final int outputLimitBytes, maxHeapMb;
     private volatile Session session;
     private volatile Run active;
@@ -30,6 +33,18 @@ public final class WorkerClient implements AutoCloseable {
     }
 
     public WorkerClient(Duration timeout, int outputLimitBytes, int maxHeapMb) {
+        this(timeout,outputLimitBytes,maxHeapMb,Path.of(System.getProperty("java.home")));
+    }
+
+    /** Starts the same resident protocol worker using the selected project JDK (Java 17+). */
+    public WorkerClient(Duration timeout, int outputLimitBytes, int maxHeapMb, Path javaHome) {
+        this(timeout,outputLimitBytes,maxHeapMb,javaHome,List.of(),"","");
+    }
+    /** Named modules run in a fresh module-layer JVM for each generation, preserving JPMS access. */
+    public WorkerClient(Duration timeout,int outputLimitBytes,int maxHeapMb,Path javaHome,List<Path> modulePath,String moduleName,String mainClass) {
+        this.javaHome=Objects.requireNonNull(javaHome).toAbsolutePath().normalize();
+        this.modulePath=List.copyOf(modulePath);this.moduleName=Objects.requireNonNull(moduleName);this.moduleMainClass=Objects.requireNonNull(mainClass);
+        if(!moduleName.isEmpty()&&(!moduleName.matches("[A-Za-z_$][A-Za-z0-9_$.]*")||!mainClass.matches("[A-Za-z_$][A-Za-z0-9_$.]*")))throw new IllegalArgumentException("Invalid named module entrypoint");
         Objects.requireNonNull(timeout);
         if (timeout.isNegative() || timeout.isZero())
             throw new IllegalArgumentException("Timeout must be positive");
@@ -47,11 +62,11 @@ public final class WorkerClient implements AutoCloseable {
                         0,
                         TimeUnit.MILLISECONDS,
                         new ArrayBlockingQueue<>(64),
-                        Thread.ofPlatform().daemon().name("turboj-worker-writer").factory(),
+                        daemonFactory("turboj-worker-writer"),
                         new ThreadPoolExecutor.AbortPolicy());
         timers =
                 Executors.newSingleThreadScheduledExecutor(
-                        Thread.ofPlatform().daemon().name("turboj-worker-timer").factory());
+                        daemonFactory("turboj-worker-timer"));
     }
 
     public CompletableFuture<Void> warmup() {
@@ -163,7 +178,7 @@ public final class WorkerClient implements AutoCloseable {
                 () -> {
                     if (run.cancelled) return;
                     try {
-                        if (isolated) retire(session);
+                        if (isolated || !moduleName.isEmpty()) retire(session);
                         Session child = ensureSession();
                         synchronized (lock) {
                             if (closed || run.cancelled || active != run) return;
@@ -280,10 +295,7 @@ public final class WorkerClient implements AutoCloseable {
             if (active != run || run.cancelled) return;
             run.cancelled = true;
         }
-        Thread.ofPlatform()
-                .daemon()
-                .name("turboj-worker-stop")
-                .start(
+        startDaemon("turboj-worker-stop",
                         () -> {
                             retire(run.child);
                             finish(
@@ -306,15 +318,13 @@ public final class WorkerClient implements AutoCloseable {
                 retire(current);
             }
         }
-        ProcessBuilder builder =
-                new ProcessBuilder(
-                        javaExecutable(),
-                        "-Xms16m",
-                        "-Xmx" + maxHeapMb + "m",
-                        "-Dfile.encoding=UTF-8",
-                        "-cp",
-                        System.getProperty("java.class.path"),
-                        WorkerMain.class.getName());
+        var command=new ArrayList<String>(List.of(javaExecutable(),"-Xms16m","-Xmx"+maxHeapMb+"m","-Dfile.encoding=UTF-8"));
+        if(!moduleName.isEmpty()) {
+            command.addAll(List.of("--module-path",String.join(File.pathSeparator,modulePath.stream().map(Path::toString).toList()),"--add-modules",moduleName,"-Dturboj.run.module="+moduleName));
+            int separator=moduleMainClass.lastIndexOf('.');if(separator>0)command.addAll(List.of("--add-opens",moduleName+"/"+moduleMainClass.substring(0,separator)+"=ALL-UNNAMED"));
+        }
+        command.addAll(List.of("-cp",System.getProperty("java.class.path"),WorkerMain.class.getName()));
+        ProcessBuilder builder=new ProcessBuilder(command);
         builder.environment().remove("JAVA_TOOL_OPTIONS");
         builder.environment().remove("JDK_JAVA_OPTIONS");
         builder.environment().remove("_JAVA_OPTIONS");
@@ -326,11 +336,8 @@ public final class WorkerClient implements AutoCloseable {
             }
             session = child;
         }
-        Thread.ofPlatform().daemon().name("turboj-worker-events").start(() -> readEvents(child));
-        Thread.ofPlatform()
-                .daemon()
-                .name("turboj-worker-errors")
-                .start(() -> readNativeErrors(child));
+        startDaemon("turboj-worker-events",() -> readEvents(child));
+        startDaemon("turboj-worker-errors",() -> readNativeErrors(child));
         try {
             child.ready.get(8, TimeUnit.SECONDS);
         } catch (Exception error) {
@@ -340,10 +347,13 @@ public final class WorkerClient implements AutoCloseable {
         return child;
     }
 
-    private static String javaExecutable() {
+    private String javaExecutable() {
         String name = System.getProperty("os.name").startsWith("Windows") ? "java.exe" : "java";
-        return Path.of(System.getProperty("java.home"), "bin", name).toString();
+        return javaHome.resolve("bin").resolve(name).toString();
     }
+
+    private static ThreadFactory daemonFactory(String name) {return task->{Thread thread=new Thread(task,name);thread.setDaemon(true);return thread;};}
+    private static void startDaemon(String name,Runnable task){daemonFactory(name).newThread(task).start();}
 
     private void readEvents(Session child) {
         try (DataInputStream input =
@@ -559,7 +569,7 @@ public final class WorkerClient implements AutoCloseable {
         }
         stop();
         Session child = session;
-        Thread.ofPlatform().daemon().name("turboj-worker-close").start(() -> retire(child));
+        startDaemon("turboj-worker-close",() -> retire(child));
         writer.shutdown();
         timers.shutdownNow();
     }

@@ -17,6 +17,10 @@ import dev.turboj.intelligence.*;
 import dev.turboj.refactorj.api.JavaIntelligence.Declaration;
 import dev.turboj.ui.*;
 import dev.turboj.ui.themes.*;
+import dev.turboj.project.MavenProjectController;
+import dev.turboj.project.MavenCompilationWorkspace;
+import dev.turboj.project.SourceEncoding;
+import dev.turboj.mavenj.api.MavenModels;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -39,6 +43,22 @@ public final class TurboFrame extends JFrame {
                     + "}\n";
     private final EditorComponent editor = new EditorComponent();
     private final WorkerClient worker = new WorkerClient();
+    private WorkerClient programWorker = worker;
+    private record ProjectWorkerKey(Path home, List<Path> modulePath, String moduleName, String mainClass) {}
+    private final Map<ProjectWorkerKey, WorkerClient> projectWorkers = new HashMap<>();
+    private volatile MavenCompilationWorkspace mavenCompiler;
+    private volatile long generatedSourceRevision;
+    private final ScheduledThreadPoolExecutor nativeProjectCompiler = nativeCompilerExecutor();
+    private ScheduledFuture<?> pendingMavenCompile;
+    private Future<?> nativeCompileTask;
+    private CompletableFuture<NativeCompilation> pendingNativeResult;
+
+    private static ScheduledThreadPoolExecutor nativeCompilerExecutor() {
+        var executor = new ScheduledThreadPoolExecutor(1, runnable -> {
+            Thread thread = new Thread(runnable, "turboj-native-maven-compile"); thread.setDaemon(true); return thread;
+        });
+        executor.setRemoveOnCancelPolicy(true); return executor;
+    }
     private final ContinuousCompiler compiler = new ContinuousCompiler(new JavacCompilerBackend());
     private final ScheduledExecutorService background =
             Executors.newSingleThreadScheduledExecutor(
@@ -53,7 +73,7 @@ public final class TurboFrame extends JFrame {
             new ConsolePane(
                     s -> {
                         try {
-                            worker.sendInput(s);
+                            programWorker.sendInput(s);
                         } catch (IllegalStateException | IllegalArgumentException e) {
                             showError(e.getMessage());
                         }
@@ -66,6 +86,9 @@ public final class TurboFrame extends JFrame {
     private final JPanel editorPanel = new JPanel(new BorderLayout());
     private final JPanel messages = new JPanel(new BorderLayout());
     private final JPanel bottom = new JPanel(new BorderLayout());
+    private final JLabel projectStatus = new JLabel();
+    private final MavenProjectController maven;
+    private JSplitPane projectSplit;
     private final JMenuBar menus = new JMenuBar();
     private long themeChoiceGeneration;
     private final Map<String, Action> commands = new LinkedHashMap<>();
@@ -76,6 +99,8 @@ public final class TurboFrame extends JFrame {
     private AutoCloseable keymapListener;
     private volatile long keymapPreferenceVersion;
     private final Map<Path, Buffer> buffers = new LinkedHashMap<>();
+    private final Map<Path, SourceEncoding.Encoding> fileEncodings = new ConcurrentHashMap<>();
+    private final Set<Path> externalSourceFiles = new HashSet<>();
     private final NavigationHistory<Visit> navigation = new NavigationHistory<>();
     private Path bufferKey = untitledKey();
     private IntelligenceController intelligence;
@@ -152,11 +177,57 @@ public final class TurboFrame extends JFrame {
         setSize(settings.width, settings.height);
         setLocationByPlatform(true);
         editorPanel.add(editor, BorderLayout.CENTER);
+        maven = new MavenProjectController(new MavenProjectController.Host() {
+            @Override public Component owner() { return TurboFrame.this; }
+            @Override public Path activeFile() { return file; }
+            @Override public Map<Path, String> pomOverlays() {
+                rememberBuffer();
+                Map<Path, String> overlays = new LinkedHashMap<>();
+                buffers.forEach((path, buffer) -> {
+                    if (path.getFileName().toString().equals("pom.xml") && !buffer.state().readOnly()
+                            && buffer.state().document().version() != buffer.savedVersion())
+                        overlays.put(path, buffer.state().document().toString());
+                });
+                return Map.copyOf(overlays);
+            }
+            @Override public void openFile(Path path) { openPath(path); }
+            @Override public void navigate(Path path, int offset, boolean readOnly) {
+                if (readOnly) externalSourceFiles.add(path.toAbsolutePath().normalize());
+                openPath(path);
+                javax.swing.Timer follow = new javax.swing.Timer(25, null);
+                long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(10);
+                follow.addActionListener(event -> {
+                    if (path.equals(file)) { editor.gotoOffset(offset); follow.stop(); }
+                    else if (System.nanoTime() > deadline) follow.stop();
+                });
+                follow.start();
+            }
+            @Override public void published(MavenModels.Workspace value) {
+                if (intelligence != null) intelligence.changed();
+                updateMavenStatus();
+                if (file != null && value.moduleFor(file).isPresent() && isJavaBuffer()) changed();
+                else if (isXmlBuffer()) publishPomDiagnostics();
+            }
+            @Override public void notice(String text, boolean error) { console.append(text, error); }
+            @Override public void previewPom(String title, java.util.function.UnaryOperator<String> edit) { previewPomEdit(title, edit); }
+            @Override public void stateChanged() {
+                updateMavenStatus();
+                if (projectSplit != null) {
+                    projectSplit.setDividerSize(maven.panel().isVisible() ? 5 : 0);
+                    if (maven.panel().isVisible() && projectSplit.getDividerLocation() < 130) projectSplit.setDividerLocation(235);
+                    projectSplit.revalidate();
+                }
+            }
+        });
         messages.add(console, BorderLayout.CENTER);
         console.setInlineInput(true);
         console.setProgramRunning(false);
         var content = new JPanel(new BorderLayout(0, 4));
-        content.add(editorPanel, BorderLayout.CENTER);
+        projectSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, maven.panel(), editorPanel);
+        projectSplit.setBorder(null); projectSplit.setDividerSize(0); projectSplit.setResizeWeight(0);
+        content.add(projectSplit, BorderLayout.CENTER);
+        projectStatus.setVisible(false);
+        content.add(projectStatus, BorderLayout.NORTH);
         content.add(messages, BorderLayout.SOUTH);
         setLayout(new BorderLayout());
         add(content, BorderLayout.CENTER);
@@ -181,6 +252,20 @@ public final class TurboFrame extends JFrame {
                         this::navigateDeclaration,
                         text -> console.append(text + "\n", false));
         intelligence.setTheme(theme);
+        intelligence.setProjectProvider(new IntelligenceController.ProjectProvider() {
+            private MavenModels.Workspace previous;
+            private ProjectContext.Config cached;
+            private long previousGenerated;
+            @Override public ProjectContext.Config context(Path source, String text) throws Exception {
+                var workspace = maven.workspace();
+                if (workspace == null || workspace.moduleFor(source).isEmpty()) return ProjectContext.detect(source, text);
+                if (workspace != previous || previousGenerated != generatedSourceRevision) {
+                    cached = ProjectContext.fromMaven(workspace, generatedSourceRevision == 0 ? null : mavenCompiler, generatedSourceRevision);
+                    previous = workspace; previousGenerated = generatedSourceRevision;
+                }
+                return cached;
+            }
+        });
         KeyStroke acceptCompletion =
                 KeyStroke.getKeyStroke(keymap.getOrDefault("acceptCompletion", "TAB"));
         KeyStroke dismissCompletion =
@@ -302,6 +387,77 @@ public final class TurboFrame extends JFrame {
 
     public TurboTestController tests() {
         return tests;
+    }
+
+    public MavenProjectController mavenProjects() { return maven; }
+
+    private boolean isXmlBuffer() {
+        return file != null && isXmlPath(file);
+    }
+
+    private static boolean isXmlPath(Path path) { String name = path.getFileName().toString().toLowerCase(Locale.ROOT); return name.endsWith(".xml") || name.endsWith(".pom"); }
+
+    private boolean isJavaBuffer() {
+        return file == null || file.getFileName().toString().endsWith(".java");
+    }
+
+    private void updateMavenStatus() {
+        if (maven == null) return;
+        var value = maven.workspace();
+        projectStatus.setVisible(value != null || maven.busy());
+        projectStatus.setText(value == null ? " MAVEN PROJECT — Synchronizing… " : " "
+                + MavenProjectController.statusText(value) + "   " + commandKeymaps.shortcutText("compile")
+                + " Fast Compile   " + commandKeymaps.shortcutText("run") + " Run "
+                + (maven.busy() ? " · Synchronizing…" : "") + (maven.lifecycleRunning() ? " · Maven build…" : ""));
+        projectStatus.setToolTipText(value == null ? null : MavenProjectController.statusText(value));
+    }
+
+    private java.nio.charset.Charset sourceEncoding(Path path) {
+        return SourceEncoding.select(maven.workspace(), path, fileEncodings.get(path), null).charset();
+    }
+
+    private synchronized MavenCompilationWorkspace nativeMavenCompiler() {
+        if (mavenCompiler == null) {
+            try { mavenCompiler = new MavenCompilationWorkspace(); }
+            catch (java.io.IOException failure) { throw new UncheckedIOException(failure); }
+        }
+        return mavenCompiler;
+    }
+
+    private void publishPomDiagnostics() {
+        if (!isXmlBuffer()) return;
+        var workspace = maven.workspace();
+        if (workspace == null) return;
+        var diagnostics = workspace.diagnostics().stream().filter(d -> d.file() != null && d.file().equals(file))
+                .map(d -> new CompilerDiagnostic(d.severity().name(), d.message(), d.line(), d.column(), -1, -1)).toList();
+        editor.setDiagnostics(diagnostics);
+        buildStatus = workspace.resolved() ? "MAVEN MODEL READY" : "MAVEN MODEL · DIAGNOSTICS";
+        refreshTitle();
+    }
+
+    private void previewPomEdit(String title, java.util.function.UnaryOperator<String> edit) {
+        var document = editor.document();
+        var snapshot = editor.snapshot();
+        background.execute(() -> {
+            try {
+                String original = snapshot.toString(), result = edit.apply(original);
+                SwingUtilities.invokeLater(() -> {
+                    if (closing || editor.document() != document || editor.version() != snapshot.version()) return;
+                    JTextArea preview = new JTextArea(result, 24, 76); preview.setEditable(false);
+                    preview.setCaretPosition(0); preview.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
+                    if (EmbeddedOptionPane.showConfirmDialog(this, new JScrollPane(preview), title + " — Preview", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return;
+                    if (editor.document() != document || editor.version() != snapshot.version()) { showError("POM changed during preview; prepare the edit again."); return; }
+                    editor.selectAll();
+                    editor.replaceSelection(result);
+                });
+            } catch (Exception failure) { errorLater(failure); }
+        });
+    }
+
+    private void navigatePomDeclaration() {
+        if (file == null || !isXmlBuffer()) return;
+        Path selected = file; int offset = editor.caretOffset(); var snapshot = editor.snapshot();
+        background.execute(() -> maven.navigatePom(selected, snapshot.toString(), offset));
     }
 
     public Path currentFile() {
@@ -495,6 +651,19 @@ public final class TurboFrame extends JFrame {
     }
 
     private Availability commandAvailability(String id, CommandContext context) {
+        if (!isJavaBuffer() && (id.startsWith("refactor.") || id.equals("organizeImports") || id.startsWith("format.")
+                || Set.of("compile", "run", "isolated", "complete", "documentation", "evaluateStatement").contains(id)))
+            return Availability.disabled("Focus a Java source file");
+        if (id.startsWith("maven.") || id.startsWith("project.")) {
+            if (!Set.of("project.open", "project.explorer").contains(id) && maven.importRequest() == null)
+                return Availability.disabled("Open a Maven project first");
+            if (id.equals("maven.stop") && !maven.lifecycleRunning()) return Availability.disabled("No Maven build is running");
+            if (id.startsWith("maven.build.") && maven.lifecycleRunning()) return Availability.disabled("A Maven build is already running");
+            if (!Set.of("project.open", "project.explorer", "project.reload", "project.settings", "project.profiles", "maven.refresh", "maven.stop").contains(id)
+                    && !id.startsWith("maven.build.") && maven.workspace() == null) return Availability.disabled("Maven import has not completed");
+            if (id.equals("project.processors") && (!isJavaBuffer() || file == null || maven.workspace() == null || maven.workspace().moduleFor(file).isEmpty()))
+                return Availability.disabled("Focus Java source in a Maven module");
+        }
         if (closing)
             return Availability.disabled("The application is closing");
         Set<String> edits = Set.of("undo", "redo", "cut", "paste", "indent", "unindent", "comment",
@@ -553,6 +722,8 @@ public final class TurboFrame extends JFrame {
     }
 
     private static String commandCategory(String id) {
+        if (id.startsWith("project.")) return "Project";
+        if (id.startsWith("maven.")) return "Maven";
         if (id.startsWith("tests."))
             return "TurboTest";
         if (id.equals("compileProject") || id.equals("make"))
@@ -603,18 +774,42 @@ public final class TurboFrame extends JFrame {
                     var c = new EmbeddedFileChooser();
                     c.setFileFilter(
                             new javax.swing.filechooser.FileNameExtensionFilter(
-                                    "Java source (*.java)", "java"));
+                                    "Java and XML source", "java", "xml"));
                     if (c.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
                         openPath(c.getSelectedFile().toPath());
                 });
         command("save", "Save", () -> save(false, () -> {}));
+        command("openFolder", "Open Folder / Maven Project…", maven::chooseProject);
+        command("project.open", "Open Maven Project…", maven::chooseProject);
+        command("project.reload", "Reload Maven Project", () -> maven.reload(false));
+        command("project.structure", "Project Structure…", maven::showStructure);
+        command("project.dependencies", "Dependencies…", maven::showDependencies);
+        command("project.dependencyTree", "Dependency Graph…", maven::showDependencies);
+        command("project.profiles", "Active Profiles…", maven::showProfiles);
+        command("project.settings", "Maven Settings…", maven::showSettings);
+        command("project.effectivePom", "Effective POM…", maven::showEffectivePom);
+        command("project.parentPom", "Go to Parent POM", maven::openParentPom);
+        command("project.pomDeclaration", "Go to POM Declaration", this::navigatePomDeclaration);
+        command("project.sources", "Attach Dependency Sources…", () -> maven.downloadAttachment("sources"));
+        command("project.javadoc", "Attach Dependency Javadoc…", () -> maven.downloadAttachment("javadoc"));
+        command("project.processors", "Generate Annotation Sources…", () -> { if (maven.requireTrust()) compileMaven(false, false, true, true); });
+        command("project.explorer", "Toggle Project Explorer", maven::toggleExplorer);
+        command("project.findFile", "Find Project File…", () -> maven.findFile(false));
+        command("project.findModule", "Find Module…", () -> maven.findFile(true));
+        command("maven.refresh", "Refresh Dependencies", () -> maven.reload(true));
+        command("maven.stop", "Stop Maven Build", maven::cancelLifecycle);
+        for (String goal : List.of("validate", "compile", "test", "package", "verify", "install", "clean", "dependency:tree", "help:effective-pom"))
+            command("maven.build." + goal, "Maven " + goal, () -> maven.runLifecycle(goal));
+        command("maven.build.custom", "Run Maven Goal…", () -> maven.runLifecycle(null));
+        for (String action : List.of("Add Dependency", "Update Dependency Version", "Remove Dependency", "Add Module"))
+            command("project.pom." + action.toLowerCase(Locale.ROOT).replace(' ', '-'), action + "…", () -> maven.editPom(action));
         command("saveAs", "Save as…", () -> save(true, () -> {}));
         command("quit", "Quit TurboJ", this::requestQuit);
         command("complete", "Completion alternatives", () -> intelligence.complete(true));
         command(
                 "declaration",
                 "Go to declaration",
-                () -> intelligence.goToDeclaration(editor.caretOffset()));
+                () -> { if (isXmlBuffer()) navigatePomDeclaration(); else intelligence.goToDeclaration(editor.caretOffset()); });
         command("documentation", "Quick documentation", () -> intelligence.quickDocumentation());
         command("back", "Navigate back", this::navigateBack);
         command("forward", "Navigate forward", this::navigateForward);
@@ -724,7 +919,7 @@ public final class TurboFrame extends JFrame {
                         showError("Enter a line number.");
                     }
                 });
-        command("compile", "Make current buffer", () -> compile(false, false));
+        command("compile", "Fast Compile", () -> compile(false, false));
         command("run", "Fast Run", () -> compile(true, false));
         command("isolated", "Isolated Run", () -> compile(true, true));
         command(
@@ -733,12 +928,12 @@ public final class TurboFrame extends JFrame {
                 () -> {
                     if (replVisible) repl.cancel();
                     ++runRequest;
-                    worker.stop();
+                    programWorker.stop();
                     running = false;
                     console.setProgramRunning(false);
                     console.append("\nProgram stopped.\n", false);
                 });
-        command("eof", "Send EOF", worker::closeInput);
+        command("eof", "Send EOF", () -> programWorker.closeInput());
         command(
                 "clear",
                 "Clear output",
@@ -921,7 +1116,8 @@ public final class TurboFrame extends JFrame {
                 () -> startTests(TurboTestController.Mode.FAILED, false));
         command("tests.stop", "Stop Tests", () -> tests.stop());
         command("tests.results", "Test Results…", this::showTestResults);
-        command("tests.auto", "Auto Test after Refactoring", () -> {
+        command("tests.auto", "Auto Test", () -> {
+            if (!settings.autoTest && maven.workspace() != null && !maven.requireTrust()) return;
             settings.autoTest = !settings.autoTest;
             tests.setAutomatic(settings.autoTest);
             commands.get("tests.auto").putValue(Action.SELECTED_KEY, settings.autoTest);
@@ -968,7 +1164,10 @@ public final class TurboFrame extends JFrame {
     }
 
     private void createMenus() {
-        menu("File", "new", "open", "save", "saveAs", "-", "quit");
+        menu("File", "new", "open", "openFolder", "save", "saveAs", "-", "quit");
+        menu("Project", "project.open", "project.reload", "project.explorer", "project.findFile", "project.findModule", "-", "project.structure", "project.dependencies", "project.dependencyTree", "project.profiles", "project.settings", "project.effectivePom", "project.parentPom", "project.pomDeclaration", "project.sources", "project.javadoc", "-",
+                "project.pom.add-dependency", "project.pom.update-dependency-version", "project.pom.remove-dependency", "project.pom.add-module");
+        menu("Build", "compile", "compileProject", "project.processors", "-", "maven.build.validate", "maven.build.compile", "maven.build.test", "maven.build.package", "maven.build.verify", "maven.build.install", "maven.build.clean", "maven.build.dependency:tree", "maven.build.help:effective-pom", "maven.build.custom", "maven.refresh", "maven.stop");
         menu(
                 "Edit",
                 "undo",
@@ -1138,6 +1337,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private void refreshShortcutPresentation() {
+        updateMavenStatus();
         for (var entry : commands.entrySet()) {
             List<KeyBinding> bindings = commandKeymaps.bindings(entry.getKey());
             KeyStroke accelerator = null;
@@ -1266,6 +1466,10 @@ public final class TurboFrame extends JFrame {
         console.setTheme(t);
         repl.setTheme(t);
         if (intelligence != null) intelligence.setTheme(t);
+        if (maven != null) maven.setTheme(t);
+        projectStatus.setOpaque(true);
+        projectStatus.setBackground(t.color("chrome", "statusBackground"));
+        projectStatus.setForeground(t.color("chrome", "statusForeground"));
         MenuStyler.style(menus, t);
         bottom.setBackground(t.color("chrome", "statusBackground"));
         status.setForeground(t.color("chrome", "statusForeground"));
@@ -1358,8 +1562,8 @@ public final class TurboFrame extends JFrame {
 
     private void updatePosition() {
         position.setText(" " + editor.caretLine() + ":" + editor.caretColumn() + " ");
-        if (intelligence != null) intelligence.changed();
-        if (aiCompletion != null) aiCompletion.changed();
+        if (intelligence != null && isJavaBuffer()) intelligence.changed();
+        if (aiCompletion != null && isJavaBuffer()) aiCompletion.changed();
     }
 
     private void changed() {
@@ -1374,7 +1578,17 @@ public final class TurboFrame extends JFrame {
             bufferIdentity.incrementAndGet();
             openRequest.incrementAndGet();
         }
-        if (intelligence != null) intelligence.changed();
+        editor.setXmlSyntax(isXmlBuffer());
+        if (intelligence != null) intelligence.setEnabled(isJavaBuffer());
+        if (formatting != null) {
+            var workspace = maven.workspace();
+            String level = workspace == null || file == null ? "25" : workspace.moduleFor(file)
+                    .map(module -> (module.isTest(file) ? module.testJava() : module.mainJava()).languageLevel()).orElse("25");
+            formatting.setLanguageLevel(level.isBlank() ? "25" : level);
+        }
+        if (intelligence != null && isJavaBuffer()) intelligence.changed();
+        else if (intelligence != null) intelligence.dismiss();
+        if (aiCompletion != null && !isJavaBuffer()) aiCompletion.dismiss();
         programOutput = false;
         generation.set(editor.version());
         currentResult = null;
@@ -1393,6 +1607,30 @@ public final class TurboFrame extends JFrame {
         String name = file == null ? null : file.getFileName().toString();
         long analysisOp = operation.get();
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
+        if (pendingMavenCompile != null) pendingMavenCompile.cancel(false);
+        if (!isJavaBuffer()) {
+            buildStatus = isXmlBuffer() ? "XML CHECKING…" : "TEXT";
+            if (isXmlBuffer()) {
+                pendingAnalysis = background.schedule(() -> {
+                    var diagnostics = XmlDiagnostics.inspect(snap.toString());
+                    SwingUtilities.invokeLater(() -> {
+                        if (closing || operation.get() != analysisOp || editor.version() != snap.version()) return;
+                        editor.setDiagnostics(diagnostics);
+                        buildStatus = diagnostics.isEmpty() ? "XML READY" : "XML DIAGNOSTICS"; refreshTitle();
+                    });
+                }, 60, TimeUnit.MILLISECONDS);
+                maven.configurationChanged(file);
+            }
+            refreshTitle();
+        } else if (maven.workspace() != null && file != null && maven.workspace().moduleFor(file).isPresent()) {
+            var captured = intelligenceSnapshot();
+            var workspace = maven.workspace();
+            long revision = refactoringRevision;
+            pendingMavenCompile = nativeProjectCompiler.schedule(() -> SwingUtilities.invokeLater(() -> {
+                if (!closing && operation.get() == analysisOp && editor.version() == snap.version() && workspace == maven.workspace() && revision == refactoringRevision)
+                    compileMaven(false, false, false);
+            }), 180, TimeUnit.MILLISECONDS);
+        } else {
         pendingAnalysis =
                 background.schedule(
                         () -> {
@@ -1412,6 +1650,7 @@ public final class TurboFrame extends JFrame {
                         },
                         35,
                         TimeUnit.MILLISECONDS);
+        }
         if (pendingRecovery != null) pendingRecovery.cancel(false);
         pendingRecovery =
                 background.schedule(
@@ -1450,7 +1689,91 @@ public final class TurboFrame extends JFrame {
         }
     }
 
+    private record NativeCompilation(CompilationResult active, MavenCompilationWorkspace.Result workspace,
+            List<Path> runtime, List<Path> modules, String moduleName, MavenCompilationWorkspace.ExecutionSnapshot pin) {}
+
+    private CompletableFuture<CompilationResult> compileMaven(boolean run, boolean isolated, boolean explicit) {
+        return compileMaven(run, isolated, explicit, false);
+    }
+
+    private CompletableFuture<CompilationResult> compileMaven(boolean run, boolean isolated, boolean explicit, boolean processors) {
+        var model = maven.workspace();
+        var module = model == null || file == null ? Optional.<MavenModels.Module>empty() : model.moduleFor(file);
+        if (module.isEmpty()) return CompletableFuture.failedFuture(new IllegalStateException("No Maven module for this file"));
+        if (run && !maven.requireTrust()) return CompletableFuture.failedFuture(new CancellationException("Project execution was not authorized"));
+        if (pendingAnalysis != null) pendingAnalysis.cancel(false);
+        if (pendingMavenCompile != null) pendingMavenCompile.cancel(false);
+        var capture = intelligenceSnapshot();
+        Path activeFile = file;
+        long revision = refactoringRevision, op = operation.incrementAndGet();
+        long request = run ? ++runRequest : runRequest;
+        CompletableFuture<RunResult> previous = execution;
+        if (run) { programWorker.stop(); running = false; console.setProgramRunning(false); }
+        buildStatus = "TURBOJ NATIVE · COMPILING"; refreshTitle();
+        boolean testSource = module.get().isTest(activeFile);
+        if (nativeCompileTask != null && !nativeCompileTask.isDone()) nativeCompileTask.cancel(true);
+        if (pendingNativeResult != null && !pendingNativeResult.isDone()) pendingNativeResult.cancel(false);
+        var future = new CompletableFuture<NativeCompilation>();
+        pendingNativeResult = future;
+        nativeCompileTask = nativeProjectCompiler.submit(() -> {
+            try {
+                if (future.isCancelled()) return;
+            Map<Path, String> overlays = new LinkedHashMap<>();
+            capture.openSources().forEach((path, snapshot) -> { if (path.getFileName().toString().endsWith(".java")) overlays.put(path, snapshot.toString()); });
+            var coordinator = nativeMavenCompiler();
+            var result = coordinator.compile(model, overlays, revision, testSource, processors, maven.trusted());
+            var diagnostics = result.diagnostics().stream().filter(d -> d.fileName().equals(activeFile.toString()))
+                    .map(WorkspaceCompilationResult.SourceDiagnostic::diagnostic).toList();
+            MavenCompilationWorkspace.ExecutionSnapshot pin;
+            try { pin = run && result.success() ? coordinator.pinExecution(module.get().id(), testSource, model.generation(), revision) : null; }
+            catch (java.io.IOException failure) { throw new UncheckedIOException(failure); }
+            Map<String, byte[]> bytecode = new LinkedHashMap<>();
+            if (result.success()) result.modules().stream().filter(compiled -> compiled.moduleId().equals(module.get().id()) && (!compiled.tests() || testSource))
+                    .forEach(compiled -> bytecode.putAll(compiled.compilation().bytecode()));
+            String main = result.success() ? JavacCompilerBackend.findMainForSource(bytecode, activeFile.toString()) : null;
+            var active = new CompilationResult(capture.source().version(), result.success(), diagnostics, bytecode,
+                    result.durationNanos(), result.modules().stream().allMatch(MavenCompilationWorkspace.ModuleResult::cacheHit), main);
+            var compiled = new NativeCompilation(active, result, pin == null ? List.of() : pin.classpath(), pin == null ? List.of() : pin.modulePath(), pin == null ? "" : pin.moduleName(), pin);
+            if (!future.complete(compiled)) releaseExecution(pin);
+            } catch (Throwable failure) { future.completeExceptionally(failure); }
+        });
+        future.whenComplete((value, failure) -> SwingUtilities.invokeLater(() -> {
+            if (closing || model != maven.workspace() || revision != refactoringRevision || op != operation.get()
+                    || !activeFile.equals(file) || capture.source().version() != editor.version()) { if (value != null) releaseExecution(value.pin()); return; }
+            if (failure != null) { buildStatus = "NATIVE BUILD FAILED"; refreshTitle(); console.append(message(failure) + "\n", true); return; }
+            tests.setMavenCompiler(nativeMavenCompiler());
+            if (processors && value.active().success()) { generatedSourceRevision++; intelligence.changed(); }
+            accept(value.active(), explicit);
+            buildStatus = "TURBOJ NATIVE · " + (value.active().success() ? "BUILD OK" : "BUILD FAILED") + " | " + ms(value.workspace().durationNanos()) + " ms";
+            refreshTitle();
+            if (explicit || !value.active().success()) for (var diagnostic : value.workspace().diagnostics())
+                if (!diagnostic.fileName().equals(activeFile.toString())) console.append(diagnostic.fileName() + ":" + diagnostic.diagnostic().line() + " " + diagnostic.diagnostic().message() + "\n", diagnostic.diagnostic().isError());
+            if (run && value.active().success()) {
+                if (value.active().mainClass() == null || value.active().mainClass().isBlank()) { releaseExecution(value.pin()); console.append("No supported main entry point found.\n", true); return; }
+                Path javaHome = (testSource ? module.get().testJava() : module.get().mainJava()).javaHome();
+                Path selectedJdk = javaHome == null ? Path.of(System.getProperty("java.home")) : javaHome;
+                previous.whenComplete((ignored, error) -> SwingUtilities.invokeLater(() -> {
+                    if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) { releaseExecution(value.pin()); return; }
+                    var key = new ProjectWorkerKey(selectedJdk, value.modules(), value.moduleName(), value.moduleName().isBlank() ? "" : value.active().mainClass());
+                    boolean modular = !key.moduleName().isBlank();
+                    programWorker = modular ? new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, key.home(), key.modulePath(), key.moduleName(), key.mainClass())
+                            : projectWorkers.computeIfAbsent(key, config -> new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, config.home()));
+                    showRepl(false); startRun(value.active(), isolated, request, value.runtime());
+                    WorkerClient launched = programWorker;
+                    execution.whenComplete((completed, problem) -> { releaseExecution(value.pin()); if (modular) launched.close(); });
+                }));
+            } else if (value.active().success() && tests.automatic() && maven.trusted() && !tests.busy()) startTests(TurboTestController.Mode.ALL, true);
+        }));
+        return future.thenApply(NativeCompilation::active);
+    }
+
+    private static void releaseExecution(MavenCompilationWorkspace.ExecutionSnapshot snapshot) {
+        if (snapshot != null) CompletableFuture.runAsync(snapshot::close);
+    }
+
     public CompletableFuture<CompilationResult> compile(boolean run, boolean isolated) {
+        if (maven.workspace() != null && file != null && maven.workspace().moduleFor(file).isPresent()) return compileMaven(run, isolated, true);
+        if (!isJavaBuffer()) return CompletableFuture.failedFuture(new IllegalStateException("Select a Java source file"));
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
         var snap = editor.snapshot();
         String name = file == null ? null : file.getFileName().toString();
@@ -1459,7 +1782,7 @@ public final class TurboFrame extends JFrame {
         CompletableFuture<RunResult> previousExecution = execution;
         if (run) {
             // Stop immediately, then await process termination asynchronously before dispatching.
-            worker.stop();
+            programWorker.stop();
             running = false;
             console.setProgramRunning(false);
         }
@@ -1522,6 +1845,11 @@ public final class TurboFrame extends JFrame {
     }
 
     private void startRun(CompilationResult result, boolean isolated, long request) {
+        programWorker = worker;
+        startRun(result, isolated, request, List.of());
+    }
+
+    private void startRun(CompilationResult result, boolean isolated, long request, List<Path> classpath) {
         if (result.mainClass() == null || result.mainClass().isBlank()) {
             console.append("No supported main entry point found.\n", true);
             return;
@@ -1535,10 +1863,12 @@ public final class TurboFrame extends JFrame {
                 false);
         long start = System.nanoTime();
         execution =
-                worker.run(
+                programWorker.run(
+                        result.version(),
                         result.bytecode(),
                         result.mainClass(),
                         List.of(),
+                        classpath,
                         isolated,
                         event -> {
                             // ConsolePane batches output before EDT delivery; never enqueue
@@ -1599,6 +1929,7 @@ public final class TurboFrame extends JFrame {
 
     public void openPath(Path path) {
         Path destination = path.toAbsolutePath().normalize();
+        if (destination.getFileName().toString().equals("pom.xml") && !externalSourceFiles.contains(destination)) maven.open(destination);
         if (destination.equals(bufferKey)) return;
         Buffer cached = buffers.get(destination);
         if (cached != null) {
@@ -1613,7 +1944,8 @@ public final class TurboFrame extends JFrame {
                 () -> {
                     try {
                         Path p = path.toAbsolutePath().normalize();
-                        var loaded = SafeFiles.readSnapshot(p);
+                        if (Files.isDirectory(p)) { SwingUtilities.invokeLater(() -> maven.open(p)); return; }
+                        var loaded = isXmlPath(p) ? SafeFiles.readXmlSnapshot(p) : SafeFiles.readSnapshot(p, sourceEncoding(p));
                         SwingUtilities.invokeLater(
                                 () -> {
                                     if (closing
@@ -1631,7 +1963,9 @@ public final class TurboFrame extends JFrame {
                                     file = p;
                                     bufferKey = p;
                                     diskFingerprint = loaded.fingerprint();
+                                    fileEncodings.put(p, new SourceEncoding.Encoding(loaded.encoding(), loaded.bom()));
                                     editor.setText(loaded.text());
+                                    if (externalSourceFiles.contains(p)) editor.setReadOnly(true);
                                     savedVersion = editor.version();
                                     settings.recentFiles.remove(p.toString());
                                     settings.recentFiles.addFirst(p.toString());
@@ -1672,7 +2006,7 @@ public final class TurboFrame extends JFrame {
             showError("The destination already has unsaved changes in another open buffer.");
             return;
         }
-        if (settings.formatOnSave && !editor.isReadOnly()) {
+        if (settings.formatOnSave && isJavaBuffer() && !editor.isReadOnly()) {
             formattingSave = true;
             long identity = bufferIdentity.get();
             formatting.format(
@@ -1752,8 +2086,9 @@ public final class TurboFrame extends JFrame {
             dev.turboj.editor.document.PieceTable originDocument,
             Runnable next) {
         try {
+            var encoding = SourceEncoding.select(maven.workspace(), target, fileEncodings.get(target), fileEncodings.get(originKey));
             byte[] written =
-                    SafeFiles.atomicWriteIfUnchanged(target, snapshot.toString(), expected);
+                    SafeFiles.atomicWriteIfUnchanged(target, snapshot.toString(), expected, encoding.charset(), encoding.bom());
             SwingUtilities.invokeLater(
                     () -> {
                         boolean active = editor.document() == originDocument;
@@ -1779,6 +2114,7 @@ public final class TurboFrame extends JFrame {
                                             originDocument, oldState.location(), false);
                             buffers.put(
                                     target, new Buffer(target, state, written, snapshot.version()));
+                            fileEncodings.put(target, encoding);
                             if (active) {
                                 file = target;
                                 bufferKey = target;
@@ -1894,9 +2230,17 @@ public final class TurboFrame extends JFrame {
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
         if (pendingRecovery != null) pendingRecovery.cancel(false);
         worker.close();
+        if (programWorker != worker) programWorker.close();
+        projectWorkers.values().forEach(WorkerClient::close);
+        if (pendingMavenCompile != null) pendingMavenCompile.cancel(false);
+        if (nativeCompileTask != null) nativeCompileTask.cancel(true);
+        if (pendingNativeResult != null) pendingNativeResult.cancel(false);
+        nativeProjectCompiler.shutdownNow();
+        if (mavenCompiler != null) Thread.ofPlatform().daemon().name("turboj-compiler-close").start(mavenCompiler::close);
         themeCatalog.close();
         repl.close();
         compiler.close();
+        maven.close();
         intelligence.close();
         aiCompletion.close();
         formatting.close();
@@ -1935,11 +2279,25 @@ public final class TurboFrame extends JFrame {
     private void startTests(TurboTestController.Mode mode, boolean automatic) {
         if (pendingTestSnapshot || closing || (!automatic && tests.busy()))
             return;
+        var mavenModel = maven.workspace();
+        if (mavenModel != null && mode != TurboTestController.Mode.COMPILE && !maven.trusted()) {
+            if (automatic || !maven.requireTrust()) return;
+        }
         var capture = new NativeRefactoringHost().capture();
         var semantic = intelligenceSnapshot();
         int offset = editor.caretOffset();
+        long sourceGeneration = refactoringRevision;
         pendingTestSnapshot = true;
-        intelligence.submitSemantic(semantic, (service, context) -> {
+        CompletableFuture<TestInvocation> selected;
+        if (mavenModel != null && mode != TurboTestController.Mode.METHOD && mode != TurboTestController.Mode.CLASS) {
+            selected = CompletableFuture.supplyAsync(() -> {
+                var sources = semantic.openSources().entrySet().stream().filter(entry -> entry.getKey().startsWith(mavenModel.root()) && entry.getKey().getFileName().toString().endsWith(".java"))
+                        .map(entry -> new Model.SourceSnapshot(entry.getKey(), entry.getValue().toString(), entry.getValue().version(), true)).toList();
+                var snapshot = new Model.WorkspaceSnapshot(mavenModel.root(), sourceGeneration, sources,
+                        dev.turboj.project.MavenSemanticAdapter.sourceRoots(mavenModel), List.of(), dev.turboj.project.MavenSemanticAdapter.configurations(mavenModel));
+                return new TestInvocation(snapshot, new TurboTestController.Selection(mode, "", ""));
+            }, nativeProjectCompiler);
+        } else selected = intelligence.submitSemantic(semantic, (service, context) -> {
             var engine = service.sharedRefactorJ(context);
             var selection = new TurboTestController.Selection(mode, "", "");
 
@@ -1958,7 +2316,8 @@ public final class TurboFrame extends JFrame {
                 selection = new TurboTestController.Selection(mode, target.className(), method);
             }
             return new TestInvocation(engine.workspace().snapshot(), selection);
-        }).whenComplete((invocation, failure) -> SwingUtilities.invokeLater(() -> {
+        });
+        selected.whenComplete((invocation, failure) -> SwingUtilities.invokeLater(() -> {
             pendingTestSnapshot = false;
             if (closing)
                 return;
@@ -1972,7 +2331,20 @@ public final class TurboFrame extends JFrame {
             }
             testCapture = capture;
             testWorkspace = invocation.workspace();
-            if (automatic)
+            if (mavenModel != null) {
+                if (maven.workspace() != mavenModel) return;
+                Map<Path, String> overlays = new LinkedHashMap<>();
+                invocation.workspace().sources().forEach(source -> overlays.put(source.file(), source.text()));
+                String moduleId = mode == TurboTestController.Mode.METHOD || mode == TurboTestController.Mode.CLASS
+                        ? mavenModel.moduleFor(bufferKey).map(MavenModels.Module::id).orElse("") : "";
+                CompletableFuture.supplyAsync(this::nativeMavenCompiler, nativeProjectCompiler).whenComplete((coordinator, error) -> SwingUtilities.invokeLater(() -> {
+                    if (closing || maven.workspace() != mavenModel || !capture.equals(new NativeRefactoringHost().capture())) return;
+                    if (error != null) { console.append(message(error) + "\n", true); return; }
+                    tests.setMavenCompiler(coordinator);
+                    tests.runMaven(invocation.workspace(), mavenModel, overlays, invocation.selection(), moduleId,
+                            () -> !closing && maven.workspace() == mavenModel && capture.equals(new NativeRefactoringHost().capture()), maven.trusted(), automatic);
+                }));
+            } else if (automatic)
                 tests.afterRefactoring(testWorkspace);
             else
                 tests.run(testWorkspace, invocation.selection());
@@ -1994,6 +2366,11 @@ public final class TurboFrame extends JFrame {
 
         @Override
         public void compilation(dev.turboj.compiler.WorkspaceCompilationResult result) {
+            var model = maven.workspace();
+            if (model != null && testWorkspace != null) testWorkspace = new Model.WorkspaceSnapshot(model.root(), result.version(),
+                    result.sources().stream().filter(source -> Path.of(source.fileName()).isAbsolute() && Path.of(source.fileName()).startsWith(model.root()))
+                            .map(source -> new Model.SourceSnapshot(Path.of(source.fileName()), source.source(), source.version(), true)).toList(),
+                    testWorkspace.sourceRoots(), testWorkspace.classpath(), testWorkspace.projects());
             List<dev.turboj.compiler.CompilerDiagnostic> active = result.diagnostics().stream()
                     .filter(d -> d.fileName().equals(bufferKey.toString()) || (file != null && d
                     .fileName().equals(file.toString())))

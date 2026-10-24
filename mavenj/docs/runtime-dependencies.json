@@ -1,0 +1,713 @@
+[
+  {
+    "groupId": "aopalliance",
+    "artifactId": "aopalliance",
+    "version": "1.0",
+    "jar": "aopalliance-1.0.jar",
+    "artifactSha256": "0addec670fedcd3f113c5c8091d783280d23f75e3acb841b61a9cdb079376a08",
+    "pomSha256": "26e82330157d6b844b67a8064945e206581e772977183e3e31fec6058aa9a59b",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [
+      {
+        "file": "artifact.pom",
+        "source": "https://repo.maven.apache.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.pom",
+        "sha256": "26e82330157d6b844b67a8064945e206581e772977183e3e31fec6058aa9a59b",
+        "note": "Unmodified upstream POM explicitly declares Public Domain."
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"
+  },
+  {
+    "groupId": "com.google.code.gson",
+    "artifactId": "gson",
+    "version": "2.13.2",
+    "jar": "gson-2.13.2.jar",
+    "artifactSha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0",
+    "pomSha256": "3aa06aa7c0f9af092961a42d09578e4324be146348a0ee6ed47857f7c2677b76",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "note": "Unmodified full Apache License 2.0 text retained for the upstream artifact."
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2-sources.jar"
+  },
+  {
+    "groupId": "com.google.errorprone",
+    "artifactId": "error_prone_annotations",
+    "version": "2.41.0",
+    "jar": "error_prone_annotations-2.41.0.jar",
+    "artifactSha256": "a56e782b5b50811ac204073a355a21d915a2107fce13ec711331ad036f660fcc",
+    "pomSha256": "a151df1e2e0b48618d8b06a180748a29b3abb39b1b2396f6a1c879a727488c6e",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "note": "Unmodified full Apache License 2.0 text retained for the upstream artifact."
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0-sources.jar"
+  },
+  {
+    "groupId": "com.google.guava",
+    "artifactId": "failureaccess",
+    "version": "1.0.3",
+    "jar": "failureaccess-1.0.3.jar",
+    "artifactSha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb",
+    "pomSha256": "c54beff37f6d42d43e14722d54a522c9ad51ef97fc5b79277e62a3ebf882f3bb",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3-sources.jar"
+  },
+  {
+    "groupId": "com.google.guava",
+    "artifactId": "guava",
+    "version": "33.7.1-jre",
+    "jar": "guava-33.7.1-jre.jar",
+    "artifactSha256": "796d8e28ac64e83a47c4c5935a8fecc4682650a04bbdead738ef0f5a3a0e6c46",
+    "pomSha256": "b5b380db232d8d956457f124a5ff8ed34958e074dcd20651404b522986aefedc",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre-sources.jar"
+  },
+  {
+    "groupId": "com.google.inject",
+    "artifactId": "guice",
+    "version": "5.1.0",
+    "jar": "guice-5.1.0-classes.jar",
+    "artifactSha256": "142ad4475e19524d2fe3ac995b3f7cbc962fc726f2edb9dbdccc61feab9b2bf9",
+    "pomSha256": "b3b8dc65213d623fb70ed7958dbdd616324256ba836a31652560c388999fd9cd",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "7e7f20226f26a1c2693c5422fc14c1c961d2b56c928d60ac881ab5ad4735025f"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/inject/guice/5.1.0/guice-5.1.0-sources.jar"
+  },
+  {
+    "groupId": "commons-codec",
+    "artifactId": "commons-codec",
+    "version": "1.22.1",
+    "jar": "commons-codec-1.22.1.jar",
+    "artifactSha256": "78a5d732fbd715e2d10bd7150d2f8030bae57267f8aacc5c88f642cb6c2e5d3f",
+    "pomSha256": "4cfc5aa20112d131c6949f80bb1e8adce39ffea9a5a935b4c9a37b7c9aab1c91",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE.txt": "b1d2870f1a00e4d7f56576e5f0870cba109e041f8af66866cf5b499478e654e7",
+      "META-INF/NOTICE.txt": "d82503df1b65173afe535a2f753d27c25377f7f6e9d0b19b4665af617df14750"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.22.1/commons-codec-1.22.1-sources.jar"
+  },
+  {
+    "groupId": "javax.inject",
+    "artifactId": "javax.inject",
+    "version": "1",
+    "jar": "javax.inject-1.jar",
+    "artifactSha256": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff",
+    "pomSha256": "943e12b100627804638fa285805a0ab788a680266531e650921ebfe4621a8bfa",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1-sources.jar",
+        "sourceArchiveSha256": "c4b87ee2911c139c3daf498a781967f1eb2e75bc1a8529a2e7b328a15d0e433e",
+        "sha256": "d9f8035170a59ed7ec62a743a68e5d13812f9edc6f71e751bbae8e4289bb8f11",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1-sources.jar"
+  },
+  {
+    "groupId": "org.apache.httpcomponents",
+    "artifactId": "httpclient",
+    "version": "4.5.14",
+    "jar": "httpclient-4.5.14.jar",
+    "artifactSha256": "c8bc7e1c51a6d4ce72f40d2ebbabf1c4b68bfe76e732104b04381b493478e9d6",
+    "pomSha256": "f18355af4cf80a8a4ef04ebd742a47e90a7eaf080c725b2095dbc4fc5dbdefb7",
+    "preservedLegalFiles": {
+      "META-INF/NOTICE": "f5783fbb52e5fcfb26b6916ce3bb9c717d22759b030cee6deaa03145f1f8d819",
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14-sources.jar"
+  },
+  {
+    "groupId": "org.apache.httpcomponents",
+    "artifactId": "httpcore",
+    "version": "4.4.16",
+    "jar": "httpcore-4.4.16.jar",
+    "artifactSha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f",
+    "pomSha256": "3cbad849b35dacfe6cec31adada2c623c026c3261141b0d26eec7e399c6cd7fa",
+    "preservedLegalFiles": {
+      "META-INF/NOTICE": "a8ff0d486f1bdd29331e0e244f96245354779ef818ec25ecd60545ad335b68da",
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-artifact",
+    "version": "3.10.0",
+    "jar": "maven-artifact-3.10.0.jar",
+    "artifactSha256": "5f97d58b507cd49887ce5f50e41832573ea204e9cf6705c9187a51b8ade9b543",
+    "pomSha256": "81f1a61d1b5b23c4695243738e89298c29772613d23020b3481c1ddc2337c27a",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "31be9ee92ec5e7816b8c5f0b8324890be657810b4497b29ae35b1e1c7852d097"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/3.10.0/maven-artifact-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-builder-support",
+    "version": "3.10.0",
+    "jar": "maven-builder-support-3.10.0.jar",
+    "artifactSha256": "ff90d659e923d250464213b89fd452bd3591d5e40c86ad33c389f6894b3796a0",
+    "pomSha256": "8df1c951aac333f8683870b75803942a4be9e060e90f13753fd1fc99458750fc",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "defb52f4417346dcf425a3f204020e478b94480a8210f6a56469e2eb48a5acd7"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-builder-support/3.10.0/maven-builder-support-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-core",
+    "version": "3.10.0",
+    "jar": "maven-core-3.10.0.jar",
+    "artifactSha256": "7b6277e9d1e23a7ca225c777c8809abd8626eabace926658df0fba3b853868eb",
+    "pomSha256": "7449bd312e9258d6a9ad46d22ff8921bab8109494ad572dbfe027f2dfa025857",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "28605677c6f879cf57b6bee3ff036bb42b70aace38be0bf7839d3a37a1554c02"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-core/3.10.0/maven-core-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-model",
+    "version": "3.10.0",
+    "jar": "maven-model-3.10.0.jar",
+    "artifactSha256": "a958d15168ffba8fe3a2e936c1bc43604ccfbc46d117dfc0ead58e724badf08f",
+    "pomSha256": "0ac6b18486b7b61e2e135f021f1c52aeae9589e0cb475dbdabe16cc201d7521d",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "998489073acc293f77709d6fc93a9cfce5c38580b2bc3cce23e09382a2da8b23"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/3.10.0/maven-model-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-model-builder",
+    "version": "3.10.0",
+    "jar": "maven-model-builder-3.10.0.jar",
+    "artifactSha256": "581a3b95631cfd547a0221ee17a94b3d9a478b24a82c042684a1897c1a7f416e",
+    "pomSha256": "188cbf00d4578589f9c32678b14627de3e0e664f441372f0f558ba60327c18c6",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "6623556e8ed29bbf1b0aec5bddc3b80351a8aeca89a9841c468e1cfeacf3d542"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model-builder/3.10.0/maven-model-builder-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-plugin-api",
+    "version": "3.10.0",
+    "jar": "maven-plugin-api-3.10.0.jar",
+    "artifactSha256": "2d99e70688295072ab35e719dce28b82b95b591c115ef6052b1aac08b4701dfa",
+    "pomSha256": "875755334c99d7533ea028df522a2e54e6e7ad9d96dc9ca77fd1f1ddb204eaa6",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "80f2f5f12b296c6382f9f06c78bd97cc790d87dda55f1bfa480df932c38dfffb"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/3.10.0/maven-plugin-api-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-repository-metadata",
+    "version": "3.10.0",
+    "jar": "maven-repository-metadata-3.10.0.jar",
+    "artifactSha256": "5220a29c803995f5a57d6238184111761ba30d4e5f395ab059c17c708627e4d8",
+    "pomSha256": "fd5bb901b4d88a2425e90fb5973c6ecdc0902ed121d37a5ff74f51687599aa93",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "56e2eaaf98b59d03b6174bd69e711444b4348c8b6488666cdb351d83117c7f88"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-repository-metadata/3.10.0/maven-repository-metadata-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-resolver-provider",
+    "version": "3.10.0",
+    "jar": "maven-resolver-provider-3.10.0.jar",
+    "artifactSha256": "93f8d834d24a8866054a9544f9b088b6300e3dd0ee1966dbd28dd122a3d9d4f9",
+    "pomSha256": "418fa3d3f3d8438e8fda100dfc69010c0f41a1a03bdf963e2208683243c35a0f",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "2a35eeb966a16daaff0b3ca5341e2e9a1abf1d6a343df34b2b602bf01eb1bab3"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-resolver-provider/3.10.0/maven-resolver-provider-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-settings",
+    "version": "3.10.0",
+    "jar": "maven-settings-3.10.0.jar",
+    "artifactSha256": "3a8a1c8388d0008752220302e898db385eda7a7925ab7f84a173b7feebf758fd",
+    "pomSha256": "264d535bad0a79b8aabd5d59b6ca4927cfbddb5bc65b96147c6a089e8f279f32",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "384ce0fba8bfa11b3e6339a15d89f5cb50ba8563751132cf2617c6a0cd035630"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings/3.10.0/maven-settings-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven",
+    "artifactId": "maven-settings-builder",
+    "version": "3.10.0",
+    "jar": "maven-settings-builder-3.10.0.jar",
+    "artifactSha256": "5d7cd94e41a716cd328f04648c57dfa69470572402deae1845247a542dc30c23",
+    "pomSha256": "d3cc88b77b482f67c175b91650d7c38e2358c12b5978ec7052357e3914bf973c",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "e84ace342f6af7917321f8552cd9b1e0e5489fdf087486f9af3a2bd4ba248475"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings-builder/3.10.0/maven-settings-builder-3.10.0-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-api",
+    "version": "2.0.24",
+    "jar": "maven-resolver-api-2.0.24.jar",
+    "artifactSha256": "1ec0c3370158fd631dc3dcfc8b8f24041e6081f34f329dab1b8fe75c1007ca33",
+    "pomSha256": "bac2ec0e9dc83f177ec5c4e8d41780d2e1841601dca1fdd3e8164ce8fdcc3b53",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "6e15450c1b62263a9d69b17dfda2da954b111574bd391b5f0ffd1fc6780029e9"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-api/2.0.24/maven-resolver-api-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-connector-basic",
+    "version": "2.0.24",
+    "jar": "maven-resolver-connector-basic-2.0.24.jar",
+    "artifactSha256": "90686efd19999cf9eb6c1dfe06be550d090702c2e47a3ec3a29a876b5b120509",
+    "pomSha256": "ac2af39fa78ee9817d3b69caaceecfa0d71b42034f3914a73c577b650d5653f5",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "218266e61fa7bc44ccb758a899a18460c4700e2c1c52985de8167919a87132ea"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-connector-basic/2.0.24/maven-resolver-connector-basic-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-impl",
+    "version": "2.0.24",
+    "jar": "maven-resolver-impl-2.0.24.jar",
+    "artifactSha256": "1be79f951f68764ecdd46f651c008287e2e925763cd51fa97a33d7d8b9b97bd0",
+    "pomSha256": "e40e379747f33b34a9a0968180a16851cc84f7cb27662db2f369403a815ced1c",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "8e67504dc783f825fec9f109e8aa192d30da75d940d42f9bc14f3ed192b200a1"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-impl/2.0.24/maven-resolver-impl-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-named-locks",
+    "version": "2.0.24",
+    "jar": "maven-resolver-named-locks-2.0.24.jar",
+    "artifactSha256": "227d2bb177b914c0cedca190ba021b48986dcd66634b3774dfd0656e45e9c4d5",
+    "pomSha256": "95ebeab05e1036b24d58e16ba3ac20990bdff97d27264c2be2288b746e3dcb5b",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "dd05cd6b7b024023d8a5551d782bf043a3e735dbc82551ec87e387c5db785b85"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-named-locks/2.0.24/maven-resolver-named-locks-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-spi",
+    "version": "2.0.24",
+    "jar": "maven-resolver-spi-2.0.24.jar",
+    "artifactSha256": "c2e3e1075b49cfa9fcb14f36398ff3d8808b5aba189f4a5bcda1b0fe1aceb11e",
+    "pomSha256": "fae524dcf2d2e3cb26ef4b90465a5cef5238054a89909ee654a5bdbf56b0ad65",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "aa64944d36d3c1a3ab7bca98a524e6e1519c835ec5fe8584be82b9aac0f91ae8"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-spi/2.0.24/maven-resolver-spi-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-transport-apache",
+    "version": "2.0.24",
+    "jar": "maven-resolver-transport-apache-2.0.24.jar",
+    "artifactSha256": "87d5e2321b424bb6b67afa04ffde5297fd3fffb03f23b636fddacad77a6f17b8",
+    "pomSha256": "9f0a6a2ed291f564bb90cd77b6b9eca002dae98335a37ef21759dc9fc8a8c165",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "c4b9aa072679624b5087a8fc7eb874fc23446401a597b3cb2c57b2da3f9db5f5"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-transport-apache/2.0.24/maven-resolver-transport-apache-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-transport-file",
+    "version": "2.0.24",
+    "jar": "maven-resolver-transport-file-2.0.24.jar",
+    "artifactSha256": "91121fd03ae8cbd08599aedf6dc2c58119b2d7cc6f3b6f9cdc78562ab6536de3",
+    "pomSha256": "dfab7c3d12de5ce5846fb70f9333dc106b913a8122fad3076242b5826a79f0d1",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "998ecc03ca11a1659be53f0fc655b5753e9e7c0e59f0aafe358c28af83caa222"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-transport-file/2.0.24/maven-resolver-transport-file-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.apache.maven.resolver",
+    "artifactId": "maven-resolver-util",
+    "version": "2.0.24",
+    "jar": "maven-resolver-util-2.0.24.jar",
+    "artifactSha256": "3fb490e1799f18aa22a05babdc57a74a3a1020c924890865a4cab7a7a34cd286",
+    "pomSha256": "e4c4f004f186d6d97a779bc4b6bde6914df9e2bd53d957d12cf782f09a2edcbc",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "58f4cdc004bd37917196e35a54278a9622a8cd3f2dee761e8ff5410e67276314"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-util/2.0.24/maven-resolver-util-2.0.24-sources.jar"
+  },
+  {
+    "groupId": "org.codehaus.plexus",
+    "artifactId": "plexus-cipher",
+    "version": "2.0",
+    "jar": "plexus-cipher-2.0.jar",
+    "artifactSha256": "9a7f1b5c5a9effd61eadfd8731452a2f76a8e79111fac391ef75ea801bea203a",
+    "pomSha256": "04842f331b0225b85a5e20439710d228ea7a6302abe6d53c9c9846fbc5bf99ff",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0-sources.jar",
+        "sourceArchiveSha256": "0a98fd1e8d3e9f104f1d158946f5c063ed66af2d85127b70092003c885fe7b0c",
+        "sha256": "8733dc19eb1a8a160ae60aa022183fd4068f59c3549564f130881977c098099a",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0-sources.jar"
+  },
+  {
+    "groupId": "org.codehaus.plexus",
+    "artifactId": "plexus-classworlds",
+    "version": "2.12.1",
+    "jar": "plexus-classworlds-2.12.1.jar",
+    "artifactSha256": "7f88ef8b83d6f2be46b12f17b982439a5ec83c566f5e2a04dad2d684e73cda94",
+    "pomSha256": "c109639d1132ffb035468de43d134b91956148431905a29dc5ccaa6b91f3631d",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.12.1/plexus-classworlds-2.12.1-sources.jar",
+        "sourceArchiveSha256": "cfe0bc04ba7b870d2b4f5791fb283ffdab5117f5e4a667d3ec35079b6c9a0190",
+        "sha256": "2770a555be8fd3672a4e2b92b04845d35b63c92861d62bf2a90526de61db1479",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.12.1/plexus-classworlds-2.12.1-sources.jar"
+  },
+  {
+    "groupId": "org.codehaus.plexus",
+    "artifactId": "plexus-component-annotations",
+    "version": "2.2.0",
+    "jar": "plexus-component-annotations-2.2.0.jar",
+    "artifactSha256": "50edb93c73786e62822b4fe1336e22880fdf147191373cf5c911370e16748fcf",
+    "pomSha256": "c5483fc9c8e1a7ef6b0f899e37aaa6ce2f8afae54955bfa559fd63a33dbb065b",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-component-annotations/2.2.0/plexus-component-annotations-2.2.0-sources.jar",
+        "sourceArchiveSha256": "205bdeb24bb48dec548232b6faddff33a6d5800a1bafc9ed7e563845fd0eb736",
+        "sha256": "f441251f6d01c61fd8be279368c235f07a3110b55ccc009766f98ce859c76c29",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-component-annotations/2.2.0/plexus-component-annotations-2.2.0-sources.jar"
+  },
+  {
+    "groupId": "org.codehaus.plexus",
+    "artifactId": "plexus-interpolation",
+    "version": "1.30.0",
+    "jar": "plexus-interpolation-1.30.0.jar",
+    "artifactSha256": "457307267f6d2ea2582f5449df9350b86728f46c23ccd486341087ace473e9a1",
+    "pomSha256": "c26e2570a02cd28fcf450aaa9b1a517add8362bb4c6c9936aa1e348ccfa0b35a",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.30.0/plexus-interpolation-1.30.0-sources.jar",
+        "sourceArchiveSha256": "feaa09cda50a32adfaab59e22be5bfb87caaaa3d1ee7a4214cd4b6acc41defc2",
+        "sha256": "02a21124bcbeb13c70f1d0818a321aa4af4711b6e8bc89665ede88e79ee187ce",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.30.0/plexus-interpolation-1.30.0-sources.jar"
+  },
+  {
+    "groupId": "org.codehaus.plexus",
+    "artifactId": "plexus-sec-dispatcher",
+    "version": "2.0",
+    "jar": "plexus-sec-dispatcher-2.0.jar",
+    "artifactSha256": "873139960c4c780176dda580b003a2c4bf82188bdce5bb99234e224ef7acfceb",
+    "pomSha256": "9b28bb307017938a94d06c85b2b099bc46912b859d084fb293e569f432eadb7c",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0-sources.jar",
+        "sourceArchiveSha256": "ba4508f478d47717c8aeb41cf0ad9bc67e3c6bc7bf8f8bded2ca77b5885435a2",
+        "sha256": "79cae1697107862c407db70f59610378a60ab64cb4e7f56f2864a98394b73e54",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0-sources.jar"
+  },
+  {
+    "groupId": "org.codehaus.plexus",
+    "artifactId": "plexus-utils",
+    "version": "3.6.2",
+    "jar": "plexus-utils-3.6.2.jar",
+    "artifactSha256": "7c2cdf8b4a02a2ee3f0514b8d74ad5eb6e2365eeb073a5cabd6f2d61d8f871df",
+    "pomSha256": "5ee26b9f0529038802fc1c205a5ce55be5eff247af0a5e5b55cf831652c173ed",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "META-INF/NOTICE": "d478d95476787007320df9dafb15c932849281e2ace56e2aacdac475d29470d7",
+      "licenses/extreme.indiana.edu.license.TXT": "0d01b41cfc401bcf852125959d07b1a6bd578f1a7850907c329e4a70b2874db2",
+      "licenses/javolution.license.TXT": "a7436c952fa2dc0701860cf4187d1e8e8e6de6720dec0ae9e0b641bc50eebced",
+      "licenses/thoughtworks.TXT": "b2f730309348c7a19009dcadd92a5d55d75fd54e6df4a818eba7a388656faed9"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.6.2/plexus-utils-3.6.2-sources.jar"
+  },
+  {
+    "groupId": "org.eclipse.sisu",
+    "artifactId": "org.eclipse.sisu.inject",
+    "version": "1.1.0",
+    "jar": "org.eclipse.sisu.inject-1.1.0.jar",
+    "artifactSha256": "f3edea5119c91be496e3ff55948fa16c89cdbacf9c2e74bdc9fafda1a3faba20",
+    "pomSha256": "5e0e18440327d84c1fd04cc7a1e16080c16758cb0b3a3bd25c139467689ab825",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/1.1.0/org.eclipse.sisu.inject-1.1.0-sources.jar",
+        "sourceArchiveSha256": "475d8ae19d316890cdac516bf565cff8ab7d981f7fb94ce3f5130bcfafcdf2f5",
+        "sha256": "128c7e74f998b5ffe048aa8e184c63991150b1b1b4fff5b0bee4bb2b752b5d04",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.eclipse.org/legal/epl-2.0/",
+        "sha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/1.1.0/org.eclipse.sisu.inject-1.1.0-sources.jar"
+  },
+  {
+    "groupId": "org.eclipse.sisu",
+    "artifactId": "org.eclipse.sisu.plexus",
+    "version": "1.1.0",
+    "jar": "org.eclipse.sisu.plexus-1.1.0.jar",
+    "artifactSha256": "7ebc52738567e0450b6857a404a147639533d35c38a5ba42e4c5ab2910c6df94",
+    "pomSha256": "aa1d7867a6612201a31e61bf96366739dc2408bf8a9e6f300530eb35960c2c2d",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/1.1.0/org.eclipse.sisu.plexus-1.1.0-sources.jar",
+        "sourceArchiveSha256": "110c127029e2a254965b7f1c70138a9da075839f2deea40662847d61e01c9651",
+        "sha256": "df9d0d6175c4651b14ef3603e9589ff39887c9d5bb408988aa8df692ed3f7075",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.eclipse.org/legal/epl-2.0/",
+        "sha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/1.1.0/org.eclipse.sisu.plexus-1.1.0-sources.jar"
+  },
+  {
+    "groupId": "org.jspecify",
+    "artifactId": "jspecify",
+    "version": "1.0.1",
+    "jar": "jspecify-1.0.1.jar",
+    "artifactSha256": "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+    "pomSha256": "55b38bf1a7b1d8ea518cf2f4f3ae9aaa236e61bbf0b6bd31ffb49753a059dd5e",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar",
+        "sourceArchiveSha256": "230c491aac6d2a2b7e66b68d4331b1d2626f1bf3a372c33bbe2b077297e46c45",
+        "sha256": "f9023eaac798d831a39cac5f24742293a00db763d6f5a658c37a6e2e2b8d4d78",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar"
+  },
+  {
+    "groupId": "org.ow2.asm",
+    "artifactId": "asm",
+    "version": "9.10.1",
+    "jar": "asm-9.10.1.jar",
+    "artifactSha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb",
+    "pomSha256": "e1b1c3832ca3ac0a9e563c405f4c760118b5556a4920daee14058886197e094d",
+    "preservedLegalFiles": {},
+    "supplementalLicenseSha256": "13da67bf86d182ba5f0ffd4900e7318f693a723a5318fa1119e6323faacb82fb",
+    "supplementalLegalFiles": [
+      {
+        "file": "SOURCE-NOTICES.txt",
+        "source": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.10.1/asm-9.10.1-sources.jar",
+        "sourceArchiveSha256": "cb29bf42b4008972c566944d377192aa1b2d90275b9cfa9a7fa86de669fde11c",
+        "sha256": "ff1474dc4bb841fcb6920ddc45d7eae4a223386389d877378e912b4048a6c2c1",
+        "note": "Unmodified copyright/license comment blocks from the exact published source archive; source entry names are retained."
+      },
+      {
+        "file": "LICENSE",
+        "source": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.10.1/asm-9.10.1-sources.jar",
+        "sha256": "13da67bf86d182ba5f0ffd4900e7318f693a723a5318fa1119e6323faacb82fb"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.10.1/asm-9.10.1-sources.jar"
+  },
+  {
+    "groupId": "org.slf4j",
+    "artifactId": "jcl-over-slf4j",
+    "version": "2.0.19",
+    "jar": "jcl-over-slf4j-2.0.19.jar",
+    "artifactSha256": "efc3848f79638d9fa74ccbae3fd18c8735dcc0127b393ae53dce638827f8a2f3",
+    "pomSha256": "5e27dde680acf7f360edb0d0fae9a810bc79113224e0caf9f52b051b7f5d09ec",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE.txt": "2514772e5475f208616174f81b67168179a7c51bdcb9570a96a9dc5962b83116"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/slf4j/jcl-over-slf4j/2.0.19/jcl-over-slf4j-2.0.19-sources.jar"
+  },
+  {
+    "groupId": "org.slf4j",
+    "artifactId": "slf4j-api",
+    "version": "2.0.19",
+    "jar": "slf4j-api-2.0.19.jar",
+    "artifactSha256": "e91ff6d720609e7a194ffe758c3ed5c84e798617ae07b0a0f6a4fe229741b4bb",
+    "pomSha256": "b04a4843eaa29966807cc9508a9f2513fa563d0d0794cb0edd6a8d2c8f4620d0",
+    "preservedLegalFiles": {
+      "META-INF/LICENSE.txt": "6632f550c207be8d7d6b5e87f5d7b905bee218d18392d531df457bf60bec1447"
+    },
+    "supplementalLicenseSha256": null,
+    "supplementalLegalFiles": [],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.19/slf4j-api-2.0.19-sources.jar"
+  }
+]
