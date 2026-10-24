@@ -35,3 +35,15 @@ the verified local build byte for byte (SHA-256
 `1a8f6415dfad86229afd6b71b8fa7bce6cc4ef365b487d952d9c9b7cd92f53dc`).
 The new copy links to the independent source projects and does not claim
 marketplace publication or unmeasured performance.
+
+## MavenJ update — 2026-10-24
+
+Commit `09f0a16` adds the independently reusable MavenJ library and native TurboJ
+project integration. The site build, 27 source tests, 40 browser checks and 74
+theme checks passed. Native integration passed the 462-test reactor verification,
+subsequent Auto Test regression and 25 real-window Maven checks before deployment.
+Wrangler version `39262b70-f9ae-4985-bb2b-a0419356edc7` publishes the Maven section.
+The HTTPS response from `https://turboj.dev/` matches the tested local HTML byte
+for byte: SHA-256 `b1de50e7b465137c71f349a7a2dbd6a1837f84ecfdead721b21f437de3a48354`.
+The page links to source, distinguishes Fast Compile from Maven Build, and makes
+no marketplace, Maven Central or unmeasured performance claim.
