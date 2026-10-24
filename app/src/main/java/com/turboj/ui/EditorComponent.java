@@ -53,7 +53,14 @@ public final class EditorComponent extends JComponent
     private FontMetrics fontMetrics;
     private Runnable onChange = () -> {}, onCaretChange = () -> {};
     private Color foreground, keyword, string, comment, selection, cursor, error;
-    private Color ghost, selectionForeground, number, annotation, definition, identifier, operator;
+    private Color ghost,
+            aiGhost,
+            selectionForeground,
+            number,
+            annotation,
+            definition,
+            identifier,
+            operator;
     private boolean antialias, autoClose = true;
     private List<CompilerDiagnostic> diagnostics = List.of();
     private final List<JavaLexer.Line> lexed = new ArrayList<>();
@@ -64,6 +71,9 @@ public final class EditorComponent extends JComponent
     private final long[] inputSamples = new long[1024];
     private int sampleCount;
     private InlineCompletion inlineCompletion;
+    // A bounded visual projection. Source offsets, the piece table and its line index stay intact.
+    private String[] aiLines;
+    private int aiLine, aiCaretInLine, aiScrollOffset;
     private KeyStroke acceptCompletionKey = KeyStroke.getKeyStroke("TAB");
     private KeyStroke dismissCompletionKey = KeyStroke.getKeyStroke("ESCAPE");
     private Predicate<KeyEvent> keyHandler = event -> false;
@@ -205,6 +215,13 @@ public final class EditorComponent extends JComponent
                                                                         * 3)),
                                                 e.getPreciseWheelRotation());
                         if (e.isShiftDown()) leftColumn = Math.max(0, leftColumn + amount);
+                        else if (isAIInlineCompletion())
+                            aiScrollOffset =
+                                    Math.clamp(
+                                                    visualTopLine() + amount,
+                                                    0,
+                                                    document.lineCount() + aiLines.length - 2)
+                                            - baseVisualTopLine();
                         else
                             topLine =
                                     Math.max(
@@ -376,9 +393,21 @@ public final class EditorComponent extends JComponent
         offset = Math.clamp(offset, 0, document.length());
         int line = document.lineAt(offset);
         int column = visualColumn(document.lineText(line), offset - document.lineStart(line));
+        if (isAIInlineCompletion()) {
+            if (line > aiLine) line += aiLines.length - 1;
+            else if (line == aiLine && offset > caret) {
+                line += aiLines.length - 1;
+                column =
+                        columnAfter(
+                                document.lineText(aiLine),
+                                aiCaretInLine,
+                                offset - document.lineStart(aiLine),
+                                aiSuffixColumn());
+            }
+        }
         return new Rectangle(
                 gutterWidth + (column - leftColumn) * cellWidth,
-                (line - topLine) * cellHeight,
+                (line - visualTopLine()) * cellHeight,
                 cellWidth,
                 cellHeight);
     }
@@ -404,10 +433,96 @@ public final class EditorComponent extends JComponent
         return true;
     }
 
+    /**
+     * Displays an insertion-only AI continuation using virtual rows. Existing suffix text moves
+     * visually after the suggestion, without being removed, rewritten or entered into undo history.
+     */
+    public boolean setAIInlineCompletion(InlineCompletion proposal) {
+        if (!validCompletion(proposal)
+                || proposal.start() != caret
+                || proposal.end() != caret
+                || proposal.caretInInsertion() != proposal.insertion().length()
+                || !proposal.additionalEdits().isEmpty()
+                || proposal.insertion().isEmpty()
+                || proposal.insertion().length() > 32_768) return false;
+        for (int i = 0; i < proposal.insertion().length(); i++)
+            if (proposal.insertion().charAt(i) == '\r'
+                    && (i + 1 == proposal.insertion().length()
+                            || proposal.insertion().charAt(i + 1) != '\n')) return false;
+        String normalized = proposal.insertion().replace("\r\n", "\n").replace('\r', '\n');
+        String[] lines = normalized.split("\n", -1);
+        if (lines.length > 128) return false;
+        for (int i = 0; i < normalized.length(); i++) {
+            char c = normalized.charAt(i);
+            if (Character.isISOControl(c) && c != '\n' && c != '\t') return false;
+            if (Character.isHighSurrogate(c)) {
+                if (i + 1 >= normalized.length()
+                        || !Character.isLowSurrogate(normalized.charAt(++i))) return false;
+            } else if (Character.isLowSurrogate(c)) return false;
+        }
+        boolean replacingAI = isAIInlineCompletion();
+        inlineCompletion = proposal;
+        aiLines = lines;
+        aiLine = document.lineAt(caret);
+        aiCaretInLine = caret - document.lineStart(aiLine);
+        if (!replacingAI) aiScrollOffset = 0;
+        aiScrollOffset =
+                Math.clamp(visualTopLine(), 0, document.lineCount() + lines.length - 2)
+                        - baseVisualTopLine();
+        repaintAIRegion();
+        return true;
+    }
+
+    public boolean isAIInlineCompletion() {
+        return inlineCompletion != null && aiLines != null;
+    }
+
+    /** Accepts leading whitespace plus the next Java word or punctuation code point. */
+    public boolean acceptNextAIWord() {
+        if (!isAIInlineCompletion() || !validCompletion(inlineCompletion)) return false;
+        InlineCompletion proposal = inlineCompletion;
+        PieceTable acceptedDocument = document;
+        String insertion = proposal.insertion();
+        int end = 0;
+        while (end < insertion.length() && Character.isWhitespace(insertion.codePointAt(end)))
+            end += Character.charCount(insertion.codePointAt(end));
+        if (end < insertion.length()) {
+            if (Character.isJavaIdentifierPart(insertion.codePointAt(end))) {
+                do {
+                    end += Character.charCount(insertion.codePointAt(end));
+                } while (end < insertion.length()
+                        && Character.isJavaIdentifierPart(insertion.codePointAt(end)));
+            } else end += Character.charCount(insertion.codePointAt(end));
+        }
+        String accepted = insertion.substring(0, end), remaining = insertion.substring(end);
+        clearInlineCompletion();
+        if (!applyCompletion(
+                new InlineCompletion(
+                        proposal.version(), caret, caret, caret, accepted, accepted.length())))
+            return false;
+        // Synchronous listeners can navigate or edit during acceptance. Never place the remainder
+        // in that new document/caret; asynchronous responses still require coordinator tickets.
+        if (!remaining.isEmpty()
+                && document == acceptedDocument
+                && version() == proposal.version() + 1
+                && caret == proposal.caret() + accepted.length()
+                && inlineCompletion == null)
+            setAIInlineCompletion(
+                    new InlineCompletion(
+                            version(), caret, caret, caret, remaining, remaining.length()));
+        return true;
+    }
+
     public void clearInlineCompletion() {
         if (inlineCompletion != null) {
+            boolean ai = isAIInlineCompletion();
+            boolean scrolled = aiScrollOffset != 0;
             inlineCompletion = null;
-            repaintCaret();
+            aiLines = null;
+            aiScrollOffset = 0;
+            if (ai && scrolled) repaint();
+            else if (ai) repaintAIRegion();
+            else repaintCaret();
         }
     }
 
@@ -464,8 +579,8 @@ public final class EditorComponent extends JComponent
     }
 
     private void repaintRange(int start, int end) {
-        int first = document.lineAt(start), last = document.lineAt(end);
-        repaint(0, (first - topLine) * cellHeight, getWidth(), (last - first + 1) * cellHeight);
+        int first = offsetBounds(start).y, last = offsetBounds(end).y;
+        repaint(0, first, getWidth(), last - first + cellHeight);
     }
 
     public void setOnChange(Runnable callback) {
@@ -496,6 +611,7 @@ public final class EditorComponent extends JComponent
         this.error = error;
         this.antialias = antialias;
         this.ghost = comment;
+        this.aiGhost = comment;
         this.selectionForeground = foreground;
         this.number = string;
         this.annotation = string;
@@ -517,6 +633,7 @@ public final class EditorComponent extends JComponent
                 theme.error(),
                 theme.antialias());
         ghost = theme.color("intelligence", "ghost");
+        aiGhost = theme.color("intelligence", "aiGhost");
         selectionForeground = theme.color("editor", "selectionForeground");
         number = theme.color("syntax", "number");
         annotation = theme.color("syntax", "annotation");
@@ -547,6 +664,11 @@ public final class EditorComponent extends JComponent
 
     public void setDiagnostics(List<CompilerDiagnostic> diagnostics) {
         if (this.diagnostics.equals(diagnostics)) return;
+        if (isAIInlineCompletion()) {
+            this.diagnostics = List.copyOf(diagnostics);
+            repaint();
+            return;
+        }
         for (CompilerDiagnostic d : this.diagnostics)
             repaint(0, ((int) d.line() - 1 - topLine) * cellHeight, getWidth(), cellHeight);
         this.diagnostics = List.copyOf(diagnostics);
@@ -1080,6 +1202,7 @@ public final class EditorComponent extends JComponent
     }
 
     public int offsetAt(Point point) {
+        if (isAIInlineCompletion()) return aiOffsetAt(point);
         int line =
                 Math.clamp(
                         topLine + Math.max(0, point.y) / cellHeight, 0, document.lineCount() - 1);
@@ -1090,9 +1213,10 @@ public final class EditorComponent extends JComponent
     private int symbolOffsetAt(Point point) {
         // Navigation targets the glyph under the pointer, rather than the nearest caret boundary.
         if (point.x < gutterWidth || point.y < 0 || point.y >= getHeight()) return -1;
-        int line = topLine + point.y / cellHeight;
-        if (line >= document.lineCount()) return -1;
+        int visualLine = visualTopLine() + point.y / cellHeight;
+        if (visualLine >= visualLineCount() || isGhostPoint(point)) return -1;
         int offset = offsetAt(new Point(point.x - cellWidth / 2, point.y));
+        int line = document.lineAt(offset);
         if (offset >= document.lineEnd(line)) return -1;
         int cp = document.charAt(offset);
         if (Character.isHighSurrogate((char) cp)
@@ -1111,13 +1235,77 @@ public final class EditorComponent extends JComponent
     }
 
     private int visualColumn(String text, int end) {
-        int column = 0;
-        for (int i = 0; i < Math.min(end, text.length()); ) {
+        return columnAfter(text, 0, end, 0);
+    }
+
+    private int columnAfter(String text, int from, int end, int initialColumn) {
+        int column = initialColumn;
+        for (int i = from; i < Math.min(end, text.length()); ) {
             int cp = text.codePointAt(i);
             column += width(cp, column);
             i += Character.charCount(cp);
         }
         return column;
+    }
+
+    private int baseVisualTopLine() {
+        return topLine + (isAIInlineCompletion() && topLine > aiLine ? aiLines.length - 1 : 0);
+    }
+
+    private int visualTopLine() {
+        return baseVisualTopLine() + (isAIInlineCompletion() ? aiScrollOffset : 0);
+    }
+
+    private int visualLineCount() {
+        return document.lineCount() + (isAIInlineCompletion() ? aiLines.length - 1 : 0);
+    }
+
+    private int aiSuffixColumn() {
+        int initial = aiLines.length == 1 ? caretColumn() - 1 : 0;
+        String tail = aiLines[aiLines.length - 1];
+        return columnAfter(tail, 0, tail.length(), initial);
+    }
+
+    private void repaintAIRegion() {
+        int first = Math.max(0, (aiLine - visualTopLine()) * cellHeight);
+        repaint(0, first, getWidth(), Math.max(0, getHeight() - first));
+    }
+
+    private int aiOffsetAt(Point point) {
+        int row =
+                Math.clamp(
+                        visualTopLine() + Math.max(0, point.y) / cellHeight,
+                        0,
+                        visualLineCount() - 1);
+        int column = Math.max(0, leftColumn + (point.x - gutterWidth + cellWidth / 2) / cellWidth);
+        int lastGhostRow = aiLine + aiLines.length - 1;
+        if (row < aiLine || row > lastGhostRow) {
+            int line = row < aiLine ? row : row - aiLines.length + 1;
+            return document.lineStart(line) + offsetForColumn(document.lineText(line), column);
+        }
+        String text = document.lineText(aiLine);
+        if (row == aiLine && column < caretColumn() - 1)
+            return document.lineStart(aiLine) + offsetForColumn(text, column);
+        if (row == lastGhostRow && column >= aiSuffixColumn()) {
+            int at = aiCaretInLine, current = aiSuffixColumn();
+            while (at < text.length()) {
+                int cp = text.codePointAt(at), next = current + width(cp, current);
+                if (next > column) break;
+                current = next;
+                at += Character.charCount(cp);
+            }
+            return document.lineStart(aiLine) + at;
+        }
+        return caret;
+    }
+
+    private boolean isGhostPoint(Point point) {
+        if (!isAIInlineCompletion()) return false;
+        int row = visualTopLine() + point.y / cellHeight;
+        int column = leftColumn + (point.x - gutterWidth) / cellWidth;
+        if (row < aiLine || row >= aiLine + aiLines.length) return false;
+        if (row == aiLine && column < caretColumn() - 1) return false;
+        return row != aiLine + aiLines.length - 1 || column < aiSuffixColumn();
     }
 
     private int offsetForColumn(String text, int wanted) {
@@ -1188,6 +1376,10 @@ public final class EditorComponent extends JComponent
                     antialias
                             ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON
                             : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+            if (isAIInlineCompletion()) {
+                paintAIProjection(g, clip);
+                return;
+            }
             int first = Math.max(topLine, topLine + clip.y / cellHeight),
                     last =
                             Math.min(
@@ -1369,6 +1561,142 @@ public final class EditorComponent extends JComponent
         return ghost;
     }
 
+    /**
+     * Paint only visible virtual rows; the normal editor path pays none of this work when AI is
+     * off.
+     */
+    private void paintAIProjection(Graphics2D g, Rectangle clip) {
+        int top = visualTopLine();
+        int first = Math.max(0, top + clip.y / cellHeight);
+        int last = Math.min(visualLineCount() - 1, top + (clip.y + clip.height) / cellHeight);
+        int lastGhostRow = aiLine + aiLines.length - 1;
+        for (int visual = first; visual <= last; visual++) {
+            int y = (visual - top) * cellHeight;
+            int line =
+                    visual <= aiLine
+                            ? visual
+                            : visual >= lastGhostRow ? visual - aiLines.length + 1 : -1;
+            if (line >= 0 && (visual <= aiLine || visual > lastGhostRow)) {
+                String label = Integer.toString(line + 1);
+                g.setColor(comment);
+                g.drawString(
+                        label, gutterWidth - cellWidth - label.length() * cellWidth, y + ascent);
+            }
+            boolean labelFitsOriginal =
+                    Integer.toString(aiLine + 1).length() <= gutterWidth / cellWidth - 4;
+            if (visual == aiLine && labelFitsOriginal
+                    || visual == aiLine + 1 && !labelFitsOriginal && aiLines.length > 1) {
+                g.setColor(aiGhost);
+                g.drawString("AI", 0, y + ascent);
+            }
+            Graphics2D row =
+                    (Graphics2D)
+                            g.create(
+                                    gutterWidth,
+                                    y,
+                                    Math.max(0, getWidth() - gutterWidth),
+                                    cellHeight);
+            try {
+                if (visual < aiLine || visual > lastGhostRow) {
+                    paintSourceSlice(row, line, 0, document.lineText(line).length(), 0);
+                } else {
+                    String source = document.lineText(aiLine);
+                    if (visual == aiLine) paintSourceSlice(row, aiLine, 0, aiCaretInLine, 0);
+                    String inserted = aiLines[visual - aiLine];
+                    int initial = visual == aiLine ? caretColumn() - 1 : 0;
+                    row.setColor(aiGhost);
+                    drawRun(row, inserted, 0, inserted.length(), initial);
+                    if (visual == lastGhostRow)
+                        paintSourceSlice(
+                                row, aiLine, aiCaretInLine, source.length(), aiSuffixColumn());
+                    if (visual == aiLine && isFocusOwner()) {
+                        int x = (caretColumn() - 1 - leftColumn) * cellWidth;
+                        row.setColor(cursor);
+                        row.fillRect(x, 1, cellWidth, cellHeight - 2);
+                        if (!inserted.isEmpty() && inserted.charAt(0) != '\t') {
+                            row.setColor(getBackground());
+                            row.drawString(
+                                    inserted.substring(
+                                            0, Character.charCount(inserted.codePointAt(0))),
+                                    x,
+                                    ascent);
+                        }
+                    }
+                }
+            } finally {
+                row.dispose();
+            }
+        }
+        g.setColor(comment);
+        g.drawLine(gutterWidth - cellWidth / 2, 0, gutterWidth - cellWidth / 2, getHeight());
+    }
+
+    private void paintSourceSlice(Graphics2D row, int line, int from, int to, int column) {
+        JavaLexer.Line tokens = lexicalLine(line);
+        String text = lineTexts.get(line);
+        int start = document.lineStart(line);
+        // Retain existing source emphasis, diagnostic and navigation colors around the overlay.
+        int emphasisFrom = Math.max(from, emphasisStart - start);
+        int emphasisTo = Math.min(to, emphasisEnd - start);
+        if (emphasisStart >= 0 && emphasisFrom < emphasisTo) {
+            int a = columnAfter(text, from, emphasisFrom, column);
+            int b = columnAfter(text, emphasisFrom, emphasisTo, a);
+            row.setColor(selection);
+            row.fillRect((a - leftColumn) * cellWidth, 0, (b - a) * cellWidth, cellHeight);
+        }
+        int paintedOffset = from, paintedColumn = column;
+        for (JavaLexer.Span span : tokens.spans()) {
+            int a = Math.max(from, span.start()), b = Math.min(to, span.end());
+            if (a >= b) continue;
+            int at = columnAfter(text, paintedOffset, a, paintedColumn);
+            if (at > leftColumn + getWidth() / cellWidth + 1) break;
+            row.setColor(tokenColor(span.kind()));
+            drawRun(row, text, a, b, at);
+            paintedOffset = b;
+            paintedColumn = columnAfter(text, a, b, at);
+        }
+        if (emphasisStart >= 0 && emphasisFrom < emphasisTo) {
+            row.setColor(selectionForeground);
+            drawRun(
+                    row,
+                    text,
+                    emphasisFrom,
+                    emphasisTo,
+                    columnAfter(text, from, emphasisFrom, column));
+        }
+        for (CompilerDiagnostic diagnostic : diagnostics) {
+            if (diagnostic.line() != line + 1 || !"ERROR".equalsIgnoreCase(diagnostic.kind()))
+                continue;
+            int a = Math.max(from, (int) Math.max(0, diagnostic.column() - 1));
+            int b =
+                    Math.min(
+                            to,
+                            diagnostic.end() > diagnostic.start()
+                                    ? (int) Math.min(text.length(), diagnostic.end() - start)
+                                    : Math.min(text.length(), (int) diagnostic.column()));
+            if (a >= b) continue;
+            int first = columnAfter(text, from, a, column), last = columnAfter(text, a, b, first);
+            row.setColor(error);
+            for (int x = (first - leftColumn) * cellWidth;
+                    x < (last - leftColumn) * cellWidth;
+                    x += 4) row.drawLine(x, cellHeight - 2, x + 2, cellHeight - 1);
+        }
+        if (navigationStart >= 0) {
+            int a = Math.max(from, navigationStart - start),
+                    b = Math.min(to, navigationEnd - start);
+            if (a < b) {
+                int first = columnAfter(text, from, a, column),
+                        last = columnAfter(text, a, b, first);
+                row.setColor(definition);
+                row.drawLine(
+                        (first - leftColumn) * cellWidth,
+                        cellHeight - 2,
+                        (last - leftColumn) * cellWidth,
+                        cellHeight - 2);
+            }
+        }
+    }
+
     private void paintSelectedText(
             Graphics2D row, String text, int[] columns, int lineStart, int from, int to) {
         int begin = Math.max(0, from - lineStart), end = Math.min(text.length(), to - lineStart);
@@ -1404,12 +1732,12 @@ public final class EditorComponent extends JComponent
     }
 
     private void repaintCaret() {
-        repaint(0, (document.lineAt(caret) - topLine) * cellHeight, getWidth(), cellHeight);
+        repaint(0, caretBounds().y, getWidth(), cellHeight);
     }
 
     private void repaintMatchingBrackets() {
         for (int offset : matchingBrackets())
-            repaint(0, (document.lineAt(offset) - topLine) * cellHeight, getWidth(), cellHeight);
+            repaint(0, offsetBounds(offset).y, getWidth(), cellHeight);
     }
 
     private int[] matchingBrackets() {
@@ -1483,10 +1811,7 @@ public final class EditorComponent extends JComponent
 
     @Override
     public Rectangle getTextLocation(TextHitInfo offset) {
-        Point point =
-                new Point(
-                        gutterWidth + (caretColumn() - 1 - leftColumn) * cellWidth,
-                        (caretLine() - 1 - topLine) * cellHeight);
+        Point point = caretBounds().getLocation();
         if (isShowing()) SwingUtilities.convertPointToScreen(point, this);
         return new Rectangle(point.x, point.y, cellWidth, cellHeight);
     }

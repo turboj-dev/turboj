@@ -30,6 +30,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     private final EditorComponent editor;
+    private final CompletionCoordinator completions;
     private final Supplier<Snapshot> snapshots;
     private final Consumer<Declaration> navigate;
     private final Consumer<String> notice;
@@ -80,6 +81,7 @@ public final class IntelligenceController implements AutoCloseable {
             Consumer<Declaration> navigate,
             Consumer<String> notice) {
         this.editor = editor;
+        this.completions = new CompletionCoordinator(editor);
         this.snapshots = snapshots;
         this.navigate = navigate;
         this.notice = notice;
@@ -269,6 +271,10 @@ public final class IntelligenceController implements AutoCloseable {
         editor.setCompletionKeys(accept, dismiss);
     }
 
+    public CompletionCoordinator completions() {
+        return completions;
+    }
+
     public CompletionResult lastCompletion() {
         return lastCompletion;
     }
@@ -326,7 +332,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     public void dismiss() {
-        editor.clearInlineCompletion();
+        completions.clear();
         completionWindow.setVisible(false);
         documentationWindow.setVisible(false);
         signatureWindow.setVisible(false);
@@ -449,8 +455,9 @@ public final class IntelligenceController implements AutoCloseable {
                                     lastSignature = help;
                                     completionTicket = t;
                                     if (!result.proposals().isEmpty()) {
-                                        editor.setInlineCompletion(
-                                                inline(t, result.proposals().getFirst()));
+                                        completions.semantic(
+                                                inline(t, result.proposals().getFirst()),
+                                                alternatives);
                                         if (alternatives) showChoices(result.proposals());
                                     } else if (alternatives)
                                         notice.accept("No semantic completions at this position.");
@@ -476,6 +483,7 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     private void showChoices(List<Completion> proposals) {
+        completions.alternatives(true);
         choices.setListData(proposals.toArray(Completion[]::new));
         choices.setSelectedIndex(0);
         completionWindow.setSize(Math.min(700, Math.max(360, editor.getWidth() - 30)), 180);
@@ -488,6 +496,7 @@ public final class IntelligenceController implements AutoCloseable {
             editor.applyCompletion(inline(completionTicket, p));
         }
         completionWindow.setVisible(false);
+        completions.alternatives(false);
         editor.requestFocusInWindow();
     }
 
@@ -519,7 +528,7 @@ public final class IntelligenceController implements AutoCloseable {
             choices.setSelectedIndex(index);
             choices.ensureIndexIsVisible(index);
             if (completionTicket != null && valid(completionTicket))
-                editor.setInlineCompletion(inline(completionTicket, choices.getSelectedValue()));
+                completions.semantic(inline(completionTicket, choices.getSelectedValue()), true);
             return true;
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER

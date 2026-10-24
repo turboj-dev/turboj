@@ -58,6 +58,14 @@ export const javaIntelligenceFeatures = [
   },
 ] as const;
 
+export const aiCompletionFeature = {
+  title: 'AI completion, when you want it.',
+  label: 'Optional · Disabled by default',
+  description: 'Preview the next statement or a block of Java directly in your editor. Use an optional local FIM model, accept with Tab, or dismiss with Escape. Java intelligence stays available with AI off.',
+  status: 'Local Ollama inference verified on macOS. The OpenAI Responses adapter is implemented and protocol-tested; live cloud validation is pending.',
+  linkLabel: 'AI setup, privacy, and validation',
+} as const;
+
 export const workflow = [
   {
     number: '01',

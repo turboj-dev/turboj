@@ -54,10 +54,15 @@ test('catalog exports lightweight metadata and separate exact native palettes', 
   assert.deepEqual(exported.themes.map(theme => theme.id), registry.primary);
 });
 
-test('published feature copy does not advertise AI generation or a project test runner', async () => {
+test('published feature copy distinguishes optional native AI validation from unimplemented capabilities', async () => {
   const html = await readFile(new URL('dist/index.html', website), 'utf8');
   assert.ok(html.includes('Smart Java Completion'));
   assert.ok(html.includes('Choose your theme'));
-  assert.ok(!html.includes('AI Inline Completion'));
+  assert.ok(html.includes('AI completion, when you want it.'));
+  assert.ok(html.includes('Optional · Disabled by default'));
+  assert.ok(html.includes('Java intelligence stays available with AI off.'));
+  assert.ok(html.includes('Local Ollama inference verified on macOS.'));
+  assert.ok(html.includes('protocol-tested; live cloud validation is pending.'));
+  assert.ok(html.includes('href="https://github.com/turboj-dev/turboj/blob/main/docs/ai-completion.md"'));
   assert.ok(!html.includes('JUnit Test Runner'));
 });

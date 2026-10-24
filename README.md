@@ -22,6 +22,7 @@ The initial buffer is a working Hello World. Press **Ctrl+F9** or **Cmd+R**, cha
 
 - A custom Java2D editor backed by a piece table, incremental line index and immutable snapshots; selection, Unicode/UTF-8, CRLF, clipboard, undo/redo, indentation, search, comments, bracket matching and input-method composition.
 - Keyboard menus and command palette, a compact searchable catalog with 100 curated editor themes plus Turbo Classic, Modern Dark and Modern Light, six live previews and an ASCII random-theme drum. Shared native/site JSON palettes, font sizes, save protection for external file changes, atomic writes and recoverable buffers.
+- Optional native AI completion: multiline ghost text, semantic-completion priority, cancellation and insertion-only acceptance. Local Ollama/llama.cpp FIM and opt-in OpenAI Responses adapters; endpoint-bound macOS Keychain credentials. Disabled by default. See [setup and validation boundaries](docs/ai-completion.md).
 - Offline JDT semantic assistance: inline ghost text (**Tab** accepts, **Esc** dismisses), alternatives (**Ctrl+Space**), declaration navigation (**Cmd+Click / Cmd+B / F12**), real Javadoc (**F1** or hover), argument hints and **Alt+Left / Right** source history. Navigation retains unsaved buffers and undo. Attached JDK/library sources open read-only; see [Java intelligence](docs/java-intelligence.md) for local project classpaths and limits.
 - Background JDT Java 25 recovery analysis and in-memory javac compilation, version checks, coalescing and bounded successful-source cache. Diagnostics navigate through **Compile → Go to first error**.
 - Persistent independent JVM for Fast Run, fresh class loader per run, Isolated Run, streaming stdout/stderr and stdin, timeout, Stop, crash recovery and bounded output. Java 25 compact sources and instance main methods are supported.
@@ -37,6 +38,10 @@ Tests launch child JVMs and local JShell/JDI sockets. Restricted execution sandb
 The [1.0.3 Java intelligence verification report](docs/java-intelligence-release-1.0.3.md) records the 98 automated tests, real-window acceptance checks, packaged-runtime validation and measured semantic latency.
 
 The [1.0.4 theme catalog report](docs/themes-release-1.0.4.md) records the shared 103-theme catalog, vertical browsing, fast random-theme drum, 116 automated Java tests and packaged-runtime validation.
+
+The [1.0.5 AI completion report](docs/ai-release-1.0.5.md) separates automated
+protocol tests, native editor checks, real local inference and unverified live
+cloud access. AI remains disabled until configured in Options.
 
 ```sh
 ./scripts/test.sh
@@ -62,7 +67,7 @@ It opens a real window, emits `app/target/gui-smoke.txt` and paints the frame to
 ./scripts/package-macos.sh dmg path/to/new-output-directory
 ```
 
-Run packaging on the target architecture. The macOS bundle version is `1.0.4` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
+Run packaging on the target architecture. The macOS bundle version is `1.0.5` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
 
 [Architecture](docs/architecture.md) · [Compiler](docs/compiler.md) · [Performance](docs/performance.md) · [Shortcuts](docs/shortcuts.md) · [Themes](docs/themes.md) · [Worker protocol](worker/docs/protocol.md) · [Licenses](docs/licenses.md)
 

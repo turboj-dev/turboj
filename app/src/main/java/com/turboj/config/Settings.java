@@ -8,6 +8,7 @@ import java.util.*;
 
 public final class Settings {
     public String theme = "classic";
+    public com.turboj.ai.AIConfig ai = com.turboj.ai.AIConfig.defaults();
     public String externalThemePath;
     public int fontSize = 18;
     public int width = 1060, height = 740;
@@ -34,6 +35,12 @@ public final class Settings {
             s.height = Math.clamp(s.height, 420, 2400);
             if (s.recentFiles == null) s.recentFiles = new ArrayList<>();
             s.theme = com.turboj.ui.themes.Theme.normalizeId(s.theme);
+            try {
+                if (s.ai == null) s.ai = com.turboj.ai.AIConfig.defaults();
+                s.ai.validate();
+            } catch (RuntimeException invalidAI) {
+                s.ai = com.turboj.ai.AIConfig.defaults();
+            }
             return s;
         } catch (IOException | RuntimeException e) {
             return new Settings();

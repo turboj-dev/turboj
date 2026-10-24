@@ -1,5 +1,6 @@
 package com.turboj.app;
 
+import com.turboj.ai.*;
 import com.turboj.compiler.*;
 import com.turboj.config.*;
 import com.turboj.execution.*;
@@ -10,6 +11,7 @@ import com.turboj.ui.themes.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.UncheckedIOException;
 import java.nio.file.*;
 import java.util.*;
 import java.util.List;
@@ -64,6 +66,9 @@ public final class TurboFrame extends JFrame {
     private final NavigationHistory<Visit> navigation = new NavigationHistory<>();
     private Path bufferKey = untitledKey();
     private IntelligenceController intelligence;
+    private AICompletionController aiCompletion;
+    private final CredentialStore aiCredentials = new MacKeychainCredentialStore();
+    private final JLabel aiStatus = new JLabel();
     private com.turboj.editor.document.PieceTable observedDocument;
 
     private record Buffer(
@@ -122,6 +127,7 @@ public final class TurboFrame extends JFrame {
         setLayout(new BorderLayout());
         add(content, BorderLayout.CENTER);
         bottom.add(status, BorderLayout.CENTER);
+        bottom.add(aiStatus, BorderLayout.WEST);
         bottom.add(position, BorderLayout.EAST);
         add(bottom, BorderLayout.SOUTH);
         setJMenuBar(menus);
@@ -147,8 +153,37 @@ public final class TurboFrame extends JFrame {
         intelligence.setCompletionKeys(
                 acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
                 dismissCompletion == null ? KeyStroke.getKeyStroke("ESCAPE") : dismissCompletion);
+        aiCompletion =
+                new AICompletionController(
+                        editor,
+                        intelligence.completions(),
+                        () -> new AICompletionController.Snapshot(bufferKey, editor.snapshot()),
+                        settings.ai,
+                        config ->
+                                AIProviders.create(
+                                        config,
+                                        () -> {
+                                            try {
+                                                return aiCredentials.read(config.cloudEndpoint());
+                                            } catch (java.io.IOException error) {
+                                                throw new UncheckedIOException(error);
+                                            }
+                                        }),
+                        text -> console.append(text + "\n", false),
+                        text -> {
+                            aiStatus.setText(text.isEmpty() ? "" : " " + text + "  ");
+                            aiStatus.setToolTipText(
+                                    text.isEmpty()
+                                            ? null
+                                            : "Optional AI completion · Options → AI Completion");
+                        });
+        aiCompletion.setKeys(
+                acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
+                dismissCompletion == null ? KeyStroke.getKeyStroke("ESCAPE") : dismissCompletion,
+                shortcut("aiAcceptWord", "ctrl alt ENTER"));
         editor.setKeyHandler(
                 e -> {
+                    if (aiCompletion.handleKey(e)) return true;
                     if (intelligence.handleKey(e)) return true;
                     if (e.getID() != KeyEvent.KEY_PRESSED) return false;
                     String id = editorBindings.get(KeyStroke.getKeyStrokeForEvent(e));
@@ -200,6 +235,10 @@ public final class TurboFrame extends JFrame {
 
     public IntelligenceController intelligence() {
         return intelligence;
+    }
+
+    public AICompletionController aiCompletion() {
+        return aiCompletion;
     }
 
     public Path currentFile() {
@@ -386,6 +425,25 @@ public final class TurboFrame extends JFrame {
         command("documentation", "Quick documentation", () -> intelligence.quickDocumentation());
         command("back", "Navigate back", this::navigateBack);
         command("forward", "Navigate forward", this::navigateForward);
+        command("ai.request", "Request AI completion", () -> aiCompletion.request(true, false));
+        command("ai.another", "Request another AI completion", () -> aiCompletion.requestAnother());
+        command(
+                "ai.larger",
+                "Request a longer AI completion",
+                () -> aiCompletion.request(true, true));
+        command("ai.settings", "Configure AI completion…", () -> showAISettings(settings.ai));
+        command(
+                "ai.disabled",
+                "Disabled",
+                () -> saveAIConfig(settings.ai.withMode(AIConfig.Mode.DISABLED)));
+        command(
+                "ai.local",
+                "Local…",
+                () -> showAISettings(settings.ai.withMode(AIConfig.Mode.LOCAL)));
+        command(
+                "ai.cloud",
+                "Cloud…",
+                () -> showAISettings(settings.ai.withMode(AIConfig.Mode.CLOUD)));
         command("undo", "Undo", editor::undo);
         command("redo", "Redo", editor::redo);
         command("cut", "Cut", editor::cut);
@@ -583,6 +641,8 @@ public final class TurboFrame extends JFrame {
                                             : ms(currentResult.durationNanos()) + " ms")
                                     + "\n"
                                     + intelligence.metrics()
+                                    + "\n\n"
+                                    + aiCompletion.metrics()
                                     + "\n"
                                     + "These are local measured samples, not performance"
                                     + " guarantees.",
@@ -680,6 +740,13 @@ public final class TurboFrame extends JFrame {
         themes.add(new JMenuItem(commands.get("theme.load")));
         themes.add(new JMenuItem(commands.get("theme.more")));
         options.add(themes);
+        var aiMenu = new JMenu("AI Completion");
+        for (String id : List.of("ai.disabled", "ai.local", "ai.cloud"))
+            aiMenu.add(new JMenuItem(commands.get(id)));
+        aiMenu.addSeparator();
+        for (String id : List.of("ai.settings", "ai.request", "ai.another", "ai.larger"))
+            aiMenu.add(new JMenuItem(commands.get(id)));
+        options.add(aiMenu);
         options.addSeparator();
         for (String id : List.of("fontUp", "fontDown", "zoom", "fullscreen", "metrics", "palette"))
             options.add(new JMenuItem(commands.get(id)));
@@ -692,6 +759,8 @@ public final class TurboFrame extends JFrame {
         bindings.put("F1", "documentation");
         bindings.put("F12", "declaration");
         bindings.put("ctrl SPACE", "complete");
+        bindings.put("alt SPACE", "ai.request");
+        bindings.put("alt shift SPACE", "ai.another");
         bindings.put("alt LEFT", "back");
         bindings.put("alt RIGHT", "forward");
         bindings.put("F2", "save");
@@ -742,7 +811,15 @@ public final class TurboFrame extends JFrame {
                     if (ks != null) {
                         im.put(ks, id);
                         am.put(id, commands.get(id));
-                        if (Set.of("complete", "declaration", "documentation", "back", "forward")
+                        if (Set.of(
+                                        "complete",
+                                        "declaration",
+                                        "documentation",
+                                        "back",
+                                        "forward",
+                                        "ai.request",
+                                        "ai.another",
+                                        "ai.larger")
                                 .contains(id)) editorBindings.put(ks, id);
                     }
                 });
@@ -859,6 +936,7 @@ public final class TurboFrame extends JFrame {
         for (var m : menus.getComponents()) styleMenu(m, t);
         bottom.setBackground(t.color("chrome", "statusBackground"));
         status.setForeground(t.color("chrome", "statusForeground"));
+        aiStatus.setForeground(t.color("chrome", "statusForeground"));
         position.setForeground(t.color("chrome", "statusForeground"));
         for (String id : Theme.BUNDLED) {
             Theme preset = Theme.bundled(id);
@@ -869,6 +947,7 @@ public final class TurboFrame extends JFrame {
         }
         Font mono = new Font(Font.MONOSPACED, Font.PLAIN, 14);
         status.setFont(mono);
+        aiStatus.setFont(mono);
         position.setFont(mono);
         editorPanel.setBackground(t.background());
         getContentPane().setBackground(t.background());
@@ -958,6 +1037,7 @@ public final class TurboFrame extends JFrame {
     private void updatePosition() {
         position.setText(" " + editor.caretLine() + ":" + editor.caretColumn() + " ");
         if (intelligence != null) intelligence.changed();
+        if (aiCompletion != null) aiCompletion.changed();
     }
 
     private void changed() {
@@ -1521,6 +1601,7 @@ public final class TurboFrame extends JFrame {
         repl.close();
         compiler.close();
         intelligence.close();
+        aiCompletion.close();
         background.execute(
                 () -> {
                     try {
@@ -1533,6 +1614,40 @@ public final class TurboFrame extends JFrame {
                     }
                 });
         background.shutdown();
+    }
+
+    private KeyStroke shortcut(String id, String fallback) {
+        KeyStroke value = KeyStroke.getKeyStroke(keymap.getOrDefault(id, fallback));
+        return value == null ? KeyStroke.getKeyStroke(fallback) : value;
+    }
+
+    private void showAISettings(AIConfig initial) {
+        var dialog =
+                new AISettingsDialog(
+                        this,
+                        initial,
+                        aiCredentials,
+                        this::saveAIConfig,
+                        text -> console.append(text + "\n", false));
+        dialog.setTheme(theme);
+        dialog.setVisible(true);
+        editor.requestFocusInWindow();
+    }
+
+    private void saveAIConfig(AIConfig value) {
+        value.validate();
+        settings.ai = value;
+        aiCompletion.configure(value);
+        String snapshot = settings.snapshotJson();
+        background.execute(
+                () -> {
+                    try {
+                        Settings.saveSnapshot(snapshot);
+                    } catch (java.io.IOException error) {
+                        SwingUtilities.invokeLater(
+                                () -> showError("Could not save AI preferences."));
+                    }
+                });
     }
 
     private void showError(String message) {

@@ -104,9 +104,15 @@ demo controller or modify its source, timing, cursor, output or pause state.
 Browser and desktop preferences are independent, with no account or network
 synchronization.
 
-The original application screenshot is never recolored. AI-generation and
-project-JUnit execution are not advertised as implemented; their reserved token
-names do not make those native capabilities available.
+The original application screenshot is never recolored. A compact feature article
+describes the optional native AI completion implementation, disabled by default.
+Local Ollama FIM inference was verified on macOS against 12 compiled and executed
+examples covering method bodies and insertion between existing statements. The
+OpenAI Responses adapter has protocol-fixture coverage; live cloud validation
+remains pending. The article links to [setup, privacy, and validation](../docs/ai-completion.md)
+and does not add AI behavior to the browser's HelloWorld replay. Project-JUnit
+execution is not advertised as implemented. Reserved theme token names alone do
+not establish a native capability.
 
 ## Assets and factual corrections
 

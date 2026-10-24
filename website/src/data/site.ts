@@ -14,5 +14,6 @@ export const site = {
   links: {
     demo: '#demo', features: '#features', original: '/images/turboj-editor.png',
     source: 'https://github.com/turboj-dev/turboj',
+    aiDocs: 'https://github.com/turboj-dev/turboj/blob/main/docs/ai-completion.md',
   },
 };

@@ -26,6 +26,9 @@
 | Cmd+Up / Cmd+Down | Start / end of document |
 | Cmd+/ | Toggle line comments |
 | Cmd+Shift+P | Search command palette |
+| Alt+Space | Request optional AI completion |
+| Alt+Shift+Space | Request AI again without the completion cache |
+| Ctrl+Alt+Enter | Accept next word of an AI suggestion |
 | Alt+X | Quit |
 | Escape | Dismiss inline suggestion, alternatives, documentation or menu |
 

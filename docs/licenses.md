@@ -18,6 +18,12 @@ No Borland binaries, logos, fonts or proprietary source are included. Fonts use 
 
 The local application is not a signed or notarized public distribution. Redistribution should retain the individual Eclipse, OSGi, Gson and JDK notices and make the corresponding upstream source available under their original terms. See the Maven dependency report and packaged legal resources for exact transitive artifacts.
 
+AI adapters use the JDK HTTP client and stable Foreign Function & Memory API;
+no inference runtime or model is redistributed in the app. The optional local
+validation setup uses Ollama (MIT) and Qwen2.5-Coder 1.5B Base (Apache 2.0).
+Its downloaded runtime retains upstream notices in the ignored cache. See the
+[local validation report](ai-local-validation.md) for exact artifacts and sources.
+
 The [exact runtime dependency lock](dependencies.md) lists all transitive versions and corresponding source archives. Original artifact-specific notices are bundled under `third-party/` inside the application jar. Regenerate them with `scripts/collect-notices.py` after dependency changes.
 
 The separate static website uses self-hosted JetBrains Mono and IBM Plex Sans under SIL OFL 1.1. Original font licenses are distributed with the site; see [website assets and provenance](../website/ASSETS.md). Astro, TypeScript and image/test tools are build-time dependencies pinned in the website lockfile.

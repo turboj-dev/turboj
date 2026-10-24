@@ -1,5 +1,6 @@
 ---
-import { features, javaIntelligenceFeatures } from '../data/copy';
+import { aiCompletionFeature, features, javaIntelligenceFeatures } from '../data/copy';
+import { site } from '../data/site';
 ---
 
 <section class="section features-section" id="features" aria-labelledby="features-heading">
@@ -27,6 +28,17 @@ import { features, javaIntelligenceFeatures } from '../data/copy';
         </article>
       ))}
     </div>
+    <article class="semantic-feature ai-feature" aria-labelledby="ai-feature-heading">
+      <div>
+        <p class="eyebrow">{aiCompletionFeature.label}</p>
+        <h3 id="ai-feature-heading">{aiCompletionFeature.title}</h3>
+      </div>
+      <div>
+        <p class="body-copy">{aiCompletionFeature.description}</p>
+        <p class="ai-status">{aiCompletionFeature.status}</p>
+        <a class="text-link" href={site.links.aiDocs}>{aiCompletionFeature.linkLabel}</a>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -35,7 +47,14 @@ import { features, javaIntelligenceFeatures } from '../data/copy';
   .semantic-feature { border-top: 1px solid var(--page-border); padding-top: 28px; }
   .semantic-feature h3 { font-size: 19px; line-height: 1.4; letter-spacing: -.035em; margin-bottom: 14px; }
   .semantic-feature .body-copy { font-size: 17px; }
-  @media (max-width: 1000px) { .semantic-feature-list { grid-template-columns: 1fr; gap: 28px; } }
+  .ai-feature { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; margin-top: 32px; }
+  .ai-feature .eyebrow { color: var(--tj-ui-link); margin-bottom: 12px; }
+  .ai-status { margin-top: 16px; font-size: 15px; line-height: 1.65; }
+  .ai-feature .text-link { color: var(--tj-ui-link); margin-top: 8px; }
+  @media (max-width: 1000px) {
+    .semantic-feature-list { grid-template-columns: 1fr; gap: 28px; }
+    .ai-feature { grid-template-columns: 1fr; gap: 0; }
+  }
   @media (max-width: 720px) {
     .semantic-feature { padding-top: 24px; }
     .semantic-feature h3 { font-size: 18px; }
