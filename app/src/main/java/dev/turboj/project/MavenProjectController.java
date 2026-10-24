@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import dev.turboj.mavenj.api.MavenJ;
 import dev.turboj.mavenj.api.MavenModels.*;
 import dev.turboj.mavenj.core.DefaultMavenJ;
+import dev.turboj.mavenj.core.MavenImportDefaults;
 import dev.turboj.mavenj.workspace.*;
 import dev.turboj.ui.themes.Theme;
 import dev.turboj.ui.AsciiChrome;
@@ -56,10 +57,12 @@ public final class MavenProjectController implements AutoCloseable {
     private volatile boolean trusted;
     private Theme theme;
     private Path mavenExecutable;
+    private boolean defaultRepositoryPolicy;
     private Set<String> reportedDiagnostics = Set.of();
     private Set<Path> existingRoots = Set.of();
     private record Preferences(String userSettings, String globalSettings, String localRepository, String javaHome,
-            boolean offline, Set<String> repositories, Set<String> activeProfiles, Set<String> inactiveProfiles, String mavenExecutable) {}
+            boolean offline, Set<String> repositories, Set<String> activeProfiles, Set<String> inactiveProfiles, String mavenExecutable,
+            Boolean defaultRepositoryPolicy) {}
     private record Entry(String name, Path path, boolean directory) {
         Entry(String name, Path path) { this(name, path, false); }
         @Override public String toString() { return name; }
@@ -123,7 +126,9 @@ public final class MavenProjectController implements AutoCloseable {
         reportedDiagnostics = Set.of();
         workspace = null;
         if (watcher != null) { watcher.close(); watcher = null; }
-        request = ImportRequest.offline(normalized);
+        request = MavenImportDefaults.online(normalized);
+        defaultRepositoryPolicy = true;
+        mavenExecutable = null;
         panel.setVisible(true);
         long opening = requests.incrementAndGet(); busy = true; summary.setText(" Loading Maven configuration… "); host.stateChanged();
         worker.execute(() -> {
@@ -131,6 +136,7 @@ public final class MavenProjectController implements AutoCloseable {
             SwingUtilities.invokeLater(() -> {
                 if (closed || requests.get() != opening) return;
                 if (preferences != null) {
+                    defaultRepositoryPolicy = Boolean.TRUE.equals(preferences.defaultRepositoryPolicy());
                     request = new ImportRequest(normalized, preferencePath(preferences.userSettings()), preferencePath(preferences.globalSettings()), preferencePath(preferences.localRepository()),
                             nonnull(preferences.activeProfiles()), nonnull(preferences.inactiveProfiles()), Map.of(), preferences.offline(), nonnull(preferences.repositories()), false,
                             preferencePath(preferences.javaHome()), Map.of());
@@ -148,12 +154,14 @@ public final class MavenProjectController implements AutoCloseable {
         ImportRequest capture = new ImportRequest(base.project(), base.userSettings(), base.globalSettings(), base.localRepository(),
                 base.activeProfiles(), base.inactiveProfiles(), base.userProperties(), base.offline(), base.allowedRepositoryUrls(),
                 refreshDependencies, base.javaHome(), host.pomOverlays());
+        boolean useUserRepositories = defaultRepositoryPolicy;
         long ticket = requests.incrementAndGet();
         busy = true;
         summary.setText(" Synchronizing… " ); host.stateChanged();
         worker.execute(() -> {
             try {
-                Workspace imported = engine().open(capture, () -> closed || ticket != requests.get());
+                ImportRequest effectiveRequest = useUserRepositories ? MavenImportDefaults.withUserRepositories(capture) : capture;
+                Workspace imported = engine().open(effectiveRequest, () -> closed || ticket != requests.get());
                 var selected = Toolchains.select(imported, Path.of(System.getProperty("user.home"), ".m2", "toolchains.xml"));
                 Workspace value = selected.workspace();
                 Workspace publication = value;
@@ -162,16 +170,22 @@ public final class MavenProjectController implements AutoCloseable {
                         .filter(Files::isDirectory).collect(java.util.stream.Collectors.toUnmodifiableSet());
                 SwingUtilities.invokeLater(() -> {
                     if (closed || requests.get() != ticket) return;
+                    if (useUserRepositories) request = new ImportRequest(base.project(), base.userSettings(), base.globalSettings(), base.localRepository(),
+                            base.activeProfiles(), base.inactiveProfiles(), base.userProperties(), base.offline(), effectiveRequest.allowedRepositoryUrls(),
+                            false, base.javaHome(), Map.of());
                     workspace = publication; busy = false; existingRoots = directories;
                     buildTree(publication);
                     host.published(publication);
                     host.notice(statusText(publication) + "\n", false);
                     var diagnostics = new LinkedHashSet<String>();
-                    for (Diagnostic diagnostic : publication.diagnostics()) {
+                    for (Diagnostic diagnostic : diagnostics(publication).toList()) {
                         String key = diagnostic.code() + ": " + diagnostic.message();
                         if (diagnostics.add(key) && !reportedDiagnostics.contains(key)) host.notice(key + "\n", diagnostic.severity() == Severity.ERROR);
                     }
                     reportedDiagnostics = Set.copyOf(diagnostics);
+                    if (!publication.resolved()) host.notice(publication.offline()
+                            ? "Dependencies are incomplete while Maven is offline. Check Offline in Project → Maven Settings and any offline option in settings.xml or .mvn/maven.config, then Refresh Dependencies.\n"
+                            : "Dependencies are incomplete. Check the messages above and Project → Maven Settings (repositories, mirrors and credentials), then Refresh Dependencies.\n", true);
                     host.stateChanged();
                     worker.execute(() -> updateWatcher(publication, ticket));
                 });
@@ -209,6 +223,10 @@ public final class MavenProjectController implements AutoCloseable {
                 + " | Dependencies " + (value.resolved() ? "Resolved" : "Incomplete") + " | TurboJ Native"
                 + (value.modules().stream().anyMatch(module -> module.fastPath() != FastPath.SUPPORTED) ? " (Maven verification required)" : "")
                 + (value.offline() ? " | Offline" : "");
+    }
+
+    private static Stream<Diagnostic> diagnostics(Workspace value) {
+        return Stream.concat(value.diagnostics().stream(), value.modules().stream().flatMap(module -> module.diagnostics().stream())).distinct();
     }
 
     private void buildTree(Workspace value) {
@@ -282,7 +300,7 @@ public final class MavenProjectController implements AutoCloseable {
                 .append("\n  Encoding: ").append(module.mainJava().encoding()).append("\n  Main roots: ").append(module.sourceRoots())
                 .append("\n  Test roots: ").append(module.testRoots()).append("\n  Fast path: ").append(module.fastPath()).append("\n  Profiles: ").append(module.activeProfiles()).append("\n\n");
         text.append("Build order: ").append(value.buildOrder()).append("\n\n");
-        value.diagnostics().forEach(diagnostic -> text.append(diagnostic.severity()).append(" ").append(diagnostic.code()).append(": ").append(diagnostic.message()).append('\n'));
+        diagnostics(value).forEach(diagnostic -> text.append(diagnostic.severity()).append(" ").append(diagnostic.code()).append(": ").append(diagnostic.message()).append('\n'));
         showText("Maven Project Structure", text.toString());
     }
 
@@ -327,6 +345,7 @@ public final class MavenProjectController implements AutoCloseable {
         try {
             request = new ImportRequest(request.project(), path(user), path(global), path(local), request.activeProfiles(), request.inactiveProfiles(), request.userProperties(),
                     offline.isSelected(), repositoryPermissions(repositories.getText()), false, path(home), Map.of());
+            defaultRepositoryPolicy = false;
             mavenExecutable = path(executable); savePreferences();
             reload(false);
         } catch (RuntimeException error) { host.notice("Maven settings: " + message(error) + "\n", true); }
@@ -616,7 +635,7 @@ public final class MavenProjectController implements AutoCloseable {
     private void savePreferences() {
         ImportRequest value = request; Path executable = mavenExecutable;
         var preferences = new Preferences(string(value.userSettings()), string(value.globalSettings()), string(value.localRepository()), string(value.javaHome()),
-                value.offline(), value.allowedRepositoryUrls(), value.activeProfiles(), value.inactiveProfiles(), string(executable));
+                value.offline(), value.allowedRepositoryUrls(), value.activeProfiles(), value.inactiveProfiles(), string(executable), defaultRepositoryPolicy);
         worker.execute(() -> {
             try { Path file = preferencesFile(value.project()); Files.createDirectories(file.getParent()); SafeFiles.atomicWrite(file, new Gson().toJson(preferences)); }
             catch (Exception failure) { host.notice("Maven preferences: " + message(failure) + "\n", true); }

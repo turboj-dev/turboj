@@ -8,6 +8,7 @@ import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.table.*;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.*;
 
@@ -111,6 +112,14 @@ public final class AsciiStyle {
             }
             text.setCaretColor(palette.foreground()); text.setSelectionColor(palette.selectionBackground());
             text.setSelectedTextColor(palette.selectionForeground()); text.setDisabledTextColor(palette.muted());
+            // Basic text delegates need their own standard actions even when the host LAF is
+            // Aqua. Dialogs deliberately retain local editing rather than global IDE shortcuts.
+            int menuMask = System.getProperty("os.name", "").startsWith("Mac")
+                    ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_DOWN_MASK;
+            text.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, menuMask), DefaultEditorKit.copyAction);
+            text.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_X, menuMask), DefaultEditorKit.cutAction);
+            text.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_V, menuMask), DefaultEditorKit.pasteAction);
+            text.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, menuMask), DefaultEditorKit.selectAllAction);
             if (text instanceof JTextField) text.setBorder(new InputBorder());
         }
         if (component instanceof JScrollPane scroll) {

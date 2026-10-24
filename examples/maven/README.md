@@ -8,12 +8,15 @@ Il POM non eredita dalla build di TurboJ e la cartella può essere copiata altro
 
 1. Apri `pom.xml` con **File → Open**, oppure seleziona questa cartella con
    **Open Folder / Maven Project**.
-2. Attendi la risoluzione delle dipendenze. Al primo import JUnit può essere
-   scaricato dai repository Maven configurati.
-3. Scegli **Test → Run All Tests** e conferma la fiducia nel progetto quando
-   richiesta: il risultato atteso è **2 passed, 0 failed**.
-4. Apri `src/main/java/dev/turboj/examples/calculator/Calculator.java` e scegli
-   **Run → Run** per eseguire il programma.
+2. Attendi **Dependencies Resolved**: al primo import TurboJ scarica JUnit da
+   Maven Central o dal mirror configurato nelle impostazioni Maven. Un'eventuale
+   modalità offline scelta esplicitamente rimane attiva.
+3. Scegli **Run → Run**: TurboJ trova il `main` della calcolatrice anche lasciando
+   aperto il POM. Conferma la fiducia nel progetto alla prima esecuzione.
+4. Scegli **Test → Run All Tests**: il risultato atteso è **2 passed, 0 failed**.
+
+Non serve selezionare manualmente i sorgenti né configurare il classpath.
+Se un progetto contiene più classi eseguibili, **Run** propone quale avviare.
 
 TurboTest compila ed esegue questi test attraverso il percorso nativo.
 **Build → Maven Test** esegue invece esplicitamente il lifecycle Maven.

@@ -110,6 +110,7 @@ public final class ConsolePane extends JPanel {
 
     public void setProgramRunning(boolean running) {
         if (inlineInput) {
+            int dot = output.getCaret().getDot(), mark = output.getCaret().getMark();
             mutateOutput(
                     () ->
                             output.getDocument()
@@ -118,7 +119,8 @@ public final class ConsolePane extends JPanel {
                                             output.getDocument().getLength() - inputStart));
             inputEnabled = running;
             output.setEditable(running);
-            output.setCaretPosition(inputStart);
+            if (dot != mark) restoreSelection(Math.min(dot, inputStart), Math.min(mark, inputStart));
+            else output.setCaretPosition(inputStart);
             output.getCaret().setVisible(running && output.isFocusOwner());
         } else {
             input.setText("");
@@ -189,6 +191,10 @@ public final class ConsolePane extends JPanel {
     }
 
     private void drain() {
+        int dot = output.getCaret().getDot(), mark = output.getCaret().getMark();
+        int previousInputStart = inputStart;
+        boolean inPendingInput = inlineInput && inputEnabled && Math.min(dot, mark) >= inputStart;
+        int[] removed = {0};
         var batch = new ArrayDeque<Chunk>();
         boolean drop;
         synchronized (pending) {
@@ -208,11 +214,28 @@ public final class ConsolePane extends JPanel {
                         int remove = Math.min(inputStart, doc.getLength() - 180000);
                         doc.remove(0, remove);
                         inputStart -= remove;
+                        removed[0] = remove;
                     }
                 });
-        // Preserve a pending-input selection while output arrives. Otherwise follow new output.
-        if (!inlineInput || !inputEnabled || !output.isFocusOwner())
+        // Selecting an error must remain possible while a build is still writing output.
+        // Restore the original characters, including when a menu temporarily owns focus.
+        if (dot != mark || inPendingInput && output.isFocusOwner()) {
+            int inserted = inputStart + removed[0] - previousInputStart;
+            restoreSelection(
+                    shiftedOffset(dot, previousInputStart, inserted, removed[0], inPendingInput),
+                    shiftedOffset(mark, previousInputStart, inserted, removed[0], inPendingInput));
+        } else
             output.setCaretPosition(output.getDocument().getLength());
+    }
+
+    private int shiftedOffset(int offset, int boundary, int inserted, int removed, boolean inInput) {
+        if (offset > boundary || inInput && offset == boundary) offset += inserted;
+        return Math.max(0, Math.min(output.getDocument().getLength(), offset - removed));
+    }
+
+    private void restoreSelection(int dot, int mark) {
+        output.setCaretPosition(mark);
+        output.moveCaretPosition(dot);
     }
 
     private void insertOutput(String text, boolean err) throws BadLocationException {
@@ -257,6 +280,12 @@ public final class ConsolePane extends JPanel {
 
     public JTextComponent inputComponent() {
         return inlineInput ? output : input;
+    }
+
+    /** Cut never exports transcript as though it could remove it; only unsent input is editable. */
+    public boolean isSelectionEditable(JTextComponent component) {
+        return component.isEditable() && component.isEnabled()
+                && (component != output || !inlineInput || component.getSelectionStart() >= inputStart);
     }
 
     public void focusInput() {

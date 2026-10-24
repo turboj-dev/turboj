@@ -2,6 +2,13 @@
 
 Open a project folder or its POM. Maven import runs on a background worker and publishes one immutable generation to the editor. A compact status shows project name, modules, Java level, dependency state and native build mode. The project explorer can collapse completely and exposes modules, source/test/generated/resource roots and dependencies.
 
+First import resolves missing dependencies automatically from Maven Central or
+repositories/mirrors already configured in installed/user Maven settings. Maven's
+configured local repository is reused. Explicit offline settings and saved
+repository restrictions remain authoritative; repositories introduced only by a
+project need permission in Maven Settings. A dependency failure includes the
+next action for resolving it. No pre-populated TurboJ development cache is needed.
+
 All Project and Maven Build actions use CommandJ's registry and are available from Find Action. Existing keymaps remain independent of the visual theme. Maven actions do not silently replace shortcut bindings. Dialogs, POM previews, trust prompts, settings and output stay inside TurboJ's main frame.
 
 Fast Compile/Run uses current unsaved source and the native module compilation workspace. Maven Validate/Compile/Test/Package/Verify/Install/Clean/Dependency Tree/Effective POM are explicit real lifecycle actions with command, directory, selected distribution/JDK, profiles, output, exit status and cancellation. Wrapper execution requires project trust.

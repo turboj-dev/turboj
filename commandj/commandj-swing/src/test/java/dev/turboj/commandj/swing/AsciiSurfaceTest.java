@@ -2,14 +2,35 @@ package dev.turboj.commandj.swing;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.JTextComponent;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AsciiSurfaceTest {
+    @Test void asciiTextSurfacesRetainPlatformClipboardActions() throws Exception {
+        edt(() -> {
+            int mask = System.getProperty("os.name", "").startsWith("Mac")
+                    ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_DOWN_MASK;
+            for (JTextComponent text : List.of(new JTextField("query"), new JTextPane(), new JTextArea())) {
+                AsciiStyle.apply(text, AsciiPalette.defaults());
+                assertEquals(DefaultEditorKit.copyAction, text.getInputMap().get(KeyStroke.getKeyStroke(KeyEvent.VK_C, mask)));
+                assertEquals(DefaultEditorKit.cutAction, text.getInputMap().get(KeyStroke.getKeyStroke(KeyEvent.VK_X, mask)));
+                assertEquals(DefaultEditorKit.pasteAction, text.getInputMap().get(KeyStroke.getKeyStroke(KeyEvent.VK_V, mask)));
+                Object selectAll = text.getInputMap().get(KeyStroke.getKeyStroke(KeyEvent.VK_A, mask));
+                assertEquals(DefaultEditorKit.selectAllAction, selectAll);
+                assertNotNull(text.getActionMap().get(selectAll));
+                assertNotNull(text.getActionMap().get(DefaultEditorKit.copyAction));
+            }
+        });
+    }
+
     @Test void transparentHostDoesNotDarkenEditorAndPlainSurfaceRetainsCloseSemantics() throws Exception {
         edt(() -> {
             JRootPane root = new JRootPane(); root.setSize(640, 480); root.getLayeredPane().setSize(640, 480);

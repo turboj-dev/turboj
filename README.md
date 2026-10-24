@@ -20,8 +20,16 @@ The initial buffer is a working Hello World. New installations use the IntelliJ 
 
 Run works from unsaved buffers. Open Run → Java REPL for expressions and declarations without a main method. For `Scanner(System.in)`, type directly after the program prompt in the output pane and press Enter. The execution timeout pauses while the program waits for stdin. Use Run → Stop to terminate a program.
 
+Select text in the output pane and use **Cmd+C** or **Edit → Copy** to copy it.
+Clipboard commands follow the focused text area; arriving output preserves the selection.
+
 [Example projects](examples/README.md) include the same small calculator with and
 without Maven, each with two runnable JUnit tests.
+
+Open a Maven folder or `pom.xml`, wait for **Dependencies Resolved**, then use
+**Run → Run** and **Test → Run All Tests** directly. New imports download from
+Maven Central or user-configured mirrors; explicit offline preferences remain
+respected. Run discovers the project's main class and offers a choice if needed.
 
 ## Implemented
 
@@ -51,6 +59,9 @@ The [1.0.4 theme catalog report](docs/themes-release-1.0.4.md) records the share
 The [1.0.5 AI completion report](docs/ai-release-1.0.5.md) separates automated
 protocol tests, native editor checks, real local inference and unverified live
 cloud access. AI remains disabled until configured in Options.
+
+The [1.0.9 Maven first-open and clipboard report](docs/maven-open-copy-release-1.0.9.md)
+records fresh dependency downloads, project Run/Test and output clipboard checks.
 
 The [1.0.8 Maven and ASCII interface report](docs/maven-ascii-release-1.0.8.md)
 records native Maven project integration, independent MavenJ artifacts and the
@@ -84,7 +95,7 @@ It opens a real window, emits `app/target/gui-smoke.txt` and paints the frame to
 ./scripts/package-macos.sh dmg path/to/new-output-directory
 ```
 
-Run packaging on the target architecture. The macOS bundle version is `1.0.8` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
+Run packaging on the target architecture. The macOS bundle version is `1.0.9` because jpackage requires a positive first component; this remains the `0.1.0-SNAPSHOT` development preview. `TURBOJ_SKIP_BUILD=1` reuses an already verified application JAR. Builds are for local development, without Developer ID signing or notarization. A bundled `jlink` runtime includes compiler, JShell, desktop and debugger API modules; the worker launches its included `bin/java`.
 
 [Architecture](docs/architecture.md) · [Compiler](docs/compiler.md) · [Performance](docs/performance.md) · [Shortcuts](docs/shortcuts.md) · [Themes](docs/themes.md) · [Worker protocol](worker/docs/protocol.md) · [Licenses](docs/licenses.md)
 

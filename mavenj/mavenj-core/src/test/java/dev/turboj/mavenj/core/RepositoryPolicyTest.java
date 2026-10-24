@@ -77,6 +77,13 @@ class RepositoryPolicyTest {
                 assertEquals(0, requests.get());
                 assertFalse(blocked.toString().contains("super-secret-token"));
                 assertFalse(blocked.toString().contains("dont-publish-me"));
+                // The desktop opt-in accepts endpoints from user settings, without copying credentials.
+                var desktop = MavenImportDefaults.withUserRepositories(new ImportRequest(pom, settings, null,
+                        temp.resolve("desktop-cache"), Set.of(), Set.of(), Map.of(), false, Set.of(), false, null, Map.of()));
+                assertTrue(desktop.allowedRepositoryUrls().contains(url));
+                assertTrue(desktop.allowedRepositoryUrls().contains(MavenImportDefaults.CENTRAL));
+                assertFalse(desktop.toString().contains("super-secret-token"));
+                assertTrue(engine.open(desktop).resolved());
                 var allowed = new ImportRequest(pom, settings, null, temp.resolve("allowed-cache"),
                         Set.of(), Set.of(), Map.of(), false, Set.of(url), false, null, Map.of());
                 Workspace resolved = engine.open(allowed);
@@ -99,6 +106,35 @@ class RepositoryPolicyTest {
             }
         } finally {
             server.stop(0);
+        }
+    }
+
+    @Test
+    void desktopDefaultsHonorSettingsOfflineAndCannotGrantProjectRepositoryAccess() throws Exception {
+        Path settings = temp.resolve("user-settings.xml");
+        Path global = temp.resolve("global-settings.xml");
+        Path repository = temp.resolve("local-repository");
+        Files.writeString(settings, "<settings><offline>true</offline><localRepository>" + repository + "</localRepository></settings>");
+        Files.writeString(global, "<settings/>");
+        Path project = Files.createDirectory(temp.resolve("project"));
+        Files.writeString(project.resolve("pom.xml"), """
+                <project><modelVersion>4.0.0</modelVersion><groupId>fixture</groupId><artifactId>app</artifactId><version>1</version>
+                <properties><maven.compiler.release>21</maven.compiler.release></properties>
+                <repositories><repository><id>project-controlled</id><url>https://project.invalid/repository</url></repository></repositories></project>
+                """);
+        Files.createDirectory(project.resolve(".mvn"));
+        Files.writeString(project.resolve(".mvn/maven.config"), "-s\nproject-settings.xml\n");
+        Files.writeString(project.resolve("project-settings.xml"), "<settings><mirrors><mirror><id>untrusted</id><mirrorOf>*</mirrorOf><url>https://project.invalid/mirror</url></mirror></mirrors></settings>");
+        ImportRequest request = MavenImportDefaults.withUserRepositories(new ImportRequest(project, settings, global,
+                null, Set.of(), Set.of(), Map.of(), false, Set.of(), false, null, Map.of()));
+        assertEquals(Set.of(MavenImportDefaults.CENTRAL), request.allowedRepositoryUrls());
+        assertFalse(MavenImportDefaults.online(project).offline());
+        assertTrue(ImportRequest.offline(project).allowedRepositoryUrls().isEmpty());
+        try (var engine = new DefaultMavenJ()) {
+            Workspace model = engine.open(request);
+            assertTrue(model.resolved(), model.diagnostics().toString());
+            assertTrue(model.offline());
+            assertEquals(repository, model.localRepository());
         }
     }
 

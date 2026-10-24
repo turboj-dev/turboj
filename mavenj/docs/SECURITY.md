@@ -14,6 +14,14 @@ to prevent a permitted endpoint from escaping its authorization boundary.
 Certificates are verified normally; MavenJ does not install permissive TLS
 handlers or upload project metadata to TurboJ servers.
 
+TurboJ opts into `MavenImportDefaults`: new desktop projects permit Maven Central
+and endpoints from installed/user Maven settings, resolved through Maven's official
+settings builder. This policy reads no project POM or `.mvn/maven.config` when
+granting repository access. Project-only repository declarations and settings files
+cannot expand these permissions. Saved offline/allowlist choices remain unchanged.
+The headless API's explicit allowlist contract and CLI/MCP defaults are unchanged;
+dependency download permission never authorizes execution of project code.
+
 The official Maven settings decrypter reads encrypted server credentials. Secrets
 remain in memory for Resolver authentication and are scrubbed from diagnostics and
 public serialized effective POMs. Sensitive process-property values are also

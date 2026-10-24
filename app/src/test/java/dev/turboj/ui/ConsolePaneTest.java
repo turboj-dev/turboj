@@ -167,6 +167,52 @@ class ConsolePaneTest {
                 });
     }
 
+    @Test
+    void transcriptSelectionSurvivesNewOutputAndProgramCompletion() throws Exception {
+        Fixture fixture = fixture();
+        edt(() -> {
+            JTextComponent text = fixture.pane.inputComponent();
+            text.select(0, PROMPT.length());
+            assertFalse(fixture.pane.isSelectionEditable(text));
+            fixture.pane.append("An error arrived\n", true);
+            return null;
+        });
+        edt(() -> {
+            JTextComponent text = fixture.pane.inputComponent();
+            assertEquals(PROMPT, text.getSelectedText());
+            fixture.pane.setProgramRunning(false);
+            assertEquals(PROMPT, text.getSelectedText());
+            fixture.pane.append("Build finished\n", false);
+            return null;
+        });
+        edt(() -> {
+            assertEquals(PROMPT, fixture.pane.inputComponent().getSelectedText());
+            assertFalse(fixture.pane.inputComponent().isEditable());
+            return null;
+        });
+    }
+
+    @Test
+    void pendingInputSelectionTracksOutputInsertionWithoutSelectingTranscript() throws Exception {
+        Fixture fixture = fixture();
+        edt(() -> {
+            fixture.pane.setInputText("abc");
+            JTextComponent text = fixture.pane.inputComponent();
+            text.select(PROMPT.length(), PROMPT.length() + 2);
+            assertTrue(fixture.pane.isSelectionEditable(text));
+            fixture.pane.append("update\n", false);
+            return null;
+        });
+        edt(() -> {
+            JTextComponent text = fixture.pane.inputComponent();
+            assertEquals("ab", text.getSelectedText());
+            assertTrue(fixture.pane.isSelectionEditable(text));
+            text.replaceSelection("");
+            assertEquals(PROMPT + "update\nc", fixture.pane.text());
+            return null;
+        });
+    }
+
     private static Fixture fixture() throws Exception {
         Fixture fixture =
                 edt(

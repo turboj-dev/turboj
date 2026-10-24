@@ -19,6 +19,7 @@ import dev.turboj.ui.*;
 import dev.turboj.ui.themes.*;
 import dev.turboj.project.MavenProjectController;
 import dev.turboj.project.MavenCompilationWorkspace;
+import dev.turboj.project.MavenRunTargets;
 import dev.turboj.project.SourceEncoding;
 import dev.turboj.mavenj.api.MavenModels;
 
@@ -33,6 +34,7 @@ import java.util.concurrent.atomic.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.JTextComponent;
 
 public final class TurboFrame extends JFrame {
     public static final String HELLO =
@@ -97,6 +99,12 @@ public final class TurboFrame extends JFrame {
     private final KeymapManager commandKeymaps = new KeymapManager();
     private CommandKeyDispatcher commandDispatcher;
     private AutoCloseable keymapListener;
+    private Component lastTextCommandTarget = editor;
+    private final java.beans.PropertyChangeListener textCommandFocus = event -> {
+        if (event.getNewValue() instanceof Component target && isTextCommandTarget(target)
+                && SwingUtilities.isDescendingFrom(target, this) && !OverlayHost.active(this))
+            lastTextCommandTarget = target;
+    };
     private volatile long keymapPreferenceVersion;
     private final Map<Path, Buffer> buffers = new LinkedHashMap<>();
     private final Map<Path, SourceEncoding.Encoding> fileEncodings = new ConcurrentHashMap<>();
@@ -605,7 +613,16 @@ public final class TurboFrame extends JFrame {
     /** Extension point for native ecosystem actions; menus/palette/shortcuts share this registration. */
     public Action registerCommand(String id, String title, String category, Runnable action,
             java.util.function.Function<CommandContext, Availability> availability) {
-        commandRegistry.register(Command.action(id, title, category, action).when(context -> context.has("overlay")
+        return registerContextCommand(id, title, category, context -> action.run(), availability);
+    }
+
+    private Action registerContextCommand(String id, String title, String category,
+            java.util.function.Consumer<CommandContext> action,
+            java.util.function.Function<CommandContext, Availability> availability) {
+        commandRegistry.register(Command.of(id, title, category, (context, cancellation) -> {
+            action.accept(context);
+            return CompletableFuture.completedFuture(CommandResult.success());
+        }).when(context -> context.has("overlay")
                 ? Availability.disabled("Close the active dialog first") : availability.apply(context)));
         var result = new CommandAction(commandRegistry, id, this::commandContext,
                 this::commandFinished);
@@ -648,12 +665,88 @@ public final class TurboFrame extends JFrame {
             tags.add("completion");
             tags.add("completion-popup");
         }
-        return new CommandContext(tags, Map.of("documentVersion", editor.version()));
+        var attributes = new HashMap<String, Object>();
+        attributes.put("documentVersion", editor.version());
+        Component textTarget = focusedTextCommandTarget();
+        if (textTarget != null) attributes.put("textCommandTarget", textTarget);
+        return new CommandContext(tags, attributes);
+    }
+
+    private boolean isTextCommandTarget(Component target) {
+        return target == editor || target instanceof JTextComponent;
+    }
+
+    /** Swing menus temporarily take focus; palette actions retain their captured text target. */
+    private Component focusedTextCommandTarget() {
+        Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+        if (!OverlayHost.active(this) && isTextCommandTarget(focus)
+                && SwingUtilities.isDescendingFrom(focus, this)) return focus;
+        if (focus == null || focus instanceof MenuElement || OverlayHost.active(this))
+            return lastTextCommandTarget.isShowing() ? lastTextCommandTarget : null;
+        return null;
+    }
+
+    private Component textCommandTarget(CommandContext context) {
+        return context.value("textCommandTarget", Component.class)
+                .orElse(context.has("editor") ? editor : null);
+    }
+
+    private Availability textCommandAvailability(String id, CommandContext context) {
+        Component target = textCommandTarget(context);
+        boolean selected, editable;
+        if (target == editor) {
+            var location = editor.captureLocation();
+            selected = location.caret() != location.anchor();
+            editable = !editor.isReadOnly();
+        } else if (target instanceof JTextComponent text && text.isEnabled()) {
+            selected = text.getSelectionStart() != text.getSelectionEnd();
+            editable = text.isEditable();
+            if (id.equals("cut") && SwingUtilities.getAncestorOfClass(ConsolePane.class, text)
+                    instanceof ConsolePane pane) editable &= pane.isSelectionEditable(text);
+        } else return Availability.disabled("Focus a text area");
+        if ((id.equals("cut") || id.equals("paste")) && !editable)
+            return Availability.disabled("This text is read only");
+        if ((id.equals("copy") || id.equals("cut")) && !selected)
+            return Availability.disabled("Select text first");
+        return Availability.available();
+    }
+
+    private void textCommand(String id, String title) {
+        registerContextCommand(id, title, "Edit", context -> {
+            Component target = textCommandTarget(context);
+            if (target == editor) {
+                switch (id) {
+                    case "copy" -> editor.copy();
+                    case "cut" -> editor.cut();
+                    case "paste" -> editor.paste();
+                    case "selectAll" -> editor.selectAll();
+                    default -> throw new IllegalArgumentException(id);
+                }
+            } else if (target instanceof JTextComponent text) {
+                switch (id) {
+                    case "copy" -> text.copy();
+                    case "cut" -> text.cut();
+                    case "paste" -> text.paste();
+                    case "selectAll" -> text.selectAll();
+                    default -> throw new IllegalArgumentException(id);
+                }
+            }
+        }, context -> closing ? Availability.disabled("The application is closing")
+                : textCommandAvailability(id, context));
     }
 
     private Availability commandAvailability(String id, CommandContext context) {
+        boolean projectCommand = Set.of("compile", "run", "isolated", "compileProject", "make",
+                "tests.all", "tests.failed", "tests.current", "tests.class").contains(id);
+        boolean mavenProject = maven.importRequest() != null;
+        if (mavenProject && projectCommand) {
+            if (maven.busy()) return Availability.disabled("Maven project is loading dependencies");
+            if (maven.workspace() == null) return Availability.disabled("Maven import failed — see output and Reload Maven Project");
+            if (!maven.workspace().resolved()) return Availability.disabled("Maven dependencies are incomplete — Refresh Dependencies or check Maven Settings");
+        }
         if (!isJavaBuffer() && (id.startsWith("refactor.") || id.equals("organizeImports") || id.startsWith("format.")
-                || Set.of("compile", "run", "isolated", "complete", "documentation", "evaluateStatement").contains(id)))
+                || Set.of("complete", "documentation", "evaluateStatement").contains(id)
+                || !mavenProject && Set.of("compile", "run", "isolated").contains(id)))
             return Availability.disabled("Focus a Java source file");
         if (id.startsWith("maven.") || id.startsWith("project.")) {
             if (!Set.of("project.open", "project.explorer").contains(id) && maven.importRequest() == null)
@@ -710,7 +803,8 @@ public final class TurboFrame extends JFrame {
                 if (tests.busy() || pendingTestSnapshot || (refactoring != null && refactoring
                         .busy()))
                     return Availability.disabled("A project operation is already running");
-                if (!context.has("editor") || !context.has("editable"))
+                boolean wholeMavenProject = mavenProject && Set.of("tests.all", "tests.failed", "compileProject", "make").contains(id);
+                if (!wholeMavenProject && (!context.has("editor") || !context.has("editable")))
                     return Availability.disabled("Focus editable Java source");
             }
             if (id.equals("tests.failed") && (tests.lastReport() == null || tests.lastReport()
@@ -865,10 +959,10 @@ public final class TurboFrame extends JFrame {
             else
                 editor.redo();
         });
-        command("cut", "Cut", editor::cut);
-        command("copy", "Copy", editor::copy);
-        command("paste", "Paste", editor::paste);
-        command("selectAll", "Select all", editor::selectAll);
+        textCommand("cut", "Cut");
+        textCommand("copy", "Copy");
+        textCommand("paste", "Paste");
+        textCommand("selectAll", "Select all");
         command("duplicateLine", "Duplicate line", editor::duplicateLine);
         command("deleteLine", "Delete line", editor::deleteLine);
         command("moveLineUp", "Move line up", () -> editor.moveLine(-1));
@@ -1320,6 +1414,8 @@ public final class TurboFrame extends JFrame {
 
     private void bindKeys() {
         editor.setExternalCommandBindings(true);
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addPropertyChangeListener("permanentFocusOwner", textCommandFocus);
         commandDispatcher = new CommandKeyDispatcher(this, commandRegistry, commandKeymaps,
                 this::commandContext, text -> console.append(text + "\n", false));
         keymapListener = commandKeymaps.onChange(() -> {
@@ -1678,7 +1774,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private record NativeCompilation(CompilationResult active, MavenCompilationWorkspace.Result workspace,
-            List<Path> runtime, List<Path> modules, String moduleName, MavenCompilationWorkspace.ExecutionSnapshot pin) {}
+            List<MavenRunTargets.Target> targets) {}
 
     private CompletableFuture<CompilationResult> compileMaven(boolean run, boolean isolated, boolean explicit) {
         return compileMaven(run, isolated, explicit, false);
@@ -1686,19 +1782,24 @@ public final class TurboFrame extends JFrame {
 
     private CompletableFuture<CompilationResult> compileMaven(boolean run, boolean isolated, boolean explicit, boolean processors) {
         var model = maven.workspace();
-        var module = model == null || file == null ? Optional.<MavenModels.Module>empty() : model.moduleFor(file);
-        if (module.isEmpty()) return CompletableFuture.failedFuture(new IllegalStateException("No Maven module for this file"));
+        if (model == null || maven.busy())
+            return CompletableFuture.failedFuture(new IllegalStateException("Wait for Maven project import to finish"));
+        var module = file == null ? Optional.<MavenModels.Module>empty() : model.moduleFor(file);
+        if (processors && module.isEmpty())
+            return CompletableFuture.failedFuture(new IllegalStateException("Select source in a Maven module"));
         if (run && !maven.requireTrust()) return CompletableFuture.failedFuture(new CancellationException("Project execution was not authorized"));
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
         if (pendingMavenCompile != null) pendingMavenCompile.cancel(false);
         var capture = intelligenceSnapshot();
         Path activeFile = file;
+        String activeName = activeFile == null ? "" : activeFile.toString();
         long revision = refactoringRevision, op = operation.incrementAndGet();
         long request = run ? ++runRequest : runRequest;
         CompletableFuture<RunResult> previous = execution;
         if (run) { programWorker.stop(); running = false; console.setProgramRunning(false); }
+        messages.setVisible(true);
         buildStatus = "TURBOJ NATIVE · COMPILING"; refreshTitle();
-        boolean testSource = module.get().isTest(activeFile);
+        boolean testSource = module.isPresent() && module.get().isTest(activeFile);
         if (nativeCompileTask != null && !nativeCompileTask.isDone()) nativeCompileTask.cancel(true);
         if (pendingNativeResult != null && !pendingNativeResult.isDone()) pendingNativeResult.cancel(false);
         var future = new CompletableFuture<NativeCompilation>();
@@ -1706,28 +1807,26 @@ public final class TurboFrame extends JFrame {
         nativeCompileTask = nativeProjectCompiler.submit(() -> {
             try {
                 if (future.isCancelled()) return;
-            Map<Path, String> overlays = new LinkedHashMap<>();
-            capture.openSources().forEach((path, snapshot) -> { if (path.getFileName().toString().endsWith(".java")) overlays.put(path, snapshot.toString()); });
-            var coordinator = nativeMavenCompiler();
-            var result = coordinator.compile(model, overlays, revision, testSource, processors, maven.trusted());
-            var diagnostics = result.diagnostics().stream().filter(d -> d.fileName().equals(activeFile.toString()))
-                    .map(WorkspaceCompilationResult.SourceDiagnostic::diagnostic).toList();
-            MavenCompilationWorkspace.ExecutionSnapshot pin;
-            try { pin = run && result.success() ? coordinator.pinExecution(module.get().id(), testSource, model.generation(), revision) : null; }
-            catch (java.io.IOException failure) { throw new UncheckedIOException(failure); }
-            Map<String, byte[]> bytecode = new LinkedHashMap<>();
-            if (result.success()) result.modules().stream().filter(compiled -> compiled.moduleId().equals(module.get().id()) && (!compiled.tests() || testSource))
-                    .forEach(compiled -> bytecode.putAll(compiled.compilation().bytecode()));
-            String main = result.success() ? JavacCompilerBackend.findMainForSource(bytecode, activeFile.toString()) : null;
-            var active = new CompilationResult(capture.source().version(), result.success(), diagnostics, bytecode,
-                    result.durationNanos(), result.modules().stream().allMatch(MavenCompilationWorkspace.ModuleResult::cacheHit), main);
-            var compiled = new NativeCompilation(active, result, pin == null ? List.of() : pin.classpath(), pin == null ? List.of() : pin.modulePath(), pin == null ? "" : pin.moduleName(), pin);
-            if (!future.complete(compiled)) releaseExecution(pin);
+                Map<Path, String> overlays = new LinkedHashMap<>();
+                capture.openSources().forEach((path, snapshot) -> { if (path.getFileName().toString().endsWith(".java")) overlays.put(path, snapshot.toString()); });
+                var coordinator = nativeMavenCompiler();
+                var result = coordinator.compile(model, overlays, revision, testSource, processors, maven.trusted());
+                var diagnostics = result.diagnostics().stream().filter(d -> d.fileName().equals(activeName))
+                        .map(WorkspaceCompilationResult.SourceDiagnostic::diagnostic).toList();
+                Map<String, byte[]> bytecode = new LinkedHashMap<>();
+                if (result.success() && module.isPresent()) result.modules().stream()
+                        .filter(compiled -> compiled.moduleId().equals(module.get().id()) && (!compiled.tests() || testSource))
+                        .forEach(compiled -> bytecode.putAll(compiled.compilation().bytecode()));
+                var targets = run && result.success() ? MavenRunTargets.candidates(result, activeFile) : List.<MavenRunTargets.Target>of();
+                String main = targets.size() == 1 ? targets.getFirst().mainClass() : null;
+                var active = new CompilationResult(capture.source().version(), result.success(), diagnostics, bytecode,
+                        result.durationNanos(), result.modules().stream().allMatch(MavenCompilationWorkspace.ModuleResult::cacheHit), main);
+                future.complete(new NativeCompilation(active, result, targets));
             } catch (Throwable failure) { future.completeExceptionally(failure); }
         });
         future.whenComplete((value, failure) -> SwingUtilities.invokeLater(() -> {
             if (closing || model != maven.workspace() || revision != refactoringRevision || op != operation.get()
-                    || !activeFile.equals(file) || capture.source().version() != editor.version()) { if (value != null) releaseExecution(value.pin()); return; }
+                    || !Objects.equals(activeFile, file) || capture.source().version() != editor.version()) return;
             if (failure != null) { buildStatus = "NATIVE BUILD FAILED"; refreshTitle(); console.append(message(failure) + "\n", true); return; }
             tests.setMavenCompiler(nativeMavenCompiler());
             if (processors && value.active().success()) { generatedSourceRevision++; intelligence.changed(); }
@@ -1735,24 +1834,50 @@ public final class TurboFrame extends JFrame {
             buildStatus = "TURBOJ NATIVE · " + (value.active().success() ? "BUILD OK" : "BUILD FAILED") + " | " + ms(value.workspace().durationNanos()) + " ms";
             refreshTitle();
             if (explicit || !value.active().success()) for (var diagnostic : value.workspace().diagnostics())
-                if (!diagnostic.fileName().equals(activeFile.toString())) console.append(diagnostic.fileName() + ":" + diagnostic.diagnostic().line() + " " + diagnostic.diagnostic().message() + "\n", diagnostic.diagnostic().isError());
+                if (!diagnostic.fileName().equals(activeName)) console.append(diagnostic.fileName() + ":" + diagnostic.diagnostic().line() + " " + diagnostic.diagnostic().message() + "\n", diagnostic.diagnostic().isError());
             if (run && value.active().success()) {
-                if (value.active().mainClass() == null || value.active().mainClass().isBlank()) { releaseExecution(value.pin()); console.append("No supported main entry point found.\n", true); return; }
-                Path javaHome = (testSource ? module.get().testJava() : module.get().mainJava()).javaHome();
-                Path selectedJdk = javaHome == null ? Path.of(System.getProperty("java.home")) : javaHome;
-                previous.whenComplete((ignored, error) -> SwingUtilities.invokeLater(() -> {
-                    if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) { releaseExecution(value.pin()); return; }
-                    var key = new ProjectWorkerKey(selectedJdk, value.modules(), value.moduleName(), value.moduleName().isBlank() ? "" : value.active().mainClass());
-                    boolean modular = !key.moduleName().isBlank();
-                    programWorker = modular ? new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, key.home(), key.modulePath(), key.moduleName(), key.mainClass())
-                            : projectWorkers.computeIfAbsent(key, config -> new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, config.home()));
-                    showRepl(false); startRun(value.active(), isolated, request, value.runtime());
-                    WorkerClient launched = programWorker;
-                    execution.whenComplete((completed, problem) -> { releaseExecution(value.pin()); if (modular) launched.close(); });
-                }));
+                if (value.targets().isEmpty()) {
+                    console.append("No runnable main class found in this Maven project. Use Test → Run All Tests for unit tests.\n", false);
+                    return;
+                }
+                MavenRunTargets.Target target = value.targets().size() == 1 ? value.targets().getFirst()
+                        : (MavenRunTargets.Target) EmbeddedOptionPane.showInputDialog(this,
+                                "Choose the application's main class", "Run Maven project", JOptionPane.QUESTION_MESSAGE,
+                                null, value.targets().toArray(), value.targets().getFirst());
+                if (target == null) return;
+                if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) return;
+                launchMavenTarget(model, target, value.active(), revision, op, request, isolated, previous);
             } else if (value.active().success() && tests.automatic() && maven.trusted() && !tests.busy()) startTests(TurboTestController.Mode.ALL, true);
         }));
         return future.thenApply(NativeCompilation::active);
+    }
+
+    /** Pin the chosen module off the EDT; a later source/model generation cannot run stale output. */
+    private void launchMavenTarget(MavenModels.Workspace model, MavenRunTargets.Target target,
+            CompilationResult compiled, long revision, long op, long request, boolean isolated,
+            CompletableFuture<RunResult> previous) {
+        CompletableFuture.supplyAsync(() -> {
+            try { return nativeMavenCompiler().pinExecution(target.moduleId(), target.tests(), model.generation(), revision); }
+            catch (java.io.IOException failure) { throw new UncheckedIOException(failure); }
+        }, nativeProjectCompiler).whenComplete((pin, failure) -> SwingUtilities.invokeLater(() -> {
+            if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) { releaseExecution(pin); return; }
+            if (failure != null) { console.append("Unable to start Maven project: " + message(failure) + "\n", true); return; }
+            var module = model.module(target.moduleId()).orElseThrow();
+            Path javaHome = (target.tests() ? module.testJava() : module.mainJava()).javaHome();
+            Path selectedJdk = javaHome == null ? Path.of(System.getProperty("java.home")) : javaHome;
+            var executable = new CompilationResult(compiled.version(), true, compiled.diagnostics(), pin.bytecode(),
+                    compiled.durationNanos(), compiled.cacheHit(), target.mainClass());
+            previous.whenComplete((ignored, error) -> SwingUtilities.invokeLater(() -> {
+                if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) { releaseExecution(pin); return; }
+                var key = new ProjectWorkerKey(selectedJdk, pin.modulePath(), pin.moduleName(), pin.moduleName().isBlank() ? "" : target.mainClass());
+                boolean modular = !key.moduleName().isBlank();
+                programWorker = modular ? new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, key.home(), key.modulePath(), key.moduleName(), key.mainClass())
+                        : projectWorkers.computeIfAbsent(key, config -> new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, config.home()));
+                showRepl(false); startRun(executable, isolated, request, pin.classpath());
+                WorkerClient launched = programWorker;
+                execution.whenComplete((completed, problem) -> { releaseExecution(pin); if (modular) launched.close(); });
+            }));
+        }));
     }
 
     private static void releaseExecution(MavenCompilationWorkspace.ExecutionSnapshot snapshot) {
@@ -1760,7 +1885,11 @@ public final class TurboFrame extends JFrame {
     }
 
     public CompletableFuture<CompilationResult> compile(boolean run, boolean isolated) {
-        if (maven.workspace() != null && file != null && maven.workspace().moduleFor(file).isPresent()) return compileMaven(run, isolated, true);
+        if (maven.importRequest() != null) {
+            if (maven.busy() || maven.workspace() == null)
+                return CompletableFuture.failedFuture(new IllegalStateException("Wait for Maven project import to finish"));
+            return compileMaven(run, isolated, true);
+        }
         if (!isJavaBuffer()) return CompletableFuture.failedFuture(new IllegalStateException("Select a Java source file"));
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
         var snap = editor.snapshot();
@@ -2213,6 +2342,8 @@ public final class TurboFrame extends JFrame {
     public void shutdown() {
         if (closing) return;
         closing = true;
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .removePropertyChangeListener("permanentFocusOwner", textCommandFocus);
         settings.width = getWidth();
         settings.height = getHeight();
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
@@ -2268,6 +2399,11 @@ public final class TurboFrame extends JFrame {
         if (pendingTestSnapshot || closing || (!automatic && tests.busy()))
             return;
         var mavenModel = maven.workspace();
+        if (maven.importRequest() != null && (maven.busy() || mavenModel == null || !mavenModel.resolved())) {
+            if (!automatic) console.append(maven.busy() ? "Wait for Maven dependencies to finish loading.\n"
+                    : "Maven dependencies are incomplete. Refresh Dependencies or check Maven Settings.\n", true);
+            return;
+        }
         if (mavenModel != null && mode != TurboTestController.Mode.COMPILE && !maven.trusted()) {
             if (automatic || !maven.requireTrust()) return;
         }
