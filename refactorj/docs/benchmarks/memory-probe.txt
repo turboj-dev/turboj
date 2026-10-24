@@ -1,0 +1,22 @@
+sources=20 prepareLocalRename=25 explicitGC=false
+heapUsedBytes=59215088
+heapCommittedBytes=262144000
+nonHeapUsedBytes=62598536
+        2.14 real         5.96 user         0.35 sys
+           442564608  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               36202  page reclaims
+                  36  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                  16  signals received
+                 645  voluntary context switches
+               28676  involuntary context switches
+         65441332915  instructions retired
+         25337257219  cycles elapsed
+           424166624  peak memory footprint

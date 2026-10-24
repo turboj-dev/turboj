@@ -66,9 +66,9 @@ results, compilation failures and timings are retained in
 ./mvnw -q -pl app -am -DskipTests package
 javac -cp core/target/classes:app/target/turboj-app.jar \
   -d core/target/test-classes \
-  core/src/test/java/com/turboj/ai/LocalAIProbe.java
+  core/src/test/java/dev/turboj/ai/LocalAIProbe.java
 java -cp core/target/test-classes:core/target/classes:app/target/turboj-app.jar \
-  com.turboj.ai.LocalAIProbe \
+  dev.turboj.ai.LocalAIProbe \
   http://127.0.0.1:11439 qwen2.5-coder:1.5b-base
 ```
 

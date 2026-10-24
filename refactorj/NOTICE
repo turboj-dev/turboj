@@ -1,0 +1,20 @@
+RefactorJ
+Copyright (c) 2026 RefactorJ contributors
+Original RefactorJ code is distributed under the MIT License in LICENSE.
+
+This distribution includes unmodified third-party JARs. Those components retain
+their original licenses, copyrights, notices and source availability terms.
+Eclipse JDT, LTK, Platform and Equinox components retain their EPL notices.
+Apache Felix, OSGi APIs and Gson retain their Apache license notices.
+CommonMark retains its BSD license; Animal Sniffer retains its MIT license.
+JNA is distributed using its Apache-2.0 license option.
+
+The exact runtime inventory, SHA-256 checksums, upstream license declarations,
+original Maven POMs, source-archive URLs and supplemental license files are in
+docs/runtime-dependencies.json and docs/third-party (or the plugin's equivalent
+server/ or engine documentation directory). Original legal resources inside
+dependency JARs, including nested runtime bundles, must remain intact.
+
+No third-party implementation is relicensed as MIT. IDE SDKs are not included
+in this engine distribution. This notice is not a trademark clearance or a
+claim of affiliation with Eclipse, JetBrains, Microsoft or other upstreams.

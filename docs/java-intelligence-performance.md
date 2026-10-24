@@ -39,7 +39,7 @@ From the repository root, with Java 25:
 ```sh
 ./mvnw package
 java -cp core/target/test-classes:core/target/classes:app/target/turboj-app.jar \
-  com.turboj.intelligence.SemanticBenchmark
+  dev.turboj.intelligence.SemanticBenchmark
 ```
 
 The harness writes `core/target/java-intelligence-performance.json`. Keep both the source tree and the built class files aligned before comparing measurements. The harness checks the actual `println()` proposal, the resolved JDK symbol and the imported `java.util.ArrayList` proposal; it does not measure a successful empty operation.

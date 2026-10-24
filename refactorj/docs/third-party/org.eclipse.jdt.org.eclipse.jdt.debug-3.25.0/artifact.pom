@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.jdt</groupId>
+  <artifactId>org.eclipse.jdt.debug</artifactId>
+  <version>3.25.0</version>
+  <name>JDI Debug Model</name>
+  <description>JDI Debug Model</description>
+  <url>https://github.com/eclipse-jdt/eclipse.jdt.debug/</url>
+  <organization>
+    <name>Eclipse Foundation</name>
+    <url>https://www.eclipse.org</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>EPL-2.0</name>
+      <url>https://www.eclipse.org/legal/epl-2.0/</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <url>https://github.com/eclipse-jdt/eclipse.jdt.debug/graphs/contributors</url>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/eclipse-jdt/eclipse.jdt.debug.git</connection>
+    <developerConnection>scm:git:https://github.com/eclipse-jdt/eclipse.jdt.debug.git</developerConnection>
+    <tag>c005f634cc955057f9b6496b58cb9542ae7492c5</tag>
+    <url>https://github.com/eclipse-jdt/eclipse.jdt.debug/tree/c005f634cc955057f9b6496b58cb9542ae7492c5/org.eclipse.jdt.debug</url>
+  </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/eclipse-jdt/eclipse.jdt.debug/issues</url>
+  </issueManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+      <version>3.23.100</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.debug.core</artifactId>
+      <version>3.23.200</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jdt</groupId>
+      <artifactId>org.eclipse.jdt.core</artifactId>
+      <version>3.44.0</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.core.runtime</artifactId>
+      <version>3.34.100</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.core.expressions</artifactId>
+      <version>3.9.500</version>
+      <optional>false</optional>
+    </dependency>
+  </dependencies>
+</project>

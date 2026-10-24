@@ -113,12 +113,12 @@ No global Ollama application or launch service was installed.
 ./mvnw -q -Djava.awt.headless=true package
 java --enable-native-access=ALL-UNNAMED \
   -cp app/target/test-classes:app/target/turboj-app.jar \
-  com.turboj.app.AICompletionSmoke
+  dev.turboj.app.AICompletionSmoke
 TURBOJ_SKIP_BUILD=1 ./scripts/package-macos.sh dmg target/new-ai-build
 # With an explicitly started local FIM server:
 java --enable-native-access=ALL-UNNAMED \
   -cp app/target/test-classes:app/target/turboj-app.jar \
-  com.turboj.app.AILocalSmoke http://127.0.0.1:11439 qwen2.5-coder:1.5b-base
+  dev.turboj.app.AILocalSmoke http://127.0.0.1:11439 qwen2.5-coder:1.5b-base
 ```
 
 ## Boundaries

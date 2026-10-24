@@ -1,0 +1,13 @@
+<idea-plugin>
+  <id>dev.turboj.refactorj.intellij</id><name>RefactorJ</name><version>0.1.0</version>
+  <vendor url="https://turboj.dev">TurboJ</vendor>
+  <description>Explicit semantic Java refactorings with native previews and a native Java 25 engine with a resident compatibility mode.</description>
+  <idea-version since-build="261" until-build="261.*"/>
+  <depends>com.intellij.modules.platform</depends><depends>com.intellij.java</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <projectService serviceImplementation="dev.turboj.refactorj.intellij.RefactorJBackend"/>
+    <projectService serviceImplementation="dev.turboj.refactorj.intellij.RefactorJSettings"/>
+    <projectConfigurable parentId="tools" id="dev.turboj.refactorj.settings" displayName="RefactorJ" instance="dev.turboj.refactorj.intellij.RefactorJConfigurable"/>
+  </extensions>
+  <actions><action id="RefactorJ.RefactorThis" class="dev.turboj.refactorj.intellij.RefactorJAction" text="RefactorJ..." description="Preview a RefactorJ semantic transformation"><add-to-group group-id="RefactoringMenu" anchor="last"/></action></actions>
+</idea-plugin>

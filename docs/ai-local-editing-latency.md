@@ -98,10 +98,10 @@ From the repository root:
 ./mvnw -q -pl app -am -DskipTests package
 javac -cp app/target/classes:core/target/classes:app/target/turboj-app.jar \
   -d app/target/test-classes \
-  app/src/test/java/com/turboj/ai/AILocalLatencyProbe.java
+  app/src/test/java/dev/turboj/ai/AILocalLatencyProbe.java
 java -Djava.awt.headless=true \
   -cp app/target/test-classes:app/target/classes:core/target/classes:app/target/turboj-app.jar \
-  com.turboj.ai.AILocalLatencyProbe \
+  dev.turboj.ai.AILocalLatencyProbe \
   http://127.0.0.1:11439 qwen2.5-coder:1.5b-base
 ```
 

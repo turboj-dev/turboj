@@ -27,7 +27,7 @@ EPL_SOURCE = 'https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt'
 LEGAL = re.compile(r'(^|/)(license[^/]*|notice[^/]*|about[^/]*|legal[^/]*|epl[^/]*)($|/)', re.I)
 ANSI = re.compile(r'\x1b\[[0-9;]*m')
 DEPENDENCY = re.compile(r'^\s+([\w.-]+):([\w.-]+):jar:([^:\s]+):(compile|runtime):(.+?)(?: -- module.*)?$')
-FORBIDDEN_GROUPS = ('com.turboj', 'org.junit', 'org.openjdk.jmh', 'com.google.googlejavaformat')
+FORBIDDEN_GROUPS = ('dev.turboj', 'org.junit', 'org.openjdk.jmh', 'com.google.googlejavaformat')
 
 
 def digest(data):
@@ -168,7 +168,7 @@ def verify_jar(path):
         for name, data in expected.items():
             if name not in names or archive.read(name) != data:
                 raise SystemExit(f'Missing or changed notice in shaded JAR: {name}')
-        forbidden = ('com/turboj/', 'org/junit/', 'org/openjdk/jmh/',
+        forbidden = ('dev/turboj/', 'org/junit/', 'org/openjdk/jmh/',
                      'com/google/googlejavaformat/', 'javafmt-test-fixtures/', 'dev/javafmt/benchmarks/')
         bad = [name for name in names if name.startswith(forbidden)]
         if bad:

@@ -1,5 +1,16 @@
 # Keyboard shortcuts
 
+New installations use **IntelliJ IDEA macOS**. Existing installations retain
+**TurboJ Classic** until changed in Options → Keymap. IntelliJ, Eclipse, VS Code
+and Classic profiles are independent of the visual theme. The menus and
+Help → Shortcuts use the live CommandJ registry and show current bindings.
+See [profiles, verified sources and customization](../commandj/docs/KEYMAPS.md).
+
+Find Action defaults to Cmd+Shift+A in IntelliJ, Cmd+3 in Eclipse,
+Cmd+Shift+P/F1 in VS Code, and Cmd+Shift+P in Classic.
+
+## Preserved TurboJ Classic bindings
+
 | Shortcut | Action |
 |---|---|
 | F1 | Quick documentation for the Java symbol at the caret |
@@ -34,9 +45,13 @@
 
 macOS may reserve function keys for hardware controls; hold Fn or adjust macOS keyboard settings. System shortcuts are not globally intercepted. On other operating systems Ctrl substitutes for Cmd in application bindings.
 
-Menus also expose Isolated Run, Send EOF, clear output, replace selection, themes, font size and performance samples. Run → Java REPL switches the bottom pane to persistent JShell; Enter submits, Up/Down recall history, Tab completes, Reset starts a fresh session, and Stop terminates a hanging evaluation. Evaluate Selection and Evaluate Current Statement submit explicitly; context-dependent code receives real JShell diagnostics. Unimplemented debugger/test commands are absent.
+Menus also expose Isolated Run, Send EOF, clear output, replace selection, themes, font size and performance samples. Run → Java REPL switches the bottom pane to persistent JShell; Enter submits, Up/Down recall history, Tab completes, Reset starts a fresh session, and Stop terminates a hanging evaluation. Evaluate Selection and Evaluate Current Statement submit explicitly; context-dependent code receives real JShell diagnostics. Test commands run real JUnit tests; unimplemented debugger commands are absent.
 
-`~/.config/turboj/keymap.json` maps command IDs to Swing KeyStroke strings. It is loaded at startup; invalid entries are ignored. Example:
+Options → Keymap supports recording shortcuts/chords, multiple bindings, profile
+duplication, inheritance, reset, conflict resolution and JSON import/export.
+Preferences are saved in `~/.config/turboj/commandj-keymap.json`. The former
+`keymap.json` format below is imported for existing installations; new customizations
+should use the editor or export/import schema instead. Legacy example:
 
 ```json
 {

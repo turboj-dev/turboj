@@ -62,7 +62,7 @@ disposable Keychain item on this Mac.
 Five automated tests cover endpoint identity, rejection of unsafe destinations,
 the EDT guard and renewed consent for cloud/model/automatic changes. They never
 access a real Keychain. The explicit `KeychainSmoke` executable created, read,
-updated and removed a random test-only entry under `com.turboj.ai.test.<UUID>`.
+updated and removed a random test-only entry under `dev.turboj.ai.test.<UUID>`.
 It verified endpoint separation and missing-entry handling, then removed the
 entry in `finally`. No existing credential was read or modified.
 
@@ -91,7 +91,7 @@ After building test classes, the explicit Keychain test can be run with:
 ```sh
 java --enable-native-access=ALL-UNNAMED \
   -cp app/target/test-classes:app/target/turboj-app.jar \
-  com.turboj.ai.KeychainSmoke
+  dev.turboj.ai.KeychainSmoke
 ```
 
 The GUI fixture requires a full development JDK with `jdk.httpserver`; it is not

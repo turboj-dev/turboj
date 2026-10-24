@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-24",
+  "hardware": {
+    "cpu": "Apple M5",
+    "logicalCPUs": 10,
+    "memoryBytes": 17179869184,
+    "os": "macOS 26.5.1 (25F80)"
+  },
+  "java": {
+    "distribution": "Amazon Corretto",
+    "version": "25.0.4.1+10-LTS"
+  },
+  "jmh": "1.37",
+  "warm": {
+    "forks": 1,
+    "warmupIterations": 2,
+    "measurementIterations": 3,
+    "iterationMilliseconds": 500,
+    "threads": 1,
+    "mode": "SampleTime",
+    "profiler": "gc",
+    "files": [
+      1,
+      20
+    ]
+  },
+  "cold": {
+    "forks": 5,
+    "warmupIterations": 0,
+    "measurementIterations": 1,
+    "mode": "SingleShotTime",
+    "profiler": "gc"
+  },
+  "measuredArtifactSHA256": "9eeef9d3cf3f3652f74ab8ed785dbc744ecbe525124b6956dbe58a926196508f",
+  "gitBaseRevision": "7239ce805f4d9ba1ece717ee3b62ffe011e6b092",
+  "workingTreeChangesIncluded": true,
+  "notes": [
+    "Baseline and final are successive local working-tree implementations, not published releases.",
+    "Cold means fresh forked JVM; OS filesystem caches were not cleared.",
+    "Raw SampleTime histograms are retained; near-zero cached timings are below reliable individual timer resolution.",
+    "Measurements precede the subsequent public-symbol-ID hardening patch; not asserted as timings for the final release artifact.",
+    "Later scratch-buffer unit-name handling and snapshot-only source-root changes were not benchmarked in this profiling session."
+  ],
+  "uncachedArtifactSHA256": "24a149e3894ddc35fe29d46caa52b91ed68485d3229cacfa7829e43f723c25ae",
+  "memoryProbe": {
+    "sources": 20,
+    "localRenamePreparations": 25,
+    "explicitGC": false,
+    "heapSizeOverride": false,
+    "observations": 1,
+    "maximumRSSBytes": 442564608,
+    "peakFootprintBytes": 424166624,
+    "heapUsedBytes": 59215088,
+    "heapCommittedBytes": 262144000,
+    "nonHeapUsedBytes": 62598536
+  }
+}

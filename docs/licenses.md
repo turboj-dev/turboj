@@ -5,10 +5,12 @@ TurboJ's own source is MIT licensed. Third-party components retain their license
 | Component | Pinned direct version | License / source |
 |---|---|---|
 | Eclipse JDT Core / ECJ transitively | 3.44.0 | [Eclipse Public License 2.0](https://projects.eclipse.org/projects/eclipse.jdt); [source](https://github.com/eclipse-jdt/eclipse.jdt.core) |
+| Eclipse JDT Core Manipulation / LTK | 1.23.200 / 3.15.100 | EPL 2.0; original embedded refactoring bundles; [inventory](../refactorj/docs/LICENSES.md) |
+| Apache Felix SCR | 2.2.18 | Apache 2.0; headless component lifecycle |
 | Gson | 2.13.2 | [Apache 2.0](https://github.com/google/gson); [release](https://github.com/google/gson/releases/tag/gson-parent-2.13.2) |
 | Maven Wrapper | 3.3.4 | [Apache 2.0](https://maven.apache.org/tools/wrapper/) |
 | Maven | 3.9.11 | Apache 2.0; build tool only |
-| JUnit Jupiter / Platform | 5.13.4 / 1.13.4 | EPL 2.0; test dependency only; [release notes](https://docs.junit.org/5.13.4/release-notes/) |
+| JUnit Jupiter / Platform | 5.13.4 / 1.13.4 | EPL 2.0; bundled for TurboTest and used by tests; [release notes](https://docs.junit.org/5.13.4/release-notes/) |
 | JMH | 1.37 | GPLv2 with Classpath Exception; benchmark module only |
 | Amazon Corretto runtime | build JDK's installed version | [GPLv2 with Classpath Exception](https://aws.amazon.com/corretto/faqs/); original `legal/` notices retained by jlink |
 

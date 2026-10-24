@@ -44,7 +44,7 @@ Source from archives is read-only. If no attached source exists, the UI shows re
 
 Open [`examples/intelligence/Main.java`](../examples/intelligence/Main.java). Its two calls to `Calculator.add` exercise integer and String overloads. The integer declaration calls `MathUtils.sum`, giving a three-file navigation chain. `String.substring` exercises JDK source and documentation lookup. Project Javadoc includes genuine parameter names and return descriptions.
 
-The native acceptance harness, `com.turboj.app.IntelligenceSmoke`, opens a real desktop window and exercises ghost text, Tab acceptance and undo, Escape, completion alternatives, both method overloads, three-file navigation, retained unsaved buffers, JDK source and documentation, delayed project-documentation hover, parameter hints, incomplete-source recovery and typing with analysis active. It also switches among Classic, Amber, Dark and Light while a suggestion is visible. This harness is separate from headless JUnit tests; it must be run on a desktop.
+The native acceptance harness, `dev.turboj.app.IntelligenceSmoke`, opens a real desktop window and exercises ghost text, Tab acceptance and undo, Escape, completion alternatives, both method overloads, three-file navigation, retained unsaved buffers, JDK source and documentation, delayed project-documentation hover, parameter hints, incomplete-source recovery and typing with analysis active. It also switches among Classic, Amber, Dark and Light while a suggestion is visible. This harness is separate from headless JUnit tests; it must be run on a desktop.
 
 ## Current boundaries
 

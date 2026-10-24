@@ -1,0 +1,13 @@
+# RefactorJ for IntelliJ IDEA
+
+Use **Refactor → RefactorJ...**. Built-in IDEA refactoring actions and shortcuts remain available. The plugin presents applicable operations from the Java engine, editable typed request parameters, a native diff tab for every affected file and one explicit **Apply all changes** action. Semantic work runs on a background task, with cancellation and source-version checks. Minimal document/VFS edits use one native IDE undo command.
+
+On Java 25+ hosts the plugin embeds the shared engine in-process through an isolated library classloader. Older compatible hosts use one resident Java 25 LSP backend per project; this mode can also be selected explicitly for compatibility. The underlying semantic engine is unchanged. Set the Java executable, source roots and dependency classpath in **Settings → Tools → RefactorJ**. TurboJ is not required. The plugin does not modify unrelated IDE formatting or refactoring settings.
+
+After building/verifying the Maven modules and `python3 ../scripts/package.py`, run `python3 scripts/build.py`. Set `IDEA_HOME` to the installed IDEA SDK (`Contents` on macOS). The independent ZIP is in `target/refactorj-intellij-0.1.0.zip` and can be installed through **Plugins → Install Plugin from Disk**. No mocked IntelliJ classes are used during compilation.
+
+`python3 scripts/test-host.py` starts the real IDE with an isolated temporary profile and a test-only starter. `REFACTORJ_JAVA` selects Java 25. Results are recorded in `target/host-test-result.txt`. The source-level build target is Java 21. Compatibility beyond the declared 261 build family requires an actual host run before widening the plugin descriptor.
+
+Resource operations use native VFS undo and require active IntelliJ Local History for the affected project paths; the adapter rejects an operation when the host cannot provide that undo support. The real resource-undo test runs with the graphical environment because IDEA disables Local History in headless non-test mode. Cyclic/overwriting moves are rejected by this external adapter; use the native RefactorJ transaction API when those are required. Refactorings require a named Java file in a local project; its buffer may be unsaved. External filesystem races remain subject to the host's VFS synchronization and source checks. No source is uploaded, saved automatically or executed by preview/apply.
+
+Verified on IntelliJ IDEA 2026.1.3 with JBR 25.0.3: 20 actual host assertions cover native same-process embedding, the request catalog, unsaved preview/apply/undo/redo, stale/cancelled results, VFS rename with one undo, and explicit resident compatibility mode. The shared engine correctness suite separately covers the semantic catalog.

@@ -1,0 +1,114 @@
+[
+  {
+    "operation": "conflicts",
+    "commands": 100,
+    "p50_us": 29.056,
+    "p95_us": 33.536,
+    "p99_us": 39.185919999999925,
+    "allocated_bytes_per_op": 102344.15134781592
+  },
+  {
+    "operation": "conflicts",
+    "commands": 1000,
+    "p50_us": 28.448,
+    "p95_us": 34.368,
+    "p99_us": 41.856,
+    "allocated_bytes_per_op": 102321.24643553955
+  },
+  {
+    "operation": "dispatch",
+    "commands": 100,
+    "p50_us": 0.042,
+    "p95_us": 0.084,
+    "p99_us": 0.084,
+    "allocated_bytes_per_op": 392.01332059516125
+  },
+  {
+    "operation": "dispatch",
+    "commands": 1000,
+    "p50_us": 0.042,
+    "p95_us": 0.084,
+    "p99_us": 0.084,
+    "allocated_bytes_per_op": 392.0163111648344
+  },
+  {
+    "operation": "lookup",
+    "commands": 100,
+    "p50_us": 0.0,
+    "p95_us": 0.042,
+    "p99_us": 0.042,
+    "allocated_bytes_per_op": 16.00076367209009
+  },
+  {
+    "operation": "lookup",
+    "commands": 1000,
+    "p50_us": 0.0,
+    "p95_us": 0.042,
+    "p99_us": 0.042,
+    "allocated_bytes_per_op": 16.00076960205779
+  },
+  {
+    "operation": "palette",
+    "commands": 100,
+    "p50_us": 8.864,
+    "p95_us": 9.904,
+    "p99_us": 16.561279999999794,
+    "allocated_bytes_per_op": 13443.297839355526
+  },
+  {
+    "operation": "palette",
+    "commands": 1000,
+    "p50_us": 90.624,
+    "p95_us": 99.84,
+    "p99_us": 108.032,
+    "allocated_bytes_per_op": 128750.61994497447
+  },
+  {
+    "operation": "registration",
+    "commands": 100,
+    "p50_us": 9.952,
+    "p95_us": 11.36,
+    "p99_us": 16.768,
+    "allocated_bytes_per_op": 147154.55936996566
+  },
+  {
+    "operation": "registration",
+    "commands": 1000,
+    "p50_us": 10.208,
+    "p95_us": 19.904,
+    "p99_us": 29.856,
+    "allocated_bytes_per_op": 147156.0676109577
+  },
+  {
+    "operation": "shortcut",
+    "commands": 100,
+    "p50_us": 0.20800000000000002,
+    "p95_us": 0.25,
+    "p99_us": 0.292,
+    "allocated_bytes_per_op": 376.0569255598668
+  },
+  {
+    "operation": "shortcut",
+    "commands": 1000,
+    "p50_us": 0.25,
+    "p95_us": 0.292,
+    "p99_us": 0.375,
+    "allocated_bytes_per_op": 352.1065971037992
+  },
+  {
+    "operation": "switchProfile",
+    "commands": 100,
+    "p50_us": 1.25,
+    "p95_us": 1.416,
+    "p99_us": 2.248,
+    "allocated_bytes_per_op": 2520.4962630226937
+  },
+  {
+    "operation": "switchProfile",
+    "commands": 1000,
+    "p50_us": 1.0,
+    "p95_us": 1.25,
+    "p99_us": 1.832,
+    "allocated_bytes_per_op": 2520.5760930768397
+  }
+]

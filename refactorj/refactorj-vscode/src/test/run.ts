@@ -1,0 +1,42 @@
+import * as vscode from 'vscode';
+import * as assert from 'node:assert/strict';
+import { writeFile, readFile, mkdir } from 'node:fs/promises';
+import * as path from 'node:path';
+
+export async function run() {
+  const artifacts = process.env.REFACTORJ_TEST_ARTIFACTS!; const folder = vscode.workspace.workspaceFolders?.[0]; assert.ok(folder, 'real workspace folder');
+  const extension = vscode.extensions.getExtension('turboj-local.refactorj'); assert.ok(extension, 'installed development extension');
+  const api = await extension.activate(); let checks = 0;
+  const file = path.join(folder.uri.fsPath, 'A.java'), disk = 'class A {}\n', source = 'class A { int run(){ int total = 1; return total; } }\n';
+  await writeFile(file, disk); const document = await vscode.workspace.openTextDocument(file); const editor = await vscode.window.showTextDocument(document);
+  await editor.edit(edit => edit.replace(new vscode.Range(document.positionAt(0), document.positionAt(document.getText().length)), source));
+  const offset = source.indexOf('total'); const selection = new vscode.Range(document.positionAt(offset), document.positionAt(offset));
+  const prepared = await api.prepare(document, selection, { operation: 'rename', name: 'sum' });
+  assert.equal(prepared.plan.status, 'VALID', JSON.stringify(prepared.plan.diagnostics)); checks++;
+  assert.equal(document.getText(), source); assert.equal(await readFile(file, 'utf8'), disk); checks += 2;
+  const pid = api.state(document.uri).pid; assert.ok(pid); checks++;
+  assert.equal(await api.apply(prepared), true); assert.equal(document.getText(), source.replaceAll('total', 'sum')); checks += 2;
+  await vscode.commands.executeCommand('undo'); assert.equal(document.getText(), source, 'one native undo restores unsaved source'); checks++;
+  await vscode.commands.executeCommand('redo'); assert.equal(document.getText(), source.replaceAll('total', 'sum')); checks++;
+  await vscode.commands.executeCommand('undo');
+  const stale = await api.prepare(document, selection, { operation: 'rename', name: 'amount' });
+  await editor.edit(edit => edit.insert(document.positionAt(document.getText().length), '// newer\n'));
+  await assert.rejects(api.apply(stale)); assert.equal(document.getText(), source + '// newer\n'); checks += 2;
+  assert.equal(api.state(document.uri).pid, pid, 'resident backend reused'); checks++;
+  const token = new vscode.CancellationTokenSource(); token.cancel(); await assert.rejects(api.prepare(document, selection, { operation: 'rename', name: 'ignored' }, token.token)); token.dispose(); checks++;
+  const typeSelection = new vscode.Range(document.positionAt(6), document.positionAt(6));
+  let moved = await api.prepare(document, typeSelection, { operation: 'rename', name: 'Renamed' });
+  assert.equal(moved.plan.status, 'VALID', JSON.stringify(moved.plan.diagnostics)); checks++;
+  await assert.rejects(api.apply(moved), /Save the affected file explicitly/); assert.equal(await readFile(file, 'utf8'), disk); checks++;
+  await document.save();
+  moved = await api.prepare(document, typeSelection, { operation: 'rename', name: 'Renamed' });
+  assert.equal(await api.apply(moved), true); checks++;
+  await assert.rejects(readFile(file, 'utf8')); assert.ok(await readFile(path.join(folder.uri.fsPath, 'Renamed.java'), 'utf8')); checks++;
+  await vscode.commands.executeCommand('undo');
+  const restored = await vscode.workspace.openTextDocument(file); assert.equal(restored.getText(), source + '// newer\n', 'one undo restores moved file and unsaved contents'); checks++;
+  assert.equal(restored.isDirty, true, 'native resource undo leaves restored text unsaved, as VS Code specifies'); checks++;
+  await restored.save();
+  assert.equal(await readFile(file, 'utf8'), source + '// newer\n', 'explicit save persists the undone source'); checks++;
+  await mkdir(artifacts, { recursive: true }); await writeFile(path.join(artifacts, 'host-test-result.txt'), `PASS ${checks} real VS Code host assertions; VS Code ${vscode.version}\n`);
+  await vscode.commands.executeCommand('workbench.action.revertAndCloseActiveEditor');
+}

@@ -8,6 +8,29 @@ TurboJ targets Java 25 without preview features. The desktop is Swing/Java2D wit
 - **cli**: standalone commands sharing the compiler/worker implementation. Resident GUI IPC is a later milestone.
 - **benchmarks**: repeatable latency samples; timings distinguish compile, worker dispatch/execution and editor mutation/paint. Targets are not claims.
 
+## Embedded ecosystem
+
+The application and its original modules use the `dev.turboj` Java namespace.
+Independent `commandj`, `refactorj`, `javafmt` and `turbotest` projects are ordinary
+versioned Java dependencies. CLI, LSP, MCP and external IDE adapters are not part
+of TurboJ's internal invocation path. FormatJ retains its `dev.javafmt` API.
+
+RefactorJ's resident Eclipse runtime owns one semantic workspace shared through
+the immutable `JavaIntelligence` API. Refactoring preparation uses the same bounded
+semantic lane as editor intelligence. Plans carry input versions; candidate
+validation, disk journaling and generated-region formatting run off the EDT.
+The native host publishes verified edits to retained buffers as a logical workspace
+transaction. Undo refuses to overwrite later edits or external file changes.
+TurboTest receives a committed source snapshot only after successful application;
+its code executes in the existing worker, not the editor JVM.
+
+CommandJ provides one registry for menus, keymaps and the palette. Its optional
+Swing overlay host places internal dialogs in the main frame's layered pane.
+Completion/documentation and menu/combo popups are also contained by that frame.
+The theme supplies menu/control colors independently from the keymap. Modal
+internal interactions use Swing's secondary event loop rather than blocking
+painting or background-result delivery.
+
 An edit publishes a document version, repaints affected text, then queues analysis. Snapshots capture pieces without copying the full source on each key. String materialization and all compiler work occur on background threads. Results are checked again against the current version on the event dispatch thread. Run compiles the submitted buffer if needed; saving is unnecessary. A later edit invalidates the pending run request.
 
 The first implementation deliberately uses a linear piece list and incrementally maintained line offsets. Project dependency/ABI tracking is not yet claimed. Fast Run uses trusted local code; JVM global state is not fully reset. No automatic code execution, telemetry, account, or network activity occurs at application startup.

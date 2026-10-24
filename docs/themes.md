@@ -60,8 +60,8 @@ Invalid custom themes produce an error while the previous theme remains active. 
 
 ```sh
 ./mvnw package
-java --enable-native-access=ALL-UNNAMED -cp app/target/test-classes:app/target/turboj-app.jar com.turboj.app.ThemeSmoke
-java --enable-native-access=ALL-UNNAMED -cp app/target/test-classes:app/target/turboj-app.jar com.turboj.app.ThemeBrowserLatency
+java --enable-native-access=ALL-UNNAMED -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.ThemeSmoke
+java --enable-native-access=ALL-UNNAMED -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.ThemeBrowserLatency
 ```
 
 Screenshots and the actual native report are emitted to `app/target/theme-{classic,dark,light}.png`, `app/target/theme-browser-grid.png`, `app/target/theme-random-drum.png` and `app/target/theme-smoke.txt`. `ThemeBrowserLatency` writes actual first-open, warm-open, search and cached-arrow action-to-ready timings to `app/target/theme-latency.txt`; these are local measurements, not input-to-paint or hardware-independent guarantees. Automated contrast checks cover explicit token pairings, not a claim of complete application accessibility conformance.

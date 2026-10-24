@@ -1,0 +1,95 @@
+{
+  "name": "refactorj",
+  "displayName": "RefactorJ",
+  "description": "Semantic Java refactoring with explicit previews and a resident local engine.",
+  "version": "0.1.0",
+  "publisher": "turboj-local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.138.0",
+    "node": ">=22"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:java"
+  ],
+  "main": "./out/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "refactorj.refactor",
+        "title": "RefactorJ: Refactor This"
+      },
+      {
+        "command": "refactorj.rename",
+        "title": "RefactorJ: Rename"
+      },
+      {
+        "command": "refactorj.configure",
+        "title": "RefactorJ: Settings"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "refactorj.refactor",
+          "when": "editorLangId == java",
+          "group": "refactor@20"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "RefactorJ",
+      "properties": {
+        "refactorj.javaExecutable": {
+          "type": "string",
+          "default": "java",
+          "scope": "machine",
+          "description": "Java 25 executable for the resident semantic engine."
+        },
+        "refactorj.sourceRoots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Source directories relative to the workspace. Empty scans the workspace."
+        },
+        "refactorj.classpath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Dependency JARs/directories relative to the workspace."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "prepare-server": "node scripts/prepare-server.mjs",
+    "package": "npm run compile && npm run prepare-server && vsce package --no-dependencies --allow-missing-repository",
+    "test:host": "npm run compile && npm run prepare-server && node scripts/test-host.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/vscode": "1.138.0",
+    "@vscode/vsce": "4.0.0",
+    "typescript": "6.0.3"
+  },
+  "overrides": {
+    "@azure/msal-node": "7.1.1"
+  }
+}

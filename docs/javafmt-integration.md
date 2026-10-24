@@ -98,5 +98,5 @@ After building the application and test classes, run the explicit GUI harness:
 ```sh
 java --enable-native-access=ALL-UNNAMED \
   -cp app/target/test-classes:app/target/turboj-app.jar \
-  com.turboj.app.FormattingSmoke
+  dev.turboj.app.FormattingSmoke
 ```

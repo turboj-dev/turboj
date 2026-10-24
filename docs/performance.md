@@ -123,7 +123,7 @@ measurement intervals.
 ./mvnw -pl benchmarks -am -DskipTests package
 java -jar benchmarks/target/turboj-benchmarks.jar --output benchmarks/results/local.json
 java -jar benchmarks/target/turboj-benchmarks.jar jmh CoreBenchmarks -rf json -rff benchmarks/results/jmh.json
-java -cp benchmarks/target/turboj-benchmarks.jar com.turboj.benchmarks.GuiLatencyBench
+java -cp benchmarks/target/turboj-benchmarks.jar dev.turboj.benchmarks.GuiLatencyBench
 ```
 
 `--quick` selects the shorter 5-warmup/15-sample run recorded above. GUI
