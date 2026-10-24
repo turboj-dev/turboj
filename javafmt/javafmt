@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+JAVAFMT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -n "${JAVAFMT_JAVA:-}" ]; then
+  JAVAFMT_RUNTIME=$JAVAFMT_JAVA
+elif [ -x "$JAVAFMT_ROOT/runtime/bin/java" ]; then
+  JAVAFMT_RUNTIME=$JAVAFMT_ROOT/runtime/bin/java
+elif [ -n "${JAVA_HOME:-}" ]; then
+  JAVAFMT_RUNTIME=$JAVA_HOME/bin/java
+else
+  JAVAFMT_RUNTIME=$(command -v java || true)
+fi
+if [ -z "$JAVAFMT_RUNTIME" ] || [ ! -x "$JAVAFMT_RUNTIME" ]; then
+  printf '%s\n' 'javafmt requires Java 25 or the bundled runtime distribution.' >&2
+  exit 2
+fi
+if [ -f "$JAVAFMT_ROOT/lib/javafmt.jar" ]; then
+  JAVAFMT_ARCHIVE=$JAVAFMT_ROOT/lib/javafmt.jar
+else
+  JAVAFMT_ARCHIVE=$JAVAFMT_ROOT/javafmt-cli/target/javafmt.jar
+fi
+if [ ! -f "$JAVAFMT_ARCHIVE" ]; then
+  printf '%s\n' 'Build javafmt first: ./mvnw -q -pl javafmt-cli -am package' >&2
+  exit 2
+fi
+exec "$JAVAFMT_RUNTIME" -Xmx512m -jar "$JAVAFMT_ARCHIVE" "$@"

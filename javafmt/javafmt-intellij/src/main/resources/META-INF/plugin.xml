@@ -1,0 +1,18 @@
+<idea-plugin>
+    <id>dev.javafmt.intellij</id>
+    <name>javafmt</name>
+    <version>0.1.0</version>
+    <vendor>javafmt contributors</vendor>
+    <description>JavaFMT Style 1: deterministic Java formatting using an independent resident Java 25 engine. Enable per project in Settings → Tools → javafmt. No TurboJ installation required.</description>
+    <idea-version since-build="261" until-build="261.*"/>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="dev.javafmt.intellij.JavafmtSettings"/>
+        <projectService serviceImplementation="dev.javafmt.intellij.FormatterBackend"/>
+        <projectConfigurable parentId="tools" id="dev.javafmt.settings" displayName="javafmt"
+                             instance="dev.javafmt.intellij.JavafmtConfigurable"/>
+        <formattingService implementation="dev.javafmt.intellij.JavafmtFormattingService" order="first"/>
+        <notificationGroup id="javafmt" displayType="BALLOON"/>
+    </extensions>
+</idea-plugin>

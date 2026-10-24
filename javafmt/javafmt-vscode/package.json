@@ -1,0 +1,40 @@
+{
+  "name": "javafmt",
+  "displayName": "javafmt",
+  "description": "JavaFMT Style 1: one Java style with a resident Java formatter.",
+  "version": "0.1.0",
+  "publisher": "javafmt-local",
+  "license": "MIT",
+  "engines": { "vscode": "^1.138.0", "node": ">=22" },
+  "categories": ["Formatters"],
+  "activationEvents": ["onLanguage:java"],
+  "main": "./out/extension.js",
+  "extensionKind": ["workspace"],
+  "capabilities": { "untrustedWorkspaces": { "supported": false }, "virtualWorkspaces": false },
+  "contributes": {
+    "configuration": {
+      "title": "javafmt",
+      "properties": {
+        "javafmt.javaExecutable": {
+          "type": "string",
+          "default": "java",
+          "scope": "machine",
+          "description": "Java 25 executable for the resident formatter. No style settings are supported."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "prepare-server": "node scripts/prepare-server.mjs",
+    "package": "npm run compile && npm run prepare-server && vsce package --no-dependencies --allow-missing-repository",
+    "test:host": "npm run compile && npm run prepare-server && node scripts/test-host.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/vscode": "1.138.0",
+    "@vscode/vsce": "4.0.0",
+    "typescript": "6.0.3"
+  },
+  "overrides": { "@azure/msal-node": "7.1.1" }
+}

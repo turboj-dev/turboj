@@ -85,6 +85,12 @@ public final class EditorComponent extends JComponent
     private int emphasisStart = -1, emphasisEnd = -1;
     private javax.swing.Timer emphasisTimer;
 
+    private record FormattingLocations(Location before, Location after) {}
+
+    private final java.util.WeakHashMap<
+                    PieceTable, java.util.LinkedHashMap<Long, FormattingLocations>>
+            formattingHistory = new java.util.WeakHashMap<>();
+
     /** All offsets are UTF-16 offsets into the current source version. */
     public record TextEdit(int start, int end, String text) {
         public TextEdit {
@@ -559,6 +565,55 @@ public final class EditorComponent extends JComponent
         return true;
     }
 
+    /** Apply sparse formatter edits on the EDT, preserving source positions and one-step undo. */
+    public boolean applyFormatting(long expectedVersion, List<dev.javafmt.core.TextEdit> edits) {
+        if (readOnly || !composition.isEmpty() || expectedVersion != version()) return false;
+        Objects.requireNonNull(edits);
+        int previousEnd = -1;
+        var replacements = new ArrayList<PieceTable.Edit>(edits.size());
+        for (var edit : edits) {
+            if (edit.start() < previousEnd
+                    || edit.end() > document.length()
+                    || !characterBoundary(edit.start())
+                    || !characterBoundary(edit.end())) return false;
+            previousEnd = edit.end();
+            replacements.add(new PieceTable.Edit(edit.start(), edit.end(), edit.replacement()));
+        }
+        Location before = captureLocation();
+        int visibleStart = document.lineStart(Math.min(topLine, document.lineCount() - 1));
+        int mappedCaret = dev.javafmt.core.TextEdit.mapOffset(caret, edits);
+        int mappedAnchor = dev.javafmt.core.TextEdit.mapOffset(anchor, edits);
+        int mappedVisibleStart = dev.javafmt.core.TextEdit.mapOffset(visibleStart, edits);
+        PieceTable.HistoryResult transaction = document.replaceAll(replacements);
+        if (transaction == null) return true;
+        Location after =
+                new Location(
+                        mappedCaret,
+                        mappedAnchor,
+                        document.lineAt(Math.clamp(mappedVisibleStart, 0, document.length())),
+                        leftColumn);
+        caret = after.caret();
+        anchor = after.anchor();
+        topLine = after.topLine();
+        changed(document.lineAt(Math.min(edits.getFirst().start(), document.length())), true);
+        restoreLocation(after);
+        var history =
+                formattingHistory.computeIfAbsent(
+                        document, ignored -> new java.util.LinkedHashMap<>());
+        history.put(transaction.id(), new FormattingLocations(before, after));
+        while (history.size() > 2000) history.remove(history.keySet().iterator().next());
+        return true;
+    }
+
+    private boolean characterBoundary(int offset) {
+        return offset >= 0
+                && offset <= document.length()
+                && !(offset > 0
+                        && offset < document.length()
+                        && Character.isHighSurrogate(document.charAt(offset - 1))
+                        && Character.isLowSurrogate(document.charAt(offset)));
+    }
+
     private boolean validCompletion(InlineCompletion proposal) {
         if (proposal == null
                 || readOnly
@@ -776,20 +831,33 @@ public final class EditorComponent extends JComponent
 
     public void undo() {
         if (readOnly) return;
-        applyHistory(document.undo());
+        applyHistory(document.undoTransaction(), false);
     }
 
     public void redo() {
         if (readOnly) return;
-        applyHistory(document.redo());
+        applyHistory(document.redoTransaction(), true);
     }
 
-    private void applyHistory(PieceTable.Change change) {
-        if (change == null) return;
-        caret = anchor = change.start() + change.inserted().length();
-        changed(
-                document.lineAt(change.start()),
-                change.removed().indexOf('\n') >= 0 || change.inserted().indexOf('\n') >= 0);
+    private void applyHistory(PieceTable.HistoryResult result, boolean forward) {
+        if (result == null) return;
+        PieceTable.Change change = result.changes().getLast();
+        var history = formattingHistory.get(document);
+        FormattingLocations formatted = history == null ? null : history.get(result.id());
+        Location restored =
+                formatted == null ? null : forward ? formatted.after() : formatted.before();
+        caret = restored == null ? change.start() + change.inserted().length() : restored.caret();
+        anchor = restored == null ? caret : restored.anchor();
+        int start = result.changes().stream().mapToInt(PieceTable.Change::start).min().orElse(0);
+        boolean multiline =
+                result.changes().size() > 1
+                        || result.changes().stream()
+                                .anyMatch(
+                                        item ->
+                                                item.removed().indexOf('\n') >= 0
+                                                        || item.inserted().indexOf('\n') >= 0);
+        changed(document.lineAt(Math.min(start, document.length())), multiline);
+        if (restored != null) restoreLocation(restored);
     }
 
     public void indent(boolean unindent) {

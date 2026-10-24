@@ -1,0 +1,7 @@
+# Preserve upstream legal bytes, deliberately unformatted fixtures and raw measurements.
+javafmt-cli/src/main/resources/third-party/** -whitespace
+scripts/legal/** -whitespace
+javafmt-test-fixtures/** -whitespace
+docs/measurements/** -whitespace
+# The original Apache Windows wrapper uses CRLF.
+mvnw.cmd whitespace=cr-at-eol

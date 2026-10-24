@@ -1,0 +1,23 @@
+OS=Mac OS X 26.5.1 aarch64
+Runtime=25.0.4.1+10-LTS processors=10
+All samples retained. Warmup30, measured100, sequential reused instances; no source cache. Default GJF style differs.
+backend,mode,input_utf16,p50_ms,p95_ms,p99_ms,max_ms,bytes_alloc_per_op,operations_per_second
+javafmt-0.1.0,unformatted,1070,0.534,0.834,1.144,1.222,639281,1767.61
+javafmt-0.1.0,canonical-noop,1885,0.186,0.228,0.297,1.093,396567,5140.47
+eclipse-jdt-3.44.0,unformatted,1070,0.386,0.482,0.493,0.494,521046,2663.51
+eclipse-jdt-3.44.0,canonical-noop,1863,0.263,0.295,0.319,0.320,435869,3814.80
+google-java-format-1.28.0-default,unformatted,1070,1.188,1.657,2.507,3.976,2052463,814.35
+google-java-format-1.28.0-default,canonical-noop,1588,0.776,1.326,2.781,3.007,2172847,1145.84
+javafmt-0.1.0,unformatted,10293,1.427,1.968,3.694,3.755,4043122,646.21
+javafmt-0.1.0,canonical-noop,18212,0.831,0.979,1.262,2.797,2603808,1145.45
+eclipse-jdt-3.44.0,unformatted,10293,1.332,1.541,3.164,3.974,3232928,711.32
+eclipse-jdt-3.44.0,canonical-noop,17998,1.161,1.296,1.383,2.054,2645774,842.12
+google-java-format-1.28.0-default,unformatted,10293,2.681,3.739,4.136,6.243,10341568,351.27
+google-java-format-1.28.0-default,canonical-noop,15323,2.619,3.247,3.748,3.756,11736294,371.80
+javafmt-0.1.0,unformatted,102402,12.798,14.280,14.380,14.446,37523848,76.19
+javafmt-0.1.0,canonical-noop,180547,8.558,10.118,10.636,11.681,24757056,113.59
+eclipse-jdt-3.44.0,unformatted,102402,13.713,15.228,15.303,15.345,32888533,71.41
+eclipse-jdt-3.44.0,canonical-noop,178435,12.694,14.395,14.444,14.494,24663016,77.19
+google-java-format-1.28.0-default,unformatted,102402,34.526,55.735,60.941,86.453,93718348,27.95
+google-java-format-1.28.0-default,canonical-noop,152035,37.099,44.223,46.669,47.081,108063818,27.11
+All-backends summed memory-pool peaks(bytes), not processRSS=671486672

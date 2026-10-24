@@ -1,0 +1,7 @@
+node_modules/
+out/
+server/*.jar
+artifacts/
+*.vsix
+THIRD_PARTY.md
+runtime-dependencies.json

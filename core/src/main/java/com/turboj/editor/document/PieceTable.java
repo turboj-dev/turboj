@@ -7,14 +7,28 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * UTF-16 offsets, immutable original buffer and append-only immutable addition chunks.
- * Edits copy piece descriptors, never the complete document. Snapshots share immutable
- * buffers and can safely be consumed by a background compiler. Mutation belongs to the EDT.
+ * UTF-16 offsets, immutable original buffer and append-only immutable addition chunks. Edits copy
+ * piece descriptors, never the complete document. Snapshots share immutable buffers and can safely
+ * be consumed by a background compiler. Mutation belongs to the EDT.
  */
 public final class PieceTable implements CharSequence {
     private record Piece(String buffer, int start, int length) {}
 
     public record Change(int start, String removed, String inserted) {}
+
+    /** Replacement offsets refer to the unmodified document, in UTF-16 code units. */
+    public record Edit(int start, int end, String text) {
+        public Edit {
+            Objects.requireNonNull(text);
+        }
+    }
+
+    /** Changes are ordered original-coordinate replacements; an entry is one undo operation. */
+    public record HistoryResult(long id, List<Change> changes) {
+        public HistoryResult {
+            changes = List.copyOf(changes);
+        }
+    }
 
     private String original = "";
     private final List<String> additions = new ArrayList<>();
@@ -23,8 +37,12 @@ public final class PieceTable implements CharSequence {
     private int[] lineStarts = {0};
     private int length;
     private long version;
-    private final ArrayDeque<Change> undo = new ArrayDeque<>();
-    private final ArrayDeque<Change> redo = new ArrayDeque<>();
+    private long nextHistoryId;
+
+    private record HistoryEntry(long id, List<Change> forward, List<Change> backward) {}
+
+    private final ArrayDeque<HistoryEntry> undo = new ArrayDeque<>();
+    private final ArrayDeque<HistoryEntry> redo = new ArrayDeque<>();
 
     public PieceTable() {}
 
@@ -120,10 +138,45 @@ public final class PieceTable implements CharSequence {
         Change change = new Change(start, substring(start, end), text);
         if (change.removed().equals(text)) return change;
         apply(change);
-        undo.addLast(change);
+        remember(List.of(change));
+        return change;
+    }
+
+    /**
+     * Apply ordered, nonoverlapping edits as a single transaction without replacing unchanged
+     * spans. All ranges are validated before mutation. Empty and identical edits create no history.
+     */
+    public HistoryResult replaceAll(List<Edit> edits) {
+        Objects.requireNonNull(edits);
+        List<Change> changes = new ArrayList<>();
+        int previousEnd = -1;
+        for (Edit edit : edits) {
+            Objects.checkFromToIndex(edit.start(), edit.end(), length);
+            if (edit.start() < previousEnd)
+                throw new IllegalArgumentException("Overlapping or unordered document edits");
+            previousEnd = edit.end();
+            String removed = substring(edit.start(), edit.end());
+            if (!removed.equals(edit.text()))
+                changes.add(new Change(edit.start(), removed, edit.text()));
+        }
+        if (changes.isEmpty()) return null;
+        applyAll(changes);
+        return remember(changes);
+    }
+
+    private HistoryResult remember(List<Change> changes) {
+        List<Change> backward = new ArrayList<>(changes.size());
+        int delta = 0;
+        for (Change change : changes) {
+            backward.add(new Change(change.start() + delta, change.inserted(), change.removed()));
+            delta += change.inserted().length() - change.removed().length();
+        }
+        HistoryEntry entry =
+                new HistoryEntry(++nextHistoryId, List.copyOf(changes), List.copyOf(backward));
+        undo.addLast(entry);
         if (undo.size() > 2000) undo.removeFirst();
         redo.clear();
-        return change;
+        return new HistoryResult(entry.id(), changes);
     }
 
     public boolean canUndo() {
@@ -135,20 +188,72 @@ public final class PieceTable implements CharSequence {
     }
 
     public Change undo() {
-        if (undo.isEmpty()) return null;
-        Change change = undo.removeLast();
-        Change inverse = new Change(change.start(), change.inserted(), change.removed());
-        apply(inverse);
-        redo.addLast(change);
-        return inverse;
+        HistoryResult result = undoTransaction();
+        return result == null ? null : result.changes().getFirst();
     }
 
     public Change redo() {
+        HistoryResult result = redoTransaction();
+        return result == null ? null : result.changes().getFirst();
+    }
+
+    public HistoryResult undoTransaction() {
+        if (undo.isEmpty()) return null;
+        HistoryEntry original = undo.removeLast();
+        applyAll(original.backward());
+        redo.addLast(original);
+        return new HistoryResult(original.id(), original.backward());
+    }
+
+    public HistoryResult redoTransaction() {
         if (redo.isEmpty()) return null;
-        Change change = redo.removeLast();
-        apply(change);
-        undo.addLast(change);
-        return change;
+        HistoryEntry original = redo.removeLast();
+        applyAll(original.forward());
+        undo.addLast(original);
+        return new HistoryResult(original.id(), original.forward());
+    }
+
+    /** One pass over pieces and line starts, even for thousands of formatter whitespace edits. */
+    private void applyAll(List<Change> changes) {
+        if (changes.size() == 1) {
+            apply(changes.getFirst());
+            return;
+        }
+        int lineCount = lineStarts.length;
+        for (Change change : changes) {
+            lineCount += (int) change.inserted().chars().filter(c -> c == '\n').count();
+            lineCount -= (int) change.removed().chars().filter(c -> c == '\n').count();
+        }
+        int[] updatedStarts = new int[lineCount];
+        List<Piece> updated = new ArrayList<>(pieces.size() + changes.size() * 2);
+        int sourceAt = 0, oldLine = 1, newLine = 1, delta = 0;
+        for (Change change : changes) {
+            int start = change.start(), end = start + change.removed().length();
+            appendRange(updated, sourceAt, start);
+            while (oldLine < lineStarts.length && lineStarts[oldLine] <= start)
+                updatedStarts[newLine++] = lineStarts[oldLine++] + delta;
+            while (oldLine < lineStarts.length && lineStarts[oldLine] <= end) oldLine++;
+            if (!change.inserted().isEmpty()) {
+                additions.add(change.inserted());
+                addPiece(updated, new Piece(change.inserted(), 0, change.inserted().length()));
+                for (int i = 0; i < change.inserted().length(); i++)
+                    if (change.inserted().charAt(i) == '\n')
+                        updatedStarts[newLine++] = start + delta + i + 1;
+            }
+            delta += change.inserted().length() - change.removed().length();
+            sourceAt = end;
+        }
+        appendRange(updated, sourceAt, length);
+        while (oldLine < lineStarts.length)
+            updatedStarts[newLine++] = lineStarts[oldLine++] + delta;
+        if (newLine != lineCount) throw new IllegalStateException("Document line index mismatch");
+        pieces = updated;
+        lineStarts = updatedStarts;
+        ends = new int[pieces.size()];
+        int running = 0;
+        for (int i = 0; i < pieces.size(); i++) ends[i] = running += pieces.get(i).length();
+        length += delta;
+        version++;
     }
 
     private void apply(Change change) {

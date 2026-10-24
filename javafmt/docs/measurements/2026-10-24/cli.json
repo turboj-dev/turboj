@@ -1,0 +1,25 @@
+{
+  "launcher": "javafmt",
+  "input_utf16": 1158,
+  "fresh_process_ms": [
+    281.59275,
+    188.872167,
+    185.529209,
+    185.956542,
+    185.133291,
+    188.343792,
+    188.232209,
+    192.975916,
+    203.260083,
+    187.741333,
+    188.003541,
+    185.799542
+  ],
+  "first_process_ms": 281.59275,
+  "median_ms": 188.11787500000003,
+  "maximum_ms": 281.59275,
+  "batch_files": 100,
+  "batch_write_ms": 757.433417,
+  "batch_noop_check_ms": 293.061791,
+  "notes": "Each sample starts a fresh JVM. OS filesystem caches are not flushed. Includes process and pipe/file I/O. No samples discarded; 12 samples are too few for reliable tail percentiles."
+}

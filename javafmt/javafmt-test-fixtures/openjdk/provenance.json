@@ -1,0 +1,19 @@
+{
+  "provenance": "Unmodified source entries from Amazon Corretto 25.0.4.1+10-LTS installed lib/src.zip; JavaFMT test data only",
+  "sourceArchiveSha256": "90eb97a680762a937f99c5c811d23b9f623e83552c57a69af7b7e25fb6c07008",
+  "runtimeVersion": "25.0.4.1+10-LTS",
+  "files": [
+    {
+      "archiveEntry": "java.base/java/util/Objects.java",
+      "file": "Objects.java",
+      "sha256": "12e9655ab961d99a2857b16f20a81a353500ac0f7b7692c4744ed28fed6e05d2",
+      "bytes": 19120
+    },
+    {
+      "archiveEntry": "java.base/java/util/Optional.java",
+      "file": "Optional.java",
+      "sha256": "c3f1501847e324475dda297929598a9cd11ac5b3fcf788670ae186f5e3b8b831",
+      "bytes": 17187
+    }
+  ]
+}

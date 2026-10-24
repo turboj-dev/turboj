@@ -4,6 +4,7 @@ import com.turboj.ai.*;
 import com.turboj.compiler.*;
 import com.turboj.config.*;
 import com.turboj.execution.*;
+import com.turboj.formatting.FormattingController;
 import com.turboj.intelligence.*;
 import com.turboj.intelligence.JavaIntelligenceService.Declaration;
 import com.turboj.ui.*;
@@ -67,6 +68,7 @@ public final class TurboFrame extends JFrame {
     private Path bufferKey = untitledKey();
     private IntelligenceController intelligence;
     private AICompletionController aiCompletion;
+    private FormattingController formatting;
     private final CredentialStore aiCredentials = new MacKeychainCredentialStore();
     private final JLabel aiStatus = new JLabel();
     private com.turboj.editor.document.PieceTable observedDocument;
@@ -85,7 +87,7 @@ public final class TurboFrame extends JFrame {
     private final AtomicLong operation = new AtomicLong();
     private final AtomicLong bufferIdentity = new AtomicLong();
     private final AtomicLong openRequest = new AtomicLong();
-    private boolean saving;
+    private boolean saving, formattingSave;
     private DeferredSave deferredSave;
 
     private record DeferredSave(boolean as, Runnable continuation, long identity) {}
@@ -181,6 +183,11 @@ public final class TurboFrame extends JFrame {
                 acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
                 dismissCompletion == null ? KeyStroke.getKeyStroke("ESCAPE") : dismissCompletion,
                 shortcut("aiAcceptWord", "ctrl alt ENTER"));
+        formatting =
+                new FormattingController(
+                        editor,
+                        text -> console.append(text + "\n", false),
+                        this::formattingApplied);
         editor.setKeyHandler(
                 e -> {
                     if (aiCompletion.handleKey(e)) return true;
@@ -239,6 +246,10 @@ public final class TurboFrame extends JFrame {
 
     public AICompletionController aiCompletion() {
         return aiCompletion;
+    }
+
+    public FormattingController formatting() {
+        return formatting;
     }
 
     public Path currentFile() {
@@ -425,6 +436,26 @@ public final class TurboFrame extends JFrame {
         command("documentation", "Quick documentation", () -> intelligence.quickDocumentation());
         command("back", "Navigate back", this::navigateBack);
         command("forward", "Navigate forward", this::navigateForward);
+        command("format.document", "Format Document", () -> formatting.format(false));
+        command("format.selection", "Format Selection", () -> formatting.format(true));
+        command(
+                "format.onSave",
+                "Format on Save",
+                () -> {
+                    settings.formatOnSave = !settings.formatOnSave;
+                    commands.get("format.onSave")
+                            .putValue(Action.SELECTED_KEY, settings.formatOnSave);
+                    String snapshot = settings.snapshotJson();
+                    background.execute(
+                            () -> {
+                                try {
+                                    Settings.saveSnapshot(snapshot);
+                                } catch (java.io.IOException error) {
+                                    errorLater(error);
+                                }
+                            });
+                });
+        commands.get("format.onSave").putValue(Action.SELECTED_KEY, settings.formatOnSave);
         command("ai.request", "Request AI completion", () -> aiCompletion.request(true, false));
         command("ai.another", "Request another AI completion", () -> aiCompletion.requestAnother());
         command(
@@ -713,6 +744,11 @@ public final class TurboFrame extends JFrame {
                 "documentation");
         menu("Search", "find", "findNext", "findPrevious", "replace", "goto");
         menu("Navigate", "declaration", "back", "forward");
+        var code = new JMenu("Code");
+        code.add(new JMenuItem(commands.get("format.document")));
+        code.add(new JMenuItem(commands.get("format.selection")));
+        code.add(new JCheckBoxMenuItem(commands.get("format.onSave")));
+        menus.add(code);
         menu(
                 "Run",
                 "run",
@@ -773,6 +809,8 @@ public final class TurboFrame extends JFrame {
         bindings.put("alt X", "quit");
         String mod = System.getProperty("os.name").contains("Mac") ? "meta " : "ctrl ";
         bindings.put(mod + "B", "declaration");
+        bindings.put(mod + "alt L", "format.document");
+        bindings.put(mod + "alt shift L", "format.selection");
         for (var e :
                 Map.of(
                                 "S",
@@ -819,7 +857,9 @@ public final class TurboFrame extends JFrame {
                                         "forward",
                                         "ai.request",
                                         "ai.another",
-                                        "ai.larger")
+                                        "ai.larger",
+                                        "format.document",
+                                        "format.selection")
                                 .contains(id)) editorBindings.put(ks, id);
                     }
                 });
@@ -1324,7 +1364,7 @@ public final class TurboFrame extends JFrame {
             showError("Attached source is read only. Use Save as to create an editable copy.");
             return;
         }
-        if (saving) {
+        if (saving || formattingSave) {
             deferredSave = new DeferredSave(as, next, bufferIdentity.get());
             return;
         }
@@ -1345,6 +1385,29 @@ public final class TurboFrame extends JFrame {
             showError("The destination already has unsaved changes in another open buffer.");
             return;
         }
+        if (settings.formatOnSave && !editor.isReadOnly()) {
+            formattingSave = true;
+            long identity = bufferIdentity.get();
+            formatting.format(
+                    false,
+                    outcome -> {
+                        formattingSave = false;
+                        if (closing || bufferIdentity.get() != identity) {
+                            finishSave();
+                        } else if (outcome == FormattingController.Outcome.STALE) {
+                            console.append(
+                                    "Source changed during formatting; save again.\n", false);
+                            finishSave();
+                        } else {
+                            // Invalid Java must still be saveable; only formatting is skipped on
+                            // failure.
+                            beginSave(chosen, next);
+                        }
+                    });
+        } else beginSave(chosen, next);
+    }
+
+    private void beginSave(Path chosen, Runnable next) {
         boolean same = chosen.equals(file);
         byte[] expected = diskFingerprint;
         var snapshot = editor.snapshot();
@@ -1602,6 +1665,7 @@ public final class TurboFrame extends JFrame {
         compiler.close();
         intelligence.close();
         aiCompletion.close();
+        formatting.close();
         background.execute(
                 () -> {
                     try {
@@ -1619,6 +1683,37 @@ public final class TurboFrame extends JFrame {
     private KeyStroke shortcut(String id, String fallback) {
         KeyStroke value = KeyStroke.getKeyStroke(keymap.getOrDefault(id, fallback));
         return value == null ? KeyStroke.getKeyStroke(fallback) : value;
+    }
+
+    private void formattingApplied(FormattingController.Applied result) {
+        Path key = bufferKey;
+        navigation.remap(
+                visit -> {
+                    if (!visit.key().equals(key) || visit.version() != result.before().version())
+                        return visit;
+                    var old = visit.location();
+                    int top =
+                            result.before()
+                                    .lineStart(
+                                            Math.min(
+                                                    old.topLine(),
+                                                    result.before().lineCount() - 1));
+                    int mappedTop = dev.javafmt.core.TextEdit.mapOffset(top, result.edits());
+                    var mapped =
+                            new EditorComponent.Location(
+                                    dev.javafmt.core.TextEdit.mapOffset(
+                                            old.caret(), result.edits()),
+                                    dev.javafmt.core.TextEdit.mapOffset(
+                                            old.anchor(), result.edits()),
+                                    result.document()
+                                            .lineAt(
+                                                    Math.clamp(
+                                                            mappedTop,
+                                                            0,
+                                                            result.document().length())),
+                                    old.leftColumn());
+                    return new Visit(key, mapped, result.afterVersion());
+                });
     }
 
     private void showAISettings(AIConfig initial) {

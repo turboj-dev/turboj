@@ -1,0 +1,463 @@
+[
+  {
+    "groupId": "com.google.code.gson",
+    "artifactId": "gson",
+    "version": "2.13.2",
+    "scope": "compile",
+    "sha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0",
+    "pomSha256": "3aa06aa7c0f9af092961a42d09578e4324be146348a0ee6ed47857f7c2677b76",
+    "declaredLicenses": [
+      {
+        "name": "Apache-2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.13.2/gson-2.13.2-sources.jar",
+    "preservedLegalFiles": [],
+    "legalFileSha256": {},
+    "supplementalLicenseFile": "LICENSE",
+    "supplementalLicenseSource": "https://raw.githubusercontent.com/google/gson/gson-parent-2.13.2/LICENSE",
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "groupId": "com.google.errorprone",
+    "artifactId": "error_prone_annotations",
+    "version": "2.41.0",
+    "scope": "compile",
+    "sha256": "a56e782b5b50811ac204073a355a21d915a2107fce13ec711331ad036f660fcc",
+    "pomSha256": "a151df1e2e0b48618d8b06a180748a29b3abb39b1b2396f6a1c879a727488c6e",
+    "declaredLicenses": [
+      {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.41.0/error_prone_annotations-2.41.0-sources.jar",
+    "preservedLegalFiles": [],
+    "legalFileSha256": {},
+    "supplementalLicenseFile": "LICENSE",
+    "supplementalLicenseSource": "https://raw.githubusercontent.com/google/error-prone/v2.41.0/COPYING",
+    "supplementalLicenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "groupId": "net.java.dev.jna",
+    "artifactId": "jna",
+    "version": "5.18.1",
+    "scope": "compile",
+    "sha256": "260c4b1e22b1db9e110ee441c4f13ce115f841fa48c41d78750986214b395557",
+    "pomSha256": "98b62ae6ff280d747fb359fc42e48fed113d45bc3729a823dc30b8308a806645",
+    "declaredLicenses": [
+      {
+        "name": "LGPL-2.1-or-later",
+        "url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1"
+      },
+      {
+        "name": "Apache-2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.18.1/jna-5.18.1-sources.jar",
+    "preservedLegalFiles": [
+      "META-INF/LICENSE"
+    ],
+    "legalFileSha256": {
+      "META-INF/LICENSE": "07c938b23950ab7d47a24ef35f9f5da3a05ae164278dc959ad6994135ed59ff1"
+    }
+  },
+  {
+    "groupId": "net.java.dev.jna",
+    "artifactId": "jna-platform",
+    "version": "5.18.1",
+    "scope": "compile",
+    "sha256": "ad14c1b1ec4f43d396231219dfa635ebf828f738eac9f890ea1bc07795892d9a",
+    "pomSha256": "39d538a9599a4474770838865ed42cfa3e6b3d13086cb1e577b8bb43148d1a65",
+    "declaredLicenses": [
+      {
+        "name": "LGPL-2.1-or-later",
+        "url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1"
+      },
+      {
+        "name": "Apache-2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.18.1/jna-platform-5.18.1-sources.jar",
+    "preservedLegalFiles": [
+      "META-INF/LICENSE"
+    ],
+    "legalFileSha256": {
+      "META-INF/LICENSE": "07c938b23950ab7d47a24ef35f9f5da3a05ae164278dc959ad6994135ed59ff1"
+    }
+  },
+  {
+    "groupId": "org.eclipse.jdt",
+    "artifactId": "ecj",
+    "version": "3.44.0",
+    "scope": "compile",
+    "sha256": "14c46ddc2e511c46c998da728f6a80f13a689c920f3832402f7ad150f6a6188d",
+    "pomSha256": "389fb91b0e1b165b1ce8eca0426a8a16fa7b7b4d45def3bd05ec035e6be9b07c",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/ecj/3.44.0/ecj-3.44.0-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.jdt",
+    "artifactId": "org.eclipse.jdt.core",
+    "version": "3.44.0",
+    "scope": "compile",
+    "sha256": "5cc842b72f8c87086747d464c1c375680c84eaae2dfd83f53a43205a221bf5e7",
+    "pomSha256": "98ee74449e2388ca16715e5277cf79f196bd8b4c861c62144fdff52bc994f51a",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/org.eclipse.jdt.core/3.44.0/org.eclipse.jdt.core-3.44.0-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "4667ca2c904a7a03f72ed4cbbb777106d88a35e0deaac3d589ed2a89095fd09f"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.commands",
+    "version": "3.12.500",
+    "scope": "compile",
+    "sha256": "44713362e55ed28e6db5d2c31bf67524fef087645a44dc3239dac60ece017cb9",
+    "pomSha256": "c83fb8b7475ceb600d7e28f1c327c68e1cd26851dec8410ab619fff56d7b4a82",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.commands/3.12.500/org.eclipse.core.commands-3.12.500-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.contenttype",
+    "version": "3.9.800",
+    "scope": "compile",
+    "sha256": "e0c2db96600d519ce36a75f9b7c971afd2870d2d059eee4bf2436d9b33aa0b8d",
+    "pomSha256": "bd9db45f7477248429c71cf8465702dabfb1520ce8534f9dc25d4178ebb5897b",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.contenttype/3.9.800/org.eclipse.core.contenttype-3.9.800-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.expressions",
+    "version": "3.9.500",
+    "scope": "compile",
+    "sha256": "8444b5de90c9b4ab528c8ea5c341c7e872d0dbe8241ab79085551086d96e7c9e",
+    "pomSha256": "d4ab3b85b254387957457c1f46b7001b5a90a898c5222c5020a0790e51616a50",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.expressions/3.9.500/org.eclipse.core.expressions-3.9.500-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.filesystem",
+    "version": "1.11.400",
+    "scope": "compile",
+    "sha256": "6f70b95d14b90ec57b94c5e3dba7e1d189679cf9a4bc4526e9c91beed7d6a0ef",
+    "pomSha256": "b1003cfaef0137e633c1386bcc57db0a5e587a59b5171e567ba530cfabbf8cc5",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/1.11.400/org.eclipse.core.filesystem-1.11.400-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.jobs",
+    "version": "3.15.700",
+    "scope": "compile",
+    "sha256": "37015179a7b9b90d16cb92f4b1be6083a1a6dad25428fa8f6b89626f0cc2da79",
+    "pomSha256": "394540a2d8c73e35511f3d5ff09d9f364766e0fe2cb5e6f857c4dfab097d3adf",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.jobs/3.15.700/org.eclipse.core.jobs-3.15.700-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.resources",
+    "version": "3.23.100",
+    "scope": "compile",
+    "sha256": "fa21146a5033ac8d53a55f7df68d952ceb68b1097d9986aa9b799872ff608574",
+    "pomSha256": "5fd2df8328d633286d52ff9de760e58f38cede80166a53da777ad548437291c1",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.resources/3.23.100/org.eclipse.core.resources-3.23.100-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.core.runtime",
+    "version": "3.34.100",
+    "scope": "compile",
+    "sha256": "181180916a2bfe4da2c06e8c7c305586bc6bb6f14c87845c0562d20edf688890",
+    "pomSha256": "4e8b1f2636d6b20fe8af4e754276aa5e03abc16bffc59f47da27ef7cea620d9e",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.runtime/3.34.100/org.eclipse.core.runtime-3.34.100-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.equinox.app",
+    "version": "1.7.500",
+    "scope": "compile",
+    "sha256": "19f2e3611347db6433a48a62187c9f6bd46886d0d56836697dafffe985ea93ef",
+    "pomSha256": "b0a2b5cfece77dc797796e6eaa2c24ac193056707d04f55605edcf7490b45c56",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.app/1.7.500/org.eclipse.equinox.app-1.7.500-sources.jar",
+    "preservedLegalFiles": [
+      "about.html",
+      "about_files/LICENSE-2.0.txt"
+    ],
+    "legalFileSha256": {
+      "about.html": "e3ea1a55cf11f38ceeb8146b077af2d3c3b4c330d7d676e8e1e0957d8243445b",
+      "about_files/LICENSE-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.equinox.common",
+    "version": "3.20.300",
+    "scope": "compile",
+    "sha256": "855d239af29ddb1d2248d378697c095be62efb9a5b3c1bb26d31f7b97a8e16ae",
+    "pomSha256": "00bb3ffef4f5ff0aff95768819896fc58d64c62b4a90473ad27884e8fd2f8852",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.common/3.20.300/org.eclipse.equinox.common-3.20.300-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "8789732570d4dc6c1c9275f5aea90eee2453615a446343468b62213dfa1bcfd1"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.equinox.preferences",
+    "version": "3.12.100",
+    "scope": "compile",
+    "sha256": "fd04e81a28ab32b6bb073286eb293c44b760176fcf1e35ef15614d62df820f86",
+    "pomSha256": "218c625a85b0e50414e9d191285614b6b2fea9ff7fd132132a6e0f9324333196",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.preferences/3.12.100/org.eclipse.equinox.preferences-3.12.100-sources.jar",
+    "preservedLegalFiles": [
+      "about.html",
+      "about_files/LICENSE-2.0.txt"
+    ],
+    "legalFileSha256": {
+      "about.html": "d7a0b2a6120b4f6583f3e2b3918e146a51c85d1541dcdfb0f3ed706acbd321aa",
+      "about_files/LICENSE-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.equinox.registry",
+    "version": "3.12.600",
+    "scope": "compile",
+    "sha256": "4f8cd72681446b598390a8c24ee9b9996f6e4c5fabed022b50bd26f6f5a0bf6c",
+    "pomSha256": "2b08376fa819bb9437bc70ca24ceb0f0db44de013feb717dbe699a294fb63127",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.registry/3.12.600/org.eclipse.equinox.registry-3.12.600-sources.jar",
+    "preservedLegalFiles": [
+      "about.html",
+      "about_files/LICENSE-2.0.txt",
+      "about_files/NOTICE.txt"
+    ],
+    "legalFileSha256": {
+      "about.html": "2a401d5324d536eeb5c0c323af7c3190bbfd9ede7e62db3c935b67e047300ce7",
+      "about_files/LICENSE-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "about_files/NOTICE.txt": "c53634c960163f00ba0b0147cc3dee5caf0e6a47bc9909a2fe94b7adcf5d983e"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.osgi",
+    "version": "3.24.0",
+    "scope": "compile",
+    "sha256": "789454014c150f2adf681cd80f8ecf49817d93ed790f3659b362dca07ade87b8",
+    "pomSha256": "a24d9d906a478e126b219a9d24518b833b66da4b103f963e20b9050bebe2ae15",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.osgi/3.24.0/org.eclipse.osgi-3.24.0-sources.jar",
+    "preservedLegalFiles": [
+      "about.html",
+      "about_files/LICENSE-2.0.txt"
+    ],
+    "legalFileSha256": {
+      "about.html": "b982d0ebf003695c2327f28a75234b49e9bf3be776b96b2350ac7a768acc163e",
+      "about_files/LICENSE-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  },
+  {
+    "groupId": "org.eclipse.platform",
+    "artifactId": "org.eclipse.text",
+    "version": "3.14.500",
+    "scope": "compile",
+    "sha256": "1b6758522917f7cf0b7a7aa42bfefed5dbbae862899adab4fe3bed5536dc78ca",
+    "pomSha256": "34486d3f6f2f0ca68c1e7d03a4bf6fff4f32cc3936e927071ee984b99c234d76",
+    "declaredLicenses": [
+      {
+        "name": "EPL-2.0",
+        "url": "https://www.eclipse.org/legal/epl-2.0/"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.text/3.14.500/org.eclipse.text-3.14.500-sources.jar",
+    "preservedLegalFiles": [
+      "about.html"
+    ],
+    "legalFileSha256": {
+      "about.html": "ee66d2fb3b4c0d2ed2e7f698bc9ed4e3d6cf77fa5caf40ad03296125db1ac5f0"
+    }
+  },
+  {
+    "groupId": "org.osgi",
+    "artifactId": "org.osgi.service.prefs",
+    "version": "1.1.2",
+    "scope": "compile",
+    "sha256": "43c7c870710e363405d422da653cce0d798a4537f76e4930f79bceadd3a55345",
+    "pomSha256": "6ea483cea177e91310984c6452e694aa20801951b501f17cb9ba114328c2cc26",
+    "declaredLicenses": [
+      {
+        "name": "Apache-2.0",
+        "url": "https://opensource.org/licenses/Apache-2.0"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/osgi/org.osgi.service.prefs/1.1.2/org.osgi.service.prefs-1.1.2-sources.jar",
+    "preservedLegalFiles": [
+      "META-INF/LICENSE",
+      "META-INF/NOTICE"
+    ],
+    "legalFileSha256": {
+      "META-INF/LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "META-INF/NOTICE": "9095ce4629906ff31d2dc63d0b91194302463da2c3be0f8f714fdab77cd6b9ee"
+    }
+  },
+  {
+    "groupId": "org.osgi",
+    "artifactId": "osgi.annotation",
+    "version": "8.0.1",
+    "scope": "compile",
+    "sha256": "a0e8a4c362bd3600812f37b0ea45fba966c7bc049d01fed56a09ecc74082759e",
+    "pomSha256": "882d076a8e25ca9207f79cb09380c472f6b3c41508162bd2baa06917be1ded73",
+    "declaredLicenses": [
+      {
+        "name": "Apache-2.0",
+        "url": "https://opensource.org/licenses/Apache-2.0"
+      }
+    ],
+    "sourceArchive": "https://repo.maven.apache.org/maven2/org/osgi/osgi.annotation/8.0.1/osgi.annotation-8.0.1-sources.jar",
+    "preservedLegalFiles": [
+      "META-INF/LICENSE",
+      "META-INF/NOTICE"
+    ],
+    "legalFileSha256": {
+      "META-INF/LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "META-INF/NOTICE": "9095ce4629906ff31d2dc63d0b91194302463da2c3be0f8f714fdab77cd6b9ee"
+    }
+  }
+]

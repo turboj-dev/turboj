@@ -102,4 +102,80 @@ class PieceTableTest {
         assertEquals(50_000, snapshot.length());
         assertEquals(50_500, table.length());
     }
+
+    @Test
+    void sparseFormattingTransactionHasOneUndoAndKeepsEarlierTyping() {
+        PieceTable table = new PieceTable("class X{\nint a=1;\nint b=2;\n}\n");
+        table.insert(table.length(), "// typed\n");
+        String before = table.toString();
+        var snapshot = table.snapshot();
+        var edits =
+                List.of(
+                        new PieceTable.Edit(7, 7, " "),
+                        new PieceTable.Edit(9, 9, "    "),
+                        new PieceTable.Edit(18, 18, "    "));
+        var result = table.replaceAll(edits);
+        assertEquals(3, result.changes().size(), "unchanged source is not replaced");
+        String formatted = table.toString();
+        assertEquals(before, snapshot.toString());
+        assertEquals(result.id(), table.undoTransaction().id());
+        assertModel(table, before);
+        table.undo();
+        assertFalse(table.toString().contains("// typed"));
+        table.redo();
+        table.redoTransaction();
+        assertModel(table, formatted);
+    }
+
+    @Test
+    void invalidBatchNeverPartiallyMutatesDocument() {
+        PieceTable table = new PieceTable("abc\ndef");
+        long version = table.version();
+        assertThrows(
+                IndexOutOfBoundsException.class,
+                () ->
+                        table.replaceAll(
+                                List.of(
+                                        new PieceTable.Edit(0, 1, "A"),
+                                        new PieceTable.Edit(30, 31, "B"))));
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        table.replaceAll(
+                                List.of(
+                                        new PieceTable.Edit(1, 5, "A"),
+                                        new PieceTable.Edit(3, 4, "B"))));
+        assertModel(table, "abc\ndef");
+        assertEquals(version, table.version());
+        assertFalse(table.canUndo());
+        assertNull(table.replaceAll(List.of(new PieceTable.Edit(0, 3, "abc"))));
+        assertFalse(table.canUndo());
+    }
+
+    @Test
+    void generatedBatchEditsUndoAndRedoMatchStringModel() {
+        Random random = new Random(90123);
+        for (int round = 0; round < 300; round++) {
+            String source = "abc\ndef\r\nghi🙂\n".repeat(20);
+            PieceTable table = new PieceTable(source);
+            List<PieceTable.Edit> edits = new ArrayList<>();
+            int at = 0;
+            for (int i = 0; i < 8; i++) {
+                int start = at + random.nextInt(6), end = start + random.nextInt(5);
+                edits.add(new PieceTable.Edit(start, end, i % 2 == 0 ? "\r\n    " : " "));
+                at = end + 1;
+            }
+            StringBuilder expected = new StringBuilder(source);
+            for (int i = edits.size() - 1; i >= 0; i--) {
+                var edit = edits.get(i);
+                expected.replace(edit.start(), edit.end(), edit.text());
+            }
+            table.replaceAll(edits);
+            assertModel(table, expected.toString());
+            table.undoTransaction();
+            assertModel(table, source);
+            table.redoTransaction();
+            assertModel(table, expected.toString());
+        }
+    }
 }

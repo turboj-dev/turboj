@@ -15,6 +15,7 @@ public final class Settings {
     public int tabWidth = 4;
     public boolean isolated = false;
     public boolean autoClose = true;
+    public boolean formatOnSave = false;
     public List<String> recentFiles = new ArrayList<>();
 
     public static Path directory() {
