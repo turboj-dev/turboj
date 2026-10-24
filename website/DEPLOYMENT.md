@@ -24,3 +24,14 @@ This is an explicit Wrangler deployment. GitHub pushes do not automatically
 publish a new site. Build, check, then run `npx wrangler@4.152.0 deploy` from
 `website/`, using the owner's authenticated Cloudflare account. The configuration
 is in `wrangler.toml`; no credentials are committed.
+
+## Ecosystem update — 2026-10-24
+
+After native verification, commit `117714c` added the RefactorJ/CommandJ ecosystem
+section. Build, 27 source tests and 40 browser checks passed before deployment.
+Wrangler deployed version `ecc21a02-e532-4bae-8664-30daa49485cc` to both hosts.
+The public `https://turboj.dev/` HTML was fetched with TLS verification and matched
+the verified local build byte for byte (SHA-256
+`1a8f6415dfad86229afd6b71b8fa7bce6cc4ef365b487d952d9c9b7cd92f53dc`).
+The new copy links to the independent source projects and does not claim
+marketplace publication or unmeasured performance.
