@@ -109,3 +109,29 @@ See [`website-native-console-finale.md`](../docs/website-native-console-finale.m
 and the committed [deployment evidence](../docs/evidence/output-command-line/deployment.json).
 Local deployment logs and live browser artifacts remain under
 `artifacts/native-console-qa/deployment/` and `artifacts/native-console-qa/live/`.
+
+## Saved-theme flash correction — 2026-10-25
+
+Commit `294984a` prevents the immutable Classic screenshot from appearing during
+JavaScript startup, chapter loading or fetch failures. The first loading surface
+uses the saved palette; later chapter loads retain the preceding themed frame.
+The real screenshot remains untouched for no-JavaScript use.
+
+Wrangler **4.152.0** dry run and production deployment passed:
+
+- Version: `fdc04d6c-9e29-4bbf-a754-7598a8cabf12`.
+- Hosts: `https://turboj.dev` and `https://turboj.luca-marrocco.workers.dev`.
+- Assets: 1,003 scanned; three uploaded (homepage, hero JavaScript, CSS).
+- Homepage SHA-256: `0706193e7d0007d2a640e728983b17b9f1abd53f08e3b29f7da3b61b958332e5`.
+
+Twenty-two public HTTPS assets, including both JavaScript and CSS bundles,
+returned HTTP 200 and matched the verified local build byte for byte.
+Predeployment checks: **53 source/evidence tests and 92 browser checks PASS**.
+The focused suite then passed **all 10 checks on the public site**, including
+saved Monokai startup, slow/failed loads, every distinct menu/dialog and the loop.
+Live reports are in `artifacts/theme-first-paint-qa/live-confirmed/demo-theme/`.
+The preceding live run is retained in `live/`: its loop assertion observed a
+transient flag before the final chapter loaded; the test now waits for that
+chapter's ready state. No further production-code change was needed.
+Reports, frame observations and deployment logs are retained under
+`artifacts/theme-first-paint-qa/`; source and timing evidence are unchanged.

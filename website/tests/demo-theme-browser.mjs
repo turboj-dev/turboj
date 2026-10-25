@@ -198,7 +198,12 @@ try {
       const play = page.locator('[data-demo-action="pause"]');
       await play.focus(); await page.keyboard.press('Enter');
       await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.state === 'playing');
-      await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.loopHold === 'true', null, { timeout: duration + 15000 });
+      await page.waitForFunction((lastChapter) => {
+        const root = document.querySelector('[data-turboj-demo]');
+        // During an asynchronous chapter transition the previous elapsed time remains
+        // available until the new chapter is loaded; observe only the settled finale.
+        return root?.dataset.loading === 'false' && root.dataset.chapter === lastChapter && root.dataset.loopHold === 'true';
+      }, chapters.at(-1).id, { timeout: duration + 15000 });
       await capture(page, 'monokai-full-story-result');
       await ready(page, 0);
       await play.focus(); await page.keyboard.press('Enter');
