@@ -17,7 +17,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.InputMethodEvent;
@@ -81,6 +83,7 @@ public final class EditorComponent extends JComponent
     private final List<String> lineTexts = new ArrayList<>();
     private final List<int[]> lineColumns = new ArrayList<>();
     private String composition = "";
+    private char pendingHighSurrogate;
     private long pendingInputNanos, lastPaintNanos;
     private final long[] inputSamples = new long[1024];
     private int sampleCount;
@@ -100,6 +103,22 @@ public final class EditorComponent extends JComponent
     private int navigationStart = -1, navigationEnd = -1;
     private int emphasisStart = -1, emphasisEnd = -1;
     private javax.swing.Timer emphasisTimer;
+
+    /** Directional UTF-16 selection; the first selection is the primary caret. */
+    public record Selection(int caret, int anchor) {
+        public int start() { return Math.min(caret, anchor); }
+        public int end() { return Math.max(caret, anchor); }
+        public boolean empty() { return caret == anchor; }
+    }
+
+    private final List<Selection> secondaryCarets = new ArrayList<>();
+    private Clipboard clipboard;
+    private record EditingLocations(Location before, Location after,
+            List<Selection> beforeSelections, List<Selection> afterSelections) {}
+    private final java.util.WeakHashMap<PieceTable, java.util.LinkedHashMap<Long, EditingLocations>>
+            editingHistory = new java.util.WeakHashMap<>();
+    private final java.util.WeakHashMap<PieceTable, List<Selection>> bufferSelections =
+            new java.util.WeakHashMap<>();
 
     private record FormattingLocations(Location before, Location after) {}
 
@@ -167,6 +186,7 @@ public final class EditorComponent extends JComponent
                     @Override
                     public void focusLost(FocusEvent e) {
                         clearInlineCompletion();
+                        pendingHighSurrogate = 0;
                         commandDown = false;
                         clearNavigableRange();
                         repaintCaret();
@@ -277,6 +297,7 @@ public final class EditorComponent extends JComponent
         document = new PieceTable(value);
         readOnly = false;
         caret = anchor = topLine = leftColumn = 0;
+        secondaryCarets.clear();
         resetVisualState();
         onChange.run();
         onCaretChange.run();
@@ -293,12 +314,14 @@ public final class EditorComponent extends JComponent
         lineColumns.clear();
         diagnostics = List.of();
         composition = "";
+        pendingHighSurrogate = 0;
         pendingInputNanos = 0;
         preferredColumn = -1;
         metrics();
     }
 
     public EditorState captureState() {
+        bufferSelections.put(document, selections());
         return new EditorState(document, captureLocation(), readOnly);
     }
 
@@ -307,8 +330,11 @@ public final class EditorComponent extends JComponent
         readOnly = state.readOnly();
         // Reset coordinates before invalidating visuals: the previous buffer may have been longer.
         caret = anchor = topLine = leftColumn = 0;
+        secondaryCarets.clear();
         resetVisualState();
         restoreLocation(state.location());
+        setSelectionsInternal(bufferSelections.getOrDefault(document,
+                List.of(new Selection(caret, anchor))));
         onChange.run();
     }
 
@@ -319,6 +345,7 @@ public final class EditorComponent extends JComponent
     public void restoreLocation(Location location) {
         clearInlineCompletion();
         clearNavigableRange();
+        secondaryCarets.clear();
         caret = Math.clamp(location.caret(), 0, document.length());
         anchor = Math.clamp(location.anchor(), 0, document.length());
         topLine = Math.clamp(location.topLine(), 0, document.lineCount() - 1);
@@ -576,9 +603,7 @@ public final class EditorComponent extends JComponent
             position = edit.end();
         }
         if (target < 0) return false;
-        edit(begin, end, replacement.toString());
-        moveTo(target, false);
-        return true;
+        return applySemanticEdits(proposal.version(), edits, target, target);
     }
 
     /** Apply sparse formatter edits on the EDT, preserving source positions and one-step undo. */
@@ -596,6 +621,10 @@ public final class EditorComponent extends JComponent
             replacements.add(new PieceTable.Edit(edit.start(), edit.end(), edit.replacement()));
         }
         Location before = captureLocation();
+        var beforeSelections = selections();
+        var afterSelections = beforeSelections.stream().map(s -> new Selection(
+                dev.javafmt.core.TextEdit.mapOffset(s.caret(), edits),
+                dev.javafmt.core.TextEdit.mapOffset(s.anchor(), edits))).toList();
         int visibleStart = document.lineStart(Math.min(topLine, document.lineCount() - 1));
         int mappedCaret = dev.javafmt.core.TextEdit.mapOffset(caret, edits);
         int mappedAnchor = dev.javafmt.core.TextEdit.mapOffset(anchor, edits);
@@ -613,11 +642,15 @@ public final class EditorComponent extends JComponent
         topLine = after.topLine();
         changed(document.lineAt(Math.min(edits.getFirst().start(), document.length())), true);
         restoreLocation(after);
+        setSelectionsInternal(afterSelections);
         var history =
                 formattingHistory.computeIfAbsent(
                         document, ignored -> new java.util.LinkedHashMap<>());
         history.put(transaction.id(), new FormattingLocations(before, after));
         while (history.size() > 2000) history.remove(history.keySet().iterator().next());
+        var allHistory = editingHistory.computeIfAbsent(document, ignored -> new java.util.LinkedHashMap<>());
+        allHistory.put(transaction.id(), new EditingLocations(before, after, beforeSelections, selections()));
+        while (allHistory.size() > 2000) allHistory.remove(allHistory.keySet().iterator().next());
         return true;
     }
 
@@ -627,11 +660,14 @@ public final class EditorComponent extends JComponent
                 && !(offset > 0
                         && offset < document.length()
                         && Character.isHighSurrogate(document.charAt(offset - 1))
-                        && Character.isLowSurrogate(document.charAt(offset)));
+                        && Character.isLowSurrogate(document.charAt(offset)))
+                && !(offset > 0 && offset < document.length()
+                        && document.charAt(offset - 1) == '\r' && document.charAt(offset) == '\n');
     }
 
     private boolean validCompletion(InlineCompletion proposal) {
         if (proposal == null
+                || !secondaryCarets.isEmpty()
                 || readOnly
                 || !composition.isEmpty()
                 || caret != anchor
@@ -798,7 +834,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void replaceSelection(String value) {
-        edit(Math.min(caret, anchor), Math.max(caret, anchor), value);
+        replaceSelections(ignored -> value);
     }
 
     /** When embedded, CommandJ owns action shortcuts; standalone editor tests retain defaults. */
@@ -820,180 +856,692 @@ public final class EditorComponent extends JComponent
         return !composition.isEmpty();
     }
 
-    public void duplicateLine() {
-        if (readOnly)
-            return;
-        int line = document.lineAt(caret), start = document.lineStart(line);
-        int end = line + 1 < document.lineCount() ? document.lineStart(line + 1) : document
-                .length();
-        String text = document.substring(start, end);
-        String copy = text.endsWith("\n") ? text : text + document.lineEnding();
-        int oldCaret = caret;
-        edit(start, end, copy + text);
-        moveTo(Math.min(document.length(), oldCaret + copy.length()), false);
+    public int selectionStart() { return Math.min(caret, anchor); }
+    public int selectionEnd() { return Math.max(caret, anchor); }
+    public int caretCount() { return 1 + secondaryCarets.size(); }
+
+    public List<Selection> selections() {
+        var result = new ArrayList<Selection>(secondaryCarets.size() + 1);
+        result.add(new Selection(caret, anchor));
+        result.addAll(secondaryCarets);
+        return List.copyOf(result);
     }
 
-    public void deleteLine() {
-        if (readOnly)
-            return;
-        int line = document.lineAt(caret), start = document.lineStart(line);
-        int end = line + 1 < document.lineCount() ? document.lineStart(line + 1) : document
-                .length();
-
-        if (start == end && line > 0)
-            start = document.lineEnd(line - 1);
-        edit(start, end, "");
+    public void setSelection(int anchor, int caret) {
+        setSelections(List.of(new Selection(caret, anchor)));
     }
 
-    public void moveLine(int direction) {
-        if (readOnly || direction == 0)
-            return;
-        int line = document.lineAt(caret), other = line + Integer.signum(direction);
-
-        if (other < 0 || other >= document.lineCount())
-            return;
-        int first = Math.min(line, other), second = first + 1;
-        int start = document.lineStart(first), middle = document.lineStart(second);
-        int end = second + 1 < document.lineCount() ? document.lineStart(second + 1) : document
-                .length();
-        String a = document.substring(start, document.lineEnd(first));
-        String b = document.substring(middle, document.lineEnd(second));
-        String separator = document.substring(document.lineEnd(first), middle);
-        String ending = document.substring(document.lineEnd(second), end);
-        int column = caret - document.lineStart(line);
-        edit(start, end, b + separator + a + ending);
-        int targetLine = other;
-        moveTo(Math.min(document.lineEnd(targetLine), document.lineStart(targetLine) + column),
-                false);
-    }
-
-    public void selectAll() {
+    /** Overlapping selections and duplicate carets are combined before any edit. */
+    public void setSelections(List<Selection> values) {
+        for (var s : values) if (!characterBoundary(s.caret()) || !characterBoundary(s.anchor()))
+            throw new IllegalArgumentException("Selection splits a Unicode character or line separator");
+        setSelectionsInternal(values);
         clearInlineCompletion();
         clearNavigableRange();
-        anchor = 0;
-        caret = document.length();
+        ensureCaretVisible();
         onCaretChange.run();
         repaint();
     }
 
-    public void copy() {
-        if (caret == anchor) return;
+    private void setSelectionsInternal(List<Selection> values) {
+        var normalized = normalizeSelections(values, document.length());
+        caret = normalized.getFirst().caret();
+        anchor = normalized.getFirst().anchor();
+        secondaryCarets.clear();
+        secondaryCarets.addAll(normalized.subList(1, normalized.size()));
+    }
+
+    private List<Selection> normalizeSelections(List<Selection> values, int length) {
+        if (values.isEmpty()) throw new IllegalArgumentException("At least one caret is required");
+        var sorted = new ArrayList<Selection>(values);
+        for (var s : sorted)
+            if (s.start() < 0 || s.end() > length)
+                throw new IllegalArgumentException("Selection outside document");
+        var primary = values.getFirst();
+        sorted.sort(java.util.Comparator.comparingInt(Selection::start).thenComparingInt(Selection::end));
+        var merged = new ArrayList<Selection>();
+        for (var s : sorted) {
+            if (!merged.isEmpty() && (s.start() < merged.getLast().end()
+                    || (s.start() == merged.getLast().end() && (s.empty() || merged.getLast().empty())))) {
+                var p = merged.removeLast();
+                int start = p.start(), end = Math.max(p.end(), s.end());
+                boolean reverse = p.caret() < p.anchor();
+                if (s.equals(primary)) reverse = s.caret() < s.anchor();
+                merged.add(reverse ? new Selection(start, end) : new Selection(end, start));
+            } else merged.add(s);
+        }
+        for (int i = 0; i < merged.size(); i++) {
+            var s = merged.get(i);
+            if (s.start() <= primary.start() && s.end() >= primary.end()) {
+                merged.remove(i);
+                merged.addFirst(s);
+                break;
+            }
+        }
+        return List.copyOf(merged);
+    }
+
+    /** Apply validated edits and final selections as one logical undo transaction. */
+    public boolean applyEdits(long expectedVersion, List<TextEdit> edits, List<Selection> after) {
+        if (readOnly || hasInputComposition() || expectedVersion != version()) return false;
+        int end = -1, resultingLength = document.length();
+        var replacements = new ArrayList<PieceTable.Edit>(edits.size());
+        for (var edit : edits) {
+            if (edit.start() < end || edit.end() < edit.start()
+                    || !characterBoundary(edit.start()) || !characterBoundary(edit.end())) return false;
+            end = edit.end();
+            replacements.add(new PieceTable.Edit(edit.start(), edit.end(), edit.text()));
+            resultingLength += edit.text().length() - (edit.end() - edit.start());
+        }
+        final List<Selection> normalized;
+        try { normalized = normalizeSelections(after, resultingLength); }
+        catch (IllegalArgumentException invalidSelection) { return false; }
+        for (var selection : normalized)
+            if (!resultBoundary(selection.caret(), resultingLength, edits)
+                    || !resultBoundary(selection.anchor(), resultingLength, edits)) return false;
+        Location before = captureLocation();
+        var beforeSelections = selections();
+        var transaction = document.replaceAll(replacements);
+        setSelectionsInternal(normalized);
+        if (transaction == null) {
+            onCaretChange.run();
+            repaint();
+            return true;
+        }
+        if (pendingInputNanos == 0) pendingInputNanos = System.nanoTime();
+        changed(document.lineAt(Math.min(edits.getFirst().start(), document.length())),
+                edits.size() > 1 || transaction.changes().stream().anyMatch(c ->
+                        c.removed().contains("\n") || c.inserted().contains("\n")));
+        var history = editingHistory.computeIfAbsent(document, ignored -> new java.util.LinkedHashMap<>());
+        history.put(transaction.id(), new EditingLocations(before, captureLocation(),
+                beforeSelections, selections()));
+        while (history.size() > 2000) history.remove(history.keySet().iterator().next());
+        return true;
+    }
+
+    private boolean resultBoundary(int offset, int length, List<TextEdit> edits) {
+        if (offset == 0 || offset == length) return true;
+        char before = resultCharacter(offset - 1, edits), after = resultCharacter(offset, edits);
+        return !(Character.isHighSurrogate(before) && Character.isLowSurrogate(after))
+                && !(before == '\r' && after == '\n');
+    }
+
+    /** Reads one projected character without flattening the document or modifying it. */
+    private char resultCharacter(int offset, List<TextEdit> edits) {
+        int originalAt = 0, resultAt = 0;
+        for (var edit : edits) {
+            int unchanged = edit.start() - originalAt;
+            if (offset < resultAt + unchanged) return document.charAt(originalAt + offset - resultAt);
+            resultAt += unchanged;
+            if (offset < resultAt + edit.text().length()) return edit.text().charAt(offset - resultAt);
+            resultAt += edit.text().length();
+            originalAt = edit.end();
+        }
+        return document.charAt(originalAt + offset - resultAt);
+    }
+
+    public boolean applySemanticEdits(long expectedVersion, List<TextEdit> edits,
+            int afterCaret, int afterAnchor) {
+        return applyEdits(expectedVersion, edits, List.of(new Selection(afterCaret, afterAnchor)));
+    }
+
+    private static int mapped(int offset, List<TextEdit> edits) {
+        int delta = 0;
+        for (var edit : edits) {
+            if (offset < edit.start()) break;
+            if (offset <= edit.end()) return edit.start() + delta + edit.text().length();
+            delta += edit.text().length() - edit.end() + edit.start();
+        }
+        return offset + delta;
+    }
+
+    private void applyPreservingSelections(List<TextEdit> edits) {
+        edits.sort(java.util.Comparator.comparingInt(TextEdit::start));
+        var after = selections().stream().map(s ->
+                new Selection(mappedPreserving(s.caret(), edits), mappedPreserving(s.anchor(), edits))).toList();
+        applyEdits(version(), edits, after);
+    }
+
+    private static int mappedPreserving(int offset, List<TextEdit> edits) {
+        int delta = 0;
+        for (var edit : edits) {
+            if (offset < edit.start()) break;
+            if (offset < edit.end()) {
+                int local = Math.min(offset - edit.start(), edit.text().length());
+                if (local > 0 && local < edit.text().length()
+                        && ((Character.isHighSurrogate(edit.text().charAt(local - 1))
+                                && Character.isLowSurrogate(edit.text().charAt(local)))
+                            || (edit.text().charAt(local - 1) == '\r' && edit.text().charAt(local) == '\n')))
+                    local++;
+                return edit.start() + delta + local;
+            }
+            delta += edit.text().length() - edit.end() + edit.start();
+        }
+        return offset + delta;
+    }
+
+    private void replaceSelections(java.util.function.Function<Selection, String> replacement) {
+        var before = selections();
+        var edits = before.stream().sorted(java.util.Comparator.comparingInt(Selection::start))
+                .map(s -> new TextEdit(s.start(), s.end(), replacement.apply(s))).toList();
+        var after = before.stream().map(s -> {
+            int position = mapped(s.end(), edits);
+            return new Selection(position, position);
+        }).toList();
+        applyEdits(version(), edits, after);
+    }
+
+    public void removeSecondaryCarets() {
+        if (secondaryCarets.isEmpty()) return;
+        secondaryCarets.clear();
+        onCaretChange.run();
+        repaint();
+    }
+
+    public void addCaretAbove() { addCaret(-1); }
+    public void addCaretBelow() { addCaret(1); }
+    private void addCaret(int direction) {
+        var all = new ArrayList<>(selections());
+        var edge = all.stream().min(direction < 0
+                ? java.util.Comparator.comparingInt(Selection::caret)
+                : java.util.Comparator.comparingInt(Selection::caret).reversed()).orElseThrow();
+        int sourceLine = document.lineAt(edge.caret()), line = sourceLine + direction;
+        if (line < 0 || line >= document.lineCount()) return;
+        int column = visualColumn(document.lineText(sourceLine), edge.caret() - document.lineStart(sourceLine));
+        int offset = document.lineStart(line) + offsetForColumn(document.lineText(line), column);
+        all.add(new Selection(offset, offset));
+        setSelections(all);
+    }
+
+    /** Rectangular selection uses visual columns, including tabs and Unicode code points. */
+    public void rectangularSelection(int anchorOffset, int caretOffset) {
+        int aLine = document.lineAt(anchorOffset), cLine = document.lineAt(caretOffset);
+        int aColumn = visualColumn(document.lineText(aLine), anchorOffset - document.lineStart(aLine));
+        int cColumn = visualColumn(document.lineText(cLine), caretOffset - document.lineStart(cLine));
+        var ranges = new ArrayList<Selection>();
+        int direction = cLine >= aLine ? 1 : -1;
+        for (int line = cLine; ; line -= direction) {
+            String text = document.lineText(line);
+            ranges.add(new Selection(document.lineStart(line) + offsetForColumn(text, cColumn),
+                    document.lineStart(line) + offsetForColumn(text, aColumn)));
+            if (line == aLine) break;
+        }
+        setSelections(ranges);
+    }
+
+    public void selectNextOccurrence() {
+        if (caret == anchor) { selectCurrentWord(); return; }
+        String needle = getSelectedText(), text = getText();
+        if (needle.isEmpty()) return;
+        var all = new ArrayList<>(selections());
+        int from = all.stream().mapToInt(Selection::end).max().orElse(0);
+        for (int pass = 0; pass < 2; pass++) {
+            int found = text.indexOf(needle, pass == 0 ? from : 0);
+            while (found >= 0 && (pass == 0 || found < from)) {
+                int start = found, finish = found + needle.length();
+                if (characterBoundary(start) && characterBoundary(finish)
+                        && all.stream().noneMatch(s -> start < s.end() && finish > s.start())) {
+                    all.add(new Selection(finish, start));
+                    setSelections(all);
+                    return;
+                }
+                found = text.indexOf(needle, found + 1);
+            }
+        }
+    }
+
+    public void selectAllOccurrences() {
+        if (caret == anchor) selectCurrentWord();
+        String needle = getSelectedText(), text = getText();
+        if (needle.isEmpty()) return;
+        var all = new ArrayList<Selection>();
+        all.add(new Selection(caret, anchor));
+        for (int at = text.indexOf(needle); at >= 0; at = text.indexOf(needle, at + needle.length()))
+            if (characterBoundary(at) && characterBoundary(at + needle.length()))
+                all.add(new Selection(at + needle.length(), at));
+        setSelections(all);
+    }
+
+    private record Lines(int first, int last) {}
+    private Lines selectedLines(Selection s) {
+        int first = document.lineAt(s.start()), last = document.lineAt(s.end());
+        if (!s.empty() && last > first && s.end() == document.lineStart(last)) last--;
+        return new Lines(first, last);
+    }
+    private List<Lines> lineGroups() {
+        var sorted = selections().stream().map(this::selectedLines)
+                .sorted(java.util.Comparator.comparingInt(Lines::first)).toList();
+        var groups = new ArrayList<Lines>();
+        for (var lines : sorted) {
+            if (!groups.isEmpty() && lines.first() <= groups.getLast().last() + 1) {
+                var prior = groups.removeLast();
+                groups.add(new Lines(prior.first(), Math.max(prior.last(), lines.last())));
+            } else groups.add(lines);
+        }
+        return groups;
+    }
+    private int afterLine(int line) {
+        return line + 1 < document.lineCount() ? document.lineStart(line + 1) : document.length();
+    }
+    private int lineDeleteStart(Lines group) {
+        return group.last() == document.lineCount() - 1 && group.first() > 0
+                ? document.lineEnd(group.first() - 1) : document.lineStart(group.first());
+    }
+
+    /** A selection duplicates its exact text; an empty selection duplicates the logical line. */
+    public void duplicateLine() {
+        if (selections().stream().allMatch(Selection::empty)) { copyLine(1); return; }
+        var edits = new ArrayList<TextEdit>();
+        for (var s : selections()) {
+            if (s.empty()) {
+                var lines = selectedLines(s);
+                int start = document.lineStart(lines.first()), end = afterLine(lines.last());
+                String text = document.substring(start, end);
+                edits.add(new TextEdit(end, end, text.endsWith("\n") ? text : document.lineEnding() + text));
+            } else edits.add(new TextEdit(s.end(), s.end(), document.substring(s.start(), s.end())));
+        }
+        edits.sort(java.util.Comparator.comparingInt(TextEdit::start));
+        var after = selections().stream().map(s -> {
+            int end = mapped(s.end(), edits), start = end - (s.end() - s.start());
+            return s.caret() < s.anchor() ? new Selection(start, end) : new Selection(end, start);
+        }).toList();
+        applyEdits(version(), edits, after);
+    }
+
+    public void deleteLine() {
+        var edits = new ArrayList<TextEdit>();
+        for (var g : lineGroups()) edits.add(new TextEdit(lineDeleteStart(g), afterLine(g.last()), ""));
+        applyPreservingSelections(edits);
+    }
+
+    public void copyLine(int direction) {
+        if (direction == 0) return;
+        var edits = new ArrayList<TextEdit>();
+        for (var g : lineGroups()) {
+            int start = document.lineStart(g.first()), end = afterLine(g.last());
+            String text = document.substring(start, end);
+            if (!text.endsWith("\n")) text = direction < 0 ? text + document.lineEnding() : document.lineEnding() + text;
+            edits.add(new TextEdit(direction < 0 ? start : end, direction < 0 ? start : end, text));
+        }
+        // Select the copied block and retain directional selections within it.
+        var after = new ArrayList<Selection>();
+        for (var s : selections()) {
+            Lines g = lineGroups().stream().filter(l -> l.first() <= selectedLines(s).first()
+                    && l.last() >= selectedLines(s).last()).findFirst().orElseThrow();
+            int start = document.lineStart(g.first()), end = afterLine(g.last());
+            int insertion = direction < 0 ? start : end;
+            int deltaBefore = edits.stream().filter(e -> e.start() < insertion)
+                    .mapToInt(e -> e.text().length()).sum();
+            int shift = direction < 0 ? deltaBefore : end - start + deltaBefore
+                    + (document.substring(start, end).endsWith("\n") ? 0 : document.lineEnding().length());
+            after.add(new Selection(s.caret() + shift, s.anchor() + shift));
+        }
+        applyEdits(version(), edits, after);
+    }
+
+    public void moveLine(int direction) {
+        if (direction == 0 || readOnly) return;
+        var edits = new ArrayList<TextEdit>();
+        var movedStarts = new java.util.HashMap<Integer, Integer>();
+        var movedEnds = new java.util.HashMap<Integer, Integer>();
+        for (var group : lineGroups()) {
+            if (direction < 0 && group.first() == 0
+                    || direction > 0 && group.last() + 1 == document.lineCount()) continue;
+            int first = direction < 0 ? group.first() - 1 : group.first();
+            int last = direction < 0 ? group.last() : group.last() + 1;
+            int start = document.lineStart(first), position = start;
+            var replacement = new StringBuilder();
+            for (int target = first; target <= last; target++) {
+                int original = direction < 0 ? (target == last ? first : target + 1)
+                        : (target == first ? last : target - 1);
+                String content = document.lineText(original);
+                String ending = document.substring(document.lineEnd(target), afterLine(target));
+                movedStarts.put(original, position);
+                replacement.append(content).append(ending);
+                position += content.length() + ending.length();
+                movedEnds.put(original, position);
+            }
+            edits.add(new TextEdit(start, afterLine(last), replacement.toString()));
+        }
+        if (edits.isEmpty()) return;
+        var after = new ArrayList<Selection>();
+        for (var selection : selections()) {
+            var group = selectedLines(selection);
+            java.util.function.IntUnaryOperator map = offset -> {
+                if (!selection.empty() && offset == selection.end() && offset == afterLine(group.last())
+                        && group.last() + 1 < document.lineCount())
+                    return movedEnds.getOrDefault(group.last(), offset);
+                int line = document.lineAt(offset);
+                return movedStarts.getOrDefault(line, document.lineStart(line))
+                        + Math.min(offset - document.lineStart(line), document.lineText(line).length());
+            };
+            after.add(new Selection(map.applyAsInt(selection.caret()), map.applyAsInt(selection.anchor())));
+        }
+        applyEdits(version(), edits, after);
+    }
+
+    public void selectAll() { setSelection(0, document.length()); }
+    public void selectCurrentLine() {
+        int line = document.lineAt(caret);
+        setSelection(document.lineStart(line), afterLine(line));
+    }
+    public void selectCurrentWord() { selectWord(); }
+
+    /** Injectable clipboard for headless hosts/tests; normal application uses the system clipboard. */
+    public void setClipboard(Clipboard clipboard) { this.clipboard = Objects.requireNonNull(clipboard); }
+    private Clipboard clipboard() {
+        return clipboard != null ? clipboard : Toolkit.getDefaultToolkit().getSystemClipboard();
+    }
+    private record ClipboardText(String text, List<String> parts, boolean lines) implements Transferable {
+        private static final DataFlavor FLAVOR = new DataFlavor(
+                DataFlavor.javaJVMLocalObjectMimeType + ";class=java.lang.Object", "TurboJ selections");
+        @Override public DataFlavor[] getTransferDataFlavors() { return new DataFlavor[] {DataFlavor.stringFlavor, FLAVOR}; }
+        @Override public boolean isDataFlavorSupported(DataFlavor flavor) { return flavor.equals(DataFlavor.stringFlavor) || flavor.equals(FLAVOR); }
+        @Override public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+            if (flavor.equals(DataFlavor.stringFlavor)) return text;
+            if (flavor.equals(FLAVOR)) return this;
+            throw new UnsupportedFlavorException(flavor);
+        }
+    }
+    private boolean copyToClipboard() {
+        if (document.length() == 0) return false;
+        boolean lines = selections().stream().allMatch(Selection::empty);
+        var parts = new ArrayList<String>();
+        if (lines) {
+            var distinct = new java.util.TreeSet<Integer>();
+            for (var s : selections()) distinct.add(document.lineAt(s.caret()));
+            for (int line : distinct) {
+                String text = document.substring(document.lineStart(line), afterLine(line));
+                parts.add(text.endsWith("\n") ? text : text + document.lineEnding());
+            }
+        } else for (var s : selections().stream().sorted(java.util.Comparator.comparingInt(Selection::start)).toList())
+            parts.add(document.substring(s.start(), s.end()));
         try {
-            Toolkit.getDefaultToolkit()
-                    .getSystemClipboard()
-                    .setContents(new StringSelection(getSelectedText()), null);
-        } catch (IllegalStateException | java.awt.HeadlessException e) {
-            Toolkit.getDefaultToolkit().beep();
-        }
+            String text = String.join(lines ? "" : document.lineEnding(), parts);
+            clipboard().setContents(new ClipboardText(text, List.copyOf(parts), lines), null);
+            return true;
+        } catch (IllegalStateException | java.awt.HeadlessException e) { return false; }
     }
-
+    public void copy() { copyToClipboard(); }
     public void cut() {
-        if (readOnly) return;
-        if (caret != anchor) {
-            copy();
-            replaceSelection("");
-        }
+        if (readOnly || !copyToClipboard()) return;
+        if (selections().stream().allMatch(Selection::empty)) deleteLine();
+        else replaceSelections(s -> "");
     }
-
     public void paste() {
         if (readOnly) return;
         try {
-            Object value =
-                    Toolkit.getDefaultToolkit()
-                            .getSystemClipboard()
-                            .getData(DataFlavor.stringFlavor);
-            if (value instanceof String text)
-                replaceSelection(
-                        text.replace("\r\n", "\n")
-                                .replace("\r", "\n")
-                                .replace("\n", document.lineEnding()));
-        } catch (Exception e) {
-            Toolkit.getDefaultToolkit().beep();
-        }
+            Transferable contents = clipboard().getContents(null);
+            if (contents == null || !contents.isDataFlavorSupported(DataFlavor.stringFlavor)) return;
+            var data = contents.isDataFlavorSupported(ClipboardText.FLAVOR)
+                    ? (ClipboardText) contents.getTransferData(ClipboardText.FLAVOR) : null;
+            String text = (String) contents.getTransferData(DataFlavor.stringFlavor);
+            var sorted = selections().stream().sorted(java.util.Comparator.comparingInt(Selection::start)).toList();
+            var edits = new ArrayList<TextEdit>();
+            for (int i = 0; i < sorted.size(); i++) {
+                var s = sorted.get(i);
+                String part = data != null && data.parts().size() == sorted.size() ? data.parts().get(i) : text;
+                part = part.replace("\r\n", "\n").replace("\r", "\n").replace("\n", document.lineEnding());
+                int start = data != null && data.lines() && s.empty()
+                        ? document.lineStart(document.lineAt(s.caret())) : s.start();
+                int end = data != null && data.lines() && s.empty() ? start : s.end();
+                if (edits.isEmpty() || edits.getLast().start() != start || edits.getLast().end() != end)
+                    edits.add(new TextEdit(start, end, part));
+            }
+            var after = selections().stream().map(s -> {
+                int at = mapped(s.end(), edits);
+                return new Selection(at, at);
+            }).toList();
+            applyEdits(version(), edits, after);
+        } catch (Exception e) { Toolkit.getDefaultToolkit().beep(); }
     }
 
     public void undo() {
         if (readOnly) return;
         applyHistory(document.undoTransaction(), false);
     }
-
     public void redo() {
         if (readOnly) return;
         applyHistory(document.redoTransaction(), true);
     }
-
     private void applyHistory(PieceTable.HistoryResult result, boolean forward) {
         if (result == null) return;
+        var editing = editingHistory.get(document);
+        var positions = editing == null ? null : editing.get(result.id());
         PieceTable.Change change = result.changes().getLast();
         var history = formattingHistory.get(document);
         FormattingLocations formatted = history == null ? null : history.get(result.id());
-        Location restored =
-                formatted == null ? null : forward ? formatted.after() : formatted.before();
+        Location restored = positions != null ? (forward ? positions.after() : positions.before())
+                : formatted == null ? null : forward ? formatted.after() : formatted.before();
         caret = restored == null ? change.start() + change.inserted().length() : restored.caret();
         anchor = restored == null ? caret : restored.anchor();
+        secondaryCarets.clear();
         int start = result.changes().stream().mapToInt(PieceTable.Change::start).min().orElse(0);
-        boolean multiline =
-                result.changes().size() > 1
-                        || result.changes().stream()
-                                .anyMatch(
-                                        item ->
-                                                item.removed().indexOf('\n') >= 0
-                                                        || item.inserted().indexOf('\n') >= 0);
-        changed(document.lineAt(Math.min(start, document.length())), multiline);
+        changed(document.lineAt(Math.min(start, document.length())), true);
         if (restored != null) restoreLocation(restored);
+        if (positions != null) setSelections(forward ? positions.afterSelections() : positions.beforeSelections());
     }
 
     public void indent(boolean unindent) {
         if (readOnly) return;
-        int first = document.lineAt(Math.min(caret, anchor)),
-                last = document.lineAt(Math.max(caret, anchor));
-        if (caret != anchor && Math.max(caret, anchor) == document.lineStart(last) && last > first)
-            last--;
-        if (caret == anchor && !unindent) {
-            replaceSelection(" ".repeat(tabWidth - (caretColumn() - 1) % tabWidth));
+        if (!unindent && selections().stream().allMatch(Selection::empty)) {
+            replaceSelections(s -> {
+                int line = document.lineAt(s.caret());
+                int column = visualColumn(document.lineText(line), s.caret() - document.lineStart(line));
+                return " ".repeat(tabWidth - column % tabWidth);
+            });
             return;
         }
-        int start = document.lineStart(first), end = document.lineEnd(last);
-        String block = document.substring(start, end);
-        String[] lines = block.split("\n", -1);
-        for (int i = 0; i < lines.length; i++) {
-            if (!unindent) lines[i] = " ".repeat(tabWidth) + lines[i];
-            else if (lines[i].startsWith("\t")) lines[i] = lines[i].substring(1);
-            else {
-                int n = 0;
-                while (n < Math.min(tabWidth, lines[i].length()) && lines[i].charAt(n) == ' ') n++;
-                lines[i] = lines[i].substring(n);
+        var edits = new ArrayList<TextEdit>();
+        for (var group : lineGroups()) for (int line = group.first(); line <= group.last(); line++) {
+            int start = document.lineStart(line), end = start;
+            if (unindent) {
+                if (end < document.lineEnd(line) && document.charAt(end) == '\t') end++;
+                else while (end < document.lineEnd(line) && end - start < tabWidth && document.charAt(end) == ' ') end++;
             }
+            edits.add(new TextEdit(start, end, unindent ? "" : " ".repeat(tabWidth)));
         }
-        String replacement = String.join("\n", lines);
-        edit(start, end, replacement);
-        anchor = start;
-        repaint();
+        applyPreservingSelections(edits);
     }
 
     public void toggleComment() {
-        if (readOnly) return;
-        int first = document.lineAt(Math.min(caret, anchor)),
-                last = document.lineAt(Math.max(caret, anchor));
-        if (caret != anchor && Math.max(caret, anchor) == document.lineStart(last) && last > first)
-            last--;
-        int start = document.lineStart(first), end = document.lineEnd(last);
-        String[] lines = document.substring(start, end).split("\n", -1);
-        boolean remove =
-                Arrays.stream(lines).allMatch(line -> line.stripLeading().startsWith("//"));
-        for (int i = 0; i < lines.length; i++) {
-            int p = 0;
-            while (p < lines[i].length()
-                    && (lines[i].charAt(p) == ' ' || lines[i].charAt(p) == '\t')) p++;
-            if (remove) {
-                int after = p + 2;
-                if (after < lines[i].length() && lines[i].charAt(after) == ' ') after++;
-                lines[i] = lines[i].substring(0, p) + lines[i].substring(after);
-            } else lines[i] = lines[i].substring(0, p) + "// " + lines[i].substring(p);
+        var edits = new ArrayList<TextEdit>();
+        var lines = new ArrayList<Integer>();
+        for (var g : lineGroups()) for (int l = g.first(); l <= g.last(); l++) lines.add(l);
+        boolean remove = lines.stream().allMatch(l -> document.lineText(l).stripLeading().startsWith("//"));
+        for (int line : lines) {
+            String text = document.lineText(line);
+            int prefix = leadingWhitespace(text), start = document.lineStart(line) + prefix;
+            int end = remove ? start + 2 : start;
+            if (remove && end < document.lineEnd(line) && document.charAt(end) == ' ') end++;
+            edits.add(new TextEdit(start, end, remove ? "" : "// "));
         }
-        edit(start, end, String.join("\n", lines));
-        anchor = start;
-        repaint();
+        applyPreservingSelections(edits);
+    }
+
+    public void toggleBlockComment() {
+        var edits = new ArrayList<TextEdit>();
+        for (var s : selections()) {
+            String text = document.substring(s.start(), s.end());
+            if (text.startsWith("/*") && text.endsWith("*/") && text.length() >= 4)
+                edits.add(new TextEdit(s.start(), s.end(), text.substring(2, text.length() - 2)));
+            else if (text.contains("*/")) return;
+            else edits.add(new TextEdit(s.start(), s.end(), "/*" + text + "*/"));
+        }
+        applyPreservingSelections(edits);
+    }
+
+    private static int leadingWhitespace(String text) {
+        int i = 0;
+        while (i < text.length() && (text.charAt(i) == ' ' || text.charAt(i) == '\t')) i++;
+        return i;
+    }
+    public void insertLine(boolean above) {
+        var edits = new ArrayList<TextEdit>();
+        var target = new java.util.HashMap<Integer, Integer>();
+        for (var s : selections().stream().sorted(java.util.Comparator.comparingInt(Selection::start)).toList()) {
+            int line = document.lineAt(s.caret());
+            int at = above ? document.lineStart(line) : document.lineEnd(line);
+            String current = document.lineText(line), indent = current.substring(0, leadingWhitespace(current));
+            if (!above && current.stripTrailing().endsWith("{")) indent += " ".repeat(tabWidth);
+            if (!target.containsKey(line)) {
+                edits.add(new TextEdit(at, at, above ? indent + document.lineEnding() : document.lineEnding() + indent));
+                target.put(line, indent.length());
+            }
+        }
+        var after = selections().stream().map(s -> {
+            int line = document.lineAt(s.caret()), at = above ? document.lineStart(line) : document.lineEnd(line);
+            int position = mapped(at, edits) - (above ? document.lineEnding().length() : 0);
+            return new Selection(position, position);
+        }).toList();
+        applyEdits(version(), edits, after);
+    }
+    public void splitLine() {
+        replaceSelections(s -> {
+            int line = document.lineAt(s.start());
+            String prefix = document.substring(document.lineStart(line), Math.min(s.start(), document.lineEnd(line)));
+            return document.lineEnding() + prefix.substring(0, leadingWhitespace(prefix))
+                    + (prefix.stripTrailing().endsWith("{") ? " ".repeat(tabWidth) : "");
+        });
+    }
+    public void joinLines() {
+        var boundaries = new java.util.TreeSet<Integer>();
+        for (var g : lineGroups()) {
+            int last = g.first() == g.last() ? g.last() + 1 : g.last();
+            for (int line = g.first(); line < last && line + 1 < document.lineCount(); line++) boundaries.add(line);
+        }
+        var edits = new ArrayList<TextEdit>();
+        for (int line : boundaries) {
+            int start = document.lineEnd(line), end = document.lineStart(line + 1);
+            while (start > document.lineStart(line) && Character.isWhitespace(document.charAt(start - 1))) start--;
+            while (end < document.lineEnd(line + 1) && Character.isWhitespace(document.charAt(end))) end++;
+            edits.add(new TextEdit(start, end, start == document.lineStart(line) || end == document.lineEnd(line + 1) ? "" : " "));
+        }
+        applyPreservingSelections(edits);
+    }
+
+    private void deleteToward(java.util.function.ToIntFunction<Selection> boundary) {
+        var ranges = selections().stream().map(s -> s.empty() ? new Selection(boundary.applyAsInt(s), s.caret()) : s).toList();
+        // Capture original selections in undo, while normalizing overlapping deletion spans.
+        var normalized = normalizeSelections(ranges, document.length());
+        var edits = normalized.stream().sorted(java.util.Comparator.comparingInt(Selection::start))
+                .map(s -> new TextEdit(s.start(), s.end(), "")).toList();
+        var after = selections().stream().map(s -> {
+            int at = mapped(s.caret(), edits);
+            return new Selection(at, at);
+        }).toList();
+        applyEdits(version(), edits, after);
+    }
+    public void deleteToLineStart() { deleteToward(s -> document.lineStart(document.lineAt(s.caret()))); }
+    public void deleteToLineEnd() { deleteToward(s -> document.lineEnd(document.lineAt(s.caret()))); }
+    public void deletePreviousWord() { deleteToward(s -> wordLeft(s.caret())); }
+    public void deleteNextWord() { deleteToward(s -> wordRight(s.caret())); }
+    public void deleteBackward() { deleteToward(s -> previous(s.caret())); }
+    public void deleteForward() { deleteToward(s -> next(s.caret())); }
+
+    private List<Lines> selectedOrAllLines() {
+        return selections().stream().allMatch(Selection::empty)
+                ? List.of(new Lines(0, document.lineCount() - 1)) : lineGroups();
+    }
+    public void trimTrailingWhitespace() {
+        var edits = new ArrayList<TextEdit>();
+        for (var g : selectedOrAllLines()) for (int line = g.first(); line <= g.last(); line++) {
+            int end = document.lineEnd(line), start = end;
+            while (start > document.lineStart(line) && (document.charAt(start - 1) == ' ' || document.charAt(start - 1) == '\t')) start--;
+            if (start != end) edits.add(new TextEdit(start, end, ""));
+        }
+        applyPreservingSelections(edits);
+    }
+    public void convertTabsToSpaces() {
+        var edits = new ArrayList<TextEdit>();
+        for (var g : selectedOrAllLines()) for (int line = g.first(); line <= g.last(); line++) {
+            String text = document.lineText(line);
+            int column = 0;
+            for (int i = 0; i < text.length();) {
+                int cp = text.codePointAt(i), width = cp == '\t' ? tabWidth - column % tabWidth : 1;
+                if (cp == '\t') edits.add(new TextEdit(document.lineStart(line) + i,
+                        document.lineStart(line) + i + 1, " ".repeat(width)));
+                i += Character.charCount(cp);
+                column += width;
+            }
+        }
+        applyPreservingSelections(edits);
+    }
+    /** Explicit indentation conversion only; spaces inside code and literals are unchanged. */
+    public void convertSpacesToTabs() {
+        var edits = new ArrayList<TextEdit>();
+        for (var g : selectedOrAllLines()) for (int line = g.first(); line <= g.last(); line++) {
+            String text = document.lineText(line);
+            int end = leadingWhitespace(text), width = visualColumn(text, end), start = document.lineStart(line);
+            edits.add(new TextEdit(start, start + end, "\t".repeat(width / tabWidth) + " ".repeat(width % tabWidth)));
+        }
+        applyPreservingSelections(edits);
+    }
+    public void changeCase(boolean upper) {
+        if (selections().stream().allMatch(Selection::empty)) selectCurrentWord();
+        replaceSelections(s -> {
+            String text = document.substring(s.start(), s.end());
+            return upper ? text.toUpperCase(java.util.Locale.ROOT) : text.toLowerCase(java.util.Locale.ROOT);
+        });
+    }
+    public void sortSelectedLines() { reorderSelectedLines(false); }
+    public void reverseSelectedLines() { reorderSelectedLines(true); }
+    private void reorderSelectedLines(boolean reverse) {
+        var edits = new ArrayList<TextEdit>();
+        for (var g : lineGroups()) {
+            var lines = new ArrayList<String>();
+            for (int line = g.first(); line <= g.last(); line++) lines.add(document.lineText(line));
+            if (reverse) java.util.Collections.reverse(lines); else lines.sort(String::compareTo);
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < lines.size(); i++) {
+                int line = g.first() + i;
+                result.append(lines.get(i)).append(document.substring(document.lineEnd(line), afterLine(line)));
+            }
+            edits.add(new TextEdit(document.lineStart(g.first()), afterLine(g.last()), result.toString()));
+        }
+        applyPreservingSelections(edits);
+    }
+    public void transposeCharacters() {
+        var edits = new ArrayList<TextEdit>();
+        for (var s : selections()) {
+            if (!s.empty()) return;
+            int line = document.lineAt(s.caret()), end = document.lineEnd(line);
+            int middle = s.caret() == end ? previous(s.caret()) : s.caret();
+            if (middle <= document.lineStart(line)) continue;
+            int start = previous(middle), finish = next(middle);
+            edits.add(new TextEdit(start, finish, document.substring(middle, finish) + document.substring(start, middle)));
+        }
+        edits.sort(java.util.Comparator.comparingInt(TextEdit::start));
+        for (int i = 1; i < edits.size(); i++) if (edits.get(i).start() < edits.get(i - 1).end()) return;
+        applyPreservingSelections(edits);
+    }
+    public void smartHome(boolean extend) {
+        moveSelections(s -> {
+            int line = document.lineAt(s.caret()), start = document.lineStart(line);
+            int content = start + leadingWhitespace(document.lineText(line));
+            return s.caret() == content ? start : content;
+        }, extend);
+    }
+    public void smartEnd(boolean extend) {
+        moveSelections(s -> {
+            int line = document.lineAt(s.caret()), end = document.lineEnd(line), content = end;
+            while (content > document.lineStart(line) && Character.isWhitespace(document.charAt(content - 1))) content--;
+            return s.caret() == content ? end : content;
+        }, extend);
+    }
+    private void moveSelections(java.util.function.ToIntFunction<Selection> target, boolean extend) {
+        setSelections(selections().stream().map(s -> {
+            int at = target.applyAsInt(s);
+            return new Selection(at, extend ? s.anchor() : at);
+        }).toList());
+    }
+    public void goToMatchingBracket() {
+        int[] pair = matchingBrackets();
+        if (pair.length == 2) gotoOffset(caret == pair[0] || caret - 1 == pair[0] ? pair[1] : pair[0]);
+    }
+    public void selectMatchingBrackets() {
+        int[] pair = matchingBrackets();
+        if (pair.length == 2) setSelection(Math.min(pair[0], pair[1]), Math.max(pair[0], pair[1]) + 1);
     }
 
     public long lastPaintNanos() {
@@ -1043,7 +1591,12 @@ public final class EditorComponent extends JComponent
                     && composition.isEmpty()) {
                 if (!readOnly) {
                     if (pendingInputNanos == 0) pendingInputNanos = System.nanoTime();
-                    typeCharacter(c);
+                    if (Character.isHighSurrogate(c)) pendingHighSurrogate = c;
+                    else if (pendingHighSurrogate != 0) {
+                        char high = pendingHighSurrogate;
+                        pendingHighSurrogate = 0;
+                        replaceSelection(Character.isLowSurrogate(c) ? "" + high + c : "\uFFFD" + c);
+                    } else if (!Character.isLowSurrogate(c)) typeCharacter(c);
                 }
                 e.consume();
                 return;
@@ -1095,6 +1648,11 @@ public final class EditorComponent extends JComponent
                     return;
                 }
             }
+            if (!secondaryCarets.isEmpty() && isMotion(code)) {
+                moveMultipleCarets(e);
+                e.consume();
+                return;
+            }
             int line = document.lineAt(caret);
             boolean handled = true;
             switch (code) {
@@ -1136,44 +1694,25 @@ public final class EditorComponent extends JComponent
                 case KeyEvent.VK_PAGE_DOWN ->
                         moveVertical(Math.max(1, getHeight() / cellHeight - 1), shift);
                 case KeyEvent.VK_BACK_SPACE -> {
-                    if (caret != anchor) replaceSelection("");
-                    else if (caret > 0)
-                        edit(
-                                e.isMetaDown()
-                                        ? document.lineStart(line)
-                                        : e.isAltDown() || e.isControlDown()
-                                                ? wordLeft(caret)
-                                                : previous(caret),
-                                caret,
-                                "");
+                    if (e.isMetaDown()) deleteToLineStart();
+                    else if (e.isAltDown() || e.isControlDown()) deletePreviousWord();
+                    else deleteBackward();
                 }
                 case KeyEvent.VK_DELETE -> {
-                    if (caret != anchor) replaceSelection("");
-                    else if (caret < document.length())
-                        edit(
-                                caret,
-                                e.isAltDown() || e.isControlDown() ? wordRight(caret) : next(caret),
-                                "");
+                    if (e.isMetaDown()) deleteToLineEnd();
+                    else if (e.isAltDown() || e.isControlDown()) deleteNextWord();
+                    else deleteForward();
                 }
                 case KeyEvent.VK_ENTER -> {
                     if (command || e.isAltDown()) {
                         super.processKeyEvent(e);
                         return;
                     }
-                    String prefix =
-                            document.substring(
-                                    document.lineStart(line),
-                                    Math.min(caret, document.lineEnd(line)));
-                    int spaces = 0;
-                    while (spaces < prefix.length()
-                            && (prefix.charAt(spaces) == ' ' || prefix.charAt(spaces) == '\t'))
-                        spaces++;
-                    String indent =
-                            prefix.substring(0, spaces)
-                                    + (prefix.stripTrailing().endsWith("{")
-                                            ? " ".repeat(tabWidth)
-                                            : "");
-                    replaceSelection(document.lineEnding() + indent);
+                    splitLine();
+                }
+                case KeyEvent.VK_ESCAPE -> {
+                    if (secondaryCarets.isEmpty()) handled = false;
+                    else removeSecondaryCarets();
                 }
                 case KeyEvent.VK_TAB -> {
                     if (externalCommandBindings) {
@@ -1192,6 +1731,33 @@ public final class EditorComponent extends JComponent
         super.processKeyEvent(e);
     }
 
+    private void moveMultipleCarets(KeyEvent event) {
+        boolean extend = event.isShiftDown();
+        int code = event.getKeyCode();
+        moveSelections(s -> {
+            int line = document.lineAt(s.caret());
+            int column = visualColumn(document.lineText(line), s.caret() - document.lineStart(line));
+            return switch (code) {
+                case KeyEvent.VK_LEFT -> event.isMetaDown() ? document.lineStart(line)
+                        : event.isAltDown() || event.isControlDown() ? wordLeft(s.caret())
+                        : !extend && !s.empty() ? s.start() : previous(s.caret());
+                case KeyEvent.VK_RIGHT -> event.isMetaDown() ? document.lineEnd(line)
+                        : event.isAltDown() || event.isControlDown() ? wordRight(s.caret())
+                        : !extend && !s.empty() ? s.end() : next(s.caret());
+                case KeyEvent.VK_HOME -> event.isMetaDown() || event.isControlDown() ? 0 : document.lineStart(line);
+                case KeyEvent.VK_END -> event.isMetaDown() || event.isControlDown() ? document.length() : document.lineEnd(line);
+                default -> {
+                    boolean up = code == KeyEvent.VK_UP || code == KeyEvent.VK_PAGE_UP;
+                    if (event.isMetaDown()) yield up ? 0 : document.length();
+                    int amount = code == KeyEvent.VK_PAGE_UP || code == KeyEvent.VK_PAGE_DOWN
+                            ? Math.max(1, getHeight() / cellHeight - 1) : 1;
+                    int target = Math.clamp(line + (up ? -amount : amount), 0, document.lineCount() - 1);
+                    yield document.lineStart(target) + offsetForColumn(document.lineText(target), column);
+                }
+            };
+        }, extend);
+    }
+
     private static boolean isMotion(int key) {
         return key == KeyEvent.VK_LEFT
                 || key == KeyEvent.VK_RIGHT
@@ -1206,23 +1772,37 @@ public final class EditorComponent extends JComponent
     private void typeCharacter(char c) {
         String opens = "([{\"'", closes = ")] }\"'".replace(" ", "");
         int pair = opens.indexOf(c);
-        if (autoClose
-                && caret == anchor
-                && caret < document.length()
-                && document.charAt(caret) == c
-                && closes.indexOf(c) >= 0) {
-            moveTo(caret + 1, false);
-            return;
+        var before = selections();
+        var edits = new ArrayList<TextEdit>();
+        var skips = new java.util.HashSet<Selection>();
+        for (var selection : before) {
+            if (autoClose && selection.empty() && selection.caret() < document.length()
+                    && document.charAt(selection.caret()) == c && closes.indexOf(c) >= 0) {
+                skips.add(selection);
+            } else {
+                String value = autoClose && pair >= 0
+                        ? c + document.substring(selection.start(), selection.end()) + closes.charAt(pair)
+                        : String.valueOf(c);
+                edits.add(new TextEdit(selection.start(), selection.end(), value));
+            }
         }
-        if (autoClose && pair >= 0) {
-            String selected = getSelectedText();
-            int start = Math.min(caret, anchor);
-            replaceSelection(c + selected + closes.charAt(pair));
-            caret = start + 1 + selected.length();
-            anchor = selected.isEmpty() ? caret : start + 1;
-            onCaretChange.run();
-            repaintCaret();
-        } else replaceSelection(String.valueOf(c));
+        edits.sort(java.util.Comparator.comparingInt(TextEdit::start));
+        var after = new ArrayList<Selection>();
+        for (var selection : before) {
+            if (skips.contains(selection)) {
+                int at = mapped(selection.caret() + 1, edits);
+                after.add(new Selection(at, at));
+            } else if (autoClose && pair >= 0) {
+                int end = mapped(selection.end(), edits) - 1;
+                int start = end - (selection.end() - selection.start());
+                after.add(selection.caret() < selection.anchor()
+                        ? new Selection(start, end) : new Selection(end, start));
+            } else {
+                int at = mapped(selection.end(), edits);
+                after.add(new Selection(at, at));
+            }
+        }
+        applyEdits(version(), edits, after);
     }
 
     private int previous(int offset) {
@@ -1249,43 +1829,38 @@ public final class EditorComponent extends JComponent
     }
 
     private int wordLeft(int offset) {
-        while (offset > 0 && Character.isWhitespace(document.charAt(previous(offset))))
+        while (offset > 0 && Character.isWhitespace(Character.codePointBefore(document, offset)))
             offset = previous(offset);
-        if (offset > 0 && !Character.isJavaIdentifierPart(document.charAt(previous(offset))))
+        if (offset > 0 && !Character.isJavaIdentifierPart(Character.codePointBefore(document, offset)))
             return previous(offset);
-        while (offset > 0 && Character.isJavaIdentifierPart(document.charAt(previous(offset))))
+        while (offset > 0 && Character.isJavaIdentifierPart(Character.codePointBefore(document, offset)))
             offset = previous(offset);
         return offset;
     }
 
     private int wordRight(int offset) {
         if (offset < document.length()
-                && !Character.isJavaIdentifierPart(document.charAt(offset))
-                && !Character.isWhitespace(document.charAt(offset))) return next(offset);
+                && !Character.isJavaIdentifierPart(Character.codePointAt(document, offset))
+                && !Character.isWhitespace(Character.codePointAt(document, offset))) return next(offset);
         while (offset < document.length()
-                && Character.isJavaIdentifierPart(document.charAt(offset))) offset = next(offset);
-        while (offset < document.length() && Character.isWhitespace(document.charAt(offset)))
+                && Character.isJavaIdentifierPart(Character.codePointAt(document, offset))) offset = next(offset);
+        while (offset < document.length() && Character.isWhitespace(Character.codePointAt(document, offset)))
             offset = next(offset);
         return offset;
     }
 
     private void selectWord() {
-        clearInlineCompletion();
-        clearNavigableRange();
-        anchor = wordLeft(caret);
-        caret = wordRight(anchor);
-        onCaretChange.run();
-        repaint();
-    }
-
-    private void edit(int start, int end, String value) {
-        if (readOnly) return;
-        if (pendingInputNanos == 0) pendingInputNanos = System.nanoTime();
-        int firstLine = document.lineAt(start);
-        boolean multiline = document.lineAt(end) != firstLine || value.indexOf('\n') >= 0;
-        document.replace(start, end, value);
-        caret = anchor = start + value.length();
-        changed(firstLine, multiline);
+        int start = caret, end = caret;
+        if (start == document.length() || (start < document.length()
+                && !Character.isJavaIdentifierPart(Character.codePointAt(document, start)))) {
+            if (start > 0 && Character.isJavaIdentifierPart(Character.codePointBefore(document, start))) start = previous(start);
+        }
+        if (start < document.length() && Character.isJavaIdentifierPart(Character.codePointAt(document, start))) {
+            end = start;
+            while (start > 0 && Character.isJavaIdentifierPart(Character.codePointBefore(document, start))) start = previous(start);
+            while (end < document.length() && Character.isJavaIdentifierPart(Character.codePointAt(document, end))) end = next(end);
+        } else { start = caret; end = next(caret); }
+        setSelection(start, end);
     }
 
     private void changed(int firstLine, boolean multiline) {
@@ -1329,6 +1904,7 @@ public final class EditorComponent extends JComponent
     }
 
     private void moveTo(int target, boolean extend) {
+        secondaryCarets.clear();
         clearInlineCompletion();
         clearNavigableRange();
         repaintMatchingBrackets();
@@ -1592,6 +2168,16 @@ public final class EditorComponent extends JComponent
                                 Math.max(cellWidth, (b - a) * cellWidth),
                                 cellHeight);
                     }
+                    for (var extra : secondaryCarets) {
+                        if (!extra.empty() && extra.end() > start && extra.start() <= start + text.length()) {
+                            int a = columns[Math.max(0, extra.start() - start)];
+                            int b = columns[Math.min(text.length(), extra.end() - start)];
+                            if (extra.end() > start + text.length()) b++;
+                            row.setColor(selection);
+                            row.fillRect((a - leftColumn) * cellWidth, 0,
+                                    Math.max(cellWidth, (b - a) * cellWidth), cellHeight);
+                        }
+                    }
                     for (JavaLexer.Span span : tokens.spans()) {
                         int column = columns[span.start()];
                         if (column > leftColumn + getWidth() / cellWidth) break;
@@ -1609,6 +2195,8 @@ public final class EditorComponent extends JComponent
                         drawRun(row, text, from, to, columns[from]);
                     }
                     paintSelectedText(row, text, columns, start, selectionStart, selectionEnd);
+                    for (var extra : secondaryCarets)
+                        paintSelectedText(row, text, columns, start, extra.start(), extra.end());
                     if (emphasisStart >= 0)
                         paintSelectedText(row, text, columns, start, emphasisStart, emphasisEnd);
                     for (CompilerDiagnostic diagnostic : diagnostics) {
@@ -1648,6 +2236,13 @@ public final class EditorComponent extends JComponent
                                         .substring(caret - inlineCompletion.start());
                         row.setColor(ghostColor());
                         drawRun(row, ghost, 0, ghost.length(), columns[caret - start]);
+                    }
+                    if (isFocusOwner()) for (var extra : secondaryCarets) {
+                        if (document.lineAt(extra.caret()) == line) {
+                            int x = (columns[Math.min(text.length(), extra.caret() - start)] - leftColumn) * cellWidth;
+                            row.setColor(cursor);
+                            row.fillRect(x, 1, Math.max(2, cellWidth / 5), cellHeight - 2);
+                        }
                     }
                     if (document.lineAt(caret) == line && isFocusOwner()) {
                         int x =
@@ -1905,6 +2500,8 @@ public final class EditorComponent extends JComponent
 
     private void repaintCaret() {
         repaint(0, caretBounds().y, getWidth(), cellHeight);
+        for (var extra : secondaryCarets)
+            repaint(0, offsetBounds(extra.caret()).y, getWidth(), cellHeight);
     }
 
     private void repaintMatchingBrackets() {
@@ -1965,6 +2562,9 @@ public final class EditorComponent extends JComponent
                     c != AttributedCharacterIterator.DONE;
                     c = iterator.next()) text.append(c);
         int committed = Math.min(event.getCommittedCharacterCount(), text.length());
+        // An IME commit is an intentional edit, not a stale background transformation.
+        composition = "";
+        pendingHighSurrogate = 0;
         if (committed > 0) replaceSelection(text.substring(0, committed));
         composition = text.substring(committed);
         repaintCaret();

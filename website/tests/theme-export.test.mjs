@@ -57,7 +57,7 @@ test('catalog exports lightweight metadata and separate exact native palettes', 
 test('published feature copy distinguishes optional native AI validation from unimplemented capabilities', async () => {
   const html = await readFile(new URL('dist/index.html', website), 'utf8');
   assert.ok(html.includes('Smart Java Completion'));
-  assert.ok(html.includes('Your Keyboard, Your Theme'));
+  assert.ok(html.includes('Built for the keyboard.'));
   assert.ok(html.includes('AI completion, when you want it.'));
   assert.ok(html.includes('Optional · Disabled by default'));
   assert.ok(html.includes('Java completion, navigation, and refactoring continue to work without AI.'));

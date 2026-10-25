@@ -110,6 +110,43 @@ public final class MavenProjectController implements AutoCloseable {
     public boolean trusted() { return trusted; }
     public void toggleExplorer() { panel.setVisible(!panel.isVisible()); host.stateChanged(); }
 
+    /** Focus the existing tree; no separate keyboard dispatcher or duplicate model. */
+    public void focusExplorer() {
+        panel.setVisible(true);
+        host.stateChanged();
+        if (tree.getSelectionPath() == null && tree.getRowCount() > 0) tree.setSelectionRow(0);
+        tree.requestFocusInWindow();
+    }
+
+    public boolean hasExplorerFocus() {
+        Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        return focus != null && SwingUtilities.isDescendingFrom(focus, panel);
+    }
+
+    public void openSelectedItem() { activateTree(); }
+
+    public void expandSelectedItem(boolean expand) {
+        var path = tree.getSelectionPath();
+        if (path == null) return;
+        if (expand) tree.expandPath(path); else tree.collapsePath(path);
+    }
+
+    public void focusDependencies() {
+        focusExplorer();
+        var root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        var nodes = root.breadthFirstEnumeration();
+        while (nodes.hasMoreElements()) {
+            var node = (DefaultMutableTreeNode) nodes.nextElement();
+            if (node.toString().equals("Dependencies")) {
+                var path = new javax.swing.tree.TreePath(node.getPath());
+                tree.setSelectionPath(path);
+                tree.expandPath(path);
+                tree.scrollPathToVisible(path);
+                return;
+            }
+        }
+    }
+
     public void chooseProject() {
         var chooser = new EmbeddedFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);

@@ -1,0 +1,7 @@
+EditorComponent.class SHA-256 01f14322870ae631ccd9cf091bf27de7057c4dc8d9195031aa4c6115c9732492
+UTC 2026-10-24T21:49:53.603389Z
+JDK 25.0.4.1; Mac OS X 26.5.1 aarch64; CPUs 10; maxHeap 268435456
+1000 lines; 2000 warmup + 5000 samples per operation; EDT; headless=true
+duplicateLine p50=1.000 us p95=2.333 us p99=3.125 us; allocated p50=5656 p95=5656 p99=5656 bytes
+deleteLine p50=1.375 us p95=2.959 us p99=6.291 us; allocated p50=5008 p95=5032 p99=5032 bytes
+typeCharacter p50=1.500 us p95=3.792 us p99=5.916 us; allocated p50=5192 p95=5192 p99=5192 bytes

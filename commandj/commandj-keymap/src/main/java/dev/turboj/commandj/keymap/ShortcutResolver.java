@@ -27,6 +27,13 @@ public final class ShortcutResolver {
     private final long timeoutNanos;
     private final ArrayList<KeyStrokeSpec> prefix = new ArrayList<> ();
     private long last, revision = -1;
+    private long registryRevision = -1;
+    private Node root = new Node();
+    private record Candidate(String command, KeyBinding binding) {}
+    private static final class Node {
+        final Map<KeyStrokeSpec, Node> children = new HashMap<>();
+        final List<Candidate> candidates = new ArrayList<>();
+    }
 
     public ShortcutResolver(KeymapManager maps, CommandRegistry registry) {
         this(maps, registry, 1_500_000_000L);
@@ -49,10 +56,14 @@ public final class ShortcutResolver {
     }
 
     public Resolution accept(KeyStrokeSpec stroke, CommandContext context, long now) {
-        if (revision != maps.revision() || now - last > timeoutNanos) {
+        if (revision != maps.revision() || registryRevision != registry.revision()) {
+            rebuild();
             reset();
-            revision = maps.revision();
         }
+        if (now - last > timeoutNanos || context.has("input-method")) {
+            reset();
+        }
+        if (context.has("input-method")) return new Resolution(Kind.NONE, null, List.of());
         if (stroke.key().equals("ESCAPE") && pending()) {
             reset();
             return new Resolution(Kind.NONE, null, List.of());
@@ -73,20 +84,38 @@ public final class ShortcutResolver {
         return result;
     }
 
+    private void rebuild() {
+        root = new Node();
+        maps.bindings().forEach((id, bindings) -> {
+            if (registry.find(id).isEmpty()) return;
+            for (KeyBinding binding : bindings) {
+                Node node = root;
+                Candidate candidate = new Candidate(registry.canonicalId(id), binding);
+                for (KeyStrokeSpec stroke : binding.sequence().strokes()) {
+                    node = node.children.computeIfAbsent(stroke, ignored -> new Node());
+                    node.candidates.add(candidate);
+                }
+            }
+        });
+        revision = maps.revision();
+        registryRevision = registry.revision();
+    }
+
     private Resolution resolve(CommandContext context) {
         var matches = new TreeSet<String> ();
         var longer = new TreeSet<String> ();
-        maps.bindings().forEach((id, list) -> {
-            if (registry.find(id).isEmpty() || !registry.availability(id, context).enabled())
-                return;
-            for (var b : list)
-                if (b.context().matches(context) && b.sequence().startsWith(prefix)) {
-                    if (b.sequence().strokes().size() == prefix.size())
-                        matches.add(id);
-                    else
-                        longer.add(id);
-                }
-        });
+        Node node = root;
+        for (KeyStrokeSpec key : prefix) {
+            node = node.children.get(key);
+            if (node == null) return new Resolution(Kind.NONE, null, List.of());
+        }
+        for (Candidate candidate : node.candidates) {
+            var binding = candidate.binding();
+            if (!binding.context().matches(context)
+                    || !registry.availability(candidate.command(), context).enabled()) continue;
+            if (binding.sequence().strokes().size() == prefix.size()) matches.add(candidate.command());
+            else longer.add(candidate.command());
+        }
         if (matches.size() > 1 || !matches.isEmpty() && !longer.isEmpty()) {
             matches.addAll(longer);
             return new Resolution(Kind.CONFLICT, null, List.copyOf(matches));

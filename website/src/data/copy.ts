@@ -36,9 +36,9 @@ export const features = [
   },
   {
     number: '06',
-    title: 'Your Keyboard, Your Theme',
+    title: 'Built for the keyboard.',
     paragraphs: [
-      'Choose from four keyboard profiles, customize shortcuts, and select from 103 editor themes.',
+      'Edit with line actions and multiple carets. Choose from four keyboard profiles, customize shortcuts, and find commands in the palette. Select from 103 editor themes.',
     ],
   },
 ] as const;

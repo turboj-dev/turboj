@@ -16,6 +16,7 @@ import { site } from '../data/site';
           <div class="feature-copy">
             <h3>{feature.title}</h3>
             {feature.paragraphs.map((paragraph) => <p class="body-copy">{paragraph}</p>)}
+            {feature.number === '06' && <a class="text-link" href="/keyboard-shortcut-reference.md" download>Download generated shortcut reference</a>}
           </div>
         </article>
       ))}

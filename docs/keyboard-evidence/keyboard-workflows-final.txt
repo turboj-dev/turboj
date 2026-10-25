@@ -1,0 +1,53 @@
+Mode: OS AWT Robot key events; no mouse events; not a human audit.
+Started: 2026-10-24T22:27:49.211960Z
+PASS command available: project.open
+PASS A: keyboard import resolves cached Maven/JUnit offline
+PASS command available: open
+PASS Find selects exact source: KEYBOARD_RESULT=
+PASS command available: run
+PASS A: project → file → edit → save → trust → native Run uses only keys
+PASS A: native Run does not invoke Maven lifecycle
+PASS command available: tests.all
+PASS C: two real JUnit tests pass
+PASS command available: tests.onSave
+PASS C: Auto Test on Save enabled with keyboard
+PASS Find selects exact source: 20 + 22
+PASS command available: navigation.testFailure
+PASS C: failing Auto Test result navigates to test source
+PASS command available: open
+PASS Find selects exact source: 20 + 21
+PASS C: edit/save automatically compiles and reruns the latest corrected source
+PASS command available: tests.onSave
+PASS Find selects exact source: 20 + 22
+PASS command available: refactor.extract-variable
+PASS B: keyboard opens real RefactorJ change preview
+PASS B: expression → Extract Variable → inspect preview → Apply → one Undo
+PASS Find selects exact source: public static String second()
+PASS command available: editor.selectCurrentMethod
+PASS command available: editor.moveStatementUp
+PASS command available: tests.all
+PASS H: keyboard method move recompiles and preserves both JUnit results
+PASS H: actual method source order changed
+PASS command available: view.focusConsole
+PASS command available: new
+PASS D: New from console returns typing focus to the source editor
+PASS command available: saveAs
+PASS command available: run.configuration
+PASS D: Tab leaves multiline input instead of inserting a tab
+PASS D: Tab reaches the next multiline run configuration field
+PASS D: Shift+Tab reverses dialog traversal without modifying input
+PASS command available: run
+PASS command available: view.focusConsole
+PASS D: run arguments and interactive Scanner input arrive correctly
+PASS command available: view.focusConsole
+PASS D: console output copies via Command+C
+PASS command available: theme.more
+PASS F: theme search → preview → apply → source focus entirely by keyboard
+PASS command available: keymap
+PASS E: conflicting shortcut names the affected Save action
+PASS E: explicit conflict resolution removes only conflicting Save binding
+PASS E: user-defined Command+S performs Duplicate Line
+PASS E: persisted settings reload the custom binding and explicit conflict resolution
+PASS command available: help
+PASS E: generated Shortcut Reference is keyboard reachable after customization
+PASS all A–F and H workflow assertions. G is covered by KeyboardEditingSmoke.

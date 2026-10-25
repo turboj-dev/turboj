@@ -6,6 +6,22 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandSearchTest {
+    @Test void aliasesShortcutsAndRebindingAreSearchableWithoutRebuildingEveryQuery() {
+        try (var registry = new CommandRegistry()) {
+            registry.register(Command.action("deleteLine", "Delete Line", "Edit", () -> {})
+                    .withAliases("remove row", "clear line").requiring("editor"));
+            var revision = new java.util.concurrent.atomic.AtomicLong();
+            var keys = new java.util.concurrent.atomic.AtomicReference<>(java.util.List.of("Cmd+BACK_SPACE"));
+            var reads = new java.util.concurrent.atomic.AtomicInteger();
+            var search = new CommandSearch(registry, revision::get, id -> { reads.incrementAndGet(); return keys.get(); });
+            assertEquals("deleteLine", search.search("remove row", CommandContext.of("editor"), 20).getFirst().command().id());
+            assertFalse(search.search("⌘BACK_SPACE", CommandContext.of(),20).getFirst().availability().enabled());
+            assertEquals(1, reads.get());
+            keys.set(java.util.List.of("Ctrl+ALT+F12")); revision.incrementAndGet();
+            assertFalse(search.search("Ctrl+ALT+F12", CommandContext.of("editor"),20).isEmpty());
+            assertEquals(2, reads.get());
+        }
+    }
     @Test
     void fuzzyAliasesCategoriesAndDisabledReasons() {
         try (var registry = new CommandRegistry()) {

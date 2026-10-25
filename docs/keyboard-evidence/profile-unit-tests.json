@@ -1,0 +1,48 @@
+{
+  "scope": "Targeted profile switching and persistence regression tests; not a new full-reactor run",
+  "suites": [
+    {
+      "name": "dev.turboj.commandj.core.CommandRegistryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "commandj/commandj-core/target/surefire-reports/TEST-dev.turboj.commandj.core.CommandRegistryTest.xml",
+      "reportSha256": "85459795487a38ea678a9761e8be2e1d915be187229dab5ca008af7304e9f2c4"
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.KeymapTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.KeymapTest.xml",
+      "reportSha256": "fca02e890f34afc81eef891c141b450f4b48b2faac9429325d1e6dbc4dee2176"
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.KeyboardAuditTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.KeyboardAuditTest.xml",
+      "reportSha256": "e9be911219c919f17b305490180554b73133038a8a6b33997ac0015dc3fce78c"
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.ProfileSwitchTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.ProfileSwitchTest.xml",
+      "reportSha256": "4978c8ad1849841aaf541f7a61ba4748d8bcc8325030d3af7d08292e6b64a161"
+    }
+  ],
+  "totals": {
+    "tests": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "command": "./mvnw -q -pl commandj/commandj-keymap -am test -l target/keyboard-profile-switch-tests.log"
+}

@@ -1,0 +1,13 @@
+{
+  "timestamp":"2026-10-24T21:47:58.807539Z",
+  "jdk":"25.0.4.1+10-LTS",
+  "os":"Mac OS X 26.5.1 aarch64",
+  "backendClassSha256":"ef46a824414cb4ca188f4a02d4724098568f58decfefeb59ff0b536d269dd506",
+  "sourceCharacters":71,
+  "warmup":20,
+  "samples":60,
+  "newWorkspaceFirstSelectionNanos":14329125,
+  "selection":{"p50Nanos":9042,"p95Nanos":13750,"p99Nanos":75292,"medianAllocatedBytes":1376},
+  "movePreparation":{"p50Nanos":717959,"p95Nanos":1221459,"p99Nanos":1632458,"medianAllocatedBytes":1082152},
+  "scope":"Warm Eclipse runtime; one cached in-memory source AST. Monotonic API-call durations only, excluding editor dispatch, EDT, painting and OS input. Move includes candidate binding/compiler validation. Single new-workspace observation is not process cold-start. Development probe, not a cross-IDE benchmark."
+}

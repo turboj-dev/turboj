@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.*;
 /** Thread-safe registry with bounded background work; caller handlers must never block. */
 public final class CommandRegistry implements AutoCloseable {
     private final ConcurrentHashMap<String, Command> byId = new ConcurrentHashMap<> ();
+    private final ConcurrentHashMap<String, String> aliases = new ConcurrentHashMap<> ();
     private volatile List<Command> snapshot = List.of();
     private final AtomicLong revision = new AtomicLong();
     private final ArrayDeque<String> recent = new ArrayDeque<> ();
@@ -24,7 +25,7 @@ public final class CommandRegistry implements AutoCloseable {
         Objects.requireNonNull(command);
         if (closed)
             throw new IllegalStateException("Registry is closed");
-        if (byId.putIfAbsent(command.id(), command) != null)
+        if (aliases.containsKey(command.id()) || byId.putIfAbsent(command.id(), command) != null)
             throw new IllegalArgumentException("Duplicate command: " + command.id());
         var list = new ArrayList<> (snapshot);
         list.add(command);
@@ -33,15 +34,35 @@ public final class CommandRegistry implements AutoCloseable {
     }
 
     public synchronized void unregister(String id) {
+        if (aliases.remove(id) != null) {
+            revision.incrementAndGet();
+            return;
+        }
         byId.remove(id);
+        aliases.entrySet().removeIf(entry -> entry.getValue().equals(id));
         snapshot = snapshot.stream().filter(c -> !c.id().equals(id)).toList();
         recent.remove(id);
         revision.incrementAndGet();
     }
 
     public Optional<Command> find(String id) {
-        return Optional.ofNullable(byId.get(id));
+        return Optional.ofNullable(byId.get(canonicalId(id)));
     }
+
+    /** A persisted command ID may survive a rename without creating a second palette row. */
+    public synchronized void alias(String alias, String target) {
+        if (closed) throw new IllegalStateException("Registry is closed");
+        if (alias == null || alias.isBlank() || byId.containsKey(alias) || aliases.containsKey(alias))
+            throw new IllegalArgumentException("Duplicate/invalid alias: " + alias);
+        String canonical = canonicalId(target);
+        if (!byId.containsKey(canonical)) throw new IllegalArgumentException("Unknown target: " + target);
+        aliases.put(alias, canonical);
+        revision.incrementAndGet();
+    }
+
+    public String canonicalId(String id) { return aliases.getOrDefault(id, id); }
+
+    public Map<String, String> aliases() { return Map.copyOf(aliases); }
 
     public List<Command> commands() {
         return snapshot;
@@ -52,7 +73,7 @@ public final class CommandRegistry implements AutoCloseable {
     }
 
     public Availability availability(String id, CommandContext context) {
-        Command c = byId.get(id);
+        Command c = byId.get(canonicalId(id));
         return c == null ? Availability.disabled("Unknown command") : c.available(context);
     }
 
@@ -63,8 +84,8 @@ public final class CommandRegistry implements AutoCloseable {
     public synchronized void restoreRecent(List<String> ids) {
         recent.clear();
         for (String id : ids)
-            if (byId.containsKey(id) && !recent.contains(id)) {
-                recent.addLast(id);
+            if (find(id).isPresent() && !recent.contains(canonicalId(id))) {
+                recent.addLast(canonicalId(id));
                 if (recent.size() == 64)
                     break;
             }
@@ -79,7 +100,7 @@ public final class CommandRegistry implements AutoCloseable {
 
     public CommandExecution execute(String id, CommandContext context) {
         Objects.requireNonNull(context);
-        Command command = byId.get(id);
+        Command command = byId.get(canonicalId(id));
         var token = new CancellationToken();
         var future = new CompletableFuture<CommandResult> ();
         var result = new CommandExecution(id, token, future, command != null && command
@@ -120,7 +141,7 @@ public final class CommandRegistry implements AutoCloseable {
                             .failure("Command returned no result"));
 
                     if (outcome.status() == CommandResult.Status.SUCCEEDED)
-                        remember(id);
+                        remember(command.id());
                     future.complete(outcome);
                 });
             } catch (Throwable error) {

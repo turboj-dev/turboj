@@ -3,6 +3,7 @@ package dev.turboj.commandj.swing;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.*;
@@ -49,6 +50,8 @@ public final class AsciiStyle {
         UIManager.put("LabelUI", Label.class.getName()); UIManager.put("ButtonUI", Button.class.getName());
         UIManager.put("ToggleButtonUI", Toggle.class.getName()); UIManager.put("CheckBoxUI", CheckBox.class.getName());
         UIManager.put("RadioButtonUI", Radio.class.getName()); UIManager.put("ComboBoxUI", Combo.class.getName());
+        UIManager.put("TreeUI", Tree.class.getName());
+        UIManager.put("ListUI", ListBox.class.getName());
         UIManager.put("TabbedPaneUI", Tabs.class.getName()); UIManager.put("ScrollBarUI", ScrollBar.class.getName());
         UIManager.put("SpinnerUI", Spinner.class.getName());
         UIManager.put("ToolTipUI", BasicToolTipUI.class.getName());
@@ -112,6 +115,11 @@ public final class AsciiStyle {
             }
             text.setCaretColor(palette.foreground()); text.setSelectionColor(palette.selectionBackground());
             text.setSelectedTextColor(palette.selectionForeground()); text.setDisabledTextColor(palette.muted());
+            remapUiActions(text, JComponent.WHEN_FOCUSED, Map.of(
+                    "aqua-move-up", DefaultEditorKit.upAction,
+                    "aqua-move-down", DefaultEditorKit.downAction,
+                    "aqua-page-up", DefaultEditorKit.pageUpAction,
+                    "aqua-page-down", DefaultEditorKit.pageDownAction));
             // Basic text delegates need their own standard actions even when the host LAF is
             // Aqua. Dialogs deliberately retain local editing rather than global IDE shortcuts.
             int menuMask = System.getProperty("os.name", "").startsWith("Mac")
@@ -127,7 +135,7 @@ public final class AsciiStyle {
             scroll.setBorder(BorderFactory.createEmptyBorder()); scroll.setViewportBorder(null);
         }
         if (component instanceof JList<?> list) {
-            if (list.getUI().getClass() != BasicListUI.class) list.setUI(new BasicListUI());
+            if (list.getUI().getClass() != ListBox.class) list.setUI(new ListBox());
             list.setSelectionBackground(palette.selectionBackground()); list.setSelectionForeground(palette.selectionForeground());
         }
         if (component instanceof JTable table) {
@@ -140,7 +148,7 @@ public final class AsciiStyle {
         if (component instanceof JTableHeader header && header.getUI().getClass() != BasicTableHeaderUI.class)
             header.setUI(new BasicTableHeaderUI());
         if (component instanceof JTree tree) {
-            tree.setUI(new BasicTreeUI());
+            tree.setUI(new Tree());
             tree.putClientProperty("JTree.lineStyle", "None");
             if (tree.getCellRenderer() instanceof DefaultTreeCellRenderer renderer) {
                 renderer.setBackgroundNonSelectionColor(palette.background()); renderer.setTextNonSelectionColor(palette.foreground());
@@ -159,6 +167,20 @@ public final class AsciiStyle {
     }
 
     private static void color(String key, Color value) { UIManager.put(key, new ColorUIResource(value)); }
+
+    private static void remapUiActions(JComponent component, int condition, Map<String, String> replacements) {
+        InputMap inherited = SwingUtilities.getUIInputMap(component, condition);
+        if (inherited == null || inherited.allKeys() == null) return;
+        InputMap keys = new InputMapUIResource();
+        boolean changed = false;
+        for (KeyStroke stroke : inherited.allKeys()) {
+            Object original = inherited.get(stroke);
+            String replacement = replacements.get(original);
+            keys.put(stroke, replacement == null ? original : replacement);
+            changed |= replacement != null;
+        }
+        if (changed) SwingUtilities.replaceUIInputMap(component, condition, keys);
+    }
 
     /** Restyle only the divider, preserving child state and the host's resize geometry. */
     public static void splitPane(JSplitPane split, AsciiPalette palette) {
@@ -213,9 +235,94 @@ public final class AsciiStyle {
     }
     public static final class Combo extends BasicComboBoxUI {
         public static ComponentUI createUI(JComponent c) { return new Combo(); }
+        @Override protected void installKeyboardActions() {
+            super.installKeyboardActions();
+            // The host LAF may be Aqua, whose input map names actions absent from
+            // BasicComboBoxUI. Install a matching UI map locally; client bindings
+            // stay above it, and Basic's type-ahead/editor listeners remain intact.
+            InputMap keys = new InputMapUIResource();
+            String[][] bindings = {
+                    {"ESCAPE", "hidePopup"}, {"ENTER", "enterPressed"},
+                    {"PAGE_UP", "pageUpPassThrough"}, {"PAGE_DOWN", "pageDownPassThrough"},
+                    {"HOME", "homePassThrough"}, {"END", "endPassThrough"},
+                    {"DOWN", "selectNext"}, {"KP_DOWN", "selectNext"},
+                    {"UP", "selectPrevious"}, {"KP_UP", "selectPrevious"},
+                    {"alt DOWN", "togglePopup"}, {"alt KP_DOWN", "togglePopup"},
+                    {"alt UP", "togglePopup"}, {"alt KP_UP", "togglePopup"},
+                    {"F4", "togglePopup"}, {"SPACE", "spacePopup"}
+            };
+            for (String[] binding : bindings) keys.put(KeyStroke.getKeyStroke(binding[0]), binding[1]);
+            SwingUtilities.replaceUIInputMap(comboBox, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, keys);
+        }
         @Override protected JButton createArrowButton() { return glyphButton("v"); }
         @Override public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean focus) {
             g.setColor(palette(comboBox).background()); g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+        }
+    }
+    public static final class Tree extends BasicTreeUI {
+        public static ComponentUI createUI(JComponent c) { return new Tree(); }
+        @Override protected void installKeyboardActions() {
+            super.installKeyboardActions();
+            installCompatibleInputMap();
+        }
+        @Override protected java.beans.PropertyChangeListener createPropertyChangeListener() {
+            java.beans.PropertyChangeListener inherited = super.createPropertyChangeListener();
+            return event -> {
+                inherited.propertyChange(event);
+                // BasicTreeUI replaces its map when orientation changes.
+                if ("componentOrientation".equals(event.getPropertyName())) installCompatibleInputMap();
+            };
+        }
+        private void installCompatibleInputMap() {
+            InputMap inherited = SwingUtilities.getUIInputMap(tree, JComponent.WHEN_FOCUSED);
+            InputMap keys = new InputMapUIResource();
+            if (inherited != null && inherited.allKeys() != null) {
+                for (KeyStroke stroke : inherited.allKeys()) {
+                    Object action = inherited.get(stroke);
+                    // Old Aqua actions can survive on the component, but reference
+                    // its removed native delegate and cannot operate this Basic UI.
+                    if (action != null && !action.toString().startsWith("aqua")
+                            && tree.getActionMap().get(action) != null) keys.put(stroke, action);
+                }
+            }
+            boolean ltr = tree.getComponentOrientation().isLeftToRight();
+            String[][] bindings = {
+                    {"RIGHT", ltr ? "selectChild" : "selectParent"},
+                    {"KP_RIGHT", ltr ? "selectChild" : "selectParent"},
+                    {"LEFT", ltr ? "selectParent" : "selectChild"},
+                    {"KP_LEFT", ltr ? "selectParent" : "selectChild"},
+                    {"UP", "selectPrevious"}, {"KP_UP", "selectPrevious"},
+                    {"DOWN", "selectNext"}, {"KP_DOWN", "selectNext"},
+                    {"HOME", "selectFirst"}, {"END", "selectLast"},
+                    {"PAGE_UP", "scrollUpChangeSelection"}, {"PAGE_DOWN", "scrollDownChangeSelection"},
+                    {"shift UP", "selectPreviousExtendSelection"}, {"shift DOWN", "selectNextExtendSelection"},
+                    {"shift HOME", "selectFirstExtendSelection"}, {"shift END", "selectLastExtendSelection"},
+                    {"shift PAGE_UP", "scrollUpExtendSelection"}, {"shift PAGE_DOWN", "scrollDownExtendSelection"}
+            };
+            for (String[] binding : bindings) keys.put(KeyStroke.getKeyStroke(binding[0]), binding[1]);
+            SwingUtilities.replaceUIInputMap(tree, JComponent.WHEN_FOCUSED, keys);
+        }
+    }
+    public static final class ListBox extends BasicListUI {
+        public static ComponentUI createUI(JComponent c) { return new ListBox(); }
+        @Override protected void installKeyboardActions() {
+            super.installKeyboardActions();
+            ActionMap actions = new ActionMapUIResource();
+            actions.setParent(SwingUtilities.getUIActionMap(list));
+            actions.put("asciiScrollHome", scrollEdge(true));
+            actions.put("asciiScrollEnd", scrollEdge(false));
+            SwingUtilities.replaceUIActionMap(list, actions);
+            remapUiActions(list, JComponent.WHEN_FOCUSED,
+                    Map.of("aquaHome", "asciiScrollHome", "aquaEnd", "asciiScrollEnd"));
+        }
+        private Action scrollEdge(boolean first) {
+            return new AbstractAction() {
+                @Override public void actionPerformed(ActionEvent event) {
+                    JList<?> target = (JList<?>) event.getSource();
+                    if (target.isEnabled() && target.getModel().getSize() > 0)
+                        target.ensureIndexIsVisible(first ? 0 : target.getModel().getSize() - 1);
+                }
+            };
         }
     }
     public static final class Spinner extends BasicSpinnerUI {

@@ -63,6 +63,11 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
     }
     private void read(Path path)throws IOException{path=path.toAbsolutePath().normalize();Path file=path;String encoding=projectConfigurations.stream().filter(p->p.sourceRoots().stream().anyMatch(file::startsWith)).map(JavaProjectConfiguration::encoding).findFirst().orElse("UTF-8");diskSources.put(path,Files.readString(path,java.nio.charset.Charset.forName(encoding)));stamps.put(path,Files.getLastModifiedTime(path).toMillis());}
     @Override public TestTarget testTarget(Context context,int offset){return intelligence(context).testTarget(context,offset);}
+    @Override public JavaStructure.Range selectStructure(Context context,int start,int end,JavaStructure.Selection selection){return intelligence(context).selectStructure(context,start,end,selection);}
+    @Override public JavaStructure.EditResult editStructure(Context context,int caret,int anchor,JavaStructure.Edit edit){return intelligence(context).editStructure(context,caret,anchor,edit);}
+    @Override public List<JavaStructure.Target> navigationTargets(Context context,int offset,JavaStructure.Navigation navigation,String query){return intelligence(context).navigationTargets(context,offset,navigation,query);}
+    @Override public Requests.ChangeSignature parameterMove(Context context,int offset,int direction){return intelligence(context).parameterMove(context,offset,direction);}
+    @Override public CompletionResult completeSmart(Context context,int offset){return intelligence(context).completeSmart(context,offset);}
     @Override public CompletionResult complete(Context context,int offset){return intelligence(context).complete(context,offset);}
     @Override public Symbol resolveSymbol(Context context,int offset){return intelligence(context).resolveSymbol(context,offset);}
     @Override public Declaration findDeclaration(Context context,Symbol symbol){return intelligence(context).findDeclaration(context,symbol);}

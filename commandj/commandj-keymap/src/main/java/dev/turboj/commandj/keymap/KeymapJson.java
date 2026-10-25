@@ -15,6 +15,7 @@ public final class KeymapJson {
         JsonObject root = new JsonObject();
         root.addProperty("schemaVersion", 1);
         root.addProperty("selected", manager.selectedId());
+        root.addProperty("preserveConflicts", manager.hasStoredConflicts());
         JsonArray profiles = new JsonArray();
 
         for (var profile : manager.profiles()) {
@@ -90,7 +91,8 @@ public final class KeymapJson {
                 profiles.add(new KeymapProfile(id, p.get("name").getAsString(), p.has("parent") ? p
                         .get("parent").getAsString() : null, bindings, false));
             }
-            manager.install(profiles, root.get("selected").getAsString());
+            manager.install(profiles, root.get("selected").getAsString(), root.has("preserveConflicts")
+                    && root.get("preserveConflicts").getAsBoolean());
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (RuntimeException malformed) {

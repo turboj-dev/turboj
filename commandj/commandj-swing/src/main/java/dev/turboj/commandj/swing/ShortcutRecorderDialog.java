@@ -18,10 +18,13 @@ public final class ShortcutRecorderDialog extends EmbeddedDialog {
         super(owner, "Record shortcut", true);
         setLayout(new BorderLayout(6, 6));
         field.setEditable(false);
-        field.setFocusTraversalKeysEnabled(false);
+        // Tab/Shift+Tab leave the recorder. Bare Tab can be recorded with the special-key control.
+        field.setFocusTraversalKeysEnabled(true);
         field.getAccessibleContext().setAccessibleName("Shortcut recorder");
         field.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB && !e.isMetaDown() && !e.isControlDown()
+                        && !e.isAltDown()) return;
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getModifiersEx() == 0) {
                     e.consume();
                     dispose();

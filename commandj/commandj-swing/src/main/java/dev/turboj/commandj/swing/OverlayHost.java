@@ -14,6 +14,7 @@ public final class OverlayHost extends JLayeredPane {
     private final Deque<EmbeddedDialog> dialogs = new ArrayDeque<> ();
     private final Map<EmbeddedDialog, Component> previousFocus = new IdentityHashMap<> ();
     private Component backgroundFocus;
+    private Component actionFocusOrigin;
     private AsciiPalette palette = AsciiPalette.defaults();
     private final PropertyChangeListener focusGuard;
     private final KeyEventDispatcher keys;
@@ -47,8 +48,7 @@ public final class OverlayHost extends JLayeredPane {
         keys = event -> {
             var top = dialogs.peekLast();
 
-            if (top == null || event.getID() != KeyEvent.KEY_PRESSED || event.getKeyCode()
-                    != KeyEvent.VK_ESCAPE || event.getModifiersEx() != 0 || MenuSelectionManager
+            if (top == null || event.getID() != KeyEvent.KEY_PRESSED || MenuSelectionManager
                     .defaultManager().getSelectedPath().length != 0)
                 return false;
             Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
@@ -56,6 +56,17 @@ public final class OverlayHost extends JLayeredPane {
             if (focus == null || SwingUtilities.getWindowAncestor(focus) != SwingUtilities
                     .getWindowAncestor(root))
                 return false;
+            if (event.getKeyCode() == KeyEvent.VK_TAB && !event.isAltDown()
+                    && !event.isMetaDown() && !event.isControlDown()) {
+                if (event.isShiftDown()) focus.transferFocusBackward(); else focus.transferFocus();
+                event.consume();
+                return true;
+            }
+            if (event.getKeyCode() == KeyEvent.VK_ENTER && event.getModifiersEx() == 0
+                    && focus instanceof AbstractButton button && button.isEnabled()) {
+                button.doClick(0); event.consume(); return true;
+            }
+            if (event.getKeyCode() != KeyEvent.VK_ESCAPE || event.getModifiersEx() != 0) return false;
             top.doDefaultCloseAction();
             event.consume();
             return true;
@@ -117,6 +128,24 @@ public final class OverlayHost extends JLayeredPane {
         return host == null ? List.of() : List.copyOf(host.dialogs);
     }
 
+    /** Close a surface before running its action. Preserve the logical focus origin when the
+     * action immediately opens another surface: native focus events may lag the EDT queue. */
+    public static void closeThen(EmbeddedDialog dialog, Runnable action) {
+        if (!SwingUtilities.isEventDispatchThread()) throw new IllegalStateException("Close surfaces on EDT");
+        Objects.requireNonNull(action);
+        OverlayHost host = existing(dialog);
+        Component captured = host == null ? null : host.previousFocus.get(dialog);
+        Component origin = captured != null && captured.isShowing() ? captured : host == null ? null : host.backgroundFocus;
+        dialog.dispose();
+        SwingUtilities.invokeLater(() -> {
+            if (host == null) { action.run(); return; }
+            Component previous = host.actionFocusOrigin;
+            host.actionFocusOrigin = origin;
+            try { action.run(); }
+            finally { host.actionFocusOrigin = previous; }
+        });
+    }
+
     void show(EmbeddedDialog dialog) {
         MenuSelectionManager.defaultManager().clearSelectedPath();
         root.putClientProperty("commandj.overlay.active", true);
@@ -127,6 +156,8 @@ public final class OverlayHost extends JLayeredPane {
         }
         if (!dialogs.contains(dialog)) {
             Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+            if (dialogs.isEmpty() && actionFocusOrigin != null && actionFocusOrigin.isShowing()
+                    && SwingUtilities.isDescendingFrom(actionFocusOrigin, root)) focus = actionFocusOrigin;
             if (dialogs.isEmpty() && focus != null && focus.isShowing()
                     && !SwingUtilities.isDescendingFrom(focus, this)) backgroundFocus = focus;
             previousFocus.put(dialog, focus);

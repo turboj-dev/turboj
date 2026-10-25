@@ -95,6 +95,7 @@ public final class TurboFrame extends JFrame {
     private long themeChoiceGeneration;
     private final Map<String, Action> commands = new LinkedHashMap<>();
     private final Map<String, String> keymap;
+    private final ButtonGroup keyboardProfileGroup = new ButtonGroup();
     private final CommandRegistry commandRegistry = new CommandRegistry();
     private final KeymapManager commandKeymaps = new KeymapManager();
     private CommandKeyDispatcher commandDispatcher;
@@ -110,8 +111,15 @@ public final class TurboFrame extends JFrame {
     private final Map<Path, SourceEncoding.Encoding> fileEncodings = new ConcurrentHashMap<>();
     private final Set<Path> externalSourceFiles = new HashSet<>();
     private final NavigationHistory<Visit> navigation = new NavigationHistory<>();
+    private final NavigationHistory<Visit> editLocations = new NavigationHistory<>();
+    private final ArrayDeque<Map.Entry<Path, Buffer>> closedBuffers = new ArrayDeque<>();
+    private final ArrayDeque<Visit> recentLocations = new ArrayDeque<>();
+    private boolean editorMaximized;
+    private boolean restoreExplorer, restoreMessages;
+    private int restoreDivider;
     private Path bufferKey = untitledKey();
     private IntelligenceController intelligence;
+    private KeyboardJavaController keyboardJava;
     private AICompletionController aiCompletion;
     private FormattingController formatting;
     private RefactoringController refactoring;
@@ -129,6 +137,9 @@ public final class TurboFrame extends JFrame {
     private final javax.swing.Timer saveAutomationTimer = new javax.swing.Timer(150, event -> trySaveAutomation());
     private MavenRunTargets.Target lastMavenRunTarget;
     private String lastPlainRunTarget;
+    private List<String> programArguments = List.of();
+    private String configuredInput = "";
+    private Visit lastEditVisit;
 
     private record TestInvocation(Model.WorkspaceSnapshot workspace,
             TurboTestController.Selection selection) {}
@@ -221,6 +232,7 @@ public final class TurboFrame extends JFrame {
                 follow.start();
             }
             @Override public void published(MavenModels.Workspace value) {
+                if (keyboardJava != null) keyboardJava.changed();
                 if (intelligence != null) intelligence.changed();
                 updateMavenStatus();
                 if (file != null && value.moduleFor(file).isPresent() && isJavaBuffer()) changed();
@@ -274,6 +286,8 @@ public final class TurboFrame extends JFrame {
                         this::navigateDeclaration,
                         text -> console.append(text + "\n", false));
         intelligence.setTheme(theme);
+        keyboardJava = new KeyboardJavaController(this, editor, intelligence, this::intelligenceSnapshot,
+                this::navigateDeclaration, text -> console.append(text + "\n", false));
         intelligence.setProjectProvider(new IntelligenceController.ProjectProvider() {
             private MavenModels.Workspace previous;
             private ProjectContext.Config cached;
@@ -342,6 +356,7 @@ public final class TurboFrame extends JFrame {
                 startTests(TurboTestController.Mode.ALL, true);
         });
         tests = new TurboTestController(new NativeTestHost());
+        keyboardJava.setRefactoring(refactoring::previewRequest);
         tests.setAutomatic(settings.autoTest);
         // CommandJ owns shortcut dispatch, including completion controls. The coordinators are
         // invoked by registered commands; their former keys cannot bypass a customized profile.
@@ -563,6 +578,7 @@ public final class TurboFrame extends JFrame {
 
     private void navigateDeclaration(Declaration target) {
         if (target.file() == null || target.source() == null) return;
+        rememberLocation();
         Path destination = target.file().toAbsolutePath().normalize();
         Visit previous = visit();
         if (destination.equals(bufferKey)) {
@@ -658,13 +674,36 @@ public final class TurboFrame extends JFrame {
         commandRegistry.register(Command.of(id, title, category, (context, cancellation) -> {
             action.accept(context);
             return CompletableFuture.completedFuture(CommandResult.success());
-        }).when(context -> context.has("overlay")
+        }).withAliases(commandAliases(id)).requiring(commandContexts(id)).when(context -> context.has("overlay")
                 ? Availability.disabled("Close the active dialog first") : availability.apply(context)));
         var result = new CommandAction(commandRegistry, id, this::commandContext,
                 this::commandFinished);
         commands.put(id, result);
         if (commandDispatcher != null) refreshShortcutPresentation();
         return result;
+    }
+
+    private static String[] commandAliases(String id) {
+        if (id.startsWith("keymap.profile."))
+            return new String[]{"switch keyboard profile", "change keymap", id.replace('.', ' ')};
+        return switch (id) {
+            case "deleteLine" -> new String[]{"remove row", "clear line", "delete current line"};
+            case "duplicateLine" -> new String[]{"duplicate row", "copy line below"};
+            case "keymap" -> new String[]{"keyboard settings", "configure shortcuts", "bindings"};
+            case "editor.moveStatementUp", "editor.moveStatementDown", "editor.moveCodeBlockUp", "editor.moveCodeBlockDown" -> new String[]{"move method", "move statement", "move block"};
+            case "palette" -> new String[]{"find action", "show all commands"};
+            default -> new String[]{id.replace('.', ' ')};
+        };
+    }
+
+    private static String[] commandContexts(String id) {
+        if (id.startsWith("editor.") || id.startsWith("java.") || id.startsWith("refactor.")
+                || id.startsWith("completion.") || id.startsWith("documentation.")
+                || Set.of("complete", "documentation", "ai.request", "ai.another", "ai.larger").contains(id)
+                || Set.of("duplicateLine", "deleteLine", "moveLineUp", "moveLineDown", "indent", "unindent", "comment").contains(id))
+            return new String[]{"editor"};
+        if (id.startsWith("explorer.")) return new String[]{"explorer"};
+        return new String[0];
     }
 
     public CommandRegistry commandRegistry() {
@@ -685,8 +724,13 @@ public final class TurboFrame extends JFrame {
         Set<String> tags = new HashSet<> ();
         tags.add("workspace");
         if (OverlayHost.active(this)) tags.add("overlay");
-        if (!console.hasConsoleFocus() && !repl.hasConsoleFocus())
-            tags.add("editor");
+        if (editor.hasInputComposition()) tags.add("input-method");
+        Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+        if (focus == editor || ((focus == null || focus instanceof MenuElement)
+                && lastTextCommandTarget == editor)) tags.add("editor");
+        if (maven.hasExplorerFocus()) tags.add("explorer");
+        if (console.hasConsoleFocus()) tags.add("console");
+        if (repl.hasConsoleFocus()) tags.add("jshell");
         if (!editor.isReadOnly())
             tags.add("editable");
         var selection = editor.captureLocation();
@@ -742,7 +786,7 @@ public final class TurboFrame extends JFrame {
         } else return Availability.disabled("Focus a text area");
         if ((id.equals("cut") || id.equals("paste")) && !editable)
             return Availability.disabled("This text is read only");
-        if ((id.equals("copy") || id.equals("cut")) && !selected)
+        if ((id.equals("copy") || id.equals("cut")) && !selected && target != editor)
             return Availability.disabled("Select text first");
         return Availability.available();
     }
@@ -772,6 +816,17 @@ public final class TurboFrame extends JFrame {
     }
 
     private Availability commandAvailability(String id, CommandContext context) {
+        if (id.startsWith("explorer.") && !context.has("explorer")) return Availability.disabled("Focus the Project Explorer");
+        if (Set.of("view.focusExplorer", "view.toggleExplorer", "navigation.mavenModule", "navigation.projectDependency").contains(id)
+                && maven.importRequest() == null) return Availability.disabled("Open a Maven project first");
+        if (Set.of("view.focusTestResults", "view.toggleTestPanel", "navigation.testFailure").contains(id)
+                && (tests == null || tests.lastReport() == null)) return Availability.disabled("Run tests first");
+        if (id.equals("navigation.testFailure") && tests.lastReport().failed() == 0) return Availability.disabled("No failed tests");
+        if (id.equals("console.copy") && console.inputComponent().getSelectionStart() == console.inputComponent().getSelectionEnd())
+            return Availability.disabled("Select console output first");
+        if (id.equals("file.reopenClosed") && closedBuffers.isEmpty()) return Availability.disabled("No closed files to reopen");
+        if (id.equals("view.restoreLayout") && !editorMaximized) return Availability.disabled("The editor is not maximized");
+        if (id.equals("navigation.goToTest") && (!isJavaBuffer() || file == null)) return Availability.disabled("Open a saved Java source file");
         boolean projectCommand = Set.of("compile", "run", "isolated", "compileProject", "make",
                 "tests.all", "tests.failed", "tests.current", "tests.class").contains(id);
         boolean mavenProject = maven.importRequest() != null;
@@ -781,6 +836,7 @@ public final class TurboFrame extends JFrame {
             if (!maven.workspace().resolved()) return Availability.disabled("Maven dependencies are incomplete — Refresh Dependencies or check Maven Settings");
         }
         if (!isJavaBuffer() && (id.startsWith("refactor.") || id.equals("organizeImports") || id.startsWith("format.")
+                || id.startsWith("completion.") || id.startsWith("documentation.")
                 || Set.of("complete", "documentation", "evaluateStatement").contains(id)
                 || !mavenProject && Set.of("compile", "run", "isolated").contains(id)))
             return Availability.disabled("Focus a Java source file");
@@ -856,6 +912,10 @@ public final class TurboFrame extends JFrame {
     }
 
     private static String commandCategory(String id) {
+        if (id.startsWith("view.") || id.startsWith("explorer.")) return "Panels";
+        if (id.startsWith("navigation.")) return "Navigation";
+        if (id.startsWith("file.")) return "File";
+        if (id.startsWith("settings.")) return "Settings";
         if (id.startsWith("project.")) return "Project";
         if (id.startsWith("maven.")) return "Maven";
         if (id.startsWith("tests."))
@@ -880,7 +940,7 @@ public final class TurboFrame extends JFrame {
             return "Compilation";
         if (Set.of("declaration", "documentation", "back", "forward", "goto").contains(id))
             return "Navigation";
-        if (Set.of("keymap", "palette", "help", "metrics", "menu", "escape").contains(id))
+        if (id.startsWith("keymap.") || Set.of("keymap", "palette", "help", "metrics", "menu", "escape").contains(id))
             return "Settings";
         return "Edit";
     }
@@ -900,6 +960,7 @@ public final class TurboFrame extends JFrame {
                     editor.setText("");
                     savedVersion = editor.version();
                     refreshTitle();
+                    editor.requestFocusInWindow();
                 });
         command(
                 "open",
@@ -940,6 +1001,9 @@ public final class TurboFrame extends JFrame {
         command("saveAs", "Save as…", () -> save(true, () -> {}));
         command("quit", "Quit TurboJ", this::requestQuit);
         command("complete", "Completion alternatives", () -> intelligence.complete(true));
+        command("completion.smart", "Smart Completion", () -> intelligence.smartComplete());
+        command("completion.parameterInformation", "Parameter Information", () -> intelligence.parameterInformation());
+        command("documentation.focus", "Focus Quick Documentation", () -> intelligence.focusDocumentation());
         command(
                 "declaration",
                 "Go to declaration",
@@ -1205,15 +1269,20 @@ public final class TurboFrame extends JFrame {
                 });
         command("palette", "Command palette…", this::palette);
         command(
-                "help", "Keyboard reference…", this::showKeymapEditor);
+                "help", "Keyboard reference…", () -> new ShortcutReferenceDialog(this, commandRegistry, commandKeymaps, commandContext()).setVisible(true));
         command("keymap", "Keymap…", this::showKeymapEditor);
+        for (var profile : BundledKeymaps.profiles())
+            command("keymap.profile." + profile.id(), "Keyboard Profile: " + profile.name(),
+                    () -> commandKeymaps.select(profile.id()));
         command("menu", "Open menu", () -> menus.getMenu(0).doClick());
         command("escape", "Return to editor / dismiss", () -> {
             MenuSelectionManager.defaultManager().clearSelectedPath();
+            boolean completion = editor.inlineCompletion() != null || (intelligence != null && intelligence.alternativesVisible());
             if (aiCompletion != null)
                 aiCompletion.dismiss();
             if (intelligence != null)
                 intelligence.dismiss();
+            if (!completion) editor.removeSecondaryCarets();
             editor.requestFocusInWindow();
         });
         command("completion.accept", "Accept suggestion", () -> completionKey("TAB"));
@@ -1278,6 +1347,435 @@ public final class TurboFrame extends JFrame {
             });
         });
         commands.get("showPressedShortcuts").putValue(Action.SELECTED_KEY, settings.showPressedShortcuts);
+        createKeyboardCommands();
+        createJavaKeyboardCommands();
+    }
+
+    private void javaKeyboardCommand(String id, String label, boolean modifies, Runnable action) {
+        registerCommand(id, label, "Java Structure", action, context -> {
+            if (!context.has("editor") || !isJavaBuffer()) return Availability.disabled("Focus Java source");
+            if (modifies && editor.isReadOnly()) return Availability.disabled("Attached source is read only");
+            if (editor.selections().size() > 1) return Availability.disabled("Java structure actions use one source range; remove secondary carets first");
+            if (keyboardJava == null || intelligence == null || (refactoring != null && refactoring.busy()))
+                return Availability.disabled("Java analysis is initializing or a refactoring is active");
+            return Availability.available();
+        });
+    }
+
+    private void createJavaKeyboardCommands() {
+        var selections = Map.of("expandSelection", dev.turboj.refactorj.api.JavaStructure.Selection.EXPAND,
+                "selectCurrentStatement", dev.turboj.refactorj.api.JavaStructure.Selection.STATEMENT,
+                "selectCurrentMethod", dev.turboj.refactorj.api.JavaStructure.Selection.METHOD,
+                "selectCurrentBlock", dev.turboj.refactorj.api.JavaStructure.Selection.BLOCK,
+                "selectEnclosingType", dev.turboj.refactorj.api.JavaStructure.Selection.TYPE,
+                "selectMatchingBrackets", dev.turboj.refactorj.api.JavaStructure.Selection.BRACKETS);
+        for (var entry : selections.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList())
+            javaKeyboardCommand("editor." + entry.getKey(), humanize(entry.getKey()), false, () -> keyboardJava.select(entry.getValue()));
+        javaKeyboardCommand("editor.shrinkSelection", "Shrink Selection", false, () -> keyboardJava.shrinkSelection());
+        var edits = Map.ofEntries(
+                Map.entry("editor.moveStatementUp", dev.turboj.refactorj.api.JavaStructure.Edit.MOVE_STATEMENT_UP),
+                Map.entry("editor.moveStatementDown", dev.turboj.refactorj.api.JavaStructure.Edit.MOVE_STATEMENT_DOWN),
+                Map.entry("editor.moveCodeBlockUp", dev.turboj.refactorj.api.JavaStructure.Edit.MOVE_BLOCK_UP),
+                Map.entry("editor.moveCodeBlockDown", dev.turboj.refactorj.api.JavaStructure.Edit.MOVE_BLOCK_DOWN),
+                Map.entry("editor.moveElementLeft", dev.turboj.refactorj.api.JavaStructure.Edit.MOVE_ELEMENT_LEFT),
+                Map.entry("editor.moveElementRight", dev.turboj.refactorj.api.JavaStructure.Edit.MOVE_ELEMENT_RIGHT),
+                Map.entry("java.generateConstructor", dev.turboj.refactorj.api.JavaStructure.Edit.CONSTRUCTOR),
+                Map.entry("java.generateGetters", dev.turboj.refactorj.api.JavaStructure.Edit.GETTERS),
+                Map.entry("java.generateSetters", dev.turboj.refactorj.api.JavaStructure.Edit.SETTERS),
+                Map.entry("java.generateGetterSetter", dev.turboj.refactorj.api.JavaStructure.Edit.GETTERS_SETTERS),
+                Map.entry("java.generateEquals", dev.turboj.refactorj.api.JavaStructure.Edit.EQUALS),
+                Map.entry("java.generateHashCode", dev.turboj.refactorj.api.JavaStructure.Edit.HASH_CODE),
+                Map.entry("java.generateToString", dev.turboj.refactorj.api.JavaStructure.Edit.TO_STRING),
+                Map.entry("java.implementMethods", dev.turboj.refactorj.api.JavaStructure.Edit.IMPLEMENT_METHODS),
+                Map.entry("java.overrideMethods", dev.turboj.refactorj.api.JavaStructure.Edit.OVERRIDE_METHODS),
+                Map.entry("java.surroundIf", dev.turboj.refactorj.api.JavaStructure.Edit.SURROUND_IF),
+                Map.entry("java.surroundTryFinally", dev.turboj.refactorj.api.JavaStructure.Edit.SURROUND_TRY_FINALLY),
+                Map.entry("java.completeStatement", dev.turboj.refactorj.api.JavaStructure.Edit.COMPLETE_STATEMENT),
+                Map.entry("java.generateJavadoc", dev.turboj.refactorj.api.JavaStructure.Edit.JAVADOC));
+        for (var entry : edits.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList())
+            javaKeyboardCommand(entry.getKey(), humanize(entry.getKey().substring(entry.getKey().indexOf('.') + 1)) + "…", true,
+                    () -> keyboardJava.edit(entry.getValue()));
+        var navigation = Map.ofEntries(
+                Map.entry("goToSymbol", dev.turboj.refactorj.api.JavaStructure.Navigation.SYMBOLS),
+                Map.entry("goToType", dev.turboj.refactorj.api.JavaStructure.Navigation.TYPES),
+                Map.entry("goToImplementation", dev.turboj.refactorj.api.JavaStructure.Navigation.IMPLEMENTATIONS),
+                Map.entry("findReferences", dev.turboj.refactorj.api.JavaStructure.Navigation.REFERENCES),
+                Map.entry("typeHierarchy", dev.turboj.refactorj.api.JavaStructure.Navigation.TYPE_HIERARCHY),
+                Map.entry("callHierarchy", dev.turboj.refactorj.api.JavaStructure.Navigation.CALLERS),
+                Map.entry("calledMethods", dev.turboj.refactorj.api.JavaStructure.Navigation.CALLEES),
+                Map.entry("nextMethod", dev.turboj.refactorj.api.JavaStructure.Navigation.NEXT_METHOD),
+                Map.entry("previousMethod", dev.turboj.refactorj.api.JavaStructure.Navigation.PREVIOUS_METHOD),
+                Map.entry("matchingBrace", dev.turboj.refactorj.api.JavaStructure.Navigation.MATCHING_BRACE));
+        for (var entry : navigation.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList())
+            javaKeyboardCommand("navigation." + entry.getKey(), humanize(entry.getKey()), false, () -> keyboardJava.navigate(entry.getValue()));
+        commandRegistry.alias("navigation.findUsages", "navigation.findReferences");
+        commandRegistry.alias("editor.moveBlockUp", "editor.moveCodeBlockUp");
+        commandRegistry.alias("editor.moveBlockDown", "editor.moveCodeBlockDown");
+        commandRegistry.alias("java.introduceLocalVariable", "refactor.extract-variable");
+        for (var alias : Map.ofEntries(
+                Map.entry("goFile", "navigation.goToFile"), Map.entry("goType", "navigation.goToType"),
+                Map.entry("goSymbol", "navigation.goToSymbol"), Map.entry("implementation", "navigation.goToImplementation"),
+                Map.entry("references", "navigation.findReferences"), Map.entry("signature", "completion.parameterInformation"),
+                Map.entry("recentFiles", "navigation.recentFiles"), Map.entry("navigation.nextEditor", "navigation.nextEditorTab"),
+                Map.entry("navigation.previousEditor", "navigation.previousEditorTab"), Map.entry("navigation.closeEditor", "file.close"),
+                Map.entry("navigation.reopenEditor", "file.reopenClosed"), Map.entry("navigation.previousEdit", "navigation.previousEditLocation"),
+                Map.entry("editor.selectLine", "editor.selectCurrentLine")).entrySet()) commandRegistry.alias(alias.getKey(), alias.getValue());
+    }
+
+    private static String humanize(String value) {
+        String text = value.replaceAll("([a-z])([A-Z])", "$1 $2");
+        return Character.toUpperCase(text.charAt(0)) + text.substring(1);
+    }
+
+    private void editorCommand(String id, String title, boolean modifies, Runnable action) {
+        registerCommand(id, title, "Edit", action, context -> {
+            if (!context.has("editor")) return Availability.disabled("Focus the source editor");
+            if (modifies && !context.has("editable")) return Availability.disabled("Attached source is read only");
+            if (id.equals("editor.autoIndentLines") && !isJavaBuffer()) return Availability.disabled("Focus Java source");
+            if (id.equals("editor.autoIndentLines") && editor.selections().size() > 1)
+                return Availability.disabled("Auto-indent uses one selected range; remove secondary carets first");
+            if (editor.hasInputComposition()) return Availability.disabled("Finish input-method composition first");
+            return Availability.available();
+        });
+    }
+
+    private void createKeyboardCommands() {
+        editorCommand("editor.copyLineUp", "Copy Line Up", true, () -> editor.copyLine(-1));
+        editorCommand("editor.copyLineDown", "Copy Line Down", true, () -> editor.copyLine(1));
+        editorCommand("editor.insertLineAbove", "Insert Line Above", true, () -> editor.insertLine(true));
+        editorCommand("editor.insertLineBelow", "Insert Line Below", true, () -> editor.insertLine(false));
+        editorCommand("editor.joinLines", "Join Lines", true, editor::joinLines);
+        editorCommand("editor.splitLine", "Split Line", true, editor::splitLine);
+        editorCommand("editor.deleteToLineStart", "Delete to Line Start", true, editor::deleteToLineStart);
+        editorCommand("editor.deleteToLineEnd", "Delete to Line End", true, editor::deleteToLineEnd);
+        editorCommand("editor.deletePreviousWord", "Delete Previous Word", true, editor::deletePreviousWord);
+        editorCommand("editor.deleteNextWord", "Delete Next Word", true, editor::deleteNextWord);
+        editorCommand("editor.trimTrailingWhitespace", "Trim Trailing Whitespace", true, editor::trimTrailingWhitespace);
+        editorCommand("editor.convertTabsToSpaces", "Convert Tabs to Spaces", true, editor::convertTabsToSpaces);
+        editorCommand("editor.convertSpacesToTabs", "Convert Leading Spaces to Tabs", true, editor::convertSpacesToTabs);
+        editorCommand("editor.toggleBlockComment", "Toggle Block Comment", true, editor::toggleBlockComment);
+        editorCommand("editor.upperCase", "Convert Selection to Uppercase", true, () -> editor.changeCase(true));
+        editorCommand("editor.lowerCase", "Convert Selection to Lowercase", true, () -> editor.changeCase(false));
+        editorCommand("editor.changeCase", "Change Selection Case…", true, () -> {
+            Object choice = EmbeddedOptionPane.showInputDialog(this, "Convert selected text:", "Change Case",
+                    JOptionPane.PLAIN_MESSAGE, null, new String[]{"Uppercase", "Lowercase"}, "Uppercase");
+            if (choice != null) editor.changeCase(choice.equals("Uppercase"));
+        });
+        editorCommand("editor.sortSelectedLines", "Sort Selected Lines", true, editor::sortSelectedLines);
+        editorCommand("editor.reverseSelectedLines", "Reverse Selected Lines", true, editor::reverseSelectedLines);
+        editorCommand("editor.transposeCharacters", "Transpose Characters", true, editor::transposeCharacters);
+        editorCommand("editor.smartHome", "Smart Home", false, () -> editor.smartHome(false));
+        editorCommand("editor.smartEnd", "Smart End", false, () -> editor.smartEnd(false));
+        editorCommand("editor.selectCurrentWord", "Select Current Word", false, editor::selectCurrentWord);
+        editorCommand("editor.selectCurrentLine", "Select Current Line", false, editor::selectCurrentLine);
+        editorCommand("editor.selectNextOccurrence", "Select Next Occurrence", false, editor::selectNextOccurrence);
+        editorCommand("editor.selectAllOccurrences", "Select All Occurrences", false, editor::selectAllOccurrences);
+        editorCommand("editor.addCaretAbove", "Add Caret Above", false, editor::addCaretAbove);
+        editorCommand("editor.addCaretBelow", "Add Caret Below", false, editor::addCaretBelow);
+        editorCommand("editor.removeSecondaryCarets", "Remove Secondary Carets", false, editor::removeSecondaryCarets);
+        editorCommand("editor.toggleColumnSelection", "Rectangular Selection from Selected Range", false, () -> {
+            var location = editor.captureLocation();
+            editor.rectangularSelection(location.anchor(), location.caret());
+        });
+        editorCommand("editor.autoIndentLines", "Auto-Indent Java Lines", true, () -> {
+            if (editor.captureLocation().caret() == editor.captureLocation().anchor()) editor.selectCurrentLine();
+            formatting.format(true);
+        });
+        command("view.focusEditor", "Focus Editor", () -> editor.requestFocusInWindow());
+        command("view.focusExplorer", "Focus Project Explorer", maven::focusExplorer);
+        command("view.focusConsole", "Focus Console", this::focusConsole);
+        command("view.focusJShell", "Focus JShell", () -> showRepl(true));
+        command("view.focusTestResults", "Focus Test Results", this::showTestResults);
+        command("view.focusDiagnostics", "Compiler Diagnostics…", this::showDiagnostics);
+        command("view.focusNextPanel", "Focus Next Panel", () -> focusPanel(1));
+        command("view.focusPreviousPanel", "Focus Previous Panel", () -> focusPanel(-1));
+        command("view.toggleExplorer", "Toggle Explorer", maven::toggleExplorer);
+        command("view.toggleConsole", "Toggle Console", () -> {
+            if (messages.isVisible() && !replVisible) { messages.setVisible(false); editor.requestFocusInWindow(); }
+            else focusConsole();
+            revalidate();
+        });
+        command("view.toggleTestPanel", "Toggle Test Results", () -> {
+            if (testResults != null && testResults.isVisible()) testResults.dispose(); else showTestResults();
+        });
+        command("view.maximizeEditor", "Maximize Editor Area", this::maximizeEditor);
+        command("view.restoreLayout", "Restore Previous Layout", this::restoreEditorLayout);
+        command("explorer.open", "Open Selected Explorer Item", maven::openSelectedItem);
+        command("explorer.expand", "Expand Explorer Item", () -> maven.expandSelectedItem(true));
+        command("explorer.collapse", "Collapse Explorer Item", () -> maven.expandSelectedItem(false));
+        command("console.copy", "Copy Selected Console Output", () -> console.inputComponent().copy());
+        command("navigation.nextError", "Next Error", () -> nextDiagnostic(true, 1));
+        command("navigation.previousError", "Previous Error", () -> nextDiagnostic(true, -1));
+        command("navigation.nextWarning", "Next Warning", () -> nextDiagnostic(false, 1));
+        command("navigation.previousWarning", "Previous Warning", () -> nextDiagnostic(false, -1));
+        command("navigation.recentFiles", "Recent Files…", this::chooseRecentFile);
+        command("navigation.recentLocations", "Recent Locations…", this::chooseRecentLocation);
+        command("navigation.previousEditLocation", "Previous Edit Location", () -> navigateEdit(false));
+        command("navigation.nextEditLocation", "Next Edit Location", () -> navigateEdit(true));
+        command("navigation.nextEditorTab", "Next Open File", () -> cycleBuffer(1));
+        command("navigation.previousEditorTab", "Previous Open File", () -> cycleBuffer(-1));
+        command("file.close", "Close Current File", this::closeBuffer);
+        command("file.reopenClosed", "Reopen Closed File", this::reopenClosedBuffer);
+        command("file.saveAll", "Save All", () -> saveAllBuffers(new ArrayList<>(dirtyBufferKeys()), 0, editor.document()));
+        command("navigation.goToFile", "Go to File…", this::findFile);
+        command("navigation.goToTest", "Navigate Between Source and Test", this::navigateRelatedTest);
+        command("navigation.testFailure", "Go to Test Failure", () -> {
+            tests.lastReport().tests().stream().filter(test -> test.status() == TestEngine.Status.FAILED).findFirst().ifPresent(this::navigateTest);
+        });
+        command("navigation.mavenModule", "Navigate to Maven Module…", () -> maven.findFile(true));
+        command("navigation.projectDependency", "Navigate to Project Dependency", maven::focusDependencies);
+        command("run.configuration", "Program Arguments and Standard Input…", this::showRunConfiguration);
+        command("settings.general", "General Settings…", this::showGeneralSettings);
+        for (var alias : Map.of("editor.deleteLine", "deleteLine", "editor.duplicateLine", "duplicateLine",
+                "editor.moveLineUp", "moveLineUp", "editor.moveLineDown", "moveLineDown", "editor.toggleLineComment", "comment",
+                "editor.indentSelection", "indent", "editor.unindentSelection", "unindent", "navigation.goToDefinition", "declaration",
+                "test.rerunFailed", "tests.failed", "maven.refreshProject", "maven.refresh").entrySet())
+            commandRegistry.alias(alias.getKey(), alias.getValue());
+        commandRegistry.alias("editor.cutLine", "cut");
+        commandRegistry.alias("editor.copyLine", "copy");
+    }
+
+    private void focusConsole() {
+        showRepl(false);
+        console.focusInput();
+    }
+
+    private void focusPanel(int direction) {
+        var targets = new ArrayList<Runnable>();
+        targets.add(() -> editor.requestFocusInWindow());
+        int current = 0;
+        if (maven.panel().isVisible()) {
+            targets.add(maven::focusExplorer);
+            if (maven.hasExplorerFocus()) current = targets.size() - 1;
+        }
+        if (messages.isVisible()) {
+            targets.add(() -> { if (replVisible) repl.focusInput(); else console.focusInput(); });
+            if (console.hasConsoleFocus() || repl.hasConsoleFocus()) current = targets.size() - 1;
+        }
+        targets.get(Math.floorMod(current + direction, targets.size())).run();
+    }
+
+    private void maximizeEditor() {
+        if (editorMaximized) return;
+        editorMaximized = true;
+        restoreExplorer = maven.panel().isVisible(); restoreMessages = messages.isVisible();
+        restoreDivider = projectSplit.getDividerLocation();
+        maven.panel().setVisible(false); messages.setVisible(false);
+        projectSplit.setDividerSize(0); revalidate(); editor.requestFocusInWindow();
+    }
+
+    private void restoreEditorLayout() {
+        if (!editorMaximized) return;
+        editorMaximized = false;
+        maven.panel().setVisible(restoreExplorer); messages.setVisible(restoreMessages);
+        projectSplit.setDividerSize(restoreExplorer ? 5 : 0);
+        if (restoreExplorer) projectSplit.setDividerLocation(restoreDivider);
+        revalidate(); editor.requestFocusInWindow();
+    }
+
+    private void nextDiagnostic(boolean error, int direction) {
+        if (currentResult == null) return;
+        var values = currentResult.diagnostics().stream()
+                .filter(d -> error ? d.isError() : d.kind().contains("WARNING"))
+                .sorted(Comparator.comparingLong(CompilerDiagnostic::start)).toList();
+        if (values.isEmpty()) { console.append(error ? "No current errors.\n" : "No current warnings.\n", false); return; }
+        int caret = editor.caretOffset();
+        var next = direction > 0 ? values.stream().filter(d -> d.start() > caret).findFirst().orElse(values.getFirst())
+                : values.reversed().stream().filter(d -> d.start() < caret).findFirst().orElse(values.getLast());
+        goToDiagnostic(next);
+    }
+
+    private void goToDiagnostic(CompilerDiagnostic diagnostic) {
+        rememberLocation();
+        if (diagnostic.start() >= 0) editor.gotoOffset((int) diagnostic.start());
+        else editor.gotoLine((int) diagnostic.line());
+        editor.emphasizeRange(editor.caretOffset(), (int) Math.max(editor.caretOffset() + 1, diagnostic.end()));
+        editor.requestFocusInWindow();
+    }
+
+    private void showDiagnostics() {
+        var diagnostics = currentResult == null ? List.<CompilerDiagnostic>of() : currentResult.diagnostics();
+        var dialog = new EmbeddedDialog(this, "Compiler Diagnostics", false);
+        var list = new JList<>(diagnostics.toArray(CompilerDiagnostic[]::new));
+        list.setName("compiler-diagnostics");
+        list.getAccessibleContext().setAccessibleName("Compiler diagnostics; Enter opens source");
+        list.setCellRenderer((view, item, index, selected, focused) -> {
+            JLabel label = new JLabel(item.kind() + "  " + item.line() + ":" + item.column() + "  " + item.message());
+            label.setOpaque(true); label.setFont(AsciiChrome.font());
+            label.setBackground(selected ? view.getSelectionBackground() : view.getBackground());
+            label.setForeground(selected ? view.getSelectionForeground() : view.getForeground());
+            return label;
+        });
+        if (!diagnostics.isEmpty()) list.setSelectedIndex(0);
+        Runnable open = () -> { var item = list.getSelectedValue(); if (item != null)
+            OverlayHost.closeThen(dialog, () -> goToDiagnostic(item)); };
+        list.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "open-diagnostic");
+        list.getActionMap().put("open-diagnostic", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent event) { open.run(); }
+        });
+        list.addMouseListener(new MouseAdapter() {
+            @Override public void mouseClicked(MouseEvent event) { if (event.getClickCount() == 2) open.run(); }
+        });
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(new JLabel(diagnostics.isEmpty() ? "No current diagnostics." : "Enter opens source · Escape closes"), BorderLayout.NORTH);
+        panel.add(new JScrollPane(list), BorderLayout.CENTER);
+        dialog.setContentPane(panel); dialog.setSize(760, 400); dialog.setLocationRelativeTo(this);
+        SwingUtilities.invokeLater(list::requestFocusInWindow); dialog.setVisible(true);
+    }
+
+    private void rememberLocation() {
+        Visit value = visit();
+        if (!value.equals(recentLocations.peekFirst())) recentLocations.addFirst(value);
+        while (recentLocations.size() > 100) recentLocations.removeLast();
+    }
+
+    private void chooseRecentFile() {
+        rememberBuffer();
+        var paths = new LinkedHashSet<Path>();
+        buffers.values().stream().map(Buffer::file).filter(Objects::nonNull).forEach(paths::add);
+        settings.recentFiles.stream().map(Path::of).forEach(paths::add);
+        chooseFile("Recent Files", paths.stream().toList());
+    }
+
+    private void chooseFile(String title, List<Path> paths) {
+        if (paths.isEmpty()) { console.append("No matching files.\n", false); return; }
+        Object selected = EmbeddedOptionPane.showInputDialog(this, "Choose file:", title, JOptionPane.PLAIN_MESSAGE,
+                null, paths.toArray(), paths.getFirst());
+        if (selected instanceof Path path) { rememberLocation(); openPath(path); }
+    }
+
+    private void chooseRecentLocation() {
+        var locations = recentLocations.stream().toList();
+        if (locations.isEmpty()) { console.append("No navigation locations yet.\n", false); return; }
+        String[] labels = java.util.stream.IntStream.range(0, locations.size()).mapToObj(i -> {
+            Visit v = locations.get(i); return (i + 1) + ". " + v.key().getFileName() + " · offset " + v.location().caret();
+        }).toArray(String[]::new);
+        Object selected = EmbeddedOptionPane.showInputDialog(this, "Choose location:", "Recent Locations", JOptionPane.PLAIN_MESSAGE, null, labels, labels[0]);
+        if (selected != null) restoreVisit(locations.get(Arrays.asList(labels).indexOf(selected)));
+    }
+
+    private void restoreVisit(Visit target) {
+        if (target == null) return;
+        rememberBuffer();
+        Buffer buffer = buffers.get(target.key());
+        if (buffer == null) { console.append("That source buffer is closed. Reopen the file first.\n", false); return; }
+        activate(target.key(), buffer); editor.restoreLocation(target.location());
+    }
+
+    private void navigateEdit(boolean forward) {
+        restoreVisit(forward ? editLocations.forward(visit()) : editLocations.back(visit()));
+    }
+
+    private void cycleBuffer(int direction) {
+        rememberBuffer();
+        var keys = new ArrayList<>(buffers.keySet());
+        if (keys.size() < 2) return;
+        rememberLocation();
+        Path next = keys.get(Math.floorMod(keys.indexOf(bufferKey) + direction, keys.size()));
+        activate(next, buffers.get(next));
+    }
+
+    private void closeBuffer() {
+        withUnsaved(() -> {
+            rememberBuffer();
+            closedBuffers.addFirst(Map.entry(bufferKey, buffers.remove(bufferKey)));
+            while (closedBuffers.size() > 32) closedBuffers.removeLast();
+            if (!buffers.isEmpty()) {
+                var next = new ArrayList<>(buffers.entrySet()).getLast(); activate(next.getKey(), next.getValue());
+            } else {
+                operation.incrementAndGet(); openRequest.incrementAndGet(); bufferIdentity.incrementAndGet();
+                file = null; bufferKey = untitledKey(); diskFingerprint = null;
+                editor.setText(""); savedVersion = editor.version(); refreshTitle();
+            }
+        });
+    }
+
+    private void reopenClosedBuffer() {
+        if (closedBuffers.isEmpty()) return;
+        var closed = closedBuffers.removeFirst(); rememberBuffer();
+        // Keep the closed snapshot (including unsaved text); later Save still checks its disk fingerprint.
+        Buffer existing = buffers.get(closed.getKey());
+        buffers.putIfAbsent(closed.getKey(), closed.getValue());
+        activate(closed.getKey(), existing == null ? closed.getValue() : existing);
+    }
+
+    private List<Path> dirtyBufferKeys() {
+        rememberBuffer();
+        return buffers.entrySet().stream().filter(e -> !e.getValue().state().readOnly()
+                && e.getValue().state().document().version() != e.getValue().savedVersion()).map(Map.Entry::getKey).toList();
+    }
+
+    private void saveAllBuffers(List<Path> dirty, int index, dev.turboj.editor.document.PieceTable original) {
+        if (index == dirty.size()) {
+            rememberBuffer();
+            buffers.entrySet().stream().filter(entry -> entry.getValue().state().document() == original).findFirst()
+                    .ifPresent(entry -> activate(entry.getKey(), entry.getValue()));
+            return;
+        }
+        Path key = dirty.get(index);
+        if (!buffers.containsKey(key)) { saveAllBuffers(dirty, index + 1, original); return; }
+        if (!key.equals(bufferKey)) { rememberBuffer(); activate(key, buffers.get(key)); }
+        save(false, () -> saveAllBuffers(dirty, index + 1, original));
+    }
+
+    private void findFile() {
+        if (maven.workspace() != null) { maven.findFile(false); return; }
+        String query = EmbeddedOptionPane.showInputDialog(this, "File name contains:");
+        if (query == null) return;
+        Path root = file == null ? Path.of(System.getProperty("user.dir")) : file.getParent();
+        background.execute(() -> {
+            try (var paths = Files.find(root, 12, (path, attributes) -> attributes.isRegularFile()
+                    && !path.toString().contains("/.git/") && !path.toString().contains("/target/")
+                    && path.getFileName().toString().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT)))) {
+                var found = paths.limit(500).sorted().toList();
+                SwingUtilities.invokeLater(() -> { if (!closing) chooseFile("Find File", found); });
+            } catch (Exception failure) { errorLater(failure); }
+        });
+    }
+
+    private void navigateRelatedTest() {
+        if (file == null) return;
+        Path expectedFile = bufferKey;
+        long expectedVersion = editor.version();
+        String name = file.getFileName().toString();
+        String other = name.endsWith("Test.java") ? name.substring(0, name.length() - 9) + ".java" : name.replace(".java", "Test.java");
+        intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> service.sharedRefactorJ(context)
+                .workspace().snapshot().sources().stream()
+                .map(Model.SourceSnapshot::file).filter(path -> path.getFileName().toString().equals(other)).toList())
+                .whenComplete((paths, failure) -> SwingUtilities.invokeLater(() -> {
+                    if (closing || !bufferKey.equals(expectedFile) || editor.version() != expectedVersion) return;
+                    if (failure != null) console.append("Test/source navigation: " + message(failure) + "\n", true);
+                    else chooseFile("Source / Test", paths);
+                }));
+    }
+
+    private void showRunConfiguration() {
+        JTextArea args = new JTextArea(String.join("\n", programArguments), 5, 38);
+        JTextArea stdin = new JTextArea(configuredInput, 5, 38);
+        args.getAccessibleContext().setAccessibleName("Program arguments, one per line");
+        stdin.getAccessibleContext().setAccessibleName("Initial standard input");
+        JPanel form = new JPanel(new GridLayout(0, 1, 4, 4));
+        form.add(new JLabel("Program arguments — one argument per line, no shell quoting:")); form.add(new JScrollPane(args));
+        form.add(new JLabel("Initial stdin — sent once when the program first requests input:")); form.add(new JScrollPane(stdin));
+        form.add(new JLabel("Stored for this session only. Console input remains interactive."));
+        if (EmbeddedOptionPane.showConfirmDialog(this, form, "Run Configuration", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            programArguments = args.getText().isEmpty() ? List.of() : args.getText().lines().toList();
+            configuredInput = stdin.getText();
+        }
+    }
+
+    private void showGeneralSettings() {
+        JSpinner tabs = new JSpinner(new SpinnerNumberModel(settings.tabWidth, 1, 16, 1));
+        JCheckBox pairs = new JCheckBox("Automatically close brackets and quotes", settings.autoClose);
+        JPanel form = new JPanel(new GridLayout(0, 1));
+        JLabel label = new JLabel("Tab width:"); label.setLabelFor(tabs);
+        form.add(label); form.add(tabs); form.add(pairs);
+        if (EmbeddedOptionPane.showConfirmDialog(this, form, "General Settings", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            settings.tabWidth = (int) tabs.getValue(); settings.autoClose = pairs.isSelected();
+            editor.setTabWidth(settings.tabWidth); editor.setAutoClose(settings.autoClose);
+            String snapshot = settings.snapshotJson();
+            background.execute(() -> { try { Settings.saveSnapshot(snapshot); } catch (Exception failure) { errorLater(failure); } });
+        }
     }
 
     private void completionKey(String key) {
@@ -1311,7 +1809,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private void createMenus() {
-        menu("File", "new", "open", "openFolder", "save", "saveAs", "-", "quit");
+        menu("File", "new", "open", "openFolder", "navigation.recentFiles", "save", "saveAs", "file.saveAll", "file.close", "file.reopenClosed", "-", "quit");
         menu("Project", "project.open", "project.reload", "project.explorer", "project.findFile", "project.findModule", "-", "project.structure", "project.dependencies", "project.dependencyTree", "project.profiles", "project.settings", "project.effectivePom", "project.parentPom", "project.pomDeclaration", "project.sources", "project.javadoc", "-",
                 "project.pom.add-dependency", "project.pom.update-dependency-version", "project.pom.remove-dependency", "project.pom.add-module");
         menu("Build", "compile", "compileProject", "make", "error", "project.processors", "-", "maven.build.validate", "maven.build.compile", "maven.build.test", "maven.build.package", "maven.build.verify", "maven.build.install", "maven.build.clean", "maven.build.dependency:tree", "maven.build.help:effective-pom", "maven.build.custom", "maven.refresh", "maven.stop");
@@ -1328,11 +1826,12 @@ public final class TurboFrame extends JFrame {
                 "indent",
                 "unindent",
                 "comment",
+                "duplicateLine", "deleteLine", "moveLineUp", "moveLineDown",
                 "-",
                 "complete",
                 "documentation");
         menu("Search", "find", "findNext", "findPrevious", "replace", "goto");
-        menu("Navigate", "declaration", "back", "forward");
+        menu("Navigate", "declaration", "navigation.goToFile", "navigation.goToTest", "navigation.testFailure", "navigation.nextError", "navigation.previousError", "navigation.recentLocations", "back", "forward");
         var code = new JMenu("Code");
         code.add(new JMenuItem(commands.get("format.document")));
         code.add(new JMenuItem(commands.get("format.selection")));
@@ -1367,6 +1866,7 @@ public final class TurboFrame extends JFrame {
                 "Run",
                 "run",
                 "isolated",
+                "run.configuration",
                 "stop",
                 "eof",
                 "clear",
@@ -1397,6 +1897,14 @@ public final class TurboFrame extends JFrame {
         themes.add(new JMenuItem(commands.get("theme.load")));
         themes.add(new JMenuItem(commands.get("theme.more")));
         options.add(themes);
+        var keyboardProfiles = new JMenu("Keyboard Profile");
+        for (var profile : BundledKeymaps.profiles()) {
+            var item = new JRadioButtonMenuItem(commands.get("keymap.profile." + profile.id()));
+            item.setText(profile.name());
+            keyboardProfileGroup.add(item);
+            keyboardProfiles.add(item);
+        }
+        options.add(keyboardProfiles);
         var aiMenu = new JMenu("AI Completion");
         for (String id : List.of("ai.disabled", "ai.local", "ai.cloud"))
             aiMenu.add(new JMenuItem(commands.get(id)));
@@ -1409,7 +1917,7 @@ public final class TurboFrame extends JFrame {
         options.add(new JCheckBoxMenuItem(commands.get("tests.onSave")));
         options.add(new JCheckBoxMenuItem(commands.get("showPressedShortcuts")));
         for (String id : List.of("fontUp", "fontDown", "zoom", "fullscreen", "metrics", "palette",
-                "keymap"))
+                "keymap", "settings.general", "view.focusEditor", "view.focusExplorer", "view.focusConsole", "view.focusJShell", "view.focusDiagnostics", "view.focusNextPanel", "view.maximizeEditor", "view.restoreLayout"))
             options.add(new JMenuItem(commands.get(id)));
         menus.add(options);
         menu("Help", "help");
@@ -1438,6 +1946,7 @@ public final class TurboFrame extends JFrame {
         } else if (!keymap.isEmpty()) {
             // Preserve old effective bindings. New user edits require explicit conflict resolution.
             commandKeymaps.select("turboj-classic");
+            var imported = new TreeMap<String, List<KeyBinding>>();
             for (var entry : keymap.entrySet()) {
                 String id = switch (entry.getKey()) {
                     case "acceptCompletion" -> "completion.accept";
@@ -1449,20 +1958,12 @@ public final class TurboFrame extends JFrame {
                 try {
                     var binding = new KeyBinding(SwingKeys.parseLegacy(entry.getValue()),
                             BindingContext.any());
-                    var result = commandKeymaps.replaceBindings(id, List.of(binding));
-
-                    if (!result.applied()) {
-                        Set<String> conflicts = new HashSet<> ();
-
-                        for (var conflict : result.conflicts())
-                            conflicts.add(conflict.command().equals(id) ? conflict
-                                    .other() : conflict.command());
-                        commandKeymaps.replaceBindingsResolving(id, List.of(binding), conflicts);
-                    }
+                    imported.put(id, List.of(binding));
                 } catch (IllegalArgumentException invalid) {
                     console.append("Ignored invalid legacy shortcut for " + id + "\n", false);
                 }
             }
+            commandKeymaps.migrateLegacyBindings(imported);
         }
         settings.keymapProfile = commandKeymaps.selectedId();
     }
@@ -1492,8 +1993,13 @@ public final class TurboFrame extends JFrame {
 
     private void refreshShortcutPresentation() {
         updateMavenStatus();
+        if (!commands.containsKey("keymap.profile." + commandKeymaps.selectedId()))
+            keyboardProfileGroup.clearSelection();
         for (var entry : commands.entrySet()) {
-            List<KeyBinding> bindings = commandKeymaps.bindings(entry.getKey());
+            if (entry.getKey().startsWith("keymap.profile."))
+                entry.getValue().putValue(Action.SELECTED_KEY,
+                        entry.getKey().equals("keymap.profile." + commandKeymaps.selectedId()));
+            List<KeyBinding> bindings = ShortcutReference.bindings(commandRegistry, commandKeymaps.bindings(), entry.getKey());
             KeyStroke accelerator = null;
 
             for (var binding : bindings)
@@ -1738,6 +2244,14 @@ public final class TurboFrame extends JFrame {
     private void changed() {
         if (refactoringPublishing)
             return;
+        if (keyboardJava != null) keyboardJava.changed();
+        if (observedDocument == editor.document()) {
+            Visit here = visit();
+            if (lastEditVisit == null || !lastEditVisit.key().equals(here.key())
+                    || Math.abs(lastEditVisit.location().caret() - here.location().caret()) > 80)
+                editLocations.jumpedFrom(lastEditVisit == null ? here : lastEditVisit);
+            lastEditVisit = here;
+        }
         // Buffer navigation is not a source change. Per-document versions still detect edits.
         if (observedDocument == editor.document())
             refactoringRevision++;
@@ -2079,12 +2593,14 @@ public final class TurboFrame extends JFrame {
                 (isolated ? "ISOLATED RUN" : "FAST RUN") + " · " + result.mainClass() + "\n",
                 false);
         long start = System.nanoTime();
+        String initialInput = configuredInput;
+        AtomicBoolean initialInputSent = new AtomicBoolean();
         execution =
                 programWorker.run(
                         result.version(),
                         result.bytecode(),
                         result.mainClass(),
-                        List.of(),
+                        programArguments,
                         classpath,
                         isolated,
                         event -> {
@@ -2099,6 +2615,10 @@ public final class TurboFrame extends JFrame {
                                             if (closing || request != runRequest || !running)
                                                 return;
                                             console.setWaitingForInput(waiting);
+                                            if (waiting && !initialInput.isEmpty() && initialInputSent.compareAndSet(false, true)) {
+                                                try { programWorker.sendInput(initialInput.endsWith("\n") ? initialInput : initialInput + "\n"); }
+                                                catch (IllegalStateException finished) { console.append("Initial input was not sent because the program already stopped.\n", false); }
+                                            }
                                             if (waiting) {
                                                 if (replVisible) showRepl(false);
                                                 messages.setVisible(true);
@@ -2467,6 +2987,7 @@ public final class TurboFrame extends JFrame {
         repl.close();
         compiler.close();
         maven.close();
+        if (keyboardJava != null) keyboardJava.dispose();
         intelligence.close();
         aiCompletion.close();
         formatting.close();
@@ -2878,6 +3399,7 @@ public final class TurboFrame extends JFrame {
         testResults.setContentPane(panel);
         testResults.setSize(Math.min(950, getWidth()), Math.min(600, getHeight()));
         testResults.setLocationRelativeTo(this);
+        SwingUtilities.invokeLater(list::requestFocusInWindow);
         testResults.getRootPane().registerKeyboardAction(event -> testResults.dispose(), KeyStroke
                 .getKeyStroke("ESCAPE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         testResults.setVisible(true);

@@ -3,6 +3,8 @@ package dev.turboj.commandj.palette;
 import dev.turboj.commandj.core.*;
 import java.text.Normalizer;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.LongSupplier;
 
 /** Deterministic local fuzzy matching. Index invalidates only when registration changes. */
 public final class CommandSearch {
@@ -11,26 +13,42 @@ public final class CommandSearch {
     private record Indexed(Command command, List<String> terms) {}
 
     private final CommandRegistry registry;
+    private final LongSupplier additionalRevision;
+    private final Function<String, List<String>> additionalTerms;
+    private long termsRevision = -1;
     private long revision = -1;
     private List<Indexed> index = List.of();
 
     public CommandSearch(CommandRegistry registry) {
+        this(registry, () -> 0, id -> List.of());
+    }
+
+    /** Optional caller-owned terms (for example active shortcuts), cached by revision. */
+    public CommandSearch(CommandRegistry registry, LongSupplier revision,
+            Function<String, List<String>> terms) {
         this.registry = Objects.requireNonNull(registry);
+        this.additionalRevision = Objects.requireNonNull(revision);
+        this.additionalTerms = Objects.requireNonNull(terms);
     }
 
     public synchronized List<Match> search(String query, CommandContext context, int limit) {
         if (limit < 1 || limit > 1000)
             throw new IllegalArgumentException("Search limit 1–1000");
-        if (revision != registry.revision()) {
+        if (revision != registry.revision() || termsRevision != additionalRevision.getAsLong()) {
             index = registry.commands().stream().map(c -> {
                 var terms = new ArrayList<String> ();
                 terms.add(normalize(c.title()));
                 terms.add(normalize(c.id()));
                 terms.add(normalize(c.category() + " " + c.title()));
                 c.aliases().forEach(a -> terms.add(normalize(a)));
+                registry.aliases().forEach((alias, target) -> {
+                    if (target.equals(c.id())) terms.add(normalize(alias));
+                });
+                additionalTerms.apply(c.id()).forEach(a -> terms.add(normalize(a)));
                 return new Indexed(c, List.copyOf(terms));
             }).toList();
             revision = registry.revision();
+            termsRevision = additionalRevision.getAsLong();
         }
         String q = normalize(Objects.requireNonNullElse(query, "").strip());
 
@@ -84,7 +102,10 @@ public final class CommandSearch {
     }
 
     private static String normalize(String value) {
-        String text = Normalizer.normalize(value, Normalizer.Form.NFKD).toLowerCase(Locale.ROOT);
+        String text = Normalizer.normalize(value, Normalizer.Form.NFKD).toLowerCase(Locale.ROOT)
+                .replace("⌘", "cmd+").replace("⌥", "option+").replace("⇧", "shift+")
+                .replace("⌃", "ctrl+").replace("command+", "cmd+").replace("meta+", "cmd+")
+                .replace("alt+", "option+").replace("control+", "ctrl+");
         StringBuilder s = new StringBuilder(text.length());
 
         for (int i = 0; i < text.length(); i++)

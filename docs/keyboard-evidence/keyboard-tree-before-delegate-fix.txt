@@ -1,0 +1,10 @@
+Started UTC: 2026-10-25T08:07:12.748323Z
+Artifact: /private/tmp/turboj-keyboard-profile-app.jar
+SHA-256: 2df4a209c59e372e30d7d858665336fdc7f9009015faa017fdf6398a7dbca06c
+Runtime: 25.0.4.1; actual Swing key dispatch, no mouse events; Classic profile.
+Tree UI: javax.swing.plaf.basic.BasicTreeUI
+Tree binding LEFT -> aquaCollapseNode; action=com.apple.laf.AquaTreeUI$KeyboardExpandCollapseAction@35c252ed
+Tree binding RIGHT -> aquaExpandNode; action=com.apple.laf.AquaTreeUI$KeyboardExpandCollapseAction@1022ce94
+Left probe: initial expanded rows=9; after rows=9; root expanded=true
+Right probe: initial collapsed rows=1; after rows=1; root expanded=false
+FAIL java.lang.AssertionError: Explorer Left collapses the actual selected expanded root

@@ -272,6 +272,9 @@ public final class RefactoringController implements AutoCloseable {
         field.requestFocusInWindow();
     }
 
+    /** Keyboard structural actions reuse the same workspace preview and undo transaction. */
+    public void previewRequest(Request value) { requireEdt(); if (!closed && !committer.busy()) showPreparation(value); }
+
     private void showPreparation(Request value) {
         notice.accept("Preparing " + value.operation().id() + "…");
         prepare(value).whenComplete((prepared, error) -> SwingUtilities.invokeLater(() -> {

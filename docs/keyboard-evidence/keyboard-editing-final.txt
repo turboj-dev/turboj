@@ -1,0 +1,100 @@
+Started UTC: 2026-10-24T22:27:23.428927Z
+Artifact: /private/tmp/turboj-keyboard-final-navigation-app.jar
+SHA-256: b3441f5efac0aafef40d45357baf5e2bcd60b1efa29ad89099d75551b9148790
+Runtime: 25.0.4.1; actual Swing key dispatch, no mouse events.
+PASS Fixture entered using keyboard events; actual=alpha\nbeta\ngamma
+PASS intellij-macos: Cut no selection removes logical line; actual=alpha\ngamma
+PASS intellij-macos: system clipboard contains the cut line
+PASS intellij-macos: single Undo restores cut; actual=alpha\nbeta\ngamma
+PASS intellij-macos: Copy without selection copies line
+PASS intellij-macos: line clipboard inserts at line start; actual=beta\nalpha\nbeta\ngamma
+PASS intellij-macos: explicit partial selection remains Cut Selection; actual=aha\nbeta\ngamma
+PASS intellij-macos: selected clipboard text is exact
+PASS intellij-macos: profile-specific Duplicate Line runs; actual=alpha\nbeta\nbeta\ngamma
+PASS intellij-macos: Duplicate leaves clipboard untouched
+PASS intellij-macos: profile-specific Delete Line runs; actual=alpha\ngamma
+PASS intellij-macos: Delete leaves clipboard untouched
+PASS Fixture entered using keyboard events; actual=a\nb\nc
+PASS intellij-macos: keyboard adds three independent carets
+PASS intellij-macos: multicaret typing edits all lines; actual=ax\nbx\ncx
+PASS intellij-macos: one Undo reverses multicaret typing; actual=a\nb\nc
+PASS intellij-macos: Redo restores all carets and text; actual=ax\nbx\ncx
+PASS intellij-macos: multicaret comment toggles all lines once; actual=// ax\n// bx\n// cx
+PASS intellij-macos: multicaret Backspace edits all lines; actual=a\nb\nc
+PASS intellij-macos: selected caret lines copy as one block; actual=ax\nbx\ncx\nax\nbx\ncx
+PASS intellij-macos: Escape removes secondary carets
+PASS intellij-macos: console keys do not mutate editor
+PASS intellij-macos: Escape returns from console to editor
+PASS Fixture entered using keyboard events; actual=alpha\nbeta\ngamma
+PASS eclipse-macos: Cut no selection removes logical line; actual=alpha\ngamma
+PASS eclipse-macos: system clipboard contains the cut line
+PASS eclipse-macos: single Undo restores cut; actual=alpha\nbeta\ngamma
+PASS eclipse-macos: Copy without selection copies line
+PASS eclipse-macos: line clipboard inserts at line start; actual=beta\nalpha\nbeta\ngamma
+PASS eclipse-macos: explicit partial selection remains Cut Selection; actual=aha\nbeta\ngamma
+PASS eclipse-macos: selected clipboard text is exact
+PASS eclipse-macos: profile-specific Duplicate Line runs; actual=alpha\nbeta\nbeta\ngamma
+PASS eclipse-macos: Duplicate leaves clipboard untouched
+PASS eclipse-macos: profile-specific Delete Line runs; actual=alpha\ngamma
+PASS eclipse-macos: Delete leaves clipboard untouched
+PASS Fixture entered using keyboard events; actual=a\nb\nc
+PASS eclipse-macos: keyboard adds three independent carets
+PASS eclipse-macos: multicaret typing edits all lines; actual=ax\nbx\ncx
+PASS eclipse-macos: one Undo reverses multicaret typing; actual=a\nb\nc
+PASS eclipse-macos: Redo restores all carets and text; actual=ax\nbx\ncx
+PASS eclipse-macos: multicaret comment toggles all lines once; actual=// ax\n// bx\n// cx
+PASS eclipse-macos: multicaret Backspace edits all lines; actual=a\nb\nc
+PASS eclipse-macos: selected caret lines copy as one block; actual=ax\nbx\ncx\nax\nbx\ncx
+PASS eclipse-macos: Escape removes secondary carets
+PASS eclipse-macos: console keys do not mutate editor
+PASS eclipse-macos: Escape returns from console to editor
+PASS Fixture entered using keyboard events; actual=alpha\nbeta\ngamma
+PASS vscode-macos: Cut no selection removes logical line; actual=alpha\ngamma
+PASS vscode-macos: system clipboard contains the cut line
+PASS vscode-macos: single Undo restores cut; actual=alpha\nbeta\ngamma
+PASS vscode-macos: Copy without selection copies line
+PASS vscode-macos: line clipboard inserts at line start; actual=beta\nalpha\nbeta\ngamma
+PASS vscode-macos: explicit partial selection remains Cut Selection; actual=aha\nbeta\ngamma
+PASS vscode-macos: selected clipboard text is exact
+PASS vscode-macos: profile-specific Duplicate Line runs; actual=alpha\nbeta\nbeta\ngamma
+PASS vscode-macos: Duplicate leaves clipboard untouched
+PASS vscode-macos: profile-specific Delete Line runs; actual=alpha\ngamma
+PASS vscode-macos: Delete leaves clipboard untouched
+PASS Fixture entered using keyboard events; actual=a\nb\nc
+PASS vscode-macos: keyboard adds three independent carets
+PASS vscode-macos: multicaret typing edits all lines; actual=ax\nbx\ncx
+PASS vscode-macos: one Undo reverses multicaret typing; actual=a\nb\nc
+PASS vscode-macos: Redo restores all carets and text; actual=ax\nbx\ncx
+PASS vscode-macos: multicaret comment toggles all lines once; actual=// ax\n// bx\n// cx
+PASS vscode-macos: multicaret Backspace edits all lines; actual=a\nb\nc
+PASS vscode-macos: selected caret lines copy as one block; actual=ax\nbx\ncx\nax\nbx\ncx
+PASS vscode-macos: Escape removes secondary carets
+PASS vscode-macos: console keys do not mutate editor
+PASS vscode-macos: Escape returns from console to editor
+PASS Fixture entered using keyboard events; actual=alpha\nbeta\ngamma
+PASS turboj-classic: Cut no selection removes logical line; actual=alpha\ngamma
+PASS turboj-classic: system clipboard contains the cut line
+PASS turboj-classic: single Undo restores cut; actual=alpha\nbeta\ngamma
+PASS turboj-classic: Copy without selection copies line
+PASS turboj-classic: line clipboard inserts at line start; actual=beta\nalpha\nbeta\ngamma
+PASS turboj-classic: explicit partial selection remains Cut Selection; actual=aha\nbeta\ngamma
+PASS turboj-classic: selected clipboard text is exact
+PASS turboj-classic: profile-specific Duplicate Line runs; actual=alpha\nbeta\nbeta\ngamma
+PASS turboj-classic: Duplicate leaves clipboard untouched
+PASS turboj-classic: profile-specific Delete Line runs; actual=alpha\ngamma
+PASS turboj-classic: Delete leaves clipboard untouched
+PASS Fixture entered using keyboard events; actual=a\nb\nc
+PASS turboj-classic: keyboard adds three independent carets
+PASS turboj-classic: multicaret typing edits all lines; actual=ax\nbx\ncx
+PASS turboj-classic: one Undo reverses multicaret typing; actual=a\nb\nc
+PASS turboj-classic: Redo restores all carets and text; actual=ax\nbx\ncx
+PASS turboj-classic: multicaret comment toggles all lines once; actual=// ax\n// bx\n// cx
+PASS turboj-classic: multicaret Backspace edits all lines; actual=a\nb\nc
+PASS turboj-classic: selected caret lines copy as one block; actual=ax\nbx\ncx\nax\nbx\ncx
+PASS turboj-classic: Escape removes secondary carets
+PASS turboj-classic: console keys do not mutate editor
+PASS turboj-classic: Escape returns from console to editor
+PASS Explorer navigation does not mutate source
+PASS Explorer Escape restores editor focus
+Completed UTC: 2026-10-24T22:27:25.683198Z
+PASS complete: 94 assertions; four keymap profiles.

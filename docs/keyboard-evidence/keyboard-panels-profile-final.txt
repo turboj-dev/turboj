@@ -1,0 +1,34 @@
+Started UTC: 2026-10-25T08:16:40.031535Z
+Artifact: /private/tmp/turboj-keyboard-profile-final-app.jar
+SHA-256: 50b2c49c3b8329b4812a5dcef7d327ddfaf0845a4b7bf76e5da24ab319302f0c
+Runtime: 25.0.4.1; actual Swing key dispatch, no mouse events; Classic profile.
+PASS Palette → JShell → typed 1+1 → Enter produces actual 2
+PASS JShell input and Escape preserve source and restore editor
+PASS Console Up moves the actual caret to the previous logical line
+PASS Console Down moves the actual caret to the following logical line
+PASS Console Shift+Up selects output text with the keyboard
+PASS Console caret navigation preserves output/source and Escape returns editor focus
+PASS Classic F10 opens native application menu
+PASS Arrow keys navigate the open menu
+PASS Menu Escape restores source focus without edits
+PASS Completion popup contains real JDK println proposals
+PASS Completion choices are visible and navigable
+PASS Down selects next completion without applying it
+PASS Up returns to previous completion
+PASS Completion dismissal preserves source and editor focus
+PASS Diagnostic fixture contains enough real errors to require scrolling
+PASS Diagnostics End reveals the final error while preserving Aqua selection semantics
+PASS Diagnostics Home reveals the first error without changing selection
+PASS Diagnostics list exposes current compilation error
+PASS Diagnostics opened from console: Enter navigates to exact source offset and retains editor focus; focus=EditorComponent; caret=38; expected=38
+PASS Diagnostic navigation preserves source text
+Tree UI: dev.turboj.commandj.swing.AsciiStyle$Tree
+Tree binding LEFT -> selectParent; action=javax.swing.plaf.basic.BasicTreeUI$Actions@575b41ae
+Tree binding RIGHT -> selectChild; action=javax.swing.plaf.basic.BasicTreeUI$Actions@695a42d
+Left probe: initial expanded rows=9; after rows=1; root expanded=false
+Right probe: initial collapsed rows=1; after rows=9; root expanded=true
+PASS Explorer Left collapses the actual selected expanded root
+PASS Explorer Right expands the actual selected collapsed root
+PASS Explorer Escape returns source focus after arrow navigation
+Completed UTC: 2026-10-25T08:16:42.988107Z
+PASS complete: 23 assertions.

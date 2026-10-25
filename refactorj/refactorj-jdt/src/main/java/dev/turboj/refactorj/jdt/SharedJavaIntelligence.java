@@ -1,6 +1,7 @@
 package dev.turboj.refactorj.jdt;
 
 import dev.turboj.refactorj.api.JavaIntelligence;
+import dev.turboj.refactorj.api.JavaStructure;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.*;
@@ -33,6 +34,19 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
     private final LinkedHashMap<String, ITypeBinding> typeBindings = bounded(128);
     private List<String> platformTypes;
     private boolean closed;
+
+    @Override public JavaStructure.Range selectStructure(Context context, int start, int end, JavaStructure.Selection selection) {
+        return new JdtKeyboardEditing(workspace, context).select(start, end, selection);
+    }
+    @Override public JavaStructure.EditResult editStructure(Context context, int caret, int anchor, JavaStructure.Edit edit) {
+        return new JdtKeyboardEditing(workspace, context).edit(caret, anchor, edit);
+    }
+    @Override public List<JavaStructure.Target> navigationTargets(Context context, int offset, JavaStructure.Navigation navigation, String query) {
+        return new JdtKeyboardEditing(workspace, context).navigate(offset, navigation, query);
+    }
+    @Override public dev.turboj.refactorj.api.Requests.ChangeSignature parameterMove(Context context, int offset, int direction) {
+        return new JdtKeyboardEditing(workspace, context).parameterMove(offset, direction);
+    }
 
     private record Parsed(Context context, CompilationUnit unit, String source) {}
 
@@ -86,6 +100,12 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
 
     @Override
     public CompletionResult complete(Context context, int offset) {
+        return complete(context, offset, false);
+    }
+    @Override public CompletionResult completeSmart(Context context, int offset) {
+        return complete(context, offset, true);
+    }
+    private CompletionResult complete(Context context, int offset, boolean smart) {
         long started = System.nanoTime();
         if (offset < 0 || offset > context.source().length()) return emptyCompletion(started);
         Prefix prefix = prefix(context.source(), offset);
@@ -125,6 +145,11 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             if (prior == null || candidate.score() < prior.score()) applicable.put(key, candidate);
         }
         candidates = new ArrayList<>(applicable.values());
+        if (smart) {
+            ITypeBinding expected = expectedType(marker);
+            if (expected == null || expected.isRecovered()) return emptyCompletion(started);
+            candidates.removeIf(candidate -> !compatible(candidate.binding(), expected));
+        }
         Map<String, Completion> unique = new LinkedHashMap<>();
         candidates.sort(
                 Comparator.comparingInt(Candidate::score)
@@ -152,10 +177,36 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             unique.putIfAbsent(proposalIdentity(binding), proposal);
             if (unique.size() == 160) break;
         }
-        if (!prefix.member())
+        if (!prefix.member() && !smart)
             for (Completion type : typeCompletions(context, prefix))
                 unique.putIfAbsent("type:" + type.detail(), type);
         return new CompletionResult(List.copyOf(unique.values()), System.nanoTime() - started);
+    }
+
+    private static boolean compatible(IBinding binding, ITypeBinding expected) {
+        ITypeBinding value = binding instanceof IVariableBinding variable ? variable.getType()
+                : binding instanceof IMethodBinding method ? method.getReturnType() : null;
+        return value != null && !value.isRecovered() && value.isAssignmentCompatible(expected);
+    }
+    private static ITypeBinding expectedType(ASTNode marker) {
+        for (ASTNode node = marker; node != null; node = node.getParent()) {
+            ASTNode parent = node.getParent();
+            if (parent instanceof VariableDeclarationFragment variable && variable.getInitializer() == node) {
+                var binding = variable.resolveBinding(); return binding == null ? null : binding.getType();
+            }
+            if (parent instanceof Assignment assignment && assignment.getRightHandSide() == node) return assignment.getLeftHandSide().resolveTypeBinding();
+            if (parent instanceof ReturnStatement) {
+                for (ASTNode owner = parent; owner != null; owner = owner.getParent()) {
+                    if (owner instanceof LambdaExpression lambda) { var binding = lambda.resolveMethodBinding(); return binding == null ? null : binding.getReturnType(); }
+                    if (owner instanceof MethodDeclaration method) { var binding = method.resolveBinding(); return binding == null ? null : binding.getReturnType(); }
+                }
+            }
+            if (parent instanceof MethodInvocation invocation && invocation.arguments().contains(node)) {
+                var binding = invocation.resolveMethodBinding(); int index = invocation.arguments().indexOf(node);
+                return binding == null || binding.isRecovered() || index >= binding.getParameterTypes().length ? null : binding.getParameterTypes()[index];
+            }
+        }
+        return null;
     }
 
     @Override

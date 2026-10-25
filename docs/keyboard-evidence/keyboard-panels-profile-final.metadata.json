@@ -1,0 +1,25 @@
+{
+  "artifact_sha256": "50b2c49c3b8329b4812a5dcef7d327ddfaf0845a4b7bf76e5da24ab319302f0c",
+  "artifact_path": "/private/tmp/turboj-keyboard-profile-final-app.jar",
+  "harness_source": "app/src/test/java/dev/turboj/app/KeyboardPanelSmoke.java",
+  "harness_source_sha256": "61de9c70d4dc40eb19cdeab28ec2a11cf3df290912d468ad6be7ebc0c0859273",
+  "harness_class_sha256": "a834b48f2fa647e987c169ef56652579653d6919042bb0738ba5284440917aae",
+  "started_utc": "2026-10-25T08:16:40.031535Z",
+  "completed_utc": "2026-10-25T08:16:42.988107Z",
+  "assertions_passed": 23,
+  "exit_code": 0,
+  "java_runtime": "25.0.4.1",
+  "os": "macOS 26.5.1",
+  "architecture": "arm64",
+  "command": [
+    "dist/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+    "-cp",
+    "/private/tmp/turboj-keyboard-bench-classes:/private/tmp/turboj-keyboard-profile-final-app.jar",
+    "dev.turboj.app.KeyboardPanelSmoke"
+  ],
+  "interaction": "Real visible Swing window and KeyboardFocusManager key dispatch; no mouse events. Fixtures and initial custom binding setup are programmatic.",
+  "settings": "Private temporary settings under app/target; existing user application and settings untouched.",
+  "physical_keyboard_layouts_verified": false,
+  "human_accessibility_audit": false,
+  "published_log_normalization": "Only absolute repository root replaced with <repository>; assertions and timing/artifact data unchanged."
+}

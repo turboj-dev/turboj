@@ -1,0 +1,28 @@
+{
+  "outcome": "passed",
+  "processExitCode": 0,
+  "assertions": 50,
+  "completionSummaryLines": 1,
+  "startedUtc": "2026-10-25T08:19:16.381628Z",
+  "observedCompletionUtc": "2026-10-25T08:20:29.336604+00:00",
+  "applicationJarSha256": "50b2c49c3b8329b4812a5dcef7d327ddfaf0845a4b7bf76e5da24ab319302f0c",
+  "harnessSourceSha256": "dc9ec2c6860c0d9c5a5de0c12a526552b685e4ff8d6f0eed4dffee7978ab6809",
+  "harnessClassSha256": "94a6854ccc15a0439b900eb03c0990e8c61ad606dc4d29cd4ea651576451d0b6",
+  "runtimeExecutableSha256": "cf81b77f7fc523cae7e8a0d4e4f59168563123589fcdb0aa20ec0cecec3432a6",
+  "command": "dist/TurboJ.app/Contents/runtime/Contents/Home/bin/java -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.KeyboardWorkflowSmoke --robot",
+  "commandUtf8Sha256": "1876f23a8ef047a82ffb03dade827a1d652ec1f80dde435f7ccc59aa69abe9d4",
+  "mode": "OS AWT Robot keyboard events; no mouse events",
+  "setup": "Private generated Maven/JUnit fixture, offline cached dependencies, isolated preferences; clipboard restored on exit. All application interaction after initial focus uses OS key events and clipboard paste.",
+  "screenshots": "app/target/keyboard-workflow-smoke/*.png (live frame painting, not an OS screen recording)",
+  "limitations": [
+    "Automated OS-key event walkthrough, not a human accessibility audit",
+    "Does not verify physical keyboard layouts or input methods",
+    "Workflow G, profile switching, and supplemental panel navigation have separate reports"
+  ],
+  "previousPassingArtifact": {
+    "sha256": "b3441f5efac0aafef40d45357baf5e2bcd60b1efa29ad89099d75551b9148790",
+    "report": "keyboard-workflows-final.txt",
+    "metadata": "keyboard-workflows-artifact.json"
+  },
+  "note": "Complete A\u2013F/H rerun after profile menu additions and compatible Basic UI keyboard maps for ASCII controls."
+}

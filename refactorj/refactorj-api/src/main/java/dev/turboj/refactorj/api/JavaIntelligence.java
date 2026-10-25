@@ -100,6 +100,15 @@ public interface JavaIntelligence extends AutoCloseable {
 
     default TestTarget testTarget(Context context, int offset) { return null; }
 
+    default JavaStructure.Range selectStructure(Context context, int start, int end, JavaStructure.Selection selection) { return null; }
+    default JavaStructure.EditResult editStructure(Context context, int caret, int anchor, JavaStructure.Edit edit) {
+        return JavaStructure.EditResult.unavailable("Structural editing is not available in this backend.");
+    }
+    default List<JavaStructure.Target> navigationTargets(Context context, int offset, JavaStructure.Navigation navigation, String query) { return List.of(); }
+    /** Null means the caret is not a method parameter. Uses Change Signature for all callers. */
+    default Requests.ChangeSignature parameterMove(Context context, int offset, int direction) { return null; }
+    default CompletionResult completeSmart(Context context, int offset) { return complete(context, offset); }
+
     CompletionResult complete(Context context, int offset);
 
     Symbol resolveSymbol(Context context, int offset);

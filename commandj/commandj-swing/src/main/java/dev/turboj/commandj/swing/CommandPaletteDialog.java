@@ -27,7 +27,9 @@ public final class CommandPaletteDialog extends EmbeddedDialog {
         this.registry = registry;
         this.maps = maps;
         this.context = context;
-        this.search = new CommandSearch(registry);
+        this.search = new CommandSearch(registry, maps::revision, id -> maps.commandBindings(registry, id).stream()
+                .flatMap(b -> java.util.stream.Stream.of(b.sequence().display(), b.sequence().external()))
+                .toList());
         this.finished = finished;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(6, 6));
@@ -45,7 +47,8 @@ public final class CommandPaletteDialog extends EmbeddedDialog {
                         focus);
                 var match = (CommandSearch.Match) value;
                 label.setText(match.command().title() + "   [" + match.command().category() + "]   "
-                        + maps.shortcutText(match.command().id()));
+                        + String.join(" / ", maps.commandBindings(registry, match.command().id()).stream()
+                                .map(b -> b.sequence().display()).toList()));
                 if (!match.availability().enabled() && !selected)
                     label.setForeground(UIManager.getColor("Label.disabledForeground"));
                 return label;
@@ -131,9 +134,9 @@ public final class CommandPaletteDialog extends EmbeddedDialog {
             detail.setText(availability.reason());
             return;
         }
-        dispose();
-        registry.execute(selected.command().id(), context).stage()
-                .thenAccept(result -> SwingUtilities.invokeLater(() -> finished.accept(result)));
+        // A native focus request may not have settled when the next modal surface opens.
+        OverlayHost.closeThen(this, () -> registry.execute(selected.command().id(), context).stage()
+                .thenAccept(result -> SwingUtilities.invokeLater(() -> finished.accept(result))));
     }
 
     public JTextField searchField() {

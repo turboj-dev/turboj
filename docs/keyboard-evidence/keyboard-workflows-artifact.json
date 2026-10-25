@@ -1,0 +1,29 @@
+{
+  "outcome": "passed",
+  "processExitCode": 0,
+  "assertions": 50,
+  "completionSummaryLines": 1,
+  "startedUtc": "2026-10-24T22:27:49.211960Z",
+  "observedCompletionUtc": "2026-10-24T22:28:52.247389+00:00",
+  "applicationJarSha256": "b3441f5efac0aafef40d45357baf5e2bcd60b1efa29ad89099d75551b9148790",
+  "harnessSourceSha256": "dc9ec2c6860c0d9c5a5de0c12a526552b685e4ff8d6f0eed4dffee7978ab6809",
+  "mode": "OS AWT Robot keyboard events; no mouse events",
+  "command": "dist/TurboJ.app/Contents/runtime/Contents/Home/bin/java -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.KeyboardWorkflowSmoke --robot",
+  "setup": "Private generated Maven/JUnit fixture, offline cached dependencies, isolated preferences; clipboard restored on exit. All application interaction after initial focus uses OS key events and clipboard paste.",
+  "screenshots": "app/target/keyboard-workflow-smoke/*.png (live frame painting, not an OS screen recording)",
+  "limitations": [
+    "Automated OS-key event walkthrough, not a human accessibility audit",
+    "Does not verify physical keyboard layouts or input methods",
+    "Workflows G and supplemental panels have separate reports"
+  ],
+  "priorProductFailure": {
+    "report": "keyboard-workflows-before-modal-handoff.txt",
+    "artifactSha256": "60f6715dfe55300e4be88ba7f1fcd1595fb7ecf3fb6e9f64d02df05487b92ed0",
+    "issue": "Theme dialog opened from palette returned focus to Maven tree instead of original editor. Fixed by preserving logical focus origin during dialog handoff."
+  },
+  "previousPassingArtifact": {
+    "sha256": "19e1b0eae1f3a1a72585c5a0302b26541dd9c6df683c5466773c5f6c55810564",
+    "evidenceDirectory": "app/target/keyboard-workflow-smoke/verified-19e1b0ea",
+    "note": "A\u2013F/H passed; supplemental diagnostic-source navigation led to the final app fix and this complete rerun."
+  }
+}

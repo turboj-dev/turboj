@@ -31,7 +31,20 @@ public final class IntelligenceSmoke {
             "class Main {\n    void demo() {\n        System.out.pr\n    }\n}\n";
 
     public static void main(String[] args) throws Exception {
+        boolean editingOnly = args.length > 0 && args[0].equals("--editing-only");
         Path target = Path.of("app", "target").toAbsolutePath();
+        Path reportPath = editingOnly && args.length > 1 ? Path.of(args[1]).toAbsolutePath()
+                : target.resolve("intelligence-smoke.txt");
+        Files.createDirectories(reportPath.getParent());
+        Path artifact = Path.of(TurboFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        note("Started UTC: %s", java.time.Instant.now());
+        note("Artifact: %s", artifact);
+        if (Files.isRegularFile(artifact)) note("SHA-256: %s", java.util.HexFormat.of().formatHex(
+                java.security.MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(artifact))));
+        note("Runtime: %s; OS: %s %s %s; processors: %d", System.getProperty("java.version"),
+                System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"),
+                Runtime.getRuntime().availableProcessors());
+        note("Fresh JVM and isolated settings; dependencies already present; synthetic Swing key dispatch, no mouse in editing-only mode.");
         Path project = Files.createTempDirectory(target, "intelligence-smoke-");
         Files.createDirectories(project.resolve(".turboj"));
         for (String name : new String[] {"Main.java", "Calculator.java", "MathUtils.java"})
@@ -48,17 +61,24 @@ public final class IntelligenceSmoke {
         });
         try {
             waitFor(() -> frame.editor().isFocusOwner(), "editor focus");
-            completion(frame, target);
-            navigate(frame, project);
-            documentation(frame, project);
-            signature(frame);
-            errorRecovery(frame);
-            measureWarmSemantics(frame);
+            if (!editingOnly) {
+                completion(frame, target);
+                navigate(frame, project);
+                documentation(frame, project);
+                signature(frame);
+                errorRecovery(frame);
+                measureWarmSemantics(frame);
+            }
             measureEditing(frame);
             note("%s", edt(() -> frame.intelligence().metrics()));
-            note("PASS native semantic acceptance checks completed");
+            note("PASS %s", editingOnly ? "editing latency and current diagnostics checks completed"
+                    : "native semantic acceptance checks completed");
+            note("Completed UTC: %s", java.time.Instant.now());
+        } catch (Throwable failure) {
+            note("FAIL %s", failure);
+            throw failure;
         } finally {
-            Files.writeString(target.resolve("intelligence-smoke.txt"), report.toString());
+            Files.writeString(reportPath, report.toString());
             edt(() -> { frame.shutdown(); frame.dispose(); return null; });
         }
     }
@@ -272,12 +292,13 @@ public final class IntelligenceSmoke {
         waitFor(() -> frame.currentResult() != null
                 && frame.currentResult().version() == frame.editor().version(), "current diagnostics after rapid typing");
         check(edt(() -> frame.editor().getText()).contains("// typing: " + "x".repeat(120)), "input was lost");
-        double[] samples = edt(() -> Arrays.stream(frame.editor().inputToPaintSamples())
-                .mapToDouble(n -> n / 1e6).sorted().toArray());
+        long[] rawSamples = edt(() -> frame.editor().inputToPaintSamples());
+        double[] samples = Arrays.stream(rawSamples).mapToDouble(n -> n / 1e6).sorted().toArray();
         check(samples.length > 50, "too few measured paints: " + samples.length);
         note("1000-line source, compiler + semantic service enabled, 120 synthetic keys: %d paints; edit-to-paint p50 %.3f / p95 %.3f / p99 %.3f ms",
                 samples.length, percentile(samples, .50), percentile(samples, .95), percentile(samples, .99));
         note("Paint measurement excludes OS event queue, compositor and display scanout; no hardware key-to-photon claim.");
+        note("Raw paint samples (nanoseconds, capture order): %s", Arrays.toString(rawSamples));
     }
 
     private static void measureWarmSemantics(TurboFrame frame) throws Exception {

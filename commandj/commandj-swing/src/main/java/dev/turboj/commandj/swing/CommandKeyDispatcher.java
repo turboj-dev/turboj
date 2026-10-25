@@ -16,6 +16,7 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
     private final Consumer<String> notice;
     private final BiConsumer<String, KeySequence> shortcut;
     private boolean suppressedTyped;
+    private Component lastFocus;
 
     public CommandKeyDispatcher(Window window, CommandRegistry registry, KeymapManager maps,
             Supplier<CommandContext> context, Consumer<String> notice) {
@@ -43,8 +44,10 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        if (lastFocus != focus) { reset(); lastFocus = focus; }
 
-        if (OverlayHost.active(window) || focus == null || focus instanceof JPasswordField || SwingUtilities.getWindowAncestor(focus) != window || !window
+        if (OverlayHost.active(window) || MenuSelectionManager.defaultManager().getSelectedPath().length != 0
+                || focus == null || focus instanceof JPasswordField || SwingUtilities.getWindowAncestor(focus) != window || !window
                 .isActive()) {
             reset();
             return false;
@@ -69,7 +72,9 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
 
         if (stroke.isEmpty())
             return false;
-        var outcome = resolver.accept(stroke.get(), context.get(), System.nanoTime());
+        CommandContext snapshot = context.get();
+        if (snapshot.has("input-method")) { reset(); return false; }
+        var outcome = resolver.accept(stroke.get(), snapshot, System.nanoTime());
 
         switch (outcome.kind()) {
             case NONE -> {
@@ -83,7 +88,7 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
             }
             case MATCH -> {
                 shortcut.accept(outcome.command(), outcome.sequence());
-                registry.execute(outcome.command(), context.get()).stage().thenAccept(r -> {
+                registry.execute(outcome.command(), snapshot).stage().thenAccept(r -> {
                     if (r.status() != CommandResult.Status.SUCCEEDED)
                         SwingUtilities.invokeLater(() -> notice.accept(r.message()));
                 });

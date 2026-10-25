@@ -49,6 +49,14 @@ test('the existing content structure has six features, four steps and one roadma
   assert.doesNotMatch(text, /Three steps\. One window\.|The first working editor|F2 to save\. F9 to make\. Ctrl\+F9 to run\./);
 });
 
+test('keyboard download uses the generated native reference without changing its bindings', async () => {
+  assert.match(html, /<a\b[^>]*href="\/keyboard-shortcut-reference\.md"[^>]*\bdownload(?:="[^"]*")?[^>]*>Download generated shortcut reference<\/a>/);
+  for (const name of ['keyboard-command-inventory.md', 'keyboard-shortcut-reference.md', 'keyboard-conflicts.md']) {
+    assert.deepEqual(await readFile(new URL(`../dist/${name}`, import.meta.url)),
+      await readFile(new URL(`../../docs/${name}`, import.meta.url)));
+  }
+});
+
 test('navigation has real section targets and no placeholder links', () => {
   for (const anchor of ['demo', 'features', 'workflow', 'performance', 'faq']) {
     assert.ok(html.includes(`id="${anchor}"`), `Missing #${anchor}`);

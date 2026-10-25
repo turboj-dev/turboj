@@ -7,6 +7,21 @@ import java.util.concurrent.atomic.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommandRegistryTest {
+    @Test void aliasesPreserveExecutionWithoutDuplicatePaletteRows() throws Exception {
+        try (var registry = new CommandRegistry()) {
+            var count = new java.util.concurrent.atomic.AtomicInteger();
+            registry.register(Command.action("canonical", "Canonical", "Test", count::incrementAndGet));
+            registry.alias("old-id", "canonical");
+            assertEquals("canonical", registry.find("old-id").orElseThrow().id());
+            registry.execute("old-id", CommandContext.of()).stage().toCompletableFuture().get();
+            assertEquals(1, count.get());
+            assertEquals(1, registry.commands().size());
+            assertEquals(java.util.List.of("canonical"), registry.recentCommands());
+            assertThrows(IllegalArgumentException.class, () -> registry.alias("old-id", "canonical"));
+            registry.unregister("canonical");
+            assertTrue(registry.find("old-id").isEmpty());
+        }
+    }
     @Test
     void registrationLookupAndDuplicateProtection() {
         try (var registry = new CommandRegistry()) {

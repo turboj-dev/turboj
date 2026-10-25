@@ -21,6 +21,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
     private final JTextField search = new JTextField();
     private final JTable table;
     private final Rows rows = new Rows();
+    private final CommandSearch commandSearch;
     private boolean refreshing;
 
     public KeymapEditorDialog(Component owner, CommandRegistry registry, KeymapManager maps,
@@ -29,6 +30,8 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         this.registry = registry;
         this.maps = maps;
         this.changed = changed;
+        commandSearch = new CommandSearch(registry, maps::revision, id -> maps.commandBindings(registry, id).stream()
+                .flatMap(b -> java.util.stream.Stream.of(b.sequence().display(), b.sequence().external())).toList());
         table = new JTable(rows);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getAccessibleContext().setAccessibleName("Commands and keyboard shortcuts");
@@ -54,7 +57,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         top.add(searchLine, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
-        var buttons = new JPanel(new GridLayout(2, 4, 4, 4));
+        var buttons = new JPanel(new GridLayout(0, 4, 4, 4));
         buttons.add(button("Add shortcut…", () -> record(false)));
         buttons.add(button("Replace…", () -> record(true)));
         buttons.add(button("Remove…", this::remove));
@@ -62,6 +65,8 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         buttons.add(button("Reset profile", this::resetProfile));
         buttons.add(button("Import JSON…", this::importJson));
         buttons.add(button("Export JSON…", this::exportJson));
+        buttons.add(button("Reference / conflicts…", () -> new ShortcutReferenceDialog(this, registry,
+                maps, CommandContext.of()).setVisible(true)));
         buttons.add(button("Close", this::dispose));
         add(buttons, BorderLayout.SOUTH);
         profiles.addActionListener(e -> {
@@ -82,6 +87,14 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
             public void changedUpdate(DocumentEvent e) {
                 updateRows();
             }
+        });
+        table.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "recordShortcut");
+        table.getActionMap().put("recordShortcut", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) { record(false); }
+        });
+        search.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "focusCommands");
+        search.getActionMap().put("focusCommands", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) { table.requestFocusInWindow(); }
         });
         getRootPane().registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke("ESCAPE"),
                 JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -118,14 +131,14 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
     private void updateRows() {
         String selected = command();
         String q = search.getText().strip().toLowerCase(Locale.ROOT);
-        var results = new CommandSearch(registry).search(q, CommandContext.of(), 1000);
+        var results = commandSearch.search(q, CommandContext.of(), 1000);
         var commands = new LinkedHashMap<String, Command> ();
 
         for (var result : results)
             commands.put(result.command().id(), result.command());
         if (!q.isEmpty())
             for (var c : registry.commands())
-                if (maps.shortcutText(c.id()).toLowerCase(Locale.ROOT).contains(q))
+                if (shortcut(c.id()).toLowerCase(Locale.ROOT).contains(q))
                     commands.put(c.id(), c);
         rows.commands = List.copyOf(commands.values());
         rows.fireTableDataChanged();
@@ -165,9 +178,18 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
 
         if (value == null)
             return;
-        var next = new ArrayList<> (replace ? List.<KeyBinding>of() : maps.bindings(id));
-        next.add(new KeyBinding(value, BindingContext.any()));
-        var result = maps.replaceBindings(id, next);
+        var next = new ArrayList<> (replace ? List.<KeyBinding>of() : maps.commandBindings(registry, id));
+        BindingContext context = maps.commandBindings(registry, id).isEmpty()
+                ? new BindingContext(registry.find(id).orElseThrow().requiredContexts(), Set.of())
+                : maps.commandBindings(registry, id).getFirst().context();
+        Object scope = EmbeddedOptionPane.showInputDialog(this, "Shortcut context:", "Binding context",
+                JOptionPane.PLAIN_MESSAGE, null, new String[]{"Keep command context", "Editor only", "Any application panel"},
+                "Keep command context");
+        if (scope == null) return;
+        if (scope.equals("Editor only")) context = BindingContext.requiring("editor");
+        else if (scope.equals("Any application panel")) context = BindingContext.any();
+        next.add(new KeyBinding(value, context));
+        var result = maps.replaceCommandBindings(registry, id, next, Set.of());
 
         if (!result.applied()) {
             var others = new TreeSet<String> ();
@@ -187,7 +209,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
 
             if (choice != JOptionPane.OK_OPTION)
                 return;
-            result = maps.replaceBindingsResolving(id, next, others);
+            result = maps.replaceCommandBindings(registry, id, next, others);
             if (!result.applied()) {
                 error("The keymap changed; resolve the current conflicts first.");
                 return;
@@ -201,7 +223,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
 
         if (id == null)
             return;
-        List<KeyBinding> bindings = maps.bindings(id);
+        List<KeyBinding> bindings = maps.commandBindings(registry, id);
 
         if (bindings.isEmpty())
             return;
@@ -214,7 +236,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         int index = Arrays.asList(names).indexOf(selected);
         var next = new ArrayList<> (bindings);
         next.remove(index);
-        maps.replaceBindings(id, next);
+        maps.replaceCommandBindings(registry, id, next, Set.of());
         notifyChanged();
     }
 
@@ -223,7 +245,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
 
         if (id == null)
             return;
-        var result = maps.resetCommand(id);
+        var result = maps.resetCommand(registry, id);
 
         if (!result.applied()) {
             error("The default binding conflicts with a customization. Remove that conflicting shortcut first.");
@@ -302,6 +324,10 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         EmbeddedOptionPane.showMessageDialog(this, text, "Keymap", JOptionPane.ERROR_MESSAGE);
     }
 
+    private String shortcut(String id) {
+        return String.join(" / ", maps.commandBindings(registry, id).stream().map(b -> b.sequence().display()).toList());
+    }
+
     private final class Rows extends AbstractTableModel {
         List<Command> commands = List.of();
 
@@ -326,7 +352,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
             return switch (column) {
                 case 0 -> c.title();
                 case 1 -> c.category();
-                default -> maps.shortcutText(c.id());
+                default -> shortcut(c.id());
             };
         }
     }

@@ -106,6 +106,34 @@ class AICompletionControllerTest {
     }
 
     @Test
+    void secondaryCaretsCancelInferenceAndNeverCaptureOrSendNewContext() throws Exception {
+        FakeProvider provider = new FakeProvider("return value;", true);
+        try (Harness h = create(local(true), c -> provider)) {
+            request(h);
+            assertTrue(provider.entered.await(5, TimeUnit.SECONDS));
+            edt(() -> {
+                h.editor.addCaretAbove();
+                assertEquals(2, h.editor.caretCount());
+                assertTrue(provider.cancellation.get().isCancelled());
+                h.controller.request(true, false);
+                h.editor.replaceSelection("x");
+                assertEquals(1, h.snapshots.get());
+                assertTrue(h.notices.getLast().contains("secondary carets"));
+                return null;
+            });
+            provider.release.countDown();
+            assertTrue(provider.finished.await(5, TimeUnit.SECONDS));
+            Thread.sleep(300); // Beyond the configured 200 ms automatic delay.
+            edt(() -> {
+                assertNull(h.editor.inlineCompletion());
+                assertEquals(1, h.snapshots.get());
+                assertEquals(1, provider.calls.get());
+                return null;
+            });
+        }
+    }
+
+    @Test
     void typingAndCaretMotionCancelLateResponses() throws Exception {
         for (boolean typing : new boolean[] {true, false}) {
             FakeProvider provider = new FakeProvider("return value * value;", true);

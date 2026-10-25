@@ -3,6 +3,9 @@ import { copyFile, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import sharp from 'sharp';
+import { exportKeyboardReference } from './export-keyboard-reference.mjs';
+
+await exportKeyboardReference();
 
 // All input is local: this script never fetches an image or a font from the web.
 const root = fileURLToPath(new URL('../', import.meta.url));

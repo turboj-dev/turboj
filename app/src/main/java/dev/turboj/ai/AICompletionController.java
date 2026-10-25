@@ -157,6 +157,7 @@ public final class AICompletionController implements AutoCloseable {
     /** Cheap disabled fast path; snapshots are captured only for an enabled service. */
     public void changed() {
         if (closed || config.mode() == AIConfig.Mode.DISABLED) return;
+        if (editor.caretCount() > 1) { dismiss(); return; }
         int caret = editor.caretOffset();
         if (lastDocument == editor.document()
                 && lastVersion == editor.version()
@@ -188,6 +189,10 @@ public final class AICompletionController implements AutoCloseable {
         timer.stop();
         if (closed || config.mode() == AIConfig.Mode.DISABLED) {
             if (explicit) notice.accept("AI is disabled. Configure Options → AI Completion first.");
+            return;
+        }
+        if (editor.caretCount() > 1) {
+            if (explicit) notice.accept("Remove secondary carets before requesting AI completion.");
             return;
         }
         if (editor.isReadOnly() || !editor.getSelectedText().isEmpty()) return;
@@ -354,6 +359,7 @@ public final class AICompletionController implements AutoCloseable {
 
     private boolean valid(Ticket ticket) {
         return !closed
+                && editor.caretCount() == 1
                 && generation == ticket.id
                 && config.equals(ticket.config)
                 && editor.version() == ticket.snapshot.source().version()

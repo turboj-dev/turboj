@@ -480,9 +480,15 @@ public final class IntelligenceController implements AutoCloseable {
     }
 
     public void complete(boolean alternatives) {
+        complete(alternatives, false);
+    }
+
+    public void smartComplete() { complete(true, true); }
+
+    private void complete(boolean alternatives, boolean smart) {
         if (!enabled) return;
         completionTimer.stop();
-        if (closed || editor.isReadOnly() || !editor.getSelectedText().isEmpty()) return;
+        if (closed || editor.isReadOnly() || editor.selections().size() > 1 || !editor.getSelectedText().isEmpty()) return;
         Ticket t = ticket(editor.caretOffset());
         enqueue(
                 Lane.COMPLETION,
@@ -490,7 +496,7 @@ public final class IntelligenceController implements AutoCloseable {
                     long start = System.nanoTime();
                     try {
                         Context context = context(t);
-                        CompletionResult result = service().complete(context, t.offset);
+                        CompletionResult result = smart ? service().completeSmart(context, t.offset) : service().complete(context, t.offset);
                         SignatureHelp help = service().signatureHelp(context, t.offset);
                         long duration = System.nanoTime() - start;
                         SwingUtilities.invokeLater(
@@ -509,7 +515,7 @@ public final class IntelligenceController implements AutoCloseable {
                                                 alternatives);
                                         if (alternatives) showChoices(result.proposals());
                                     } else if (alternatives)
-                                        notice.accept("No semantic completions at this position.");
+                                        notice.accept(smart ? "No assignment-compatible proposals in a resolved expected-type context." : "No semantic completions at this position.");
                                     showSignatures(help);
                                 });
                     } catch (Exception e) {
@@ -628,6 +634,29 @@ public final class IntelligenceController implements AutoCloseable {
     public void quickDocumentation() {
         if (!enabled) return;
         document(editor.caretOffset(), true);
+    }
+
+    /** Explicit keyboard route; parameter hints no longer require a completion or mouse hover. */
+    public void parameterInformation() {
+        if (!enabled || closed) return;
+        Ticket ticket = ticket(editor.caretOffset());
+        enqueue(Lane.DOCUMENTATION, () -> {
+            try {
+                SignatureHelp help = service().signatureHelp(context(ticket), ticket.offset);
+                SwingUtilities.invokeLater(() -> {
+                    if (!valid(ticket)) return;
+                    lastSignature = help;
+                    if (help == null || help.signatures().isEmpty()) notice.accept("No invocation signature at the caret.");
+                    else showSignatures(help);
+                });
+            } catch (Exception failure) { SwingUtilities.invokeLater(() -> { if (valid(ticket)) notice.accept("Parameter information: " + failure.getMessage()); }); }
+        });
+    }
+
+    /** Keyboard-invoked documentation already focuses its selectable/scrollable text. */
+    public void focusDocumentation() {
+        if (documentationWindow.isVisible()) { documentationWindow.setFocusableWindowState(true); documentationText.requestFocusInWindow(); }
+        else quickDocumentation();
     }
 
     private void document(int offset, boolean keyboard) {
