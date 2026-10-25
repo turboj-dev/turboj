@@ -1,0 +1,94 @@
+{
+  "method": "Real native TurboJ window; Swing keyboard/focus/mouse events; programmatic fixture/caret setup. No physical-layout or human-audit claim.",
+  "report": "docs/evidence/cherry-native/native-walkthrough.txt",
+  "reportSha256": "a517ad8acdbd9eb4892df2ba51196ddce4c7322bc61bad2ada92f66903222316",
+  "checks": [
+    "palette selected run",
+    "two genuine JUnit tests pass",
+    "aggregate coverage invents no production-line test association",
+    "unverified executed-bytecode identity remains explicitly unknown",
+    "real JUnit identities resolve to exact hashed test declarations",
+    "palette selected editor.inspectLineIntelligence",
+    "keyboard inspection preserves caret",
+    "unsaved edit does not rewrite disk",
+    "palette selected save",
+    "palette selected run",
+    "changed calculation yields exactly one real assertion failure",
+    "failed suite does not mark uncovered production code red",
+    "palette selected cherry.results",
+    "palette selected undo",
+    "keyboard Undo restores the original source after a failed run",
+    "palette selected save",
+    "palette selected cherry.run",
+    "corrected source returns to two passing tests",
+    "Git HEAD-to-buffer returns unchanged after correction",
+    "GIT hit preserves caret",
+    "TEST hit preserves caret",
+    "COVERAGE hit preserves caret"
+  ],
+  "screenshots": [
+    {
+      "file": "docs/evidence/cherry-native/native-editor.png",
+      "sha256": "347f350d87bd8633d08bf34dd6036b75951bf939e169d7de4765cb142a3e9b4e",
+      "bytes": 80362
+    },
+    {
+      "file": "docs/evidence/cherry-native/native-test-failure.png",
+      "sha256": "2d75f83afc8a0b1d2b7a210bbb82cf76b8b075715f813045cf3d90f3e82d0de2",
+      "bytes": 80995
+    },
+    {
+      "file": "docs/evidence/cherry-native/native-coverage-inspection.png",
+      "sha256": "efb254a57df812d5bd02857a41f9cad23d6356f94961d8d0bc1968b00d4c8718",
+      "bytes": 36009
+    }
+  ],
+  "runs": [
+    {
+      "runId": "20261025-170846-588570",
+      "eventFile": "/Users/luca/Workspace/turboj/app/target/cherry-native-smoke/settings-12632617321175587249/cherry-runs/831c150c145ff8da7264f5b7/run-3f34cb29-5409-427e-8eb6-8f27d93fce1d.jsonl",
+      "eventsSha256": "929b7637c3be4e6444fe42965e3a8929577949bfb2a6b9cd232be8a07fbc8153",
+      "receiptFile": "/Users/luca/Workspace/turboj/app/target/cherry-native-smoke/settings-12632617321175587249/cherry-runs/831c150c145ff8da7264f5b7/run-3f34cb29-5409-427e-8eb6-8f27d93fce1d.jsonl.completion.json",
+      "receiptSha256": "f911f5afc95b9f64b205b053a568f59a478ae51d89da440dc5e1ec112fcbbb9a",
+      "outcome": "passed",
+      "complete": true,
+      "tests": {
+        "passed": 2
+      }
+    },
+    {
+      "runId": "20261025-170901-2ce710",
+      "eventFile": "/Users/luca/Workspace/turboj/app/target/cherry-native-smoke/settings-12632617321175587249/cherry-runs/831c150c145ff8da7264f5b7/run-a2aedc15-0ce0-441e-a47c-be8a1838b683.jsonl",
+      "eventsSha256": "b815a60ab0026bd27f75236e88f82e04b1f279d0d90aa91756b5b721126fd274",
+      "receiptFile": "/Users/luca/Workspace/turboj/app/target/cherry-native-smoke/settings-12632617321175587249/cherry-runs/831c150c145ff8da7264f5b7/run-a2aedc15-0ce0-441e-a47c-be8a1838b683.jsonl.completion.json",
+      "receiptSha256": "86c45caa706111c717a3d1c896e2ad7d21052ad44e602f8d8e4f35faf2ba1a8b",
+      "outcome": "failed",
+      "complete": true,
+      "tests": {
+        "failed": 1,
+        "passed": 1
+      }
+    },
+    {
+      "runId": "20261025-170904-9e8c60",
+      "eventFile": "/Users/luca/Workspace/turboj/app/target/cherry-native-smoke/settings-12632617321175587249/cherry-runs/831c150c145ff8da7264f5b7/run-834a097f-0861-4d86-a8eb-6ad2ccb457b2.jsonl",
+      "eventsSha256": "f7ff30046fa33f79b06323b53e9eeb1c55d933f8ca48d9b9b5670aa1995ad6f9",
+      "receiptFile": "/Users/luca/Workspace/turboj/app/target/cherry-native-smoke/settings-12632617321175587249/cherry-runs/831c150c145ff8da7264f5b7/run-834a097f-0861-4d86-a8eb-6ad2ccb457b2.jsonl.completion.json",
+      "receiptSha256": "ae7ccb5cd72d058d4a015a83776928064af4db6156745d67149549caafd07124",
+      "outcome": "passed",
+      "complete": true,
+      "tests": {
+        "passed": 2
+      }
+    }
+  ],
+  "result": "PASS",
+  "artifactHashes": {
+    "/Users/luca/Workspace/turboj/app/target/turboj-app.jar": "e52ddd80a39e29db938aefabd7aa8ad1f1e7469504ae9c3385da28f4cf1f4379",
+    "/private/tmp/turboj-cherry-native-integration/java/cherry-test-cli/target/cherry-test-java.jar": "6d4a1f78376181dcb9c1b8891857595d220f1eb207cdf5c589c755c8a9f3e168"
+  },
+  "limitations": [
+    "Executed-bytecode/source identity remains UNKNOWN; actual counters are inspectable but current-code coverage colors are neutral.",
+    "Final screenshot waits for matching source hash and current run counters; earlier passing capture is retained in /private/tmp/turboj-cherry-native-initial-pass."
+  ]
+}

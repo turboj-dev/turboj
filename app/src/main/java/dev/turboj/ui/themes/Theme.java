@@ -17,6 +17,14 @@ public record Theme(
     public static final String[] BUNDLED = REGISTRY.primary().toArray(String[]::new);
     private static final Map<String, Theme> PRIMARY_CACHE =
             new java.util.concurrent.ConcurrentHashMap<>();
+    /** Optional roles keep all historical palettes valid; resolved once when a theme is loaded. */
+    private static final Map<String, Float> LINE_ROLES = Map.ofEntries(
+            Map.entry("test.success", 120f), Map.entry("test.failure", 0f),
+            Map.entry("test.pending", -1f), Map.entry("test.unknown", -1f),
+            Map.entry("coverage.covered", 195f), Map.entry("coverage.uncovered", 52f),
+            Map.entry("coverage.partial", 195f), Map.entry("git.added", 120f),
+            Map.entry("git.deleted", 0f), Map.entry("status.unknown", -1f),
+            Map.entry("status.stale", -1f), Map.entry("status.pending", -1f));
     private static final Map<String, String> REQUIRED =
             Map.ofEntries(
                     Map.entry(
@@ -42,7 +50,11 @@ public record Theme(
                                     + " activeParameter"));
 
     public Theme {
-        colors = Map.copyOf(colors);
+        var resolved = new LinkedHashMap<>(colors);
+        Color background = resolved.get("editor.background");
+        if (background != null) LINE_ROLES.forEach((role, hue) ->
+                resolved.put(role, readableRole(resolved.get(role), background, hue)));
+        colors = Map.copyOf(resolved);
     }
 
     /**
@@ -164,6 +176,16 @@ public record Theme(
                         colors.put(section + "." + field, Color.decode(value));
                     }
                 });
+        for (String role : LINE_ROLES.keySet()) {
+            String[] path = role.split("\\.");
+            if (!object.has(path[0])) continue;
+            JsonObject group = object.getAsJsonObject(path[0]);
+            if (!group.has(path[1])) continue;
+            String value = group.get(path[1]).getAsString();
+            if (!value.matches("#[0-9a-fA-F]{6}"))
+                throw new IllegalArgumentException("Invalid color: " + role);
+            colors.put(role, Color.decode(value));
+        }
         JsonObject font = object.getAsJsonObject("font");
         int size = font.get("size").getAsInt();
         if (size < 10 || size > 48) throw new IllegalArgumentException("Font size must be 10–48");
@@ -248,6 +270,75 @@ public record Theme(
         if (color == null)
             throw new IllegalArgumentException("Unknown theme token: " + section + "." + field);
         return color;
+    }
+
+    private static Color readableRole(Color preferred, Color background, float semanticHue) {
+        float hue = semanticHue, saturation = semanticHue < 0 ? 0 : .72f, lightness = .55f;
+        if (preferred != null) {
+            float[] hsl = hsl(preferred);
+            float distance = Math.abs(hsl[0] - semanticHue);
+            distance = Math.min(distance, 360 - distance);
+            // User palettes may adjust a role within its semantic color family.
+            float allowedDistance = semanticHue == 52 ? 14 : semanticHue == 0 ? 20 : 35;
+            if (semanticHue < 0 || (hsl[1] >= .15f && distance <= allowedDistance)) {
+                hue = hsl[0];
+                saturation = semanticHue < 0 ? Math.min(hsl[1], .12f) : hsl[1];
+                lightness = hsl[2];
+                if (contrast(preferred, background) >= 4.5 && (semanticHue >= 0 || hsl[1] <= .12f))
+                    return preferred;
+            }
+        }
+        Color closest = null;
+        float closestDistance = Float.MAX_VALUE;
+        for (int step = 0; step <= 255; step++) {
+            float candidateLightness = step / 255f;
+            Color candidate = fromHsl(Math.max(0, hue), saturation, candidateLightness);
+            float distance = Math.abs(candidateLightness - lightness);
+            if (contrast(candidate, background) >= 4.5 && distance < closestDistance) {
+                closest = candidate;
+                closestDistance = distance;
+            }
+        }
+        // Black or white always meets 4.5 against an opaque background.
+        return closest == null ? (contrast(Color.BLACK, background) >= 4.5 ? Color.BLACK : Color.WHITE) : closest;
+    }
+
+    private static float[] hsl(Color color) {
+        float r = color.getRed() / 255f, g = color.getGreen() / 255f, b = color.getBlue() / 255f;
+        float max = Math.max(r, Math.max(g, b)), min = Math.min(r, Math.min(g, b));
+        float delta = max - min, lightness = (max + min) / 2, hue = 0;
+        if (delta > 0) {
+            hue = max == r ? ((g - b) / delta) % 6 : max == g ? (b - r) / delta + 2 : (r - g) / delta + 4;
+            hue = (hue * 60 + 360) % 360;
+        }
+        return new float[]{hue, delta == 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1)), lightness};
+    }
+
+    private static Color fromHsl(float hue, float saturation, float lightness) {
+        float c = (1 - Math.abs(2 * lightness - 1)) * saturation;
+        float h = hue / 60, x = c * (1 - Math.abs(h % 2 - 1)), m = lightness - c / 2;
+        float r = 0, g = 0, b = 0;
+        switch ((int) h) {
+            case 0 -> { r = c; g = x; }
+            case 1 -> { r = x; g = c; }
+            case 2 -> { g = c; b = x; }
+            case 3 -> { g = x; b = c; }
+            case 4 -> { r = x; b = c; }
+            default -> { r = c; b = x; }
+        }
+        return new Color(Math.clamp(r + m, 0, 1), Math.clamp(g + m, 0, 1), Math.clamp(b + m, 0, 1));
+    }
+
+    private static double contrast(Color first, Color second) {
+        double a = luminance(first), b = luminance(second);
+        return (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+    }
+
+    private static double luminance(Color color) {
+        double[] channels = {color.getRed() / 255d, color.getGreen() / 255d, color.getBlue() / 255d};
+        for (int i = 0; i < channels.length; i++) channels[i] = channels[i] <= .04045
+                ? channels[i] / 12.92 : Math.pow((channels[i] + .055) / 1.055, 2.4);
+        return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
     }
 
     public Color background() {

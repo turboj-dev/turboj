@@ -1,0 +1,72 @@
+{
+  "runtime": "25.0.4.1+10-LTS",
+  "os": "Mac OS X 26.5.1 aarch64",
+  "processors": 10,
+  "conditions": "Synthetic source/evidence fixture. Serial offscreen Java2D paint on the EDT; not native input-to-display latency. No assertion that targets are attained. Git runs off the EDT against an owned local temporary repository, no remote. All source/class evidence is unchanged by the harness.",
+  "warmupIterations": 20,
+  "paintSamples": 100,
+  "rendering": [
+    {
+      "logicalLines": 10000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 5.222458,
+      "denseSnapshotInstallMs": 0.039042,
+      "plainPaintMicros": {
+        "median": 362.708,
+        "min": 282.792,
+        "max": 699.334,
+        "p95": 451.75
+      },
+      "threeLanePaintMicros": {
+        "median": 324.25,
+        "min": 307.916,
+        "max": 434.208,
+        "p95": 370.208
+      },
+      "medianPaintDeltaMicros": -38.45800000000003,
+      "snapshotLookupMicros": {
+        "median": 0.042,
+        "min": 0.0,
+        "max": 21.375,
+        "p95": 0.084
+      }
+    },
+    {
+      "logicalLines": 100000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 17.496666,
+      "denseSnapshotInstallMs": 0.029417,
+      "plainPaintMicros": {
+        "median": 290.375,
+        "min": 280.875,
+        "max": 418.083,
+        "p95": 327.625
+      },
+      "threeLanePaintMicros": {
+        "median": 322.541,
+        "min": 312.208,
+        "max": 557.292,
+        "p95": 446.75
+      },
+      "medianPaintDeltaMicros": 32.166,
+      "snapshotLookupMicros": {
+        "median": 0.042,
+        "min": 0.0,
+        "max": 2.875,
+        "p95": 0.042
+      }
+    }
+  ],
+  "git": {
+    "coldMs": 56.9845,
+    "samples": 15,
+    "includes": "process launch, Git baseline lookup, snapshot files, patch parse, cleanup",
+    "warmMicros": {
+      "median": 42373.625,
+      "min": 40024.583,
+      "max": 46071.791,
+      "p95": 46071.791
+    },
+    "logicalLines": 10000
+  }
+}

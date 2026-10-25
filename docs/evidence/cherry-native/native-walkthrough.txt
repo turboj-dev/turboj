@@ -1,0 +1,29 @@
+Started: 2026-10-25T17:08:44.248470Z
+JDK: 25.0.4.1
+OS: Mac OS X 26.5.1
+Project: /Users/luca/Workspace/turboj/app/target/cherry-native-smoke/project-12729948809953318310
+CLI: /private/tmp/turboj-cherry-native-integration/java/cherry-test-cli/target/cherry-test-java.jar
+PASS palette selected run
+PASS two genuine JUnit tests pass
+PASS aggregate coverage invents no production-line test association
+PASS unverified executed-bytecode identity remains explicitly unknown
+PASS real JUnit identities resolve to exact hashed test declarations
+PASS palette selected editor.inspectLineIntelligence
+PASS keyboard inspection preserves caret
+PASS unsaved edit does not rewrite disk
+PASS palette selected save
+PASS palette selected run
+PASS changed calculation yields exactly one real assertion failure
+PASS failed suite does not mark uncovered production code red
+PASS palette selected cherry.results
+PASS palette selected undo
+PASS keyboard Undo restores the original source after a failed run
+PASS palette selected save
+PASS palette selected cherry.run
+PASS corrected source returns to two passing tests
+PASS Git HEAD-to-buffer returns unchanged after correction
+PASS GIT hit preserves caret
+PASS TEST hit preserves caret
+PASS COVERAGE hit preserves caret
+Final source SHA256: 215b932e62b0da4906d9e80834562087b5d52c6f042c778d445ddf2653e244e2
+PASS. Actual Swing events, fixture setup/caret placement programmatic; no physical keyboard/layout claim.

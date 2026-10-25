@@ -57,7 +57,7 @@ public final class Main {
             try (WorkspaceSession session = new WorkspaceSession(store)) {
                 if (options.command().equals("list")) {
                     if (options.positionals().isEmpty())
-                        out.println(Json.GSON.toJson(Arrays.stream(Operation.values())
+                        out.println(Json.GSON.toJson(Json.typedOperations().stream()
                                 .map(Operation::id).toList()));
                     else
                         out.println(Json.GSON.toJson(session.engine(Cancellation.NONE)

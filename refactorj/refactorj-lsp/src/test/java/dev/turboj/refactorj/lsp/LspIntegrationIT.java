@@ -1,6 +1,8 @@
 package dev.turboj.refactorj.lsp;
 
 import com.google.gson.*;
+import dev.turboj.refactorj.api.Cancellation;
+import dev.turboj.refactorj.api.Operation;
 import dev.turboj.refactorj.cli.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +15,27 @@ import static org.junit.jupiter.api.Assertions.*;
 class LspIntegrationIT {
     @TempDir
     Path temporary;
+
+    @Test
+    void typedCatalogAndPrepareExcludeContextualClassCreation() throws Exception {
+        Path root = temporary.toRealPath(), file = root.resolve("A.java");
+        String original = "class A {}\n";
+        Files.writeString(file, original);
+        try (var handler = new LspHandler(root, List.of(root), List.of())) {
+            handler.handle("initialize", Json.object("rootUri", root.toUri().toString()), Cancellation.NONE);
+            JsonArray catalog = handler.handle("workspace/executeCommand",
+                    Json.object("command", "refactorj.catalog"), Cancellation.NONE).getAsJsonArray();
+            var operations = new HashSet<String>();
+            for (JsonElement entry : catalog) operations.add(entry.getAsJsonObject().get("operation").getAsString());
+            assertEquals(new HashSet<>(Json.typedOperations().stream().map(Operation::id).toList()), operations);
+            assertFalse(operations.contains("create-class"));
+            var error = assertThrows(IllegalArgumentException.class, () -> handler.handle("workspace/executeCommand",
+                    Json.object("command", "refactorj.prepare", "arguments", List.of(Json.object("operation", "create-class",
+                            "location", Json.object("file", "A.java", "start", 0)))), Cancellation.NONE));
+            assertTrue(error.getMessage().contains("contextual JavaQuickActions proposal"));
+            assertEquals(original, Files.readString(file));
+        }
+    }
 
     @Test
     void realWireRenameUsesUnsavedVersionedBufferAndNeverWritesDisk() throws Exception {

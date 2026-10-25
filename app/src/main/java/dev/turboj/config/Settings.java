@@ -19,6 +19,7 @@ public final class Settings {
     public boolean autoTest = false;
     public boolean autoRunOnSave = false;
     public boolean autoTestOnSave = false;
+    public String cherryTestExecutable = "";
     public boolean showPressedShortcuts = false;
     public String keymapProfile = "intellij-macos";
     public String workspaceDirectory;

@@ -38,7 +38,7 @@ class McpProtocolTest {
     }
 
     @Test
-    void allOperationsHaveTypedSchemasAndMutationAnnotations() {
+    void allTypedOperationsHaveSchemasAndMutationAnnotations() {
         JsonArray tools = McpHandler.tools();
         var seen = new HashSet<String> ();
 
@@ -49,7 +49,13 @@ class McpProtocolTest {
                 JsonArray choices = tool.getAsJsonObject("inputSchema")
                         .getAsJsonObject("properties").getAsJsonObject("request")
                         .getAsJsonArray("oneOf");
-                assertEquals(Operation.values().length, choices.size());
+                assertEquals(Json.typedOperations().size(), choices.size());
+                var operations = new HashSet<String>();
+                for (JsonElement choice : choices)
+                    operations.add(choice.getAsJsonObject().getAsJsonObject("properties")
+                            .getAsJsonObject("operation").get("const").getAsString());
+                assertEquals(new HashSet<>(Json.typedOperations().stream().map(Operation::id).toList()), operations);
+                assertFalse(operations.contains("create-class"));
             }
             if (Json.string(tool, "name").equals("refactorj_apply"))
                 assertTrue(tool.getAsJsonObject("annotations").get("destructiveHint")

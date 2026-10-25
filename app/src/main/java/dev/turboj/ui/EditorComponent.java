@@ -4,6 +4,9 @@ import dev.turboj.compiler.CompilerDiagnostic;
 import dev.turboj.editor.document.PieceTable;
 import dev.turboj.editor.highlighting.JavaLexer;
 import dev.turboj.ui.themes.Theme;
+import dev.turboj.testing.intelligence.LineIntelligence.Lane;
+import dev.turboj.testing.intelligence.LineIntelligence.Snapshot;
+import dev.turboj.ui.intelligence.LineGutter;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -53,6 +56,9 @@ public final class EditorComponent extends JComponent
     private int caret, anchor, topLine, leftColumn, preferredColumn = -1;
     private int cellWidth = 10, cellHeight = 20, ascent = 15, gutterWidth = 60, tabWidth = 4;
     private FontMetrics fontMetrics;
+    private final LineGutter lineGutter = new LineGutter();
+    public record LineInspection(int line, Lane lane, Integer deletionAnchor) {}
+    private Consumer<LineInspection> onInspectLine = ignored -> {};
     private Runnable onChange = () -> {}, onCaretChange = () -> {};
     private Color foreground, keyword, string, comment, selection, cursor, error;
     private Color ghost,
@@ -176,6 +182,7 @@ public final class EditorComponent extends JComponent
         enableEvents(KeyEvent.KEY_EVENT_MASK);
         enableInputMethods(true);
         addInputMethodListener(this);
+        javax.swing.ToolTipManager.sharedInstance().registerComponent(this);
         addFocusListener(
                 new FocusAdapter() {
                     @Override
@@ -197,6 +204,11 @@ public final class EditorComponent extends JComponent
                     @Override
                     public void mousePressed(MouseEvent e) {
                         requestFocusInWindow();
+                        LineGutter.Hit hit = gutterHit(e.getPoint());
+                        if (hit != null && SwingUtilities.isLeftMouseButton(e)) {
+                            onInspectLine.accept(new LineInspection(hit.line(), hit.lane(), hit.deletionAnchor()));
+                            return;
+                        }
                         int offset = offsetAt(e.getPoint());
                         if (SwingUtilities.isLeftMouseButton(e) && e.isMetaDown()) {
                             int symbolOffset = symbolOffsetAt(e.getPoint());
@@ -306,6 +318,9 @@ public final class EditorComponent extends JComponent
     }
 
     private void resetVisualState() {
+        // Project-level lane allocation survives a buffer change while new evidence loads.
+        // The controller explicitly installs null when the intelligence context closes.
+        lineGutter.invalidate();
         clearInlineCompletion();
         clearNavigableRange();
         if (emphasisTimer != null) emphasisTimer.stop();
@@ -381,6 +396,65 @@ public final class EditorComponent extends JComponent
 
     public void setOnSymbolHover(Consumer<SymbolHover> callback) {
         onSymbolHover = callback == null ? hover -> {} : callback;
+    }
+
+    public void setOnInspectLine(Consumer<LineInspection> callback) {
+        onInspectLine = callback == null ? ignored -> {} : callback;
+    }
+
+    public Snapshot lineIntelligence() { return lineGutter.snapshot(); }
+
+    /** The controller supplies evidence mapped to this exact editor generation. */
+    public boolean setLineIntelligence(Snapshot snapshot) {
+        if (snapshot != null && snapshot.source().version() != version()) return false;
+        Snapshot previous = lineGutter.snapshot();
+        int width = gutterWidth;
+        lineGutter.install(snapshot);
+        metrics();
+        if (width != gutterWidth) { ensureCaretVisible(); revalidate(); repaint(); }
+        else if (snapshot == null || previous == null || isAIInlineCompletion()
+                || previous.lines().size() + snapshot.lines().size() > 4096
+                || !previous.deletions().equals(snapshot.deletions()))
+            repaint(0, 0, lineGutter.cells() * cellWidth, getHeight());
+        else {
+            var lines = new java.util.HashSet<>(previous.lines().keySet());
+            lines.addAll(snapshot.lines().keySet());
+            for (int line : lines) if (!Objects.equals(previous.line(line), snapshot.line(line)))
+                repaint(0, (line - 1 - topLine) * cellHeight, lineGutter.cells() * cellWidth, cellHeight);
+        }
+        if (accessibleContext != null) accessibleContext.firePropertyChange(
+                AccessibleContext.ACCESSIBLE_DESCRIPTION_PROPERTY, null, getAccessibleContext().getAccessibleDescription());
+        return true;
+    }
+
+    public void inspectLineIntelligence(Lane lane) {
+        onInspectLine.accept(new LineInspection(caretLine(), lane, null));
+    }
+
+    public String lineIntelligenceDescription(int line, Lane lane) { return lineGutter.describe(line, lane, null); }
+
+    public Rectangle lineIntelligenceBounds(int line, Lane lane) {
+        if (line < 1 || line > document.lineCount()) return new Rectangle();
+        int y = offsetBounds(document.lineStart(line - 1)).y;
+        return lineGutter.bounds(lane, cellWidth, y, cellHeight);
+    }
+
+    private LineGutter.Hit gutterHit(Point point) {
+        if (point.x < 0 || point.x >= lineGutter.cells() * cellWidth || point.y < 0 || point.y >= getHeight()) return null;
+        int visual = visualTopLine() + point.y / cellHeight;
+        int logical = visual;
+        if (isAIInlineCompletion()) {
+            int lastGhost = aiLine + aiLines.length - 1;
+            if (visual > aiLine && visual <= lastGhost) return null;
+            if (visual > lastGhost) logical -= aiLines.length - 1;
+        }
+        return lineGutter.hit(point, logical + 1, (visual - visualTopLine()) * cellHeight,
+                document.lineCount(), cellWidth, cellHeight);
+    }
+
+    @Override public String getToolTipText(MouseEvent event) {
+        LineGutter.Hit hit = gutterHit(event.getPoint());
+        return hit == null ? null : lineGutter.describe(hit.line(), hit.lane(), hit.deletionAnchor());
     }
 
     public void setOnGoDeclaration(IntConsumer callback) {
@@ -711,6 +785,8 @@ public final class EditorComponent extends JComponent
             Color error,
             boolean antialias) {
         setBackground(background);
+        setForeground(foreground);
+        lineGutter.setBackground(background);
         this.foreground = foreground;
         this.keyword = keyword;
         this.string = string;
@@ -750,6 +826,7 @@ public final class EditorComponent extends JComponent
         definition = theme.color("intelligence", "definition");
         identifier = theme.color("syntax", "identifier");
         operator = theme.color("syntax", "operator");
+        lineGutter.setTheme(theme);
         repaint();
     }
 
@@ -1669,7 +1746,7 @@ public final class EditorComponent extends JComponent
         cellWidth = Math.max(1, fontMetrics.charWidth('M'));
         cellHeight = fontMetrics.getHeight() + 2;
         ascent = fontMetrics.getAscent() + 1;
-        gutterWidth = cellWidth * Math.max(5, Integer.toString(document.lineCount()).length() + 2);
+        gutterWidth = cellWidth * (lineGutter.cells() + Math.max(5, Integer.toString(document.lineCount()).length() + 2));
     }
 
     @Override
@@ -1965,6 +2042,8 @@ public final class EditorComponent extends JComponent
     }
 
     private void changed(int firstLine, boolean multiline) {
+        lineGutter.invalidate();
+        repaint(0, 0, lineGutter.cells() * cellWidth, getHeight());
         clearInlineCompletion();
         clearNavigableRange();
         if (emphasisTimer != null) emphasisTimer.stop();
@@ -2228,6 +2307,7 @@ public final class EditorComponent extends JComponent
             int selectionStart = Math.min(caret, anchor), selectionEnd = Math.max(caret, anchor);
             for (int line = first; line <= last; line++) {
                 int y = (line - topLine) * cellHeight;
+                lineGutter.paint(g, line + 1, y, document.lineCount(), cellWidth, cellHeight);
                 JavaLexer.Line tokens = lexicalLine(line);
                 String text = lineTexts.get(line);
                 int start = document.lineStart(line);
@@ -2445,17 +2525,18 @@ public final class EditorComponent extends JComponent
                             ? visual
                             : visual >= lastGhostRow ? visual - aiLines.length + 1 : -1;
             if (line >= 0 && (visual <= aiLine || visual > lastGhostRow)) {
+                lineGutter.paint(g, line + 1, y, document.lineCount(), cellWidth, cellHeight);
                 String label = Integer.toString(line + 1);
                 g.setColor(comment);
                 g.drawString(
                         label, gutterWidth - cellWidth - label.length() * cellWidth, y + ascent);
             }
             boolean labelFitsOriginal =
-                    Integer.toString(aiLine + 1).length() <= gutterWidth / cellWidth - 4;
+                    Integer.toString(aiLine + 1).length() <= gutterWidth / cellWidth - lineGutter.cells() - 4;
             if (visual == aiLine && labelFitsOriginal
                     || visual == aiLine + 1 && !labelFitsOriginal && aiLines.length > 1) {
                 g.setColor(aiGhost);
-                g.drawString("AI", 0, y + ascent);
+                g.drawString("AI", lineGutter.cells() * cellWidth, y + ascent);
             }
             Graphics2D row =
                     (Graphics2D)
@@ -2741,7 +2822,8 @@ public final class EditorComponent extends JComponent
 
         @Override
         public String getAccessibleDescription() {
-            return "Line " + caretLine() + ", column " + caretColumn();
+            return "Line " + caretLine() + ", column " + caretColumn()
+                    + (lineGutter.cells() == 0 ? "" : ". " + lineGutter.describe(caretLine(), null, null));
         }
     }
 }

@@ -23,6 +23,12 @@ class McpIntegrationIT {
                 .of()))) {
             var readOnly = new McpHandler(session, false);
             var writable = new McpHandler(session, true);
+            JsonObject contextual = call(readOnly, "refactorj_prepare", Json.object("request",
+                    Json.object("operation", "create-class", "location", Json.object("file", "A.java", "start", 0))));
+            assertTrue(contextual.get("isError").getAsBoolean());
+            assertTrue(contextual.getAsJsonArray("content").get(0).getAsJsonObject().get("text")
+                    .getAsString().contains("contextual JavaQuickActions proposal"));
+            assertEquals(original, Files.readString(source));
             JsonObject request = Json.object("operation", "rename", "location", Json.object("file",
                     "A.java", "start", original.indexOf("value")), "name", "amount");
             JsonObject result = call(readOnly, "refactorj_prepare", Json.object("request",

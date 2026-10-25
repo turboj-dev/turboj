@@ -9,7 +9,7 @@ TurboJ's `refactor.context-actions` command now inspects the current Java source
 | Eclipse macOS | Cmd+1 | Quick Fix / Quick Assist |
 | IntelliJ macOS | Option+Return | Quick Fix / Quick Assist |
 | VS Code macOS | Cmd+. | Quick Fix / Quick Assist |
-| TurboJ Classic | No dedicated default | Use Command Palette or assign a binding |
+| TurboJ Classic | Cmd+1 | Quick Fix / Quick Assist; intentional TurboJ addition |
 
 All four profiles and existing customized bindings are preserved. IntelliJ's Cmd+1 already focuses Project Explorer, so this change does not add a conflicting default-profile Cmd+1 binding. Users can explicitly customize it in Keymap Settings. The stable command ID remains `refactor.context-actions`; there is no new independent key dispatcher.
 

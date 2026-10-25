@@ -11,6 +11,9 @@ import dev.turboj.commandj.core.*;
 import dev.turboj.refactoring.*;
 import dev.turboj.testing.TurboTestController;
 import dev.turboj.testing.TestOutput;
+import dev.turboj.testing.LineIntelligenceController;
+import dev.turboj.testing.LineIntelligenceDialogs;
+import dev.turboj.testing.intelligence.LineIntelligence;
 import dev.turboj.turbotest.TestEngine;
 import dev.turboj.refactorj.api.Operation;
 import dev.turboj.refactorj.api.Model;
@@ -145,6 +148,8 @@ public final class TurboFrame extends JFrame {
     private long linkedRenameRequest;
     private boolean linkedRenameBusy;
     private TurboTestController tests;
+    private LineIntelligenceController lineIntelligence;
+    private java.util.function.Consumer<LineIntelligence.Run> cherryResultsView = ignored -> {};
     private final TestOutput testOutput = new TestOutput(console);
     private List<String> testCompilerDetails = List.of();
     private NativeWorkspaceCommitter.Capture testCapture;
@@ -413,9 +418,14 @@ public final class TurboFrame extends JFrame {
                 startTests(TurboTestController.Mode.ALL, true);
         });
         tests = new TurboTestController(new NativeTestHost());
+        lineIntelligence = new LineIntelligenceController(editor, () -> file, tests,
+                Settings.directory().resolve("cherry-runs"), this::cherryResult, text -> console.append(text, false));
+        editor.setOnInspectLine(target -> LineIntelligenceDialogs.inspect(this, editor, target,
+                this::showCherryResults, () -> quickFix.invoke()));
         quickFix = new QuickFixController(this, editor, intelligence, this::intelligenceSnapshot,
                 new NativeRefactoringHost(), refactoring, this::navigateGeneratedSource,
                 this::createJUnitTest, text -> console.append(text + "\n", false));
+        quickFix.setTheme(theme);
         keyboardJava.setRefactoring(refactoring::previewRequest);
         tests.setAutomatic(settings.autoTest);
         // CommandJ owns shortcut dispatch, including completion controls. The coordinators are
@@ -1682,6 +1692,29 @@ public final class TurboFrame extends JFrame {
                 () -> startTests(TurboTestController.Mode.FAILED, false));
         command("tests.stop", "Stop Tests", this::stopTests);
         command("tests.results", "Test Results…", this::showTestResults);
+        registerCommand("editor.inspectLineIntelligence", "Inspect Line Intelligence…", "Testing Intelligence",
+                () -> editor.inspectLineIntelligence(null), context -> Availability.available());
+        registerCommand("cherry.run", "Cherry Test: Run Configured Suites", "Testing Intelligence",
+                this::runCherry, context -> lineIntelligence != null && lineIntelligence.project() != null
+                        ? Availability.available() : Availability.disabled("No Cherry Test configuration detected"));
+        registerCommand("cherry.cancel", "Cherry Test: Cancel Execution", "Testing Intelligence",
+                () -> tests.cherry().cancel(), context -> tests != null && tests.cherry().busy()
+                        ? Availability.available() : Availability.disabled("Cherry Test is not running"));
+        registerCommand("cherry.results", "Cherry Test: Native Results…", "Testing Intelligence",
+                this::showCherryResults, context -> lineIntelligence != null && lineIntelligence.run() != null
+                        ? Availability.available() : Availability.disabled("No Cherry Test execution has been loaded"));
+        registerCommand("cherry.report", "Cherry Test: Open Full Report", "Testing Intelligence",
+                this::openCherryReport, context -> lineIntelligence != null && lineIntelligence.run() != null
+                        && lineIntelligence.run().htmlReport() != null ? Availability.available()
+                        : Availability.disabled("No HTML report supplied by Cherry Test"));
+        registerCommand("cherry.configure", "Cherry Test: Configure CLI…", "Testing Intelligence", () -> {
+            String value = EmbeddedOptionPane.showInputDialog(this,
+                    "Cherry Test Java CLI JAR or executable path (blank uses CHERRY_TEST_JAR / cherry-test):", settings.cherryTestExecutable);
+            if (value == null) return;
+            settings.cherryTestExecutable = value.strip();
+            String preferences = settings.snapshotJson();
+            background.execute(() -> { try { Settings.saveSnapshot(preferences); } catch (java.io.IOException error) { errorLater(error); } });
+        }, context -> Availability.available());
         command("tests.auto", "Auto Test on Changes", () -> {
             if (!settings.autoTest && maven.workspace() != null && !maven.requireTrust()) return;
             settings.autoTest = !settings.autoTest;
@@ -2526,6 +2559,7 @@ public final class TurboFrame extends JFrame {
         console.setTheme(t);
         repl.setTheme(t);
         if (intelligence != null) intelligence.setTheme(t);
+        if (quickFix != null) quickFix.setTheme(t);
         if (maven != null) maven.setTheme(t);
         MenuStyler.style(menus, t);
         bottom.setBackground(t.color("chrome", "statusBackground"));
@@ -2680,6 +2714,7 @@ public final class TurboFrame extends JFrame {
     private void changed() {
         if (refactoringPublishing)
             return;
+        if (lineIntelligence != null) lineIntelligence.changed();
         if (keyboardJava != null) keyboardJava.changed();
         if (quickFix != null) quickFix.changed();
         if (observedDocument == editor.document()) {
@@ -2962,6 +2997,10 @@ public final class TurboFrame extends JFrame {
                             || !capture.equals(new NativeRefactoringHost().capture())) return;
                     if (maven.workspace() != runModel) { console.append("Project changed; invoke Run again.\n", false); return; }
                     if (error != null) { showError("Cannot resolve Run target: " + message(error)); return; }
+                    if (lineIntelligence != null && lineIntelligence.project() != null) {
+                        runCherry();
+                        if (target.test()) return;
+                    }
                     if (target.test()) startTests(TurboTestController.Mode.CLASS, false);
                     else if (repeatCandidate && !target.main()) startTests(previousTest.selection().mode(), false, false, previousTest);
                     else compile(true, false);
@@ -3489,6 +3528,7 @@ public final class TurboFrame extends JFrame {
             refactoring.close();
         if (tests != null)
             tests.close();
+        if (lineIntelligence != null) lineIntelligence.close();
         if (testResults != null)
             testResults.dispose();
         if (commandDispatcher != null)
@@ -3828,6 +3868,44 @@ public final class TurboFrame extends JFrame {
         public void output(dev.turboj.execution.OutputEvent event) {
             console.append(event.text(), event.stderr());
         }
+    }
+
+    private void runCherry() {
+        if (lineIntelligence == null) return;
+        if (maven.workspace() != null && !maven.requireTrust()) return;
+        lineIntelligence.start(settings.cherryTestExecutable, List.of());
+    }
+
+    private void cherryResult(LineIntelligence.Run result) {
+        if (closing) return;
+        console.append(result.message() + "\n", false);
+        cherryResultsView.accept(result);
+    }
+
+    private void showCherryResults() {
+        if (lineIntelligence == null || lineIntelligence.run() == null) return;
+        cherryResultsView = LineIntelligenceDialogs.results(this, editor, lineIntelligence.run(),
+                location -> openTestLocation(location.file(), location.line(), null),
+                result -> { if (Objects.equals(result.root(), lineIntelligence.project())) runCherry();
+                    else console.append("The displayed Cherry run belongs to another project.\n", false); },
+                result -> { if (Objects.equals(result.root(), lineIntelligence.project())) tests.cherry().cancel(); },
+                this::openCherryReport);
+    }
+
+    private void openCherryReport() {
+        var result = lineIntelligence == null ? null : lineIntelligence.run();
+        openCherryReport(result);
+    }
+
+    private void openCherryReport(LineIntelligence.Run result) {
+        if (result == null || result.htmlReport() == null) return;
+        Path report = result.htmlReport();
+        background.execute(() -> {
+            try {
+                if (!Files.isRegularFile(report)) throw new java.io.IOException("Cherry report does not exist: " + report);
+                Desktop.getDesktop().browse(report.toUri());
+            } catch (Exception failure) { errorLater(failure); }
+        });
     }
 
     private void showTestResults() {

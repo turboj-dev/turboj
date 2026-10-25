@@ -82,6 +82,7 @@ public final class BundledKeymaps {
         bind(classic, "goto", "META+L");
         bind(classic, "stop", "META+PERIOD");
         bind(classic, "keymap", "META+K, META+S");
+        bind(classic, "refactor.context-actions", "META+1");
         var idea = common();
         idea.remove("open");
         bind(idea, "goType", "META+O");

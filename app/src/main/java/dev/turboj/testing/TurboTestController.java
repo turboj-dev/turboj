@@ -52,6 +52,7 @@ public final class TurboTestController implements AutoCloseable {
     private boolean busy, automatic;
     private WorkspaceSnapshot pendingAutomatic;
     private TestEngine.Report lastReport;
+    private final CherryTestProcess cherry = new CherryTestProcess();
     private MavenCompilationWorkspace mavenCompiler;
     private boolean ownsMavenCompiler;
     private final Map<Path,WorkerClient> projectWorkers = new ConcurrentHashMap<>();
@@ -65,6 +66,7 @@ public final class TurboTestController implements AutoCloseable {
     public boolean busy() { return busy; }
     public boolean automatic() { return automatic; }
     public TestEngine.Report lastReport() { return lastReport; }
+    public CherryTestProcess cherry() { return cherry; }
     public void setAutomatic(boolean enabled) { edtRequired(); automatic = enabled; if (!enabled) pendingAutomatic = null; }
 
     /** Called only after a whole refactoring has been published, never for preparation or preview. */
@@ -262,7 +264,7 @@ public final class TurboTestController implements AutoCloseable {
             if (automatic && pending != null && host.current(pending)) run(pending, Selection.all());
         });
     }
-    public void stop() { edtRequired(); sequence++; pendingAutomatic = null; worker.stop();projectWorkers.values().forEach(WorkerClient::stop);if(projectTask!=null)projectTask.cancel(true); busy = false; host.status("Tests stopped."); }
+    public void stop() { edtRequired(); cherry.cancel(); sequence++; pendingAutomatic = null; worker.stop();projectWorkers.values().forEach(WorkerClient::stop);if(projectTask!=null)projectTask.cancel(true); busy = false; host.status("Tests stopped."); }
     private boolean active(long request) { return !closed && sequence == request; }
     private static void onEdt(Runnable task) { SwingUtilities.invokeLater(task); }
     private static void edtRequired() { if (!SwingUtilities.isEventDispatchThread()) throw new IllegalStateException("TurboTest commands require the EDT"); }
@@ -272,7 +274,7 @@ public final class TurboTestController implements AutoCloseable {
     }
     @Override public void close() {
         if (closed) return;
-        closed = true; sequence++; worker.close();
+        closed = true; sequence++; worker.close(); cherry.close();
         projectWorkers.values().forEach(WorkerClient::close);if(projectTask!=null)projectTask.cancel(true);
         executor.execute(() -> { if (compiler != null) compiler.close(); if(ownsMavenCompiler&&mavenCompiler!=null)mavenCompiler.close(); if (junit != null) junit.close(); });
         executor.shutdown();

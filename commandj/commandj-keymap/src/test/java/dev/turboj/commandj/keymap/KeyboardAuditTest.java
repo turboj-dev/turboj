@@ -7,6 +7,41 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KeyboardAuditTest {
+    @Test void classicQuickFixUsesCmdOneWithoutChangingOtherProfileMeanings() {
+        var maps = new KeymapManager();
+        try (var registry = new CommandRegistry()) {
+            registry.register(Command.action("refactor.context-actions", "Quick Fix", "Code", () -> {}));
+            registry.register(Command.action("view.focusExplorer", "Explorer", "View", () -> {}));
+            var resolver = new ShortcutResolver(maps,registry);
+            for (String profile : List.of("turboj-classic","eclipse-macos")) {
+                maps.select(profile);
+                assertEquals("refactor.context-actions",resolver.accept(KeyStrokeSpec.parse("META+1"),CommandContext.of("editor"),1).command());
+                assertEquals("refactor.context-actions",resolver.accept(KeyStrokeSpec.parse("META+1"),CommandContext.of("quick-fix-popup"),2).command());
+                assertTrue(maps.conflicts().isEmpty());
+            }
+            maps.select("intellij-macos");
+            assertEquals("view.focusExplorer",resolver.accept(KeyStrokeSpec.parse("META+1"),CommandContext.of("editor"),3).command());
+        }
+    }
+
+    @Test void classicQuickFixMigrationPreservesCustomizedCmdOneAndExplicitUnbinding() {
+        var maps = new KeymapManager(); maps.select("turboj-classic");
+        var profile = maps.selected();
+        var previous = new LinkedHashMap<>(profile.overrides());
+        previous.remove("refactor.context-actions");
+        previous.put("custom.action",List.of(KeyBinding.of("META+1")));
+        maps.install(List.of(new KeymapProfile(profile.id(),profile.name(),null,previous,true)),profile.id());
+        assertEquals(List.of(KeyBinding.of("META+1")),maps.bindings("custom.action"));
+        assertTrue(maps.bindings("refactor.context-actions").isEmpty());
+        assertTrue(maps.migrationNotices().stream().anyMatch(s -> s.contains("refactor.context-actions")));
+        previous.remove("custom.action");
+        maps.install(List.of(new KeymapProfile(profile.id(),profile.name(),null,previous,true)),profile.id());
+        assertEquals(List.of(KeyBinding.of("META+1")),maps.bindings("refactor.context-actions"));
+        previous.put("refactor.context-actions",List.of());
+        maps.install(List.of(new KeymapProfile(profile.id(),profile.name(),null,previous,true)),profile.id());
+        assertTrue(maps.bindings("refactor.context-actions").isEmpty());
+    }
+
     @Test void eclipseSaveAllUsesItsDocumentedGestureWithoutChangingOtherProfiles() {
         var maps = new KeymapManager();
         try (var registry = new CommandRegistry()) {

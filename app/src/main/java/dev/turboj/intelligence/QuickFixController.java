@@ -7,6 +7,9 @@ import dev.turboj.refactorj.api.JavaQuickActions.*;
 import dev.turboj.refactorj.api.Model.Location;
 import dev.turboj.ui.AsciiChrome;
 import dev.turboj.ui.EditorComponent;
+import dev.turboj.ui.themes.Theme;
+import dev.turboj.commandj.swing.AsciiPalette;
+import dev.turboj.commandj.swing.AsciiStyle;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -32,6 +35,8 @@ public final class QuickFixController implements AutoCloseable {
     private JList<Proposal> list;
     private JTextArea explanation;
     private JLabel heading;
+    private JPanel body;
+    private AsciiPalette palette = AsciiPalette.defaults();
     private Inspection inspection;
     private NativeWorkspaceCommitter.Capture capture;
     private EditorComponent.Location selection;
@@ -85,7 +90,7 @@ public final class QuickFixController implements AutoCloseable {
     private void show() {
         if (popup == null) {
             popup = new InlinePopup(owner); popup.setName("java-quick-actions");
-            var body = new JPanel(new BorderLayout(4, 4));
+            body = new JPanel(new BorderLayout(4, 4));
             body.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(editor.getForeground()),
                     BorderFactory.createEmptyBorder(6, 8, 6, 8)));
             heading = new JLabel();
@@ -134,9 +139,13 @@ public final class QuickFixController implements AutoCloseable {
     }
 
     private void theme(Component component) {
-        component.setFont(AsciiChrome.font()); component.setBackground(editor.getBackground());
-        component.setForeground(editor.getForeground());
-        if (component instanceof Container container) for (var child : container.getComponents()) theme(child);
+        AsciiStyle.apply(component, palette);
+        body.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(palette.border()),
+                BorderFactory.createEmptyBorder(6, 8, 6, 8)));
+    }
+    public void setTheme(Theme theme) {
+        palette = AsciiChrome.editor(theme);
+        if (popup != null) { theme(popup); popup.pack(); popup.repaint(); }
     }
     private void refresh() {
         if (inspection == null || list == null) return;

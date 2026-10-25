@@ -39,7 +39,7 @@ class ProtocolTest {
     void roundTripsEveryTypedOperationWithUnicodePaths() {
         Path root = Path.of("/tmp/project");
 
-        for (Operation operation : Operation.values()) {
+        for (Operation operation : Json.typedOperations()) {
             JsonObject wire = Json.object("operation", operation.id(), "location", Json
                     .object("file", "Caffè.java", "start", 3));
             var request = Json.request(wire, root);
@@ -52,6 +52,22 @@ class ProtocolTest {
         assertThrows(IllegalArgumentException.class, () -> Json.request(Json.object("operation",
                 "rename", "arbitrary", true, "location", Json.object("file", "A.java", "start", 0)),
                 root));
+    }
+
+    @Test
+    void contextualClassCreationIsNotAdvertisedAsATypedCliRequest() {
+        Path root = Path.of("/tmp/project");
+        var failure = assertThrows(IllegalArgumentException.class, () -> Json.request(
+                Json.object("operation", "create-class", "location", Json.object("file", "A.java", "start", 0)), root));
+        assertTrue(failure.getMessage().contains("contextual JavaQuickActions proposal"));
+        assertThrows(IllegalArgumentException.class, () -> Json.requestClass(Operation.CREATE_CLASS));
+        var advertised = new HashSet<String>();
+        for (JsonElement entry : Json.catalog()) advertised.add(entry.getAsJsonObject().get("operation").getAsString());
+        var typed = new HashSet<String>();
+        for (Operation operation : Operation.values()) if (operation != Operation.CREATE_CLASS) typed.add(operation.id());
+        assertEquals(typed, advertised);
+        assertEquals(typed, new HashSet<>(Json.typedOperations().stream().map(Operation::id).toList()));
+        assertFalse(advertised.contains("create-class"));
     }
 
     @Test

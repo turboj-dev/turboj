@@ -174,13 +174,11 @@ public final class McpHandler implements RpcServer.Handler {
     private static JsonObject requestSchema(JsonObject location) {
         JsonArray choices = new JsonArray();
 
-        for (Operation operation : Operation.values()) {
+        for (Operation operation : Json.typedOperations()) {
             JsonObject fields = Json.object("operation", Json.object("const", operation.id()),
                     "location", location);
             // Typed request fields are generated from the public records, not a second operation catalog.
-            Class<?> type = Arrays.stream(Requests.class.getDeclaredClasses())
-                    .filter(Requests.Request.class::isAssignableFrom).filter(Class::isRecord)
-                    .filter(c -> matches(c, operation)).findFirst().orElseThrow();
+            Class<?> type = Json.requestClass(operation);
             var required = new ArrayList<> (List.of("operation", "location"));
 
             for (var field : type.getRecordComponents())
@@ -206,12 +204,6 @@ public final class McpHandler implements RpcServer.Handler {
             choices.add(schema(fields, required));
         }
         return Json.object("oneOf", choices);
-    }
-
-    private static boolean matches(Class<?> type, Operation operation) {
-        String name = type.getSimpleName().replaceAll("([a-z])([A-Z])", "$1-$2")
-                .toLowerCase(Locale.ROOT);
-        return name.equals(operation.id());
     }
 
     private static JsonObject type(String type) {

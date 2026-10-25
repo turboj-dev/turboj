@@ -10,6 +10,8 @@ import java.util.*;
 
 /** Shared wire values. Protocol adapters contain no semantic transformations. */
 public final class Json {
+    private static final List<Operation> TYPED_OPERATIONS = Arrays.stream(Operation.values())
+            .filter(operation -> operation != Operation.CREATE_CLASS).toList();
     private Json() {}
 
     public static final Gson GSON = new GsonBuilder().disableHtmlEscaping()
@@ -73,6 +75,9 @@ public final class Json {
                 .orElseThrow(() -> new IllegalArgumentException("Unknown operation: " + id));
     }
 
+    /** Operations accepted by the typed CLI/LSP/MCP wire request boundary. */
+    public static List<Operation> typedOperations() { return TYPED_OPERATIONS; }
+
     public static Class<? extends Requests.Request> requestClass(Operation op) {
         return switch (op) {
             case RENAME -> Requests.Rename.class;
@@ -108,13 +113,15 @@ public final class Json {
             case CREATE_LOCAL -> Requests.CreateLocal.class;
             case FIX_TYPE_MISMATCH -> Requests.FixTypeMismatch.class;
             case REMOVE_UNREACHABLE -> Requests.RemoveUnreachable.class;
+            case CREATE_CLASS -> throw new IllegalArgumentException(
+                    "create-class requires a contextual JavaQuickActions proposal; no typed CLI request is available");
         };
     }
 
     public static JsonArray catalog() {
         JsonArray result = new JsonArray();
 
-        for (Operation operation : Operation.values()) {
+        for (Operation operation : typedOperations()) {
             JsonArray fields = new JsonArray();
 
             for (var field : requestClass(operation).getRecordComponents())
