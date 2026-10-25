@@ -8,6 +8,12 @@ import '../styles/turboj-demo.css';
   <p id="demo-description" class="sr-only">Five chapters reconstruct measured native sessions. Source and console regions can be scrolled with the keyboard. Complete sources, logs, captures, and measurements are available in session details. No Java executes in your browser.</p>
   <div class="demo-stage">
     <ProductScreenshot />
+    <!-- The immutable Classic capture is for no-JS only. This surface uses the
+         saved palette before the controller/evidence loads, including offline failures. -->
+    <div class="demo-loading" data-demo-loading>
+      <p data-demo-loading-text>Loading recorded session…</p>
+      <a href="/demo-session/">Read the recorded session, sources, and logs.</a>
+    </div>
     <div class="demo-screen" data-demo-screen hidden>
       <div class="demo-menu" data-demo-menu aria-hidden="true"></div>
       <div class="demo-workspace" data-demo-workspace>
@@ -78,7 +84,7 @@ import '../styles/turboj-demo.css';
   <div class="demo-caption">
     <div><p>Recorded TurboJ sessions, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened.</p><p>Times from each identified captured session. <span data-demo-cache hidden>Dependencies already cached.</span></p></div>
   </div>
-  <p class="demo-load-status" data-demo-load-status role="status" hidden>Loading recorded session. The image above is an earlier native screenshot.</p>
+  <p class="demo-load-status" data-demo-load-status role="status" hidden>Loading recorded session.</p>
   </div>
   <p class="sr-only" data-demo-announcement role="status" aria-live="polite" aria-atomic="true"></p>
 </section>

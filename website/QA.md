@@ -11,6 +11,7 @@ npm run preview -- --port 4321
 # In a second terminal, while preview is running:
 npm run test:browser
 npm run test:demo
+npm run test:demo:theme
 node tests/session-browser.mjs
 npm run test:themes
 npm run test:spin
@@ -61,6 +62,13 @@ bounded state across repeated chapter switches. The new evidence is written to
 The source model tests enforce result boundaries without treating browser frame
 timestamps as native compiler measurements.
 
+The demo theme suite gates controller and evidence responses to inspect the
+first rendered surface with a saved Monokai palette. It checks failed/offline
+loads, cached palettes, chapter transitions and the full story's menus/dialogs.
+The genuine Classic image is restricted to no-JavaScript mode; JavaScript loads
+use a themed status surface, and chapter transitions retain the preceding
+themed frame. Screenshot bytes and captured source/output remain unchanged.
+
 Set `QA_ARTIFACT_ROOT=artifacts/hero-story-qa` for the common page, theme, theme-spin
 and Lighthouse suites to keep new reports separate from historical output.
 The production payload tests enforce 8 KiB gzip for the hero controller/model,
@@ -74,6 +82,27 @@ environment metadata, scores, LCP, CLS and TBT are written to
 field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
 
 ## Five-chapter native hero — 25 October 2026
+
+### Saved-theme flash correction
+
+Removed the Classic raster from JavaScript loading/error states without changing
+the authentic capture. Initial loading uses the saved palette synchronously;
+chapter changes keep the preceding themed frame until the next checkpoint is
+ready. The no-JavaScript screenshot and evidence link remain available.
+
+Validation: Astro check/build and **53 unit/content/evidence tests PASS**;
+**92 browser checks PASS** (36 replay, 46 homepage, 10 focused theme checks).
+The focused suite gates and fails module/manifest/chapter requests, tests a
+cached palette with an offline catalog, and observes a real 43,545 ms full-story
+Play/loop run. All 15 distinct recorded dialog/menu scenes were observed among
+95 state changes, with no visible Classic raster or wrong-palette surface.
+It samples browser rendering frames; it does not claim sub-frame precision.
+
+Hero/all JavaScript: **6,217 / 14,360 bytes gzip**, within the existing budgets.
+Reports/screenshots: `artifacts/theme-first-paint-qa/`. An initial test assertion
+requiring a duplicate 7 ms dialog checkpoint to occupy its own rendered frame
+was corrected to require every distinct dialog/menu surface; the original
+observation is retained separately. Native evidence and timings are unchanged.
 
 ### Compact playback follow-up
 

@@ -1,9 +1,16 @@
 /* Native palette, a reserved screenshot-sized stage, and browser controls outside it. */
 .turboj-demo { --demo-line-height: 1.65em; margin-top: 24px; color: var(--tj-editor-foreground); }
 .demo-stage { position: relative; height: 464px; width: 100%; background: var(--tj-editor-background); }
-.demo-fallback, .demo-screen, .demo-external { position: absolute; inset: 0; }
+.demo-fallback, .demo-loading, .demo-screen, .demo-external { position: absolute; inset: 0; }
 .demo-fallback { display: flex; justify-content: center; align-items: center; }
 .demo-fallback img { width: 100%; height: 100%; object-fit: contain; }
+/* Never use an unthemed capture between themed HTML frames. The inline marker
+   precedes this section, so this also holds while module scripts are delayed. */
+html.demo-js .demo-fallback { display: none; }
+.demo-loading { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 12px; padding: 24px; border: 1px solid var(--tj-chrome-border); background: var(--tj-editor-background); color: var(--tj-editor-foreground); font: 400 14px/1.6 var(--mono); text-align: center; }
+html.demo-js .demo-loading { display: flex; }
+.demo-loading p { margin: 0; }
+.demo-loading a { color: inherit; }
 .turboj-demo [hidden] { display: none !important; }
 /* Reserve the controls before lazy evidence arrives; no-JS keeps the screenshot fallback. */
 html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !important; visibility: hidden; pointer-events: none; }

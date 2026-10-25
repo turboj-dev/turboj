@@ -6,7 +6,7 @@ if (root) initialize(root);
 function initialize(root: HTMLElement) {
   const get = <T extends HTMLElement = HTMLElement>(part: string) => root.querySelector<T>(`[data-demo-${part}]`)!;
   const screen = get('screen');
-  const fallback = root.querySelector<HTMLElement>('.demo-fallback')!;
+  const loadingSurface = get('loading');
   const external = get('external');
   const overlay = get('overlay');
   const stage = root.querySelector<HTMLElement>('.demo-stage')!;
@@ -135,14 +135,24 @@ function initialize(root: HTMLElement) {
     if (promptText.textContent !== visible) promptText.textContent = visible;
     promptCursor.style.opacity = !canPlay() || motion.matches || Math.floor(elapsed / 500) % 2 === 0 ? '1' : '0';
   }
-  function unavailable() {
-    const message = 'Replay unavailable. Reload to retry.';
-    get('controls').hidden = false;
+  function showMessage(message: string) {
     promptText.textContent = message;
     prompt.setAttribute('aria-label', message);
     prompt.title = message;
     promptCursor.style.opacity = '1';
     get('announcement').textContent = message;
+  }
+  function unavailable() {
+    const message = 'Replay unavailable. Reload to retry.';
+    screen.hidden = true;
+    overlay.hidden = true;
+    external.hidden = true;
+    loadingSurface.hidden = false;
+    get('loading-text').textContent = message;
+    root.dataset.loading = 'false';
+    stage.setAttribute('aria-busy', 'false');
+    get('controls').hidden = false;
+    showMessage(message);
   }
   function updateTime() {
     if (!chapter) return;
@@ -283,7 +293,7 @@ function initialize(root: HTMLElement) {
     if (restoreFocus || sourceOwnedFocus) (overlay.querySelector<HTMLElement>('[tabindex]') ?? overlay).focus({ preventScroll: true });
   }
   function render() {
-    if (!chapter) return;
+    if (!chapter || loading) return;
     const current = seekChapter(chapter, elapsed);
     elapsed = Math.max(0, Math.min(playbackDuration(), elapsed));
     const event = current.event;
@@ -382,10 +392,13 @@ function initialize(root: HTMLElement) {
     if (overlay.contains(document.activeElement) || screen.contains(document.activeElement)) pause.focus({ preventScroll: true });
     root.dataset.chapter = manifest.chapters[index].id;
     root.dataset.loading = 'true';
-    screen.hidden = true;
-    overlay.hidden = true;
-    external.hidden = true;
-    fallback.hidden = false;
+    // Keep the last themed frame while fetching the next chapter. Replacing it
+    // with the immutable Classic screenshot caused flashes during Play/looping.
+    loadingSurface.hidden = !!chapter;
+    stage.setAttribute('aria-busy', 'true');
+    const message = `Loading ${manifest.chapters[index].title}…`;
+    get('loading-text').textContent = message;
+    showMessage(message);
     get('load-status').hidden = false;
     get('load-status').textContent = `Loading ${manifest.chapters[index].title} recorded chapter…`;
     chapterButtons.forEach((button, position) => button.setAttribute('aria-pressed', String(position === index)));
@@ -412,7 +425,8 @@ function initialize(root: HTMLElement) {
       get('controls').hidden = false;
       get('current').hidden = false;
       progress.hidden = false;
-      fallback.hidden = true;
+      loadingSurface.hidden = true;
+      stage.setAttribute('aria-busy', 'false');
       render();
       synchronize();
       // Disabling a focused button during an async load can send focus to the body.
@@ -423,9 +437,6 @@ function initialize(root: HTMLElement) {
       chapters.delete(entry.id);
       loading = false;
       chapter = undefined;
-      screen.hidden = true;
-      external.hidden = true;
-      fallback.hidden = false;
       get('load-status').textContent = 'Recorded chapter unavailable. Select a chapter to retry, or open the full session details.';
       clockState();
       unavailable();
@@ -489,6 +500,7 @@ function initialize(root: HTMLElement) {
     synchronize();
   }, { threshold: [0, .15] });
   observer.observe(stage);
+  stage.setAttribute('aria-busy', 'true');
   get('load-status').hidden = false;
   clockState();
   void fetch('/demo/hero-story/manifest.json').then((response) => {
@@ -503,7 +515,7 @@ function initialize(root: HTMLElement) {
     return selectChapter(0, !motion.matches);
   }).catch(() => {
     loading = false;
-    get('load-status').textContent = 'Recorded session unavailable. The image above is an earlier native screenshot. Open session details for sources and evidence.';
+    get('load-status').textContent = 'Recorded session unavailable. Open session details for sources and evidence.';
     clockState();
     unavailable();
   });

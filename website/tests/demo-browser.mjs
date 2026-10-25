@@ -346,7 +346,9 @@ try {
       assert.equal(await page.locator('[data-demo-prompt]').isVisible(), true);
       assert.equal(await page.locator('[data-demo-prompt-text]').textContent(), 'Replay unavailable. Reload to retry.');
       assert.equal(await page.locator('[data-demo-action="pause"]').isDisabled(), true);
-      assert.equal(await page.getByAltText(screenshotAlt).isVisible(), true);
+      assert.equal(await page.getByAltText(screenshotAlt).isVisible(), false);
+      assert.equal(await page.locator('[data-demo-loading]').isVisible(), true);
+      assert.equal(await page.locator('[data-demo-loading] a').isVisible(), true);
       assert.equal(await page.locator('[data-demo-secondary]').isVisible(), false);
     } finally { await context.close(); }
   });
