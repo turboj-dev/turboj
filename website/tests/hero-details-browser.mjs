@@ -29,8 +29,13 @@ try {
     await page.goto(`${baseURL}/demo-session/`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     await check(`${width}: verified session and exact measurement table render statically`, async () => {
-      assert.equal(await page.locator('main h1').textContent(), 'Five chapters. One measured session.');
+      assert.equal(await page.locator('main h1').textContent(), evidence.sessions ? 'Five chapters. Traceable native sessions.' : 'Five chapters. One measured session.');
       assert((await page.locator('main').textContent()).includes(evidence.id));
+      for (const session of evidence.sessions ?? []) assert((await page.locator('main').textContent()).includes(session.id));
+      if (evidence.finale) {
+        assert((await page.locator('main').textContent()).includes(evidence.composition));
+        assert((await page.locator('main').textContent()).includes('Native Output command line — recorded curl command and output'));
+      }
       const rows = page.locator('[aria-label="Native operation measurements"] tbody tr');
       assert.equal(await rows.count(), evidence.measurements.length);
       for (let index = 0; index < evidence.measurements.length; index++) {
@@ -77,7 +82,7 @@ try {
     if (width === 1440) {
       await check('all source/log/project/trace links download exact immutable content', async () => {
         const files = [...Object.values(evidence.sources), ...Object.values(evidence.outputs), ...evidence.projectFiles,
-          { url: evidence.selected.trace, sha256: evidence.selected.traceSha256 },
+          ...(evidence.sessions ?? [{ selected: evidence.selected }]).map(session => ({ url: session.selected.trace, sha256: session.selected.traceSha256 })),
           ...evidence.controls.map((control) => ({ url: control.trace, sha256: control.traceSha256 }))];
         for (const file of files) {
           const response = await context.request.get(`${baseURL}${file.url}`);
@@ -113,7 +118,7 @@ try {
   await check('evidence and keyboard disclosures remain readable without JavaScript', async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
     const page = await context.newPage(); await page.goto(`${baseURL}/demo-session/`);
-    assert((await page.locator('main').textContent()).includes('Times from this captured session.'));
+    assert((await page.locator('main').textContent()).includes('Times from the identified captured session.'));
     const summary = page.locator('main details > summary').first(); await summary.focus(); await page.keyboard.press('Enter');
     assert.equal(await summary.evaluate((element) => element.parentElement.open), true);
     await context.close();

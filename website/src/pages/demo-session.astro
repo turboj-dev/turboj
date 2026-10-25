@@ -4,14 +4,16 @@ import recorded from '../../public/demo/hero-story/evidence.json';
 interface Source { file: string; text: string; sha256: string; url: string }
 interface Output { text: string; sha256: string; url: string }
 interface Measurement { id: string; chapter: string; label: string; startNs: number; endNs: number; durationNs: number; boundary: string; compilerResult?: { durationNs: number; version: number; cacheHit: boolean; success: boolean }; junitRunnerDurationNs?: number; jvmExecutionResult?: { durationNanos: number; exitCode: number } }
-interface Event { id: string; chapter: string; label: string; kind: string; atNs: number; wallTime: string; screenshot: string; state: { file: string; sourceId: string; consoleId: string; externalId: string; editorVersion: number; projectGeneration: number; dialogs: { title: string; components: { type: string; text: string; enabled?: boolean }[] }[] } }
+interface Event { id: string; chapter: string; label: string; kind: string; atNs: number; wallTime: string; screenshot: string; sessionId?: string; state: { file: string; sourceId: string; consoleId: string; externalId: string; editorVersion: number; projectGeneration: number; commandLine?: { visible: boolean; text: string; caret: number; focused?: boolean }; dialogs: { title: string; components: { type: string; text: string; enabled?: boolean }[] }[] } }
+interface Session { id: string; chapters: string[]; metadata: Evidence['metadata']; selected: Evidence['selected']; timing: Evidence['timing']; checks: Record<string, boolean> }
 interface Evidence {
   verified: boolean; id: string;
-  metadata: { startedAt: string; turbojCommit: string; appJarSha256: string; jdk: string; javaVendor: string; os: string; cpu: string; ramBytes: string; keymap: string; junitVersion: string; measurementBoundary: string; capture: string; input: string; conditions: string; automationTrigger: string; springBoot: { version: string; javaRelease: number; mavenWrapper: string; cache: string; nativeLimitation: string }; springReadiness: string; curl: { command: string; stdout: string; exitCode: number; durationNs: number; boundary: string } };
+  metadata: { startedAt: string; turbojCommit: string; appJarSha256: string; jdk: string; javaVendor: string; os: string; cpu: string; ramBytes: string; keymap: string; junitVersion: string; measurementBoundary: string; capture: string; input: string; conditions: string; automationTrigger: string; springBoot: { version: string; javaRelease: number; mavenWrapper: string; cache: string; nativeLimitation: string }; springReadiness: string; curl: { command: string; stdout: string; exitCode: number; durationNs: number; boundary: string; nativeConsole?: boolean; body?: string; httpStatus?: number } };
   checks: Record<string, boolean>; selected: { trace: string; traceSha256: string; artifacts: string; nomination?: string; nominationSha256?: string };
   controls: { id: string; trace: string; traceSha256: string; artifacts: string; completed: boolean; failure: string | null }[];
   projectFiles: { file: string; sha256: string; url: string }[];
-  chapters: { id: string; title: string; url: string; durationMs: number; sha256: string }[];
+  chapters: { id: string; title: string; url: string; durationMs: number; sha256: string; sessionId?: string }[];
+  composition?: string; sessions?: Session[]; finale?: Session;
   measurements: Measurement[]; events: Event[]; sources: Record<string, Source>; outputs: Record<string, Output>;
   timing: { originalDurationMs: number; durationMs: number; policy: string; cuts: { id: string; kind: string; reason: string; durationMs: number; shownMs: number; startNs: number; endNs: number }[] };
 }
@@ -23,21 +25,23 @@ const internalDuration = (measurement: Measurement) => measurement.junitRunnerDu
   : measurement.id === 'hello-compile' && measurement.compilerResult ? `Compiler: ${ms(measurement.compilerResult.durationNs / 1e6)}${measurement.compilerResult.cacheHit ? ' (cache hit)' : ''}`
   : 'See captured output';
 const chapters = evidence?.chapters ?? [];
+const finale = evidence.finale?.metadata ?? evidence.metadata;
+const sessions = evidence.sessions ?? [{ id: evidence.id, chapters: chapters.map(chapter => chapter.id), metadata: evidence.metadata, selected: evidence.selected, timing: evidence.timing, checks: evidence.checks }];
 const nativeDiagnostics = evidence && Object.values(evidence.outputs).some((output) => output.text.includes('package org.junit.jupiter.api does not exist'));
 ---
 <BaseLayout>
   <main id="main" class="hero-evidence shell" tabindex="-1">
     <nav aria-label="Session navigation"><a href="/">← TurboJ homepage</a><a href="/session/">Historical session archive</a></nav>
     <p class="eyebrow">NATIVE SESSION EVIDENCE</p>
-    <h1>Five chapters. One measured session.</h1>
+    <h1>{evidence.sessions ? 'Five chapters. Traceable native sessions.' : 'Five chapters. One measured session.'}</h1>
     {evidence?.verified ? <>
-      <p>Recorded TurboJ session, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened. The hero replays this single captured session; every source revision, output and displayed result below comes from its native trace.</p>
-      <p><strong>Times from this captured session.</strong> They describe this machine and these cache conditions, not guaranteed performance. Source entry and dialog actions were automated in the actual application. The screenshots are Swing frame captures, not a video or proof of physical display scanout.</p>
+      <p>Recorded TurboJ sessions, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened. {evidence.composition ?? 'The hero replays a single captured session; every source revision, output and displayed result below comes from its native trace.'}</p>
+      <p><strong>Times from the identified captured session.</strong> They describe the recorded machine and cache conditions, not guaranteed performance. Source entry and dialog actions were automated in the actual application. The screenshots are Swing frame captures, not a video or proof of physical display scanout.</p>
       <nav class="jump-links" aria-label="Evidence sections"><a href="#measurements">Measurements</a><a href="#chapters">Chapter captures</a><a href="#sources">Full source</a><a href="#logs">Complete logs</a><a href="#environment">Environment</a><a href="#cuts">Editorial cuts</a><a href="#controls">Controls</a></nav>
       <div class="downloads">
         <a href="/demo/hero-story/manifest.json" download>Replay manifest</a>
         <a href="/demo/hero-story/evidence.json" download>Complete evidence index</a>
-        <a href={evidence.selected.trace} download>Original monotonic trace</a>
+        {sessions.map(session => <a href={session.selected.trace} download>Monotonic trace: {session.id}</a>)}
         {evidence.selected.nomination && <a href={evidence.selected.nomination} download>Selection recorded before capture</a>}
         <a href="/demo/hero-story/checksums.json" download>SHA-256 checksums</a>
         <a href={evidence.projectFiles.find((file) => file.file === 'spring-hello/pom.xml')?.url} download="pom.xml">Captured Maven POM</a>
@@ -60,11 +64,12 @@ const nativeDiagnostics = evidence && Object.values(evidence.outputs).some((outp
       <p>Each link opens an original full-resolution frame on demand. The page does not download the screenshot archive. Full source and logs are selectable text below; dialogs are captured as their actual titles, labels, fields and button states. Browser replay controls are outside the reconstructed application.</p>
       {chapters.map((chapter) => <section class="chapter" aria-labelledby={`chapter-${chapter.id}`}>
         <h3 id={`chapter-${chapter.id}`}>{chapter.title}</h3>
-        <p><a href={chapter.url} download>Chapter replay data</a> · SHA-256 <code>{chapter.sha256}</code></p>
+        <p><a href={chapter.url} download>Chapter replay data</a> · SHA-256 <code>{chapter.sha256}</code>{chapter.sessionId && <> · Session <code>{chapter.sessionId}</code></>}</p>
         {evidence.events.filter((event) => event.chapter === chapter.id).map((event) => <details id={`event-${event.id}`}>
           <summary>{event.label} <small>({event.kind})</small></summary>
           <p><code>{event.id}</code> · {event.wallTime} · monotonic {event.atNs} ns</p>
           <p>Source revision {event.state.editorVersion}; project generation {event.state.projectGeneration}. File: <code>{event.state.file}</code>.</p>
+          {event.state.commandLine?.visible && <p>Native Output command line: <code>:{event.state.commandLine.text}</code> · caret {event.state.commandLine.caret} · {event.state.commandLine.focused ? 'focused' : 'not focused'}.</p>}
           <div class="downloads"><a href={event.screenshot} target="_blank" rel="noopener">Open original native frame ↗</a><a href={`#${event.state.sourceId}`}>Full captured source</a><a href={`#${event.state.consoleId}`}>Full native output</a>{evidence.outputs[event.state.externalId]?.text && <a href={`#${event.state.externalId}`}>External curl transcript</a>}</div>
           {event.state.dialogs.map((dialog) => <><h4>{dialog.title}</h4><pre>{dialog.components.map((component) => `${component.type}: ${component.text}${component.enabled === false ? ' [disabled]' : ''}`).join('\n')}</pre></>)}
         </details>)}
@@ -72,12 +77,12 @@ const nativeDiagnostics = evidence && Object.values(evidence.outputs).some((outp
       <h2>Automation and Maven observations</h2>
       <p>{evidence.metadata.automationTrigger} Auto Test on Changes remained disabled. Auto Test on Save was enabled with Auto Run off; after the failing and corrected saves, Auto Test was disabled and Auto Run enabled. Settings were restored after capture.</p>
       {nativeDiagnostics && <p>The live single-file compiler reported missing JUnit/Price symbols while editing the plain Java test file. TurboTest then compiled the test workspace with its own classpath and ran the two tests successfully. Those earlier diagnostics remain in the evidence and replay; a passing test result does not erase them.</p>}
-      <p><strong>Dependencies already cached.</strong> {evidence.metadata.springBoot.cache} MavenJ model import and the explicit Maven goal are distinct operations. This session uses <code>spring-boot:run</code> for the persistent server. {evidence.metadata.springBoot.nativeLimitation}</p>
-      <p>{evidence.metadata.springReadiness}</p>
-      <h3>External curl — recorded command and output</h3>
-      <p>No request is sent from your browser. The command was executed by an external process, separate from TurboJ’s output pane. Its launch-to-exit duration was {ms(evidence.metadata.curl.durationNs / 1e6)}; the table’s curl interval additionally includes the capture checkpoint.</p>
-      <pre>{`$ ${evidence.metadata.curl.command}\n${evidence.metadata.curl.stdout}[exit ${evidence.metadata.curl.exitCode}]`}</pre>
-      <p>{evidence.metadata.curl.boundary} The owned Maven process and its endpoint were stopped and checked after the session. TurboJ’s Stop action cancelled the process with exit 137; process and endpoint closure were verified, but graceful Spring shutdown is not claimed.</p>
+      <p><strong>Dependencies already cached.</strong> {finale.springBoot.cache} MavenJ model import and the explicit Maven goal are distinct operations. The final chapter uses <code>spring-boot:run</code> for the persistent server. {finale.springBoot.nativeLimitation}</p>
+      <p>{finale.springReadiness}</p>
+      <h3>{finale.curl.nativeConsole ? 'Native Output command line — recorded curl command and output' : 'External curl — recorded command and output'}</h3>
+      {finale.curl.nativeConsole ? <p>No request is sent from your browser. Actual Swing keyboard events pressed Escape, typed <code>:</code>, entered <code>! curl</code> and pressed Enter. TurboJ launched the local command and displayed the real HTTP response in its Output pane while the Maven server kept running. This is a command runner, not a terminal emulator.</p> : <p>No request is sent from your browser. The command was executed by an external process, separate from TurboJ’s output pane. Its launch-to-exit duration was {ms(finale.curl.durationNs / 1e6)}; the table’s curl interval additionally includes the capture checkpoint.</p>}
+      <pre>{`${finale.curl.nativeConsole ? ':! ' : '$ '}${finale.curl.command}\n${finale.curl.stdout}[${finale.curl.nativeConsole ? 'command exited' : 'exit'} ${finale.curl.exitCode}]`}</pre>
+      <p>{finale.curl.boundary} The owned Maven process and its endpoint were stopped and checked after capture. The replay keeps the successful response visible; cleanup is retained in the raw trace. Process and endpoint closure were verified; graceful Spring shutdown is not claimed.</p>
       <h2 id="sources">Every captured source revision</h2>
       <p>Immutable revisions include actual intermediate line-entry checkpoints, refactoring results and deliberate test failures. These are complete files, not display excerpts. File names can repeat because each revision has a different content hash.</p>
       <details><summary>Complete final project files, Maven wrapper and dependency configuration</summary><ul>{evidence.projectFiles.map((file) => <li><a href={file.url} download={file.file.split('/').at(-1)}>{file.file}</a> · SHA-256 <code>{file.sha256}</code></li>)}</ul></details>
@@ -94,25 +99,25 @@ const nativeDiagnostics = evidence && Object.values(evidence.outputs).some((outp
         <pre tabindex="0" aria-label={`Output ${output.sha256.slice(0, 12)}`}>{output.text || '(No output in this captured state.)'}</pre>
       </details>)}
       <h2 id="environment">Environment and provenance</h2>
-      <dl>
-        <dt>Session</dt><dd>{evidence.id} · {evidence.metadata.startedAt}</dd>
-        <dt>TurboJ commit</dt><dd><code>{evidence.metadata.turbojCommit}</code></dd>
-        <dt>Application JAR</dt><dd><code>{evidence.metadata.appJarSha256}</code> SHA-256</dd>
-        <dt>Trace</dt><dd><code>{evidence.selected.traceSha256}</code> SHA-256</dd>
-        <dt>System</dt><dd>{evidence.metadata.os} · {evidence.metadata.cpu} · {Number(evidence.metadata.ramBytes) / 1024 ** 3} GiB RAM</dd>
-        <dt>Runtime</dt><dd>{evidence.metadata.javaVendor} {evidence.metadata.jdk}</dd>
-        <dt>Project toolchain</dt><dd>Java {evidence.metadata.springBoot.javaRelease}; Maven {evidence.metadata.springBoot.mavenWrapper}; Spring Boot {evidence.metadata.springBoot.version}</dd>
-        <dt>Plain Java tests</dt><dd>JUnit {evidence.metadata.junitVersion}</dd>
-        <dt>Active keymap</dt><dd>{evidence.metadata.keymap}</dd>
-      </dl>
-      <p>{evidence.metadata.conditions} {evidence.metadata.capture}.</p>
-      <details><summary>Full captured environment and verification checks</summary><pre>{JSON.stringify({ metadata: evidence.metadata, checks: evidence.checks }, null, 2)}</pre></details>
+      {sessions.map(session => <section><h3>{session.id}</h3><p>Chapters: {session.chapters.join(', ')}.</p><dl>
+        <dt>Captured</dt><dd>{session.metadata.startedAt}</dd>
+        <dt>TurboJ commit</dt><dd><code>{session.metadata.turbojCommit}</code></dd>
+        <dt>Application JAR</dt><dd><code>{session.metadata.appJarSha256}</code> SHA-256</dd>
+        <dt>Trace</dt><dd><a href={session.selected.trace} download>Download trace</a> · <code>{session.selected.traceSha256}</code> SHA-256</dd>
+        <dt>System</dt><dd>{session.metadata.os} · {session.metadata.cpu} · {Number(session.metadata.ramBytes) / 1024 ** 3} GiB RAM</dd>
+        <dt>Runtime</dt><dd>{session.metadata.javaVendor} {session.metadata.jdk}</dd>
+        <dt>Project toolchain</dt><dd>Java {session.metadata.springBoot.javaRelease}; Maven {session.metadata.springBoot.mavenWrapper}; Spring Boot {session.metadata.springBoot.version}</dd>
+        <dt>JUnit runtime</dt><dd>{session.metadata.junitVersion}</dd>
+        <dt>Active keymap</dt><dd>{session.metadata.keymap}</dd>
+      </dl><p>{session.metadata.conditions} {session.metadata.capture}.</p>
+      <details><summary>Full captured environment and verification checks</summary><pre>{JSON.stringify({ metadata: session.metadata, checks: session.checks }, null, 2)}</pre></details></section>)}
       <h2 id="cuts">Editorial cut map</h2>
-      <p>{evidence.timing.policy} Measured operations are never accelerated. Original elapsed story: {ms(evidence.timing.originalDurationMs)}. Mapped playback: {ms(evidence.timing.durationMs)}. The browser uses one elapsed-active-time clock and suspends it when paused, hidden or offscreen. Native timing excludes these browser pauses.</p>
+      <p>Measured operations are never accelerated. Each recording has its own monotonic clock and cut map below; their intervals are not one uninterrupted native session. The browser uses one elapsed-active-time clock and suspends it when paused, hidden or offscreen. Native timing excludes these browser pauses. A separate 3-second editorial hold follows the final response before full-story playback loops. Reduced motion disables automatic repetition.</p>
       <p>Only explicit reading holds, automated source-entry intervals and navigation intervals qualify for shortening. Unclassified capture/bookkeeping gaps retain their recorded duration. No operation result is moved before its mapped observation time.</p>
-      <details><summary>Inspect all {evidence.timing.cuts.length} classified cuts</summary>
-        <div class="table-scroll" role="region" aria-label="Editorial timing cuts" tabindex="0"><table><thead><tr><th scope="col">Recorded interval</th><th scope="col">Original</th><th scope="col">Playback</th></tr></thead><tbody>{evidence.timing.cuts.map((cut) => <tr><th scope="row"><code>{cut.id}</code><small>{cut.kind}: {cut.reason}<br />{cut.startNs}–{cut.endNs} ns</small></th><td>{ms(cut.durationMs)}</td><td>{ms(cut.shownMs)}</td></tr>)}</tbody></table></div>
-      </details>
+      {sessions.map(session => <details><summary>{session.id}: {session.timing.cuts.length} classified cuts</summary>
+        <p>{session.timing.policy} Original duration: {ms(session.timing.originalDurationMs)}. Mapped duration: {ms(session.timing.durationMs)}.</p>
+        <div class="table-scroll" role="region" aria-label={`Editorial timing cuts: ${session.id}`} tabindex="0"><table><thead><tr><th scope="col">Recorded interval</th><th scope="col">Original</th><th scope="col">Playback</th></tr></thead><tbody>{session.timing.cuts.map((cut) => <tr><th scope="row"><code>{cut.id}</code><small>{cut.kind}: {cut.reason}<br />{cut.startNs}–{cut.endNs} ns</small></th><td>{ms(cut.durationMs)}</td><td>{ms(cut.shownMs)}</td></tr>)}</tbody></table></div>
+      </details>)}
       <h2 id="controls">Functional controls and anomalous runs</h2>
       <p>Controls establish functionality before the nominated representative session. Their timings are not combined with hero timings. A failed control remains a failed control in this archive; it does not supply a successful hero result.</p>
       {evidence.controls.map((control) => <details><summary>{control.id} — {control.completed ? 'PASS: capture completed' : 'FAIL: capture stopped'}</summary><p>{control.failure ?? 'Actual control outcomes and checks are retained in the trace.'}</p><div class="downloads"><a href={control.trace} download>Original control trace</a><a href={control.artifacts} download>Control artifact checksums</a></div><p>Trace SHA-256 <code>{control.traceSha256}</code></p></details>)}

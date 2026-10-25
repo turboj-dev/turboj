@@ -61,3 +61,15 @@ test('runtime rejects missing source/output, unordered events, absent initial st
   assert.throws(() => validateChapter({ ...synthetic, outputs: {} }, synthetic.id));
   assert.throws(() => validateChapter({ ...synthetic, operations: [{ ...synthetic.operations[0], endMs: 800 }] }, synthetic.id));
 });
+test('native command line remains part of the recorded source/output checkpoint when seeking', () => {
+  const commandLine = { visible: true, text: '! curl http://127.0.0.1:18765/hello', caret: 33, focused: true };
+  commandLine.caret = commandLine.text.length;
+  const chapter = { ...synthetic, events: synthetic.events.map((entry) => entry.id === 'dispatch' ? { ...entry, commandLine } : entry) };
+  assert.equal(validateChapter(chapter, chapter.id), chapter);
+  assert.deepEqual(seekChapter(chapter, 1199.999).event.commandLine, commandLine);
+  assert.equal(seekChapter(chapter, 1199.999).event.external, false);
+  assert.equal(seekChapter(chapter, 1200).event.commandLine, undefined);
+  for (const invalid of [{ ...commandLine, caret: -1 }, { ...commandLine, caret: 999 }, { ...commandLine, text: null }]) {
+    assert.throws(() => validateChapter({ ...chapter, events: [{ ...chapter.events[0], commandLine: invalid }, ...chapter.events.slice(1)] }, chapter.id));
+  }
+});

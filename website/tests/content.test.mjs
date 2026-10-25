@@ -20,9 +20,9 @@ test('approved 1.0.10 English copy is present in the rendered HTML', () => {
 });
 
 test('the five-chapter reconstruction explains its evidence and execution limits', () => {
-  assert.match(text, /Recorded TurboJ session, reconstructed in the browser/);
+  assert.match(text, /Recorded TurboJ sessions, reconstructed in the browser/);
   assert.match(text, /No Java runs here/);
-  assert.match(text, /Times from this captured session/);
+  assert.match(text, /Times from each identified captured session/);
   assert.match(html, /data-demo-keymap/);
   assert.match(html, /data-demo-prompt/);
   assert.ok(text.includes('Browser replay. No Java runs here.'));

@@ -7,7 +7,7 @@
 .turboj-demo [hidden] { display: none !important; }
 /* Reserve the controls before lazy evidence arrives; no-JS keeps the screenshot fallback. */
 html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !important; visibility: hidden; pointer-events: none; }
-.demo-screen { display: grid; grid-template-rows: 29px minmax(0, 1fr) 126px 25px; border: 1px solid var(--tj-chrome-border); font: 400 16px/var(--demo-line-height) var(--mono); font-variant-ligatures: none; }
+.demo-screen { --demo-menu-height: 29px; --demo-status-height: 25px; --demo-default-output-height: 126px; display: grid; grid-template-rows: var(--demo-menu-height) minmax(0, 1fr) var(--demo-output-height, var(--demo-default-output-height)) var(--demo-status-height); border: 1px solid var(--tj-chrome-border); font: 400 16px/var(--demo-line-height) var(--mono); font-variant-ligatures: none; }
 .demo-menu, .demo-statusbar { display: flex; align-items: center; gap: 18px; background: var(--tj-menu-background); color: var(--tj-menu-foreground); padding: 0 10px; white-space: pre; overflow: hidden; }
 .demo-menu { font-size: 14px; line-height: 1.5; }
 .demo-workspace { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 0; }
@@ -29,11 +29,17 @@ html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !importan
 .demo-cursor { position: absolute; top: calc(var(--cursor-line, 0) * var(--demo-line-height)); left: calc(var(--cursor-column, 0) * 1ch); width: 1ch; height: 1.35em; background: var(--tj-editor-cursor); pointer-events: none; }
 .demo-shortcut { position: absolute; bottom: 12px; right: 16px; padding: 0 9px; background: var(--tj-syntax-keyword); color: var(--tj-editor-background); font-size: 13px; font-weight: 600; max-width: calc(100% - 24px); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .demo-shortcut:empty { display: none; }
-.demo-console { position: relative; min-height: 0; background: var(--tj-messages-background); color: var(--tj-messages-foreground); border: 1px solid var(--tj-messages-foreground); outline: 2px solid var(--tj-messages-background); margin: 8px 3px 2px; padding: 12px 8px 8px; }
+.demo-console { position: relative; display: flex; flex-direction: column; min-height: 0; background: var(--tj-messages-background); color: var(--tj-messages-foreground); border: 1px solid var(--tj-messages-foreground); outline: 2px solid var(--tj-messages-background); margin: 8px 3px 2px; padding: 12px 8px 8px; font: 400 14px/1.55 var(--mono); }
 .demo-message-border { position: absolute; top: -11px; left: 0; width: 100%; text-align: center; font-size: 12px; line-height: 21px; white-space: nowrap; overflow: hidden; }
 .demo-message-border>span { padding: 0 10px; background: var(--tj-messages-background); }
 .demo-message-border strong { font-weight: 400; }
-.demo-console pre { height: 100%; margin: 0; font: 400 14px/1.55 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; overflow: auto; scrollbar-width: thin; }
+.demo-console pre { min-height: 0; flex: 1; margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; overflow: auto; scrollbar-width: thin; }
+.demo-console-command { display: flex; align-items: baseline; flex: 0 0 auto; min-width: 0; gap: .5ch; border-top: 1px solid var(--tj-messages-foreground); font: inherit; }
+.demo-console-command-field { display: flex; align-items: baseline; min-width: 0; flex: 1; }
+.demo-console-command pre { white-space: pre; overflow-wrap: normal; border-bottom: 1px solid var(--tj-messages-foreground); }
+.demo-console-command-hint { flex: 0 1 auto; max-width: 50%; overflow: hidden; white-space: nowrap; }
+.demo-console-command-caret { display: inline-block; width: 1ch; height: 1.1em; vertical-align: -.1em; background: var(--tj-messages-cursor); color: var(--tj-messages-background); }
+.demo-native-command .demo-console { line-height: 1.4; }
 .demo-statusbar { background: var(--tj-chrome-status-background); color: var(--tj-chrome-status-foreground); font-size: 12px; line-height: 1.5; gap: 22px; }
 .demo-statusbar [data-demo-position] { margin-left: auto; }
 .demo-external { display: flex; flex-direction: column; justify-content: center; gap: 20px; border: 1px solid var(--tj-chrome-border); padding: 24px; font: 400 14px/1.6 var(--mono); background: var(--tj-editor-background); }
@@ -75,19 +81,20 @@ html.demo-js .demo-kind { min-height: 1.6em; }
 .demo-no-script, .demo-load-status { margin-top: 12px; color: var(--tj-syntax-string); font: 12px/1.5 var(--mono); }
 @media (min-width: 1600px) {
   .demo-stage { height: 510px; }
-  .demo-screen { font-size: 18px; grid-template-rows: 31px minmax(0, 1fr) 140px 27px; }
-  .demo-console pre { font-size: 15px; }
+  .demo-screen { font-size: 18px; --demo-menu-height: 31px; --demo-status-height: 27px; --demo-default-output-height: 140px; }
+  .demo-console { font-size: 15px; }
 }
 @media (max-width: 1000px) { .demo-caption { flex-direction: column; gap: 6px; } }
 @media (max-width: 720px) {
   .turboj-demo { margin-top: 22px; }
   .demo-stage { height: 380px; }
-  .demo-screen { font-size: 14px; grid-template-rows: 28px minmax(0, 1fr) 114px 24px; }
+  .demo-screen { font-size: 14px; --demo-menu-height: 28px; --demo-status-height: 24px; --demo-default-output-height: 114px; }
   .demo-workspace.demo-has-explorer { grid-template-columns: 105px minmax(0, 1fr); }
   .demo-explorer { font-size: 11px; }
   .demo-menu { padding: 0 7px; font-size: 11px; }
   .demo-file-border { font-size: 11px; padding: 0 8px; gap: 10px; }
-  .demo-console pre { font-size: 13px; }
+  .demo-console { font-size: 13px; }
+  .demo-console-command-hint { display: none; }
   .demo-message-border { font-size: 10px; }
   .demo-statusbar { font-size: 10px; gap: 14px; padding: 0 6px; }
   .demo-controls { gap: 6px; }

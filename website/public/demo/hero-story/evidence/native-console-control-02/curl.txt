@@ -1,0 +1,8 @@
+:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello
+HTTP/1.1 200 
+Content-Type: application/json
+Content-Length: 29
+Date: Sun, 25 Oct 2026 14:30:57 GMT
+
+{"status":200,"message":"OK"}
+[command exited 0]

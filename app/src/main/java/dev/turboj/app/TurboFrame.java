@@ -3,6 +3,8 @@ package dev.turboj.app;
 import dev.turboj.ai.*;
 import dev.turboj.compiler.*;
 import dev.turboj.config.*;
+import dev.turboj.console.OutputCommandController;
+import dev.turboj.console.OutputCommandGesture;
 import dev.turboj.execution.*;
 import dev.turboj.formatting.FormattingController;
 import dev.turboj.commandj.core.*;
@@ -86,6 +88,8 @@ public final class TurboFrame extends JFrame {
                         }
                     });
     private final ReplPane repl = new ReplPane();
+    private final OutputCommandController outputCommands;
+    private final OutputCommandGesture outputCommandGesture = new OutputCommandGesture();
     private boolean replVisible;
     private final JLabel status = new JLabel(" READY");
     private String projectStatusText = "", projectStatusDetail = "";
@@ -268,6 +272,8 @@ public final class TurboFrame extends JFrame {
             }
         });
         messages.add(console, BorderLayout.CENTER);
+        outputCommands = new OutputCommandController(console, this::outputCommandDirectory,
+                () -> editor.requestFocusInWindow());
         console.setInlineInput(true);
         console.setProgramRunning(false);
         var content = new JPanel(new BorderLayout());
@@ -414,7 +420,18 @@ public final class TurboFrame extends JFrame {
         tests.setAutomatic(settings.autoTest);
         // CommandJ owns shortcut dispatch, including completion controls. The coordinators are
         // invoked by registered commands; their former keys cannot bypass a customized profile.
-        editor.setKeyHandler(e -> false);
+        editor.setKeyHandler(event -> {
+            if (!outputCommandGesture.accepts(event, editor.hasInputComposition())) return false;
+            commands.get("console.commandLine").actionPerformed(
+                    new ActionEvent(editor, ActionEvent.ACTION_PERFORMED, "Esc :"));
+            return true;
+        });
+        editor.addFocusListener(new FocusAdapter() {
+            @Override public void focusLost(FocusEvent event) { outputCommandGesture.reset(); }
+        });
+        editor.addMouseListener(new MouseAdapter() {
+            @Override public void mousePressed(MouseEvent event) { outputCommandGesture.reset(); }
+        });
         editor.setOnChange(this::changed);
         editor.setOnCaretChange(this::updatePosition);
         editor.setText(HELLO);
@@ -699,6 +716,24 @@ public final class TurboFrame extends JFrame {
         return console;
     }
 
+    public OutputCommandController outputCommands() { return outputCommands; }
+
+    /** Snapshot known project state on the EDT; process launch validates the directory off it. */
+    private Path outputCommandDirectory() {
+        if (maven.workspace() != null) {
+            if (file != null) {
+                var module = maven.workspace().moduleFor(file);
+                if (module.isPresent()) return module.get().directory();
+            }
+            return maven.workspace().root();
+        }
+        if (createdProject != null && file != null && file.startsWith(createdProject.root()))
+            return createdProject.root();
+        if (file != null && file.toAbsolutePath().getParent() != null)
+            return file.toAbsolutePath().getParent();
+        return workspaceDirectory();
+    }
+
     /** Called by the native application bootstrap, not by test-only frame construction. */
     public void startFirstLaunch() {
         if (!settings.rememberWorkspace || settings.workspaceDirectory == null || settings.workspaceDirectory.isBlank())
@@ -975,6 +1010,7 @@ public final class TurboFrame extends JFrame {
             java.util.function.Consumer<CommandContext> action,
             java.util.function.Function<CommandContext, Availability> availability) {
         commandRegistry.register(Command.of(id, title, category, (context, cancellation) -> {
+            outputCommandGesture.reset();
             if (quickFix != null && !Set.of("refactor.context-actions", "cut", "copy", "paste", "selectAll").contains(id))
                 quickFix.dismiss(false);
             action.accept(context);
@@ -997,6 +1033,7 @@ public final class TurboFrame extends JFrame {
             case "keymap" -> new String[]{"keyboard settings", "configure shortcuts", "bindings"};
             case "editor.moveStatementUp", "editor.moveStatementDown", "editor.moveCodeBlockUp", "editor.moveCodeBlockDown" -> new String[]{"move method", "move statement", "move block"};
             case "palette" -> new String[]{"find action", "show all commands"};
+            case "console.commandLine" -> new String[]{"shell command", "curl", "vim command line", "Esc :", "! command"};
             default -> new String[]{id.replace('.', ' ')};
         };
     }
@@ -1133,6 +1170,8 @@ public final class TurboFrame extends JFrame {
         if (id.equals("navigation.testFailure") && tests.lastReport().failed() == 0) return Availability.disabled("No failed tests");
         if (id.equals("console.copy") && console.inputComponent().getSelectionStart() == console.inputComponent().getSelectionEnd())
             return Availability.disabled("Select console output first");
+        if (id.equals("console.cancelCommand") && !outputCommands.isRunning())
+            return Availability.disabled("No output command is running");
         if (id.equals("file.reopenClosed") && closedBuffers.isEmpty()) return Availability.disabled("No closed files to reopen");
         if (id.equals("view.restoreLayout") && !editorMaximized) return Availability.disabled("The editor is not maximized");
         if (id.equals("navigation.goToTest") && (!isJavaBuffer() || file == null)) return Availability.disabled("Open a saved Java source file");
@@ -1222,6 +1261,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private static String commandCategory(String id) {
+        if (id.startsWith("console.")) return "Console";
         if (id.startsWith("view.") || id.startsWith("explorer.")) return "Panels";
         if (id.startsWith("navigation.")) return "Navigation";
         if (id.startsWith("file.")) return "File";
@@ -1590,6 +1630,12 @@ public final class TurboFrame extends JFrame {
                     () -> commandKeymaps.select(profile.id()));
         command("menu", "Open menu", () -> menus.getMenu(0).doClick());
         command("escape", "Return to editor / dismiss", () -> {
+            boolean armCommand = editor.isFocusOwner() && !editor.hasInputComposition()
+                    && !editor.templateActive() && editor.caretCount() == 1;
+            if (console.isCommandLineVisible()) {
+                outputCommands.dismiss();
+                refreshWorkspaceMinimums();
+            }
             ++linkedRenameRequest;
             if (quickFix != null) quickFix.dismiss(true);
             editor.finishTemplate();
@@ -1601,6 +1647,7 @@ public final class TurboFrame extends JFrame {
                 intelligence.dismiss();
             if (!completion) editor.removeSecondaryCarets();
             editor.requestFocusInWindow();
+            if (armCommand && !completion) outputCommandGesture.arm();
         });
         command("completion.accept", "Accept suggestion", () -> completionKey("TAB"));
         command("completion.acceptWord", "Accept next AI word",
@@ -1826,6 +1873,12 @@ public final class TurboFrame extends JFrame {
         command("explorer.expand", "Expand Explorer Item", () -> maven.expandSelectedItem(true));
         command("explorer.collapse", "Collapse Explorer Item", () -> maven.expandSelectedItem(false));
         command("console.copy", "Copy Selected Console Output", () -> console.inputComponent().copy());
+        command("console.commandLine", "Output Command Line (:! command)", () -> {
+            showRepl(false);
+            outputCommands.open();
+            refreshWorkspaceMinimums();
+        });
+        command("console.cancelCommand", "Stop Output Command", outputCommands::cancel);
         command("navigation.nextError", "Next Error", () -> nextDiagnostic(true, 1));
         command("navigation.previousError", "Previous Error", () -> nextDiagnostic(true, -1));
         command("navigation.nextWarning", "Next Warning", () -> nextDiagnostic(false, 1));
@@ -2254,7 +2307,7 @@ public final class TurboFrame extends JFrame {
         options.add(new JCheckBoxMenuItem(commands.get("tests.onSave")));
         options.add(new JCheckBoxMenuItem(commands.get("showPressedShortcuts")));
         for (String id : List.of("fontUp", "fontDown", "zoom", "fullscreen", "metrics", "palette",
-                "keymap", "settings.general", "view.focusEditor", "view.focusExplorer", "view.focusConsole", "view.focusJShell", "view.focusDiagnostics", "view.focusNextPanel", "view.maximizeEditor", "view.restoreLayout"))
+                "keymap", "settings.general", "view.focusEditor", "view.focusExplorer", "view.focusConsole", "console.commandLine", "console.cancelCommand", "view.focusJShell", "view.focusDiagnostics", "view.focusNextPanel", "view.maximizeEditor", "view.restoreLayout"))
             options.add(new JMenuItem(commands.get(id)));
         menus.add(options);
         menu("Help", "help");
@@ -3058,7 +3111,7 @@ public final class TurboFrame extends JFrame {
                                             if (waiting) {
                                                 if (replVisible) showRepl(false);
                                                 setMessagesVisible(true);
-                                                console.focusInput();
+                                                if (!console.commandLine().isFocusOwner()) console.focusProgramInput();
                                             }
                                         }));
         execution.whenComplete(
@@ -3067,7 +3120,8 @@ public final class TurboFrame extends JFrame {
                                 () -> {
                                     if (closing || request != runRequest) return;
                                     running = false;
-                                    boolean returnToEditor = console.hasConsoleFocus();
+                                    boolean returnToEditor = console.hasConsoleFocus()
+                                            && !console.commandLine().isFocusOwner();
                                     console.setProgramRunning(false);
                                     if (error != null)
                                         console.append("\nWorker: " + message(error) + "\n", true);
@@ -3085,7 +3139,7 @@ public final class TurboFrame extends JFrame {
                                                 r.exitCode() != 0);
                                     if (returnToEditor) editor.requestFocusInWindow();
                                 }));
-        console.focusInput();
+        console.focusProgramInput();
     }
 
     private void goToError() {
@@ -3420,6 +3474,8 @@ public final class TurboFrame extends JFrame {
         nativeProjectCompiler.shutdownNow();
         if (mavenCompiler != null) Thread.ofPlatform().daemon().name("turboj-compiler-close").start(mavenCompiler::close);
         themeCatalog.close();
+        outputCommandGesture.reset();
+        outputCommands.close();
         repl.close();
         compiler.close();
         Thread.ofPlatform().daemon().name("turboj-plain-compiler-close").start(plainCompiler::close);

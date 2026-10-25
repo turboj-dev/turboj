@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizeFinale } from '../scripts/prepare-console-finale.mjs';
 import { CHAPTERS, privacyCheck, safePath, sha256, timingMap, validateArtifacts, validateCapture, normalizeCapture } from '../scripts/prepare-hero-story.mjs';
 
 const website = fileURLToPath(new URL('../', import.meta.url));
@@ -44,7 +45,7 @@ test('public evidence rejects escaping paths, personal homes and credentials', (
   privacyCheck('/private/tmp/turboj-demo/session/home/.m2/settings.xml');
 });
 
-test('published hero is a complete newly captured five-chapter story with verified native effects', () => {
+test('published hero preserves four historical chapters and a separately verified native console finale', () => {
   const manifest = readJson('/demo/hero-story/manifest.json');
   assert.equal(manifest.verified, true);
   assert.deepEqual(manifest.chapters.map((c) => c.id), CHAPTERS.map(([id]) => id));
@@ -53,24 +54,33 @@ test('published hero is a complete newly captured five-chapter story with verifi
   assert.equal(checked.measurements.length, 18);
   assert(raw.metadata.selectedRepresentativeRun);
   const regenerated = normalizeCapture(raw, manifest.id);
-  assert.deepEqual(regenerated.manifest, manifest, 'Export must be reproducible from the one raw trace');
+  assert.equal(manifest.sessions.length, 2, 'Distinct recordings must retain distinct provenance');
+  assert.match(manifest.composition, /separately recorded/);
+  const finaleSession = manifest.sessions.find(session => session.chapters.includes('spring-boot'));
+  const finaleRaw = readJson(finaleSession.trace);
+  const finale = normalizeFinale(finaleRaw, finaleSession.id);
+  assert.notEqual(finaleSession.id, manifest.id);
+  assert.equal(finaleRaw.events.at(-1).id, 'spring-stopped', 'Cleanup remains evidence');
+  assert.equal(finale.chapter.events.at(-1).id, 'curl-visible-result', 'Visible finale retains real response');
   for (const chapter of manifest.chapters) {
     const bytes = readPublic(chapter.url), data = JSON.parse(bytes);
     assert.equal(sha256(bytes), chapter.sha256);
-    assert.deepEqual(data, regenerated.chapters.find((c) => c.id === data.id));
+    assert.deepEqual(data, data.id === 'spring-boot' ? finale.chapter : regenerated.chapters.find((c) => c.id === data.id));
+    const chapterRaw = data.id === 'spring-boot' ? finaleRaw : raw;
     assert.equal(data.events[0].atMs, 0);
     for (const event of data.events) {
       assert.equal(sha256(data.sources[event.sourceId].text), data.sources[event.sourceId].sha256);
       assert.equal(event.outputId, `output-${sha256(data.outputs[event.outputId])}`);
       assert(event.topLine >= 1);
-      const actual = raw.events.find((e) => e.id === event.id);
+      const actual = chapterRaw.events.find((e) => e.id === event.id);
       assert.equal(data.sources[event.sourceId].text, actual.state.source);
       assert.equal(data.outputs[event.outputId], event.external ? actual.state.externalTerminal : actual.state.console);
       if (event.dialogId) {
         assert.deepEqual(data.dialogs[event.dialogId], actual.state.dialogs);
         assert.equal(event.dialogId, `dialog-${sha256(JSON.stringify(actual.state.dialogs))}`);
       }
-      if (event.kind === 'typing') assert(actual.id.includes('-typing-line-'));
+      if (event.kind === 'typing') assert(actual.id.includes('-typing-line-') || actual.id.startsWith('curl-typing-'));
+      if (event.commandLine) assert.deepEqual(event.commandLine, actual.state.commandLine);
     }
     for (const op of data.operations) assert(Math.abs(op.endMs - op.startMs - op.durationMs) < 1e-6);
   }
@@ -99,6 +109,10 @@ test('every exported source, log, screenshot, raw trace and control artifact ret
     assert.deepEqual(readPublic(project.url), readPublic(project.originalUrl));
   }
   for (const control of evidence.controls) assert.equal(sha256(readPublic(control.trace)), control.traceSha256);
+  for (const session of evidence.sessions) {
+    assert.equal(sha256(readPublic(session.selected.trace)), session.selected.traceSha256);
+    validateArtifacts(path.dirname(path.join(publicRoot, session.selected.trace)), readJson(session.selected.trace));
+  }
   for (const check of ['stdoutVerified', 'stderrVerified', 'diagnosticsVerified', 'settingsRestored', 'ownedServerStopped']) assert.equal(evidence.checks[check], true);
 });
 
@@ -116,10 +130,26 @@ test('missing actual failures, changed source hashes, interleaved chapters and f
 
 test('details are static accessible text with on-demand evidence and no browser localhost requests', () => {
   const page = readFileSync(path.join(website, 'src/pages/demo-session.astro'), 'utf8');
-  assert(page.includes('External curl — recorded command and output'));
+  assert(page.includes('Native Output command line — recorded curl command and output'));
+  assert(page.includes('evidence.composition') && page.includes('evidence.sessions'));
   assert(page.includes('No request is sent from your browser'));
   assert(page.includes('id="sources"') && page.includes('id="logs"') && page.includes('id="cuts"'));
   assert(!page.includes('<img'), 'Original screenshot archive must load only when explicitly requested');
   assert(!page.includes('set:html') && !page.includes('innerHTML'), 'Captured strings must render as text');
   assert(!/fetch\([^)]*(?:localhost|127\.0\.0\.1)/.test(page));
+});
+
+
+test('native console finale rejects synthetic success, changed source, missing keys and unsafe cleanup', () => {
+  const evidence = readJson('/demo/hero-story/evidence.json');
+  const original = readJson(evidence.finale.selected.trace);
+  const mutate = edit => { const raw = structuredClone(original); edit(raw); return raw; };
+  const check = raw => normalizeFinale(raw, evidence.finale.id);
+  assert.throws(() => check(mutate(raw => raw.metadata.curl.httpStatus = 500)), /did not succeed/);
+  assert.throws(() => check(mutate(raw => raw.metadata.checks.nativeKeyboardCommandLine = false)), /Missing native effect/);
+  assert.throws(() => check(mutate(raw => raw.metadata.keyboardEvents = [])), /keyboard route missing/);
+  assert.throws(() => check(mutate(raw => raw.events[0].state.source += 'invented')), /Source hash mismatch/);
+  assert.throws(() => check(mutate(raw => raw.metadata.springStopped = false)), /not stopped/);
+  assert.throws(() => check(mutate(raw => raw.measurements[0].durationNs = 1)), /Inconsistent/);
+  assert.throws(() => check(mutate(raw => raw.events.find(event => event.id === 'curl-result').state.externalTerminal = 'fake external output')), /Native output checkpoint missing/);
 });

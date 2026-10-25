@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { resolveBrowserPath } from './browser-path.mjs';
 import { screenshotAlt } from './copy.mjs';
-import { seekChapter, validateManifest, validateChapter } from '../src/scripts/demo-timeline.ts';
+import { seekChapter, STORY_LOOP_HOLD_MS, validateManifest, validateChapter } from '../src/scripts/demo-timeline.ts';
 
 const baseURL = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
 const artifactRoot = process.env.QA_ARTIFACT_ROOT ?? 'artifacts/hero-story-qa';
@@ -29,7 +29,7 @@ function problems(page) {
 async function state(page) {
   return page.locator('[data-turboj-demo]').evaluate((root) => {
     const text = (name) => root.querySelector(`[data-demo-${name}]`)?.textContent ?? '';
-    return { state: root.dataset.state, chapter: root.dataset.chapter, event: root.dataset.event, elapsed: Number(root.dataset.elapsed), source: text('source'), filename: text('filename'), output: text('output'), external: text('external-output'), announcement: text('announcement'), manualPaused: root.dataset.manualPaused };
+    return { state: root.dataset.state, chapter: root.dataset.chapter, event: root.dataset.event, elapsed: Number(root.dataset.elapsed), source: text('source'), filename: text('filename'), output: text('output'), external: text('external-output'), announcement: text('announcement'), manualPaused: root.dataset.manualPaused, loopHold: root.dataset.loopHold };
   });
 }
 async function ready(page, index = 0) {
@@ -52,6 +52,8 @@ async function assertSnapshot(page, index, atMs) {
   assert.equal(actual.source, chapters[index].sources[event.sourceId].text);
   assert.equal(actual.output, event.external ? '' : chapters[index].outputs[event.outputId]);
   assert.equal(actual.external, event.external ? chapters[index].outputs[event.outputId] : '');
+  assert.equal(await page.locator('[data-demo-console-command]').isVisible(), !event.external && !!event.commandLine?.visible);
+  if (event.commandLine?.visible) assert.equal(await page.locator('[data-demo-console-command-text]').textContent(), event.commandLine.text);
   assert.ok(await page.locator('[data-turboj-demo] *').count() <= 250, `DOM budget exceeded at ${event.id}`);
   return actual;
 }
@@ -243,16 +245,36 @@ try {
     await cdp.detach();
     return { switches: 100, maximumElements: maximum, retainedHeapGrowthBytes: afterHeap.usedSize - beforeHeap.usedSize, longTasks: await page.evaluate(() => window.__demoLongTasks) };
   });
-  await check('the sole Play button restarts after chapter five and traverses every captured interval', async () => {
+  await check('the sole Play button traverses every captured interval and loops after a suspended editorial hold', async () => {
     await page.evaluate(() => { window.__demoSamples = []; window.__promptSamples = []; });
     const play = page.locator('[data-demo-action="pause"]');
     await play.focus(); await page.keyboard.press('Enter');
+    await ready(page, 0);
+    await page.evaluate(() => { window.__demoSamples = []; window.__promptSamples = []; });
     const total = chapters.reduce((sum, chapter) => sum + chapter.durationMs, 0);
     await page.waitForFunction((id) => {
       const root = document.querySelector('[data-turboj-demo]');
-      return root?.dataset.chapter === id && root.dataset.state === 'completed';
+      return root?.dataset.chapter === id && root.dataset.loopHold === 'true';
     }, chapters.at(-1).id, { timeout: total + 20000 });
     await assertSnapshot(page, 4, chapters[4].durationMs);
+    await play.focus(); await page.keyboard.press('Enter');
+    const held = await state(page);
+    assert.equal(held.state, 'paused');
+    await page.waitForTimeout(150); assert.deepEqual(await state(page), held);
+    await play.focus(); await page.keyboard.press('Enter');
+    await page.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, get: () => true }); document.dispatchEvent(new Event('visibilitychange')); });
+    const hiddenHold = await state(page);
+    await page.waitForTimeout(150); assert.deepEqual(await state(page), hiddenHold);
+    await page.evaluate(() => { delete document.hidden; document.dispatchEvent(new Event('visibilitychange')); });
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(100);
+    const offscreenHold = await state(page);
+    await page.waitForTimeout(150); assert.deepEqual(await state(page), offscreenHold);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    const resumedAt = Date.now();
+    await ready(page, 0);
+    assert.ok(Date.now() - resumedAt >= STORY_LOOP_HOLD_MS - (offscreenHold.elapsed - chapters[4].durationMs) - 150, 'Loop must respect remaining active reading time.');
+    await play.focus(); await page.keyboard.press('Enter');
     const samples = await page.evaluate(() => window.__demoSamples);
     const seen = new Set();
     for (const sample of samples) {
@@ -279,6 +301,28 @@ try {
     }
     assert.equal(await page.locator('[data-demo-source]').evaluate((element) => element.closest('[aria-live]:not([aria-live="off"])')), null);
     assert.deepEqual(errors, []);
+  });
+  await check('resuming exactly at a hidden-page chapter or loop boundary advances without a stranded clock', async () => {
+    for (const [index, next] of [[0, 1], [4, 0]]) {
+      await choose(page, index);
+      await page.locator('[data-demo-action="pause"]').focus(); await page.keyboard.press('Enter');
+      await page.waitForFunction(() => Number(document.querySelector('[data-turboj-demo]').dataset.elapsed) > 20);
+      // Test-only overshoot forces freeze() to clamp precisely to the boundary,
+      // independent of the machine's animation-frame cadence. Capture data stays unchanged.
+      await page.evaluate(() => {
+        const actualNow = performance.now.bind(performance);
+        Object.defineProperty(performance, 'now', { configurable: true, value: () => actualNow() + 3600000 });
+        Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
+        document.dispatchEvent(new Event('visibilitychange'));
+        delete performance.now;
+      });
+      const frozen = await state(page);
+      assert.equal(frozen.chapter, chapters[index].id);
+      assert.equal(frozen.elapsed, Math.round((chapters[index].durationMs + (index === 4 ? STORY_LOOP_HOLD_MS : 0)) * 100) / 100);
+      await page.evaluate(() => { delete document.hidden; document.dispatchEvent(new Event('visibilitychange')); });
+      await ready(page, next);
+      await skip(page, next);
+    }
   });
   await context.close();
 
@@ -369,6 +413,20 @@ try {
       await writeFile(new URL(`axe-${viewport.width}.json`, directory), JSON.stringify(audit, null, 2));
       assert.deepEqual(audit.violations.map(({ id, impact, nodes }) => ({ id, impact, targets: nodes.map(({ target }) => target) })), []);
       return { passed: audit.passes.length, incomplete: audit.incomplete.length };
+    });
+    if (viewport.width === 1440) await check('reduced motion holds the final native result without automatic repetition', async () => {
+      await choose(page, 4);
+      await checkpoint(page, 'curl-result');
+      await page.locator('[data-demo-action="pause"]').focus();
+      await page.keyboard.press('Enter');
+      await page.waitForFunction((id) => {
+        const root = document.querySelector('[data-turboj-demo]');
+        return root?.dataset.chapter === id && root.dataset.state === 'completed';
+      }, chapters[4].id);
+      const final = await state(page);
+      assert.equal(final.loopHold, 'false');
+      await page.waitForTimeout(STORY_LOOP_HOLD_MS + 150);
+      assert.deepEqual(await state(page), final);
     });
     await check(`${viewport.width}px: no browser errors`, async () => assert.deepEqual(errors, []));
     await context.close();

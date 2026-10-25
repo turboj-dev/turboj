@@ -25,721 +25,86 @@
       "title": "Hello World",
       "url": "/demo/hero-story/chapters/hello-world.json",
       "durationMs": 4029.156248,
-      "sha256": "e167f95ae9c65a644f0ef3d0f90d3471bffdf67721fdf95853637a1ab68b9be0"
+      "sha256": "e167f95ae9c65a644f0ef3d0f90d3471bffdf67721fdf95853637a1ab68b9be0",
+      "sessionId": "hero-session-2026-10-25"
     },
     {
       "id": "tests",
       "title": "Tests",
       "url": "/demo/hero-story/chapters/tests.json",
       "durationMs": 4822.219084,
-      "sha256": "6040d46a9ba44cfe90794825642e5a62ef52976f518f55a3dc497d25065a6c26"
+      "sha256": "6040d46a9ba44cfe90794825642e5a62ef52976f518f55a3dc497d25065a6c26",
+      "sessionId": "hero-session-2026-10-25"
     },
     {
       "id": "refactoring",
       "title": "Refactoring",
       "url": "/demo/hero-story/chapters/refactoring.json",
       "durationMs": 10849.221085000008,
-      "sha256": "d237b43f616990a5e5d96e3290b52183372c9e7f8cf4d7c64e543ec8781f1d51"
+      "sha256": "d237b43f616990a5e5d96e3290b52183372c9e7f8cf4d7c64e543ec8781f1d51",
+      "sessionId": "hero-session-2026-10-25"
     },
     {
       "id": "automation",
       "title": "AutoRun / AutoTest",
       "url": "/demo/hero-story/chapters/automation.json",
       "durationMs": 8853.138042000002,
-      "sha256": "e522a6137de02f5ddf35b73d1a9019e5255623e342562e62a9248afbb1777091"
+      "sha256": "e522a6137de02f5ddf35b73d1a9019e5255623e342562e62a9248afbb1777091",
+      "sessionId": "hero-session-2026-10-25"
     },
     {
       "id": "spring-boot",
       "title": "Spring Boot + curl",
-      "url": "/demo/hero-story/chapters/spring-boot.json",
-      "durationMs": 9478.133126999976,
-      "sha256": "10d21f0e5834b8267ad074262d147865baf6715e159e05b025ae199ebaae0619"
+      "url": "/demo/hero-story/native-console-native-console-session-2026-10-25/spring-boot.json",
+      "durationMs": 11991.393665999998,
+      "sha256": "3098e0061c820efb2734cc47e9ad206a2b5db320084d5c7f855ee8ae04226e51",
+      "sessionId": "native-console-session-2026-10-25"
     }
   ],
   "rawTrace": "/demo/hero-story/evidence/hero-session-2026-10-25/trace.json",
   "evidenceUrl": "/demo/hero-story/evidence.json",
   "checksumsUrl": "/demo/hero-story/checksums.json",
   "timing": {
-    "originNs": 999888375,
-    "originalDurationMs": 72440.177583,
-    "durationMs": 38031.867585999986,
-    "policy": "Only explicitly classified typing, reading and navigation intervals are shortened. Unknown gaps and measured operations remain at 1×.",
-    "limitsMs": {
-      "typing": 70,
-      "reading": 650,
-      "navigation": 200
-    },
-    "cuts": [
-      {
-        "id": "hello-typing-line-0",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 1660734166,
-        "endNs": 1755731041,
-        "durationMs": 94.996875,
-        "shownMs": 70,
-        "removedMs": 24.996875000000003
-      },
-      {
-        "id": "hello-typing-line-1",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 1772493750,
-        "endNs": 1867636875,
-        "durationMs": 95.143125,
-        "shownMs": 70,
-        "removedMs": 25.143124999999998
-      },
-      {
-        "id": "hello-typing-line-2",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 1882020875,
-        "endNs": 1973087000,
-        "durationMs": 91.066125,
-        "shownMs": 70,
-        "removedMs": 21.066125
-      },
-      {
-        "id": "hello-typing-line-3",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 1988062666,
-        "endNs": 2078577125,
-        "durationMs": 90.514459,
-        "shownMs": 70,
-        "removedMs": 20.514459000000002
-      },
-      {
-        "id": "hello-typing-line-4",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 2094247833,
-        "endNs": 2187907416,
-        "durationMs": 93.659583,
-        "shownMs": 70,
-        "removedMs": 23.659582999999998
-      },
-      {
-        "id": "hello-save-dialog-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 2269238750,
-        "endNs": 3674161583,
-        "durationMs": 1404.922833,
-        "shownMs": 650,
-        "removedMs": 754.9228330000001
-      },
-      {
-        "id": "hello-source-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 3741125541,
-        "endNs": 5141621541,
-        "durationMs": 1400.496,
-        "shownMs": 650,
-        "removedMs": 750.4960000000001
-      },
-      {
-        "id": "hello-compile-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 5186769166,
-        "endNs": 6791801500,
-        "durationMs": 1605.032334,
-        "shownMs": 650,
-        "removedMs": 955.032334
-      },
-      {
-        "id": "hello-run-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 6867004666,
-        "endNs": 8472054625,
-        "durationMs": 1605.049959,
-        "shownMs": 650,
-        "removedMs": 955.049959
-      },
-      {
-        "id": "price-typing-line-0",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 8488834833,
-        "endNs": 8582412750,
-        "durationMs": 93.577917,
-        "shownMs": 70,
-        "removedMs": 23.577917
-      },
-      {
-        "id": "price-typing-line-1",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 8596130791,
-        "endNs": 8689408750,
-        "durationMs": 93.277959,
-        "shownMs": 70,
-        "removedMs": 23.277958999999996
-      },
-      {
-        "id": "price-typing-line-2",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 8704805833,
-        "endNs": 8800105791,
-        "durationMs": 95.299958,
-        "shownMs": 70,
-        "removedMs": 25.299958000000004
-      },
-      {
-        "id": "price-typing-line-3",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 8815346708,
-        "endNs": 8910337375,
-        "durationMs": 94.990667,
-        "shownMs": 70,
-        "removedMs": 24.990667000000002
-      },
-      {
-        "id": "price-typing-line-4",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 8923684000,
-        "endNs": 9015326791,
-        "durationMs": 91.642791,
-        "shownMs": 70,
-        "removedMs": 21.642791000000003
-      },
-      {
-        "id": "price-typing-line-5",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 9031753333,
-        "endNs": 9127103791,
-        "durationMs": 95.350458,
-        "shownMs": 70,
-        "removedMs": 25.350458000000003
-      },
-      {
-        "id": "price-typing-line-6",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 9140502708,
-        "endNs": 9234462375,
-        "durationMs": 93.959667,
-        "shownMs": 70,
-        "removedMs": 23.959666999999996
-      },
-      {
-        "id": "price-typing-line-7",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 9249697625,
-        "endNs": 9340879250,
-        "durationMs": 91.181625,
-        "shownMs": 70,
-        "removedMs": 21.181624999999997
-      },
-      {
-        "id": "price-typing-line-8",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 9356600541,
-        "endNs": 9451942833,
-        "durationMs": 95.342292,
-        "shownMs": 70,
-        "removedMs": 25.342292
-      },
-      {
-        "id": "price-typing-line-9",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 9465401958,
-        "endNs": 9560722125,
-        "durationMs": 95.320167,
-        "shownMs": 70,
-        "removedMs": 25.320166999999998
-      },
-      {
-        "id": "price-source-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 9589847958,
-        "endNs": 10994879041,
-        "durationMs": 1405.031083,
-        "shownMs": 650,
-        "removedMs": 755.0310830000001
-      },
-      {
-        "id": "tests-typing-line-0",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11009549458,
-        "endNs": 11105407000,
-        "durationMs": 95.857542,
-        "shownMs": 70,
-        "removedMs": 25.857541999999995
-      },
-      {
-        "id": "tests-typing-line-1",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11127440541,
-        "endNs": 11217751333,
-        "durationMs": 90.310792,
-        "shownMs": 70,
-        "removedMs": 20.310792000000006
-      },
-      {
-        "id": "tests-typing-line-2",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11234039583,
-        "endNs": 11326843458,
-        "durationMs": 92.803875,
-        "shownMs": 70,
-        "removedMs": 22.803875000000005
-      },
-      {
-        "id": "tests-typing-line-3",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11341368458,
-        "endNs": 11436320833,
-        "durationMs": 94.952375,
-        "shownMs": 70,
-        "removedMs": 24.952375000000004
-      },
-      {
-        "id": "tests-typing-line-4",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11454620250,
-        "endNs": 11549981833,
-        "durationMs": 95.361583,
-        "shownMs": 70,
-        "removedMs": 25.361582999999996
-      },
-      {
-        "id": "tests-typing-line-5",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11563994500,
-        "endNs": 11657771333,
-        "durationMs": 93.776833,
-        "shownMs": 70,
-        "removedMs": 23.776832999999996
-      },
-      {
-        "id": "tests-typing-line-6",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11671596833,
-        "endNs": 11766888541,
-        "durationMs": 95.291708,
-        "shownMs": 70,
-        "removedMs": 25.291708
-      },
-      {
-        "id": "tests-typing-line-7",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11780317791,
-        "endNs": 11873085166,
-        "durationMs": 92.767375,
-        "shownMs": 70,
-        "removedMs": 22.767375
-      },
-      {
-        "id": "tests-typing-line-8",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 11890411750,
-        "endNs": 11985731916,
-        "durationMs": 95.320166,
-        "shownMs": 70,
-        "removedMs": 25.320166
-      },
-      {
-        "id": "tests-typing-line-9",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 12000160583,
-        "endNs": 12091821458,
-        "durationMs": 91.660875,
-        "shownMs": 70,
-        "removedMs": 21.660875000000004
-      },
-      {
-        "id": "tests-typing-line-10",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 12107349000,
-        "endNs": 12202599583,
-        "durationMs": 95.250583,
-        "shownMs": 70,
-        "removedMs": 25.250583000000006
-      },
-      {
-        "id": "tests-typing-line-11",
-        "kind": "typing",
-        "reason": "Automated line entry in the real source editor, with an explicit typing hold",
-        "startNs": 12221584583,
-        "endNs": 12313004583,
-        "durationMs": 91.42,
-        "shownMs": 70,
-        "removedMs": 21.42
-      },
-      {
-        "id": "test-source-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 12348571333,
-        "endNs": 13749025583,
-        "durationMs": 1400.45425,
-        "shownMs": 650,
-        "removedMs": 750.45425
-      },
-      {
-        "id": "tests-before-refactor-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 14072548541,
-        "endNs": 15672649916,
-        "durationMs": 1600.101375,
-        "shownMs": 650,
-        "removedMs": 950.101375
-      },
-      {
-        "id": "tests-output-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 15701895041,
-        "endNs": 17106922000,
-        "durationMs": 1405.026959,
-        "shownMs": 650,
-        "removedMs": 755.026959
-      },
-      {
-        "id": "rename-selection-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 17136423000,
-        "endNs": 18541478708,
-        "durationMs": 1405.055708,
-        "shownMs": 650,
-        "removedMs": 755.0557080000001
-      },
-      {
-        "id": "rename-inspect-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 18614382208,
-        "endNs": 20219410666,
-        "durationMs": 1605.028458,
-        "shownMs": 650,
-        "removedMs": 955.028458
-      },
-      {
-        "id": "rename-form-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 20251280666,
-        "endNs": 21656324083,
-        "durationMs": 1405.043417,
-        "shownMs": 650,
-        "removedMs": 755.0434170000001
-      },
-      {
-        "id": "rename-prepare-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 23281047500,
-        "endNs": 24886104208,
-        "durationMs": 1605.056708,
-        "shownMs": 650,
-        "removedMs": 955.0567080000001
-      },
-      {
-        "id": "rename-apply-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 24951940875,
-        "endNs": 26556049708,
-        "durationMs": 1604.108833,
-        "shownMs": 650,
-        "removedMs": 954.108833
-      },
-      {
-        "id": "renamed-tests-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 26575537208,
-        "endNs": 27980580375,
-        "durationMs": 1405.043167,
-        "shownMs": 650,
-        "removedMs": 755.043167
-      },
-      {
-        "id": "extract-selection-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 28016534750,
-        "endNs": 29421561416,
-        "durationMs": 1405.026666,
-        "shownMs": 650,
-        "removedMs": 755.026666
-      },
-      {
-        "id": "extract-inspect-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 29481782583,
-        "endNs": 31086817833,
-        "durationMs": 1605.03525,
-        "shownMs": 650,
-        "removedMs": 955.0352499999999
-      },
-      {
-        "id": "extract-form-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 31116718875,
-        "endNs": 32521770666,
-        "durationMs": 1405.051791,
-        "shownMs": 650,
-        "removedMs": 755.0517910000001
-      },
-      {
-        "id": "extract-prepare-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 32676502708,
-        "endNs": 34281550708,
-        "durationMs": 1605.048,
-        "shownMs": 650,
-        "removedMs": 955.048
-      },
-      {
-        "id": "extract-apply-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 34349714833,
-        "endNs": 35954764000,
-        "durationMs": 1605.049167,
-        "shownMs": 650,
-        "removedMs": 955.0491669999999
-      },
-      {
-        "id": "tests-after-refactor-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 36116042041,
-        "endNs": 37721094291,
-        "durationMs": 1605.05225,
-        "shownMs": 650,
-        "removedMs": 955.05225
-      },
-      {
-        "id": "refactoring-preserved-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 37758681125,
-        "endNs": 39162880916,
-        "durationMs": 1404.199791,
-        "shownMs": 650,
-        "removedMs": 754.199791
-      },
-      {
-        "id": "autotest-enabled-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 39198750458,
-        "endNs": 40603805416,
-        "durationMs": 1405.054958,
-        "shownMs": 650,
-        "removedMs": 755.0549579999999
-      },
-      {
-        "id": "autotest-edited-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 40643639416,
-        "endNs": 42045619083,
-        "durationMs": 1401.979667,
-        "shownMs": 650,
-        "removedMs": 751.9796670000001
-      },
-      {
-        "id": "autotest-wait-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 42697264708,
-        "endNs": 44302305958,
-        "durationMs": 1605.04125,
-        "shownMs": 650,
-        "removedMs": 955.04125
-      },
-      {
-        "id": "autotest-fails-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 44601804166,
-        "endNs": 46206848083,
-        "durationMs": 1605.043917,
-        "shownMs": 650,
-        "removedMs": 955.043917
-      },
-      {
-        "id": "autotest-fixed-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 46245680375,
-        "endNs": 47650737166,
-        "durationMs": 1405.056791,
-        "shownMs": 650,
-        "removedMs": 755.056791
-      },
-      {
-        "id": "autotest-passes-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 47935483208,
-        "endNs": 49540518708,
-        "durationMs": 1605.0355,
-        "shownMs": 650,
-        "removedMs": 955.0355
-      },
-      {
-        "id": "autorun-enabled-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 49570581708,
-        "endNs": 50975628333,
-        "durationMs": 1405.046625,
-        "shownMs": 650,
-        "removedMs": 755.046625
-      },
-      {
-        "id": "autorun-edited-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 51017457500,
-        "endNs": 52422511208,
-        "durationMs": 1405.053708,
-        "shownMs": 650,
-        "removedMs": 755.0537079999999
-      },
-      {
-        "id": "autorun-wait-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 53075893541,
-        "endNs": 54676321500,
-        "durationMs": 1600.427959,
-        "shownMs": 650,
-        "removedMs": 950.4279590000001
-      },
-      {
-        "id": "autorun-saved-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 54909617291,
-        "endNs": 56514664333,
-        "durationMs": 1605.047042,
-        "shownMs": 650,
-        "removedMs": 955.0470419999999
-      },
-      {
-        "id": "maven-import-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 57165422875,
-        "endNs": 58767266916,
-        "durationMs": 1601.844041,
-        "shownMs": 650,
-        "removedMs": 951.8440410000001
-      },
-      {
-        "id": "spring-source-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 59335430750,
-        "endNs": 60740509750,
-        "durationMs": 1405.079,
-        "shownMs": 650,
-        "removedMs": 755.079
-      },
-      {
-        "id": "spring-build-menu-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 60777885375,
-        "endNs": 62178383458,
-        "durationMs": 1400.498083,
-        "shownMs": 650,
-        "removedMs": 750.498083
-      },
-      {
-        "id": "spring-goal-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 62225475875,
-        "endNs": 63628378333,
-        "durationMs": 1402.902458,
-        "shownMs": 650,
-        "removedMs": 752.902458
-      },
-      {
-        "id": "spring-trust-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 63657104500,
-        "endNs": 65062145583,
-        "durationMs": 1405.041083,
-        "shownMs": 650,
-        "removedMs": 755.0410830000001
-      },
-      {
-        "id": "spring-confirm-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 65125918750,
-        "endNs": 66530954500,
-        "durationMs": 1405.03575,
-        "shownMs": 650,
-        "removedMs": 755.03575
-      },
-      {
-        "id": "spring-startup-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 68671823958,
-        "endNs": 70276871541,
-        "durationMs": 1605.047583,
-        "shownMs": 650,
-        "removedMs": 955.047583
-      },
-      {
-        "id": "curl-command-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 70349123750,
-        "endNs": 71754145583,
-        "durationMs": 1405.021833,
-        "shownMs": 650,
-        "removedMs": 755.021833
-      },
-      {
-        "id": "curl-reading",
-        "kind": "reading",
-        "reason": "Intentional presentation reading hold; outside measured operation boundaries",
-        "startNs": 71813029833,
-        "endNs": 73418071208,
-        "durationMs": 1605.041375,
-        "shownMs": 650,
-        "removedMs": 955.041375
+    "policy": "Each session has its own monotonic clock and editorial cut map. All recorded operations remain at 1×.",
+    "durationMs": 40545.12812500001,
+    "sessions": [
+      {
+        "id": "hero-session-2026-10-25",
+        "chapters": [
+          "hello-world",
+          "tests",
+          "refactoring",
+          "automation"
+        ],
+        "trace": "/demo/hero-story/evidence/hero-session-2026-10-25/trace.json"
+      },
+      {
+        "id": "native-console-session-2026-10-25",
+        "chapters": [
+          "spring-boot"
+        ],
+        "trace": "/demo/hero-story/evidence/native-console-session-2026-10-25/trace.json"
       }
     ]
-  }
+  },
+  "sessions": [
+    {
+      "id": "hero-session-2026-10-25",
+      "chapters": [
+        "hello-world",
+        "tests",
+        "refactoring",
+        "automation"
+      ],
+      "trace": "/demo/hero-story/evidence/hero-session-2026-10-25/trace.json"
+    },
+    {
+      "id": "native-console-session-2026-10-25",
+      "chapters": [
+        "spring-boot"
+      ],
+      "trace": "/demo/hero-story/evidence/native-console-session-2026-10-25/trace.json"
+    }
+  ],
+  "composition": "Chapters 1–4 retain the original recording. The native command-line finale is a separately recorded session with its own build and monotonic clock; timings are never combined into a single-session claim."
 }

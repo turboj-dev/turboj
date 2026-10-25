@@ -1,0 +1,39 @@
+{
+  "observedAt": "2026-10-25T14:35:38.582078+00:00",
+  "appJarSha256": "c79d587a14c0c2af960271926268e54d42a6b7116ed1354e422f00969ee1363c",
+  "unitCommand": "./mvnw -q -pl app -am -Dtest=OutputCommandGestureTest,OutputCommandControllerTest,OutputCommandRunnerTest,ConsolePaneTest -Dsurefire.failIfNoSpecifiedTests=false package",
+  "unitResults": [
+    {
+      "class": "dev.turboj.console.OutputCommandRunnerTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "class": "dev.turboj.console.OutputCommandControllerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "class": "dev.turboj.console.OutputCommandGestureTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "class": "dev.turboj.ui.ConsolePaneTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "nativeKeyboardAssertions": 24,
+  "separateMouseRoutingAssertion": 1,
+  "nativeReportSha256": "cdde26a24ffde5d5a233b0a66362fca7b9b52198b6ad7063078ab266e49d1bfa",
+  "limitations": "Swing keyboard/focus dispatch in a real macOS frame; profile and fixture setup programmatic. The separate mouse probe dispatches a synthetic MouseEvent. Physical keyboard layouts and OS input-method behavior were not verified."
+}

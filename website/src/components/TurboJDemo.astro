@@ -5,7 +5,7 @@ import '../styles/turboj-demo.css';
 ---
 <script is:inline>document.documentElement.classList.add('demo-js');</script>
 <section class="turboj-demo" id="demo" data-turboj-demo aria-label="Recorded TurboJ development workflow" aria-describedby="demo-description">
-  <p id="demo-description" class="sr-only">Five chapters reconstruct a measured native session. Source and console regions can be scrolled with the keyboard. Complete sources, logs, captures, and measurements are available in session details. No Java executes in your browser.</p>
+  <p id="demo-description" class="sr-only">Five chapters reconstruct measured native sessions. Source and console regions can be scrolled with the keyboard. Complete sources, logs, captures, and measurements are available in session details. No Java executes in your browser.</p>
   <div class="demo-stage">
     <ProductScreenshot />
     <div class="demo-screen" data-demo-screen hidden>
@@ -29,6 +29,10 @@ import '../styles/turboj-demo.css';
       <div class="demo-console">
         <div class="demo-message-border" aria-hidden="true"><span>Output</span></div>
         <pre data-demo-output tabindex="0" role="region" aria-label="Recorded TurboJ console; use arrow keys to scroll"></pre>
+        <div class="demo-console-command" data-demo-console-command hidden>
+          <span aria-hidden="true">:</span><div class="demo-console-command-field"><span aria-hidden="true">[</span><pre data-demo-console-command-text tabindex="0" role="region" aria-label="Recorded TurboJ command line; use arrow keys to scroll"></pre><span aria-hidden="true">]</span></div>
+          <span class="demo-console-command-hint" data-demo-console-command-hint></span>
+        </div>
       </div>
       <div class="demo-statusbar" aria-hidden="true"><span data-demo-status></span><span data-demo-position></span></div>
     </div>
@@ -72,7 +76,7 @@ import '../styles/turboj-demo.css';
     <p class="demo-kind" data-demo-keymap></p>
   <progress class="demo-progress" data-demo-progress max="1" value="0" aria-label="Chapter replay progress" hidden></progress>
   <div class="demo-caption">
-    <div><p>Recorded TurboJ session, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened.</p><p>Times from this captured session. <span data-demo-cache hidden>Dependencies already cached.</span></p></div>
+    <div><p>Recorded TurboJ sessions, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened.</p><p>Times from each identified captured session. <span data-demo-cache hidden>Dependencies already cached.</span></p></div>
   </div>
   <p class="demo-load-status" data-demo-load-status role="status" hidden>Loading recorded session. The image above is an earlier native screenshot.</p>
   </div>

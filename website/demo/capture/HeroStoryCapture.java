@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
-/** External capture instrumentation. Compiled against the unmodified released app JAR. */
+/** External instrumentation compiled against the actual native app JAR; the driver never patches its behavior. */
 public final class HeroStoryCapture {
     private static final String BOUNDARY = "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.";
     private final Path output, workspace;
@@ -45,8 +45,20 @@ public final class HeroStoryCapture {
         HeroStoryCapture capture = new HeroStoryCapture(output, Arrays.asList(args).contains("--presentation"));
         try {
             if (Arrays.asList(args).contains("--controls")) capture.runControls();
-            capture.runPlain();
-            if (Arrays.asList(args).contains("--spring")) capture.runSpring();
+            if (Arrays.asList(args).contains("--console-finale")) {
+                capture.metadata.put("scope", "Fresh final chapter only; earlier hero chapters retain their historical capture provenance.");
+                capture.metadata.put("conditions", "Fresh app JVM and private workspace/configuration. Warm, offline Maven dependency cache. This is a separately recorded replacement finale, not the session that supplied chapters A-D.");
+                var buildSources = new TreeMap<String,String>();
+                try (var paths = Files.walk(Path.of("app/src/main/java"))) {
+                    for (var path : paths.filter(Files::isRegularFile).sorted().toList()) buildSources.put(path.toString(), sha(Files.readAllBytes(path)));
+                }
+                Files.writeString(output.resolve("native-build-source-hashes.json"), new GsonBuilder().setPrettyPrinting().create().toJson(buildSources) + "\n");
+                capture.metadata.put("buildProvenance", "turbojCommit identifies the base checkout; the native command-line implementation was built from the current working tree. The app JAR hash and native-build-source-hashes.json identify the exact captured build inputs.");
+                Class.forName("dev.turboj.app.HeroConsoleSpringCapture").getMethod("run", HeroStoryCapture.class).invoke(null, capture);
+            } else {
+                capture.runPlain();
+                if (Arrays.asList(args).contains("--spring")) capture.runSpring();
+            }
             capture.metadata.put("completed", true);
         } catch (Throwable failure) {
             capture.metadata.put("completed", false);
@@ -306,6 +318,15 @@ public final class HeroStoryCapture {
             state.put("cursorOffset", location.caret());
             state.put("topLine", location.topLine());
             state.put("console", frame.console().text());
+            // The row is real Swing UI; the website never invents a shell control.
+            if (Boolean.TRUE.equals(metadata.get("nativeConsoleFinale"))) {
+                var input = frame.console().commandLine();
+                state.put("commandLine", Map.of("visible", frame.console().isCommandLineVisible(),
+                        "text", input.getText(), "caret", input.getCaretPosition(), "focused", input.isFocusOwner(),
+                        "hint", frame.console().commandLineHint()));
+                var split = (JSplitPane)field(frame, "outputSplit");
+                state.put("outputFraction", split.getHeight() == 0 ? 0.3 : (double)split.getBottomComponent().getHeight() / split.getHeight());
+            }
             state.put("status", field(frame, "buildStatus"));
             state.put("autoRunOnSave", settings.autoRunOnSave);
             state.put("autoTestOnSave", settings.autoTestOnSave);

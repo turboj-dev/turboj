@@ -1,0 +1,3 @@
+MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline
+build.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it
+MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline

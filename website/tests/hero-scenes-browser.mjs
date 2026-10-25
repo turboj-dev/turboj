@@ -17,7 +17,8 @@ const scenes = [
   { chapter: 1, event: 'tests-before-refactor-result', dialog: true },
   { chapter: 3, event: 'autotest-enabled', menu: true },
   { chapter: 4, event: 'spring-source', source: true },
-  { chapter: 4, event: 'curl-result', external: true },
+  { chapter: 4, event: 'curl-commandline-open', commandLine: true },
+  { chapter: 4, event: 'curl-result', nativeCurl: true },
 ];
 const report = { timestamp: new Date().toISOString(), baseURL, sessionId: manifest.id, browser: '', checks: [], failures: [] };
 const browser = await chromium.launch({ executablePath: resolveBrowserPath(), headless: true });
@@ -133,11 +134,48 @@ try {
             focus.push(await focusAndScroll(page, page.getByRole('region', { name: 'Recorded source; use arrow keys to scroll', exact: true })));
             focus.push(await focusAndScroll(page, page.getByRole('region', { name: 'Recorded Maven project explorer; use arrow keys to scroll', exact: true })));
           } else {
-            const region = page.getByRole('region', { name: 'Recorded external curl command and output', exact: true });
-            assert.equal(await region.textContent(), chapter.outputs[event.outputId]);
-            assert.match(await region.textContent(), /Hello from TurboJ!/);
-            assert.equal(await page.locator('[data-demo-screen]').isVisible(), false);
-            focus.push(await focusAndScroll(page, region));
+            assert.equal(event.external, false, 'The final scene must come from the actual native command runner.');
+            assert.equal(await page.locator('[data-demo-screen]').isVisible(), true);
+            assert.equal(await page.locator('[data-demo-external]').isVisible(), false);
+            assert.equal(await page.locator('[data-demo-explorer]').isVisible(), true);
+            if (scene.commandLine) {
+              const region = page.getByRole('region', { name: 'Recorded TurboJ command line; use arrow keys to scroll', exact: true });
+              assert.equal(await region.textContent(), event.commandLine.text);
+              assert.equal(await page.locator('[data-demo-console-command]').isVisible(), true);
+              if (event.commandLine.focused) {
+                const caret = await page.locator('.demo-console-command-caret').evaluate(element => ({ width: element.getBoundingClientRect().width, height: element.getBoundingClientRect().height }));
+                assert.ok(caret.width > 0 && caret.height >= 12, 'The native block caret must remain visible for an empty field or end-of-line position.');
+              }
+              const fonts = await page.locator('[data-demo-console-command]').evaluate(element => [element.querySelector('span'), element.querySelector('pre')].map(item => getComputedStyle(item).fontSize));
+              assert.equal(fonts[0], fonts[1], 'The native prompt and command text share one font size.');
+              focus.push(await focusAndScroll(page, region));
+            } else {
+              const region = page.getByRole('region', { name: 'Recorded TurboJ console; use arrow keys to scroll', exact: true });
+              assert.equal(await region.textContent(), chapter.outputs[event.outputId]);
+              assert.match(await region.textContent(), /HTTP\/1\.1 200/);
+              assert.match(await region.textContent(), /"status"\s*:\s*200/);
+              assert.match(await region.textContent(), /"message"\s*:\s*"OK"/);
+              assert.match(await region.textContent(), /\[command exited 0\]/);
+              const arrival = await region.evaluate((element, desktop) => {
+                const viewport = element.getBoundingClientRect();
+                const text = element.firstChild;
+                const command = text.textContent.split('\n').find(line => line.startsWith(':! curl '));
+                const needles = ['{"status":200,"message":"OK"}', '[command exited 0]', ...(desktop ? [command, 'HTTP/1.1 200'] : [])];
+                const ranges = needles.map(needle => {
+                  const at = text.textContent.indexOf(needle);
+                  if (at < 0) return { needle, visible: false };
+                  const range = document.createRange(); range.setStart(text, at); range.setEnd(text, at + needle.length);
+                  const bounds = range.getBoundingClientRect();
+                  return { needle, visible: bounds.top >= viewport.top - 1 && bounds.bottom <= viewport.bottom + 1, top: bounds.top - viewport.top, bottom: bounds.bottom - viewport.top, viewportHeight: viewport.height };
+                });
+                return { scrollTop: element.scrollTop, maxScrollTop: element.scrollHeight - element.clientHeight, ranges };
+              }, viewport.width >= 1440);
+              await page.locator('.demo-stage').screenshot({ path: new URL(`${file}-arrival.png`, directory).pathname });
+              await page.screenshot({ path: new URL(`${file}-arrival-viewport.png`, directory).pathname });
+              assert.ok(Math.abs(arrival.scrollTop - arrival.maxScrollTop) <= 1, `Final result must arrive scrolled to the bottom: ${JSON.stringify(arrival)}`);
+              assert.ok(arrival.ranges.every(range => range.visible), `The real JSON and exit result must be visibly inside Output on arrival: ${JSON.stringify(arrival)}`);
+              focus.push(await focusAndScroll(page, region));
+            }
           }
           assert.equal(await page.locator('[data-turboj-demo]').getAttribute('data-event'), scene.event, 'Keyboard inspection must not advance reduced-motion playback.');
           return { ...layout, focus, originalCapture: event.screenshot };

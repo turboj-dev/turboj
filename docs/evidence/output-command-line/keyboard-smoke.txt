@@ -1,0 +1,29 @@
+Started: 2026-10-25T14:34:24.757591Z
+Real Swing keyboard/focus dispatch; fixture and profile selection programmatic.
+App artifact SHA-256: c79d587a14c0c2af960271926268e54d42a6b7116ed1354e422f00969ee1363c
+PASS intellij-macos: ordinary colon edits source
+PASS intellij-macos: Esc colon opens without editing source
+PASS intellij-macos: real shell output and exit zero
+PASS intellij-macos: Escape closes command row
+PASS intellij-macos: draft survives Escape
+PASS eclipse-macos: ordinary colon edits source
+PASS eclipse-macos: Esc colon opens without editing source
+PASS eclipse-macos: real shell output and exit zero
+PASS eclipse-macos: Escape closes command row
+PASS eclipse-macos: draft survives Escape
+PASS vscode-macos: ordinary colon edits source
+PASS vscode-macos: Esc colon opens without editing source
+PASS vscode-macos: real shell output and exit zero
+PASS vscode-macos: Escape closes command row
+PASS vscode-macos: draft survives Escape
+PASS turboj-classic: ordinary colon edits source
+PASS turboj-classic: Esc colon opens without editing source
+PASS turboj-classic: real shell output and exit zero
+PASS turboj-classic: Escape closes command row
+PASS turboj-classic: draft survives Escape
+PASS Typing another character cancels armed colon
+PASS Caret movement cancels armed colon
+PASS Control+C cancels only the output command
+PASS Up retrieves command history
+PASS Separate synthetic mouse probe: clicking program output focuses stdin while preserving shell row
+PASS complete: 25 assertions.

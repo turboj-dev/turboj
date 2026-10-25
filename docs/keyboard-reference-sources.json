@@ -1,20 +1,25 @@
 {
-  "schema": 1,
   "generatedfiles": {
-    "docs/keyboard-command-inventory.md": "b04078d74a88d5ffc860621ade5caa38c807fdf97bf9c060d1cae473e1f20b74",
+    "docs/keyboard-command-inventory.md": "5cfc745a60d8af29ad4771d57de6e52991ab87a5da445d5172b5fd0d5166afc7",
     "docs/keyboard-conflicts.md": "53893119ab66bd4a49b1cbdc7297a73c43ff4ce4ee1a5620001104220cacf002",
-    "docs/keyboard-shortcut-reference.md": "a5af2eb67d2e21e15ccb5003f7dc354d225e14e9b5614dff854bd36ebc34e039"
+    "docs/keyboard-shortcut-reference.md": "620693d3c8ee3489d612768fef21b39ae9f52cfce2274894e8819838ce706e3c"
   },
-  "aliases": 29,
+  "schema": 1,
+  "commands": 270,
+  "generatedAt": "2026-10-25T14:32:18.440504Z",
+  "artifactSha256": "c79d587a14c0c2af960271926268e54d42a6b7116ed1354e422f00969ee1363c",
   "files": {
     "app/src/main/java/dev/turboj/ai/AICompletionController.java": "843a333a7837585415d86ef1272ab74fb6934782632862c7d1cb82874ca8cbc3",
     "app/src/main/java/dev/turboj/ai/AISettingsDialog.java": "92e150390b3855b1b232e760740df8128ef2b87d19df0be27ce8ad15db95638d",
     "app/src/main/java/dev/turboj/ai/CredentialStore.java": "b897fd1de454a72c628f6b0711bcaa350dc745924b7106e2414b8ca1bec1ef10",
     "app/src/main/java/dev/turboj/ai/MacKeychainCredentialStore.java": "b20717eab42703853ca0536b53ad8b956d8f9301cd6b49a164a8740aff42feef",
-    "app/src/main/java/dev/turboj/app/TurboFrame.java": "fd8a22d2ecec8da21474a8d52ecab995bef81a4ffaa51d59f3d7baa2006d7788",
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "7c4cda6e18dc8e2655132c1d6f4b9576db41f8a8e49a0618728796c892499343",
     "app/src/main/java/dev/turboj/app/TurboJ.java": "508917e86b43a1c6283d59ffbe608822eda944b07967b1c8fde2f5c404e6d0bd",
     "app/src/main/java/dev/turboj/config/SafeFiles.java": "d365a28d3fa273b88ea289d0b10d53a4720e95a64c5415efa4e6c25ccaaf987b",
     "app/src/main/java/dev/turboj/config/Settings.java": "690fc01879eb4cf4bd96f081d248a63c3c9890ace9f35904b43eaab4bd4b4ce0",
+    "app/src/main/java/dev/turboj/console/OutputCommandController.java": "ce22e5934b471272f700fc8f2c8307eaece7fc7516f1d3988412db31cbce2fbe",
+    "app/src/main/java/dev/turboj/console/OutputCommandGesture.java": "646205c3951ba8bec1f5cbc54487bf7b246b6d912d72cf4aa962fa6fcfb95e15",
+    "app/src/main/java/dev/turboj/console/OutputCommandRunner.java": "3cc8e691de0422db9d9fb5ce259695f0c391e8484b04e1b0808006924cec34d0",
     "app/src/main/java/dev/turboj/formatting/FormattingController.java": "e04664f47f544146e59d930287771f791341df2ee6a14ecd15fdadaa3c7cd7ad",
     "app/src/main/java/dev/turboj/intelligence/CompletionCoordinator.java": "5783b28b4033b24db98f9c7c39e88f4344d824d123a791f0df37c833c510b0dc",
     "app/src/main/java/dev/turboj/intelligence/InlinePopup.java": "c748c61e7b780fdc99a6b32c1ceec708e532bce2a2ddc0134429fba99e313a58",
@@ -36,7 +41,7 @@
     "app/src/main/java/dev/turboj/testing/TurboTestController.java": "3749a4ddd4d11a80266fa21bb5502479253ef8b5d4eaa1cec48ff6a7e071f0af",
     "app/src/main/java/dev/turboj/ui/AsciiChrome.java": "ed4396cf40f8501cf02df605b78f0d8b568878ce11be55485b7d9155674a262b",
     "app/src/main/java/dev/turboj/ui/AsciiMenuBar.java": "5440bc137efc6be8bbc107dfe6baef191f1e52f00d87e210f272fb32cd71a950",
-    "app/src/main/java/dev/turboj/ui/ConsolePane.java": "63cbf1c22c843b9a774d432e4f7ed2a899d3f2b2c04503a1528fcf0d9ad97081",
+    "app/src/main/java/dev/turboj/ui/ConsolePane.java": "b2409e5e16817bd7d0bf30b094ecc2c54355fa3da7a20f1ef723fcee44a92cbc",
     "app/src/main/java/dev/turboj/ui/EditorComponent.java": "f2a743f753cee4be59aabc65d1c78dc2ea21fe3fbf08ae91bf466d15e5b8298f",
     "app/src/main/java/dev/turboj/ui/InFramePopupFactory.java": "014e90169e1d83022f2fde1bd9770bbcee16d827b489946bf1464cbc8887c361",
     "app/src/main/java/dev/turboj/ui/MenuStyler.java": "2c88a7762bc7d4cca4e8f74d835df84950542aa906b0b754591d0cfe5eb2af13",
@@ -98,7 +103,5 @@
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/Requests.java": "ab42bc001dcb45cad7e256f5ed298a57f711594e45d58d640885fe340d1ad842",
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/SourceInventory.java": "3a0f1e47534a69f15a6cd29259da4e4b48055b7bac437bc11039766911929cba"
   },
-  "artifactSha256": "782d81bfc43b628bd143837f9d755be4b4ae8e4e148c77be83f12f2b2deeb651",
-  "generatedAt": "2026-10-25T13:53:49.049479Z",
-  "commands": 268
+  "aliases": 29
 }

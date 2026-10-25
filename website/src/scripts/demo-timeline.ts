@@ -1,5 +1,7 @@
 /** Captured checkpoints, never inferred editor effects or invented operation times. */
 export const CHAPTER_TITLES = ['Hello World', 'Tests', 'Refactoring', 'AutoRun / AutoTest', 'Spring Boot + curl'] as const;
+/** Editorial reading time after the last captured result, never part of an operation measurement. */
+export const STORY_LOOP_HOLD_MS = 3000;
 
 export interface DemoManifest {
   schemaVersion: 1;
@@ -32,6 +34,8 @@ export interface DemoEvent {
   screenshot?: string;
   menuItems?: { text?: string; separator?: boolean; enabled?: boolean; selected?: boolean; accelerator?: string }[];
   explorer?: { visible: boolean; rows: { text: string; depth: number; expanded: boolean; selected: boolean }[] };
+  commandLine?: { visible: boolean; text: string; caret: number; focused?: boolean; hint?: string };
+  outputFraction?: number;
 }
 export interface DemoOperation {
   id: string;
@@ -83,6 +87,10 @@ export function validateChapter(value: DemoChapter, id: string) {
     || value.events.some((event, index) => !Number.isFinite(event.atMs) || event.atMs < 0
       || event.atMs > value.durationMs || (index > 0 && event.atMs < value.events[index - 1].atMs)
       || !(event.sourceId in value.sources) || typeof value.outputs[event.outputId] !== 'string'
+      || (event.outputFraction !== undefined && (!Number.isFinite(event.outputFraction) || event.outputFraction <= 0 || event.outputFraction >= 1))
+      || (event.commandLine !== undefined && (typeof event.commandLine.visible !== 'boolean'
+        || typeof event.commandLine.text !== 'string' || !Number.isInteger(event.commandLine.caret)
+        || event.commandLine.caret < 0 || event.commandLine.caret > event.commandLine.text.length))
       || (event.dialogId !== undefined && !value.dialogs?.[event.dialogId]?.length))
     || value.operations.some((operation) => operation.startMs < 0 || operation.endMs > value.durationMs
       || operation.endMs < operation.startMs || Math.abs(operation.endMs - operation.startMs - operation.durationMs) > .01)) {

@@ -1,4 +1,4 @@
-import { seekChapter, validateChapter, validateManifest, type DemoChapter, type DemoEvent, type DemoManifest } from './demo-timeline';
+import { seekChapter, STORY_LOOP_HOLD_MS, validateChapter, validateManifest, type DemoChapter, type DemoEvent, type DemoManifest } from './demo-timeline';
 
 const root = document.querySelector<HTMLElement>('[data-turboj-demo]');
 if (root) initialize(root);
@@ -12,6 +12,8 @@ function initialize(root: HTMLElement) {
   const stage = root.querySelector<HTMLElement>('.demo-stage')!;
   const source = get('source');
   const output = get('output');
+  const commandLine = get('console-command');
+  const commandText = get('console-command-text');
   const cursor = get('cursor');
   const viewport = root.querySelector<HTMLElement>('.demo-code-viewport')!;
   const progress = get<HTMLProgressElement>('progress');
@@ -52,15 +54,18 @@ function initialize(root: HTMLElement) {
     if (event.target !== pause) focusRevision++;
   });
 
+  function loopsStory() { return fullStory && selected === manifest?.chapters.length - 1 && !motion.matches; }
+  function playbackDuration() { return chapter ? chapter.durationMs + (loopsStory() ? STORY_LOOP_HOLD_MS : 0) : 0; }
   function canPlay() {
-    return !!chapter && !loading && !manualPaused && onScreen && !document.hidden && elapsed < chapter.durationMs;
+    return !!chapter && !loading && !manualPaused && onScreen && !document.hidden && elapsed < playbackDuration();
   }
   function clockState() {
-    root.dataset.state = loading ? 'loading' : !chapter ? 'error' : elapsed >= chapter.durationMs ? 'completed' : canPlay() ? 'playing' : 'paused';
+    root.dataset.state = loading ? 'loading' : !chapter ? 'error' : elapsed >= playbackDuration() ? 'completed' : canPlay() ? 'playing' : 'paused';
+    root.dataset.loopHold = String(loopsStory() && !!chapter && elapsed >= chapter.durationMs);
     root.dataset.manualPaused = String(manualPaused);
     root.dataset.started = String(autoStarted);
     pause.textContent = canPlay() ? 'Pause' : 'Play';
-    const label = canPlay() ? 'Pause the recorded story' : selected === 4 && chapter && elapsed >= chapter.durationMs ? 'Replay the recorded five-chapter story' : 'Play or continue the recorded five-chapter story';
+    const label = canPlay() ? 'Pause the recorded story' : selected === 4 && chapter && elapsed >= playbackDuration() ? 'Replay the recorded five-chapter story' : 'Play or continue the recorded five-chapter story';
     pause.setAttribute('aria-label', label);
     pause.title = label;
     for (const button of buttons) {
@@ -101,9 +106,10 @@ function initialize(root: HTMLElement) {
       if (id === 'autorun-saved-start') return 'Saving starts the updated program.';
       return id.startsWith('autotest') ? 'Auto Test waits for a successful save.' : 'Auto Run waits for a successful save.';
     }
-    if (id === 'spring-stopped') return 'Session complete. The server stopped.';
-    if (id === 'curl-result') return 'curl returned Hello from TurboJ!';
-    if (id.startsWith('curl')) return 'Running external curl.';
+    if (id === 'spring-stopped') return loopsStory() ? 'Recorded server stopped. The story repeats.' : 'Session complete. The server stopped.';
+    if (id === 'curl-result' || id === 'curl-visible-result') return event.external ? 'curl returned Hello from TurboJ!' : 'curl returned HTTP 200 and JSON in Output.';
+    if (id === 'curl-commandline-open') return 'Esc, then : opens the Output command line.';
+    if (id.startsWith('curl')) return event.external ? 'Running external curl.' : 'Running :! curl from TurboJ Output.';
     if (id === 'spring-startup-result') return 'Spring Boot is ready for HTTP.';
     if (id === 'maven-import-result') return 'Cached Maven dependencies resolved.';
     if (id.startsWith('maven-import')) return 'Importing the Maven project.';
@@ -196,7 +202,6 @@ function initialize(root: HTMLElement) {
     cursor.hidden = event.selectionStart !== event.selectionEnd;
     get('position').textContent = `${lines.length}:${[...lines.at(-1)!].length + 1}`;
     root.dataset.sourceLength = String(snapshot.text.length);
-    viewport.scrollTop = Math.max(0, event.topLine - 1) * parseFloat(getComputedStyle(source).lineHeight);
   }
   function renderOverlay(event: DemoEvent) {
     const restoreFocus = overlay.contains(document.activeElement);
@@ -280,12 +285,14 @@ function initialize(root: HTMLElement) {
   function render() {
     if (!chapter) return;
     const current = seekChapter(chapter, elapsed);
-    elapsed = current.elapsedMs;
+    elapsed = Math.max(0, Math.min(playbackDuration(), elapsed));
     const event = current.event;
     if (renderedEvent !== event.id) {
       renderSource(event);
       get('filename').textContent = event.filename;
       get('status').textContent = event.status;
+      if (event.outputFraction !== undefined) screen.style.setProperty('--demo-output-height', `calc((100% - var(--demo-menu-height) - var(--demo-status-height)) * ${event.outputFraction})`);
+      else screen.style.removeProperty('--demo-output-height');
       get('workspace').classList.toggle('demo-has-explorer', !!event.explorer?.visible);
       get('explorer').hidden = !event.explorer?.visible;
       get('explorer-rows').textContent = event.explorer?.visible
@@ -294,10 +301,27 @@ function initialize(root: HTMLElement) {
       renderOverlay(event);
       get<HTMLAnchorElement>('frame').href = event.screenshot ?? manifest.detailsUrl;
       output.textContent = event.external ? '' : chapter.outputs[event.outputId];
-      output.scrollTop = output.scrollHeight;
+      const line = event.commandLine;
+      commandLine.hidden = event.external || !line?.visible;
+      screen.classList.toggle('demo-native-command', !commandLine.hidden);
+      get('console-command-hint').textContent = line?.hint ?? '';
+      commandText.replaceChildren();
+      if (line?.visible && !event.external) {
+        commandText.append(document.createTextNode(line.text.slice(0, line.caret)));
+        const caret = document.createElement('span');
+        caret.className = line.focused ? 'demo-console-command-caret' : '';
+        const next = line.caret + ((line.text.codePointAt(line.caret) ?? 0) > 0xffff ? 2 : 1);
+        caret.textContent = line.text.slice(line.caret, next);
+        commandText.append(caret, document.createTextNode(line.text.slice(next)));
+      }
       get('external-output').textContent = event.external ? chapter.outputs[event.outputId] : '';
       external.hidden = !event.external;
       screen.hidden = event.external;
+      // The recorded command row changes the remaining output height. Restore scroll
+      // only after every surface is visible and its captured geometry is in place.
+      viewport.scrollTop = Math.max(0, event.topLine - 1) * parseFloat(getComputedStyle(source).lineHeight);
+      output.scrollTop = output.scrollHeight;
+      commandText.scrollLeft = commandText.scrollWidth;
       get('operation').textContent = `${chapter.title} · ${event.label}${event.dialogLabel ? ` · ${event.dialogLabel}` : ''}`;
       root.dataset.event = event.id;
       root.dataset.phase = event.kind;
@@ -307,18 +331,25 @@ function initialize(root: HTMLElement) {
       updateTime();
     }
     root.dataset.elapsed = String(Math.round(elapsed * 100) / 100);
-    progress.value = elapsed / chapter.durationMs;
+    progress.value = current.elapsedMs / chapter.durationMs;
     clockState();
     renderPrompt(event);
   }
   function freeze() {
     if (frameId) cancelAnimationFrame(frameId);
     frameId = 0;
-    if (lastFrame && chapter && !loading) elapsed = Math.min(chapter.durationMs, elapsed + Math.max(0, performance.now() - lastFrame));
+    if (lastFrame && chapter && !loading) elapsed = Math.min(playbackDuration(), elapsed + Math.max(0, performance.now() - lastFrame));
     lastFrame = 0;
     render();
   }
   function synchronize() {
+    // Visibility suspension can consume the last fraction of an interval in freeze().
+    // Advance on resume even when no further animation frame is eligible to run.
+    if (chapter && !loading && !manualPaused && onScreen && !document.hidden && elapsed >= playbackDuration() && fullStory) {
+      if (selected < manifest.chapters.length - 1) { void selectChapter(selected + 1, true); return; }
+      if (loopsStory()) { void selectChapter(0, true); return; }
+      fullStory = false;
+    }
     if (canPlay()) {
       if (!frameId) {
         autoStarted = true;
@@ -334,10 +365,9 @@ function initialize(root: HTMLElement) {
     elapsed += Math.max(0, now - lastFrame);
     lastFrame = now;
     render();
-    if (chapter && elapsed >= chapter.durationMs) {
+    if (chapter && elapsed >= playbackDuration()) {
       lastFrame = 0;
-      if (fullStory && selected < manifest.chapters.length - 1) void selectChapter(selected + 1, true);
-      else { fullStory = false; synchronize(); }
+      synchronize();
     } else frameId = requestAnimationFrame(tick);
   }
   async function selectChapter(index: number, play: boolean) {
@@ -431,7 +461,7 @@ function initialize(root: HTMLElement) {
           if (visibleHeight < bounds.height * .15) stage.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
           // The sole visible Play button continues all chapters, including after the initial Hello hold.
           fullStory = true;
-          if (elapsed >= chapter.durationMs) { void selectChapter((selected + 1) % manifest.chapters.length, true); break; }
+          if (elapsed >= chapter.durationMs && elapsed >= playbackDuration()) { void selectChapter((selected + 1) % manifest.chapters.length, true); break; }
         }
         render(); synchronize(); break;
       }

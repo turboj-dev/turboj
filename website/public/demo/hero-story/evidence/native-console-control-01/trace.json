@@ -1,0 +1,2503 @@
+{
+  "commands": [
+    {
+      "id": "open",
+      "method": "Actual TurboFrame.openPath callback: spring-hello/pom.xml",
+      "chapter": "spring-boot",
+      "atNs": 678181792,
+      "operationId": "maven-import",
+      "keymap": "turboj-classic",
+      "title": "Open…",
+      "bindings": [
+        "F3",
+        "META+O"
+      ]
+    },
+    {
+      "id": "open",
+      "method": "Actual TurboFrame.openPath callback: spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+      "chapter": "spring-boot",
+      "atNs": 1810199792,
+      "keymap": "turboj-classic",
+      "title": "Open…",
+      "bindings": [
+        "F3",
+        "META+O"
+      ]
+    },
+    {
+      "id": "maven.build.custom",
+      "method": "Registered CommandJ command opens Maven goal dialog",
+      "chapter": "spring-boot",
+      "atNs": 1869115542,
+      "keymap": "turboj-classic",
+      "title": "Run Maven Goal…",
+      "bindings": []
+    },
+    {
+      "id": "Input → OK",
+      "method": "Actual dialog button",
+      "chapter": "spring-boot",
+      "atNs": 1900629667,
+      "keymap": "turboj-classic"
+    },
+    {
+      "id": "Project Trust → OK",
+      "method": "Actual dialog button",
+      "chapter": "spring-boot",
+      "atNs": 1926568792,
+      "keymap": "turboj-classic"
+    },
+    {
+      "id": "Run Maven Build → OK",
+      "method": "Actual dialog button",
+      "chapter": "spring-boot",
+      "atNs": 2053744708,
+      "operationId": "spring-startup",
+      "keymap": "turboj-classic"
+    },
+    {
+      "id": "console.commandLine.submit",
+      "method": "Actual AWT Return key in focused native Output command row",
+      "chapter": "spring-boot",
+      "atNs": 4183667125,
+      "operationId": "curl",
+      "keymap": "turboj-classic"
+    },
+    {
+      "id": "maven.stop",
+      "method": "Registered CommandJ command",
+      "chapter": "spring-boot",
+      "atNs": 4246462167,
+      "keymap": "turboj-classic",
+      "title": "Stop Maven Build",
+      "bindings": []
+    }
+  ],
+  "measurements": [
+    {
+      "endNs": 1257250333,
+      "chapter": "spring-boot",
+      "id": "maven-import",
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "durationNs": 579186333,
+      "startNs": 678064000,
+      "label": "Open Maven project; resolve effective model and dependencies",
+      "success": true,
+      "startedAt": "2026-10-25T14:26:57.206943Z",
+      "endedAt": "2026-10-25T14:26:57.786129Z",
+      "commands": [
+        {
+          "id": "open",
+          "method": "Actual TurboFrame.openPath callback: spring-hello/pom.xml",
+          "chapter": "spring-boot",
+          "atNs": 678181792,
+          "operationId": "maven-import",
+          "keymap": "turboj-classic",
+          "title": "Open…",
+          "bindings": [
+            "F3",
+            "META+O"
+          ]
+        }
+      ]
+    },
+    {
+      "endNs": 4028557792,
+      "chapter": "spring-boot",
+      "id": "spring-startup",
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "durationNs": 1974871917,
+      "startNs": 2053685875,
+      "label": "Run Maven goal → first successful HTTP response → UI paint",
+      "success": true,
+      "startedAt": "2026-10-25T14:26:58.582564Z",
+      "endedAt": "2026-10-25T14:27:00.557435Z",
+      "commands": [
+        {
+          "id": "Run Maven Build → OK",
+          "method": "Actual dialog button",
+          "chapter": "spring-boot",
+          "atNs": 2053744708,
+          "operationId": "spring-startup",
+          "keymap": "turboj-classic"
+        }
+      ],
+      "compilerResult": {
+        "version": 1,
+        "success": true,
+        "cacheHit": true,
+        "durationNs": 964375
+      }
+    },
+    {
+      "endNs": 4215462875,
+      "chapter": "spring-boot",
+      "id": "curl",
+      "boundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+      "durationNs": 31840333,
+      "startNs": 4183622542,
+      "label": "Native command-row Return → curl process completion → Swing paint checkpoint",
+      "success": true,
+      "startedAt": "2026-10-25T14:27:00.712499Z",
+      "endedAt": "2026-10-25T14:27:00.744340Z",
+      "commands": [
+        {
+          "id": "console.commandLine.submit",
+          "method": "Actual AWT Return key in focused native Output command row",
+          "chapter": "spring-boot",
+          "atNs": 4183667125,
+          "operationId": "curl",
+          "keymap": "turboj-classic"
+        }
+      ],
+      "compilerResult": {
+        "version": 1,
+        "success": true,
+        "cacheHit": true,
+        "durationNs": 964375
+      }
+    }
+  ],
+  "metadata": {
+    "schemaVersion": 2,
+    "checks": {
+      "mavenImported": true,
+      "nativeKeyboardCommandLine": true,
+      "nativeCurlHttp200Json": true,
+      "mavenStillRunningAfterCurl": true,
+      "ownedServerStopped": true,
+      "settingsRestored": true
+    },
+    "selectedRepresentativeRun": false,
+    "junitVersion": "5.13.4 (bundled app dependency)",
+    "startedAt": "2026-10-25T14:26:56.528912Z",
+    "clock": "System.nanoTime (relative nanoseconds); wall timestamps are Instant.now",
+    "measurementBoundary": "System.nanoTime immediately before registered command/button dispatch, through an EDT paint checkpoint after the completion predicate. Includes scheduling, compilation and UI handling; nominal completion polling interval 10 ms, subject to OS scheduling. It does not measure physical display scanout.",
+    "capture": "Actual Swing frame painted into an image on the EDT; no desktop or other windows captured",
+    "input": "Maven open/goal/trust use real existing callbacks/buttons. Esc, colon, command characters and Return are real AWT key events posted to the focused native component; no command-row callback is invoked directly.",
+    "keymap": "TurboJ Classic (explicitly selected for this session)",
+    "fontSize": 18,
+    "editorFont": {
+      "size": 18,
+      "name": "Monospaced",
+      "family": "Monospaced"
+    },
+    "theme": "classic",
+    "menus": [
+      "File",
+      "Project",
+      "Build",
+      "Edit",
+      "Search",
+      "Navigate",
+      "Code",
+      "Refactor",
+      "Run",
+      "Test",
+      "Options",
+      "Help"
+    ],
+    "frameSize": [
+      1060,
+      740
+    ],
+    "jdk": "25.0.4.1+10-LTS",
+    "javaVendor": "Amazon.com Inc.",
+    "os": "Mac OS X 26.5.1 aarch64",
+    "logicalProcessors": 10,
+    "turbojCommit": "32ee9643411d8a89cbc6212a76cd52d480b04ac8",
+    "cpu": "Apple M5",
+    "ramBytes": "17179869184",
+    "appJar": "app/target/turboj-app.jar",
+    "appJarSha256": "80a43ef59ba9e49e4fae297d694d78578d088a2cdc6ebf9df703f8466a8193dc",
+    "conditions": "Fresh app JVM and private workspace/configuration. Warm, offline Maven dependency cache. This is a separately recorded replacement finale, not the session that supplied chapters A-D.",
+    "presentationPauses": "No presentation pauses; control run only",
+    "scope": "Fresh final chapter only; earlier hero chapters retain their historical capture provenance.",
+    "buildProvenance": "turbojCommit identifies the base checkout; the native command-line implementation was built from the current working tree. The app JAR hash and native-build-source-hashes.json identify the exact captured build inputs.",
+    "nativeConsoleFinale": true,
+    "keyboardEvents": [
+      {
+        "focusAfter": "dev.turboj.ui.EditorComponent:null",
+        "observedAtNs": 4076054875,
+        "atNs": 4074870958,
+        "focusBefore": "dev.turboj.ui.EditorComponent:null",
+        "action": "⎋"
+      },
+      {
+        "focusAfter": "javax.swing.JTextField:null",
+        "observedAtNs": 4077252625,
+        "atNs": 4076086292,
+        "focusBefore": "dev.turboj.ui.EditorComponent:null",
+        "action": "Type :"
+      },
+      {
+        "focusAfter": "javax.swing.JTextField:null",
+        "observedAtNs": 4095127000,
+        "atNs": 4094129958,
+        "focusBefore": "javax.swing.JTextField:null",
+        "action": "Type ! curl "
+      },
+      {
+        "focusAfter": "javax.swing.JTextField:null",
+        "observedAtNs": 4113216292,
+        "atNs": 4111634417,
+        "focusBefore": "javax.swing.JTextField:null",
+        "action": "Type --silent --show-error --fail --include "
+      },
+      {
+        "focusAfter": "javax.swing.JTextField:null",
+        "observedAtNs": 4131079125,
+        "atNs": 4129600833,
+        "focusBefore": "javax.swing.JTextField:null",
+        "action": "Type --connect-timeout 2 --max-time 10 "
+      },
+      {
+        "focusAfter": "javax.swing.JTextField:null",
+        "observedAtNs": 4148259125,
+        "atNs": 4146971833,
+        "focusBefore": "javax.swing.JTextField:null",
+        "action": "Type http://127.0.0.1:18765/hello"
+      },
+      {
+        "focusAfter": "javax.swing.JTextField:null",
+        "observedAtNs": 4187905208,
+        "atNs": 4183715875,
+        "focusBefore": "javax.swing.JTextField:null",
+        "action": "⏎"
+      }
+    ],
+    "springBoot": {
+      "cache": "Dependencies and wrapper distribution were already downloaded during control runs. No MavenJ model existed for this fresh workspace.",
+      "logging": "spring.main.log-startup-info=false omits the local username and working directory from Spring startup identity logs.",
+      "mavenWrapper": "3.9.11",
+      "version": "4.1.1",
+      "nativeLimitation": "Prior feasibility controls documented Fast Run and Isolated Run ending worker server threads after main returns. This new session verifies the explicit Maven lifecycle only.",
+      "javaRelease": 21,
+      "launch": "Existing Build → Run Maven Goal → spring-boot:run. Real Maven lifecycle, not Fast Run."
+    },
+    "springImport": {
+      "fastPath": "PARTIAL",
+      "offline": true,
+      "cacheHit": true,
+      "mavenJDurationNs": 4730834,
+      "moduleCount": 1,
+      "dependencyCount": 39
+    },
+    "mavenVersionObserved": "Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)",
+    "projectJdkObserved": "Java version: 21.0.11, vendor: Amazon.com Inc., runtime: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home",
+    "springOwnership": {
+      "listenerPids": "68908",
+      "mavenPid": 68779,
+      "ownedPids": [
+        68779,
+        68908
+      ]
+    },
+    "httpReadiness": {
+      "observedAtNs": 4020963708,
+      "endpoint": "http://127.0.0.1:18765/hello",
+      "body": "{\"status\":200,\"message\":\"OK\"}",
+      "status": 200
+    },
+    "springReadiness": "Background Java HttpClient GET /hello until HTTP 200 with exact expected body. 25 ms between completed probes; timeout500ms. Measurement also includes final EDT paint checkpoint. This is not Spring's internal startup log duration.",
+    "curlCommand": "curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello",
+    "curl": {
+      "body": "{\"status\":200,\"message\":\"OK\"}",
+      "nativeConsole": true,
+      "httpStatus": 200,
+      "command": "curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello",
+      "stdout": "HTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:27:00 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n",
+      "exitCode": 0,
+      "boundary": "Native OutputCommandController process execution interval (System.nanoTime); command dispatch-to-visible-result measured separately in the curl operation.",
+      "durationNs": 24164209
+    },
+    "springStopped": true,
+    "completed": true,
+    "artifactHashAlgorithm": "SHA-256; trace.json excluded to avoid recursive hash; source revisions have independent hashes"
+  },
+  "sourceRevisions": {
+    "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9": "sources/75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9.java",
+    "d0fd71673c2987c642757690271773106d0ca4ccf7f78d4ddc4c86c75cbde807": "sources/d0fd71673c2987c642757690271773106d0ca4ccf7f78d4ddc4c86c75cbde807.java",
+    "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f": "sources/750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f.java"
+  },
+  "events": [
+    {
+      "id": "maven-import-start",
+      "chapter": "spring-boot",
+      "kind": "start",
+      "label": "Open Maven project; resolve effective model and dependencies",
+      "operationId": "maven-import",
+      "atNs": 678064000,
+      "wallTime": "2026-10-25T14:26:57.206943Z",
+      "state": {
+        "file": "Untitled.java",
+        "source": "public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+        "sourceSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": false,
+          "rows": [
+            {
+              "text": "No project",
+              "selected": false,
+              "depth": 0,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/001-maven-import-start.png"
+    },
+    {
+      "id": "maven-importing",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Maven project import requested",
+      "atNs": 702644667,
+      "wallTime": "2026-10-25T14:26:57.231524Z",
+      "state": {
+        "file": "spring-hello/pom.xml",
+        "source": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>4.1.1</version>\n    <relativePath/>\n  </parent>\n  <groupId>dev.turboj.demo</groupId>\n  <artifactId>spring-hello</artifactId>\n  <version>1.0.0</version>\n  <properties>\n    <java.version>21</java.version>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-webmvc</artifactId>\n    </dependency>\n  </dependencies>\n  <build>\n    <plugins>\n      <plugin>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>\n",
+        "sourceSha256": "d0fd71673c2987c642757690271773106d0ca4ccf7f78d4ddc4c86c75cbde807",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "XML CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "No project",
+              "selected": false,
+              "depth": 0,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/002-maven-importing.png"
+    },
+    {
+      "id": "maven-import-result",
+      "chapter": "spring-boot",
+      "kind": "result",
+      "label": "Open Maven project; resolve effective model and dependencies",
+      "operationId": "maven-import",
+      "atNs": 1257250333,
+      "wallTime": "2026-10-25T14:26:57.786129Z",
+      "state": {
+        "file": "spring-hello/pom.xml",
+        "source": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>4.1.1</version>\n    <relativePath/>\n  </parent>\n  <groupId>dev.turboj.demo</groupId>\n  <artifactId>spring-hello</artifactId>\n  <version>1.0.0</version>\n  <properties>\n    <java.version>21</java.version>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-webmvc</artifactId>\n    </dependency>\n  </dependencies>\n  <build>\n    <plugins>\n      <plugin>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>\n",
+        "sourceSha256": "d0fd71673c2987c642757690271773106d0ca4ccf7f78d4ddc4c86c75cbde807",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "MAVEN MODEL READY",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/003-maven-import-result.png"
+    },
+    {
+      "id": "spring-source",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "A real Spring Boot controller; Maven build required for the server",
+      "atNs": 1825657208,
+      "wallTime": "2026-10-25T14:26:58.354536Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/004-spring-source.png"
+    },
+    {
+      "id": "spring-build-menu",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Choose Run Maven Goal",
+      "atNs": 1853481333,
+      "wallTime": "2026-10-25T14:26:58.382360Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [
+          {
+            "text": "Fast Compile",
+            "accelerator": "pressed F9",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Compile Project",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Make Project",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Go to first error",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Generate Annotation Sources…",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Maven validate",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven compile",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven test",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven package",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven verify",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven install",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven clean",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven dependency:tree",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Maven help:effective-pom",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Run Maven Goal…",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Refresh Dependencies",
+            "accelerator": "",
+            "selected": false,
+            "enabled": true
+          },
+          {
+            "text": "Stop Maven Build",
+            "accelerator": "",
+            "selected": false,
+            "enabled": false
+          }
+        ],
+        "menus": [
+          "Build"
+        ]
+      },
+      "screenshot": "screenshots/005-spring-build-menu.png"
+    },
+    {
+      "id": "spring-goal",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Explicit Maven goal: spring-boot:run",
+      "atNs": 1885409667,
+      "wallTime": "2026-10-25T14:26:58.414288Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Maven goals (space separated):"
+              },
+              {
+                "type": "input",
+                "text": "spring-boot:run"
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Input"
+          }
+        ],
+        "dialogBounds": {
+          "x": 367,
+          "height": 134,
+          "width": 326,
+          "y": 317
+        },
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/006-spring-goal.png"
+    },
+    {
+      "id": "spring-trust",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Project trust is required before executing Maven",
+      "atNs": 1911874458,
+      "wallTime": "2026-10-25T14:26:58.440754Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Trust this project for this session?"
+              },
+              {
+                "type": "label",
+                "text": "/private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello/pom.xml"
+              },
+              {
+                "type": "label",
+                "text": "Running Java, tests, Maven plugins, wrappers or annotation processors executes project-controlled code."
+              },
+              {
+                "type": "label",
+                "text": "Passive import and dependency inspection do not need this permission."
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Project Trust"
+          }
+        ],
+        "dialogBounds": {
+          "x": 159,
+          "height": 178,
+          "width": 742,
+          "y": 295
+        },
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/007-spring-trust.png"
+    },
+    {
+      "id": "spring-confirm",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Review the real Maven command and Java toolchain",
+      "atNs": 1948179708,
+      "wallTime": "2026-10-25T14:26:58.477059Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Command: /private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress --offline --settings /private/tmp/turboj-demo/native-console-control-01/home/.m2/settings.xml -Dmaven.repo.local=/private/tmp/turboj-demo/native-console-control-01/home/.m2/repository spring-boot:run"
+              },
+              {
+                "type": "label",
+                "text": "Directory: /private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello"
+              },
+              {
+                "type": "label",
+                "text": "Maven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip"
+              },
+              {
+                "type": "label",
+                "text": "JDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home"
+              },
+              {
+                "type": "label",
+                "text": "Profiles: []"
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Run Maven Build"
+          }
+        ],
+        "dialogBounds": {
+          "x": 10,
+          "height": 174,
+          "width": 1040,
+          "y": 297
+        },
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/008-spring-confirm.png"
+    },
+    {
+      "id": "spring-startup-start",
+      "chapter": "spring-boot",
+      "kind": "start",
+      "label": "Run Maven goal → first successful HTTP response → UI paint",
+      "operationId": "spring-startup",
+      "atNs": 2053685875,
+      "wallTime": "2026-10-25T14:26:58.582564Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "TURBOJ NATIVE · COMPILING",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [
+          {
+            "components": [
+              {
+                "type": "label",
+                "text": "Command: /private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress --offline --settings /private/tmp/turboj-demo/native-console-control-01/home/.m2/settings.xml -Dmaven.repo.local=/private/tmp/turboj-demo/native-console-control-01/home/.m2/repository spring-boot:run"
+              },
+              {
+                "type": "label",
+                "text": "Directory: /private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello"
+              },
+              {
+                "type": "label",
+                "text": "Maven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip"
+              },
+              {
+                "type": "label",
+                "text": "JDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home"
+              },
+              {
+                "type": "label",
+                "text": "Profiles: []"
+              },
+              {
+                "type": "button",
+                "text": "OK",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "Cancel",
+                "enabled": true,
+                "selected": false
+              },
+              {
+                "type": "button",
+                "text": "x",
+                "enabled": true,
+                "selected": false
+              }
+            ],
+            "title": "Run Maven Build"
+          }
+        ],
+        "dialogBounds": {
+          "x": 10,
+          "height": 174,
+          "width": 1040,
+          "y": 297
+        },
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/009-spring-startup-start.png"
+    },
+    {
+      "id": "spring-starting",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Maven is compiling and starting Spring Boot",
+      "atNs": 2060140625,
+      "wallTime": "2026-10-25T14:26:58.589018Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 0,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nMAVEN BUILD\nCommand: /private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress --offline --settings /private/tmp/turboj-demo/native-console-control-01/home/.m2/settings.xml -Dmaven.repo.local=/private/tmp/turboj-demo/native-console-control-01/home/.m2/repository spring-boot:run\nDirectory: /private/tmp/turboj-demo/native-console-control-01/workspace/spring-hello\nMaven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip\nJDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home\nProfiles: []\n",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "TURBOJ NATIVE · COMPILING",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/010-spring-starting.png"
+    },
+    {
+      "id": "spring-startup-result",
+      "chapter": "spring-boot",
+      "kind": "result",
+      "label": "Run Maven goal → first successful HTTP response → UI paint",
+      "operationId": "spring-startup",
+      "atNs": 4028557792,
+      "wallTime": "2026-10-25T14:27:00.557435Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": false,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": false,
+          "text": ""
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/011-spring-startup-result.png"
+    },
+    {
+      "id": "curl-commandline-open",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Escape then colon opens the native Output command row",
+      "atNs": 4079367458,
+      "wallTime": "2026-10-25T14:27:00.608244Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": true,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": ""
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/012-curl-commandline-open.png"
+    },
+    {
+      "id": "curl-typing-7",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Enter a shell command in the native Output command row",
+      "atNs": 4097157833,
+      "wallTime": "2026-10-25T14:27:00.626035Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": true,
+          "caret": 7,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": "! curl "
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/013-curl-typing-7.png"
+    },
+    {
+      "id": "curl-typing-46",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Enter a shell command in the native Output command row",
+      "atNs": 4114874958,
+      "wallTime": "2026-10-25T14:27:00.643752Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": true,
+          "caret": 46,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": "! curl --silent --show-error --fail --include "
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/014-curl-typing-46.png"
+    },
+    {
+      "id": "curl-typing-80",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Enter a shell command in the native Output command row",
+      "atNs": 4132721583,
+      "wallTime": "2026-10-25T14:27:00.661599Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": true,
+          "caret": 80,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": "! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 "
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/015-curl-typing-80.png"
+    },
+    {
+      "id": "curl-typing-108",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Enter a shell command in the native Output command row",
+      "atNs": 4149800042,
+      "wallTime": "2026-10-25T14:27:00.678677Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": true,
+          "caret": 108,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": "! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello"
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/016-curl-typing-108.png"
+    },
+    {
+      "id": "curl-start",
+      "chapter": "spring-boot",
+      "kind": "start",
+      "label": "Native command-row Return → curl process completion → Swing paint checkpoint",
+      "operationId": "curl",
+      "atNs": 4183622542,
+      "wallTime": "2026-10-25T14:27:00.712499Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms",
+        "commandLine": {
+          "visible": true,
+          "caret": 108,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": "! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello"
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/017-curl-start.png"
+    },
+    {
+      "id": "curl-result",
+      "chapter": "spring-boot",
+      "kind": "result",
+      "label": "Native command-row Return → curl process completion → Swing paint checkpoint",
+      "operationId": "curl",
+      "atNs": 4215462875,
+      "wallTime": "2026-10-25T14:27:00.744340Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms\n:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello\nHTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:27:00 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n[command exited 0]\n",
+        "commandLine": {
+          "visible": true,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": ""
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/018-curl-result.png"
+    },
+    {
+      "id": "curl-visible-result",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "HTTP 200 and the actual JSON response remain inside TurboJ Output",
+      "atNs": 4231535000,
+      "wallTime": "2026-10-25T14:27:00.760412Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 1,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "compilerResult": {
+          "version": 1,
+          "success": true,
+          "cacheHit": true,
+          "durationNs": 964375
+        },
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms\n:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello\nHTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:27:00 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n[command exited 0]\n",
+        "commandLine": {
+          "visible": true,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": ""
+        },
+        "status": "TURBOJ NATIVE · BUILD OK | 0.96 ms",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/019-curl-visible-result.png"
+    },
+    {
+      "id": "spring-stopped",
+      "chapter": "spring-boot",
+      "kind": "state",
+      "label": "Cleanup control: Stop Maven terminates the owned demonstration service",
+      "atNs": 4263247375,
+      "wallTime": "2026-10-25T14:27:00.792124Z",
+      "state": {
+        "file": "spring-hello/src/main/java/dev/turboj/demo/HelloService.java",
+        "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+        "sourceSha256": "750e5ee0c35d685c0956cfa3e3c8ccbbca619240ec62ead2b1266951d7eca04f",
+        "editorVersion": 1,
+        "projectGeneration": 2,
+        "autoTestOnChanges": false,
+        "activeKeymap": "turboj-classic",
+        "selectionStart": 0,
+        "selectionEnd": 0,
+        "cursorOffset": 0,
+        "topLine": 0,
+        "console": "CACHE HIT | 0 errors | 0.96 ms\n2026-10-25T15:27:00.504+01:00  INFO 68908 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:27:00.527+01:00  INFO 68908 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms\n:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello\nHTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:27:00 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n[command exited 0]\nMaven exit 137 · 2199 ms · cancelled\n",
+        "commandLine": {
+          "visible": true,
+          "caret": 0,
+          "hint": "! command · Enter runs · Esc closes",
+          "focused": true,
+          "text": ""
+        },
+        "status": "CHECKING…",
+        "autoRunOnSave": false,
+        "autoTestOnSave": false,
+        "externalTerminal": "",
+        "dialogs": [],
+        "explorer": {
+          "visible": true,
+          "rows": [
+            {
+              "text": "spring-hello",
+              "selected": false,
+              "depth": 0,
+              "expanded": true
+            },
+            {
+              "text": "spring-hello · Java 21",
+              "selected": false,
+              "depth": 1,
+              "expanded": true
+            },
+            {
+              "text": "Sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated sources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Generated tests",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Test resources",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            },
+            {
+              "text": "Dependencies",
+              "selected": false,
+              "depth": 2,
+              "expanded": false
+            }
+          ]
+        },
+        "menuItems": [],
+        "menus": []
+      },
+      "screenshot": "screenshots/020-spring-stopped.png"
+    }
+  ],
+  "editorialIntervals": []
+}

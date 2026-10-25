@@ -27,7 +27,9 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `completion.parameterInformation` | Java Intelligence | Cmd+P | Unassigned | Shift+Cmd+SPACE | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `completion.previous` | Java Intelligence | UP | UP | UP | UP | Implemented; Completion alternatives are not open | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `completion.smart` | Java Intelligence | Shift+Cmd+SPACE | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `console.copy` | Edit | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Select console output first | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `console.cancelCommand` | Console | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No output command is running | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `console.commandLine` | Console | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `console.copy` | Console | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Select console output first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `copy` | Edit | Cmd+C | Cmd+C | Cmd+C | Cmd+C | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `cut` | Edit | Cmd+X | Cmd+X | Cmd+X | Cmd+X | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `declaration` | Navigation | Cmd+B | F3 | F12 | F12 / Cmd+B | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |

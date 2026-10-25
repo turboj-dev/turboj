@@ -20,6 +20,9 @@ Generated from the executable registry. Availability reflects the captured conte
 | compile | Fast Compile | Compilation | Cmd+F9 | Any | Available | compile |
 | error | Go to first error | Compilation | Unassigned | Any | Available | error |
 | make | Make Project | Compilation | Unassigned | Any | Available | make |
+| console.copy | Copy Selected Console Output | Console | Unassigned | Any | Select console output first | console copy |
+| console.commandLine | Output Command Line (:! command) | Console | Unassigned | Any | Available | ! command, Esc :, curl, shell command, vim command line |
+| console.cancelCommand | Stop Output Command | Console | Unassigned | Any | No output command is running | console cancelCommand |
 | editor.addCaretAbove | Add Caret Above | Edit | Unassigned | editor | Available | editor addCaretAbove |
 | editor.addCaretBelow | Add Caret Below | Edit | Unassigned | editor | Available | editor addCaretBelow |
 | editor.autoIndentLines | Auto-Indent Java Lines | Edit | Ctrl+Option+I | editor; binding requires [editor] | Available | editor autoIndentLines |
@@ -32,7 +35,6 @@ Generated from the executable registry. Availability reflects the captured conte
 | copy | Copy | Edit | Cmd+C | Any | Available | copy, editor.copyLine |
 | editor.copyLineDown | Copy Line Down | Edit | Unassigned | editor | Available | editor copyLineDown |
 | editor.copyLineUp | Copy Line Up | Edit | Unassigned | editor | Available | editor copyLineUp |
-| console.copy | Copy Selected Console Output | Edit | Unassigned | Any | Select console output first | console copy |
 | cut | Cut | Edit | Cmd+X | Any | Available | cut, editor.cutLine |
 | editor.deleteNextWord | Delete Next Word | Edit | Option+DELETE | editor; binding requires [editor] | Available | editor deleteNextWord |
 | editor.deletePreviousWord | Delete Previous Word | Edit | Option+BACK_SPACE | editor; binding requires [editor] | Available | editor deletePreviousWord |

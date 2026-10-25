@@ -23,6 +23,11 @@ public final class ConsolePane extends JPanel {
     private final JPanel inputRow = new JPanel(new BorderLayout(8, 0));
     private final JLabel inputPrompt = new JLabel("Input >");
     private final JLabel inputHint = new JLabel("Enter submits");
+    private final JPanel bottomRows = new JPanel();
+    private final JPanel commandRow = new JPanel(new BorderLayout(8, 0));
+    private final JTextField commandLine = new JTextField();
+    private final JLabel commandPrompt = new JLabel(":");
+    private final JLabel commandHint = new JLabel("! command · Enter runs · Esc closes");
     private final Consumer<String> send;
     private boolean echoInput;
     private boolean inlineInput;
@@ -71,12 +76,26 @@ public final class ConsolePane extends JPanel {
                         if (SwingUtilities.isLeftMouseButton(e)
                                 && (inlineInput ? inputEnabled : input.isEnabled())
                                 && output.getSelectionStart() == output.getSelectionEnd())
-                            focusInput();
+                            focusProgramInput();
                     }
                 });
         input.setToolTipText("Enter submits a line");
         input.addActionListener(e -> submitInput());
-        add(inputRow, BorderLayout.SOUTH);
+        bottomRows.setLayout(new BoxLayout(bottomRows, BoxLayout.Y_AXIS));
+        bottomRows.add(inputRow);
+        commandLine.setFont(output.getFont());
+        commandLine.setCaret(new BlockCaret());
+        commandLine.getCaret().setBlinkRate(0);
+        commandLine.setBorder(BorderFactory.createEmptyBorder(2, 3, 2, 3));
+        commandLine.getAccessibleContext().setAccessibleName("Output command line");
+        commandLine.setToolTipText("! command runs a noninteractive shell command in the current project; Escape closes this line");
+        commandPrompt.setLabelFor(commandLine);
+        commandRow.add(commandPrompt, BorderLayout.WEST);
+        commandRow.add(commandLine, BorderLayout.CENTER);
+        commandRow.add(commandHint, BorderLayout.EAST);
+        commandRow.setVisible(false);
+        bottomRows.add(commandRow);
+        add(bottomRows, BorderLayout.SOUTH);
         setPreferredSize(new Dimension(100, 150));
         setTheme(Theme.bundled("classic"));
     }
@@ -294,6 +313,30 @@ public final class ConsolePane extends JPanel {
         return input;
     }
 
+    /** Independent from a Java program's stdin: hiding this row keeps its unfinished draft. */
+    public JTextField commandLine() { return commandLine; }
+
+    public void showCommandLine() {
+        commandRow.setVisible(true);
+        revalidate();
+        repaint();
+        commandLine.requestFocusInWindow();
+    }
+
+    public void hideCommandLine() {
+        commandRow.setVisible(false);
+        revalidate();
+        repaint();
+    }
+
+    public boolean isCommandLineVisible() { return commandRow.isVisible(); }
+
+    public String commandLineHint() { return commandHint.getText(); }
+
+    public void setCommandRunning(boolean running) {
+        commandHint.setText(running ? "Running · Ctrl+C stops" : "! command · Enter runs · Esc closes");
+    }
+
     public JTextComponent inputComponent() {
         return inlineInput ? output : input;
     }
@@ -306,6 +349,7 @@ public final class ConsolePane extends JPanel {
         Insets text = output.getInsets();
         int height = output.getFontMetrics(output.getFont()).getHeight() + text.top + text.bottom;
         if (inputRow.isVisible()) height += inputRow.getPreferredSize().height;
+        if (commandRow.isVisible()) height += commandRow.getPreferredSize().height;
         return new Dimension(0, edge.top + edge.bottom + height);
     }
 
@@ -316,6 +360,12 @@ public final class ConsolePane extends JPanel {
     }
 
     public void focusInput() {
+        if (commandRow.isVisible()) commandLine.requestFocusInWindow();
+        else focusProgramInput();
+    }
+
+    /** A program asking for Scanner input may focus its own surface without altering the shell draft. */
+    public void focusProgramInput() {
         if (inlineInput) {
             if (inputEnabled && output.getCaretPosition() < inputStart)
                 output.setCaretPosition(output.getDocument().getLength());
@@ -325,7 +375,7 @@ public final class ConsolePane extends JPanel {
     }
 
     public boolean hasConsoleFocus() {
-        return output.isFocusOwner() || input.isFocusOwner();
+        return output.isFocusOwner() || input.isFocusOwner() || commandLine.isFocusOwner();
     }
 
     public void setTheme(Theme t) {
@@ -349,6 +399,17 @@ public final class ConsolePane extends JPanel {
                 BorderFactory.createCompoundBorder(
                         AsciiBorder.rule(AsciiChrome.output(t)),
                         BorderFactory.createEmptyBorder(4, 5, 4, 5)));
+        bottomRows.setBackground(t.messagesBackground());
+        commandRow.setBackground(t.messagesBackground());
+        commandLine.setBackground(t.messagesBackground());
+        commandLine.setForeground(t.color("messages", "inputForeground"));
+        commandLine.setCaretColor(t.color("messages", "cursor"));
+        commandLine.setSelectionColor(t.selection());
+        commandLine.setSelectedTextColor(t.color("editor", "selectionForeground"));
+        commandPrompt.setForeground(t.messagesForeground());
+        commandHint.setForeground(t.messagesForeground());
+        commandRow.setBorder(BorderFactory.createCompoundBorder(
+                AsciiBorder.rule(AsciiChrome.output(t)), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
         for (Role role : Role.values()) {
             SimpleAttributeSet attributes = styles.get(role);
             StyleConstants.setForeground(attributes, colorFor(t, role, t.messagesBackground()));
