@@ -149,4 +149,9 @@ To preview the built site: `cd website` then `npm run preview -- --port 4322`
 using the supported Node version in `website/package.json`. To try the native
 feature, run `./turboj`, then Escape, colon, `! command`, Return.
 
-Production was not deployed or modified during this change.
+Local validation and implementation commit `61208bc` initially left production
+unchanged. After the user's explicit publication request, the verified build was
+deployed as Cloudflare version `1f91273a-6b28-4537-9d40-8defcbad21b8`.
+Twenty public asset hashes matched the tested build, and 46 live homepage browser
+checks passed. See [deployment notes](../website/DEPLOYMENT.md) and
+[deployment evidence](evidence/output-command-line/deployment.json).

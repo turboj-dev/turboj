@@ -1,0 +1,197 @@
+{
+  "sourceCommit": "61208bc039d769a96b98c5e8b103766685e5c065",
+  "cloudflareVersion": "1f91273a-6b28-4537-9d40-8defcbad21b8",
+  "wrangler": "4.152.0",
+  "hosts": [
+    "https://turboj.dev",
+    "https://turboj.luca-marrocco.workers.dev"
+  ],
+  "assetDeployment": {
+    "scanned": 1003,
+    "uploaded": 84,
+    "alreadyUploaded": 803
+  },
+  "liveAssetVerification": {
+    "timestamp": "2026-10-25T15:12:54.359Z",
+    "origin": "https://turboj.dev",
+    "results": [
+      {
+        "path": "/",
+        "status": 200,
+        "bytes": 41742,
+        "sha256": "1d2eec79cabe2ffd3fbc2b605c95f8e0043a24f3a9e652ad7b3739fd2ec0ae85"
+      },
+      {
+        "path": "/demo-session/",
+        "status": 200,
+        "bytes": 266358,
+        "sha256": "a0f92cc210089a919d1e93bb5ae8fab5857fef950286cf06bee5df32a0b04a75"
+      },
+      {
+        "path": "/demo/hero-story/manifest.json",
+        "status": 200,
+        "bytes": 3477,
+        "sha256": "7a42427bfe1ca829dbcc5175c8adcbb4df93fb9460e2933c23723b2fb5093412"
+      },
+      {
+        "path": "/demo/hero-story/evidence.json",
+        "status": 200,
+        "bytes": 421329,
+        "sha256": "f7e768ccfd83df79035ebeea318fd89ad773ee97a6b6f3b787f9df3e2a8d383d"
+      },
+      {
+        "path": "/demo/hero-story/checksums.json",
+        "status": 200,
+        "bytes": 102457,
+        "sha256": "22b2a8fdae80393081705ce0906ddec8daff7f617a8f8171f82c57eae5e45313"
+      },
+      {
+        "path": "/demo/hero-story/evidence/native-console-session-2026-10-25/trace.json",
+        "status": 200,
+        "bytes": 103913,
+        "sha256": "e630ffc16656d9835f4a98e8d8754ad1b56dbd72aa1203a1f01ce554aa4d6467"
+      },
+      {
+        "path": "/demo/hero-story/evidence/native-console-session-2026-10-25/nomination.json",
+        "status": 200,
+        "bytes": 400,
+        "sha256": "30d9c159f9db68451c9c4f72935f266c2c79b2a17eea4304a76dd3d03e095a39"
+      },
+      {
+        "path": "/demo/hero-story/evidence/native-console-session-2026-10-25/artifact-hashes.json",
+        "status": 200,
+        "bytes": 4179,
+        "sha256": "da552512170384e9523573042f341dee96c2ff4965f5d1316e9d9be48eec4445"
+      },
+      {
+        "path": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/019-curl-visible-result.png",
+        "status": 200,
+        "bytes": 100064,
+        "sha256": "c745b028b2965603d2dffa51e7bcfd0925c036d90b30cd0a17709e25a3f24106"
+      },
+      {
+        "path": "/demo/hero-story/chapters/hello-world.json",
+        "status": 200,
+        "bytes": 14003,
+        "sha256": "e167f95ae9c65a644f0ef3d0f90d3471bffdf67721fdf95853637a1ab68b9be0"
+      },
+      {
+        "path": "/demo/hero-story/chapters/tests.json",
+        "status": 200,
+        "bytes": 34319,
+        "sha256": "6040d46a9ba44cfe90794825642e5a62ef52976f518f55a3dc497d25065a6c26"
+      },
+      {
+        "path": "/demo/hero-story/chapters/refactoring.json",
+        "status": 200,
+        "bytes": 34015,
+        "sha256": "d237b43f616990a5e5d96e3290b52183372c9e7f8cf4d7c64e543ec8781f1d51"
+      },
+      {
+        "path": "/demo/hero-story/chapters/automation.json",
+        "status": 200,
+        "bytes": 24643,
+        "sha256": "e522a6137de02f5ddf35b73d1a9019e5255623e342562e62a9248afbb1777091"
+      },
+      {
+        "path": "/demo/hero-story/native-console-native-console-session-2026-10-25/spring-boot.json",
+        "status": 200,
+        "bytes": 41005,
+        "sha256": "3098e0061c820efb2734cc47e9ad206a2b5db320084d5c7f855ee8ae04226e51"
+      },
+      {
+        "path": "/_astro/ThemeSwitcher.astro_astro_type_script_index_0_lang.CysN-fw5.js",
+        "status": 200,
+        "bytes": 19732,
+        "sha256": "07f48c06c1e5979ea9b4663cae421dab6c73c690ab8344c832a29a7751079d14"
+      },
+      {
+        "path": "/_astro/TurboJDemo.astro_astro_type_script_index_0_lang.BQA5kkRU.js",
+        "status": 200,
+        "bytes": 16107,
+        "sha256": "f7650b9402de77194a1f3a721ad335a334e528b05518ab052af39a2e7e7a1db0"
+      },
+      {
+        "path": "/keyboard-shortcut-reference.md",
+        "status": 200,
+        "bytes": 32399,
+        "sha256": "620693d3c8ee3489d612768fef21b39ae9f52cfce2274894e8819838ce706e3c"
+      },
+      {
+        "path": "/keyboard-command-inventory.md",
+        "status": 200,
+        "bytes": 49263,
+        "sha256": "5cfc745a60d8af29ad4771d57de6e52991ab87a5da445d5172b5fd0d5166afc7"
+      },
+      {
+        "path": "/keyboard-conflicts.md",
+        "status": 200,
+        "bytes": 530,
+        "sha256": "53893119ab66bd4a49b1cbdc7297a73c43ff4ce4ee1a5620001104220cacf002"
+      },
+      {
+        "path": "/images/turboj-editor.png",
+        "status": 200,
+        "bytes": 34679,
+        "sha256": "27e0f5c593105574e60abd6e3055db525f119a20f80e3ddcf01ce3727cd9bcc8"
+      }
+    ]
+  },
+  "liveBrowserVerification": {
+    "timestamp": "2026-10-25T15:12:55.063Z",
+    "baseURL": "https://turboj.dev",
+    "browser": "156.0.8078.4",
+    "checks": 46,
+    "failures": 0,
+    "reportSha256": "fc75769f5ef05ad3aab14a041fb6c15349add460fb9e6492c5b5444d426b2365",
+    "checkNames": [
+      "320\u00d7844: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "320\u00d7844: responsive layout and loaded images",
+      "320\u00d7844: all anchor destinations exist",
+      "320\u00d7844: mobile navigation opens with keyboard, closes with Escape",
+      "320\u00d7844: mobile navigation follows and closes",
+      "320\u00d7844: navigation and CTA anchors activate",
+      "320\u00d7844: all FAQ entries work using only keyboard",
+      "320\u00d7844: no external requests, failed requests, or console errors",
+      "390\u00d7844: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "390\u00d7844: responsive layout and loaded images",
+      "390\u00d7844: all anchor destinations exist",
+      "390\u00d7844: mobile navigation opens with keyboard, closes with Escape",
+      "390\u00d7844: mobile navigation follows and closes",
+      "390\u00d7844: navigation and CTA anchors activate",
+      "390\u00d7844: all FAQ entries work using only keyboard",
+      "390\u00d7844: WCAG 2.2 AA automated audit",
+      "390\u00d7844: no external requests, failed requests, or console errors",
+      "768\u00d71024: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "768\u00d71024: responsive layout and loaded images",
+      "768\u00d71024: all anchor destinations exist",
+      "768\u00d71024: mobile navigation opens with keyboard, closes with Escape",
+      "768\u00d71024: mobile navigation follows and closes",
+      "768\u00d71024: navigation and CTA anchors activate",
+      "768\u00d71024: all FAQ entries work using only keyboard",
+      "768\u00d71024: no external requests, failed requests, or console errors",
+      "1280\u00d7800: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "1280\u00d7800: responsive layout and loaded images",
+      "1280\u00d7800: all anchor destinations exist",
+      "1280\u00d7800: navigation and CTA anchors activate",
+      "1280\u00d7800: all FAQ entries work using only keyboard",
+      "1280\u00d7800: no external requests, failed requests, or console errors",
+      "1440\u00d7900: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "1440\u00d7900: responsive layout and loaded images",
+      "1440\u00d7900: all anchor destinations exist",
+      "1440\u00d7900: navigation and CTA anchors activate",
+      "1440\u00d7900: all FAQ entries work using only keyboard",
+      "1440\u00d7900: WCAG 2.2 AA automated audit",
+      "1440\u00d7900: no external requests, failed requests, or console errors",
+      "1920\u00d71080: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "1920\u00d71080: responsive layout and loaded images",
+      "1920\u00d71080: all anchor destinations exist",
+      "1920\u00d71080: navigation and CTA anchors activate",
+      "1920\u00d71080: all FAQ entries work using only keyboard",
+      "1920\u00d71080: no external requests, failed requests, or console errors",
+      "keyboard skip link is first and moves focus into main content",
+      "the removed hero screenshot link stays absent while the original asset remains byte-identical"
+    ]
+  },
+  "notes": "Production publication explicitly authorized after local review. All HTTPS asset comparisons retained TLS verification. Historical recordings were not regenerated during deployment."
+}

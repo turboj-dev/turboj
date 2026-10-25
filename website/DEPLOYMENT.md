@@ -78,3 +78,34 @@ PASS; Astro production build PASS. Lighthouse mobile: 99/100/100/100, LCP
 1,807 ms, CLS 0.000697, TBT 0 ms. See
 [`website-hero-release-2026-10-25.md`](../docs/website-hero-release-2026-10-25.md).
 Deployment and live verification logs are in `artifacts/hero-minimal-qa/deployment/`.
+
+## Native Output command-line finale — 2026-10-25
+
+After local review, the user explicitly authorized publication of implementation
+commit `61208bc039d769a96b98c5e8b103766685e5c065`. The final chapter now records
+Escape → colon → `! curl` inside native TurboJ Output, retaining the editor,
+real HTTP 200 JSON and exit status. Full-story playback repeats after a separate
+three-second reading hold. Earlier chapter recordings remain unchanged.
+
+Wrangler **4.152.0** dry run and deployment passed:
+
+- Version: `1f91273a-6b28-4537-9d40-8defcbad21b8`.
+- Hosts: `https://turboj.dev` and `https://turboj.luca-marrocco.workers.dev`.
+- Assets: 1,003 scanned; 84 uploaded; Wrangler reported 803 already uploaded.
+- Homepage SHA-256: `1d2eec79cabe2ffd3fbc2b605c95f8e0043a24f3a9e652ad7b3739fd2ec0ae85`.
+- Details page SHA-256: `a0f92cc210089a919d1e93bb5ae8fab5857fef950286cf06bee5df32a0b04a75`.
+
+Twenty public HTTPS assets returned HTTP 200 and matched the validated build
+byte for byte: both pages, manifest, evidence/checksum indexes, five chapters,
+both JavaScript bundles, keyboard references, original screenshot and final
+native trace/nomination/artifact index/screenshot. TLS verification remained on.
+The homepage suite then passed **46 live browser checks**, including responsive
+layouts, keyboard navigation, axe audits and request/console-error checks.
+
+Predeployment validation: **53 website tests and 200 browser checks PASS**;
+hero JavaScript 6,175 bytes gzip and all JavaScript 14,318 bytes gzip.
+Native commands and the actual Spring/curl recording were verified separately.
+See [`website-native-console-finale.md`](../docs/website-native-console-finale.md)
+and the committed [deployment evidence](../docs/evidence/output-command-line/deployment.json).
+Local deployment logs and live browser artifacts remain under
+`artifacts/native-console-qa/deployment/` and `artifacts/native-console-qa/live/`.
