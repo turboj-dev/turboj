@@ -1,0 +1,17 @@
+BUILD FAILED | 7 errors
+  1:29  package org.junit.jupiter.api does not exist
+  2:36  package org.junit.jupiter.api does not exist
+  2:1  static import only from classes and interfaces
+  5:6  cannot find symbol
+  symbol:   class Test
+  location: class PriceTest
+  9:6  cannot find symbol
+  symbol:   class Test
+  location: class PriceTest
+  6:27  cannot find symbol
+  symbol:   variable Price
+  location: class PriceTest
+  10:28  cannot find symbol
+  symbol:   variable Price
+  location: class PriceTest
+Saved PriceTest.java

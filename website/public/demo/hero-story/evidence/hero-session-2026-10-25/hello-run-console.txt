@@ -1,0 +1,4 @@
+FAST RUN · HelloWorld
+Hello TurboJ!
+
+[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed

@@ -1,0 +1,2 @@
+BUILD FAILED | 1 errors
+  5:6  reached end of file while parsing

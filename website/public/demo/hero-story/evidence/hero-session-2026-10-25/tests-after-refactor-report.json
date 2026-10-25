@@ -1,0 +1,27 @@
+{
+  "sourceVersion": 34,
+  "durationNanos": 52484750,
+  "tests": [
+    {
+      "id": "[engine:junit-jupiter]/[class:PriceTest]/[method:appliesTwentyPercentDiscount()]",
+      "name": "appliesTwentyPercentDiscount()",
+      "className": "PriceTest",
+      "methodName": "appliesTwentyPercentDiscount",
+      "status": "PASSED",
+      "durationNanos": 235709,
+      "failure": "",
+      "trace": ""
+    },
+    {
+      "id": "[engine:junit-jupiter]/[class:PriceTest]/[method:keepsFullPriceWithoutDiscount()]",
+      "name": "keepsFullPriceWithoutDiscount()",
+      "className": "PriceTest",
+      "methodName": "keepsFullPriceWithoutDiscount",
+      "status": "PASSED",
+      "durationNanos": 4455000,
+      "failure": "",
+      "trace": ""
+    }
+  ],
+  "engineFailures": []
+}

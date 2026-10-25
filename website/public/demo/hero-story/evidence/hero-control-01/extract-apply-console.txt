@@ -1,0 +1,3 @@
+BUILD OK | 0 errors | 13.89 ms
+Preparing extract-method…
+Refactoring applied

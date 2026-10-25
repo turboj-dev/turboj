@@ -19,11 +19,14 @@ test('approved 1.0.10 English copy is present in the rendered HTML', () => {
   assert.deepEqual(missing, [], `Missing supplied copy:\n${missing.join('\n')}`);
 });
 
-test('the HelloWorld illustration stays distinct from native measurements and keymaps', () => {
-  assert.match(text, /browser illustration/i);
-  assert.match(text, /Java does not (?:execute|run) in (?:the|your|this) browser/i);
-  assert.match(text, /Classic keymap/i);
-  for (const action of ['replay', 'pause', 'skip']) assert.ok(html.includes(`data-demo-action="${action}"`));
+test('the five-chapter reconstruction explains its evidence and execution limits', () => {
+  assert.match(text, /Recorded TurboJ session, reconstructed in the browser/);
+  assert.match(text, /No Java runs here/);
+  assert.match(text, /Times from this captured session/);
+  assert.match(text, /Classic.keymap/i);
+  for (const chapter of ['Hello World', 'Tests', 'Refactoring', 'AutoRun / AutoTest', 'Spring Boot + curl']) assert.ok(text.includes(chapter));
+  for (const action of ['replay', 'pause', 'skip', 'previous', 'next', 'story']) assert.ok(html.includes(`data-demo-action="${action}"`));
+  assert.match(html, /href="\/demo-session\/"/);
   assert.match(html, /data-demo-fallback/);
   assert.ok(text.includes('An earlier native prototype capture'));
   assert.match(text, /(?:not|isn’t|is not) a (?:current |TurboJ )?1\.0\.10 benchmark/i);

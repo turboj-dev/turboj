@@ -1,0 +1,26 @@
+BUILD FAILED | 7 errors
+  1:29  package org.junit.jupiter.api does not exist
+  2:36  package org.junit.jupiter.api does not exist
+  2:1  static import only from classes and interfaces
+  5:6  cannot find symbol
+  symbol:   class Test
+  location: class PriceTest
+  9:6  cannot find symbol
+  symbol:   class Test
+  location: class PriceTest
+  6:27  cannot find symbol
+  symbol:   variable Price
+  location: class PriceTest
+  10:28  cannot find symbol
+  symbol:   variable Price
+  location: class PriceTest
+
+══ TURBOTEST ══════════════════════════════════════════════
+Compiling tests…
+Running JUnit tests…
+
+  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.28 ms
+  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 7.72 ms
+
+PASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 120.63 ms
+══════════════════════════════════════════════════════════

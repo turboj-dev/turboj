@@ -1,0 +1,7 @@
+BUILD OK | 0 errors | 15.83 ms
+
+  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.24 ms
+  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.82 ms
+
+PASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 56.90 ms
+══════════════════════════════════════════════════════════

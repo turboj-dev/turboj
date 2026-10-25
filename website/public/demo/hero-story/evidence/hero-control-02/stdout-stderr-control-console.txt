@@ -1,0 +1,5 @@
+FAST RUN · OutputControl
+STDOUT-CONTROL
+STDERR-CONTROL
+
+[exit 0 · execution 16.62 ms · round trip 29.15 ms] Completed

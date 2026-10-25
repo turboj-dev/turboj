@@ -1,0 +1,5 @@
+BUILD OK | 0 errors | 16.51 ms
+Preparing rename…
+Refactoring applied
+Saved Price.java
+Saved PriceTest.java

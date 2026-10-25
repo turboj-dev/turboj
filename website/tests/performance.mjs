@@ -2,12 +2,13 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import lighthouse from 'lighthouse';
 import { launch } from 'chrome-launcher';
 import { resolveBrowserPath } from './browser-path.mjs';
+import { artifactDirectory } from './qa-artifacts.mjs';
 
 const url = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
 const chromePath = resolveBrowserPath();
 const runs = Number(process.env.LH_RUNS ?? 1);
 if (!Number.isSafeInteger(runs) || runs < 1 || runs > 10) throw new Error('LH_RUNS must be between 1 and 10.');
-const directory = new URL('../artifacts/lighthouse/', import.meta.url);
+const directory = artifactDirectory('lighthouse', '../artifacts/lighthouse/', import.meta.url);
 await mkdir(directory, { recursive: true });
 const reports = [];
 for (let index = 1; index <= runs; index++) {

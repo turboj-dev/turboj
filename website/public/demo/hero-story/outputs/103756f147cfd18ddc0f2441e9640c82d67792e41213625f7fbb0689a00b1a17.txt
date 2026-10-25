@@ -1,0 +1,4 @@
+BUILD FAILED | 3 errors
+  1:29  package org.junit.jupiter.api does not exist
+  2:36  package org.junit.jupiter.api does not exist
+  2:1  static import only from classes and interfaces

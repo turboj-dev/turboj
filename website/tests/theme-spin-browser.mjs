@@ -3,9 +3,10 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { resolveBrowserPath } from './browser-path.mjs';
+import { artifactDirectory } from './qa-artifacts.mjs';
 
 const baseURL = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
-const directory = new URL('../artifacts/theme-spin-qa/', import.meta.url);
+const directory = artifactDirectory('theme-spin', '../artifacts/theme-spin-qa/', import.meta.url);
 const shippedCatalog = JSON.parse(await readFile(new URL('../public/themes/catalog.json', import.meta.url), 'utf8'));
 const report = { timestamp: new Date().toISOString(), baseURL, browser: '', catalogCount: shippedCatalog.length, checks: [], failures: [] };
 await mkdir(directory, { recursive: true });

@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import recorded from '../../public/demo/hero-story/evidence.json';
+interface Source { file: string; text: string; sha256: string; url: string }
+interface Output { text: string; sha256: string; url: string }
+interface Measurement { id: string; chapter: string; label: string; startNs: number; endNs: number; durationNs: number; boundary: string; compilerResult?: { durationNs: number; version: number; cacheHit: boolean; success: boolean }; junitRunnerDurationNs?: number; jvmExecutionResult?: { durationNanos: number; exitCode: number } }
+interface Event { id: string; chapter: string; label: string; kind: string; atNs: number; wallTime: string; screenshot: string; state: { file: string; sourceId: string; consoleId: string; externalId: string; editorVersion: number; projectGeneration: number; dialogs: { title: string; components: { type: string; text: string; enabled?: boolean }[] }[] } }
+interface Evidence {
+  verified: boolean; id: string;
+  metadata: { startedAt: string; turbojCommit: string; appJarSha256: string; jdk: string; javaVendor: string; os: string; cpu: string; ramBytes: string; keymap: string; junitVersion: string; measurementBoundary: string; capture: string; input: string; conditions: string; automationTrigger: string; springBoot: { version: string; javaRelease: number; mavenWrapper: string; cache: string; nativeLimitation: string }; springReadiness: string; curl: { command: string; stdout: string; exitCode: number; durationNs: number; boundary: string } };
+  checks: Record<string, boolean>; selected: { trace: string; traceSha256: string; artifacts: string; nomination?: string; nominationSha256?: string };
+  controls: { id: string; trace: string; traceSha256: string; artifacts: string; completed: boolean; failure: string | null }[];
+  projectFiles: { file: string; sha256: string; url: string }[];
+  chapters: { id: string; title: string; url: string; durationMs: number; sha256: string }[];
+  measurements: Measurement[]; events: Event[]; sources: Record<string, Source>; outputs: Record<string, Output>;
+  timing: { originalDurationMs: number; durationMs: number; policy: string; cuts: { id: string; kind: string; reason: string; durationMs: number; shownMs: number; startNs: number; endNs: number }[] };
+}
+const evidence = recorded as unknown as Evidence;
+const ms = (value: number) => `${value.toLocaleString('en-US', { maximumFractionDigits: 2 })} ms`;
+const internalDuration = (measurement: Measurement) => measurement.junitRunnerDurationNs != null
+  ? `JUnit: ${ms(measurement.junitRunnerDurationNs / 1e6)}`
+  : measurement.jvmExecutionResult ? `JVM execution: ${ms(measurement.jvmExecutionResult.durationNanos / 1e6)}`
+  : measurement.id === 'hello-compile' && measurement.compilerResult ? `Compiler: ${ms(measurement.compilerResult.durationNs / 1e6)}${measurement.compilerResult.cacheHit ? ' (cache hit)' : ''}`
+  : 'See captured output';
+const chapters = evidence?.chapters ?? [];
+const nativeDiagnostics = evidence && Object.values(evidence.outputs).some((output) => output.text.includes('package org.junit.jupiter.api does not exist'));
+---
+<BaseLayout>
+  <main id="main" class="hero-evidence shell" tabindex="-1">
+    <nav aria-label="Session navigation"><a href="/">← TurboJ homepage</a><a href="/session/">Historical session archive</a></nav>
+    <p class="eyebrow">NATIVE SESSION EVIDENCE</p>
+    <h1>Five chapters. One measured session.</h1>
+    {evidence?.verified ? <>
+      <p>Recorded TurboJ session, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened. The hero replays this single captured session; every source revision, output and displayed result below comes from its native trace.</p>
+      <p><strong>Times from this captured session.</strong> They describe this machine and these cache conditions, not guaranteed performance. Source entry and dialog actions were automated in the actual application. The screenshots are Swing frame captures, not a video or proof of physical display scanout.</p>
+      <nav class="jump-links" aria-label="Evidence sections"><a href="#measurements">Measurements</a><a href="#chapters">Chapter captures</a><a href="#sources">Full source</a><a href="#logs">Complete logs</a><a href="#environment">Environment</a><a href="#cuts">Editorial cuts</a><a href="#controls">Controls</a></nav>
+      <div class="downloads">
+        <a href="/demo/hero-story/manifest.json" download>Replay manifest</a>
+        <a href="/demo/hero-story/evidence.json" download>Complete evidence index</a>
+        <a href={evidence.selected.trace} download>Original monotonic trace</a>
+        {evidence.selected.nomination && <a href={evidence.selected.nomination} download>Selection recorded before capture</a>}
+        <a href="/demo/hero-story/checksums.json" download>SHA-256 checksums</a>
+        <a href={evidence.projectFiles.find((file) => file.file === 'spring-hello/pom.xml')?.url} download="pom.xml">Captured Maven POM</a>
+      </div>
+      <h2 id="measurements">Measurement boundaries</h2>
+      <p>{evidence.metadata.measurementBoundary}</p>
+      <p>The capture uses a monotonic clock. Completion is checked with nominal 10 ms polling, subject to scheduling; the recorded interval ends after the corresponding Swing paint checkpoint. Decimal millisecond values are retained for reproducibility, not claimed observation accuracy. Internal compiler/JUnit times are separate from command-to-visible-result times.</p>
+      <p>The raw <code>compilerResult</code> is the latest live single-file editor compilation, which can precede the command being measured. It is not presented as the internal compiler duration of a refactoring or workspace test run. JUnit runner durations come from each actual new test report.</p>
+      <p>Rename and Extract Method each have three separately measured phases: resolve the selection, prepare the preview, and apply changes. Time spent editing options or reviewing the preview is outside those transformations. Auto Run and Auto Test intervals begin at actual Save dispatch and include current compilation and the automatic result.</p>
+      <div class="table-scroll" role="region" aria-label="Native operation measurements" tabindex="0">
+        <table><thead><tr><th scope="col">Operation</th><th scope="col">Command → visible result</th><th scope="col">Separate internal duration</th></tr></thead>
+          <tbody>{evidence.measurements.map((measurement) => <tr>
+            <th scope="row"><a href={`#event-${measurement.id}-result`}>{measurement.label}</a><small>{measurement.chapter}</small></th>
+            <td>{ms(measurement.durationNs / 1e6)}</td>
+            <td>{internalDuration(measurement)}<small>Exact start/end and boundary in the raw trace.</small></td>
+          </tr>)}</tbody>
+        </table>
+      </div>
+      <h2 id="chapters">Actual native states</h2>
+      <p>Each link opens an original full-resolution frame on demand. The page does not download the screenshot archive. Full source and logs are selectable text below; dialogs are captured as their actual titles, labels, fields and button states. Browser replay controls are outside the reconstructed application.</p>
+      {chapters.map((chapter) => <section class="chapter" aria-labelledby={`chapter-${chapter.id}`}>
+        <h3 id={`chapter-${chapter.id}`}>{chapter.title}</h3>
+        <p><a href={chapter.url} download>Chapter replay data</a> · SHA-256 <code>{chapter.sha256}</code></p>
+        {evidence.events.filter((event) => event.chapter === chapter.id).map((event) => <details id={`event-${event.id}`}>
+          <summary>{event.label} <small>({event.kind})</small></summary>
+          <p><code>{event.id}</code> · {event.wallTime} · monotonic {event.atNs} ns</p>
+          <p>Source revision {event.state.editorVersion}; project generation {event.state.projectGeneration}. File: <code>{event.state.file}</code>.</p>
+          <div class="downloads"><a href={event.screenshot} target="_blank" rel="noopener">Open original native frame ↗</a><a href={`#${event.state.sourceId}`}>Full captured source</a><a href={`#${event.state.consoleId}`}>Full native output</a>{evidence.outputs[event.state.externalId]?.text && <a href={`#${event.state.externalId}`}>External curl transcript</a>}</div>
+          {event.state.dialogs.map((dialog) => <><h4>{dialog.title}</h4><pre>{dialog.components.map((component) => `${component.type}: ${component.text}${component.enabled === false ? ' [disabled]' : ''}`).join('\n')}</pre></>)}
+        </details>)}
+      </section>)}
+      <h2>Automation and Maven observations</h2>
+      <p>{evidence.metadata.automationTrigger} Auto Test on Changes remained disabled. Auto Test on Save was enabled with Auto Run off; after the failing and corrected saves, Auto Test was disabled and Auto Run enabled. Settings were restored after capture.</p>
+      {nativeDiagnostics && <p>The live single-file compiler reported missing JUnit/Price symbols while editing the plain Java test file. TurboTest then compiled the test workspace with its own classpath and ran the two tests successfully. Those earlier diagnostics remain in the evidence and replay; a passing test result does not erase them.</p>}
+      <p><strong>Dependencies already cached.</strong> {evidence.metadata.springBoot.cache} MavenJ model import and the explicit Maven goal are distinct operations. This session uses <code>spring-boot:run</code> for the persistent server. {evidence.metadata.springBoot.nativeLimitation}</p>
+      <p>{evidence.metadata.springReadiness}</p>
+      <h3>External curl — recorded command and output</h3>
+      <p>No request is sent from your browser. The command was executed by an external process, separate from TurboJ’s output pane. Its launch-to-exit duration was {ms(evidence.metadata.curl.durationNs / 1e6)}; the table’s curl interval additionally includes the capture checkpoint.</p>
+      <pre>{`$ ${evidence.metadata.curl.command}\n${evidence.metadata.curl.stdout}[exit ${evidence.metadata.curl.exitCode}]`}</pre>
+      <p>{evidence.metadata.curl.boundary} The owned Maven process and its endpoint were stopped and checked after the session. TurboJ’s Stop action cancelled the process with exit 137; process and endpoint closure were verified, but graceful Spring shutdown is not claimed.</p>
+      <h2 id="sources">Every captured source revision</h2>
+      <p>Immutable revisions include actual intermediate line-entry checkpoints, refactoring results and deliberate test failures. These are complete files, not display excerpts. File names can repeat because each revision has a different content hash.</p>
+      <details><summary>Complete final project files, Maven wrapper and dependency configuration</summary><ul>{evidence.projectFiles.map((file) => <li><a href={file.url} download={file.file.split('/').at(-1)}>{file.file}</a> · SHA-256 <code>{file.sha256}</code></li>)}</ul></details>
+      {Object.entries(evidence.sources).map(([id, source]) => <details id={id}>
+        <summary>{source.file} · <code>{source.sha256.slice(0, 12)}</code></summary>
+        <p><a href={source.url} download>Download exact source</a> · SHA-256 <code>{source.sha256}</code></p>
+        <pre tabindex="0" aria-label={`Source revision ${source.sha256.slice(0, 12)}`}><code>{source.text || '(Empty source file.)'}</code></pre>
+      </details>)}
+      <h2 id="logs">Complete captured output</h2>
+      <p>These immutable output snapshots retain diagnostics, warnings, stack traces and the intentional failing test. They are deduplicated by content hash. Maven’s native output may concatenate log lines; original line breaks are preserved.</p>
+      {Object.entries(evidence.outputs).map(([id, output]) => <details id={id}>
+        <summary>Output <code>{output.sha256.slice(0, 12)}</code> · {output.text.length.toLocaleString('en-US')} characters</summary>
+        <p><a href={output.url} download>Download complete text</a> · SHA-256 <code>{output.sha256}</code></p>
+        <pre tabindex="0" aria-label={`Output ${output.sha256.slice(0, 12)}`}>{output.text || '(No output in this captured state.)'}</pre>
+      </details>)}
+      <h2 id="environment">Environment and provenance</h2>
+      <dl>
+        <dt>Session</dt><dd>{evidence.id} · {evidence.metadata.startedAt}</dd>
+        <dt>TurboJ commit</dt><dd><code>{evidence.metadata.turbojCommit}</code></dd>
+        <dt>Application JAR</dt><dd><code>{evidence.metadata.appJarSha256}</code> SHA-256</dd>
+        <dt>Trace</dt><dd><code>{evidence.selected.traceSha256}</code> SHA-256</dd>
+        <dt>System</dt><dd>{evidence.metadata.os} · {evidence.metadata.cpu} · {Number(evidence.metadata.ramBytes) / 1024 ** 3} GiB RAM</dd>
+        <dt>Runtime</dt><dd>{evidence.metadata.javaVendor} {evidence.metadata.jdk}</dd>
+        <dt>Project toolchain</dt><dd>Java {evidence.metadata.springBoot.javaRelease}; Maven {evidence.metadata.springBoot.mavenWrapper}; Spring Boot {evidence.metadata.springBoot.version}</dd>
+        <dt>Plain Java tests</dt><dd>JUnit {evidence.metadata.junitVersion}</dd>
+        <dt>Active keymap</dt><dd>{evidence.metadata.keymap}</dd>
+      </dl>
+      <p>{evidence.metadata.conditions} {evidence.metadata.capture}.</p>
+      <details><summary>Full captured environment and verification checks</summary><pre>{JSON.stringify({ metadata: evidence.metadata, checks: evidence.checks }, null, 2)}</pre></details>
+      <h2 id="cuts">Editorial cut map</h2>
+      <p>{evidence.timing.policy} Measured operations are never accelerated. Original elapsed story: {ms(evidence.timing.originalDurationMs)}. Mapped playback: {ms(evidence.timing.durationMs)}. The browser uses one elapsed-active-time clock and suspends it when paused, hidden or offscreen. Native timing excludes these browser pauses.</p>
+      <p>Only explicit reading holds, automated source-entry intervals and navigation intervals qualify for shortening. Unclassified capture/bookkeeping gaps retain their recorded duration. No operation result is moved before its mapped observation time.</p>
+      <details><summary>Inspect all {evidence.timing.cuts.length} classified cuts</summary>
+        <div class="table-scroll" role="region" aria-label="Editorial timing cuts" tabindex="0"><table><thead><tr><th scope="col">Recorded interval</th><th scope="col">Original</th><th scope="col">Playback</th></tr></thead><tbody>{evidence.timing.cuts.map((cut) => <tr><th scope="row"><code>{cut.id}</code><small>{cut.kind}: {cut.reason}<br />{cut.startNs}–{cut.endNs} ns</small></th><td>{ms(cut.durationMs)}</td><td>{ms(cut.shownMs)}</td></tr>)}</tbody></table></div>
+      </details>
+      <h2 id="controls">Functional controls and anomalous runs</h2>
+      <p>Controls establish functionality before the nominated representative session. Their timings are not combined with hero timings. A failed control remains a failed control in this archive; it does not supply a successful hero result.</p>
+      {evidence.controls.map((control) => <details><summary>{control.id} — {control.completed ? 'PASS: capture completed' : 'FAIL: capture stopped'}</summary><p>{control.failure ?? 'Actual control outcomes and checks are retained in the trace.'}</p><div class="downloads"><a href={control.trace} download>Original control trace</a><a href={control.artifacts} download>Control artifact checksums</a></div><p>Trace SHA-256 <code>{control.traceSha256}</code></p></details>)}
+    </> : <p>The new session has not been captured and verified. No operation times or successful outcomes are published here yet.</p>}
+    <p class="back"><a href="/">← Return to TurboJ</a></p>
+  </main>
+</BaseLayout>
+<style>
+  .hero-evidence { max-width: 1060px; padding-block: 36px 64px; color: var(--page-ink); }
+  nav,.downloads { display: flex; flex-wrap: wrap; gap: 14px 24px; margin-block: 20px; }
+  h1 { font-size: clamp(26px, 5vw, 44px); line-height: 1.25; margin: 12px 0 24px; }
+  h2 { font-size: 22px; margin: 36px 0 16px; } h3 { font-size: 18px; margin: 24px 0 12px; } h4 { font-size: 15px; }
+  p,li,dd,dt { font-size: 15px; line-height: 1.7; } p { margin-block: 14px; }
+  dl { display: grid; grid-template-columns: 160px minmax(0,1fr); gap: 10px 22px; margin: 28px 0; } dt { font-weight: 600; } dd { margin: 0; overflow-wrap: anywhere; }
+  pre { font: 13px/1.65 var(--mono); overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 32rem; }
+  code { font-family: var(--mono); overflow-wrap: anywhere; } a { text-decoration: underline; text-underline-offset: 4px; }
+  a:focus-visible,summary:focus-visible,.table-scroll:focus-visible,pre:focus-visible { outline: 2px solid var(--tj-ui-accent); outline-offset: 4px; }
+  .table-scroll { overflow-x: auto; } table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.7; }
+  th,td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--page-border); } td { white-space: nowrap; vertical-align: top; }
+  small { display: block; font-size: 12px; font-weight: normal; white-space: normal; }
+  details { border-bottom: 1px solid var(--page-border); padding: 14px 0; } summary { cursor: pointer; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; } summary small { display: inline; }
+  .chapter { margin-block: 28px; } .back { margin-top: 40px; }
+  @media (max-width: 600px) { dl { grid-template-columns: 1fr; gap: 3px; } dd { margin-bottom: 12px; } th,td { padding: 8px; } }
+</style>

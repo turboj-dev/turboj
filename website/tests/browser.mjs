@@ -4,10 +4,11 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { screenshotAlt } from './copy.mjs';
 import { resolveBrowserPath } from './browser-path.mjs';
+import { artifactDirectory as qaDirectory } from './qa-artifacts.mjs';
 
 const baseURL = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
 const executablePath = resolveBrowserPath();
-const artifactDirectory = new URL('../artifacts/qa/', import.meta.url);
+const artifactDirectory = qaDirectory('page', '../artifacts/qa/', import.meta.url);
 await mkdir(artifactDirectory, { recursive: true });
 const viewports = [
   { width: 320, height: 844 }, { width: 390, height: 844 },

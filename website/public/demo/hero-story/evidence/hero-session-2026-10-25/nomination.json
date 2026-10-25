@@ -1,0 +1,11 @@
+{
+  "nominatedAt": "2026-10-25T08:43:45.792331+00:00",
+  "session": "hero-session-2026-10-25",
+  "selectionRule": "One complete representative run nominated before execution. No choice by duration; failed controls retained separately.",
+  "sha256": {
+    "app/target/turboj-app.jar": "50b2c49c3b8329b4812a5dcef7d327ddfaf0845a4b7bf76e5da24ab319302f0c",
+    "website/demo/capture/HeroStoryCapture.java": "0e95a02e86431a6519894ba11cc89fbcd464f758e139fad88b1e0de56381477d",
+    "website/demo/capture/HeroStorySpringCapture.java": "240c20eb8b456e34cd409c17cdb4562eeeb1a478f3bbdd06adad1575bf90c2c5",
+    "target/hero-story/hero-control-02/trace.json": "05cec6d12b1e814e08b3be58069bb0c8495da3c953a3d7771f6ca9d54ec3e1d3"
+  }
+}

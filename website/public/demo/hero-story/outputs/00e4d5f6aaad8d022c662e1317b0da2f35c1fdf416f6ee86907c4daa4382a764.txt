@@ -1,0 +1,7 @@
+BUILD OK | 0 errors | 57.08 ms
+MAVEN BUILD
+Command: /private/tmp/turboj-demo/hero-session-2026-10-25/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress --offline --settings /private/tmp/turboj-demo/hero-session-2026-10-25/home/.m2/settings.xml -Dmaven.repo.local=/private/tmp/turboj-demo/hero-session-2026-10-25/home/.m2/repository spring-boot:run
+Directory: /private/tmp/turboj-demo/hero-session-2026-10-25/workspace/spring-hello
+Maven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip
+JDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home
+Profiles: []

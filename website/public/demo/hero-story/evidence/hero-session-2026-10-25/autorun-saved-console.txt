@@ -1,0 +1,10 @@
+BUILD OK | 0 errors | 10.89 ms
+Saved Price.java
+
+══ PROJECT BUILD ══════════════════════════════════════════════
+Compiling project…
+Project compiled.
+FAST RUN · Price
+Updated price: 800 cents
+
+[exit 0 · execution 2.97 ms · round trip 5.59 ms] Completed

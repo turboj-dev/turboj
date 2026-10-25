@@ -45,8 +45,10 @@ Output goes to `dist/`; test reports go to ignored `artifacts/`.
 - `src/data/site.ts`: central navigation, metadata and public URLs.
 - `src/data/copy.ts`: repeated feature, workflow and FAQ content.
 - `src/scripts/demo-timeline.ts`: the eight-second illustrative HelloWorld sequence.
-- `src/data/recorded-session.json`: separate native-session evidence, full snapshots and measured intervals.
-- `scripts/prepare-session.mjs`: trace validation, evidence checksums and measurement data preparation.
+- `public/demo/hero-story/`: verified five-chapter manifest, lazy checkpoints and native evidence.
+- `scripts/prepare-hero-story.mjs`: validates the new trace and preserves measured intervals while shortening only explicitly classified pauses.
+- `src/pages/demo-session.astro`: accessible sources, logs, captures and measurement definitions for the hero.
+- `src/data/recorded-session.json` and `scripts/prepare-session.mjs`: preserved historical evidence and its original preparation tool.
 - `demo/`: reproducible projects, capture harness and control evidence.
 - `src/pages/session.astro`: public measurement conditions and source captures.
 - `src/scripts/turboj-demo.ts`: incremental DOM rendering and playback controls.
@@ -126,8 +128,8 @@ hit**, **1.17 ms execution**, and **2.22 ms round trip**. The supplied marketing
 brief described a different capture (0.08/2.60/8.27 ms), which was unavailable.
 The page therefore uses the values actually visible in the repository image.
 These values describe an earlier native prototype run, not a benchmark of
-TurboJ 1.0.10 or a fresh compilation. Neither the illustrative hero nor the
-separate recorded session reuses them as its timings.
+TurboJ 1.0.10 or a fresh compilation. The hero and historical recorded session
+each use their own measured operation times.
 
 The main lossless WebP is 15,308 bytes and is decoded/pixel-compared against the
 original in every asset build. The larger original PNG opens in a separate tab.
@@ -135,19 +137,53 @@ The historical screenshot remains accessible from the performance section and is
 fallback when JavaScript is unavailable. Font
 licenses and full asset provenance are documented in [ASSETS.md](ASSETS.md).
 
-## Illustrative hero and separate native evidence
+## Native-verified five-chapter hero
 
-The homepage keeps the simple eight-second HelloWorld typing, compile and run
-illustration. It does not execute Java in the browser or display measured native
-operation times. Replay, Pause and Skip control the illustration; reduced motion
-shows its completed state. The native screenshot and recorded evidence are separate.
+The homepage reconstructs one newly captured native session: **Hello World →
+Tests → Refactoring → AutoRun / AutoTest → Spring Boot + curl**. It executes no
+Java and makes no localhost requests in a visitor's browser. The capture driver
+enters source into the real editor and invokes existing commands and dialogs;
+it does not alter TurboJ or its libraries. The price example uses integer cents
+and two deterministic JUnit tests throughout refactoring and automation.
+
+Each chapter loads independently from a checkpoint. Play/Pause, Replay,
+Previous/Next, Skip to Result and Play Full Story control a single active-time
+clock. Initial Hello World playback runs once when visible and holds its result.
+Reduced motion starts at the result; the checkpoint selector also exposes the
+recorded intermediate states. Hidden/offscreen playback suspends the clock.
+Theme changes preserve playback state. The external curl scene is explicitly
+separate from the native console.
+
+`/demo-session/` exposes complete source revisions, output, original frame
+captures, environment, hashes, command-to-result measurements and editorial cuts.
+Only explicitly recorded typing, reading or navigation intervals may be shortened;
+system operations and unclassified gaps retain their measured duration at 1×.
+These are times from one session, not performance guarantees. Frame captures are
+actual Swing painting on the EDT, not desktop video; browser reconstruction is
+not pixel-identical footage. No video recording is claimed.
+
+For reproduction, see [the new capture instructions](demo/capture/HERO_STORY.md).
+Build and verify locally before any separately authorized deployment:
+
+```sh
+npm run build
+npm test
+npm run preview -- --port 4323
+# In another terminal, from website/:
+QA_BASE_URL=http://127.0.0.1:4323 QA_ARTIFACT_ROOT=artifacts/hero-story-qa npm run test:browser
+QA_BASE_URL=http://127.0.0.1:4323 npm run test:demo
+QA_BASE_URL=http://127.0.0.1:4323 QA_ARTIFACT_ROOT=artifacts/hero-story-qa npm run test:themes
+QA_BASE_URL=http://127.0.0.1:4323 QA_ARTIFACT_ROOT=artifacts/hero-story-qa npm run test:performance
+```
+
+## Preserved historical native evidence
 
 The supporting `/session/` page documents one complete run of the **unmodified
 TurboJ application**, commit `5d801f84a183cc6d6415d6e605d442818d2e3310`.
 Its 61 captures and 18 measured intervals cover Hello World, two JUnit tests,
 Rename and Extract Method, tests after refactoring, separate automation on save,
 Maven import, Spring Boot and a real external curl request. This captured sequence
-is not the current hero animation.
+is preserved independently of the new hero session.
 
 The session was nominated before its times were known, after control runs.
 Automated source entry and actual reading pauses remain in the data, alongside
@@ -178,8 +214,9 @@ This refuses incomplete captures or private home paths in UI states. It copies
 unchanged PNGs, writes a SHA-256 manifest, and derives the public timeline. The
 selected evidence lives in `public/demo/session-2026-10-24/`; `/session/` explains
 measurement conditions and links the trace, screenshots and example archive.
-No video was recorded. Replacing this evidence does not change the illustrative
-hero. Run the website build and checks before publishing either change.
+No video was recorded. This historical dataset and preparation command do not
+replace the new hero dataset. Run the website build and checks before publishing
+either change.
 
 ## Static deployment
 

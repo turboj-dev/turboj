@@ -4,16 +4,20 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { resolveBrowserPath } from './browser-path.mjs';
+import { artifactDirectory } from './qa-artifacts.mjs';
 
 const baseURL = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
 const cacheOnly = process.argv.includes('--cache-only');
-const directory = new URL(cacheOnly ? '../artifacts/theme-cache-qa/' : '../artifacts/theme-qa/', import.meta.url);
+const directory = artifactDirectory(cacheOnly ? 'theme-cache' : 'themes', cacheOnly ? '../artifacts/theme-cache-qa/' : '../artifacts/theme-qa/', import.meta.url);
 const themeIDs = ['classic', 'dark', 'light'];
 const nativeThemes = await Promise.all(themeIDs.map(async (id) => JSON.parse(await readFile(
   new URL(`../../app/src/main/resources/themes/${id}.json`, import.meta.url), 'utf8'))));
 const shippedCatalog = JSON.parse(await readFile(new URL('../public/themes/catalog.json', import.meta.url), 'utf8'));
-const expectedSource = 'public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello TurboJ!");\n    }\n}';
-const expectedOutput = 'FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0] Completed';
+const manifest = JSON.parse(await readFile(new URL('../public/demo/hero-story/manifest.json', import.meta.url), 'utf8'));
+const hello = JSON.parse(await readFile(new URL(`../public${manifest.chapters[0].url}`, import.meta.url), 'utf8'));
+const finalEvent = hello.events.at(-1);
+const expectedSource = hello.sources[finalEvent.sourceId].text;
+const expectedOutput = hello.outputs[finalEvent.outputId].trim();
 const report = { timestamp: new Date().toISOString(), baseURL, browser: '', checks: [], failures: [] };
 await mkdir(directory, { recursive: true });
 
@@ -417,11 +421,11 @@ try {
       await page.keyboard.press('Escape');
       await page.locator('[data-theme-browser]').waitFor({ state: 'hidden' });
       assert.equal(await page.locator('html').getAttribute('data-theme'), 'classic');
-      await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.state === 'completed', null, { timeout: 11000 });
+      await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.state === 'completed', null, { timeout: hello.durationMs + 10000 });
       const final = await demoState(page);
       assert.equal(final.source, expectedSource); assert.equal(final.output.trim(), expectedOutput);
-      assert.equal(final.elapsed, 8000); assert.equal(await page.locator('[data-turboj-demo]').count(), 1);
-      assert.ok(Date.now() - start < 10500, 'Theme changes unexpectedly extended or restarted the replay');
+      assert.ok(Math.abs(final.elapsed - hello.durationMs) < 1); assert.equal(await page.locator('[data-turboj-demo]').count(), 1);
+      assert.ok(Date.now() - start < hello.durationMs + 10000, 'Theme changes unexpectedly extended or restarted the replay');
       assert.deepEqual(errors, []);
       return { initialElapsedMs: initial.elapsed, finalElapsedMs: final.elapsed, observedRemainingDurationMs: Date.now() - start };
     } finally { await context.close(); }

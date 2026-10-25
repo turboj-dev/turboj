@@ -51,21 +51,55 @@ WCAG 2.2 AA tags with FAQ answers exposed. Results are written to
 `artifacts/qa/`. Automated accessibility checks cannot prove complete WCAG
 conformance; visual inspection and keyboard checks remain necessary.
 
-The separate demo suite runs one complete approximately eight-second replay
-using real browser time, observing the empty, typing, compiling, running and
-completed phases. It checks exact source/output, final-state hold, Replay,
-Pause/Resume, Skip, offscreen suspension, keyboard control, reduced-motion
-behavior and the genuine screenshot fallback when JavaScript is disabled.
-It also verifies first-viewport placement, code size of at least 14 CSS pixels,
-code-line alignment and absence of vertical code clipping. The animation is an
-illustration and its duration is never treated as compiler performance. Evidence
-is written to `artifacts/demo-qa/`.
+The demo suite now checks the five-chapter native reconstruction against its
+actual published checkpoints, including one real-time playback, independent
+seeking, final-state hold, Replay, Pause/Resume, Skip, hidden/offscreen suspension,
+keyboard controls, reduced motion and the native screenshot fallback with
+JavaScript disabled. It checks lazy loading, stale chapter-load rejection and
+bounded state across repeated chapter switches. The new evidence is written to
+`artifacts/hero-story-qa/demo/`; historical `artifacts/demo-qa/` remains intact.
+The source model tests enforce result boundaries without treating browser frame
+timestamps as native compiler measurements.
+
+Set `QA_ARTIFACT_ROOT=artifacts/hero-story-qa` for the common page, theme, theme-spin
+and Lighthouse suites to keep new reports separate from historical output.
+The production payload tests enforce 8 KiB gzip for the hero controller/model,
+18 KiB for all emitted plus inline JavaScript, and 30 KiB for five lazy chapter
+payloads. These are conservative asset-size accounts, not CDN transfer timings.
 
 Lighthouse uses mobile emulation at 390 × 844, its default simulated mobile
 network/CPU throttling, and the actual installed browser. JSON and HTML reports,
 environment metadata, scores, LCP, CLS and TBT are written to
 `artifacts/lighthouse/`. Local measurements do not represent hosting latency or
 field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
+
+## Five-chapter native hero — 25 October 2026
+
+Implemented locally and verified against one nominated native run from commit
+`802f49609bfe1da1be63d3afce868110db22d4c7`. The exact selected trace is
+`909cb7499ab78cc5b4cab6ee96d352867d08f5ffe721f04c2005ce0713d48dfb`.
+All five native workflows succeeded, including real RefactorJ previews, two
+JUnit tests before/after, the intentional on-save failure/recovery, independent
+Auto Run, warm Maven import, explicit Spring goal, HTTP 200 and external curl.
+Native Stop cancels with exit 137 and closes the owned processes/port; graceful
+shutdown is not claimed.
+
+Production build and 51 unit/content/evidence checks passed. Browser checks:
+40 homepage, 30 replay, 14 evidence/download, 26 recorded-scene, 74 theme and
+6 theme-spin checks: **190 passed, 0 failed**. Required widths, keyboard controls,
+reduced motion, no-JS fallback, real preview text, state preservation and automated
+accessibility checks passed. All 103 theme exports remain unchanged.
+
+Three final Lighthouse runs: Performance 99/99/100; Accessibility, Best Practices
+and SEO 100 throughout; LCP 1,805/1,805/1,654 ms; CLS 0.000126; TBT 0 ms. Prior
+same-machine baseline and intermediate layout-shift results are retained. Hero
+JavaScript including its inline bootstrap is 4,704 bytes gzip; all JavaScript
+12,847; five lazy chapters 20,830. No native screenshot archive is eagerly fetched.
+
+Full method, limits, actual operation intervals, reproduction and evidence paths:
+[`website-hero-validation-2026-10-25.md`](../docs/website-hero-validation-2026-10-25.md).
+Reports are under `artifacts/hero-story-qa/`; historical artifacts are untouched.
+This is local validation, with no production deployment or Git push.
 
 ## Keyboard reference update — local validation
 

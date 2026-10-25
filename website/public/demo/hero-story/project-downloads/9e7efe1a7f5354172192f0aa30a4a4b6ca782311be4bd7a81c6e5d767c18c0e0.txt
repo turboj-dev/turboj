@@ -1,0 +1,5 @@
+server.address=127.0.0.1
+server.port=18765
+spring.output.ansi.enabled=never
+# Keep screenshots free of the local account name and process working directory.
+spring.main.log-startup-info=false

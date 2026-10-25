@@ -1,0 +1,2 @@
+BUILD FAILED | 1 errors
+  1:58  illegal start of expression

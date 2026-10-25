@@ -1,0 +1,27 @@
+{
+  "sourceVersion": 36,
+  "durationNanos": 56106334,
+  "tests": [
+    {
+      "id": "[engine:junit-jupiter]/[class:PriceTest]/[method:appliesTwentyPercentDiscount()]",
+      "name": "appliesTwentyPercentDiscount()",
+      "className": "PriceTest",
+      "methodName": "appliesTwentyPercentDiscount",
+      "status": "FAILED",
+      "durationNanos": 2853416,
+      "failure": "AssertionFailedError: expected: \u003c800\u003e but was: \u003c900\u003e",
+      "trace": "org.opentest4j.AssertionFailedError: expected: \u003c800\u003e but was: \u003c900\u003e\n\tat org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)\n\tat org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)\n\tat org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)\n\tat org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)\n\tat PriceTest.appliesTwentyPercentDiscount(PriceTest.java:6)\n\tat java.base/java.lang.reflect.Method.invoke(Unknown Source)\n\tat java.base/java.util.ArrayList.forEach(Unknown Source)\n\tat java.base/java.util.ArrayList.forEach(Unknown Source)\n"
+    },
+    {
+      "id": "[engine:junit-jupiter]/[class:PriceTest]/[method:keepsFullPriceWithoutDiscount()]",
+      "name": "keepsFullPriceWithoutDiscount()",
+      "className": "PriceTest",
+      "methodName": "keepsFullPriceWithoutDiscount",
+      "status": "PASSED",
+      "durationNanos": 3913125,
+      "failure": "",
+      "trace": ""
+    }
+  ],
+  "engineFailures": []
+}

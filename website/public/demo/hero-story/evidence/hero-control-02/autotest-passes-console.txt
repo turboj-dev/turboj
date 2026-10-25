@@ -1,0 +1,11 @@
+CACHE HIT | 0 errors | 0.02 ms
+
+══ TURBOTEST ══════════════════════════════════════════════
+Compiling tests…
+Running JUnit tests…
+
+  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.20 ms
+  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 3.94 ms
+
+PASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 46.12 ms
+══════════════════════════════════════════════════════════

@@ -1,0 +1,12 @@
+BUILD OK | 0 errors | 18.75 ms
+Saved Price.java
+
+══ TURBOTEST ══════════════════════════════════════════════
+Compiling tests…
+Running JUnit tests…
+
+  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.24 ms
+  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.46 ms
+
+PASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.48 ms
+══════════════════════════════════════════════════════════
