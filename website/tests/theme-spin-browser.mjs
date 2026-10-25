@@ -32,6 +32,13 @@ async function prepare(page) {
     if (!sessionStorage.getItem('qa-spin-seeded')) { localStorage.setItem('turboj.theme', 'classic'); sessionStorage.setItem('qa-spin-seeded', 'true'); }
   });
   await page.goto(baseURL, { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.loading === 'false');
+  assert.equal(await page.locator('[data-turboj-demo]').getAttribute('data-state'), 'paused');
+  // Restore the actual Hello World result for color/state comparisons without
+  // exposing a secondary playback control in the production interface.
+  const skip = page.locator('[data-demo-action="skip"]');
+  assert.equal(await skip.isVisible(), false);
+  await skip.evaluate((button) => (/** @type {HTMLButtonElement} */ (button)).click());
   assert.equal(await page.locator('[data-turboj-demo]').getAttribute('data-state'), 'completed');
 }
 async function demo(page) {

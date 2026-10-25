@@ -7,7 +7,8 @@ import { screenshotAlt } from './copy.mjs';
 import { seekChapter, validateManifest, validateChapter } from '../src/scripts/demo-timeline.ts';
 
 const baseURL = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
-const directory = new URL('../artifacts/hero-story-qa/demo/', import.meta.url);
+const artifactRoot = process.env.QA_ARTIFACT_ROOT ?? 'artifacts/hero-story-qa';
+const directory = new URL(`../${artifactRoot}/demo/`, import.meta.url);
 await mkdir(directory, { recursive: true });
 const manifest = validateManifest(JSON.parse(await readFile(new URL('../public/demo/hero-story/manifest.json', import.meta.url), 'utf8')));
 const chapters = await Promise.all(manifest.chapters.map(async (entry) => validateChapter(JSON.parse(await readFile(new URL(`../public${entry.url}`, import.meta.url), 'utf8')), entry.id)));
@@ -38,7 +39,8 @@ async function ready(page, index = 0) {
   }, chapters[index].id);
 }
 async function choose(page, index) {
-  await page.locator(`[data-demo-chapter="${index}"]`).click();
+  // Test-only inspection of retained controls; the public hero exposes only Play/Pause.
+  await page.locator(`[data-demo-chapter="${index}"]`).evaluate((button) => /** @type {HTMLButtonElement} */ (button).click());
   await ready(page, index);
 }
 async function assertSnapshot(page, index, atMs) {
@@ -53,8 +55,15 @@ async function assertSnapshot(page, index, atMs) {
   assert.ok(await page.locator('[data-turboj-demo] *').count() <= 250, `DOM budget exceeded at ${event.id}`);
   return actual;
 }
+async function checkpoint(page, id) {
+  // Audit checkpoints are retained in the DOM but never enter the user's focus order.
+  await page.locator('[data-demo-checkpoint]').evaluate((select, value) => {
+    select.value = value;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+  }, id);
+}
 async function skip(page, index) {
-  await page.locator('[data-demo-action="skip"]').click();
+  await page.locator('[data-demo-action="skip"]').evaluate((button) => /** @type {HTMLButtonElement} */ (button).click());
   return assertSnapshot(page, index, chapters[index].durationMs);
 }
 try {
@@ -66,6 +75,7 @@ try {
   page.on('request', (request) => requests.push(request.url()));
   await page.addInitScript(() => {
     window.__demoSamples = [];
+    window.__promptSamples = [];
     window.__demoLongTasks = [];
     window.__rafRequests = 0;
     const pending = new Set();
@@ -85,13 +95,31 @@ try {
       const sample = { at: performance.now(), elapsed: Number(root.dataset.elapsed), chapter: root.dataset.chapter, event: root.dataset.event, source: root.querySelector('[data-demo-source]').textContent, output: root.querySelector('[data-demo-output]').textContent };
       const last = window.__demoSamples.at(-1);
       if (!last || last.event !== sample.event || last.chapter !== sample.chapter) window.__demoSamples.push(sample);
+      const prompt = root.querySelector('[data-demo-prompt]');
+      const phrase = prompt.getAttribute('aria-label');
+      if (window.__promptSamples.at(-1)?.phrase !== phrase) window.__promptSamples.push({ phrase, text: root.querySelector('[data-demo-prompt-text]').textContent, announcement: root.querySelector('[data-demo-announcement]').textContent, chapter: sample.chapter, elapsed: sample.elapsed });
     }).observe(document, { subtree: true, attributes: true, attributeFilter: ['data-event', 'data-chapter'], childList: true, characterData: true });
   });
   await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
   await ready(page);
+  await check('only Play/Pause and the mini-prompt are visible; secondary controls and evidence remain hidden', async () => {
+    const root = page.locator('[data-turboj-demo]');
+    const visibleButtons = await root.locator('button').evaluateAll((buttons) => buttons.filter((button) => button.checkVisibility()).map((button) => button.dataset.demoAction));
+    assert.deepEqual(visibleButtons, ['pause']);
+    assert.equal(await root.locator('[data-demo-secondary]').getAttribute('hidden'), '');
+    assert.equal(await root.locator('[data-demo-secondary]').isVisible(), false);
+    assert.equal(await root.locator('[data-demo-secondary] button').count(), 10);
+    assert.equal(await root.locator('a').evaluateAll((links) => links.some((link) => link.checkVisibility())), false);
+    assert.equal(await root.locator('[data-testid="screenshot-original"]').count(), 0);
+    assert.equal(await root.locator('[data-demo-prompt]').isVisible(), true);
+    assert.equal(await root.locator('[data-demo-prompt-text]').getAttribute('aria-hidden'), 'true');
+    assert.equal(await root.locator('[data-demo-prompt-text]').evaluate((element) => element.closest('[aria-live]')), null);
+    assert.ok(await root.locator('[data-demo-prompt]').getAttribute('aria-label'));
+  });
   await check('initial Hello World advances at actual captured intervals and holds without continuing', async () => {
     await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.state === 'completed', null, { timeout: chapters[0].durationMs + 15000 });
     const final = await assertSnapshot(page, 0, chapters[0].durationMs);
+    assert.equal(await page.locator('[data-demo-prompt-text]').textContent(), 'Hello TurboJ! Play to continue.');
     const samples = (await page.evaluate(() => window.__demoSamples)).filter((item) => item.chapter === chapters[0].id);
     for (const sample of samples) {
       const event = chapters[0].events.find((item) => item.id === sample.event);
@@ -111,13 +139,14 @@ try {
     return { capturedDurationMs: chapters[0].durationMs, observedCheckpoints: samples.length };
   });
   await check('keyboard pause/resume, hidden-page, offscreen, and manual-pause clocks suspend without skipping', async () => {
-    await page.locator('[data-demo-action="replay"]').click();
+    await page.locator('[data-demo-action="replay"]').evaluate((button) => /** @type {HTMLButtonElement} */ (button).click());
     await ready(page);
     await page.waitForFunction(() => Number(document.querySelector('[data-turboj-demo]').dataset.elapsed) > 100);
     const pause = page.locator('[data-demo-action="pause"]');
     await pause.focus(); await page.keyboard.press('Enter');
     const frozen = await state(page);
     assert.equal(frozen.state, 'paused');
+    assert.equal(await page.locator('[data-demo-prompt-text]').textContent(), await page.locator('[data-demo-prompt]').getAttribute('aria-label'), 'Pause exposes the full sentence.');
     await page.waitForTimeout(200); assert.deepEqual(await state(page), frozen);
     const quiet = await page.evaluate(() => ({ pending: window.__pendingRaf(), requests: window.__rafRequests }));
     await page.waitForTimeout(200);
@@ -142,9 +171,9 @@ try {
   await check('every chapter restores independently and every static checkpoint matches recorded source/output', async () => {
     for (const index of [4, 2, 1, 3, 0]) {
       await choose(page, index); await assertSnapshot(page, index, 0);
-      for (const checkpoint of chapters[index].checkpoints) {
-        await page.locator('[data-demo-checkpoint]').selectOption(checkpoint.id);
-        await assertSnapshot(page, index, checkpoint.atMs);
+      for (const entry of chapters[index].checkpoints) {
+        await checkpoint(page, entry.id);
+        await assertSnapshot(page, index, entry.atMs);
       }
       await skip(page, index);
     }
@@ -153,7 +182,7 @@ try {
   await check('Rename and Extract Method render the real read-only fields, before/after previews, and warnings', async () => {
     await choose(page, 2);
     for (const id of ['rename-form', 'rename-prepare-result', 'extract-form', 'extract-prepare-result']) {
-      await page.locator('[data-demo-checkpoint]').selectOption(id);
+      await checkpoint(page, id);
       const event = chapters[2].events.find((item) => item.id === id);
       const dialogs = chapters[2].dialogs[event.dialogId];
       const overlay = page.locator('[data-demo-overlay]');
@@ -175,11 +204,14 @@ try {
       }
       assert.ok(await page.locator('[data-turboj-demo] *').count() <= 250);
     }
+    await page.getByRole('region', { name: 'Recorded after source', exact: true }).focus();
+    await checkpoint(page, 'extract-apply-result');
+    assert.equal(await page.locator('[data-demo-action="pause"]').evaluate((element) => document.activeElement === element), true, 'Closing a captured overlay must restore focus to the visible Play button.');
   });
   await check('recorded Auto Test and Auto Run menus show their independent checked states', async () => {
     await choose(page, 3);
     for (const [id, on, off] of [['autotest-enabled', 'Auto Test on Save', 'Auto Run on Save'], ['autorun-enabled', 'Auto Run on Save', 'Auto Test on Save']]) {
-      await page.locator('[data-demo-checkpoint]').selectOption(id);
+      await checkpoint(page, id);
       const menu = page.getByRole('region', { name: 'Recorded native menu', exact: true });
       assert.ok((await menu.textContent()).includes(`[x] ${on}`));
       assert.ok((await menu.textContent()).includes(`[ ] ${off}`));
@@ -187,7 +219,7 @@ try {
   });
   await check('theme changes preserve the exact paused source/output and elapsed time', async () => {
     await choose(page, 2);
-    await page.locator('[data-demo-checkpoint]').selectOption(chapters[2].checkpoints.at(-1).id);
+    await checkpoint(page, chapters[2].checkpoints.at(-1).id);
     const before = await state(page);
     await page.locator('[data-theme-options], [data-theme-menu]').evaluateAll((items) => items.forEach((item) => { item.open = true; }));
     await page.locator('[data-theme-choice="dark"]').click();
@@ -211,10 +243,10 @@ try {
     await cdp.detach();
     return { switches: 100, maximumElements: maximum, retainedHeapGrowthBytes: afterHeap.usedSize - beforeHeap.usedSize, longTasks: await page.evaluate(() => window.__demoLongTasks) };
   });
-  await check('Play full story traverses all five chapters at recorded system intervals', async () => {
-    await page.evaluate(() => { window.__demoSamples = []; });
-    await page.locator('[data-demo-action="story"]').click();
-    await page.evaluate(() => window.scrollTo(0, 0));
+  await check('the sole Play button restarts after chapter five and traverses every captured interval', async () => {
+    await page.evaluate(() => { window.__demoSamples = []; window.__promptSamples = []; });
+    const play = page.locator('[data-demo-action="pause"]');
+    await play.focus(); await page.keyboard.press('Enter');
     const total = chapters.reduce((sum, chapter) => sum + chapter.durationMs, 0);
     await page.waitForFunction((id) => {
       const root = document.querySelector('[data-turboj-demo]');
@@ -233,13 +265,17 @@ try {
       assert.equal(sample.source, chapter.sources[event.sourceId].text);
     }
     assert.deepEqual([...seen], chapters.map((chapter) => chapter.id));
+    const captions = await page.evaluate(() => window.__promptSamples);
+    assert.ok(captions.some((item) => item.text.length < item.phrase.length), 'Normal-motion captions should type on the existing playback clock.');
+    for (const item of captions) assert.equal(item.announcement, item.phrase, 'Assistive technology must receive full phrases, never typed characters.');
+    assert.ok(captions.filter((item) => item.phrase === 'Renaming discount to discountedPrice.').length < 6, 'Rename typing/selection states must share a stable explanation.');
     await writeFile(new URL('full-story-observations.json', directory), JSON.stringify(samples, null, 2));
     return { recordedPlaybackDurationMs: total, observedCheckpoints: samples.length };
   });
   await check('controls and code regions have accessible names; source is outside live regions; browser is error-free', async () => {
     for (const action of ['pause', 'replay', 'previous', 'next', 'skip', 'story']) {
       const button = page.locator(`[data-demo-action="${action}"]`);
-      assert.ok((await button.getAttribute('aria-label')) || (await button.innerText()).trim());
+      assert.ok((await button.getAttribute('aria-label')) || (await button.textContent()).trim());
     }
     assert.equal(await page.locator('[data-demo-source]').evaluate((element) => element.closest('[aria-live]:not([aria-live="off"])')), null);
     assert.deepEqual(errors, []);
@@ -251,10 +287,44 @@ try {
     const page = await context.newPage();
     await page.route(`**${manifest.chapters[2].url}`, async (route) => { await new Promise((resolve) => setTimeout(resolve, 600)); await route.continue(); });
     await page.goto(baseURL); await ready(page);
-    await page.locator('[data-demo-chapter="2"]').click();
+    await page.locator('[data-demo-chapter="2"]').evaluate((button) => /** @type {HTMLButtonElement} */ (button).click());
     await choose(page, 4); await page.waitForTimeout(850);
-    await assertSnapshot(page, 4, chapters[4].durationMs);
+    await assertSnapshot(page, 4, 0);
     await context.close();
+  });
+  for (const failed of ['manifest', 'chapter']) await check(`${failed} fetch failure remains visible in the single mini-prompt`, async () => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.route(failed === 'manifest' ? '**/demo/hero-story/manifest.json' : `**${manifest.chapters[0].url}`, (route) => route.fulfill({ status: 503, body: 'Unavailable' }));
+    try {
+      await page.goto(baseURL);
+      await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.state === 'error');
+      assert.equal(await page.locator('[data-demo-prompt]').isVisible(), true);
+      assert.equal(await page.locator('[data-demo-prompt-text]').textContent(), 'Replay unavailable. Reload to retry.');
+      assert.equal(await page.locator('[data-demo-action="pause"]').isDisabled(), true);
+      assert.equal(await page.getByAltText(screenshotAlt).isVisible(), true);
+      assert.equal(await page.locator('[data-demo-secondary]').isVisible(), false);
+    } finally { await context.close(); }
+  });
+  await check('chapter loads preserve Play focus for Space to pause, without stealing a newer focus choice', async () => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.route(`**${manifest.chapters[1].url}`, async (route) => { await new Promise((resolve) => setTimeout(resolve, 350)); await route.continue(); });
+    try {
+      await page.goto(baseURL); await ready(page); await skip(page, 0);
+      const play = page.locator('[data-demo-action="pause"]');
+      await play.focus(); await page.keyboard.press('Enter');
+      await ready(page, 1);
+      assert.equal(await play.evaluate((element) => element === document.activeElement), true);
+      await page.keyboard.press('Space');
+      assert.equal((await state(page)).state, 'paused');
+      await page.route(`**${manifest.chapters[2].url}`, async (route) => { await new Promise((resolve) => setTimeout(resolve, 350)); await route.continue(); });
+      await skip(page, 1); await play.focus(); await page.keyboard.press('Enter');
+      const other = page.locator('a').filter({ visible: true }).first();
+      await other.focus();
+      await ready(page, 2);
+      assert.equal(await other.evaluate((element) => element === document.activeElement), true, 'Loading must not steal a newer focus choice.');
+    } finally { await context.close(); }
   });
 
   for (const viewport of [{ width: 320, height: 812 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }, { width: 1920, height: 1080 }]) {
@@ -262,13 +332,20 @@ try {
     const page = await context.newPage(); const errors = problems(page);
     await page.goto(baseURL, { waitUntil: 'networkidle' }); await ready(page);
     await page.evaluate(() => document.fonts.ready);
-    await check(`${viewport.width}px: reduced motion is static and checkpoint navigation remains available`, async () => {
-      const final = await assertSnapshot(page, 0, chapters[0].durationMs);
-      await page.locator('[data-demo-action="replay"]').click(); await ready(page);
-      await page.waitForTimeout(200); assert.deepEqual(await state(page), final);
-      assert.equal(await page.locator('[data-demo-action="pause"]').isDisabled(), true);
-      await page.locator('[data-demo-checkpoint]').selectOption(chapters[0].checkpoints[0].id);
-      await assertSnapshot(page, 0, chapters[0].checkpoints[0].atMs);
+    await check(`${viewport.width}px: reduced motion waits for explicit Play and keeps the explanatory phrase static`, async () => {
+      const initial = await assertSnapshot(page, 0, 0);
+      assert.equal(initial.state, 'paused');
+      const play = page.locator('[data-demo-action="pause"]');
+      const prompt = page.locator('[data-demo-prompt]');
+      assert.equal(await play.isDisabled(), false);
+      assert.equal(await prompt.getAttribute('aria-label'), 'Browser replay. No Java runs here.');
+      await page.waitForTimeout(200); assert.deepEqual(await state(page), initial);
+      await play.focus(); await page.keyboard.press('Enter');
+      await page.waitForFunction(() => Number(document.querySelector('[data-turboj-demo]').dataset.elapsed) > 100);
+      assert.equal(await page.locator('[data-demo-prompt-text]').textContent(), await prompt.getAttribute('aria-label'));
+      await play.focus(); await page.keyboard.press('Enter');
+      const frozen = await state(page); assert.equal(frozen.state, 'paused');
+      await page.waitForTimeout(150); assert.deepEqual(await state(page), frozen);
       await skip(page, 0);
     });
     await check(`${viewport.width}px: fixed stage, readable scrollable source, and no page overflow`, async () => {
@@ -296,16 +373,17 @@ try {
     await check(`${viewport.width}px: no browser errors`, async () => assert.deepEqual(errors, []));
     await context.close();
   }
-  for (const width of [320, 390]) await check(`${width}px: Play, Replay and Full Story start from keyboard focus without a separate scroll action`, async () => {
+  for (const width of [320, 390]) await check(`${width}px: the sole Play button continues and replays from keyboard focus without a separate scroll action`, async () => {
     const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: 'no-preference' });
     const page = await context.newPage(); await page.goto(baseURL); await ready(page);
     try {
-      for (const action of ['pause', 'replay', 'story']) {
-        await skip(page, 0);
+      const control = page.locator('[data-demo-action="pause"]');
+      for (const [from, to] of [[0, 1], [4, 0]]) {
+        await choose(page, from); await skip(page, from);
         await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-        const control = page.locator(`[data-demo-action="${action}"]`);
         await control.focus(); await page.keyboard.press('Enter');
-        // No scrollTo(0) here: normal keyboard focus scrolling must leave the stage visible.
+        // No scrollTo(0): explicit Play must reveal the stage even when focus was already on Play.
+        await ready(page, to);
         await page.waitForFunction(() => {
           const root = document.querySelector('[data-turboj-demo]');
           return root?.dataset.state === 'playing' && Number(root.dataset.elapsed) > 100;
@@ -315,8 +393,9 @@ try {
           const rect = element.getBoundingClientRect();
           return Math.max(0, Math.min(innerHeight, rect.bottom) - Math.max(0, rect.top)) / rect.height;
         });
-        assert.ok(visibleRatio >= .15, `${action} left the stage offscreen (${visibleRatio})`);
-        await page.locator('[data-demo-action="pause"]').focus(); await page.keyboard.press('Enter');
+        assert.ok(visibleRatio >= .15, `Play left the stage offscreen (${visibleRatio})`);
+        await control.focus(); await page.keyboard.press('Enter');
+        assert.equal((await state(page)).state, 'paused');
       }
     } finally { await context.close(); }
   });

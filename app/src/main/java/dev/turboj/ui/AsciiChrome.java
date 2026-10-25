@@ -9,16 +9,16 @@ import javax.swing.JSplitPane;
 /** The editor, output and embedded forms share one text-cell chrome geometry. */
 public final class AsciiChrome {
     private static int editorFontSize = 18;
-    private static Font font = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+    private static Font font = new Font(Font.MONOSPACED, Font.PLAIN, 18);
 
     private AsciiChrome() {}
 
     public static Font font() { return font; }
 
-    /** Application-wide zoom, changed on the EDT; retain the editor/chrome size proportions. */
+    /** Application-wide zoom, changed on the EDT; use exactly the same point size in every text surface. */
     public static void setEditorFontSize(int size) {
         editorFontSize = Math.clamp(size, 10, 48);
-        font = new Font(Font.MONOSPACED, Font.PLAIN, scaled(14));
+        font = new Font(Font.MONOSPACED, Font.PLAIN, editorFontSize);
     }
 
     public static int editorFontSize() { return editorFontSize; }

@@ -265,6 +265,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `view.focusPreviousPanel` | Panels | Ctrl+Shift+F6 | Ctrl+Shift+F6 | Ctrl+Shift+F6 | Ctrl+Shift+F6 | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.focusTestResults` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Run tests first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.maximizeEditor` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `view.resizeOutput` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.restoreLayout` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; The editor is not maximized | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.toggleConsole` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.toggleExplorer` | Panels | Unassigned | Unassigned | Cmd+B | Unassigned | Implemented; Open a Maven project first | KeyboardWorkflowSmoke + existing controller suites; see audit |

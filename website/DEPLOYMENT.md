@@ -47,3 +47,34 @@ The HTTPS response from `https://turboj.dev/` matches the tested local HTML byte
 for byte: SHA-256 `b1de50e7b465137c71f349a7a2dbd6a1837f84ecfdead721b21f437de3a48354`.
 The page links to source, distinguishes Fast Compile from Maven Build, and makes
 no marketplace, Maven Central or unmeasured performance claim.
+
+## Recorded five-chapter hero and compact controls — 2026-10-25
+
+The user explicitly authorized publication after requesting only Play/Pause and
+a one-line typewriter explanation beneath the demo. The old secondary controls
+and evidence captions are retained hidden; the original Classic screenshot link
+is removed. Native workspace border/font changes remain a separate preview and
+are not mirrored in the hero pending user acceptance.
+
+Wrangler **4.152.0** deployed static assets to `turboj`:
+
+- Version: `1f1ad544-2954-4641-aee5-bef96eb9f198`.
+- Hosts: `https://turboj.dev` and `https://turboj.luca-marrocco.workers.dev`.
+- Assets: 835 scanned, 370 new/modified uploads; dry run and deployment PASS.
+- Homepage SHA-256: `f9dd01db80fa6030135e0600d6d0690ca796b999ef1e81115ce005079424898e`.
+- Session details SHA-256: `f23c0af7f3462d864e985ef8086b40fea0286580b820b18f53e36af6cacabbe1`.
+
+Fourteen HTTPS responses were checked against the tested `dist/` bytes: homepage,
+details page, hero manifest, all five chapter files, both JavaScript bundles,
+three generated keyboard downloads and the original screenshot. Every response
+returned HTTP 200 with the exact expected SHA-256; TLS verification stayed enabled.
+The original native capture and operation measurements were not regenerated.
+The homepage suite was then run against `https://turboj.dev`: **46 browser checks
+PASS**, including all six viewport sizes, visible controls, keyboard navigation,
+axe audits and original-image integrity. Reports: `artifacts/hero-minimal-qa/live/page/`.
+
+Predeployment validation: 51 unit/content/evidence checks and 200 browser checks
+PASS; Astro production build PASS. Lighthouse mobile: 99/100/100/100, LCP
+1,807 ms, CLS 0.000697, TBT 0 ms. See
+[`website-hero-release-2026-10-25.md`](../docs/website-hero-release-2026-10-25.md).
+Deployment and live verification logs are in `artifacts/hero-minimal-qa/deployment/`.

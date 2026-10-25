@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { screenshotAlt } from './copy.mjs';
@@ -48,6 +49,25 @@ try {
     });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
+
+    await check(`${name}: hero exposes only Play/Pause and one accessible explanatory prompt`, async () => {
+      const hero = page.locator('[data-turboj-demo]');
+      await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.loading === 'false');
+      assert.deepEqual(await hero.locator('button:visible').evaluateAll((buttons) => buttons.map((button) => button.dataset.demoAction)), ['pause']);
+      assert.equal(await hero.locator('[data-demo-action="pause"]').innerText(), 'Play');
+      assert.equal(await hero.locator('a:visible').count(), 0);
+      const prompt = hero.locator('[data-demo-prompt]');
+      assert.equal(await prompt.count(), 1);
+      assert.equal(await prompt.isVisible(), true);
+      assert.equal(await prompt.getAttribute('aria-label'), 'Browser replay. No Java runs here.');
+      for (const action of ['replay', 'previous', 'next', 'skip', 'story']) {
+        const retained = hero.locator(`[data-demo-action="${action}"]`);
+        assert.equal(await retained.count(), 1, `Retain ${action} without exposing a second playback control`);
+        assert.equal(await retained.isVisible(), false);
+      }
+      assert.equal(await hero.locator('[data-demo-details]').count(), 1);
+      assert.equal(await hero.locator('[data-demo-details]').isVisible(), false);
+    });
 
     await check(`${name}: responsive layout and loaded images`, async () => {
       const result = await page.evaluate(() => ({
@@ -152,30 +172,21 @@ try {
     await page.keyboard.press('Enter');
     assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'MAIN');
   });
-  await check('original product screenshot is an accessible, working full-resolution image link', async () => {
+  await check('the removed hero screenshot link stays absent while the original asset remains byte-identical', async () => {
     const image = page.getByAltText(screenshotAlt);
     assert.equal(await image.count(), 1);
-    const link = page.locator('[data-testid="screenshot-original"]');
-    assert.equal(await link.count(), 1);
-    const href = await link.getAttribute('href');
+    const hero = page.locator('[data-turboj-demo]');
+    assert.equal(await hero.locator('[data-testid="screenshot-original"]').count(), 0);
+    assert.equal(await hero.getByText('View original Classic-keymap screenshot', { exact: false }).count(), 0);
+    const href = '/images/turboj-editor.png';
     const response = await page.request.get(new URL(href, baseURL).href);
     assert.equal(response.status(), 200);
     assert.match(response.headers()['content-type'], /^image\//);
-    const target = await link.getAttribute('target');
-    if (target === '_blank') {
-      const popupPromise = page.waitForEvent('popup');
-      await link.focus();
-      await page.keyboard.press('Enter');
-      const popup = await popupPromise;
-      await popup.waitForLoadState();
-      assert.equal(new URL(popup.url()).pathname, new URL(href, baseURL).pathname);
-      await popup.close();
-    } else {
-      await link.focus();
-      await page.keyboard.press('Enter');
-      await page.waitForURL(new URL(href, baseURL).href);
-    }
-    return { href, bytes: (await response.body()).byteLength };
+    const bytes = await response.body();
+    const original = await readFile(new URL('../../docs/images/turboj-classic.png', import.meta.url));
+    const digest = (value) => createHash('sha256').update(value).digest('hex');
+    assert.equal(digest(bytes), digest(original));
+    return { href, bytes: bytes.byteLength, sha256: digest(bytes) };
   });
 } finally {
   await browser.close();

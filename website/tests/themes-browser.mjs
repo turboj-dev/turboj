@@ -198,13 +198,24 @@ try {
     const problems = captureProblems(page);
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
-    await check(`${viewport.width}: one Options/Themes menu with three primary choices and one completed demo`, async () => {
+    await check(`${viewport.width}: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit`, async () => {
       assert.equal(await page.locator('[data-theme-options]').count(), 1);
       assert.equal(await page.locator('[data-theme-menu]').count(), 1);
       assert.equal(await page.locator('[data-theme-choice]').count(), 3);
       assert.deepEqual(await page.locator('[data-theme-choice]').evaluateAll((elements) => elements.map((element) => element.dataset.themeChoice)), themeIDs);
       assert.equal(await page.locator('[data-turboj-demo]').count(), 1);
       assert.equal(await page.locator('html').getAttribute('data-theme'), 'classic');
+      await page.waitForFunction(() => document.querySelector('[data-turboj-demo]')?.dataset.loading === 'false');
+      const initial = await demoState(page);
+      assert.equal(initial.state, 'paused');
+      assert.equal(initial.elapsed, 0);
+      assert.equal(initial.source, hello.sources[hello.events[0].sourceId].text);
+      assert.equal(await page.locator('[data-demo-action="pause"]').isVisible(), true);
+      // This audit-only invocation restores a genuine result with syntax/output
+      // colors. The retained secondary control is intentionally not user-visible.
+      const skip = page.locator('[data-demo-action="skip"]');
+      assert.equal(await skip.isVisible(), false);
+      await skip.evaluate((button) => (/** @type {HTMLButtonElement} */ (button)).click());
       const state = await demoState(page);
       assert.equal(state.state, 'completed');
       assert.equal(state.source, expectedSource);
@@ -291,17 +302,19 @@ try {
       });
       await check(`${prefix}: keyboard focus indicators remain visible on menu and editor surfaces`, async () => {
         const inspected = [];
-        for (const selector of [`[data-theme-choice="${theme.id}"]`, '[data-demo-action="replay"]', '[data-testid="screenshot-original"]']) {
+        for (const selector of [`[data-theme-choice="${theme.id}"]`, '[data-demo-action="pause"]', '.demo-code-viewport']) {
           const control = page.locator(selector);
-          if (!await control.isVisible()) await openThemeMenu(page);
+          if (selector.startsWith('[data-theme-choice=')) await openThemeMenu(page);
+          assert.equal(await control.isVisible(), true, `${selector} must be a visible keyboard target`);
           await page.keyboard.press('Tab'); await control.focus();
           const focus = await control.evaluate((element) => {
             const s = getComputedStyle(element);
             let parent = element.parentElement;
             while (parent && ['transparent', 'rgba(0, 0, 0, 0)'].includes(getComputedStyle(parent).backgroundColor)) parent = parent.parentElement;
-            return { color: s.outlineColor, width: parseFloat(s.outlineWidth), style: s.outlineStyle,
+            return { focused: document.activeElement === element, color: s.outlineColor, width: parseFloat(s.outlineWidth), style: s.outlineStyle,
               background: parent ? getComputedStyle(parent).backgroundColor : 'rgb(255, 255, 255)' };
           });
+          assert.equal(focus.focused, true, `${selector} did not receive keyboard focus`);
           assert.ok(focus.style !== 'none' && focus.width >= 2, `${selector}: ${JSON.stringify(focus)}`);
           assert.ok(contrast(focus.color, focus.background) >= 3, `${selector}: focus contrast ${contrast(focus.color, focus.background).toFixed(2)}`);
           inspected.push({ selector, ...focus, contrast: contrast(focus.color, focus.background) });

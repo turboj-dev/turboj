@@ -1,8 +1,11 @@
 {
+  "generatedAt": "2026-10-25T09:45:42.764217Z",
+  "commands": 264,
+  "schema": 1,
   "generatedfiles": {
-    "docs/keyboard-command-inventory.md": "b7ef389e9a02fcc7186980ebd6bb25fd0f1aa3727a14fc738730e29d436c1b6a",
+    "docs/keyboard-command-inventory.md": "4ec45081bf1c4de462cd76f2ea029c1228084ac5f2cc1456fc00dd3eb05c3c63",
     "docs/keyboard-conflicts.md": "53893119ab66bd4a49b1cbdc7297a73c43ff4ce4ee1a5620001104220cacf002",
-    "docs/keyboard-shortcut-reference.md": "78e2e53e4dc147cf71a7d7ff57b02321a62d0e026aac03f97c93a99905e822b6"
+    "docs/keyboard-shortcut-reference.md": "707cd4cc73ba7bd2474b936f3ca464c3313c01f35ea491e5ddfab7e767f69d5d"
   },
   "aliases": 29,
   "files": {
@@ -10,7 +13,7 @@
     "app/src/main/java/dev/turboj/ai/AISettingsDialog.java": "92e150390b3855b1b232e760740df8128ef2b87d19df0be27ce8ad15db95638d",
     "app/src/main/java/dev/turboj/ai/CredentialStore.java": "b897fd1de454a72c628f6b0711bcaa350dc745924b7106e2414b8ca1bec1ef10",
     "app/src/main/java/dev/turboj/ai/MacKeychainCredentialStore.java": "b20717eab42703853ca0536b53ad8b956d8f9301cd6b49a164a8740aff42feef",
-    "app/src/main/java/dev/turboj/app/TurboFrame.java": "243bf032d193d5109eca8c70f77c796137b9b2d9f031b11bd2a53b0562c4a3da",
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "620d38e7f0514701ee4a151aea754161b14c59997e0dcccfacb318d6b19109e9",
     "app/src/main/java/dev/turboj/app/TurboJ.java": "6afdfc82948f2d195025342a862dae4f27330889bca0c2f9fff05180497f6e33",
     "app/src/main/java/dev/turboj/config/SafeFiles.java": "74829c3fdd22fa566bbbc36e542a262710234cc798bd225b1b11717e43017537",
     "app/src/main/java/dev/turboj/config/Settings.java": "7ead294e8370f8a0243e95be655efd7ea33870c9d5baedcc5480233dafbc1d5c",
@@ -21,7 +24,7 @@
     "app/src/main/java/dev/turboj/intelligence/KeyboardJavaController.java": "a9ff3e654908084280ebecc9fabaa3be13413546c7fe82ef6eb269c0b7b234c3",
     "app/src/main/java/dev/turboj/intelligence/NavigationHistory.java": "3f542a38591c3ceb03c8b81f3514193805d43f383bec563476ef2d271d08a4eb",
     "app/src/main/java/dev/turboj/intelligence/ProjectContext.java": "5cf8a753293d13ec9cd0debbaf5c217a1ec5788b0cec7d2f91c21935e64208b4",
-    "app/src/main/java/dev/turboj/project/MavenProjectController.java": "924b11ddc2d35ced577adadfd8c829bf43bbd91ea8f1247458f04ed2e28826c0",
+    "app/src/main/java/dev/turboj/project/MavenProjectController.java": "e0435aaee11fb4e4be9ebc8ccf499053d9afaa46d54a7a4662c3a372283a4274",
     "app/src/main/java/dev/turboj/project/MavenRunTargets.java": "243cff1bdcae59f37aa55a1a3f36ee029ec359dd2d2e97876957e8e7b169b736",
     "app/src/main/java/dev/turboj/project/SourceEncoding.java": "98863c1486a06513206e177bf210ab8ce05703acd883363c3dd9217543a0d47a",
     "app/src/main/java/dev/turboj/refactoring/NativeWorkspaceCommitter.java": "8a7007602425bd975191c1594b3106501d92d79ed6d2649fd8b37915c3ec6660",
@@ -29,9 +32,9 @@
     "app/src/main/java/dev/turboj/refactoring/RefactoringForms.java": "1e3fbafd87dbcf3f53f651ae3890808465c8818959a157f970103d750e07915a",
     "app/src/main/java/dev/turboj/testing/TestOutput.java": "b1e93223b2aa0e57950fd08b7b155e68ceedfa13fafd4a11f08eab8c6522647d",
     "app/src/main/java/dev/turboj/testing/TurboTestController.java": "3749a4ddd4d11a80266fa21bb5502479253ef8b5d4eaa1cec48ff6a7e071f0af",
-    "app/src/main/java/dev/turboj/ui/AsciiChrome.java": "2fed269b5cc09eb083a4e69dceda391cfaeb275f0abc27a185b637ca2a189f58",
+    "app/src/main/java/dev/turboj/ui/AsciiChrome.java": "ed4396cf40f8501cf02df605b78f0d8b568878ce11be55485b7d9155674a262b",
     "app/src/main/java/dev/turboj/ui/AsciiMenuBar.java": "5440bc137efc6be8bbc107dfe6baef191f1e52f00d87e210f272fb32cd71a950",
-    "app/src/main/java/dev/turboj/ui/ConsolePane.java": "46ce3181cd9577bcb31559688de6402795362774c4fc35218537161050d00d2d",
+    "app/src/main/java/dev/turboj/ui/ConsolePane.java": "63cbf1c22c843b9a774d432e4f7ed2a899d3f2b2c04503a1528fcf0d9ad97081",
     "app/src/main/java/dev/turboj/ui/EditorComponent.java": "69c6c0b9cfab924d44b1dc64ca73d7789997bd1d66df9004098a24c5c008b8a5",
     "app/src/main/java/dev/turboj/ui/InFramePopupFactory.java": "014e90169e1d83022f2fde1bd9770bbcee16d827b489946bf1464cbc8887c361",
     "app/src/main/java/dev/turboj/ui/MenuStyler.java": "2c88a7762bc7d4cca4e8f74d835df84950542aa906b0b754591d0cfe5eb2af13",
@@ -92,8 +95,5 @@
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/Requests.java": "ab42bc001dcb45cad7e256f5ed298a57f711594e45d58d640885fe340d1ad842",
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/SourceInventory.java": "3a0f1e47534a69f15a6cd29259da4e4b48055b7bac437bc11039766911929cba"
   },
-  "artifactSha256": "50b2c49c3b8329b4812a5dcef7d327ddfaf0845a4b7bf76e5da24ab319302f0c",
-  "generatedAt": "2026-10-25T08:15:10.993720Z",
-  "commands": 263,
-  "schema": 1
+  "artifactSha256": "58fcaefef076e96a86a3edc305a7c0870258e5bfb373dd36bda613b3e6b13679"
 }

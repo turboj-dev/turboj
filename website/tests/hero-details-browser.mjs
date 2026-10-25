@@ -6,7 +6,8 @@ import AxeBuilder from '@axe-core/playwright';
 import { resolveBrowserPath } from './browser-path.mjs';
 
 const baseURL = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4321';
-const directory = new URL('../artifacts/hero-story-qa/details/', import.meta.url);
+const artifactRoot = process.env.QA_ARTIFACT_ROOT ?? 'artifacts/hero-story-qa';
+const directory = new URL(`../${artifactRoot}/details/`, import.meta.url);
 await mkdir(directory, { recursive: true });
 const evidence = JSON.parse(await readFile(new URL('../public/demo/hero-story/evidence.json', import.meta.url), 'utf8'));
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');

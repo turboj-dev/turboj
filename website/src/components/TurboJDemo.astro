@@ -1,6 +1,5 @@
 ---
 import ProductScreenshot from './ProductScreenshot.astro';
-import { site } from '../data/site';
 import { CHAPTER_TITLES } from '../scripts/demo-timeline';
 import '../styles/turboj-demo.css';
 ---
@@ -41,10 +40,16 @@ import '../styles/turboj-demo.css';
     </div>
   </div>
   <noscript><p class="demo-no-script">JavaScript is off. This is a screenshot of the actual native application. <a href="/demo-session/">Read the recorded session, sources, and logs.</a></p></noscript>
-  <div data-demo-controls hidden>
+  <div class="demo-controls demo-primary" data-demo-controls hidden role="group" aria-label="Recorded story playback">
+    <button type="button" data-demo-action="pause" aria-label="Play the recorded five-chapter story">Play</button>
+    <p class="demo-prompt" data-demo-prompt role="img" aria-label="Browser replay. No Java runs here." title="Browser replay. No Java runs here.">
+      <span aria-hidden="true">&gt; </span><span data-demo-prompt-text aria-hidden="true">Browser replay. No Java runs here.</span><span class="demo-prompt-cursor" data-demo-prompt-cursor aria-hidden="true">▌</span>
+    </p>
+  </div>
+  <!-- Keep the full evidence and navigation UI for maintenance/audits, outside the public focus order. -->
+  <div data-demo-secondary hidden>
     <p class="demo-action" data-demo-operation></p>
     <div class="demo-controls" role="group" aria-label="Replay controls">
-      <button type="button" data-demo-action="pause">Play</button>
       <button type="button" data-demo-action="replay">Replay <span aria-hidden="true">↻</span></button>
       <button type="button" data-demo-action="previous" aria-label="Previous chapter">Previous</button>
       <button type="button" data-demo-action="next" aria-label="Next chapter">Next</button>
@@ -65,13 +70,12 @@ import '../styles/turboj-demo.css';
       <a href="/demo-session/" data-demo-details>Open measurement details, full source and logs <span aria-hidden="true">↗</span></a>
     </div>
     <p class="demo-kind" data-demo-keymap></p>
-  </div>
   <progress class="demo-progress" data-demo-progress max="1" value="0" aria-label="Chapter replay progress" hidden></progress>
   <div class="demo-caption">
     <div><p>Recorded TurboJ session, reconstructed in the browser. No Java runs here. Typing and reading pauses shortened.</p><p>Times from this captured session. <span data-demo-cache hidden>Dependencies already cached.</span></p></div>
-    <a href={site.links.original} data-testid="screenshot-original" target="_blank" rel="noopener">View original Classic-keymap screenshot <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
   </div>
   <p class="demo-load-status" data-demo-load-status role="status" hidden>Loading recorded session. The image above is an earlier native screenshot.</p>
+  </div>
   <p class="sr-only" data-demo-announcement role="status" aria-live="polite" aria-atomic="true"></p>
 </section>
 <script>

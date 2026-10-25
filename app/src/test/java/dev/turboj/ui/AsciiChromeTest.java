@@ -30,7 +30,7 @@ class AsciiChromeTest {
                         Theme theme = Theme.bundled(id);
                         MenuStyler.install(theme); MenuStyler.style(menu, theme);
                         console.setTheme(theme); AsciiStyle.apply(form, AsciiChrome.editor(theme));
-                        int expected = Math.round(size * 14f / 18);
+                        int expected = size;
                         assertEquals(expected, item.getFont().getSize(), id + " menu");
                         assertEquals(expected, UIManager.getFont("MenuItem.acceleratorFont").getSize(), id + " shortcut");
                         assertEquals(expected, console.inputComponent().getFont().getSize(), id + " output");

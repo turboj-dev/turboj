@@ -191,6 +191,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | view.focusTestResults | Focus Test Results | Panels | Unassigned | Any | Run tests first | view focusTestResults |
 | view.maximizeEditor | Maximize Editor Area | Panels | Unassigned | Any | Available | view maximizeEditor |
 | explorer.open | Open Selected Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer open |
+| view.resizeOutput | Resize Output | Panels | Unassigned | Any | Available | view resizeOutput |
 | view.restoreLayout | Restore Previous Layout | Panels | Unassigned | Any | The editor is not maximized | view restoreLayout |
 | view.toggleConsole | Toggle Console | Panels | Unassigned | Any | Available | view toggleConsole |
 | view.toggleExplorer | Toggle Explorer | Panels | Unassigned | Any | Open a Maven project first | view toggleExplorer |

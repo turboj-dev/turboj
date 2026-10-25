@@ -91,6 +91,9 @@ public final class TurboFrame extends JFrame {
     private final JPanel bottom = new JPanel(new BorderLayout());
     private final MavenProjectController maven;
     private JSplitPane projectSplit;
+    private JSplitPane outputSplit;
+    private int outputHeight = 190;
+    private boolean outputLayoutReady;
     private final AsciiMenuBar menus = new AsciiMenuBar();
     private long themeChoiceGeneration;
     private final Map<String, Action> commands = new LinkedHashMap<>();
@@ -246,6 +249,7 @@ public final class TurboFrame extends JFrame {
                     projectSplit.setDividerSize(maven.panel().isVisible() ? 5 : 0);
                     if (maven.panel().isVisible() && projectSplit.getDividerLocation() < 130) projectSplit.setDividerLocation(235);
                     projectSplit.revalidate();
+                    refreshWorkspaceMinimums();
                 }
             }
         });
@@ -255,8 +259,41 @@ public final class TurboFrame extends JFrame {
         var content = new JPanel(new BorderLayout());
         projectSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, maven.panel(), editorPanel);
         projectSplit.setBorder(null); projectSplit.setDividerSize(0); projectSplit.setResizeWeight(0);
-        content.add(projectSplit, BorderLayout.CENTER);
-        content.add(messages, BorderLayout.SOUTH);
+        outputSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, projectSplit, messages) {
+            @Override public void doLayout() {
+                super.doLayout();
+                // Swing preserves a pixel divider location even when the window becomes smaller.
+                // Clamp after layout so neither pane disappears after resizing or changing zoom.
+                if (getBottomComponent().isVisible()) {
+                    int available = getHeight() - getDividerSize();
+                    int lower = getTopComponent().getMinimumSize().height;
+                    int upper = available - getBottomComponent().getMinimumSize().height;
+                    if (upper >= lower) {
+                        int current = getUI().getDividerLocation(this);
+                        int bounded = Math.clamp(current, lower, upper);
+                        if (bounded != current) { setDividerLocation(bounded); super.doLayout(); }
+                    }
+                }
+            }
+        };
+        outputSplit.setName("workspace-output-split");
+        outputSplit.getAccessibleContext().setAccessibleName("Resize output vertically");
+        outputSplit.setToolTipText("Drag to resize output; use Resize Output in the command palette, then Up/Down");
+        outputSplit.setBorder(null); outputSplit.setDividerSize(5); outputSplit.setResizeWeight(1);
+        outputSplit.addFocusListener(new FocusAdapter() {
+            @Override public void focusGained(FocusEvent event) { refreshTitle(); }
+            @Override public void focusLost(FocusEvent event) { refreshTitle(); }
+        });
+        outputSplit.addComponentListener(new ComponentAdapter() {
+            @Override public void componentResized(ComponentEvent event) {
+                if (!outputLayoutReady && outputSplit.getHeight() > 0) {
+                    outputLayoutReady = true;
+                    refreshWorkspaceMinimums(); // Native title-bar insets exist only after peer creation.
+                    restoreOutputHeight();
+                }
+            }
+        });
+        content.add(outputSplit, BorderLayout.CENTER);
         setLayout(new BorderLayout());
         add(content, BorderLayout.CENTER);
         bottom.add(status, BorderLayout.CENTER);
@@ -1148,7 +1185,7 @@ public final class TurboFrame extends JFrame {
                 "zoom",
                 "Expand editor",
                 () -> {
-                    messages.setVisible(!messages.isVisible());
+                    setMessagesVisible(!messages.isVisible());
                     revalidate();
                 });
         command(
@@ -1158,7 +1195,7 @@ public final class TurboFrame extends JFrame {
                     if (console.hasConsoleFocus() || repl.hasConsoleFocus())
                         editor.requestFocusInWindow();
                     else {
-                        messages.setVisible(true);
+                        setMessagesVisible(true);
                         if (replVisible) repl.focusInput();
                         else console.focusInput();
                     }
@@ -1484,6 +1521,10 @@ public final class TurboFrame extends JFrame {
         command("view.focusEditor", "Focus Editor", () -> editor.requestFocusInWindow());
         command("view.focusExplorer", "Focus Project Explorer", maven::focusExplorer);
         command("view.focusConsole", "Focus Console", this::focusConsole);
+        command("view.resizeOutput", "Resize Output", () -> {
+            setMessagesVisible(true);
+            outputSplit.requestFocusInWindow();
+        });
         command("view.focusJShell", "Focus JShell", () -> showRepl(true));
         command("view.focusTestResults", "Focus Test Results", this::showTestResults);
         command("view.focusDiagnostics", "Compiler Diagnostics…", this::showDiagnostics);
@@ -1491,7 +1532,7 @@ public final class TurboFrame extends JFrame {
         command("view.focusPreviousPanel", "Focus Previous Panel", () -> focusPanel(-1));
         command("view.toggleExplorer", "Toggle Explorer", maven::toggleExplorer);
         command("view.toggleConsole", "Toggle Console", () -> {
-            if (messages.isVisible() && !replVisible) { messages.setVisible(false); editor.requestFocusInWindow(); }
+            if (messages.isVisible() && !replVisible) { setMessagesVisible(false); editor.requestFocusInWindow(); }
             else focusConsole();
             revalidate();
         });
@@ -1560,14 +1601,14 @@ public final class TurboFrame extends JFrame {
         editorMaximized = true;
         restoreExplorer = maven.panel().isVisible(); restoreMessages = messages.isVisible();
         restoreDivider = projectSplit.getDividerLocation();
-        maven.panel().setVisible(false); messages.setVisible(false);
+        maven.panel().setVisible(false); setMessagesVisible(false);
         projectSplit.setDividerSize(0); revalidate(); editor.requestFocusInWindow();
     }
 
     private void restoreEditorLayout() {
         if (!editorMaximized) return;
         editorMaximized = false;
-        maven.panel().setVisible(restoreExplorer); messages.setVisible(restoreMessages);
+        maven.panel().setVisible(restoreExplorer); setMessagesVisible(restoreMessages);
         projectSplit.setDividerSize(restoreExplorer ? 5 : 0);
         if (restoreExplorer) projectSplit.setDividerLocation(restoreDivider);
         revalidate(); editor.requestFocusInWindow();
@@ -2154,9 +2195,12 @@ public final class TurboFrame extends JFrame {
         status.setFont(mono);
         position.setFont(mono);
         AsciiChrome.splitPane(projectSplit, AsciiChrome.editor(t));
+        AsciiChrome.splitPane(outputSplit, AsciiChrome.editor(t));
+        outputSplit.setDividerSize(messages.isVisible() ? AsciiChrome.scaled(5) : 0);
         editorPanel.setBackground(t.background());
         getContentPane().setBackground(t.background());
         refreshTitle();
+        refreshWorkspaceMinimums();
         revalidate();
         repaint();
     }
@@ -2165,13 +2209,55 @@ public final class TurboFrame extends JFrame {
         return repl;
     }
 
+    private void setMessagesVisible(boolean visible) {
+        if (messages.isVisible() == visible) return;
+        if (!visible && messages.getHeight() > 0) outputHeight = messages.getHeight();
+        messages.setVisible(visible);
+        if (outputSplit != null) {
+            outputSplit.setDividerSize(visible ? AsciiChrome.scaled(5) : 0);
+            refreshWorkspaceMinimums();
+            if (outputLayoutReady) {
+                if (visible) restoreOutputHeight();
+                else outputSplit.setDividerLocation(outputSplit.getHeight());
+            }
+            outputSplit.revalidate();
+            outputSplit.repaint();
+        }
+    }
+
+    private void restoreOutputHeight() {
+        int available = outputSplit.getHeight() - outputSplit.getDividerSize();
+        int desired = Math.max(messages.getMinimumSize().height, outputHeight);
+        int lower = Math.min(projectSplit.getMinimumSize().height, Math.max(0, available / 2));
+        int upper = Math.max(lower, available - messages.getMinimumSize().height);
+        int location = Math.clamp(available - desired, lower, upper);
+        outputSplit.setDividerLocation(location);
+    }
+
+    private void refreshWorkspaceMinimums() {
+        if (outputSplit == null || theme == null) return;
+        Insets editorEdge = editorPanel.getInsets();
+        int editorHeight = editorEdge.top + editorEdge.bottom + editor.getFontMetrics(editor.getFont()).getHeight() + 2;
+        int projectHeight = maven.panel().isVisible() ? maven.panel().getMinimumSize().height : 0;
+        projectSplit.setMinimumSize(new Dimension(0, Math.max(editorHeight, projectHeight)));
+        Insets outputEdge = messages.getInsets();
+        int outputHeight = (replVisible ? repl : console).getMinimumSize().height;
+        messages.setMinimumSize(new Dimension(0, outputEdge.top + outputEdge.bottom + outputHeight));
+        int chromeHeight = menus.getPreferredSize().height + bottom.getPreferredSize().height;
+        Insets frameEdge = getInsets();
+        int minimumHeight = projectSplit.getMinimumSize().height + chromeHeight + frameEdge.top + frameEdge.bottom;
+        if (messages.isVisible()) minimumHeight += messages.getMinimumSize().height + outputSplit.getDividerSize();
+        setMinimumSize(new Dimension(640, Math.max(420, minimumHeight)));
+    }
+
     private void showRepl(boolean visible) {
         replVisible = visible;
         messages.removeAll();
         messages.add(visible ? repl : console, BorderLayout.CENTER);
-        messages.setVisible(true);
+        setMessagesVisible(true);
         lastMessageTitle = "";
         refreshTitle();
+        refreshWorkspaceMinimums();
         messages.revalidate();
         messages.repaint();
         if (visible) repl.focusInput();
@@ -2206,12 +2292,13 @@ public final class TurboFrame extends JFrame {
         if (!getTitle().equals(name + dirty + " — TurboJ")) setTitle(name + dirty + " — TurboJ");
         if (!lastEditorTitle.equals(name + dirty)) {
             lastEditorTitle = name + dirty;
-            editorPanel.setBorder(new AsciiBorder(name + dirty, AsciiChrome.editor(theme)));
+            editorPanel.setBorder(new AsciiBorder(name + dirty, AsciiChrome.editor(theme), AsciiBorder.Line.SINGLE));
         }
         String messageTitle = replVisible ? "Java REPL" : "Output";
+        if (outputSplit != null && outputSplit.isFocusOwner()) messageTitle += " · ↑/↓ resize · Esc editor";
         if (!lastMessageTitle.equals(messageTitle)) {
             lastMessageTitle = messageTitle;
-            messages.setBorder(new AsciiBorder(messageTitle, AsciiChrome.output(theme)));
+            messages.setBorder(new AsciiBorder(messageTitle, AsciiChrome.output(theme), AsciiBorder.Line.SINGLE));
         }
         messages.setBackground(theme.messagesBackground());
         refreshStatusLine();
@@ -2396,7 +2483,7 @@ public final class TurboFrame extends JFrame {
         long request = run ? ++runRequest : runRequest;
         CompletableFuture<RunResult> previous = execution;
         if (run) { programWorker.stop(); running = false; console.setProgramRunning(false); }
-        messages.setVisible(true);
+        setMessagesVisible(true);
         buildStatus = "TURBOJ NATIVE · COMPILING"; refreshTitle();
         boolean testSource = module.isPresent() && module.get().isTest(activeFile);
         if (nativeCompileTask != null && !nativeCompileTask.isDone()) nativeCompileTask.cancel(true);
@@ -2512,7 +2599,7 @@ public final class TurboFrame extends JFrame {
             running = false;
             console.setProgramRunning(false);
         }
-        messages.setVisible(true);
+        setMessagesVisible(true);
         buildStatus = "CHECKING…";
         refreshTitle();
         var future =
@@ -2621,7 +2708,7 @@ public final class TurboFrame extends JFrame {
                                             }
                                             if (waiting) {
                                                 if (replVisible) showRepl(false);
-                                                messages.setVisible(true);
+                                                setMessagesVisible(true);
                                                 console.focusInput();
                                             }
                                         }));
@@ -3254,7 +3341,7 @@ public final class TurboFrame extends JFrame {
         @Override
         public void begin(boolean compilationOnly) {
             showRepl(false);
-            messages.setVisible(true);
+            setMessagesVisible(true);
             testOutput.begin(compilationOnly);
             buildStatus = compilationOnly ? "PROJECT COMPILING…" : "TURBOTEST · COMPILING…";
             refreshTitle();

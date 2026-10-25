@@ -75,6 +75,31 @@ field Core Web Vitals. INP is not inferred from TBT or a navigation-only audit.
 
 ## Five-chapter native hero — 25 October 2026
 
+### Compact playback follow-up
+
+The public hero now exposes only Play/Pause and a single typewriter-style
+explanation. Secondary controls and evidence captions are retained but hidden;
+the old Classic screenshot link was removed. Source/evidence bytes and recorded
+timing boundaries are unchanged. Reduced motion starts paused and displays full
+caption text; explicit Play continues the five-chapter story.
+
+Fresh validation: **51 unit/content/evidence checks and 200 browser checks PASS**
+(46 homepage, 34 replay, 14 details/downloads, 26 captured scenes, 74 themes,
+six theme-spin). Build and Astro checking pass with zero errors/warnings and
+the existing performance-helper hint. One final Lighthouse run: 99/100/100/100,
+LCP 1,807 ms, CLS 0.000697, TBT 0 ms. Hero/all JavaScript are 5,682/13,825 bytes
+gzip; five lazy chapter files remain 20,830 bytes. Reports are in
+`artifacts/hero-minimal-qa/`, including the retained initial mobile-focus failure.
+
+The reference export now contains 264 native commands, including Resize Output,
+and is generated from the tested native workspace artifact. Those new native
+panel borders/fonts are not yet mirrored in the demo; acceptance of the native
+preview remains the gate for that visual synchronization.
+
+See [`website-hero-release-2026-10-25.md`](../docs/website-hero-release-2026-10-25.md)
+for this follow-up and `DEPLOYMENT.md` for its authorized publication. The results
+below describe the preceding local implementation and remain historical.
+
 Implemented locally and verified against one nominated native run from commit
 `802f49609bfe1da1be63d3afce868110db22d4c7`. The exact selected trace is
 `909cb7499ab78cc5b4cab6ee96d352867d08f5ffe721f04c2005ce0713d48dfb`.

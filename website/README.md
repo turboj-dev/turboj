@@ -146,13 +146,23 @@ enters source into the real editor and invokes existing commands and dialogs;
 it does not alter TurboJ or its libraries. The price example uses integer cents
 and two deterministic JUnit tests throughout refactoring and automation.
 
-Each chapter loads independently from a checkpoint. Play/Pause, Replay,
-Previous/Next, Skip to Result and Play Full Story control a single active-time
-clock. Initial Hello World playback runs once when visible and holds its result.
-Reduced motion starts at the result; the checkpoint selector also exposes the
-recorded intermediate states. Hidden/offscreen playback suspends the clock.
-Theme changes preserve playback state. The external curl scene is explicitly
-separate from the native console.
+Each chapter loads independently from a checkpoint. The public hero exposes
+only Play/Pause and one explanatory line with a typewriter cursor. Initial Hello
+World playback runs once when visible and holds its result; explicit Play
+continues the five-chapter story and restarts after its last chapter. Reduced
+motion starts paused, allows explicit Play, and displays complete caption text
+without typing or cursor animation. Hidden/offscreen playback suspends the single
+active-time clock. Theme changes preserve playback state. The external curl
+scene remains explicitly separate from the native console.
+
+The short explanatory phrases are editorial captions, never changes to the
+captured Java source, logs or event timing. The former chapter/checkpoint and
+measurement controls are retained under `data-demo-secondary` with `hidden`,
+outside the visible UI and keyboard focus order. Browser audits can invoke those
+retained controls programmatically to inspect every original checkpoint. The
+old Classic screenshot link was removed at the user's request; its image asset
+and provenance remain intact. The complete evidence page remains available at
+`/demo-session/`.
 
 `/demo-session/` exposes complete source revisions, output, original frame
 captures, environment, hashes, command-to-result measurements and editorial cuts.

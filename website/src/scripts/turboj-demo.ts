@@ -9,6 +9,7 @@ function initialize(root: HTMLElement) {
   const fallback = root.querySelector<HTMLElement>('.demo-fallback')!;
   const external = get('external');
   const overlay = get('overlay');
+  const stage = root.querySelector<HTMLElement>('.demo-stage')!;
   const source = get('source');
   const output = get('output');
   const cursor = get('cursor');
@@ -16,6 +17,9 @@ function initialize(root: HTMLElement) {
   const progress = get<HTMLProgressElement>('progress');
   const checkpoints = get<HTMLSelectElement>('checkpoint');
   const pause = root.querySelector<HTMLButtonElement>('[data-demo-action="pause"]')!;
+  const prompt = get('prompt');
+  const promptText = get('prompt-text');
+  const promptCursor = get('prompt-cursor');
   const buttons = [...root.querySelectorAll<HTMLButtonElement>('button')];
   const chapterButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-demo-chapter]')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,22 +41,102 @@ function initialize(root: HTMLElement) {
   let renderedEvent = '';
   let renderedSource = '';
   let announced = '';
+  let promptPhrase = '';
+  let promptStarted = 0;
+  let promptCharacters = 0;
+  let focusRevision = 0;
+  document.addEventListener('focusin', (event) => {
+    if (event.target !== pause && event.target !== document.body) focusRevision++;
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (event.target !== pause) focusRevision++;
+  });
 
   function canPlay() {
-    return !!chapter && !loading && !manualPaused && !motion.matches && onScreen && !document.hidden && elapsed < chapter.durationMs;
+    return !!chapter && !loading && !manualPaused && onScreen && !document.hidden && elapsed < chapter.durationMs;
   }
   function clockState() {
     root.dataset.state = loading ? 'loading' : !chapter ? 'error' : elapsed >= chapter.durationMs ? 'completed' : canPlay() ? 'playing' : 'paused';
     root.dataset.manualPaused = String(manualPaused);
     root.dataset.started = String(autoStarted);
-    pause.textContent = canPlay() ? 'Pause' : elapsed > 0 && elapsed < (chapter?.durationMs ?? 0) ? 'Resume' : 'Play';
+    pause.textContent = canPlay() ? 'Pause' : 'Play';
+    const label = canPlay() ? 'Pause the recorded story' : selected === 4 && chapter && elapsed >= chapter.durationMs ? 'Replay the recorded five-chapter story' : 'Play or continue the recorded five-chapter story';
+    pause.setAttribute('aria-label', label);
+    pause.title = label;
     for (const button of buttons) {
       if (button.dataset.demoChapter !== undefined) continue;
-      button.disabled = loading || !chapter || (motion.matches && ['pause', 'story'].includes(button.dataset.demoAction!))
+      button.disabled = loading || !chapter
         || (button.dataset.demoAction === 'previous' && selected === 0)
         || (button.dataset.demoAction === 'next' && selected === manifest?.chapters.length - 1);
     }
     checkpoints.disabled = loading;
+  }
+  // These editorial captions describe captured phases. They never alter source bytes or event times.
+  // Group typing/selection checkpoints so a sentence can finish on the existing active playback clock.
+  function describe(event: DemoEvent) {
+    const id = event.id;
+    if (selected === 0) {
+      if (id === 'hello-run-result') return 'Hello TurboJ! Play to continue.';
+      if (id.startsWith('hello-run')) return 'Running HelloWorld.java.';
+      if (id.startsWith('hello-compile')) return 'Compiling HelloWorld.java.';
+      if (id === 'hello-save-dialog' || id === 'hello-source') return 'Saving HelloWorld.java.';
+      return 'Browser replay. No Java runs here.';
+    }
+    if (selected === 1) {
+      if (id === 'tests-before-refactor-result' || id === 'tests-output') return 'Both JUnit tests pass.';
+      if (id.startsWith('tests-before')) return 'Running two JUnit tests.';
+      return id.startsWith('price') ? 'Writing a price calculator.' : 'Adding two JUnit tests.';
+    }
+    if (selected === 2) {
+      if (id === 'tests-after-refactor-result' || id === 'refactoring-preserved') return 'Both tests still pass after refactoring.';
+      if (id.startsWith('tests-after')) return 'Rerunning tests after refactoring.';
+      return id.startsWith('extract') ? 'Extracting the applyDiscount method.' : 'Renaming discount to discountedPrice.';
+    }
+    if (selected === 3) {
+      if (id === 'autotest-fails-result') return 'One test fails after saving.';
+      if (id === 'autotest-fails-start') return 'Saving starts automatic tests.';
+      if (id === 'autotest-passes-result') return 'Both tests pass after saving.';
+      if (id === 'autotest-fixed' || id === 'autotest-passes-start') return 'Saving the corrected calculation.';
+      if (id === 'autorun-saved-result') return 'Updated program output received.';
+      if (id === 'autorun-saved-start') return 'Saving starts the updated program.';
+      return id.startsWith('autotest') ? 'Auto Test waits for a successful save.' : 'Auto Run waits for a successful save.';
+    }
+    if (id === 'spring-stopped') return 'Session complete. The server stopped.';
+    if (id === 'curl-result') return 'curl returned Hello from TurboJ!';
+    if (id.startsWith('curl')) return 'Running external curl.';
+    if (id === 'spring-startup-result') return 'Spring Boot is ready for HTTP.';
+    if (id === 'maven-import-result') return 'Cached Maven dependencies resolved.';
+    if (id.startsWith('maven-import')) return 'Importing the Maven project.';
+    if (id === 'spring-source') return 'Opening the Spring Boot application.';
+    return 'Starting Spring with a Maven goal.';
+  }
+  function renderPrompt(event: DemoEvent) {
+    const phrase = describe(event);
+    if (phrase !== promptPhrase) {
+      promptPhrase = phrase;
+      promptStarted = elapsed;
+      promptCharacters = 0;
+      prompt.setAttribute('aria-label', phrase);
+      prompt.title = phrase;
+      if (announced !== phrase) {
+        get('announcement').textContent = phrase;
+        announced = phrase;
+      }
+    }
+    // Pausing makes the entire sentence readable. Resuming never removes already visible letters.
+    promptCharacters = Math.max(promptCharacters, !canPlay() || motion.matches ? phrase.length : Math.floor((elapsed - promptStarted) / 24) + 1);
+    const visible = phrase.slice(0, promptCharacters);
+    if (promptText.textContent !== visible) promptText.textContent = visible;
+    promptCursor.style.opacity = !canPlay() || motion.matches || Math.floor(elapsed / 500) % 2 === 0 ? '1' : '0';
+  }
+  function unavailable() {
+    const message = 'Replay unavailable. Reload to retry.';
+    get('controls').hidden = false;
+    promptText.textContent = message;
+    prompt.setAttribute('aria-label', message);
+    prompt.title = message;
+    promptCursor.style.opacity = '1';
+    get('announcement').textContent = message;
   }
   function updateTime() {
     if (!chapter) return;
@@ -126,7 +210,7 @@ function initialize(root: HTMLElement) {
     note.hidden = overlay.hidden;
     note.textContent = dialogs?.length ? 'Recorded native dialog — read-only reconstruction. Scroll to inspect the captured text.' : 'Recorded native menu — read-only reconstruction.';
     if (overlay.hidden) {
-      if (restoreFocus) checkpoints.focus({ preventScroll: true });
+      if (restoreFocus) pause.focus({ preventScroll: true });
       return;
     }
     function textElement(tag: string, text: string, className = '') {
@@ -218,12 +302,6 @@ function initialize(root: HTMLElement) {
       root.dataset.event = event.id;
       root.dataset.phase = event.kind;
       renderedEvent = event.id;
-      // Source snapshots may arrive on every keystroke; only announce actions/results.
-      const message = /typ|input|caret|select/i.test(event.kind) || /(?:typing-)?line-\d/.test(event.id) ? '' : `${chapter.title}. ${event.label}`;
-      if (message && message !== announced) {
-        get('announcement').textContent = message;
-        announced = message;
-      }
       const checkpoint = [...chapter.checkpoints].reverse().find((item) => item.atMs <= elapsed);
       if (checkpoint) checkpoints.value = checkpoint.id;
       updateTime();
@@ -231,6 +309,7 @@ function initialize(root: HTMLElement) {
     root.dataset.elapsed = String(Math.round(elapsed * 100) / 100);
     progress.value = elapsed / chapter.durationMs;
     clockState();
+    renderPrompt(event);
   }
   function freeze() {
     if (frameId) cancelAnimationFrame(frameId);
@@ -265,10 +344,12 @@ function initialize(root: HTMLElement) {
     if (!manifest || index < 0 || index >= manifest.chapters.length) return;
     freeze();
     const epoch = ++loadEpoch;
+    const restorePlayFocus = document.activeElement === pause || overlay.contains(document.activeElement) || screen.contains(document.activeElement);
+    const initialFocusRevision = focusRevision;
     selected = index;
     loading = true;
-    manualPaused = !play || motion.matches;
-    if (overlay.contains(document.activeElement) || screen.contains(document.activeElement)) chapterButtons[index].focus({ preventScroll: true });
+    manualPaused = !play;
+    if (overlay.contains(document.activeElement) || screen.contains(document.activeElement)) pause.focus({ preventScroll: true });
     root.dataset.chapter = manifest.chapters[index].id;
     root.dataset.loading = 'true';
     screen.hidden = true;
@@ -289,10 +370,11 @@ function initialize(root: HTMLElement) {
       if (epoch !== loadEpoch) return;
       if (loaded.title !== entry.title || loaded.durationMs !== entry.durationMs) throw new Error('Chapter does not match its manifest.');
       chapter = loaded;
-      elapsed = motion.matches ? chapter.durationMs : 0;
+      elapsed = 0;
       loading = false;
       renderedEvent = '';
       renderedSource = '';
+      promptPhrase = '';
       root.dataset.loading = 'false';
       get('cache').hidden = selected !== 4 || manifest.dependencyCache !== 'warm';
       checkpoints.replaceChildren(...chapter.checkpoints.map((checkpoint) => new Option(checkpoint.label, checkpoint.id)));
@@ -303,6 +385,9 @@ function initialize(root: HTMLElement) {
       fallback.hidden = true;
       render();
       synchronize();
+      // Disabling a focused button during an async load can send focus to the body.
+      // Restore it only if the user has not focused or clicked something else meanwhile.
+      if (restorePlayFocus && focusRevision === initialFocusRevision && (document.activeElement === document.body || document.activeElement === pause)) pause.focus({ preventScroll: true });
     } catch (error) {
       if (epoch !== loadEpoch) return;
       chapters.delete(entry.id);
@@ -313,6 +398,7 @@ function initialize(root: HTMLElement) {
       fallback.hidden = false;
       get('load-status').textContent = 'Recorded chapter unavailable. Select a chapter to retry, or open the full session details.';
       clockState();
+      unavailable();
     }
   }
   function seek(atMs: number) {
@@ -337,7 +423,16 @@ function initialize(root: HTMLElement) {
         const wasPlaying = canPlay();
         freeze();
         manualPaused = wasPlaying;
-        if (elapsed >= chapter.durationMs) { elapsed = 0; renderedEvent = ''; manualPaused = false; }
+        if (!wasPlaying) {
+          // A focused Play button can remain offscreen after page scrolling. Explicit Play
+          // brings the recording back; ordinary offscreen suspension never changes scroll.
+          const bounds = stage.getBoundingClientRect();
+          const visibleHeight = Math.max(0, Math.min(innerHeight, bounds.bottom) - Math.max(0, bounds.top));
+          if (visibleHeight < bounds.height * .15) stage.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
+          // The sole visible Play button continues all chapters, including after the initial Hello hold.
+          fullStory = true;
+          if (elapsed >= chapter.durationMs) { void selectChapter((selected + 1) % manifest.chapters.length, true); break; }
+        }
         render(); synchronize(); break;
       }
       case 'replay':
@@ -356,14 +451,14 @@ function initialize(root: HTMLElement) {
   });
   document.addEventListener('visibilitychange', synchronize);
   motion.addEventListener('change', () => {
-    if (motion.matches && chapter) seek(chapter.durationMs);
+    if (motion.matches) { freeze(); manualPaused = true; }
     synchronize();
   });
   const observer = new IntersectionObserver(([entry]) => {
     onScreen = entry.isIntersecting && entry.intersectionRatio >= .15;
     synchronize();
   }, { threshold: [0, .15] });
-  observer.observe(root.querySelector('.demo-stage')!);
+  observer.observe(stage);
   get('load-status').hidden = false;
   clockState();
   void fetch('/demo/hero-story/manifest.json').then((response) => {
@@ -380,5 +475,6 @@ function initialize(root: HTMLElement) {
     loading = false;
     get('load-status').textContent = 'Recorded session unavailable. The image above is an earlier native screenshot. Open session details for sources and evidence.';
     clockState();
+    unavailable();
   });
 }

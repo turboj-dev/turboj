@@ -267,7 +267,7 @@ public final class MavenProjectController implements AutoCloseable {
     }
 
     private void buildTree(Workspace value) {
-        if (theme != null) panel.setBorder(new AsciiBorder("Project", AsciiChrome.editor(theme)));
+        if (theme != null) panel.setBorder(new AsciiBorder("Project", AsciiChrome.editor(theme), AsciiBorder.Line.SINGLE));
         summary.setText(" " + value.modules().size() + " modules · " + (value.resolved() ? "Dependencies resolved" : "Dependencies incomplete") + " ");
         summary.setToolTipText(statusText(value));
         var root = new DefaultMutableTreeNode(new Entry(value.root().getFileName().toString(), value.rootPom()));
@@ -617,9 +617,15 @@ public final class MavenProjectController implements AutoCloseable {
         theme = value;
         AsciiPalette palette = AsciiChrome.editor(value);
         AsciiStyle.apply(panel, palette);
-        panel.setBorder(new AsciiBorder("Project", palette));
+        panel.setBorder(new AsciiBorder("Project", palette, AsciiBorder.Line.SINGLE));
         tree.setFont(palette.font());
         tree.setRowHeight(tree.getFontMetrics(tree.getFont()).getHeight());
+        Insets edge = panel.getInsets();
+        var layout = (BorderLayout) panel.getLayout();
+        var scroll = (JScrollPane) layout.getLayoutComponent(BorderLayout.CENTER);
+        int footerHeight = layout.getLayoutComponent(BorderLayout.SOUTH).getPreferredSize().height;
+        panel.setMinimumSize(new Dimension(130, edge.top + edge.bottom + footerHeight
+                + tree.getRowHeight() + scroll.getHorizontalScrollBar().getPreferredSize().height));
         if (tree.getCellRenderer() instanceof DefaultTreeCellRenderer renderer) {
             renderer.setLeafIcon(null); renderer.setOpenIcon(null); renderer.setClosedIcon(null);
             renderer.setBackgroundNonSelectionColor(palette.background()); renderer.setTextNonSelectionColor(palette.foreground());
@@ -630,7 +636,7 @@ public final class MavenProjectController implements AutoCloseable {
 
     private void showText(String title, String text) {
         var dialog = new EmbeddedDialog(host.owner(), title, false);
-        var area = new JTextArea(text); area.setEditable(false); area.setCaretPosition(0); area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
+        var area = new JTextArea(text); area.setEditable(false); area.setCaretPosition(0); area.setFont(AsciiChrome.font());
         dialog.setContentPane(new JScrollPane(area)); dialog.setSize(760, 500); dialog.setLocationRelativeTo(host.owner()); dialog.setVisible(true);
     }
 

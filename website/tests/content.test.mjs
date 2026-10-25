@@ -23,7 +23,11 @@ test('the five-chapter reconstruction explains its evidence and execution limits
   assert.match(text, /Recorded TurboJ session, reconstructed in the browser/);
   assert.match(text, /No Java runs here/);
   assert.match(text, /Times from this captured session/);
-  assert.match(text, /Classic.keymap/i);
+  assert.match(html, /data-demo-keymap/);
+  assert.match(html, /data-demo-prompt/);
+  assert.ok(text.includes('Browser replay. No Java runs here.'));
+  assert.doesNotMatch(html, /data-testid="screenshot-original"/);
+  assert.doesNotMatch(text, /View original Classic-keymap screenshot/);
   for (const chapter of ['Hello World', 'Tests', 'Refactoring', 'AutoRun / AutoTest', 'Spring Boot + curl']) assert.ok(text.includes(chapter));
   for (const action of ['replay', 'pause', 'skip', 'previous', 'next', 'story']) assert.ok(html.includes(`data-demo-action="${action}"`));
   assert.match(html, /href="\/demo-session\/"/);

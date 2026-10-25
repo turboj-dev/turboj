@@ -29,12 +29,15 @@ async function check(name, callback) {
 }
 async function selectScene(page, scene) {
   const chapter = chapters[scene.chapter];
-  await page.locator(`[data-demo-chapter="${scene.chapter}"]`).click();
+  // Audit-only access: the product intentionally exposes just Play/Pause and its caption.
+  await page.locator(`[data-demo-chapter="${scene.chapter}"]`).evaluate((button) => /** @type {HTMLButtonElement} */ (button).click());
   await page.waitForFunction((id) => {
     const root = document.querySelector('[data-turboj-demo]');
     return root?.dataset.chapter === id && root.dataset.loading === 'false';
   }, chapter.id);
-  await page.locator('[data-demo-checkpoint]').selectOption(scene.event);
+  await page.locator('[data-demo-checkpoint]').evaluate((select, value) => {
+    select.value = value; select.dispatchEvent(new Event('change', { bubbles: true }));
+  }, scene.event);
   await page.waitForFunction((id) => document.querySelector('[data-turboj-demo]')?.dataset.event === id, scene.event);
   await page.locator('.demo-stage').scrollIntoViewIfNeeded();
   return chapter.events.find((event) => event.id === scene.event);

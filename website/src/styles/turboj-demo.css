@@ -6,9 +6,7 @@
 .demo-fallback img { width: 100%; height: 100%; object-fit: contain; }
 .turboj-demo [hidden] { display: none !important; }
 /* Reserve the controls before lazy evidence arrives; no-JS keeps the screenshot fallback. */
-html.demo-js .turboj-demo [data-demo-controls][hidden],
-html.demo-js .turboj-demo [data-demo-current][hidden],
-html.demo-js .turboj-demo [data-demo-progress][hidden] { display: block !important; visibility: hidden; pointer-events: none; }
+html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !important; visibility: hidden; pointer-events: none; }
 .demo-screen { display: grid; grid-template-rows: 29px minmax(0, 1fr) 126px 25px; border: 1px solid var(--tj-chrome-border); font: 400 16px/var(--demo-line-height) var(--mono); font-variant-ligatures: none; }
 .demo-menu, .demo-statusbar { display: flex; align-items: center; gap: 18px; background: var(--tj-menu-background); color: var(--tj-menu-foreground); padding: 0 10px; white-space: pre; overflow: hidden; }
 .demo-menu { font-size: 14px; line-height: 1.5; }
@@ -42,6 +40,14 @@ html.demo-js .turboj-demo [data-demo-progress][hidden] { display: block !importa
 .demo-external p { color: var(--tj-syntax-string); }
 .demo-external pre { overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; padding: 16px 0; border-block: 1px solid var(--tj-chrome-border); }
 .demo-chapters, .demo-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.demo-primary { align-items: center; flex-wrap: nowrap; min-height: 44px; }
+.demo-primary button { flex: 0 0 64px; }
+.demo-prompt { display: flex; align-items: baseline; min-width: 0; margin: 0; color: var(--tj-syntax-string); font: 400 12px/1.6 var(--mono); white-space: nowrap; }
+.demo-prompt>[data-demo-prompt-text] { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.demo-prompt>span:first-child, .demo-prompt-cursor { flex: 0 0 auto; }
+.demo-prompt>span:first-child { margin-right: .4ch; }
+/* The cursor uses the replay clock; CSS must not animate while playback is suspended. */
+.demo-prompt-cursor { margin-left: 1px; }
 .demo-chapters { gap: 0; border-bottom: 1px solid var(--tj-chrome-border); }
 .demo-controls button, .demo-chapters button, .demo-checkpoints select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--tj-syntax-string); background: var(--tj-editor-background); color: var(--tj-editor-foreground); font: 500 12px/1.5 var(--mono); cursor: pointer; }
 .demo-chapters button { border-color: transparent; flex: 1 1 auto; }

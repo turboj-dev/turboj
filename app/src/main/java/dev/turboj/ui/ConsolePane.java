@@ -59,7 +59,7 @@ public final class ConsolePane extends JPanel {
         input.setCaret(new BlockCaret());
         input.getCaret().setBlinkRate(0);
         inputPrompt.setFont(output.getFont());
-        inputHint.setFont(output.getFont().deriveFont(12f));
+        inputHint.setFont(output.getFont());
         input.setBorder(BorderFactory.createEmptyBorder(2, 3, 2, 3));
         inputRow.add(inputPrompt, BorderLayout.WEST);
         inputRow.add(input, BorderLayout.CENTER);
@@ -296,6 +296,17 @@ public final class ConsolePane extends JPanel {
 
     public JTextComponent inputComponent() {
         return inlineInput ? output : input;
+    }
+
+    /** Keep one readable output row and, for JShell, the complete separate input row. */
+    @Override
+    public Dimension getMinimumSize() {
+        if (isMinimumSizeSet()) return super.getMinimumSize();
+        Insets edge = getInsets();
+        Insets text = output.getInsets();
+        int height = output.getFontMetrics(output.getFont()).getHeight() + text.top + text.bottom;
+        if (inputRow.isVisible()) height += inputRow.getPreferredSize().height;
+        return new Dimension(0, edge.top + edge.bottom + height);
     }
 
     /** Cut never exports transcript as though it could remove it; only unsent input is editable. */

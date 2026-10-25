@@ -30,7 +30,7 @@ public final class InterfaceZoomSmoke {
                 + "<groupId>fixture.zoom</groupId><artifactId>example</artifactId><version>1</version>"
                 + "<properties><maven.compiler.release>21</maven.compiler.release></properties></project>");
         TurboFrame frame = edt(() -> {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             var value = new TurboFrame(new Settings(), Map.of());
             value.setVisible(true); value.toFront(); value.editor().requestFocusInWindow();
             return value;
@@ -69,8 +69,8 @@ public final class InterfaceZoomSmoke {
                 edt(() -> {
                     int chrome = AsciiChrome.font().getSize();
                     JMenu menu = ((AsciiMenuBar) frame.getJMenuBar()).allMenus().getFirst();
-                    check(frame.editor().getFont().getSize() == 20 && chrome == 16,
-                            id + " font command scales editor and chrome together");
+                    check(frame.editor().getFont().getSize() == 20 && chrome == 20,
+                            id + " font command uses one point size in editor and chrome");
                     check(menu.getFont().getSize() == chrome && UIManager.getFont("MenuItem.acceleratorFont").getSize() == chrome
                             && frame.console().inputComponent().getFont().getSize() == chrome && status.getFont().getSize() == chrome,
                             id + " menu, shortcuts, output and footer use the scaled font");
@@ -86,7 +86,7 @@ public final class InterfaceZoomSmoke {
                 });
                 screenshot(frame, output.resolve(id + ".png"));
                 command(frame, "fontDown");
-                check(edt(() -> frame.editor().getFont().getSize() == 18 && status.getFont().getSize() == 14
+                check(edt(() -> frame.editor().getFont().getSize() == 18 && status.getFont().getSize() == 18
                         && table.getRowHeight() == baseRow), id + " smaller font restores the complete text grid");
             }
             edt(() -> { dialog.dispose(); frame.setSize(640, 480); return null; });
