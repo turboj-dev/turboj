@@ -145,6 +145,8 @@ public final class BundledKeymaps {
         bind(idea, "organizeImports", "CTRL+ALT+O");
         bind(idea, "keymap", "META+COMMA");
         var eclipse = common();
+        bind(eclipse, "saveAs");
+        bind(eclipse, "file.saveAll", "META+SHIFT+S");
         bind(eclipse, "palette", "META+3");
         bind(eclipse, "declaration", "F3");
         bind(eclipse, "references", "META+SHIFT+G");

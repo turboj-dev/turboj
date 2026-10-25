@@ -14,6 +14,7 @@ import org.eclipse.ltk.core.refactoring.*;
 public final class LtkRefactorJ implements RefactorJ, JavaIntelligenceProvider {
     private final LtkWorkspace workspace;
     private SharedJavaIntelligence intelligence;
+    private JdtQuickActions quickActions;
     private WorkspaceSnapshot baselineSnapshot;
     private Map<String,Integer> baselineErrors=Map.of();
     private record Checked(Plan plan,Validation validation){}
@@ -21,6 +22,7 @@ public final class LtkRefactorJ implements RefactorJ, JavaIntelligenceProvider {
     public LtkRefactorJ(WorkspaceSnapshot snapshot)throws CoreException{workspace=new LtkWorkspace(snapshot);}
     @Override public JavaIntelligence intelligence(){if(intelligence==null)intelligence=new SharedJavaIntelligence(workspace);return intelligence;}
     @Override public LtkWorkspace workspace(){return workspace;}
+    @Override public JavaQuickActions quickActions(){if(quickActions==null)quickActions=new JdtQuickActions(this);return quickActions;}
     @Override public List<Descriptor> available(Location location,Cancellation cancel){
         cancel.check();var ast=workspace.ast(location.file());var node=org.eclipse.jdt.core.dom.NodeFinder.perform(ast,location.start(),location.end()-location.start());
         IJavaElement selected;try{selected=workspace.select(location);}catch(JavaModelException ex){selected=null;}
@@ -55,6 +57,7 @@ public final class LtkRefactorJ implements RefactorJ, JavaIntelligenceProvider {
                 case CREATE_METHOD -> invocation&&problem;
                 case CREATE_CONSTRUCTOR -> ancestor(node,org.eclipse.jdt.core.dom.ClassInstanceCreation.class)!=null&&problem;
                 case CREATE_FIELD,CREATE_LOCAL,FIX_TYPE_MISMATCH,REMOVE_UNREACHABLE -> problem;
+                case CREATE_CLASS -> false; // Offered by diagnostic-scoped Quick Fix, never a generic form.
             };
             out.add(new Descriptor(op,op.id().replace('-',' '),applicable,applicable?List.of():List.of(new Diagnostic(Severity.INFO,"context.not.applicable","Select an eligible Java declaration, expression or statement for this operation",location))));
         }return List.copyOf(out);

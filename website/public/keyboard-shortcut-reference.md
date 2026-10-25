@@ -24,6 +24,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | editor.addCaretBelow | Add Caret Below | Edit | Unassigned | editor | Available | editor addCaretBelow |
 | editor.autoIndentLines | Auto-Indent Java Lines | Edit | Ctrl+Option+I | editor; binding requires [editor] | Available | editor autoIndentLines |
 | editor.changeCase | Change Selection Case… | Edit | Shift+Cmd+U | editor; binding requires [editor] | Available | editor changeCase |
+| workspace.select | Choose Workspace… | Edit | Unassigned | Any | Available | workspace select |
 | editor.convertSpacesToTabs | Convert Leading Spaces to Tabs | Edit | Unassigned | editor | Available | editor convertSpacesToTabs |
 | editor.lowerCase | Convert Selection to Lowercase | Edit | Unassigned | editor | Available | editor lowerCase |
 | editor.upperCase | Convert Selection to Uppercase | Edit | Unassigned | editor | Available | editor upperCase |
@@ -43,7 +44,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | findPrevious | Find previous | Edit | Shift+Cmd+G | Any | Available | findPrevious |
 | find | Find… | Edit | Cmd+F | Any | Available | find |
 | documentation.focus | Focus Quick Documentation | Edit | Unassigned | editor | Available | documentation focus |
-| indent | Indent | Edit | TAB | editor; binding requires [editor]; excludes [completion] | Available | editor.indentSelection, indent |
+| indent | Indent / Next Template Placeholder | Edit | TAB | editor; binding requires [editor]; excludes [completion] | Available | editor.indentSelection, indent |
 | editor.insertLineAbove | Insert Line Above | Edit | Option+Cmd+ENTER | editor; binding requires [editor] | Available | editor insertLineAbove |
 | editor.insertLineBelow | Insert Line Below | Edit | Shift+ENTER | editor; binding requires [editor] | Available | editor insertLineBelow |
 | editor.joinLines | Join Lines | Edit | Ctrl+Shift+J | editor; binding requires [editor] | Available | editor joinLines |
@@ -71,21 +72,24 @@ Generated from the executable registry. Availability reflects the captured conte
 | editor.transposeCharacters | Transpose Characters | Edit | Unassigned | editor | Available | editor transposeCharacters |
 | editor.trimTrailingWhitespace | Trim Trailing Whitespace | Edit | Unassigned | editor | Available | editor trimTrailingWhitespace |
 | undo | Undo | Edit | Cmd+Z | Any | Nothing to undo | undo |
-| unindent | Unindent | Edit | Shift+TAB | editor; binding requires [editor] | Available | editor.unindentSelection, unindent |
+| unindent | Unindent / Previous Template Placeholder | Edit | Shift+TAB | editor; binding requires [editor] | Available | editor.unindentSelection, unindent |
 | run.onSave | Auto Run on Save | Execution | Unassigned | Any | Available | run onSave |
 | clear | Clear output | Execution | Unassigned | Any | Available | clear |
 | evaluateStatement | Evaluate current statement | Execution | Unassigned | Any | Available | evaluateStatement |
 | evaluateSelection | Evaluate selection | Execution | Unassigned | Any | Select source text first | evaluateSelection |
-| run | Fast Run | Execution | Ctrl+R | Any | Available | run |
 | isolated | Isolated Run | Execution | Unassigned | Any | Available | isolated |
 | repl | Java REPL | Execution | Unassigned | Any | Available | repl |
 | output | Program output / messages | Execution | Unassigned | Any | Available | output |
 | replReset | Reset Java REPL | Execution | Unassigned | Any | Available | replReset |
+| run | Run Java / JUnit | Execution | Ctrl+R | Any | Available | run |
 | eof | Send EOF | Execution | Unassigned | Any | No program is running | eof |
 | stop | Stop program | Execution | Cmd+F2 | Any | No program is running or waiting to run | stop |
 | focus | Switch editor / console | Execution | Unassigned | Any | Available | focus |
 | file.close | Close Current File | File | Cmd+W | Any | Available | file close, navigation.closeEditor |
 | new | New | File | Cmd+N | Any | Available | new |
+| file.newJavaClass | New Java Class… | File | Unassigned | Any | Available | file newJavaClass |
+| file.newJavaProject | New Java Project… | File | Unassigned | Any | Available | file newJavaProject |
+| file.newMavenProject | New Maven Project… | File | Unassigned | Any | Available | file newMavenProject |
 | open | Open… | File | Unassigned | Any | Available | open |
 | quit | Quit TurboJ | File | Cmd+Q | Any | Available | quit |
 | file.reopenClosed | Reopen Closed File | File | Unassigned | Any | No closed files to reopen | file reopenClosed, navigation.reopenEditor |
@@ -220,7 +224,6 @@ Generated from the executable registry. Availability reflects the captured conte
 | refactor.anonymous-to-lambda | Anonymous To Lambda… | Refactoring | Unassigned | editor | Available | refactor anonymous-to-lambda |
 | refactor.change-signature | Change Signature… | Refactoring | Cmd+F6 | editor | Available | refactor change-signature |
 | refactor.constructor-to-factory | Constructor To Factory… | Refactoring | Unassigned | editor | Available | refactor constructor-to-factory |
-| refactor.context-actions | Context Actions… | Refactoring | Option+ENTER | editor | Available | refactor context-actions |
 | refactor.create-constructor | Create Constructor… | Refactoring | Unassigned | editor | Available | refactor create-constructor |
 | refactor.create-field | Create Field… | Refactoring | Unassigned | editor | Available | refactor create-field |
 | refactor.create-local | Create Local… | Refactoring | Unassigned | editor | Available | refactor create-local |
@@ -243,6 +246,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | refactor.move | Move… | Refactoring | F6 | editor | Available | refactor move |
 | refactor.pull-up | Pull Up… | Refactoring | Unassigned | editor | Available | refactor pull-up |
 | refactor.push-down | Push Down… | Refactoring | Unassigned | editor | Available | refactor push-down |
+| refactor.context-actions | Quick Fix / Quick Assist… | Refactoring | Option+ENTER | Any | Available | refactor context-actions |
 | refactor.this | Refactor This… | Refactoring | Ctrl+T | editor | Available | refactor this |
 | refactor.remove-import | Remove Import… | Refactoring | Unassigned | editor | Available | refactor remove-import |
 | refactor.remove-unreachable | Remove Unreachable… | Refactoring | Unassigned | editor | Available | refactor remove-unreachable |

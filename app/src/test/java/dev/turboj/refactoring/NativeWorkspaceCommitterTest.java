@@ -89,6 +89,28 @@ class NativeWorkspaceCommitterTest {
         assertTrue(Files.readString(closed).contains("= 1")); assertFalse(Files.exists(marker));
     }
 
+    @Test void junitConfigurationAndTestCreationShareDiskUndoRedo() throws Exception {
+        Path pom = root.resolve("pom.xml"), test = root.resolve("src/test/java/ExampleTest.java");
+        String beforePom = "<project/>"; String afterPom = "<project><dependencies/></project>";
+        Files.writeString(pom, beforePom);
+        FakeHost host = new FakeHost();
+        var sources = new ArrayList<>(plan(host, List.of()).before().sources());
+        sources.add(new SourceSnapshot(pom, beforePom, 1, false));
+        var before = new WorkspaceSnapshot(root, 1, sources, List.of(root), List.of());
+        var change = new Plan("junit", Operation.CREATE_CLASS, before, List.of(),
+                List.of(new FileEdits(pom, List.of(new TextEdit(0, beforePom.length(), afterPom)))),
+                List.of(new FileOperation(FileOperationKind.CREATE, test, null, "class ExampleTest {}\n")),
+                List.of(), ValidationStatus.VALID, "Configure JUnit and create test");
+        try (var committer = new NativeWorkspaceCommitter(host)) {
+            await(edt(() -> committer.apply(change, host.capture())));
+            assertEquals(afterPom, Files.readString(pom)); assertTrue(Files.exists(test));
+            await(edt(committer::undo));
+            assertEquals(beforePom, Files.readString(pom)); assertFalse(Files.exists(test));
+            await(edt(committer::redo));
+            assertEquals(afterPom, Files.readString(pom)); assertTrue(Files.exists(test));
+        }
+    }
+
     private Plan plan(FakeHost host, List<FileOperation> operations) throws Exception {
         String disk = Files.readString(closed);
         var before = new WorkspaceSnapshot(root, 1, List.of(new SourceSnapshot(opened, host.text, 1, true),
@@ -120,7 +142,8 @@ class NativeWorkspaceCommitterTest {
             if (direction == NativeWorkspaceCommitter.Direction.UNDO) {
                 path = opened; text = plan.before().source(opened).text();
             } else {
-                text = TextEdit.apply(plan.before().source(opened).text(), plan.edits().getFirst().edits());
+                text = TextEdit.apply(plan.before().source(opened).text(), plan.edits().stream()
+                        .filter(edit -> edit.file().equals(opened)).flatMap(edit -> edit.edits().stream()).toList());
                 path = plan.fileOperations().stream().filter(op -> op.kind() == FileOperationKind.MOVE).map(FileOperation::destination).findFirst().orElse(opened);
             }
             revision++;

@@ -283,7 +283,8 @@ public final class ModernizationOperations {
             MethodInvocation call = ancestor(selected, MethodInvocation.class);
             require(call != null, "Select an unresolved method invocation.");
             IMethodBinding existing = call.resolveMethodBinding();
-            require(existing == null || existing.isRecovered() || hasError(ast, call, IProblem.UndefinedMethod), "This method already resolves.");
+            require(existing == null || existing.isRecovered() || hasError(ast, call, IProblem.UndefinedMethod)
+                    || hasError(ast, call, IProblem.ParameterMismatch), "This method already resolves.");
             invocation = call;
             arguments = call.arguments();
             owner = call.getExpression() == null ? typeBinding(enclosingType(call)) : call.getExpression().resolveTypeBinding();
@@ -293,7 +294,43 @@ public final class ModernizationOperations {
         ICompilationUnit destination = ((IType) owner.getJavaElement()).getCompilationUnit();
         require(destination != null && destination.exists(), "A binary dependency cannot be modified.");
         for (Expression argument : arguments) require(argument.resolveTypeBinding() != null, "Every argument type must resolve.");
-        return new NewMethodCorrectionProposalCore(operation.id(), destination, invocation, arguments, owner, 0).getTextChange();
+        PrimitiveType.Code preferred = invocation instanceof MethodInvocation call ? primitiveOverloadContext(call) : null;
+        return new NewMethodCorrectionProposalCore(operation.id(), destination, invocation, arguments, owner, 0) {
+            @Override protected Type getNewMethodType(ASTRewrite rewrite, ImportRewrite.ImportRewriteContext context) throws CoreException {
+                // A missing expression is commonly provisionally bound to the boxed overload.
+                // Prefer the exact primitive overload when the already-resolved sibling arguments
+                // establish it. The ordinary candidate compiler pass still verifies the whole call.
+                return preferred == null ? super.getNewMethodType(rewrite, context) : rewrite.getAST().newPrimitiveType(preferred);
+            }
+        }.getTextChange();
+    }
+
+    private static PrimitiveType.Code primitiveOverloadContext(MethodInvocation missing) {
+        if (!(missing.getParent() instanceof MethodInvocation outer)) return null;
+        int position = outer.arguments().indexOf(missing);
+        IMethodBinding resolved = outer.resolveMethodBinding();
+        if (position < 0 || resolved == null || resolved.getDeclaringClass() == null) return null;
+        ITypeBinding guessed = org.eclipse.jdt.internal.core.manipulation.dom.ASTResolving.guessBindingForReference(missing);
+        if (guessed == null || guessed.isPrimitive()) return null;
+        String primitive = switch (guessed.getQualifiedName()) {
+            case "java.lang.Boolean" -> "boolean"; case "java.lang.Byte" -> "byte"; case "java.lang.Short" -> "short";
+            case "java.lang.Character" -> "char"; case "java.lang.Integer" -> "int"; case "java.lang.Long" -> "long";
+            case "java.lang.Float" -> "float"; case "java.lang.Double" -> "double"; default -> null;
+        };
+        if (primitive == null) return null;
+        for (IMethodBinding candidate : resolved.getDeclaringClass().getDeclaredMethods()) {
+            ITypeBinding[] formals = candidate.getParameterTypes();
+            if (!candidate.getName().equals(outer.getName().getIdentifier()) || candidate.isVarargs()
+                    || formals.length != outer.arguments().size() || !formals[position].getName().equals(primitive)) continue;
+            boolean exact = true, sibling = false;
+            for (int i = 0; i < formals.length; i++) if (i != position) {
+                ITypeBinding actual = ((Expression) outer.arguments().get(i)).resolveTypeBinding();
+                if (actual == null || !actual.isEqualTo(formals[i])) { exact = false; break; }
+                sibling = true;
+            }
+            if (exact && sibling) return PrimitiveType.toCode(primitive);
+        }
+        return null;
     }
 
     private static Change createVariable(ICompilationUnit unit, CompilationUnit ast, ASTNode selected,

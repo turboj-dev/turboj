@@ -89,6 +89,18 @@ public final class ProjectContext {
 
         revision = readPaths(root.resolve(".turboj/classpath.txt"), root, classpath, false,
                 warnings, revision);
+        Path junitMarker = root.resolve(dev.turboj.project.FirstLaunchProjects.JUNIT_MARKER);
+        revision = fingerprint(revision, junitMarker);
+        if (Files.isRegularFile(junitMarker)) {
+            try {
+                if (Files.size(junitMarker) > MAX_CONFIG_BYTES) throw new IOException("exceeds 64 KiB");
+                var properties = new java.util.Properties();
+                try (var reader = Files.newBufferedReader(junitMarker)) { properties.load(reader); }
+                if (!("bundled-jupiter-" + dev.turboj.project.FirstLaunchProjects.JUNIT_VERSION).equals(properties.getProperty("runtime")))
+                    throw new IOException("Unsupported bundled JUnit selection");
+                classpath.addAll(dev.turboj.project.FirstLaunchProjects.bundledJUnitClasspath());
+            } catch (Exception failure) { warnings.add("Cannot load project JUnit library: " + failure.getMessage()); }
+        }
         revision = readPaths(root.resolve("target/turboj-classpath.txt"), root, classpath, false,
                 warnings, revision);
         revision = readPaths(root.resolve("build/turboj-classpath.txt"), root, classpath, false,

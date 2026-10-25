@@ -90,6 +90,8 @@ public final class KeyboardRegistryAudit {
     private static String digest(byte[] bytes) throws Exception { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(bytes)); }
     private static String suite(Command command) {
         String id = command.id();
+        if (Set.of("workspace.select", "file.newJavaProject", "file.newMavenProject", "file.newJavaClass", "refactor.context-actions").contains(id))
+            return "FirstLaunchKeyboardSmoke / FirstLaunchProjectsTest / QuickActionsIT; see first-launch-keyboard-acceptance.md";
         if (id.startsWith("keymap.profile.")) return "ProfileSwitchTest / KeyboardProfileSmoke";
         if (command.category().equals("Java Structure")) return "KeyboardJavaIT / KeyboardWorkflowSmoke";
         if (id.startsWith("editor.") || Set.of("cut", "copy", "paste", "duplicateLine", "deleteLine", "moveLineUp", "moveLineDown", "comment", "indent", "unindent", "undo", "redo").contains(id))

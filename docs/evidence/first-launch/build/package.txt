@@ -1,0 +1,582 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:<REPOSITORY>/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] javafmt                                                            [pom]
+[INFO] javafmt-parser                                                     [jar]
+[INFO] javafmt-core                                                       [jar]
+[INFO] CommandJ                                                           [pom]
+[INFO] commandj-core                                                      [jar]
+[INFO] commandj-keymap                                                    [jar]
+[INFO] commandj-palette                                                   [jar]
+[INFO] commandj-swing                                                     [jar]
+[INFO] RefactorJ                                                          [pom]
+[INFO] refactorj-api                                                      [jar]
+[INFO] refactorj-jdt                                                      [jar]
+[INFO] refactorj-transactions                                             [jar]
+[INFO] refactorj-runtime                                                  [jar]
+[INFO] refactorj-formatj                                                  [jar]
+[INFO] TurboTest                                                          [jar]
+[INFO] MavenJ                                                             [pom]
+[INFO] mavenj-api                                                         [jar]
+[INFO] mavenj-core                                                        [jar]
+[INFO] mavenj-workspace                                                   [jar]
+[INFO] TurboJ                                                             [pom]
+[INFO] turboj-core                                                        [jar]
+[INFO] turboj-worker                                                      [jar]
+[INFO] turboj-app                                                         [jar]
+[INFO] 
+[INFO] ------------------------< dev.javafmt:javafmt >-------------------------
+[INFO] Building javafmt 0.1.0                                            [1/23]
+[INFO]   from javafmt/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ---------------------< dev.javafmt:javafmt-parser >---------------------
+[INFO] Building javafmt-parser 0.1.0                                     [2/23]
+[INFO]   from javafmt/javafmt-parser/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-parser ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-parser ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-parser ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/javafmt/javafmt-parser/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-parser ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-parser ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-parser ---
+[INFO] 
+[INFO] ----------------------< dev.javafmt:javafmt-core >----------------------
+[INFO] Building javafmt-core 0.1.0                                       [3/23]
+[INFO]   from javafmt/javafmt-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-core ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-core ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-core ---
+[INFO] 
+[INFO] --------------------< dev.turboj.commandj:commandj >--------------------
+[INFO] Building CommandJ 0.1.0                                           [4/23]
+[INFO]   from commandj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-core >------------------
+[INFO] Building commandj-core 0.1.0                                      [5/23]
+[INFO]   from commandj/commandj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-core ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-core ---
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-keymap >-----------------
+[INFO] Building commandj-keymap 0.1.0                                    [6/23]
+[INFO]   from commandj/commandj-keymap/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-keymap ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-keymap ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-keymap/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-keymap ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-keymap ---
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-palette >----------------
+[INFO] Building commandj-palette 0.1.0                                   [7/23]
+[INFO]   from commandj/commandj-palette/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-palette ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-palette ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-palette/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-palette ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-palette ---
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-swing >-----------------
+[INFO] Building commandj-swing 0.1.0                                     [8/23]
+[INFO]   from commandj/commandj-swing/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-swing ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-swing ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-swing ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-swing/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-swing ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-swing ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-swing ---
+[INFO] 
+[INFO] -------------------< dev.turboj.refactorj:refactorj >-------------------
+[INFO] Building RefactorJ 0.1.0                                          [9/23]
+[INFO]   from refactorj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-api >-----------------
+[INFO] Building refactorj-api 0.1.0                                     [10/23]
+[INFO]   from refactorj/refactorj-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-api ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-api ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-api ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-api ---
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-jdt >-----------------
+[INFO] Building refactorj-jdt 0.1.0                                     [11/23]
+[INFO]   from refactorj/refactorj-jdt/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-jdt ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-jdt ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-jdt ---
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-jdt ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-jdt/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-jdt ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-jdt ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------< dev.turboj.refactorj:refactorj-transactions >-------------
+[INFO] Building refactorj-transactions 0.1.0                            [12/23]
+[INFO]   from refactorj/refactorj-transactions/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-transactions ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-transactions/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-transactions ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-transactions ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-transactions/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-transactions ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-transactions ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-transactions ---
+[INFO] 
+[INFO] ---------------< dev.turboj.refactorj:refactorj-runtime >---------------
+[INFO] Building refactorj-runtime 0.1.0                                 [13/23]
+[INFO]   from refactorj/refactorj-runtime/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-runtime ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-runtime/src/main/resources
+[INFO] 
+[INFO] --- dependency:3.8.1:copy-dependencies (embed-intact-semantic-bundles) @ refactorj-runtime ---
+[INFO] dev.turboj.refactorj:refactorj-jdt:jar:0.1.0 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.core.manipulation:jar:1.23.200 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.runtime:jar:3.34.100 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.common:jar:3.20.300 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.jobs:jar:3.15.700 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.registry:jar:3.12.600 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.preferences:jar:3.12.100 already exists in destination.
+[INFO] org.osgi:org.osgi.service.prefs:jar:1.1.2 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.contenttype:jar:3.9.800 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.app:jar:1.7.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.resources:jar:3.23.100 already exists in destination.
+[INFO] net.java.dev.jna:jna:jar:5.18.1 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.ltk.core.refactoring:jar:3.15.100 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.commands:jar:3.12.500 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.core:jar:3.44.0 already exists in destination.
+[INFO] org.eclipse.jdt:ecj:jar:3.44.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.expressions:jar:3.9.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.text:jar:3.14.500 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.launching:jar:3.24.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.variables:jar:3.6.700 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.debug.core:jar:3.23.200 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.launching.macosx:jar:3.6.300 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.debug:jar:3.25.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.filesystem:jar:1.11.400 already exists in destination.
+[INFO] net.java.dev.jna:jna-platform:jar:5.18.1 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.filebuffers:jar:3.8.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.search.core:jar:3.16.600 already exists in destination.
+[INFO] org.commonmark:commonmark:jar:0.27.0 already exists in destination.
+[INFO] org.commonmark:commonmark-ext-gfm-tables:jar:0.27.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.osgi:jar:3.24.0 already exists in destination.
+[INFO] org.apache.felix:org.apache.felix.scr:jar:2.2.18 already exists in destination.
+[INFO] org.codehaus.mojo:animal-sniffer-annotations:jar:1.9 already exists in destination.
+[INFO] org.osgi:org.osgi.service.component:jar:1.5.1 already exists in destination.
+[INFO] org.osgi:osgi.annotation:jar:8.0.1 already exists in destination.
+[INFO] org.osgi:org.osgi.namespace.extender:jar:1.0.1 already exists in destination.
+[INFO] org.osgi:org.osgi.util.promise:jar:1.3.0 already exists in destination.
+[INFO] org.osgi:org.osgi.util.function:jar:1.2.0 already exists in destination.
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-runtime ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-runtime ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-runtime/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-runtime ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-runtime ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-runtime ---
+[INFO] 
+[INFO] ---------------< dev.turboj.refactorj:refactorj-formatj >---------------
+[INFO] Building refactorj-formatj 0.1.0                                 [14/23]
+[INFO]   from refactorj/refactorj-formatj/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-formatj ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-formatj/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-formatj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-formatj ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/refactorj/refactorj-formatj/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-formatj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-formatj ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-formatj ---
+[INFO] 
+[INFO] ----------------< dev.turboj.turbotest:turbotest-core >-----------------
+[INFO] Building TurboTest 0.1.0                                         [15/23]
+[INFO]   from turbotest/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbotest-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/turbotest/src/main/resources
+[INFO] 
+[INFO] --- dependency:3.8.1:copy-dependencies (embed-junit-runtime) @ turbotest-core ---
+[INFO] org.junit.jupiter:junit-jupiter-params:jar:5.13.4 already exists in destination.
+[INFO] org.apiguardian:apiguardian-api:jar:1.1.2 already exists in destination.
+[INFO] org.junit.platform:junit-platform-launcher:jar:1.13.4 already exists in destination.
+[INFO] org.junit.platform:junit-platform-engine:jar:1.13.4 already exists in destination.
+[INFO] org.junit.jupiter:junit-jupiter-engine:jar:5.13.4 already exists in destination.
+[INFO] org.junit.jupiter:junit-jupiter-api:jar:5.13.4 already exists in destination.
+[INFO] org.opentest4j:opentest4j:jar:1.3.0 already exists in destination.
+[INFO] org.junit.platform:junit-platform-commons:jar:1.13.4 already exists in destination.
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbotest-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbotest-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/turbotest/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbotest-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbotest-core ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turbotest-core ---
+[INFO] 
+[INFO] ----------------------< dev.turboj.mavenj:mavenj >----------------------
+[INFO] Building MavenJ 0.1.0                                            [16/23]
+[INFO]   from mavenj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --------------------< dev.turboj.mavenj:mavenj-api >--------------------
+[INFO] Building mavenj-api 0.1.0                                        [17/23]
+[INFO]   from mavenj/mavenj-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-api ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/mavenj/mavenj-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-api ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/mavenj/mavenj-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-api ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-api ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-api ---
+[INFO] 
+[INFO] -------------------< dev.turboj.mavenj:mavenj-core >--------------------
+[INFO] Building mavenj-core 0.1.0                                       [18/23]
+[INFO]   from mavenj/mavenj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/mavenj/mavenj-core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/mavenj/mavenj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-core ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-core ---
+[INFO] 
+[INFO] -----------------< dev.turboj.mavenj:mavenj-workspace >-----------------
+[INFO] Building mavenj-workspace 0.1.0                                  [19/23]
+[INFO]   from mavenj/mavenj-workspace/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-workspace ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/mavenj/mavenj-workspace/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-workspace ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-workspace ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/mavenj/mavenj-workspace/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-workspace ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-workspace ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-workspace ---
+[INFO] 
+[INFO] -------------------------< dev.turboj:turboj >--------------------------
+[INFO] Building TurboJ 0.1.0-SNAPSHOT                                   [20/23]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-core >-----------------------
+[INFO] Building turboj-core 0.1.0-SNAPSHOT                              [21/23]
+[INFO]   from core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-core ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-core ---
+[INFO] 
+[INFO] ----------------------< dev.turboj:turboj-worker >----------------------
+[INFO] Building turboj-worker 0.1.0-SNAPSHOT                            [22/23]
+[INFO]   from worker/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-worker ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/worker/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-worker ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-worker ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/worker/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-worker ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-worker ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-worker ---
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-app >------------------------
+[INFO] Building turboj-app 0.1.0-SNAPSHOT                               [23/23]
+[INFO]   from app/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-app ---
+[INFO] Copying 331 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-app ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-app ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/app/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-app ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-app ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-app ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ turboj-app ---
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/LICENSE-notice.md
+[WARNING]   - META-INF/LICENSE.md
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] commonmark-0.27.0.jar, commonmark-ext-gfm-tables-0.27.0.jar, commons-codec-1.22.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/javafmt-LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - about.html
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/commandj-LICENSE.txt
+[WARNING] org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.launching-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/p2.inf
+[WARNING] animal-sniffer-annotations-1.9.jar, aopalliance-1.0.jar, apiguardian-api-1.1.2.jar, asm-9.10.1.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar, commonmark-0.27.0.jar, commonmark-ext-gfm-tables-0.27.0.jar, commons-codec-1.22.1.jar, ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, failureaccess-1.0.3.jar, gson-2.13.2.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jcl-over-slf4j-2.0.19.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jspecify-1.0.1.jar, junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-core-0.1.0.jar, mavenj-workspace-0.1.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, refactorj-api-0.1.0.jar, refactorj-formatj-0.1.0.jar, refactorj-jdt-0.1.0.jar, refactorj-runtime-0.1.0.jar, refactorj-transactions-0.1.0.jar, slf4j-api-2.0.19.jar, turboj-app-0.1.0-SNAPSHOT.jar, turboj-core-0.1.0-SNAPSHOT.jar, turboj-worker-0.1.0-SNAPSHOT.jar, turbotest-core-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] apiguardian-api-1.1.2.jar, failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - .api_description
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] javafmt 0.1.0 ...................................... SUCCESS [  0.001 s]
+[INFO] javafmt-parser 0.1.0 ............................... SUCCESS [  0.304 s]
+[INFO] javafmt-core 0.1.0 ................................. SUCCESS [  0.019 s]
+[INFO] CommandJ 0.1.0 ..................................... SUCCESS [  0.000 s]
+[INFO] commandj-core 0.1.0 ................................ SUCCESS [  0.015 s]
+[INFO] commandj-keymap 0.1.0 .............................. SUCCESS [  0.020 s]
+[INFO] commandj-palette 0.1.0 ............................. SUCCESS [  0.010 s]
+[INFO] commandj-swing 0.1.0 ............................... SUCCESS [  0.026 s]
+[INFO] RefactorJ 0.1.0 .................................... SUCCESS [  0.001 s]
+[INFO] refactorj-api 0.1.0 ................................ SUCCESS [  0.032 s]
+[INFO] refactorj-jdt 0.1.0 ................................ SUCCESS [  0.037 s]
+[INFO] refactorj-transactions 0.1.0 ....................... SUCCESS [  0.011 s]
+[INFO] refactorj-runtime 0.1.0 ............................ SUCCESS [  0.220 s]
+[INFO] refactorj-formatj 0.1.0 ............................ SUCCESS [  0.011 s]
+[INFO] TurboTest 0.1.0 .................................... SUCCESS [  0.014 s]
+[INFO] MavenJ 0.1.0 ....................................... SUCCESS [  0.000 s]
+[INFO] mavenj-api 0.1.0 ................................... SUCCESS [  0.011 s]
+[INFO] mavenj-core 0.1.0 .................................. SUCCESS [  0.068 s]
+[INFO] mavenj-workspace 0.1.0 ............................. SUCCESS [  0.019 s]
+[INFO] TurboJ 0.1.0-SNAPSHOT .............................. SUCCESS [  0.000 s]
+[INFO] turboj-core 0.1.0-SNAPSHOT ......................... SUCCESS [  0.031 s]
+[INFO] turboj-worker 0.1.0-SNAPSHOT ....................... SUCCESS [  0.015 s]
+[INFO] turboj-app 0.1.0-SNAPSHOT .......................... SUCCESS [  2.384 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.316 s
+[INFO] Finished at: 2026-10-25T14:49:31+01:00
+[INFO] ------------------------------------------------------------------------

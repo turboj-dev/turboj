@@ -1,0 +1,2880 @@
+{
+  "schema": 1,
+  "run": "09",
+  "result": "PASS",
+  "started": "2026-10-25T13:51:53.563172Z",
+  "keyEvents": 241,
+  "assertions": 100,
+  "artifactSha256": "782d81bfc43b628bd143837f9d755be4b4ae8e4e148c77be83f12f2b2deeb651",
+  "harnessSourceSha256": "994be043000c362509eff8452d0f557b32ee5444fb8b27b37946925c174751bf",
+  "harnessClassSha256": "3ed9f1686f4fc1170b642390c70b07f07cb101b38a4ded20346cb93179973e87",
+  "harnessNote": "Final run09 capture driver compiled with package09. It uses the actual Eclipse Cmd+Shift+S Save All gesture. Prior coherent run08 used palette Save All and is retained separately; its exact manifest is controls/run08-manifest.json.",
+  "redactions": [
+    "Repository prefix → <REPOSITORY>",
+    "Home prefix → <HOME>",
+    "Owned temporary session prefix → <SESSION> or <CONTROL-NN-SESSION>",
+    "Other temporary root prefix → <SYSTEM_TMP>"
+  ],
+  "capture": "Visible native Swing window; actual posted AWT key events; no mouse events; read-only assertions/snapshots; two unmodified frame PNGs. No human/manual or OS Robot claim.",
+  "files": [
+    {
+      "path": "run08/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/report.txt",
+      "originalSha256": "9986939d0249e58634eb3c1ab009deade9fb5e23342a3303b571a99204b2683c",
+      "curatedSha256": "17cc1aafc44baeffc457c03e7c2290de672d3077598c1215879ad78350f64d9d",
+      "redacted": true
+    },
+    {
+      "path": "run08/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/keyboard-events.tsv",
+      "originalSha256": "b2186a7e665c3dfa125690a3e215788370ccc54d6b63dbe4a77cd8ac9ac6fd4a",
+      "curatedSha256": "b2186a7e665c3dfa125690a3e215788370ccc54d6b63dbe4a77cd8ac9ac6fd4a",
+      "redacted": false
+    },
+    {
+      "path": "run08/native-run.txt",
+      "originalPath": "target/first-launch-keyboard-smoke-08.log",
+      "originalSha256": "3ddd9930268e98ca3d77d43a6b82b2918b39a7121f72de15642fe910c177fc21",
+      "curatedSha256": "74e5dea08cd06897dac80e0f6a08a7c45183e4f474b4d229b4e1c2fe81ee8c37",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/state.txt",
+      "originalSha256": "1d5159ba544c4e88109c5c79d668105add52a1e7e857e01e606f698b44fc9e3f",
+      "curatedSha256": "1f3048f9309d649236e83a44214e621668b33be3626ea4d5dbc1b8d7b3db5774",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/console.txt",
+      "originalSha256": "d171b58793727a11fe0241a5697a074adb7392e54cc57f4956d5d12bcd6bf1aa",
+      "curatedSha256": "d171b58793727a11fe0241a5697a074adb7392e54cc57f4956d5d12bcd6bf1aa",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/complete/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/state.txt",
+      "originalSha256": "bb9209dafc96dd6c3de152ba2d2fcfb44c76f422bd340e3ae3e7ca3d9553aeba",
+      "curatedSha256": "0c6c78eb6748f830f7e80c4d6c80f596b5076e3795cb5cecc590584566ad982a",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/console.txt",
+      "originalSha256": "a1bf027b1e029517fa5ad1fa8279ebe10d1603d385e9a056c6915b246e7e824e",
+      "curatedSha256": "a1bf027b1e029517fa5ad1fa8279ebe10d1603d385e9a056c6915b246e7e824e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/editor.java.txt",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-created/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-created/state.txt",
+      "originalSha256": "adb91b020a74c38c04cf00f0506ab59cff8139bc2b9c63a81f0e43f5f98da280",
+      "curatedSha256": "2443fabfa77d2d27c55e736ab385ff224ef3c52a5d29412e674cc2cfddc5eebc",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-created/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-created/console.txt",
+      "originalSha256": "9660c2fcf1aa7310fa6a18db44e5152955f5072d9a32a2af6f71c0f8badfac81",
+      "curatedSha256": "9660c2fcf1aa7310fa6a18db44e5152955f5072d9a32a2af6f71c0f8badfac81",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-created/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-created/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-created/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-created/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-proposals/state.txt",
+      "originalSha256": "d6828063ce62fe8fabd8d379b70ff1d56a9801e848b7264e9bc5e652db5e3b73",
+      "curatedSha256": "850445fee2cbcd2026ab6f9c98d94be4f3644bd48ab10a8f04739a020ff6d97b",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-proposals/console.txt",
+      "originalSha256": "5309594d9612218fcba72e5105c344aa3e5901c829fa91ef600f9a8ee409f7e8",
+      "curatedSha256": "5309594d9612218fcba72e5105c344aa3e5901c829fa91ef600f9a8ee409f7e8",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-proposals/editor.java.txt",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-proposals/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-proposals/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/state.txt",
+      "originalSha256": "892c96e46309cc0cf4070f5c76792341a8b638411d8141433473ea511f289867",
+      "curatedSha256": "9f9adadc2b6b458165f0bae48572529da9be224a164c029ba462954f97f1c567",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/console.txt",
+      "originalSha256": "0b1566dd52219eaca4db3465468b5e1423f05b12368a0e7575ffaa62a2e69115",
+      "curatedSha256": "0b1566dd52219eaca4db3465468b5e1423f05b12368a0e7575ffaa62a2e69115",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/state.txt",
+      "originalSha256": "4cc5dfa9ee93434918420cc55bc0889de0c14562db21df6e0740da1764212ccd",
+      "curatedSha256": "266d6268c84c7e862f35e31d5a98a2d38e5f3baf649943dae55697891710eac8",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/console.txt",
+      "originalSha256": "8437a21ebad04b12a96eb3efae9596d3b6dd3afc90c047ca3faba3f4afe75fc7",
+      "curatedSha256": "8437a21ebad04b12a96eb3efae9596d3b6dd3afc90c047ca3faba3f4afe75fc7",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-hello/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-hello/state.txt",
+      "originalSha256": "399235ac9c411fd73f863fa5b7430c883c99a65f501f331b30208725f4be849f",
+      "curatedSha256": "c82781afc312ba7ec422e595f9e6cf5df4af5e644d1c435d69ee99278652f3d7",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-hello/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-hello/console.txt",
+      "originalSha256": "d56fe6c7c6ab7f415686cd055de9f552432411c19e2da115e35ec11097413bcb",
+      "curatedSha256": "d56fe6c7c6ab7f415686cd055de9f552432411c19e2da115e35ec11097413bcb",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-hello/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-hello/editor.java.txt",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-hello/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-hello/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-junit-dependency/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-junit-dependency/state.txt",
+      "originalSha256": "1e18d9f45387350a7d6288e42acaa00538f8b008554ef3a097de8fdaa23a681f",
+      "curatedSha256": "da66ba88e4d6daba0082ce7dbe4bbeed9c9dd053afadf33b586faecbe220e7f8",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-junit-dependency/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-junit-dependency/console.txt",
+      "originalSha256": "23755293101568e2c652e0d4b196d1c665d1020a73e91497a650aff25ee7b362",
+      "curatedSha256": "23755293101568e2c652e0d4b196d1c665d1020a73e91497a650aff25ee7b362",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-junit-dependency/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-junit-dependency/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-junit-dependency/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-junit-dependency/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/state.txt",
+      "originalSha256": "de3b6a72bd0157ab026d55a11dcbb06f61d81d39c14a3500e1c26097aa2f28ca",
+      "curatedSha256": "1c6ddb251e74b4a8b5bf4858ae962153a0ed15c5a99ae0a26b396b3cbea2fa0c",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/console.txt",
+      "originalSha256": "f7e7f77d0aa86f6536999838f1e9e2032967d14917baba4c0347d3f49c3b4f0e",
+      "curatedSha256": "f7e7f77d0aa86f6536999838f1e9e2032967d14917baba4c0347d3f49c3b4f0e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/editor.java.txt",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/state.txt",
+      "originalSha256": "00438ec590f9dae50ed02d392e24a3c546e498c5aae7a5bffb53a4dea01cab10",
+      "curatedSha256": "d6a4bedf4f9b919b7066ad1cdccef892207de65c7dd1b46af92ca79b8dcbc649",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/console.txt",
+      "originalSha256": "bfcf490d7c0f4bd95ca41fea51a01e3407dd11cf362a1e24fe2bba1cb11381e2",
+      "curatedSha256": "bfcf490d7c0f4bd95ca41fea51a01e3407dd11cf362a1e24fe2bba1cb11381e2",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/state.txt",
+      "originalSha256": "9049c31d37b061dd96b12985e858a69e294a7f48cf2eaf8e513ad098fddcac28",
+      "curatedSha256": "becb94036999f16eeeda7fdf636f33414070b68e8c8f485b63ad9b6a8adf9725",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/console.txt",
+      "originalSha256": "718a3b071da8840160ebd09ace29029f4ec85f41e319cc93633fec88593d2346",
+      "curatedSha256": "718a3b071da8840160ebd09ace29029f4ec85f41e319cc93633fec88593d2346",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/state.txt",
+      "originalSha256": "661e808e07ef28da99d22a705a7b94fc94627608130f8582d1b98a484a8411ad",
+      "curatedSha256": "753f8ff275da46495d12cecabeceef4e132e479ead00983b50db3da2cd9a5afa",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/console.txt",
+      "originalSha256": "dcd27d596a5c3a85922f6f162418ed6f51aff4d5b000cc6c2c984930a5a63dbf",
+      "curatedSha256": "dcd27d596a5c3a85922f6f162418ed6f51aff4d5b000cc6c2c984930a5a63dbf",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/editor.java.txt",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-project-form/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-project-form/state.txt",
+      "originalSha256": "ccf12489a67304dcf42c5746ee9b1b37c77d9547631dfcdcc57a4b6fc54a29f6",
+      "curatedSha256": "ccf12489a67304dcf42c5746ee9b1b37c77d9547631dfcdcc57a4b6fc54a29f6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/java-project-form/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-project-form/console.txt",
+      "originalSha256": "fda5f2615194b2846f480a6a9248253068c67fc458c478e04e3ad0fab704a200",
+      "curatedSha256": "dade6dd42482e8fa6853fae2ed22dbb4e11a9805ad1a8f381ca9f8ca8ad7c43f",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/java-project-form/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-project-form/editor.java.txt",
+      "originalSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "curatedSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/state.txt",
+      "originalSha256": "370972b41446a3b66afbbc4383e6517fad9f15c1920c1e5be6fb1a99d77a0ccd",
+      "curatedSha256": "aa51fa0077d93df20c9ea8079bfd4959ba68d602c5e68e7c4cf1cd83e08b39dd",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/console.txt",
+      "originalSha256": "b77feba09dc23b2c6b56517e669f951e95bcaaa24ca9949bd3232ff6771ad5ed",
+      "curatedSha256": "b77feba09dc23b2c6b56517e669f951e95bcaaa24ca9949bd3232ff6771ad5ed",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/editor.java.txt",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-created/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-created/state.txt",
+      "originalSha256": "e8cd30c2b6b8201ce6bb2a910c47d5a05a9b325c35661631fe3049a3071c3519",
+      "curatedSha256": "ad0963fa27df47f6fb6d08257842255e45ae0ba9a1f593f344db943ab610bbb9",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-created/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-created/console.txt",
+      "originalSha256": "9cbd32610504f67cc79aa63740a7c0104ab83ded43f30c6326d918d92bb6f540",
+      "curatedSha256": "a0f411033d24719900409751523c40425666fe0019b5e3ca6f51488471ff32ed",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-created/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-created/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-created/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-created/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-proposals/state.txt",
+      "originalSha256": "fa428fecb4387e3dc9438ad27dcf8e1c822163caa8b387735fe6b3af0523e4bb",
+      "curatedSha256": "942166daa6101f025abdcf93a55c47a1d0e09d891bec0a0a402dac2f3a6f309e",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-proposals/console.txt",
+      "originalSha256": "de6924c5d34330ebd5e38d9fa82828959f502f398517d48f1858f8793ff47128",
+      "curatedSha256": "6ae73a40ce95e5d1e7c2eec3487aecf812e94cda1ce85f91cb7c731e5f9fea6f",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-proposals/editor.java.txt",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-proposals/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-proposals/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/state.txt",
+      "originalSha256": "296046d52baa5c78c87425d5bfb4018eea423f1ffec7ea54dc9274c526e3e779",
+      "curatedSha256": "59c7e23426df53e15a093a5e7564abfa2a3486f9a9c968bc7fc924d55f019c65",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/console.txt",
+      "originalSha256": "2d301f12e672ae0aefcad87dc065ba782771201156546191c50a4ecf63043144",
+      "curatedSha256": "f92e3bc11556a0a0fc84571ef00129f9f33d826bab59b392618cb1a9fc48762d",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/state.txt",
+      "originalSha256": "89898d8c945b7db83470b200584b98200be0a3648213c38044cce27373eac1be",
+      "curatedSha256": "f3d21abb6e6cbee3a48f8ba78ded6e739fe43911b2cb6b1d33e1442bfb06f2e5",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/console.txt",
+      "originalSha256": "d171b58793727a11fe0241a5697a074adb7392e54cc57f4956d5d12bcd6bf1aa",
+      "curatedSha256": "d171b58793727a11fe0241a5697a074adb7392e54cc57f4956d5d12bcd6bf1aa",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-hello/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-hello/state.txt",
+      "originalSha256": "2e0b57e9075acef26a05e74886d95a20386439cdc10135dd98036a417e543048",
+      "curatedSha256": "06724465d41ef238c1cbe8f5fabeebfea07275f8205e3ffdf2515fdd29cf9e2b",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-hello/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-hello/console.txt",
+      "originalSha256": "32635f23547789f56fb1e1805378308f58dea2d69866914c3f20c21f19ed17fc",
+      "curatedSha256": "32635f23547789f56fb1e1805378308f58dea2d69866914c3f20c21f19ed17fc",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-hello/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-hello/editor.java.txt",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-hello/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-hello/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-junit-dependency/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-junit-dependency/state.txt",
+      "originalSha256": "e6bd3657b413cdb57c33aec18d4034123b424675c2b47a611bdef360643c7102",
+      "curatedSha256": "393dc81c03d69dab61b50a5c49d437be5181f8b79ddd19d578001fc5fcaf5b4d",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-junit-dependency/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-junit-dependency/console.txt",
+      "originalSha256": "4a106d186ae3620107b0d28401215b30b109ea221c6105efddd56971d5bc98f5",
+      "curatedSha256": "d8c35477a33dcc282ebe53e5e1381818b1ae48b0f88780c6e95ed4ef3fbb1b4d",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-junit-dependency/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-junit-dependency/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-junit-dependency/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-junit-dependency/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/state.txt",
+      "originalSha256": "c9f432a45c66d5bcc974ea26c0910bf2f70bf1a34ac1e6c30ea0fbce42194d39",
+      "curatedSha256": "5593e01eab329b6aece6d89eaa0dfd129c92da5fb64b8aa12be582f7f3b030c8",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/console.txt",
+      "originalSha256": "74d5dd441eb86431048f38a6de0994a30e0bc6ec989119e145321b9428544188",
+      "curatedSha256": "74d5dd441eb86431048f38a6de0994a30e0bc6ec989119e145321b9428544188",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/editor.java.txt",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/state.txt",
+      "originalSha256": "c9f432a45c66d5bcc974ea26c0910bf2f70bf1a34ac1e6c30ea0fbce42194d39",
+      "curatedSha256": "5593e01eab329b6aece6d89eaa0dfd129c92da5fb64b8aa12be582f7f3b030c8",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/console.txt",
+      "originalSha256": "5a924da77cf5ea718dc62f5ce95e9ee88a15b9e2a57a5857d42f7d7f23faa331",
+      "curatedSha256": "5a924da77cf5ea718dc62f5ce95e9ee88a15b9e2a57a5857d42f7d7f23faa331",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/state.txt",
+      "originalSha256": "8a7c6115d558b4603d6020ae1d6db4a23993b5e2ad61e6c23954a223d325fe9d",
+      "curatedSha256": "5be61bba7fd2c07946810adca203c0ef5953af41aa193913955ac9fbf8c3be31",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/console.txt",
+      "originalSha256": "2ffcaf0daee0fccd92fc4607dadc25c8241ab32de953cbcb026a9f0fa5dd84a1",
+      "curatedSha256": "964b51e20192bb53d2aa6e98ae76f6b32182bb2339e6ba81a7b7c077a0ba39ec",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/state.txt",
+      "originalSha256": "1af790681375b85672428c300905c50571931b5d41926fdc6dd18b1fd2d680e9",
+      "curatedSha256": "36b82e539883529dcb286c46fcf3574db38061882689fbfa2cab94f209de3be0",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/console.txt",
+      "originalSha256": "0b863854f92f73f9c85cf54f15ed4abf60e6a9e5f7bed92ab58dab2fc50e8e75",
+      "curatedSha256": "cd444c39ebc76505b23028eb05d70eb04e6ecff3548afd55b13e33af112e4212",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/editor.java.txt",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-project-form/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-project-form/state.txt",
+      "originalSha256": "a56b49dd7aeadf356531db4320e39e28a430ca00f122a22370de78cb449cf75d",
+      "curatedSha256": "f31f43f75d41b4c01f8a1a1a5cc9357993f0b8d279a549747c6042ffbd0f49ac",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-project-form/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-project-form/console.txt",
+      "originalSha256": "8437a21ebad04b12a96eb3efae9596d3b6dd3afc90c047ca3faba3f4afe75fc7",
+      "curatedSha256": "8437a21ebad04b12a96eb3efae9596d3b6dd3afc90c047ca3faba3f4afe75fc7",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/maven-project-form/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-project-form/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/workspace/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/workspace/state.txt",
+      "originalSha256": "d4a4ad410368616d6810106b86a150841a6eba434f8b3a5a537b095f0b72d05c",
+      "curatedSha256": "d4a4ad410368616d6810106b86a150841a6eba434f8b3a5a537b095f0b72d05c",
+      "redacted": false
+    },
+    {
+      "path": "run08/checkpoints.json#/workspace/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/workspace/console.txt",
+      "originalSha256": "fda5f2615194b2846f480a6a9248253068c67fc458c478e04e3ad0fab704a200",
+      "curatedSha256": "dade6dd42482e8fa6853fae2ed22dbb4e11a9805ad1a8f381ca9f8ca8ad7c43f",
+      "redacted": true
+    },
+    {
+      "path": "run08/checkpoints.json#/workspace/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/workspace/editor.java.txt",
+      "originalSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "curatedSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/.turboj/junit.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/project/.turboj/junit.properties",
+      "originalSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/project/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/.turboj/source-roots.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/project/.turboj/source-roots.txt",
+      "originalSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/project/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/project/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/project/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/java-green.png",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/java-green/frame.png",
+      "originalSha256": "b2c355c50441567e577be2a6ac85e0b902a5792d1cc3952346cbff38b045f175",
+      "curatedSha256": "b2c355c50441567e577be2a6ac85e0b902a5792d1cc3952346cbff38b045f175",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/project/.turboj/project.properties",
+      "originalSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/.turboj/source-roots.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/project/.turboj/source-roots.txt",
+      "originalSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/project/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/project/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/project/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/project/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run08/maven-green.png",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/maven-green/frame.png",
+      "originalSha256": "036c51be610d5d8283c6c4d06b513b819af1c38bb30b642e1c3463ace08bea28",
+      "curatedSha256": "036c51be610d5d8283c6c4d06b513b819af1c38bb30b642e1c3463ace08bea28",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run01/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-01/failure/console.txt",
+      "originalSha256": "017999c4f6e6b1ad1c1eeafde7a01fa30b05c7200b6fa8031f51ec888f06e529",
+      "curatedSha256": "0e505d8e8312bd2897b1c7cb449d304f7ca218e0780f637f1575d1469f7beb0e",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run01/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-01/failure/editor.java.txt",
+      "originalSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "curatedSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run01/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-01/failure/state.txt",
+      "originalSha256": "098e422e30a045dc54e641c3d334b8aa833c204202b3dbd7c1554f5c2c78e7de",
+      "curatedSha256": "098e422e30a045dc54e641c3d334b8aa833c204202b3dbd7c1554f5c2c78e7de",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run01/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-01/keyboard-events.tsv",
+      "originalSha256": "0c0c6421c9ae183c1d1d092c26ec0706327cf56a0e86ebca646d2e090c38407e",
+      "curatedSha256": "0c0c6421c9ae183c1d1d092c26ec0706327cf56a0e86ebca646d2e090c38407e",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run01/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-01/report.txt",
+      "originalSha256": "2574099955c15b45ae5b4c7536181d52dbab3adcaac26a4f1737263e5c826d95",
+      "curatedSha256": "d84b1c2ed5a62a7f74797ec83f6c0390a03771d156d0e9efc0aa69ad3b6fc609",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run02/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-02/failure/console.txt",
+      "originalSha256": "8ab940822dd63bdf770adaee814181ed79cd285981db890e024b3d39dd92099c",
+      "curatedSha256": "8ab940822dd63bdf770adaee814181ed79cd285981db890e024b3d39dd92099c",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run02/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-02/failure/editor.java.txt",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run02/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-02/failure/state.txt",
+      "originalSha256": "e4a1768bd926b2e535d1c5fd9672d6cee9bd3c933aaed29eea4a3d9d0d01b911",
+      "curatedSha256": "d4d385643209ac24893b606ecfa6fc40b4445fd4c19e9493b1344ef6621ce5a6",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run02/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-02/keyboard-events.tsv",
+      "originalSha256": "fbee48f1efc36ed3494ea5de5814afeafd2a0c6f352e5b5b93211ec13d5c61a6",
+      "curatedSha256": "fbee48f1efc36ed3494ea5de5814afeafd2a0c6f352e5b5b93211ec13d5c61a6",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run02/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-02/report.txt",
+      "originalSha256": "3c30b0cd80b106d85bd70135d5b6761659dd3d65a9a236514b106ce3d60abf29",
+      "curatedSha256": "dcb2c0bfe7d7c6819bb887544e4663687b7de1971494d60bc623a3e9726db079",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run03/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-03/failure/console.txt",
+      "originalSha256": "2667d9012d963ddd368c5795ffd3a600e8dbc213b005c7cd1ed26336d922c660",
+      "curatedSha256": "2667d9012d963ddd368c5795ffd3a600e8dbc213b005c7cd1ed26336d922c660",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run03/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-03/failure/editor.java.txt",
+      "originalSha256": "ef6d75364a71f2e55eeaf4185b30ab62ab1066ab451cec330dc6a13821566de0",
+      "curatedSha256": "ef6d75364a71f2e55eeaf4185b30ab62ab1066ab451cec330dc6a13821566de0",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run03/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-03/failure/state.txt",
+      "originalSha256": "2d2d4e8d12f20bcb469f14c7092107252946ebedd33a387eaa557ee6cd2d68f1",
+      "curatedSha256": "9ed45386f8934e3399ec15972bd873a494eeeab67554701973d85a6d89c5136a",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run03/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-03/keyboard-events.tsv",
+      "originalSha256": "d24559a671e91cd6695a5f6f8009ca3a154b21d1b872014b8445e7f1601f13a7",
+      "curatedSha256": "d24559a671e91cd6695a5f6f8009ca3a154b21d1b872014b8445e7f1601f13a7",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run03/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-03/report.txt",
+      "originalSha256": "130694dc809dd24fa0f55c6bd287a7b6c924e8db08bf6aab4c3c3cbf1825e509",
+      "curatedSha256": "71add505e2dc172290b8132d90ae2ff1fe5ea9e51f644a62af0ecde988e6d2fe",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run04/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-04/failure/console.txt",
+      "originalSha256": "634a85a64d08f391245b601fd4cd145190d15672ce3328ff38330d0577db21dc",
+      "curatedSha256": "634a85a64d08f391245b601fd4cd145190d15672ce3328ff38330d0577db21dc",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run04/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-04/failure/editor.java.txt",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run04/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-04/failure/state.txt",
+      "originalSha256": "8b58a499fdf5c5494e36e806d6a3a3851117c0e871e74de258baf5fc329dce6e",
+      "curatedSha256": "5ca960987c85f450813c0bc73457ad48c1905ddacd016d8fb0a385da5f574cb0",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run04/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-04/keyboard-events.tsv",
+      "originalSha256": "5658be8747fe306d37bfe32b363e6c11612ff88d1556cb83ec056ce0f3f31ff3",
+      "curatedSha256": "5658be8747fe306d37bfe32b363e6c11612ff88d1556cb83ec056ce0f3f31ff3",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run04/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-04/report.txt",
+      "originalSha256": "0b2fd2c83edb1775f9fa4eb450e7f921e587d24e8daf080fa03baae65644fc2d",
+      "curatedSha256": "c8d0901c422c2ff10ff475a7c5df4154b13513dff67f6c0aabd6967f0b232242",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run05/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-05/failure/console.txt",
+      "originalSha256": "f587ea8a0fa9c1de3c57b7926b505c5c8156877c569bfca65ecdf33bca4546be",
+      "curatedSha256": "f587ea8a0fa9c1de3c57b7926b505c5c8156877c569bfca65ecdf33bca4546be",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run05/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-05/failure/editor.java.txt",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run05/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-05/failure/state.txt",
+      "originalSha256": "c42463c7661ab51dba06ab8368b47ca324903a87305e9c7ddb6a46f888133423",
+      "curatedSha256": "7713755d05fad6299e05bbd29872fa3d60dc8f57bb9106dad8d41b867d9edfe2",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run05/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-05/keyboard-events.tsv",
+      "originalSha256": "5484ce1006c924bfd88d92806e5c4d4b977ee2907b121b847786e65305049650",
+      "curatedSha256": "5484ce1006c924bfd88d92806e5c4d4b977ee2907b121b847786e65305049650",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run05/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-05/report.txt",
+      "originalSha256": "542b11d7bd497a459555c5bfff552722c8535f79a205b94f4bf947dd4e988048",
+      "curatedSha256": "3dc0d78a8f6b5342e5402084e64dee5cdad1831abc15c9b406c842f7260403b3",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run06/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-06/failure/console.txt",
+      "originalSha256": "7efe5531b75aac626de2c8e6b5d9866e6534fde3ccb9c9ee822381d39a62b97a",
+      "curatedSha256": "7efe5531b75aac626de2c8e6b5d9866e6534fde3ccb9c9ee822381d39a62b97a",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run06/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-06/failure/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run06/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-06/failure/state.txt",
+      "originalSha256": "401a2c61dbf391caa81803788f331778be038bf1018bf934a2dad9c5ea636706",
+      "curatedSha256": "7c7f2f0a434db150555469f06f286441473d9829ced7f5bc71e59d81e5b1aafa",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run06/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-06/keyboard-events.tsv",
+      "originalSha256": "16ae8d60a8760470f1f38ed7f3af663e2d86ac60f292c0e25fb8d19671cca1c5",
+      "curatedSha256": "16ae8d60a8760470f1f38ed7f3af663e2d86ac60f292c0e25fb8d19671cca1c5",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run06/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-06/report.txt",
+      "originalSha256": "4b61d208997a359c39ee340bc51a10ed5e543202f6f6060bce064d3a4a6a264b",
+      "curatedSha256": "b7659b7c69089b996711ee6a05d237a6c6556b176dab90cc3fbe2b4658eebfad",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run07/failure/console.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-07/failure/console.txt",
+      "originalSha256": "c0a2c6912c246e50986069d97bdce36cb1590b6c5d87fe875a0b642d5f069e56",
+      "curatedSha256": "1d9d5d16fd0169140399ea97960a33afdf43c7b6db4544236ef561dfca0d7e07",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run07/failure/editor.java.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-07/failure/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run07/failure/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-07/failure/state.txt",
+      "originalSha256": "17897f56a9875e21a22d4ea783183edb787039c9564683f735e7a5661f9816bc",
+      "curatedSha256": "c918f187d31254f33bf79293ec6d96868a680ab74ade92aedf7c905813d58f59",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run07/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-07/keyboard-events.tsv",
+      "originalSha256": "cb33bb961b1bb4dc8c5924b47840f66b911dd9d7757966844f02fe76be735d2a",
+      "curatedSha256": "cb33bb961b1bb4dc8c5924b47840f66b911dd9d7757966844f02fe76be735d2a",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run07/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-07/report.txt",
+      "originalSha256": "2cc076bad49ef12d2316b198c75ce886195fbdb9f7f7a5a88249464a3e108f2e",
+      "curatedSha256": "b24e426be6351159a07ac386dcf720d8d78d5e8b639325a09798a70887ba3def",
+      "redacted": true
+    },
+    {
+      "path": "build08.json",
+      "originalPath": "target/first-launch-build-db70ecd.json",
+      "originalSha256": "c1e899768d5db9239b88030a623b9d3a0b9146ac22ed3850cfa45d4fd5728c08",
+      "curatedSha256": "c1e899768d5db9239b88030a623b9d3a0b9146ac22ed3850cfa45d4fd5728c08",
+      "redacted": false
+    },
+    {
+      "path": "build/unit-tests.txt",
+      "originalPath": "target/first-launch-full-tests-07.log",
+      "originalSha256": "13c7a6db108bc3a69d65127d0435dd512b3ea2d6b97eade514732712f0f7496b",
+      "curatedSha256": "ec3c395e2bf692abef430d59f8517e3a5b0d6e0a81014efbb268363442d01a43",
+      "redacted": true
+    },
+    {
+      "path": "build/package08.txt",
+      "originalPath": "target/first-launch-final-package-07.log",
+      "originalSha256": "a079241290de73aeb8764dc2e19d212510b49a17ff1bd207fc6cddc71ccefaa8",
+      "curatedSha256": "451ce898b217877a60df0f35075cdfb044cf64e4f75e68e20a6007bde40030bf",
+      "redacted": true
+    },
+    {
+      "path": "controls/run08-profile-report.txt",
+      "originalPath": "target/first-launch-profile-08-report.txt",
+      "originalSha256": "aeb0d6c0b2df664e37b27eb4df3a544f138098a745fc447ea57bdfe6a791b52f",
+      "curatedSha256": "4233ebea2348ff80bc5173853630956dd2cc3b548a8f3e1e2e82a92247f6495a",
+      "redacted": true
+    },
+    {
+      "path": "controls/run08-profile-output.txt",
+      "originalPath": "target/first-launch-profile-08.log",
+      "originalSha256": "3f81f0d2132f5ed05ac6b68afa5bb98ccd38c50412ce649cd629c78d5a68f3c8",
+      "curatedSha256": "3f81f0d2132f5ed05ac6b68afa5bb98ccd38c50412ce649cd629c78d5a68f3c8",
+      "redacted": false
+    },
+    {
+      "path": "controls/run08-manifest.json",
+      "originalPath": "target/first-launch-curated-manifest08.json",
+      "originalSha256": "b74d59f2c7b1bd20f2084112fa32f430e196b8c8b22e04c98535466e2e1ab386",
+      "curatedSha256": "b74d59f2c7b1bd20f2084112fa32f430e196b8c8b22e04c98535466e2e1ab386",
+      "redacted": false
+    },
+    {
+      "path": "run09/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/report.txt",
+      "originalSha256": "697c5a869afcbf8720769d15c3020b4177a5035c9e428945a25b276a9caeca9c",
+      "curatedSha256": "8eaef3c46628e82240aedb0fd8abad45a021543f602eee7f1d080e7e64556de7",
+      "redacted": true
+    },
+    {
+      "path": "run09/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/keyboard-events.tsv",
+      "originalSha256": "d68b309c7f032505b6b7da52fc3d6bb6206e51f05955ba0ad6eefe8562d17bb3",
+      "curatedSha256": "d68b309c7f032505b6b7da52fc3d6bb6206e51f05955ba0ad6eefe8562d17bb3",
+      "redacted": false
+    },
+    {
+      "path": "run09/native-run.txt",
+      "originalPath": "target/first-launch-keyboard-smoke-09.log",
+      "originalSha256": "8f11df24a4da843d628dc9366a8341489e0868e8b65b059241f53eb80813aaa5",
+      "curatedSha256": "c6a1cb2636c257aa630515925db26088ffd9899c008068b9e9aa5fb7d0fd8ceb",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/state.txt",
+      "originalSha256": "24af9a57c63959fbaa3b973541140ad38a0e8a834d8788cc5885d988f5c8feae",
+      "curatedSha256": "ad9ae6184b7d21939c9575507f699762015113f3fffa33f60cd6b13e86773df8",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/console.txt",
+      "originalSha256": "5c0cbd4793c6d2ec8e802489d8b49c3d181c8a3d293ec541294f779081e5cb5f",
+      "curatedSha256": "5c0cbd4793c6d2ec8e802489d8b49c3d181c8a3d293ec541294f779081e5cb5f",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/complete/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/complete/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/state.txt",
+      "originalSha256": "2467591b35c6c104b4ebc9f93d72f66a8bd18ac32aea627630662fda54a684d5",
+      "curatedSha256": "da783e12ea13446ce5c141693d9a61cf0e981cacd7dc261d82e457acf00cfffa",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/console.txt",
+      "originalSha256": "340ee67b8ed869a24242a0ff1c36a76af9928fcede308f417d477df4019315b1",
+      "curatedSha256": "340ee67b8ed869a24242a0ff1c36a76af9928fcede308f417d477df4019315b1",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/editor.java.txt",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-created/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-created/state.txt",
+      "originalSha256": "1e3e56c6d21b24c176553deb5366a2a9f9d4c48be5c563740705d1ba8551b2f0",
+      "curatedSha256": "2443fabfa77d2d27c55e736ab385ff224ef3c52a5d29412e674cc2cfddc5eebc",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-created/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-created/console.txt",
+      "originalSha256": "9660c2fcf1aa7310fa6a18db44e5152955f5072d9a32a2af6f71c0f8badfac81",
+      "curatedSha256": "9660c2fcf1aa7310fa6a18db44e5152955f5072d9a32a2af6f71c0f8badfac81",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-created/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-created/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-created/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-created/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-proposals/state.txt",
+      "originalSha256": "abca7efe48b75f5457da94e8459b0c6402e1f56b70f62b99f7af04e6f20a9555",
+      "curatedSha256": "286179eef5bd74f04fdc9b4576ed0d4685715699cc5e32376163493801a66041",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-proposals/console.txt",
+      "originalSha256": "5309594d9612218fcba72e5105c344aa3e5901c829fa91ef600f9a8ee409f7e8",
+      "curatedSha256": "5309594d9612218fcba72e5105c344aa3e5901c829fa91ef600f9a8ee409f7e8",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-proposals/editor.java.txt",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-proposals/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-proposals/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/state.txt",
+      "originalSha256": "544dd51c9d02f850af09931a4aa5e59508bc74987595cb914ec971a106e4146b",
+      "curatedSha256": "3cbc8881859eb01de44fd6605b796d892b16ca30d7063cccef524fef37f8176f",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/console.txt",
+      "originalSha256": "f21c4a57a38f04a3ad7fd6bb5f26159dc68230d2120f6927b2d4d0268caa428f",
+      "curatedSha256": "f21c4a57a38f04a3ad7fd6bb5f26159dc68230d2120f6927b2d4d0268caa428f",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/state.txt",
+      "originalSha256": "99757637a318debce758e73ea02ef529dab506fdabde5abed563f73210586035",
+      "curatedSha256": "ff1bf48cb98af77e8fbc48ee85749c2c1a99e1885df87a9bef37c2ac2e173e7c",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/console.txt",
+      "originalSha256": "2054d755665a6af0a29688616a90b23a3ed0f88f660e082f7400e43d34d7797b",
+      "curatedSha256": "2054d755665a6af0a29688616a90b23a3ed0f88f660e082f7400e43d34d7797b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-hello/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-hello/state.txt",
+      "originalSha256": "d2db703c561d74c0b03c805ac2396a1d62ee304c55fe24f88dff98089c7f1805",
+      "curatedSha256": "f03979333ce6923c5bc5cc726131835960279ef1ddef7ab61973f347ca77c264",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-hello/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-hello/console.txt",
+      "originalSha256": "bb857667d791bda9e2e5a49d067d306829dc56a200f16ab5fdaa725ce7380871",
+      "curatedSha256": "bb857667d791bda9e2e5a49d067d306829dc56a200f16ab5fdaa725ce7380871",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-hello/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-hello/editor.java.txt",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-hello/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-hello/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-junit-dependency/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-junit-dependency/state.txt",
+      "originalSha256": "ca5cb3bfda435d99f3cabc6030cd6f7790fce3023f515e868cdb7f17e0b8e25f",
+      "curatedSha256": "1d4a43e9d8ec48d0bb0bf5aea181012d5bfa1c4ab81ed0bfcaba5d526ce5f655",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-junit-dependency/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-junit-dependency/console.txt",
+      "originalSha256": "7f24a089a7ff43f8212ee8361bcfcd17158894ff7094449c3810dda1dd18b2bf",
+      "curatedSha256": "7f24a089a7ff43f8212ee8361bcfcd17158894ff7094449c3810dda1dd18b2bf",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-junit-dependency/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-junit-dependency/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-junit-dependency/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-junit-dependency/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/state.txt",
+      "originalSha256": "c42a4b0bd531d2a75b5c13c534653e74525baffabd8f593666e590a2dfe1871a",
+      "curatedSha256": "e9c50b86f983d1be6bf8e17d5bae22871a599f7b8cc89d3b2addcc43df610dd0",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/console.txt",
+      "originalSha256": "96f9056c2d67a306a981b6ed2f293d4f5ad18ff493e09dcbc128d43fb99b4a6b",
+      "curatedSha256": "96f9056c2d67a306a981b6ed2f293d4f5ad18ff493e09dcbc128d43fb99b4a6b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/editor.java.txt",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/state.txt",
+      "originalSha256": "aac635ec5ffc603960ef9047580ee0621487e23bb263d0da8024a9c3ce936e3e",
+      "curatedSha256": "d7f427e5d554a7d9de2f9be39a1d5b63055cd3667b933a630ef7937195a9feb1",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/console.txt",
+      "originalSha256": "91b0fe4c13fc5a136427d34689be73369164451e29c63807e879d020b018aad0",
+      "curatedSha256": "91b0fe4c13fc5a136427d34689be73369164451e29c63807e879d020b018aad0",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/state.txt",
+      "originalSha256": "f04fb6503f589d6ad32e03c23871ea925f59bde49d1784ad4810925d8772d799",
+      "curatedSha256": "8897c99f7c148a16292572dac9863c4602beee25142fe883d61c5d394b484ce0",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/console.txt",
+      "originalSha256": "55d6557b2ac10bc6adf46514af417a3635136b479ffcd9793b217e0037ddf1dc",
+      "curatedSha256": "55d6557b2ac10bc6adf46514af417a3635136b479ffcd9793b217e0037ddf1dc",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/state.txt",
+      "originalSha256": "fd67b310ffdf875f1e49c37985858e5ba802e3f13f5f1d1229cfd17be6637234",
+      "curatedSha256": "476f8b639f710b03086054f4f194586f018511ec70bf4f3653a081ec5cc12f52",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/console.txt",
+      "originalSha256": "6c4c894ef3784e8f22c81fe7e8c59eb948c225e3bbfe437a095c3d960f27a881",
+      "curatedSha256": "6c4c894ef3784e8f22c81fe7e8c59eb948c225e3bbfe437a095c3d960f27a881",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/editor.java.txt",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/buffers/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/buffers/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-project-form/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-project-form/state.txt",
+      "originalSha256": "2d0f49ccd58585ad555cf78d9e2d846306d88af08c3d22b371b4e85685ebae97",
+      "curatedSha256": "2d0f49ccd58585ad555cf78d9e2d846306d88af08c3d22b371b4e85685ebae97",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/java-project-form/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-project-form/console.txt",
+      "originalSha256": "36c5e19d8537d184feaa5fc3fac244b31a9939cfa1accf4d7578079f8a324005",
+      "curatedSha256": "b26c37b5d5f7e35fde7ddafe3711ec78a6ad61b76801612530bca80de75fed9a",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/java-project-form/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-project-form/editor.java.txt",
+      "originalSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "curatedSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/state.txt",
+      "originalSha256": "5bddae819bdacebf3bbb61876b2e340b1459d784046f6f5776ca3388a7beb68e",
+      "curatedSha256": "199ce79235abe66c9cadc39a650a96473e46a0ffbaf5d96c218bdcb04cad676d",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/console.txt",
+      "originalSha256": "abc1fb17da0c54a0e03442c4c049339a97cb6f0fff72d0b275b6e5e540325a3c",
+      "curatedSha256": "abc1fb17da0c54a0e03442c4c049339a97cb6f0fff72d0b275b6e5e540325a3c",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/editor.java.txt",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-created/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-created/state.txt",
+      "originalSha256": "299a3886d1e6561fe28f0edbae150635a590be6daac2a3497904ee2c284e727a",
+      "curatedSha256": "c94be8d72f7147144f21b9d02244eccab41ff8657f9efbfc500531e15b570269",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-created/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-created/console.txt",
+      "originalSha256": "f83afe65e4124c2f91e55c5e31f437580a630a3e36f7e4199884fd93839f83c7",
+      "curatedSha256": "a0f411033d24719900409751523c40425666fe0019b5e3ca6f51488471ff32ed",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-created/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-created/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-created/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-created/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-created/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-created/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-proposals/state.txt",
+      "originalSha256": "e8dfbff567c70cdac7af3150d5cfee102cb2f7b40dd9830cd578e786b8298d2b",
+      "curatedSha256": "6191db2db83ce9fcc14eaf62f5a762694e0c3bbbe20986db4b5af097c32f99a5",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-proposals/console.txt",
+      "originalSha256": "4be5275de032e8df751da95fd2a16d8241e1731e8405d53b2c6cfcc346804149",
+      "curatedSha256": "6ae73a40ce95e5d1e7c2eec3487aecf812e94cda1ce85f91cb7c731e5f9fea6f",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-proposals/editor.java.txt",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-proposals/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-proposals/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/state.txt",
+      "originalSha256": "cd5db1402da7cfa267f0a9b08e431c462cef2a16300908da4bfd726196d4710d",
+      "curatedSha256": "ff7429e5e48062886a764e255536cdbcc2af089360939a50e2a2be084e38a51c",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/console.txt",
+      "originalSha256": "f00372e69b0d620382bcd457720d31df06f5b5eb625693ab549b89b2a425847f",
+      "curatedSha256": "f92e3bc11556a0a0fc84571ef00129f9f33d826bab59b392618cb1a9fc48762d",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/state.txt",
+      "originalSha256": "88e06449401cdc72d23fa6c2eb1cb3005f59de30f6e44f629f02e3da87c754e4",
+      "curatedSha256": "184d513d0ea0aa20e61a7c9dbf9532dafcee40fdbbaa86b74212b65512722ef4",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/console.txt",
+      "originalSha256": "5c0cbd4793c6d2ec8e802489d8b49c3d181c8a3d293ec541294f779081e5cb5f",
+      "curatedSha256": "5c0cbd4793c6d2ec8e802489d8b49c3d181c8a3d293ec541294f779081e5cb5f",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-hello/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-hello/state.txt",
+      "originalSha256": "553fbc06c1c9bb31c35fbb8f7a45ed31a668bcfff696f3931cf179c71f791711",
+      "curatedSha256": "22d633578bc3aad970b1e057a8dca1dad48770656578abb4a1c4b55c30277584",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-hello/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-hello/console.txt",
+      "originalSha256": "f2a2f853bd4afbb04071d2176ff228d64ff769ea748c4ab819809924206c95b4",
+      "curatedSha256": "f2a2f853bd4afbb04071d2176ff228d64ff769ea748c4ab819809924206c95b4",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-hello/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-hello/editor.java.txt",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-hello/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-hello/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-hello/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-junit-dependency/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-junit-dependency/state.txt",
+      "originalSha256": "b637870c85951b100a15506622fc196791d0966889d41dfcac97e33117229067",
+      "curatedSha256": "45364614dfa7efadcb6bb3f527335bb0b25b7cdc20183eaaf36c3d1738cfb296",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-junit-dependency/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-junit-dependency/console.txt",
+      "originalSha256": "4c572d8c9515d4d327596655fbc20f879d3d7e3c83741ce404b3623310e4f428",
+      "curatedSha256": "d8c35477a33dcc282ebe53e5e1381818b1ae48b0f88780c6e95ed4ef3fbb1b4d",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-junit-dependency/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-junit-dependency/editor.java.txt",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-junit-dependency/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-junit-dependency/buffers/pom.xml",
+      "originalSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-junit-dependency/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/state.txt",
+      "originalSha256": "21bbeab363207e32b6b9a39bdb67bf1e93a06babd385e9bfbfae5d33df9e41a8",
+      "curatedSha256": "906b9da614e6f35bf325dc23522170b01eb2bd81ad1377be24095a5ad4d30841",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/console.txt",
+      "originalSha256": "fddf42f2faab6f7e8bb22399d4628fe1785f119f10e6173f90a7175d03cf68ed",
+      "curatedSha256": "bfe5e39b67326067f159232eb546e93c201d8145ab47ea032a27579712cc5b62",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/editor.java.txt",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/state.txt",
+      "originalSha256": "21bbeab363207e32b6b9a39bdb67bf1e93a06babd385e9bfbfae5d33df9e41a8",
+      "curatedSha256": "906b9da614e6f35bf325dc23522170b01eb2bd81ad1377be24095a5ad4d30841",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/console.txt",
+      "originalSha256": "ba8b2e737c2feec6baa852fb88d371d70b7cd2a55d315b6e366d3d2c64a93e60",
+      "curatedSha256": "7595d96a08f4b86f50e47a930073f39145efb7df68bf1a91183174394f5fc1a8",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/state.txt",
+      "originalSha256": "1b6f38151ab0094ff527a5ddb0d3e8e588b784a1229c93459b38ec9dc08c0d6a",
+      "curatedSha256": "fbaf5ae03522a31b5d3c4c719703aa77f3271728e92ea8c841adf2f978e34eb0",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/console.txt",
+      "originalSha256": "b74fea7c8dd13da799be214b64dbd7965df3f8aa4a62cd15fca9e97a673651ce",
+      "curatedSha256": "964b51e20192bb53d2aa6e98ae76f6b32182bb2339e6ba81a7b7c077a0ba39ec",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/editor.java.txt",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/state.txt",
+      "originalSha256": "41a1333afe32637e505431664adcb9e38ee6f3e3c46f34e4aeac549e7b3d268b",
+      "curatedSha256": "68547dcfa12efa22240cde1c14c9e0f823b3fb032f93965cf769e87103f36f03",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/console.txt",
+      "originalSha256": "259fb63a2f4b728ea9f559193616cf98e525871db1ad3c21d87281d9a900c79d",
+      "curatedSha256": "cd444c39ebc76505b23028eb05d70eb04e6ecff3548afd55b13e33af112e4212",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/editor.java.txt",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/buffers/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/buffers/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/buffers/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/buffers/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-method-template/buffers/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-project-form/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-project-form/state.txt",
+      "originalSha256": "135159cc945e5bee0fe75472623bc4eadba97dd991eaaf63d9adff0801c4d426",
+      "curatedSha256": "fdc1ad28d240a782acdaf3b2697ce38cde36b0c51cbf91b64f64a1df7bed8c40",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-project-form/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-project-form/console.txt",
+      "originalSha256": "2054d755665a6af0a29688616a90b23a3ed0f88f660e082f7400e43d34d7797b",
+      "curatedSha256": "2054d755665a6af0a29688616a90b23a3ed0f88f660e082f7400e43d34d7797b",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/maven-project-form/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-project-form/editor.java.txt",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/workspace/state",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/workspace/state.txt",
+      "originalSha256": "2d0ac3c3d63e2b76096214a4d9391cdbd04e9d60d0d55c0f03bf2f80992764fe",
+      "curatedSha256": "2d0ac3c3d63e2b76096214a4d9391cdbd04e9d60d0d55c0f03bf2f80992764fe",
+      "redacted": false
+    },
+    {
+      "path": "run09/checkpoints.json#/workspace/console",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/workspace/console.txt",
+      "originalSha256": "36c5e19d8537d184feaa5fc3fac244b31a9939cfa1accf4d7578079f8a324005",
+      "curatedSha256": "b26c37b5d5f7e35fde7ddafe3711ec78a6ad61b76801612530bca80de75fed9a",
+      "redacted": true
+    },
+    {
+      "path": "run09/checkpoints.json#/workspace/editor",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/workspace/editor.java.txt",
+      "originalSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "curatedSha256": "75407e04992136d44dffbad3058765974d74ffbdc9627da51c51e186827c31e9",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/.turboj/junit.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/project/.turboj/junit.properties",
+      "originalSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/project/.turboj/project.properties",
+      "originalSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/.turboj/source-roots.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/project/.turboj/source-roots.txt",
+      "originalSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/project/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/project/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/java/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/project/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/java-green.png",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/java-green/frame.png",
+      "originalSha256": "b9f183d2b7d29e5a5d17b0a0efc281587b3bae3131d82af24999cb72f02dbaa0",
+      "curatedSha256": "b9f183d2b7d29e5a5d17b0a0efc281587b3bae3131d82af24999cb72f02dbaa0",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/.turboj/project.properties",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/project/.turboj/project.properties",
+      "originalSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/.turboj/source-roots.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/project/.turboj/source-roots.txt",
+      "originalSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/pom.xml",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/project/pom.xml",
+      "originalSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/src/main/java/tutorial/Calculator.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/project/src/main/java/tutorial/Calculator.java",
+      "originalSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/src/main/java/tutorial/HelloWorld.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/project/src/main/java/tutorial/HelloWorld.java",
+      "originalSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "redacted": false
+    },
+    {
+      "path": "fixtures/maven/src/test/java/tutorial/CalculatorTest.java",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/project/src/test/java/tutorial/CalculatorTest.java",
+      "originalSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "redacted": false
+    },
+    {
+      "path": "run09/maven-green.png",
+      "originalPath": "app/target/first-launch-keyboard-smoke-09/maven-green/frame.png",
+      "originalSha256": "61341cc7c35f23ab4f8f6379488816c9c23f88527323247cc82c1e96cbe3fec8",
+      "curatedSha256": "61341cc7c35f23ab4f8f6379488816c9c23f88527323247cc82c1e96cbe3fec8",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run08/report.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/report.txt",
+      "originalSha256": "9986939d0249e58634eb3c1ab009deade9fb5e23342a3303b571a99204b2683c",
+      "curatedSha256": "f1b5c8f5c08fcc2ee659e7f143fb4bc03cb9e89387cace9d89afa5768e1ec023",
+      "redacted": true
+    },
+    {
+      "path": "controls.json#/run08/keyboard-events.tsv",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/keyboard-events.tsv",
+      "originalSha256": "b2186a7e665c3dfa125690a3e215788370ccc54d6b63dbe4a77cd8ac9ac6fd4a",
+      "curatedSha256": "b2186a7e665c3dfa125690a3e215788370ccc54d6b63dbe4a77cd8ac9ac6fd4a",
+      "redacted": false
+    },
+    {
+      "path": "controls.json#/run08/complete/state.txt",
+      "originalPath": "app/target/first-launch-keyboard-smoke-08/complete/state.txt",
+      "originalSha256": "1d5159ba544c4e88109c5c79d668105add52a1e7e857e01e606f698b44fc9e3f",
+      "curatedSha256": "f98719eb2e2cecf5743e06bf6658e5ded775561e77f9b43143a3b4a21f854894",
+      "redacted": true
+    },
+    {
+      "path": "build.json",
+      "originalPath": "target/first-launch-build-782d81b.json",
+      "originalSha256": "c1b3d8bd03b08b7f479dd7599786392651a1adf85a7e204a3eb3e1d04fd579e8",
+      "curatedSha256": "c1b3d8bd03b08b7f479dd7599786392651a1adf85a7e204a3eb3e1d04fd579e8",
+      "redacted": false
+    },
+    {
+      "path": "build/package.txt",
+      "originalPath": "target/first-launch-final-package-09.log",
+      "originalSha256": "c4a869b5e8e355723c064c86ca02913e859505b45064a35488e9dc4b913b0678",
+      "curatedSha256": "882aae62526817d0957e4b3ebff403ba5ab8d3698332f8d1413650972c32f1c9",
+      "redacted": true
+    },
+    {
+      "path": "build/keymap-tests09.txt",
+      "originalPath": "target/first-launch-eclipse-save-all-keymap-tests.log",
+      "originalSha256": "0227170c051e03f1dcfc7db03dcff160a25ce2176262b039bac0cfcd0689d330",
+      "curatedSha256": "bf5a06db06e56f3258eb276548e309eb041281e9fa75a4df69018d37fa4712ff",
+      "redacted": true
+    },
+    {
+      "path": "build/commandj-install09.txt",
+      "originalPath": "target/first-launch-eclipse-save-all-commandj-install.log",
+      "originalSha256": "18137b2a5333683b98b990247db3ecdf6dcec6254b3618d5be5246b8149c5999",
+      "curatedSha256": "17a789f9ccb74b9b7b67f884414eb9b50c5d91e47ba20779573df376c3f9125e",
+      "redacted": true
+    },
+    {
+      "path": "regressions/profile-report.txt",
+      "originalPath": "app/target/keyboard-profile-smoke/report.txt",
+      "originalSha256": "0aac3011d969b366a20d0164f0917efac01176d8d927623ab5421e063d10b734",
+      "curatedSha256": "6d3c2f1907a2bc4d7d564e8fe9a440b0ff1e047da320790bb5ddd268eb8b261f",
+      "redacted": true
+    },
+    {
+      "path": "regressions/profile-output.txt",
+      "originalPath": "target/first-launch-profile-regression.log",
+      "originalSha256": "3f81f0d2132f5ed05ac6b68afa5bb98ccd38c50412ce649cd629c78d5a68f3c8",
+      "curatedSha256": "3f81f0d2132f5ed05ac6b68afa5bb98ccd38c50412ce649cd629c78d5a68f3c8",
+      "redacted": false
+    },
+    {
+      "path": "regressions/command-registry.txt",
+      "originalPath": "target/first-launch-command-registry.log",
+      "originalSha256": "b3759c8645de69576b3d341f7a8116f8a824b21848700a9c056d71726547e6e9",
+      "curatedSha256": "b3759c8645de69576b3d341f7a8116f8a824b21848700a9c056d71726547e6e9",
+      "redacted": false
+    },
+    {
+      "path": "regressions/keyboard-reference-tests.txt",
+      "originalPath": "target/first-launch-keyboard-reference-tests.txt",
+      "originalSha256": "95e8011d02e6bd27ff41d4df88cd1af9b7e384cd1eaf72b9a8b92d8d9b02cbbd",
+      "curatedSha256": "95e8011d02e6bd27ff41d4df88cd1af9b7e384cd1eaf72b9a8b92d8d9b02cbbd",
+      "redacted": false
+    }
+  ],
+  "bundleNote": "Paths containing # identify exact text values in JSON bundles, not standalone files. Per-value hashes cover UTF-8 content; whole-file hashes are listed separately.",
+  "wholeFileSha256": {
+    "README.md": "7d5d7968d7824816e7c076d3df8c96fdc291c76c985f769b84bf7190b7ad18f9",
+    "build/commandj-install09.txt": "17a789f9ccb74b9b7b67f884414eb9b50c5d91e47ba20779573df376c3f9125e",
+    "build/keymap-tests09.txt": "bf5a06db06e56f3258eb276548e309eb041281e9fa75a4df69018d37fa4712ff",
+    "build/package.txt": "882aae62526817d0957e4b3ebff403ba5ab8d3698332f8d1413650972c32f1c9",
+    "build/package08.txt": "451ce898b217877a60df0f35075cdfb044cf64e4f75e68e20a6007bde40030bf",
+    "build/unit-tests.txt": "ec3c395e2bf692abef430d59f8517e3a5b0d6e0a81014efbb268363442d01a43",
+    "build.json": "c1b3d8bd03b08b7f479dd7599786392651a1adf85a7e204a3eb3e1d04fd579e8",
+    "build08.json": "c1e899768d5db9239b88030a623b9d3a0b9146ac22ed3850cfa45d4fd5728c08",
+    "controls/run08-manifest.json": "b74d59f2c7b1bd20f2084112fa32f430e196b8c8b22e04c98535466e2e1ab386",
+    "controls/run08-profile-output.txt": "3f81f0d2132f5ed05ac6b68afa5bb98ccd38c50412ce649cd629c78d5a68f3c8",
+    "controls/run08-profile-report.txt": "4233ebea2348ff80bc5173853630956dd2cc3b548a8f3e1e2e82a92247f6495a",
+    "controls.json": "5781f4a231fd0f76f07b8b3c3e8e17cf702ce73be65099c20cb17e09360ce67c",
+    "fixtures/java/.turboj/junit.properties": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+    "fixtures/java/.turboj/project.properties": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+    "fixtures/java/.turboj/source-roots.txt": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+    "fixtures/java/src/main/java/tutorial/Calculator.java": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+    "fixtures/java/src/main/java/tutorial/HelloWorld.java": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+    "fixtures/java/src/test/java/tutorial/CalculatorTest.java": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+    "fixtures/maven/.turboj/project.properties": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+    "fixtures/maven/.turboj/source-roots.txt": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+    "fixtures/maven/pom.xml": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+    "fixtures/maven/src/main/java/tutorial/Calculator.java": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+    "fixtures/maven/src/main/java/tutorial/HelloWorld.java": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+    "fixtures/maven/src/test/java/tutorial/CalculatorTest.java": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+    "regressions/command-registry.txt": "b3759c8645de69576b3d341f7a8116f8a824b21848700a9c056d71726547e6e9",
+    "regressions/keyboard-reference-tests.txt": "95e8011d02e6bd27ff41d4df88cd1af9b7e384cd1eaf72b9a8b92d8d9b02cbbd",
+    "regressions/profile-output.txt": "3f81f0d2132f5ed05ac6b68afa5bb98ccd38c50412ce649cd629c78d5a68f3c8",
+    "regressions/profile-report.txt": "6d3c2f1907a2bc4d7d564e8fe9a440b0ff1e047da320790bb5ddd268eb8b261f",
+    "run08/checkpoints.json": "3bfe96af6f62452cdbf9930212ec246376c97bf6ccc2a7e50ba963392c6c9c73",
+    "run08/java-green.png": "b2c355c50441567e577be2a6ac85e0b902a5792d1cc3952346cbff38b045f175",
+    "run08/keyboard-events.tsv": "b2186a7e665c3dfa125690a3e215788370ccc54d6b63dbe4a77cd8ac9ac6fd4a",
+    "run08/maven-green.png": "036c51be610d5d8283c6c4d06b513b819af1c38bb30b642e1c3463ace08bea28",
+    "run08/native-run.txt": "74e5dea08cd06897dac80e0f6a08a7c45183e4f474b4d229b4e1c2fe81ee8c37",
+    "run08/report.txt": "17cc1aafc44baeffc457c03e7c2290de672d3077598c1215879ad78350f64d9d",
+    "run09/checkpoints.json": "274165eca74de5694dac787ca79854bf4d4fae47b9610981d96fe827dde7c43e",
+    "run09/java-green.png": "b9f183d2b7d29e5a5d17b0a0efc281587b3bae3131d82af24999cb72f02dbaa0",
+    "run09/keyboard-events.tsv": "d68b309c7f032505b6b7da52fc3d6bb6206e51f05955ba0ad6eefe8562d17bb3",
+    "run09/maven-green.png": "61341cc7c35f23ab4f8f6379488816c9c23f88527323247cc82c1e96cbe3fec8",
+    "run09/native-run.txt": "c6a1cb2636c257aa630515925db26088ffd9899c008068b9e9aa5fb7d0fd8ceb",
+    "run09/report.txt": "8eaef3c46628e82240aedb0fd8abad45a021543f602eee7f1d080e7e64556de7",
+    "verify.py": "83529bed7ce851f72e9d4be29400fc2debe708f8ac844e4f968f1c7206c1e652"
+  },
+  "priorRun08Manifest": "controls/run08-manifest.json"
+}

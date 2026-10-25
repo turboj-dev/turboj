@@ -88,8 +88,11 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `explorer.expand` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `explorer.open` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `file.close` | File | Cmd+W | Cmd+W | Cmd+W | Cmd+W | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `file.newJavaClass` | File | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | FirstLaunchKeyboardSmoke / FirstLaunchProjectsTest / QuickActionsIT; see first-launch-keyboard-acceptance.md |
+| `file.newJavaProject` | File | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | FirstLaunchKeyboardSmoke / FirstLaunchProjectsTest / QuickActionsIT; see first-launch-keyboard-acceptance.md |
+| `file.newMavenProject` | File | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | FirstLaunchKeyboardSmoke / FirstLaunchProjectsTest / QuickActionsIT; see first-launch-keyboard-acceptance.md |
 | `file.reopenClosed` | File | Unassigned | Unassigned | Shift+Cmd+T | Unassigned | Implemented; No closed files to reopen | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `file.saveAll` | File | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `file.saveAll` | File | Unassigned | Shift+Cmd+S | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `find` | Edit | Cmd+F | Cmd+F | Cmd+F | Cmd+F | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `findNext` | Edit | Cmd+G | Cmd+G | Cmd+G | Cmd+G | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `findPrevious` | Edit | Shift+Cmd+G | Unassigned | Shift+Cmd+G | Shift+Cmd+G | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -198,7 +201,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `refactor.anonymous-to-lambda` | Refactoring | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `refactor.change-signature` | Refactoring | Cmd+F6 | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `refactor.constructor-to-factory` | Refactoring | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `refactor.context-actions` | Refactoring | Option+ENTER | Cmd+1 | Cmd+PERIOD | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `refactor.context-actions` | Refactoring | Option+ENTER | Cmd+1 | Cmd+PERIOD | Unassigned | Implemented; available | FirstLaunchKeyboardSmoke / FirstLaunchProjectsTest / QuickActionsIT; see first-launch-keyboard-acceptance.md |
 | `refactor.create-constructor` | Refactoring | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `refactor.create-field` | Refactoring | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `refactor.create-local` | Refactoring | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -236,7 +239,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `run.configuration` | Edit | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `run.onSave` | Execution | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `save` | File | Cmd+S | Cmd+S | Cmd+S | F2 / Cmd+S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `saveAs` | File | Shift+Cmd+S | Shift+Cmd+S | Shift+Cmd+S | Shift+Cmd+S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `saveAs` | File | Shift+Cmd+S | Unassigned | Shift+Cmd+S | Shift+Cmd+S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `selectAll` | Edit | Cmd+A | Cmd+A | Cmd+A | Cmd+A | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `settings.general` | Settings | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `showPressedShortcuts` | Appearance | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -270,6 +273,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `view.toggleConsole` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.toggleExplorer` | Panels | Unassigned | Unassigned | Cmd+B | Unassigned | Implemented; Open a Maven project first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.toggleTestPanel` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Run tests first | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `workspace.select` | Edit | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | FirstLaunchKeyboardSmoke / FirstLaunchProjectsTest / QuickActionsIT; see first-launch-keyboard-acceptance.md |
 | `zoom` | Appearance | Unassigned | Unassigned | Unassigned | F5 | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 
 ## Preserved command-ID aliases

@@ -18,6 +18,8 @@ Development requires **JDK 25**; Maven Wrapper downloads pinned Maven/dependenci
 
 The initial buffer is a working Hello World. New installations use the IntelliJ macOS keymap: **Ctrl+R** runs, **Cmd+S** saves, **Cmd+O** opens, and **Cmd+Shift+A** finds an action. Existing installations retain TurboJ Classic, including **Cmd+R / Ctrl+F9** for Run and **F2 / F3** for Save/Open. Options → Keymap selects or customizes IntelliJ, Eclipse, VS Code or Classic bindings independently from the visual theme. Menus show the active shortcuts.
 
+Launching without a file opens workspace selection unless a default workspace was remembered. **File → New** creates Java or Maven projects and Java classes. In the Eclipse profile, **Cmd+1** offers contextual Quick Fixes and Quick Assists: create an unresolved class or method, generate a JUnit test from its class, and continue editing generated code with Tab. Run recognizes test classes; from a supporting class without a main, Eclipse Run can repeat the previous JUnit launch in the same project/module. See the [interaction contract](docs/quick-fix-quick-assist.md) and [native keyboard acceptance](docs/first-launch-keyboard-acceptance.md).
+
 Run works from unsaved buffers. Open Run → Java REPL for expressions and declarations without a main method. For `Scanner(System.in)`, type directly after the program prompt in the output pane and press Enter. The execution timeout pauses while the program waits for stdin. Use Run → Stop to terminate a program.
 
 Select text in the output pane and use **Cmd+C** or **Edit → Copy** to copy it.

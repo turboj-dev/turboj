@@ -28,7 +28,7 @@ public final class TurboJ {
                     frame.setVisible(true);
                     frame.editor().requestFocusInWindow();
                     if (args.length > 0) frame.openPath(Path.of(args[0]));
-                    else frame.offerRecovery();
+                    else { frame.offerRecovery(); frame.startFirstLaunch(); }
                 });
     }
 }

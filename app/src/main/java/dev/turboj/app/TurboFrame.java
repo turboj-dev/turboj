@@ -22,6 +22,8 @@ import dev.turboj.project.MavenProjectController;
 import dev.turboj.project.MavenCompilationWorkspace;
 import dev.turboj.project.MavenRunTargets;
 import dev.turboj.project.SourceEncoding;
+import dev.turboj.project.FirstLaunchForms;
+import dev.turboj.project.FirstLaunchProjects;
 import dev.turboj.mavenj.api.MavenModels;
 
 import java.awt.*;
@@ -63,6 +65,8 @@ public final class TurboFrame extends JFrame {
         executor.setRemoveOnCancelPolicy(true); return executor;
     }
     private final ContinuousCompiler compiler = new ContinuousCompiler(new JavacCompilerBackend());
+    private final dev.turboj.project.PlainProjectCompiler plainCompiler = new dev.turboj.project.PlainProjectCompiler();
+    private List<Path> currentPlainClasspath = List.of();
     private final ScheduledExecutorService background =
             Executors.newSingleThreadScheduledExecutor(
                     r -> {
@@ -126,6 +130,16 @@ public final class TurboFrame extends JFrame {
     private AICompletionController aiCompletion;
     private FormattingController formatting;
     private RefactoringController refactoring;
+    private QuickFixController quickFix;
+    private FirstLaunchProjects.ProjectResult createdProject;
+    private boolean firstLaunchBusy;
+    private record LinkedName(Model.WorkspaceSnapshot baseline, Model.Location declaration,
+            dev.turboj.editor.document.PieceTable document, long checkpoint, EditorComponent.Location location) {}
+    private record LinkedRenameUndo(String planId, LinkedName entered) {}
+    private LinkedName linkedName;
+    private LinkedRenameUndo linkedRenameUndo;
+    private long linkedRenameRequest;
+    private boolean linkedRenameBusy;
     private TurboTestController tests;
     private final TestOutput testOutput = new TestOutput(console);
     private List<String> testCompilerDetails = List.of();
@@ -393,6 +407,9 @@ public final class TurboFrame extends JFrame {
                 startTests(TurboTestController.Mode.ALL, true);
         });
         tests = new TurboTestController(new NativeTestHost());
+        quickFix = new QuickFixController(this, editor, intelligence, this::intelligenceSnapshot,
+                new NativeRefactoringHost(), refactoring, this::navigateGeneratedSource,
+                this::createJUnitTest, text -> console.append(text + "\n", false));
         keyboardJava.setRefactoring(refactoring::previewRequest);
         tests.setAutomatic(settings.autoTest);
         // CommandJ owns shortcut dispatch, including completion controls. The coordinators are
@@ -682,6 +699,255 @@ public final class TurboFrame extends JFrame {
         return console;
     }
 
+    /** Called by the native application bootstrap, not by test-only frame construction. */
+    public void startFirstLaunch() {
+        if (!settings.rememberWorkspace || settings.workspaceDirectory == null || settings.workspaceDirectory.isBlank())
+            SwingUtilities.invokeLater(this::chooseWorkspace);
+    }
+
+    private Path workspaceDirectory() {
+        try {
+            if (settings.workspaceDirectory != null && !settings.workspaceDirectory.isBlank())
+                return Path.of(settings.workspaceDirectory).toAbsolutePath().normalize();
+        } catch (RuntimeException ignored) { }
+        return Path.of(System.getProperty("user.home"), "Workspace");
+    }
+
+    private void chooseWorkspace() {
+        if (firstLaunchBusy || closing) return;
+        var choice = FirstLaunchForms.selectWorkspace(this, workspaceDirectory());
+        if (choice == null) { editor.requestFocusInWindow(); return; }
+        firstLaunchBusy = true;
+        CompletableFuture.supplyAsync(() -> {
+            try { return Files.createDirectories(choice.directory()).toRealPath(); }
+            catch (java.io.IOException failure) { throw new CompletionException(failure); }
+        }, background).whenComplete((directory, failure) -> SwingUtilities.invokeLater(() -> {
+            firstLaunchBusy = false; if (closing) return;
+            if (failure != null) { showError(message(failure)); return; }
+            settings.workspaceDirectory = directory.toString(); settings.rememberWorkspace = choice.remember();
+            String preferences = settings.snapshotJson();
+            background.execute(() -> { try { Settings.saveSnapshot(preferences); } catch (Exception error) { errorLater(error); } });
+            console.append("Workspace selected: " + directory + "\n", false); editor.requestFocusInWindow();
+        }));
+    }
+
+    private void createJavaProject(boolean mavenProject) {
+        if (firstLaunchBusy || closing) return;
+        if (maven.lifecycleRunning()) { showError("Stop the Maven goal before creating another project."); return; }
+        var spec = FirstLaunchForms.project(this, workspaceDirectory(), mavenProject);
+        if (spec == null) { editor.requestFocusInWindow(); return; }
+        firstLaunchBusy = true;
+        CompletableFuture.supplyAsync(() -> {
+            try { return FirstLaunchProjects.createProject(spec); }
+            catch (Exception failure) { throw new CompletionException(failure); }
+        }, background).whenComplete((project, failure) -> SwingUtilities.invokeLater(() -> {
+            firstLaunchBusy = false; if (closing) return;
+            if (failure != null) { showError(message(failure)); return; }
+            createdProject = project;
+            maven.clearProject();
+            if (project.maven()) maven.open(project.root());
+            openPath(project.initialFile());
+            console.append("Created " + (project.maven() ? "Maven" : "Java") + " project " + project.root().getFileName()
+                    + ". Use New Java Class to create a main class.\n", false);
+        }));
+    }
+
+    private record NewClassContext(Model.WorkspaceSnapshot snapshot, Path sourceRoot) {}
+
+    private void createMainClass() {
+        if (firstLaunchBusy || closing) return;
+        var captured = new NativeRefactoringHost().capture();
+        var project = createdProject;
+        var mavenModel = maven.workspace();
+        Path active = file;
+        String source = editor.getText();
+        var overlays = intelligenceSnapshot().openSources();
+        firstLaunchBusy = true;
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                ProjectContext.Config config;
+                if (mavenModel != null && active != null && mavenModel.moduleFor(active).isPresent())
+                    config = ProjectContext.fromMaven(mavenModel);
+                else if (project != null && (active == null || active.startsWith(project.root())))
+                    config = new ProjectContext.Config(project.root(), project.sourceRoots(), List.of(), List.of(), 1, List.of());
+                else {
+                    if (active == null) throw new IllegalStateException("Create or open a Java project first.");
+                    config = ProjectContext.detect(active, source);
+                }
+                var disk = dev.turboj.refactorj.transactions.DiskWorkspace.open(config.projectRoot(), config.sourceRoots(), config.classPath()).snapshot();
+                Map<Path, Model.SourceSnapshot> sources = new LinkedHashMap<>();
+                disk.sources().forEach(s -> sources.put(s.file(), s));
+                overlays.forEach((path, text) -> {
+                    if (path.startsWith(disk.root()) && path.getFileName().toString().endsWith(".java"))
+                        sources.put(path, new Model.SourceSnapshot(path, text.toString(), text.version(), true));
+                });
+                var snapshot = new Model.WorkspaceSnapshot(disk.root(), disk.version(), List.copyOf(sources.values()), disk.sourceRoots(), disk.classpath(), config.projects());
+                var roots = mavenModel != null && active != null
+                        ? mavenModel.moduleFor(active).map(MavenModels.Module::sourceRoots).orElse(config.sourceRoots()) : config.sourceRoots();
+                Path root = roots.stream().filter(p -> active != null && active.startsWith(p)).findFirst()
+                        .orElseGet(() -> roots.stream().findFirst().orElse(config.projectRoot()));
+                return new NewClassContext(snapshot, root);
+            } catch (Exception failure) { throw new CompletionException(failure); }
+        }, background).whenComplete((context, failure) -> SwingUtilities.invokeLater(() -> {
+            firstLaunchBusy = false; if (closing) return;
+            if (failure != null) { showError(message(failure)); return; }
+            if (mavenModel != maven.workspace()) { showError("Project changed; create the class again."); return; }
+            if (!captured.equals(new NativeRefactoringHost().capture())) { showError("Source changed; create the class again."); return; }
+            var spec = FirstLaunchForms.mainClass(this, context.sourceRoot(), "");
+            if (spec != null) prepareGenerated(captured, () -> FirstLaunchProjects.mainPlan(context.snapshot(), spec));
+        }));
+    }
+
+    private void createJUnitTest(dev.turboj.refactorj.api.JavaQuickActions.Inspection inspection,
+            dev.turboj.refactorj.api.JavaQuickActions.Proposal proposal) {
+        if (firstLaunchBusy || closing) return;
+        var captured = new NativeRefactoringHost().capture();
+        var model = maven.workspace();
+        var module = model == null ? null : model.moduleFor(proposal.location().file()).orElse(null);
+        Path projectRoot = module == null ? inspection.snapshot().root() : module.directory();
+        Path inferredTestRoot = Path.of(proposal.parameters().getOrDefault("testRoot", projectRoot.resolve("src/test/java").toString()));
+        if (module != null && module.testRoots().size() > 1) {
+            var choice = new JComboBox<>(module.testRoots().toArray(Path[]::new));
+            choice.getAccessibleContext().setAccessibleName("JUnit test source folder");
+            if (module.testRoots().contains(inferredTestRoot)) choice.setSelectedItem(inferredTestRoot);
+            if (EmbeddedOptionPane.showConfirmDialog(this, choice, "Test source folder",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.OK_OPTION) return;
+            inferredTestRoot = (Path) choice.getSelectedItem();
+        }
+        Path testRoot = module != null && module.testRoots().size() == 1 ? module.testRoots().getFirst() : inferredTestRoot;
+        rememberBuffer();
+        Buffer pom = buffers.get(projectRoot.resolve("pom.xml"));
+        String pomOverlay = pom == null ? null : pom.state().document().toString();
+        firstLaunchBusy = true;
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                String pomText = module == null ? null : pomOverlay == null ? Files.readString(module.pom()) : pomOverlay;
+                Path actualRoot = module == null ? ProjectContext.detect(proposal.location().file(),
+                        inspection.snapshot().source(proposal.location().file()).text()).projectRoot() : projectRoot;
+                return FirstLaunchProjects.testContext(inspection.snapshot(), proposal.parameters(), actualRoot, testRoot, pomText);
+            } catch (Exception failure) { throw new CompletionException(failure); }
+        }, background).whenComplete((context, failure) -> SwingUtilities.invokeLater(() -> {
+            firstLaunchBusy = false; if (closing) return;
+            if (failure != null) { showError(message(failure)); return; }
+            if (!captured.equals(new NativeRefactoringHost().capture())) { showError("Source changed; invoke Quick Fix again."); return; }
+            var spec = FirstLaunchForms.junitTest(this, context);
+            if (spec != null) prepareGenerated(captured, () -> FirstLaunchProjects.testPlan(context, spec));
+        }));
+    }
+
+    private void prepareGenerated(NativeWorkspaceCommitter.Capture capture,
+            Callable<FirstLaunchProjects.GeneratedSource> preparation) {
+        firstLaunchBusy = true;
+        CompletableFuture.supplyAsync(() -> {
+            try { return preparation.call(); }
+            catch (Exception error) { throw new CompletionException(error); }
+        }, background).whenComplete((generated, failure) -> SwingUtilities.invokeLater(() -> {
+            firstLaunchBusy = false; if (closing) return;
+            if (failure != null) { showError(message(failure)); return; }
+            refactoring.apply(new RefactoringController.Prepared(generated.plan(), capture)).whenComplete((applied, error) -> SwingUtilities.invokeLater(() -> {
+                if (closing) return;
+                if (error != null) { showError(message(error)); return; }
+                navigateGeneratedSource(new dev.turboj.refactorj.api.JavaQuickActions.Prepared(generated.plan(),
+                        new Model.Location(generated.file(), generated.start(), generated.end()), List.of()));
+                if (generated.configurationChanged() && maven.importRequest() != null) maven.reload(false);
+            }));
+        }));
+    }
+
+    private void navigateGeneratedSource(dev.turboj.refactorj.api.JavaQuickActions.Prepared prepared) {
+        navigateGeneratedSource(prepared, null, true);
+    }
+
+    private void navigateGeneratedSource(dev.turboj.refactorj.api.JavaQuickActions.Prepared prepared, String resumeGroup, boolean rememberOrigin) {
+        if (prepared.focus() == null) { editor.requestFocusInWindow(); return; }
+        var target = prepared.focus();
+        Buffer buffer = buffers.get(target.file());
+        if (buffer == null) { console.append("Generated source is unavailable; reopen " + target.file().getFileName() + ".\n", true); return; }
+        if (rememberOrigin || !target.file().equals(bufferKey))
+            navigateDeclaration(new Declaration(target.file(), buffer.state().document().toString(), target.start(), target.end() - target.start(), false, "Java Quick Fix"));
+        editor.setSelection(target.start(), target.end());
+        var groups = new LinkedHashMap<String, List<EditorComponent.Selection>>();
+        for (var placeholder : prepared.placeholders()) {
+            var location = placeholder.location();
+            if (location.file().equals(target.file())) groups.computeIfAbsent(placeholder.group(), key -> new ArrayList<>())
+                    .add(new EditorComponent.Selection(location.end(), location.start()));
+        }
+        if (!groups.isEmpty()) {
+            var names = List.copyOf(groups.keySet());
+            var prior = prepared.plan().before();
+            Map<Path, Model.SourceSnapshot> projected = new LinkedHashMap<>();
+            prior.sources().forEach(source -> projected.put(source.file(), source));
+            for (var change : dev.turboj.refactorj.transactions.ChangeSet.prepare(prepared.plan()).transitions()) {
+                if (change.after() == null) projected.remove(change.path());
+                else projected.put(change.path(), change.after());
+            }
+            var after = new Model.WorkspaceSnapshot(prior.root(), prior.version() + 1,
+                    List.copyOf(projected.values()), prior.sourceRoots(), prior.classpath(), prior.projects());
+            editor.startTemplate(List.copyOf(groups.values()), index -> {
+                linkedName = null;
+                if (!linkedSemanticName(names.get(index))) return;
+                var sources = new LinkedHashMap<Path, Model.SourceSnapshot>();
+                after.sources().forEach(s -> sources.put(s.file(), s));
+                new NativeRefactoringHost().capture().buffers().forEach((path, value) -> {
+                    if (sources.containsKey(path)) sources.put(path,
+                            new Model.SourceSnapshot(path, value.text(), value.version(), true));
+                });
+                var baseline = new Model.WorkspaceSnapshot(after.root(), after.version(), List.copyOf(sources.values()),
+                        after.sourceRoots(), after.classpath(), after.projects());
+                var range = editor.currentTemplateRanges().getFirst();
+                linkedName = new LinkedName(baseline, new Model.Location(bufferKey, range.start(), range.end()),
+                        editor.document(), editor.document().peekUndoTransactionId(), editor.captureLocation());
+            }, (index, next) -> !linkedSemanticName(names.get(index)) || completeLinkedName(
+                    next >= names.size() ? null : names.get(Math.floorMod(next, names.size()))));
+            if (resumeGroup != null) editor.selectTemplateStop(names.indexOf(resumeGroup));
+        }
+        editor.clearInlineCompletion(); editor.requestFocusInWindow();
+    }
+
+    private static boolean linkedSemanticName(String group) { return group.equals("methodName") || group.startsWith("parameter."); }
+
+    private boolean completeLinkedName(String resumeGroup) {
+        if (linkedRenameBusy) return false;
+        var entered = linkedName;
+        if (entered == null || entered.document() != editor.document()) return true;
+        var range = editor.currentTemplateRanges().getFirst();
+        String name = editor.getText().substring(range.start(), range.end());
+        String original = entered.baseline().source(bufferKey).text().substring(entered.declaration().start(), entered.declaration().end());
+        if (name.equals(original)) return true;
+        try { entered.document().validateCoalesceSince(entered.checkpoint(), entered.baseline().source(bufferKey).text()); }
+        catch (IllegalArgumentException invalid) { showError(invalid.getMessage()); return false; }
+        var capture = new NativeRefactoringHost().capture();
+        long ticket = ++linkedRenameRequest; linkedRenameBusy = true;
+        intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> service.sharedRefactorJ(context).quickActions()
+                .renameLinked(entered.baseline(), entered.declaration(), name, () -> closing || ticket != linkedRenameRequest))
+                .whenComplete((prepared, failure) -> SwingUtilities.invokeLater(() -> {
+                    if (closing || ticket != linkedRenameRequest) { linkedRenameBusy = false; return; }
+                    if (failure != null) { linkedRenameBusy = false; showError(message(failure)); return; }
+                    if (!capture.equals(new NativeRefactoringHost().capture()) || editor.document() != entered.document()
+                            || !bufferKey.equals(entered.declaration().file()) || !editor.templateActive()) {
+                        linkedRenameBusy = false; showError("Source changed; invoke Rename again."); return;
+                    }
+                    if (!prepared.plan().valid()) {
+                        linkedRenameBusy = false; showError(prepared.plan().diagnostics().stream().map(Model.Diagnostic::message)
+                                .collect(java.util.stream.Collectors.joining("\n"))); return;
+                    }
+                    linkedRenameUndo = new LinkedRenameUndo(prepared.plan().id(), entered);
+                    refactoring.apply(new RefactoringController.Prepared(prepared.plan(), capture))
+                            .whenComplete((result, error) -> SwingUtilities.invokeLater(() -> {
+                                linkedRenameBusy = false; linkedRenameUndo = null; linkedName = null;
+                                if (closing) return;
+                                if (error != null) { showError(message(error)); return; }
+                                if (ticket != linkedRenameRequest || editor.document() != entered.document()
+                                        || !bufferKey.equals(entered.declaration().file()) || !editor.isFocusOwner()) return;
+                                editor.finishTemplate();
+                                navigateGeneratedSource(resumeGroup == null
+                                        ? new dev.turboj.refactorj.api.JavaQuickActions.Prepared(prepared.plan(), prepared.focus(), List.of())
+                                        : prepared, resumeGroup, false);
+                            }));
+                }));
+        return false;
+    }
+
     public CompilationResult currentResult() {
         return currentResult;
     }
@@ -709,6 +975,8 @@ public final class TurboFrame extends JFrame {
             java.util.function.Consumer<CommandContext> action,
             java.util.function.Function<CommandContext, Availability> availability) {
         commandRegistry.register(Command.of(id, title, category, (context, cancellation) -> {
+            if (quickFix != null && !Set.of("refactor.context-actions", "cut", "copy", "paste", "selectAll").contains(id))
+                quickFix.dismiss(false);
             action.accept(context);
             return CompletableFuture.completedFuture(CommandResult.success());
         }).withAliases(commandAliases(id)).requiring(commandContexts(id)).when(context -> context.has("overlay")
@@ -734,6 +1002,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private static String[] commandContexts(String id) {
+        if (id.equals("refactor.context-actions")) return new String[0];
         if (id.startsWith("editor.") || id.startsWith("java.") || id.startsWith("refactor.")
                 || id.startsWith("completion.") || id.startsWith("documentation.")
                 || Set.of("complete", "documentation", "ai.request", "ai.another", "ai.larger").contains(id)
@@ -763,6 +1032,7 @@ public final class TurboFrame extends JFrame {
         if (OverlayHost.active(this)) tags.add("overlay");
         if (editor.hasInputComposition()) tags.add("input-method");
         Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+        if (quickFix != null && quickFix.ownsFocus(focus)) tags.add("quick-fix-popup");
         if (focus == editor || ((focus == null || focus instanceof MenuElement)
                 && lastTextCommandTarget == editor)) tags.add("editor");
         if (maven.hasExplorerFocus()) tags.add("explorer");
@@ -776,9 +1046,9 @@ public final class TurboFrame extends JFrame {
             tags.add("selection");
         if (running)
             tags.add("running");
-        if (editor.inlineCompletion() != null)
+        if (editor.inlineCompletion() != null && !editor.templateActive())
             tags.add("completion");
-        if (intelligence != null && intelligence.alternativesVisible()) {
+        if (intelligence != null && intelligence.alternativesVisible() && !editor.templateActive()) {
             tags.add("completion");
             tags.add("completion-popup");
         }
@@ -853,6 +1123,8 @@ public final class TurboFrame extends JFrame {
     }
 
     private Availability commandAvailability(String id, CommandContext context) {
+        if (id.equals("refactor.context-actions") && !context.has("editor") && !context.has("quick-fix-popup"))
+            return Availability.disabled("Focus Java source or its Quick Fix popup");
         if (id.startsWith("explorer.") && !context.has("explorer")) return Availability.disabled("Focus the Project Explorer");
         if (Set.of("view.focusExplorer", "view.toggleExplorer", "navigation.mavenModule", "navigation.projectDependency").contains(id)
                 && maven.importRequest() == null) return Availability.disabled("Open a Maven project first");
@@ -919,7 +1191,8 @@ public final class TurboFrame extends JFrame {
         if (id.equals("completion.acceptWord") && !editor.isAIInlineCompletion())
             return Availability.disabled("No AI suggestion is visible");
         if (id.startsWith("refactor.") || id.equals("organizeImports")) {
-            if (!context.has("editor") || !context.has("editable"))
+            boolean contextPopup = id.equals("refactor.context-actions") && context.has("quick-fix-popup");
+            if ((!context.has("editor") && !contextPopup) || !context.has("editable"))
                 return Availability.disabled("Focus editable Java source");
             if (refactoring == null || refactoring.busy())
                 return Availability.disabled("A semantic operation is in progress");
@@ -983,6 +1256,10 @@ public final class TurboFrame extends JFrame {
     }
 
     private void createCommands() {
+        command("workspace.select", "Choose Workspace…", this::chooseWorkspace);
+        command("file.newJavaProject", "New Java Project…", () -> createJavaProject(false));
+        command("file.newMavenProject", "New Maven Project…", () -> createJavaProject(true));
+        command("file.newJavaClass", "New Java Class…", this::createMainClass);
         command(
                 "new",
                 "New",
@@ -1107,8 +1384,8 @@ public final class TurboFrame extends JFrame {
         command("deleteLine", "Delete line", editor::deleteLine);
         command("moveLineUp", "Move line up", () -> editor.moveLine(-1));
         command("moveLineDown", "Move line down", () -> editor.moveLine(1));
-        command("indent", "Indent", () -> editor.indent(false));
-        command("unindent", "Unindent", () -> editor.indent(true));
+        command("indent", "Indent / Next Template Placeholder", () -> { if (!editor.advanceTemplate(false)) editor.indent(false); });
+        command("unindent", "Unindent / Previous Template Placeholder", () -> { if (!editor.advanceTemplate(true)) editor.indent(true); });
         command("comment", "Toggle line comment", editor::toggleComment);
         command(
                 "find",
@@ -1155,7 +1432,7 @@ public final class TurboFrame extends JFrame {
                     }
                 });
         command("compile", "Fast Compile", () -> compile(false, false));
-        command("run", "Fast Run", () -> compile(true, false));
+        command("run", "Run Java / JUnit", () -> runContext(false));
         command("isolated", "Isolated Run", () -> compile(true, true));
         command(
                 "stop",
@@ -1313,6 +1590,9 @@ public final class TurboFrame extends JFrame {
                     () -> commandKeymaps.select(profile.id()));
         command("menu", "Open menu", () -> menus.getMenu(0).doClick());
         command("escape", "Return to editor / dismiss", () -> {
+            ++linkedRenameRequest;
+            if (quickFix != null) quickFix.dismiss(true);
+            editor.finishTemplate();
             MenuSelectionManager.defaultManager().clearSelectedPath();
             boolean completion = editor.inlineCompletion() != null || (intelligence != null && intelligence.alternativesVisible());
             if (aiCompletion != null)
@@ -1333,13 +1613,14 @@ public final class TurboFrame extends JFrame {
             editor.clearInlineCompletion();
         });
         for (Operation operation : Operation.values()) {
+            if (operation == Operation.CREATE_CLASS) continue; // Contextual target inference owns this operation.
             String id = operation == Operation.ORGANIZE_IMPORTS ? "organizeImports" : "refactor."
                     + operation.id();
             command(id, RefactoringController.title(operation) + "…", () -> refactoring
                     .invoke(operation));
         }
         command("refactor.this", "Refactor This…", () -> refactoring.choose(false));
-        command("refactor.context-actions", "Context Actions…", () -> refactoring.choose(true));
+        command("refactor.context-actions", "Quick Fix / Quick Assist…", () -> quickFix.invoke());
         command("refactor.inline", "Inline…", () -> refactoring.chooseInline());
         command("compileProject", "Compile Project",
                 () -> startTests(TurboTestController.Mode.COMPILE, false));
@@ -1747,16 +2028,21 @@ public final class TurboFrame extends JFrame {
     }
 
     private void saveAllBuffers(List<Path> dirty, int index, dev.turboj.editor.document.PieceTable original) {
+        saveAllBuffers(dirty, index, original, () -> {});
+    }
+
+    private void saveAllBuffers(List<Path> dirty, int index, dev.turboj.editor.document.PieceTable original, Runnable finished) {
         if (index == dirty.size()) {
             rememberBuffer();
             buffers.entrySet().stream().filter(entry -> entry.getValue().state().document() == original).findFirst()
                     .ifPresent(entry -> activate(entry.getKey(), entry.getValue()));
+            finished.run();
             return;
         }
         Path key = dirty.get(index);
-        if (!buffers.containsKey(key)) { saveAllBuffers(dirty, index + 1, original); return; }
+        if (!buffers.containsKey(key)) { saveAllBuffers(dirty, index + 1, original, finished); return; }
         if (!key.equals(bufferKey)) { rememberBuffer(); activate(key, buffers.get(key)); }
-        save(false, () -> saveAllBuffers(dirty, index + 1, original));
+        save(false, () -> saveAllBuffers(dirty, index + 1, original, finished));
     }
 
     private void findFile() {
@@ -1850,7 +2136,17 @@ public final class TurboFrame extends JFrame {
     }
 
     private void createMenus() {
-        menu("File", "new", "open", "openFolder", "navigation.recentFiles", "save", "saveAs", "file.saveAll", "file.close", "file.reopenClosed", "-", "quit");
+        var fileMenu = new JMenu("File"); fileMenu.setMnemonic('F');
+        var newMenu = new JMenu("New"); newMenu.setMnemonic('N');
+        for (String id : List.of("file.newJavaProject", "file.newMavenProject", "file.newJavaClass", "new")) {
+            var item = new JMenuItem(commands.get(id));
+            if (id.equals("new")) item.setText("Java Source File");
+            newMenu.add(item);
+        }
+        fileMenu.add(newMenu);
+        for (String id : List.of("workspace.select", "open", "openFolder", "navigation.recentFiles", "save", "saveAs", "file.saveAll", "file.close", "file.reopenClosed", "quit"))
+            fileMenu.add(new JMenuItem(commands.get(id)));
+        menus.add(fileMenu);
         menu("Project", "project.open", "project.reload", "project.explorer", "project.findFile", "project.findModule", "-", "project.structure", "project.dependencies", "project.dependencyTree", "project.profiles", "project.settings", "project.effectivePom", "project.parentPom", "project.pomDeclaration", "project.sources", "project.javadoc", "-",
                 "project.pom.add-dependency", "project.pom.update-dependency-version", "project.pom.remove-dependency", "project.pom.add-module");
         menu("Build", "compile", "compileProject", "make", "error", "project.processors", "-", "maven.build.validate", "maven.build.compile", "maven.build.test", "maven.build.package", "maven.build.verify", "maven.build.install", "maven.build.clean", "maven.build.dependency:tree", "maven.build.help:effective-pom", "maven.build.custom", "maven.refresh", "maven.stop");
@@ -2332,6 +2628,7 @@ public final class TurboFrame extends JFrame {
         if (refactoringPublishing)
             return;
         if (keyboardJava != null) keyboardJava.changed();
+        if (quickFix != null) quickFix.changed();
         if (observedDocument == editor.document()) {
             Visit here = visit();
             if (lastEditVisit == null || !lastEditVisit.key().equals(here.key())
@@ -2401,22 +2698,19 @@ public final class TurboFrame extends JFrame {
                     compileMaven(false, false, false);
             }), 180, TimeUnit.MILLISECONDS);
         } else {
+        var plainSnapshot = intelligenceSnapshot();
+        Path plainFile = file;
         pendingAnalysis =
                 background.schedule(
                         () -> {
                             if (generation.get() != snap.version() || operation.get() != analysisOp)
                                 return;
-                            String text = snap.toString();
-                            compiler.submit(
-                                    name == null
-                                            ? SourceSnapshot.forBuffer(text, snap.version())
-                                            : new SourceSnapshot(name, text, snap.version()),
-                                    result ->
-                                            SwingUtilities.invokeLater(
-                                                    () -> {
-                                                        if (operation.get() == analysisOp)
-                                                            accept(result, false);
-                                                    }));
+                            compilePlain(plainSnapshot, plainFile).whenComplete((compiled, error) ->
+                                    SwingUtilities.invokeLater(() -> {
+                                        if (closing || operation.get() != analysisOp || editor.version() != snap.version()) return;
+                                        if (error != null) { console.append("Project compilation: " + message(error) + "\n", true); return; }
+                                        currentPlainClasspath = compiled.classpath(); accept(compiled.result(), false);
+                                    }));
                         },
                         35,
                         TimeUnit.MILLISECONDS);
@@ -2580,6 +2874,68 @@ public final class TurboFrame extends JFrame {
         if (snapshot != null) CompletableFuture.runAsync(snapshot::close);
     }
 
+    private long contextRunTicket;
+    private record ContextRun(boolean test, boolean main) {}
+    private record LastTestLaunch(Path root, Path file, String moduleId, TurboTestController.Selection selection) {}
+    private LastTestLaunch lastTestLaunch;
+
+    private void runContext(boolean saved) {
+        if (!isJavaBuffer()) { compile(true, false); return; }
+        if (!saved) {
+            var dirty = dirtyBufferKeys();
+            if (!dirty.isEmpty()) {
+                int answer = EmbeddedOptionPane.showConfirmDialog(this, "Save all modified sources before Run?",
+                        "Save before Run", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (answer == JOptionPane.CANCEL_OPTION || answer == JOptionPane.CLOSED_OPTION) return;
+                if (answer == JOptionPane.YES_OPTION) {
+                    saveAllBuffers(new ArrayList<>(dirty), 0, editor.document(), () -> runContext(true)); return;
+                }
+            }
+        }
+        var capture = new NativeRefactoringHost().capture(); var snapshot = intelligenceSnapshot();
+        var runDocument = editor.document();
+        var previousTest = lastTestLaunch;
+        var runModel = maven.workspace();
+        boolean repeatCandidate = "eclipse-macos".equals(commandKeymaps.selectedId()) && previousTest != null
+                && snapshot.file().startsWith(previousTest.root())
+                && (runModel == null ? previousTest.moduleId().isEmpty()
+                        : runModel.moduleFor(snapshot.file()).map(MavenModels.Module::id).orElse("").equals(previousTest.moduleId()));
+        int caret = editor.caretOffset(); long ticket = ++contextRunTicket;
+        intelligence.submitSemantic(snapshot, (service, context) -> {
+            boolean test = service.isTestClass(context, caret);
+            return new ContextRun(test, !test && (!repeatCandidate || service.hasMainMethod(context)));
+        }).whenComplete((target, error) -> SwingUtilities.invokeLater(() -> {
+                    if (closing || ticket != contextRunTicket || editor.document() != runDocument || !bufferKey.equals(snapshot.file())
+                            || !capture.equals(new NativeRefactoringHost().capture())) return;
+                    if (maven.workspace() != runModel) { console.append("Project changed; invoke Run again.\n", false); return; }
+                    if (error != null) { showError("Cannot resolve Run target: " + message(error)); return; }
+                    if (target.test()) startTests(TurboTestController.Mode.CLASS, false);
+                    else if (repeatCandidate && !target.main()) startTests(previousTest.selection().mode(), false, false, previousTest);
+                    else compile(true, false);
+                }));
+    }
+
+    private record PlainCompilation(CompilationResult result, List<Path> classpath) {}
+
+    private CompletableFuture<PlainCompilation> compilePlain(IntelligenceController.Snapshot snapshot, Path actualFile) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (actualFile == null) return null;
+            try {
+                var config = ProjectContext.detect(actualFile, snapshot.source().toString());
+                // Loose files retain their existing single-file behavior. A declared project compiles coherently.
+                if (!Files.isRegularFile(config.projectRoot().resolve(".turboj/project.properties"))
+                        && !Files.isRegularFile(config.projectRoot().resolve(FirstLaunchProjects.JUNIT_MARKER))) return null;
+                return new PlainCompilation(plainCompiler.compile(actualFile, snapshot.source(), snapshot.openSources(), config).active(), config.classPath());
+            } catch (Exception failure) { throw new CompletionException(failure); }
+        }, nativeProjectCompiler).thenCompose(compiled -> {
+            if (compiled != null) return CompletableFuture.completedFuture(compiled);
+            String text = snapshot.source().toString(); long version = snapshot.source().version();
+            var source = actualFile == null ? SourceSnapshot.forBuffer(text, version)
+                    : new SourceSnapshot(actualFile.getFileName().toString(), text, version);
+            return compiler.compileNow(source).thenApply(result -> new PlainCompilation(result, List.of()));
+        });
+    }
+
     public CompletableFuture<CompilationResult> compile(boolean run, boolean isolated) {
         if (maven.importRequest() != null) {
             if (maven.busy() || maven.workspace() == null)
@@ -2602,16 +2958,8 @@ public final class TurboFrame extends JFrame {
         setMessagesVisible(true);
         buildStatus = "CHECKING…";
         refreshTitle();
-        var future =
-                CompletableFuture.supplyAsync(
-                                () -> {
-                                    String text = snap.toString();
-                                    return name == null
-                                            ? SourceSnapshot.forBuffer(text, snap.version())
-                                            : new SourceSnapshot(name, text, snap.version());
-                                },
-                                background)
-                        .thenCompose(compiler::compileNow);
+        var prepared = compilePlain(intelligenceSnapshot(), file);
+        var future = prepared.thenApply(PlainCompilation::result);
         future.whenComplete(
                 (result, error) ->
                         SwingUtilities.invokeLater(
@@ -2634,6 +2982,7 @@ public final class TurboFrame extends JFrame {
                                                 false);
                                         return;
                                     }
+                                    currentPlainClasspath = prepared.join().classpath();
                                     accept(result, true);
                                     if (run && result.success()) {
                                         previousExecution.whenComplete(
@@ -2660,7 +3009,7 @@ public final class TurboFrame extends JFrame {
     private void startRun(CompilationResult result, boolean isolated, long request) {
         programWorker = worker;
         lastPlainRunTarget = result.mainClass();
-        startRun(result, isolated, request, List.of());
+        startRun(result, isolated, request, currentPlainClasspath);
     }
 
     private void startRun(CompilationResult result, boolean isolated, long request, List<Path> classpath) {
@@ -3073,8 +3422,10 @@ public final class TurboFrame extends JFrame {
         themeCatalog.close();
         repl.close();
         compiler.close();
+        Thread.ofPlatform().daemon().name("turboj-plain-compiler-close").start(plainCompiler::close);
         maven.close();
         if (keyboardJava != null) keyboardJava.dispose();
+        if (quickFix != null) quickFix.close();
         intelligence.close();
         aiCompletion.close();
         formatting.close();
@@ -3247,6 +3598,10 @@ public final class TurboFrame extends JFrame {
     }
 
     private void startTests(TurboTestController.Mode mode, boolean automatic, boolean onSave) {
+        startTests(mode, automatic, onSave, null);
+    }
+
+    private void startTests(TurboTestController.Mode mode, boolean automatic, boolean onSave, LastTestLaunch repeat) {
         if (pendingTestSnapshot || closing || (!automatic && tests.busy()))
             return;
         var mavenModel = maven.workspace();
@@ -3261,6 +3616,13 @@ public final class TurboFrame extends JFrame {
         saveTestRun = onSave;
         var capture = new NativeRefactoringHost().capture();
         var semantic = intelligenceSnapshot();
+        if (repeat != null && (mavenModel == null ? !repeat.moduleId().isEmpty()
+                : repeat.moduleId().isEmpty()
+                    || !mavenModel.moduleFor(semantic.file()).map(MavenModels.Module::id).orElse("").equals(repeat.moduleId())
+                    || !mavenModel.moduleFor(repeat.file()).map(MavenModels.Module::id).orElse("").equals(repeat.moduleId()))) {
+            console.append("The previous JUnit launch belongs to another project or module; run from the test source again.\n", true);
+            return;
+        }
         int offset = editor.caretOffset();
         long sourceGeneration = refactoringRevision;
         long selectionRequest = ++testSelectionRequest;
@@ -3276,6 +3638,12 @@ public final class TurboFrame extends JFrame {
             }, nativeProjectCompiler);
         } else selected = intelligence.submitSemantic(semantic, (service, context) -> {
             var engine = service.sharedRefactorJ(context);
+            if (repeat != null) {
+                var current = engine.workspace().snapshot();
+                if (!current.root().equals(repeat.root()) || current.sources().stream().noneMatch(source -> source.file().equals(repeat.file())))
+                    throw new IllegalArgumentException("The previous JUnit launch is no longer in this project; run from the test source again.");
+                return new TestInvocation(current, repeat.selection());
+            }
             var selection = new TurboTestController.Selection(mode, "", "");
 
             if (mode == TurboTestController.Mode.METHOD || mode == TurboTestController.Mode.CLASS) {
@@ -3309,14 +3677,19 @@ public final class TurboFrame extends JFrame {
                 console.append("Source changed while selecting tests; run again.\n", false);
                 return;
             }
+            if (mavenModel != maven.workspace()) { pendingTestSnapshot = false; if (onSave) runningSaveAutomation = null; return; }
             testCapture = capture;
             testWorkspace = invocation.workspace();
+            if (!automatic && (mode == TurboTestController.Mode.METHOD || mode == TurboTestController.Mode.CLASS)) {
+                String module = mavenModel == null ? "" : mavenModel.moduleFor(semantic.file()).map(MavenModels.Module::id).orElse("");
+                lastTestLaunch = new LastTestLaunch(invocation.workspace().root(), repeat == null ? semantic.file() : repeat.file(), module, invocation.selection());
+                if (repeat != null) console.append("Run previous JUnit launch: " + invocation.selection().className() + "\n", false);
+            }
             if (mavenModel != null) {
-                if (maven.workspace() != mavenModel) { pendingTestSnapshot = false; if (onSave) runningSaveAutomation = null; return; }
                 Map<Path, String> overlays = new LinkedHashMap<>();
                 invocation.workspace().sources().forEach(source -> overlays.put(source.file(), source.text()));
                 String moduleId = mode == TurboTestController.Mode.METHOD || mode == TurboTestController.Mode.CLASS
-                        ? mavenModel.moduleFor(bufferKey).map(MavenModels.Module::id).orElse("") : "";
+                        ? repeat == null ? mavenModel.moduleFor(semantic.file()).map(MavenModels.Module::id).orElse("") : repeat.moduleId() : "";
                 CompletableFuture.supplyAsync(this::nativeMavenCompiler, nativeProjectCompiler).whenComplete((coordinator, error) -> SwingUtilities.invokeLater(() -> {
                     if (closing || selectionRequest != testSelectionRequest) return;
                     pendingTestSnapshot = false;
@@ -3618,6 +3991,16 @@ public final class TurboFrame extends JFrame {
                 throw new IllegalStateException("Finish input composition before applying refactoring");
             if (saving || formattingSave)
                 throw new IllegalStateException("Wait for the current save to finish");
+            if (direction == NativeWorkspaceCommitter.Direction.APPLY && linkedRenameUndo != null && linkedRenameUndo.planId().equals(plan.id())
+                    && (editor.document() != linkedRenameUndo.entered().document()
+                        || !bufferKey.equals(linkedRenameUndo.entered().declaration().file()) || !editor.templateActive()))
+                throw new IllegalStateException("Linked edit context changed; no rename applied");
+            if (direction == NativeWorkspaceCommitter.Direction.APPLY && linkedRenameUndo != null && linkedRenameUndo.planId().equals(plan.id())) {
+                var entered = linkedRenameUndo.entered();
+                entered.document().validateCoalesceSince(entered.checkpoint(), entered.baseline().source(entered.declaration().file()).text());
+                // Reserve one undo record before caller edits can trim the typing checkpoint.
+                editor.coalesceEdits(entered.checkpoint(), entered.baseline().source(entered.declaration().file()).text(), entered.location());
+            }
             if (direction != NativeWorkspaceCommitter.Direction.APPLY) {
                 if (!historyReady(token, direction))
                     throw new IllegalStateException("Undo later edits before undoing the workspace refactoring");
@@ -3644,6 +4027,7 @@ public final class TurboFrame extends JFrame {
             Map<Path, String> beforeText = bufferTexts(before);
             Map<dev.turboj.editor.document.PieceTable, Long> transactions = new LinkedHashMap<> ();
             Path activeBefore = bufferKey, activeAfter = bufferKey;
+            Component previousFocus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
             refactoringPublishing = true;
             try {
                 for (var fileEdit : plan.edits()) {
@@ -3661,8 +4045,10 @@ public final class TurboFrame extends JFrame {
                     if (editor.version() != oldVersion)
                         transactions.put(editor.document(), editor.document()
                                 .peekUndoTransactionId());
+                    boolean savedConfiguration = NativeWorkspaceCommitter.savesConfiguration(plan, expected.buffers().get(fileEdit.file()));
                     buffers.put(fileEdit.file(), new Buffer(buffer.file(), editor.captureState(),
-                            buffer.fingerprint(), buffer.savedVersion()));
+                            savedConfiguration ? SafeFiles.utf8Fingerprint(editor.getText()) : buffer.fingerprint(),
+                            savedConfiguration ? editor.version() : buffer.savedVersion()));
                 }
                 for (var fileOperation : plan.fileOperations()) {
                     if (fileOperation.kind() == Model.FileOperationKind.MOVE) {
@@ -3677,6 +4063,32 @@ public final class TurboFrame extends JFrame {
                     } else if (fileOperation.kind() == Model.FileOperationKind.DELETE)
                         buffers.remove(fileOperation.path());
                 }
+                // New/previously closed Java sources participate in the same workspace undo.
+                // Navigation after a quick fix must not make its creation impossible to undo.
+                for (var transition : changeSet.transitions()) {
+                    if (transition.after() == null || buffers.containsKey(transition.path())
+                            || !transition.path().getFileName().toString().endsWith(".java")) continue;
+                    var source = transition.after();
+                    var document = new dev.turboj.editor.document.PieceTable(source.text());
+                    byte[] fingerprint = SafeFiles.utf8Fingerprint(source.text());
+                    buffers.put(transition.path(), new Buffer(transition.path(),
+                            new EditorComponent.EditorState(document, new EditorComponent.Location(0, 0, 0, 0), false),
+                            fingerprint, document.version()));
+                }
+                if (linkedRenameUndo != null && linkedRenameUndo.planId().equals(plan.id())) {
+                    var entered = linkedRenameUndo.entered();
+                    Buffer renamed = buffers.get(entered.declaration().file());
+                    if (renamed == null || renamed.state().document() != entered.document())
+                        throw new IllegalStateException("Linked rename document changed");
+                    editor.restoreState(renamed.state());
+                    long merged = editor.coalesceEdits(entered.checkpoint(),
+                            entered.baseline().source(entered.declaration().file()).text(), entered.location());
+                    if (merged >= 0) transactions.put(entered.document(), merged);
+                    beforeText.put(entered.declaration().file(), entered.baseline().source(entered.declaration().file()).text());
+                    before.put(entered.declaration().file(), new Buffer(renamed.file(),
+                            new EditorComponent.EditorState(entered.document(), entered.location(), false),
+                            renamed.fingerprint(), renamed.savedVersion()));
+                }
                 Map<Path, Buffer> after = new LinkedHashMap<> ();
 
                 for (var transition : changeSet.transitions()) {
@@ -3684,6 +4096,10 @@ public final class TurboFrame extends JFrame {
 
                     if (buffer != null && !buffer.state().readOnly())
                         after.put(transition.path(), buffer);
+                }
+                if (linkedRenameUndo != null && linkedRenameUndo.planId().equals(plan.id())) {
+                    Path renamed = linkedRenameUndo.entered().declaration().file();
+                    after.put(renamed, buffers.get(renamed));
                 }
                 if (!buffers.containsKey(activeAfter))
                     activeAfter = replacementBuffer();
@@ -3704,6 +4120,8 @@ public final class TurboFrame extends JFrame {
                 return new NativeWorkspaceCommitter.Publication(capture(), history);
             } finally {
                 refactoringPublishing = false;
+                if (previousFocus != null && previousFocus != editor && previousFocus.isShowing())
+                    previousFocus.requestFocusInWindow();
             }
         }
 

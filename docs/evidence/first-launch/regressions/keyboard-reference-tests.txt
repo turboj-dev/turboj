@@ -1,0 +1,14 @@
+✔ exports the actual generated native reference bytes without a second shortcut list (8.533333ms)
+✔ a changed native keymap fails before replacing published reference assets (4.101875ms)
+✔ edited generated reference bytes cannot be exported under an old source manifest (3.517166ms)
+✔ missing source evidence, malformed hashes and incomplete reference manifests fail closed (3.147667ms)
+✔ manifest paths cannot escape the repository (3.1955ms)
+✔ check mode detects stale website assets without rewriting them (3.809458ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.239458

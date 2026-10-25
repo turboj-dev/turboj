@@ -180,6 +180,7 @@ final class RefactoringForms {
             case REMOVE_IMPORT -> new RemoveImport(location);
             case IMPLEMENT_METHODS -> new ImplementMethods(location, List.of());
             case CREATE_METHOD -> new CreateMethod(location);
+            case CREATE_CLASS -> throw new IllegalArgumentException("Use Quick Fix on an unresolved Java type to infer its class and package.");
             case CREATE_CONSTRUCTOR -> new CreateConstructor(location);
             case CREATE_FIELD -> new CreateField(location);
             case CREATE_LOCAL -> new CreateLocal(location);

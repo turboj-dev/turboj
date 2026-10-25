@@ -21,6 +21,8 @@ public final class Settings {
     public boolean autoTestOnSave = false;
     public boolean showPressedShortcuts = false;
     public String keymapProfile = "intellij-macos";
+    public String workspaceDirectory;
+    public boolean rememberWorkspace;
     public transient String commandKeymapJson;
     public List<String> recentFiles = new ArrayList<>();
 

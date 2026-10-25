@@ -1,0 +1,107 @@
+PASS clean profile starts at workspace selection
+PASS workspace default is ~/Workspace
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:<SYSTEM_TMP>/refactorj-runtime-4052856105550843273/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+PASS Command available: keymap.profile.eclipse-macos
+PASS Eclipse profile selected through CommandJ palette
+PASS java: project does not exist before keyboard wizard
+PASS F10 → File → New is keyboard accessible
+PASS File → New → New Java Project… selected with arrow keys
+PASS java: location follows chosen workspace/project name
+PASS Command available: file.newJavaClass
+PASS java: conventional Java main stub selected
+PASS java: real HelloWorld.java created by keyboard wizard
+PASS java: generated main signature is valid
+PASS Command available: compile
+PASS java: generated main compiled and ran through native application
+PASS Find selects exact source: Calculator
+PASS java: Escape cancels pending Cmd+1; no popup or source change during subsequent two-second observation
+PASS java: unresolved-type fix inferred from current unsaved source
+PASS java: popup owns Cmd+D; hidden source and filter remain unchanged
+PASS java: popup Shift+Tab returns from explanation to proposals
+PASS java: Tab traverses popup controls without indenting hidden source
+PASS java: global palette supersedes contextual popup without stale focus or source changes
+PASS java: second Cmd+1 exposes assist-only proposals without applying a fix
+PASS java: Escape preserves editor selection
+PASS java: missing class name inferred
+PASS java: missing class package inferred
+PASS java: class generated in correct source root/package
+PASS Find selects exact source: Calculator
+PASS java: resolved declaration does not offer missing-class fix
+PASS java: test name inferred from class declaration
+PASS java: test package inferred
+PASS java: test uses project test root
+PASS java: generated test intentionally fails, with compilable Jupiter source
+PASS java: one real generated assertion fails after compilation
+PASS java: missing method is compilation failure, not a new failed assertion report
+PASS Find selects exact source: add
+PASS java: method target and int argument types inferred semantically
+PASS java: Shift+Tab returns to previous linked stop
+PASS java: Tab selects first generated parameter
+PASS java: Tab selects second generated parameter
+PASS java: Shift+Tab returns to generated body after parameter edits
+PASS java: linked parameter edits update declarations and real body references
+PASS java: Shift+Tab reaches generated method-name placeholder
+PASS java: method-name placeholder commits a semantic cross-file rename
+PASS java: one Undo restores declaration and caller before linked method rename
+PASS java: one Redo restores both files after linked method rename
+PASS java: Eclipse Cmd+Shift+S invokes Save All without a Save As dialog
+PASS java: linked method-name edit updates declaration and original caller across files
+PASS java: one Navigate Back reaches original calling test after linked edits
+PASS java: keyboard generated/implemented method passes the real 42 assertion
+PASS java: Eclipse Run reruns the prior JUnit launch while Calculator implementation stays active
+PASS java: all three Java files exist after UI-only creation
+PASS maven: project does not exist before keyboard wizard
+PASS F10 → File → New is keyboard accessible
+PASS File → New → New Maven Project… selected with arrow keys
+PASS maven: location follows chosen workspace/project name
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS Command available: file.newJavaClass
+PASS maven: conventional Java main stub selected
+PASS maven: real HelloWorld.java created by keyboard wizard
+PASS maven: generated main signature is valid
+PASS Command available: compile
+PASS maven: generated main compiled and ran through native application
+PASS Find selects exact source: Calculator
+PASS maven: Escape cancels pending Cmd+1; no popup or source change during subsequent two-second observation
+PASS maven: unresolved-type fix inferred from current unsaved source
+PASS maven: popup owns Cmd+D; hidden source and filter remain unchanged
+PASS maven: popup Shift+Tab returns from explanation to proposals
+PASS maven: Tab traverses popup controls without indenting hidden source
+PASS maven: global palette supersedes contextual popup without stale focus or source changes
+PASS maven: second Cmd+1 exposes assist-only proposals without applying a fix
+PASS maven: Escape preserves editor selection
+PASS maven: missing class name inferred
+PASS maven: missing class package inferred
+PASS maven: class generated in correct source root/package
+PASS Find selects exact source: Calculator
+PASS maven: resolved declaration does not offer missing-class fix
+PASS maven: test name inferred from class declaration
+PASS maven: test package inferred
+PASS maven: test uses project test root
+PASS maven: generated test intentionally fails, with compilable Jupiter source
+PASS maven: explicit dependency confirmation updates actual pom.xml
+PASS maven: one real generated assertion fails after compilation
+PASS maven: missing method is compilation failure, not a new failed assertion report
+PASS Find selects exact source: add
+PASS maven: method target and int argument types inferred semantically
+PASS maven: Shift+Tab returns to previous linked stop
+PASS maven: Tab selects first generated parameter
+PASS maven: Tab selects second generated parameter
+PASS maven: Shift+Tab returns to generated body after parameter edits
+PASS maven: linked parameter edits update declarations and real body references
+PASS maven: Shift+Tab reaches generated method-name placeholder
+PASS maven: method-name placeholder commits a semantic cross-file rename
+PASS maven: one Undo restores declaration and caller before linked method rename
+PASS maven: one Redo restores both files after linked method rename
+PASS maven: Eclipse Cmd+Shift+S invokes Save All without a Save As dialog
+PASS maven: linked method-name edit updates declaration and original caller across files
+PASS maven: one Navigate Back reaches original calling test after linked edits
+PASS maven: keyboard generated/implemented method passes the real 42 assertion
+PASS maven: Eclipse Run reruns the prior JUnit launch while Calculator implementation stays active
+PASS maven: all three Java files exist after UI-only creation

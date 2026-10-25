@@ -1,0 +1,186 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:<REPOSITORY>/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] CommandJ                                                           [pom]
+[INFO] commandj-core                                                      [jar]
+[INFO] commandj-keymap                                                    [jar]
+[INFO] commandj-palette                                                   [jar]
+[INFO] commandj-swing                                                     [jar]
+[INFO] commandj-benchmarks                                                [jar]
+[INFO] 
+[INFO] --------------------< dev.turboj.commandj:commandj >--------------------
+[INFO] Building CommandJ 0.1.0                                            [1/6]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj ---
+[INFO] Installing <REPOSITORY>/commandj/pom.xml to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj/0.1.0/commandj-0.1.0.pom
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-core >------------------
+[INFO] Building commandj-core 0.1.0                                       [2/6]
+[INFO]   from commandj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-core ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-core ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-core ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-core ---
+[INFO] Installing <REPOSITORY>/commandj/commandj-core/pom.xml to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-core/0.1.0/commandj-core-0.1.0.pom
+[INFO] Installing <REPOSITORY>/commandj/commandj-core/target/commandj-core-0.1.0.jar to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-core/0.1.0/commandj-core-0.1.0.jar
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-keymap >-----------------
+[INFO] Building commandj-keymap 0.1.0                                     [3/6]
+[INFO]   from commandj-keymap/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-keymap ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-keymap ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-keymap/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-keymap ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-keymap ---
+[INFO] Building jar: <REPOSITORY>/commandj/commandj-keymap/target/commandj-keymap-0.1.0.jar
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-keymap ---
+[INFO] Installing <REPOSITORY>/commandj/commandj-keymap/pom.xml to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-keymap/0.1.0/commandj-keymap-0.1.0.pom
+[INFO] Installing <REPOSITORY>/commandj/commandj-keymap/target/commandj-keymap-0.1.0.jar to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-keymap/0.1.0/commandj-keymap-0.1.0.jar
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-palette >----------------
+[INFO] Building commandj-palette 0.1.0                                    [4/6]
+[INFO]   from commandj-palette/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-palette ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-palette ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-palette/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-palette ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-palette ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-palette ---
+[INFO] Installing <REPOSITORY>/commandj/commandj-palette/pom.xml to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-palette/0.1.0/commandj-palette-0.1.0.pom
+[INFO] Installing <REPOSITORY>/commandj/commandj-palette/target/commandj-palette-0.1.0.jar to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-palette/0.1.0/commandj-palette-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-swing >-----------------
+[INFO] Building commandj-swing 0.1.0                                      [5/6]
+[INFO]   from commandj-swing/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-swing ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-swing ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 14 source files with javac [debug release 25] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-swing ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-swing/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-swing ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 7 source files with javac [debug release 25] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-swing ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-swing ---
+[INFO] Building jar: <REPOSITORY>/commandj/commandj-swing/target/commandj-swing-0.1.0.jar
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-swing ---
+[INFO] Installing <REPOSITORY>/commandj/commandj-swing/pom.xml to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-swing/0.1.0/commandj-swing-0.1.0.pom
+[INFO] Installing <REPOSITORY>/commandj/commandj-swing/target/commandj-swing-0.1.0.jar to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-swing/0.1.0/commandj-swing-0.1.0.jar
+[INFO] 
+[INFO] --------------< dev.turboj.commandj:commandj-benchmarks >---------------
+[INFO] Building commandj-benchmarks 0.1.0                                 [6/6]
+[INFO]   from commandj-benchmarks/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-benchmarks ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-benchmarks ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug release 25] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-benchmarks ---
+[INFO] skip non existing resourceDirectory <REPOSITORY>/commandj/commandj-benchmarks/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-benchmarks ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-benchmarks ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-benchmarks ---
+[INFO] Building jar: <REPOSITORY>/commandj/commandj-benchmarks/target/commandj-benchmarks-0.1.0.jar
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ commandj-benchmarks ---
+[WARNING] commandj-benchmarks-0.1.0.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/commandj-LICENSE.txt
+[WARNING] commandj-benchmarks-0.1.0.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commons-math3-3.6.1.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, jmh-core-1.37.jar, jopt-simple-5.0.4.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-benchmarks ---
+[INFO] Installing <REPOSITORY>/commandj/commandj-benchmarks/pom.xml to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-benchmarks/0.1.0/commandj-benchmarks-0.1.0.pom
+[INFO] Installing <REPOSITORY>/commandj/commandj-benchmarks/target/commandj-benchmarks-0.1.0.jar to <REPOSITORY>/.cache/m2/dev/turboj/commandj/commandj-benchmarks/0.1.0/commandj-benchmarks-0.1.0.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for CommandJ 0.1.0:
+[INFO] 
+[INFO] CommandJ ........................................... SUCCESS [  0.057 s]
+[INFO] commandj-core ...................................... SUCCESS [  0.253 s]
+[INFO] commandj-keymap .................................... SUCCESS [  0.038 s]
+[INFO] commandj-palette ................................... SUCCESS [  0.011 s]
+[INFO] commandj-swing ..................................... SUCCESS [  0.611 s]
+[INFO] commandj-benchmarks ................................ SUCCESS [  0.352 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.357 s
+[INFO] Finished at: 2026-10-25T14:49:01+01:00
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,46 @@
+Started UTC: 2026-10-25T13:53:35.476548Z
+Artifact: <REPOSITORY>/app/target/turboj-app.jar
+SHA-256: 782d81bfc43b628bd143837f9d755be4b4ae8e4e148c77be83f12f2b2deeb651
+Runtime: 25.0.4.1; Swing key dispatch, no mouse; isolated settings; fixture and custom binding setup programmatic.
+PASS New settings default to IntelliJ macOS
+PASS Fixture installs one conflict-free IntelliJ custom binding
+PASS Palette switches to intellij-macos using the previously active palette shortcut
+PASS Keyboard Profile menu marker matches intellij-macos
+PASS IntelliJ Cmd+D duplicates the current line
+PASS Palette switches to eclipse-macos using the previously active palette shortcut
+PASS Keyboard Profile menu marker matches eclipse-macos
+PASS Eclipse Cmd+D deletes the current line
+PASS Palette switches to vscode-macos using the previously active palette shortcut
+PASS Keyboard Profile menu marker matches vscode-macos
+PASS VS Code Cmd+D selects the current occurrence
+PASS VS Code repeated Cmd+D adds the next occurrence without modifying source
+PASS Palette switches to turboj-classic using the previously active palette shortcut
+PASS Keyboard Profile menu marker matches turboj-classic
+PASS Keyboard arrows reach Options
+PASS Keyboard arrows select the Keyboard Profile submenu
+PASS Keyboard arrows reach the requested profile menu item
+PASS Enter changes the profile through Options → Keyboard Profile
+PASS Keyboard Profile menu marker matches vscode-macos
+PASS Tab reaches the existing Keyboard Profile combo
+Combo UI: dev.turboj.commandj.swing.AsciiStyle$Combo
+Combo binding alt DOWN -> togglePopup; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@367a549e
+Combo binding SPACE -> spacePopup; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@1d959a60
+Combo binding DOWN -> selectNext; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@65f0c151
+Combo binding UP -> selectPrevious; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@219caf47
+Combo binding HOME -> homePassThrough; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@4526d14e
+Combo binding ENTER -> enterPressed; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@74510510
+Combo binding ESCAPE -> hidePopup; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@17c8b882
+PASS Escape closes the profile dropdown without closing Settings or changing profile
+PASS Existing Keymap Editor combo changes profile entirely by keyboard
+PASS Keyboard Profile menu marker matches eclipse-macos
+PASS Switching profiles preserves the IntelliJ custom override
+PASS Keyboard Profile menu marker matches custom profile
+PASS A user-created custom profile does not falsely mark a bundled profile selected
+PASS A new frame reloads the selected VS Code profile from isolated disk settings
+PASS Keyboard Profile menu marker matches vscode-macos
+PASS VS Code Cmd+D selects the current occurrence
+PASS VS Code repeated Cmd+D adds the next occurrence without modifying source
+PASS Reloading preserves the custom IntelliJ binding
+PASS Reloaded custom shortcut still executes its actual editor action
+Completed UTC: 2026-10-25T13:53:37.225744Z
+PASS complete: 32 assertions.

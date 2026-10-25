@@ -34,9 +34,9 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
         Publication publish(Capture expected, Plan plan, Direction direction, Object historyToken);
         boolean historyReady(Object token, Direction direction);
     }
-    private record DiskHistory(String id, Path root, List<Path> roots, List<Path> classpath) {}
+    private record DiskHistory(String id, Path root, List<Path> roots, List<Path> classpath, List<Path> tracked) {}
     private record Entry(Plan plan, Object token, DiskHistory disk) {}
-    private record Marker(int schema, String root, String historyId, boolean beforeApplied) {}
+    private record Marker(int schema, String root, String historyId, boolean beforeApplied, List<String> tracked) {}
     private static final Gson JSON = new Gson();
     private final Host host;
     private final ExecutorService executor = Executors.newSingleThreadExecutor(Thread.ofPlatform().daemon().name("turboj-refactor-commit").factory());
@@ -80,7 +80,12 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
                     PreparedDisk prepared = prepareDisk(plan, expected);
                     if (!prepared.changes.transitions().isEmpty()) {
                         String id = UUID.randomUUID().toString();
-                        disk = new DiskHistory(id, prepared.before.root(), prepared.before.sourceRoots(), prepared.before.classpath());
+                        var tracked = new LinkedHashSet<Path>();
+                        prepared.before.sources().stream().map(SourceSnapshot::file)
+                                .filter(path -> !path.toString().endsWith(".java")).forEach(tracked::add);
+                        prepared.changes.transitions().stream().map(ChangeSet.Transition::path)
+                                .filter(path -> !path.toString().endsWith(".java")).forEach(tracked::add);
+                        disk = new DiskHistory(id, prepared.before.root(), prepared.before.sourceRoots(), prepared.before.classpath(), List.copyOf(tracked));
                         marker = writeMarker(disk, false);
                         prepared.store.commit(prepared.before, prepared.changes,
                                 new WorkspaceStore.Metadata(id, id, WorkspaceStore.Direction.APPLY), cancellation);
@@ -144,17 +149,19 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
     private PreparedDisk prepareDisk(Plan plan, Capture capture) throws IOException {
         WorkspaceSnapshot semantic = plan.before();
         rejectPending(semantic.root());
-        DiskWorkspace store = DiskWorkspace.open(semantic.root(), semantic.sourceRoots(), semantic.classpath());
+        DiskWorkspace store = openTracked(semantic.root(), semantic.sourceRoots(), semantic.classpath(),
+                semantic.sources().stream().map(SourceSnapshot::file).toList());
         WorkspaceSnapshot disk = store.snapshot();
         Map<Path, SourceSnapshot> diskSources = new HashMap<>();
         disk.sources().forEach(source -> diskSources.put(source.file(), source));
         // Closed source changes invalidate semantic analysis even if that particular file has no edit.
         for (SourceSnapshot source : semantic.sources()) {
-            if (capture.buffers.containsKey(source.file())) continue;
+            if (capture.buffers.containsKey(source.file()) && !savesConfiguration(plan, capture.buffers.get(source.file()))) continue;
             SourceSnapshot current = diskSources.get(source.file());
             if (current == null || !current.text().equals(source.text())) throw stale();
         }
-        List<FileEdits> edits = plan.edits().stream().filter(edit -> !capture.buffers.containsKey(edit.file())).toList();
+        List<FileEdits> edits = plan.edits().stream().filter(edit -> !capture.buffers.containsKey(edit.file())
+                || savesConfiguration(plan, capture.buffers.get(edit.file()))).toList();
         List<FileOperation> operations = new ArrayList<>();
         for (FileOperation operation : plan.fileOperations()) {
             BufferSnapshot buffer = capture.buffers.get(operation.path());
@@ -177,8 +184,22 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
         return new PreparedDisk(store, disk, ChangeSet.prepare(diskPlan));
     }
 
+    /** The explicit Add JUnit decision may persist an unmodified POM, never pre-existing unsaved edits. */
+    public static boolean savesConfiguration(Plan plan, BufferSnapshot buffer) {
+        return buffer != null && plan.operation() == dev.turboj.refactorj.api.Operation.CREATE_CLASS
+                && buffer.path().getFileName().toString().equals("pom.xml")
+                && Objects.equals(buffer.savedSha256(), HexFormat.of().formatHex(SafeFiles.utf8Fingerprint(buffer.text())));
+    }
+
     private static WorkspaceTransactions transactions(DiskHistory history) {
-        return new WorkspaceTransactions(DiskWorkspace.open(history.root, history.roots, history.classpath));
+        return new WorkspaceTransactions(openTracked(history.root, history.roots, history.classpath, history.tracked));
+    }
+
+    private static DiskWorkspace openTracked(Path root, List<Path> roots, List<Path> classpath, List<Path> paths) {
+        // Configuration edits (POM/JUnit marker) belong to the same transaction as generated Java.
+        // DiskWorkspace re-reads these explicit paths and validates them under its normal path guards.
+        return new DiskWorkspace(new WorkspaceSnapshot(root, 0, paths.stream().distinct()
+                .map(path -> new SourceSnapshot(path, "", 0, false)).toList(), roots, classpath));
     }
 
     /** Explicit crash-recovery action. Must run off the EDT and before preparing fresh semantic plans. */
@@ -187,13 +208,15 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
         Path directory = markerDirectory(real);
         if (!Files.exists(directory)) return;
         DiskWorkspace disk = DiskWorkspace.openRecovering(real, List.of(real), List.of());
-        WorkspaceTransactions transactions = new WorkspaceTransactions(disk);
         try (var paths = Files.list(directory)) {
             for (Path path : paths.filter(path -> path.getFileName().toString().endsWith(".json")).sorted().toList()) {
                 if (Files.isSymbolicLink(path) || Files.size(path) > 4096) throw new IOException("Invalid native recovery marker");
                 Marker marker = JSON.fromJson(Files.readString(path), Marker.class);
                 if (marker == null || marker.schema != 1 || !real.toString().equals(marker.root)
                         || marker.historyId == null || !marker.historyId.matches("[a-f0-9-]{36}")) throw new IOException("Invalid native recovery identity");
+                var tracked = marker.tracked == null ? List.<Path>of() : marker.tracked.stream().map(real::resolve).toList();
+                WorkspaceTransactions transactions = new WorkspaceTransactions(tracked.isEmpty() ? disk
+                        : openTracked(real, List.of(real), List.of(), tracked));
                 var history = transactions.history().stream().filter(entry -> entry.id().equals(marker.historyId)).findFirst();
                 if (history.isPresent() && history.get().applied() != marker.beforeApplied) {
                     if (marker.beforeApplied) transactions.redo(marker.historyId, Cancellation.NONE);
@@ -210,7 +233,8 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
         Path file = directory.resolve(history.id + ".json");
         Path temporary = Files.createTempFile(directory, ".native-", ".tmp");
         try {
-            Files.writeString(temporary, JSON.toJson(new Marker(1, history.root.toString(), history.id, beforeApplied)));
+            Files.writeString(temporary, JSON.toJson(new Marker(1, history.root.toString(), history.id, beforeApplied,
+                    history.tracked.stream().map(path -> history.root.relativize(path).toString()).toList())));
             Files.move(temporary, file, StandardCopyOption.ATOMIC_MOVE);
         } finally { Files.deleteIfExists(temporary); }
         return file;

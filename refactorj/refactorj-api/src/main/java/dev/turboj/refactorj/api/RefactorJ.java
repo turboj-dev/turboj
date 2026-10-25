@@ -9,5 +9,6 @@ public interface RefactorJ extends AutoCloseable {
     List<Descriptor> available(Location location, Cancellation cancellation);
     Plan prepare(Requests.Request request, Cancellation cancellation);
     Validation validate(Plan plan, Cancellation cancellation);
+    default JavaQuickActions quickActions() { throw new UnsupportedOperationException("Contextual Java actions are unavailable in this engine"); }
     @Override void close();
 }

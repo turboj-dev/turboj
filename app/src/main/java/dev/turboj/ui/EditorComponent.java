@@ -294,6 +294,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void setText(String value) {
+        finishTemplate();
         document = new PieceTable(value);
         readOnly = false;
         caret = anchor = topLine = leftColumn = 0;
@@ -326,6 +327,7 @@ public final class EditorComponent extends JComponent
     }
 
     public void restoreState(EditorState state) {
+        finishTemplate();
         document = Objects.requireNonNull(state.document());
         readOnly = state.readOnly();
         // Reset coordinates before invalidating visuals: the previous buffer may have been longer.
@@ -942,6 +944,7 @@ public final class EditorComponent extends JComponent
         Location before = captureLocation();
         var beforeSelections = selections();
         var transaction = document.replaceAll(replacements);
+        remapTemplate(edits);
         setSelectionsInternal(normalized);
         if (transaction == null) {
             onCaretChange.run();
@@ -957,6 +960,81 @@ public final class EditorComponent extends JComponent
                 beforeSelections, selections()));
         while (history.size() > 2000) history.remove(history.keySet().iterator().next());
         return true;
+    }
+
+    private List<List<Selection>> templateStops = List.of();
+    private int templateStop;
+    private java.util.function.IntConsumer templateEntered = index -> {};
+    private java.util.function.BiPredicate<Integer, Integer> templateLeaving = (index, next) -> true;
+
+    /** Linked occurrences in one group use real multiple selections and one edit transaction. */
+    public void startTemplate(List<List<Selection>> stops) {
+        startTemplate(stops, index -> {}, (index, next) -> true);
+    }
+
+    public void startTemplate(List<List<Selection>> stops, java.util.function.IntConsumer entered,
+            java.util.function.BiPredicate<Integer, Integer> leaving) {
+        finishTemplate();
+        if (stops.isEmpty()) return;
+        for (var group : stops) {
+            if (group.isEmpty()) throw new IllegalArgumentException("Empty template group");
+            for (var range : group) if (range.start() < 0 || range.end() > document.length()
+                    || !characterBoundary(range.start()) || !characterBoundary(range.end()))
+                throw new IllegalArgumentException("Invalid template range");
+        }
+        templateStops = stops.stream().map(List::copyOf).toList(); templateStop = 0;
+        templateEntered = entered; templateLeaving = leaving;
+        setSelections(templateStops.getFirst());
+        templateEntered.accept(0);
+    }
+
+    public boolean templateActive() { return !templateStops.isEmpty(); }
+    public List<Selection> currentTemplateRanges() { return templateActive() ? templateStops.get(templateStop) : List.of(); }
+
+    public boolean advanceTemplate(boolean previous) {
+        if (!templateActive()) return false;
+        var current = templateStops.get(templateStop);
+        if (selections().stream().anyMatch(s -> current.stream().noneMatch(r -> s.start() >= r.start() && s.end() <= r.end()))) {
+            finishTemplate(); return false;
+        }
+        int next = templateStop + (previous ? -1 : 1);
+        if (!templateLeaving.test(templateStop, next)) return true;
+        if (next >= templateStops.size()) {
+            int end = current.getFirst().end(); finishTemplate(); setSelection(end, end);
+        } else {
+            templateStop = Math.floorMod(next, templateStops.size()); setSelections(templateStops.get(templateStop));
+            templateEntered.accept(templateStop);
+        }
+        return true;
+    }
+
+    public void finishTemplate() {
+        templateStops = List.of(); templateStop = 0;
+        templateEntered = index -> {}; templateLeaving = (index, next) -> true;
+    }
+
+    /** Resume a semantic template after its transaction updated references. */
+    public void selectTemplateStop(int index) {
+        if (!templateActive() || index < 0 || index >= templateStops.size()) return;
+        templateStop = index; setSelections(templateStops.get(index)); templateEntered.accept(index);
+    }
+
+    private void remapTemplate(List<TextEdit> edits) {
+        if (!templateActive() || edits.isEmpty()) return;
+        var active = templateStops.get(templateStop);
+        if (edits.stream().anyMatch(e -> active.stream().noneMatch(r -> e.start() >= r.start() && e.end() <= r.end()))) {
+            finishTemplate(); return;
+        }
+        templateStops = templateStops.stream().map(group -> group.stream().map(range -> {
+            int start = range.start(), end = range.end();
+            for (var edit : edits) {
+                int delta = edit.text().length() - (edit.end() - edit.start());
+                if (edit.end() <= range.start() && !(edit.start() == range.start() && edit.end() <= range.end())) {
+                    start += delta; end += delta;
+                } else if (edit.start() >= range.start() && edit.end() <= range.end()) end += delta;
+            }
+            return new Selection(end, start);
+        }).toList()).toList();
     }
 
     private boolean resultBoundary(int offset, int length, List<TextEdit> edits) {
@@ -1297,10 +1375,33 @@ public final class EditorComponent extends JComponent
     }
 
     public void undo() {
+        finishTemplate();
         if (readOnly) return;
         applyHistory(document.undoTransaction(), false);
     }
+
+    /** Merge an already-applied semantic edit and its linked typing into one undo action. */
+    public long coalesceEdits(long checkpointId, String beforeText, Location beforeLocation) {
+        if (!SwingUtilities.isEventDispatchThread()) throw new IllegalStateException("Coalesce editor history on EDT");
+        if (readOnly || hasInputComposition()) throw new IllegalStateException("Editor cannot coalesce this edit");
+        Objects.requireNonNull(beforeText); Objects.requireNonNull(beforeLocation);
+        if (beforeLocation.caret() < 0 || beforeLocation.caret() > beforeText.length()
+                || beforeLocation.anchor() < 0 || beforeLocation.anchor() > beforeText.length()
+                || beforeLocation.topLine() < 0 || beforeLocation.leftColumn() < 0)
+            throw new IllegalArgumentException("Invalid source checkpoint location");
+        var transaction = document.coalesceSince(checkpointId, beforeText);
+        var history = editingHistory.computeIfAbsent(document, ignored -> new java.util.LinkedHashMap<>());
+        history.keySet().removeIf(id -> checkpointId == -1 || id > checkpointId);
+        var formatted = formattingHistory.get(document);
+        if (formatted != null) formatted.keySet().removeIf(id -> checkpointId == -1 || id > checkpointId);
+        if (transaction == null) return -1;
+        history.put(transaction.id(), new EditingLocations(beforeLocation, captureLocation(),
+                List.of(new Selection(beforeLocation.caret(), beforeLocation.anchor())), selections()));
+        while (history.size() > 2000) history.remove(history.keySet().iterator().next());
+        return transaction.id();
+    }
     public void redo() {
+        finishTemplate();
         if (readOnly) return;
         applyHistory(document.redoTransaction(), true);
     }

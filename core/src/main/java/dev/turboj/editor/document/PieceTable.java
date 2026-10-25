@@ -38,6 +38,7 @@ public final class PieceTable implements CharSequence {
     private int length;
     private long version;
     private long nextHistoryId;
+    private boolean historyPrefixTrimmed;
 
     private record HistoryEntry(long id, List<Change> forward, List<Change> backward) {}
 
@@ -59,6 +60,7 @@ public final class PieceTable implements CharSequence {
         lineStarts = starts(text);
         undo.clear();
         redo.clear();
+        historyPrefixTrimmed = false;
         version++;
     }
 
@@ -174,7 +176,7 @@ public final class PieceTable implements CharSequence {
         HistoryEntry entry =
                 new HistoryEntry(++nextHistoryId, List.copyOf(changes), List.copyOf(backward));
         undo.addLast(entry);
-        if (undo.size() > 2000) undo.removeFirst();
+        if (undo.size() > 2000) { undo.removeFirst(); historyPrefixTrimmed = true; }
         redo.clear();
         return new HistoryResult(entry.id(), changes);
     }
@@ -183,6 +185,75 @@ public final class PieceTable implements CharSequence {
     public long peekUndoTransactionId() { return undo.isEmpty() ? -1 : undo.getLast().id(); }
 
     public long peekRedoTransactionId() { return redo.isEmpty() ? -1 : redo.getLast().id(); }
+
+    /** Checkpoints belong to this document instance; -1 identifies its untrimmed history base. */
+    public boolean canCoalesceSince(long checkpointId) {
+        if (checkpointId == -1) return !historyPrefixTrimmed;
+        return checkpointId >= 0 && undo.stream().anyMatch(entry -> entry.id() == checkpointId);
+    }
+
+    /**
+     * Replaces subsequent undo records with one logical change, without modifying text or version.
+     * The supplied baseline is verified by replaying inverse history before any history mutation.
+     * Existing earlier edits are retained. A net-zero change removes only the subsequent history
+     * and returns null. Checkpoint IDs are document-local; callers retain document identity too.
+     */
+    public HistoryResult coalesceSince(long checkpointId, String beforeText) {
+        String current = toString();
+        int count = validateCoalesce(checkpointId, beforeText, current);
+        List<Change> combined = List.of();
+        if (!beforeText.equals(current)) {
+            int start = 0, beforeEnd = beforeText.length(), afterEnd = current.length();
+            while (start < beforeEnd && start < afterEnd && beforeText.charAt(start) == current.charAt(start)) start++;
+            while (!safeBoundary(beforeText, start) || !safeBoundary(current, start)) start--;
+            while (beforeEnd > start && afterEnd > start && beforeText.charAt(beforeEnd - 1) == current.charAt(afterEnd - 1)) {
+                beforeEnd--; afterEnd--;
+            }
+            while (!safeBoundary(beforeText, beforeEnd) || !safeBoundary(current, afterEnd)) {
+                beforeEnd++; afterEnd++;
+            }
+            combined = List.of(new Change(start, beforeText.substring(start, beforeEnd), current.substring(start, afterEnd)));
+        }
+        for (int i = 0; i < count; i++) undo.removeLast();
+        redo.clear();
+        return combined.isEmpty() ? null : remember(combined);
+    }
+
+    /** Preflight for hosts which must validate all buffers before publishing any workspace edit. */
+    public void validateCoalesceSince(long checkpointId, String beforeText) {
+        validateCoalesce(checkpointId, beforeText, toString());
+    }
+
+    private int validateCoalesce(long checkpointId, String beforeText, String current) {
+        Objects.requireNonNull(beforeText);
+        if (!canCoalesceSince(checkpointId)) throw new IllegalArgumentException("Undo checkpoint is unavailable in this document");
+        StringBuilder reconstructed = new StringBuilder(current);
+        int count = 0;
+        var entries = undo.descendingIterator();
+        while (entries.hasNext()) {
+            HistoryEntry entry = entries.next();
+            if (entry.id() == checkpointId) break;
+            for (int i = entry.backward().size() - 1; i >= 0; i--) {
+                Change change = entry.backward().get(i);
+                int end = change.start() + change.removed().length();
+                if (change.start() < 0 || end > reconstructed.length()
+                        || !reconstructed.substring(change.start(), end).equals(change.removed()))
+                    throw new IllegalStateException("Undo history does not match the current document");
+                reconstructed.replace(change.start(), end, change.inserted());
+            }
+            count++;
+        }
+        if (!beforeText.contentEquals(reconstructed))
+            throw new IllegalArgumentException("Undo checkpoint does not match the supplied source baseline");
+        return count;
+    }
+
+    private static boolean safeBoundary(String value, int offset) {
+        if (offset == 0 || offset == value.length()) return true;
+        char before = value.charAt(offset - 1), after = value.charAt(offset);
+        return !(Character.isHighSurrogate(before) && Character.isLowSurrogate(after))
+                && !(before == '\r' && after == '\n');
+    }
 
     public boolean canUndo() {
         return !undo.isEmpty();

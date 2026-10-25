@@ -1,0 +1,1 @@
+Registered commands: 268; aliases: 29; bindings without a callback: 0

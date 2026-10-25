@@ -154,6 +154,17 @@ public final class MavenProjectController implements AutoCloseable {
         if (chooser.showOpenDialog(host.owner()) == JFileChooser.APPROVE_OPTION) open(chooser.getSelectedFile().toPath());
     }
 
+    /** Switch to a plain Java project without retaining a previous Maven model. */
+    public void clearProject() {
+        requireEdt();
+        if (lifecycleRunning()) throw new IllegalStateException("Stop the Maven goal before switching projects.");
+        requests.incrementAndGet();
+        if (pending != null) pending.cancel(false);
+        if (watcher != null) { watcher.close(); watcher = null; }
+        request = null; workspace = null; busy = false; trusted = false;
+        reportedDiagnostics = Set.of(); panel.setVisible(false); host.stateChanged();
+    }
+
     public void open(Path project) {
         requireEdt();
         Path normalized = project.toAbsolutePath().normalize();

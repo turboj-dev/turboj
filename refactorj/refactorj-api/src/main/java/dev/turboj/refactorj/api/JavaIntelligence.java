@@ -99,6 +99,11 @@ public interface JavaIntelligence extends AutoCloseable {
     record TestTarget(String className, String methodName, String parameterTypes) {}
 
     default TestTarget testTarget(Context context, int offset) { return null; }
+    /** True only for a resolved JUnit test class at the caret (or the file's primary type). */
+    default boolean isTestClass(Context context, int offset) { return false; }
+    /** Whether a type declared in this file declares or inherits a Java main candidate under its
+     * configured target level. This does not execute source or replace compiler/launcher checks. */
+    default boolean hasMainMethod(Context context) { return false; }
 
     default JavaStructure.Range selectStructure(Context context, int start, int end, JavaStructure.Selection selection) { return null; }
     default JavaStructure.EditResult editStructure(Context context, int caret, int anchor, JavaStructure.Edit edit) {

@@ -7,6 +7,66 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KeyboardAuditTest {
+    @Test void eclipseSaveAllUsesItsDocumentedGestureWithoutChangingOtherProfiles() {
+        var maps = new KeymapManager();
+        try (var registry = new CommandRegistry()) {
+            registry.register(Command.action("saveAs", "Save As", "File", () -> {}));
+            registry.register(Command.action("file.saveAll", "Save All", "File", () -> {}));
+            var resolver = new ShortcutResolver(maps, registry);
+            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic")) {
+                maps.select(profile);
+                boolean eclipse = profile.equals("eclipse-macos");
+                assertEquals(eclipse ? "file.saveAll" : "saveAs", resolver.accept(
+                        KeyStrokeSpec.parse("META+SHIFT+S"), CommandContext.of("editor"), 1).command(), profile);
+                assertTrue(maps.bindings(eclipse ? "saveAs" : "file.saveAll").isEmpty(), profile);
+                assertTrue(maps.conflicts().isEmpty(), profile);
+            }
+        }
+    }
+
+    @Test void eclipseSaveAllMigrationPreservesStoredSaveAsOrCustomShortcutAndExplainsSuppression() {
+        for (String existingCommand : List.of("saveAs", "custom.persistEverything")) {
+            var maps = new KeymapManager();
+            maps.select("eclipse-macos");
+            var profile = maps.selected();
+            var stored = new LinkedHashMap<>(profile.overrides());
+            stored.remove("file.saveAll");
+            stored.put("saveAs", List.of());
+            stored.put(existingCommand, List.of(KeyBinding.of("META+SHIFT+S")));
+            maps.install(List.of(new KeymapProfile(profile.id(), profile.name(), null, stored, true)), profile.id());
+            assertEquals("eclipse-macos", maps.selectedId());
+            assertEquals(stored.get(existingCommand), maps.bindings(existingCommand));
+            assertTrue(maps.bindings("file.saveAll").isEmpty());
+            assertTrue(maps.migrationNotices().stream().anyMatch(message -> message.contains("file.saveAll")
+                    && message.contains("conflicts")), maps.migrationNotices().toString());
+            assertTrue(maps.conflicts().isEmpty());
+            var restored = new KeymapManager();
+            KeymapJson.read(restored, KeymapJson.write(maps));
+            assertEquals(maps.bindings(), restored.bindings());
+            assertEquals("eclipse-macos", restored.selectedId());
+            assertTrue(restored.migrationNotices().stream().anyMatch(message -> message.contains("file.saveAll")
+                    && message.contains("conflicts")));
+        }
+    }
+
+    @Test void eclipseSaveAllDefaultIsSuppressedByAnInheritedUserShortcut() {
+        var maps = new KeymapManager();
+        maps.select("eclipse-macos");
+        var profile = maps.selected();
+        var stored = new LinkedHashMap<>(profile.overrides());
+        stored.remove("file.saveAll");
+        var customBinding = List.of(KeyBinding.of("META+SHIFT+S"));
+        maps.install(List.of(new KeymapProfile(profile.id(), profile.name(), null, stored, true),
+                new KeymapProfile("personal-eclipse", "Personal Eclipse", profile.id(),
+                        Map.of("custom.persistEverything", customBinding), false)), "personal-eclipse");
+        assertEquals("personal-eclipse", maps.selectedId());
+        assertEquals(customBinding, maps.bindings("custom.persistEverything"));
+        assertTrue(maps.bindings("file.saveAll").isEmpty());
+        assertTrue(maps.migrationNotices().stream().anyMatch(message -> message.contains("file.saveAll")
+                && message.contains("conflicts")));
+        assertTrue(maps.conflicts().isEmpty());
+    }
+
     @Test void profileSpecificLineOperationsNeverMixIdeMeanings() {
         var maps = new KeymapManager();
         assertEquals(KeySequence.parse("META+D"), maps.bindings("duplicateLine").getFirst().sequence());

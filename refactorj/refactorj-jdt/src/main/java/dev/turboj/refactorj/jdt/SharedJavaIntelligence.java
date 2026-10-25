@@ -88,6 +88,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             if (method == null && current instanceof MethodDeclaration declaration) method = declaration;
             if (current instanceof AbstractTypeDeclaration declaration) { type = declaration; break; }
         }
+        if (type == null) type = primaryType(parsed.unit(), context.file());
         if (type == null) return null;
         ITypeBinding binding = type.resolveBinding();
         if (binding == null || binding.isRecovered() || binding.getBinaryName() == null) return null;
@@ -96,6 +97,100 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         if (methodBinding == null || methodBinding.isRecovered()) return new TestTarget(binding.getBinaryName(), null, "");
         String parameters = Arrays.stream(methodBinding.getParameterTypes()).map(t -> t.getErasure().getQualifiedName()).collect(java.util.stream.Collectors.joining(","));
         return new TestTarget(binding.getBinaryName(), method.getName().getIdentifier(), parameters);
+    }
+
+    @Override public boolean isTestClass(Context context, int offset) {
+        Parsed parsed = parse(context, context.source(), "source");
+        ASTNode node = NodeFinder.perform(parsed.unit(), Math.max(0, Math.min(offset, context.source().length())), 0);
+        AbstractTypeDeclaration type = null;
+        for (ASTNode current = node; current != null; current = current.getParent())
+            if (current instanceof AbstractTypeDeclaration declaration) { type = declaration; break; }
+        if (type == null) type = primaryType(parsed.unit(), context.file());
+        ITypeBinding binding = type == null ? null : type.resolveBinding();
+        return binding != null && !binding.isRecovered() && !binding.isInterface() && !Modifier.isAbstract(binding.getModifiers())
+                && hasJUnitTests(binding, new HashSet<>());
+    }
+
+    @Override public boolean hasMainMethod(Context context) {
+        Parsed parsed = parse(context, context.source(), "source");
+        String target = workspace.javaProject(context.file()).getOption(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, true);
+        boolean extended = JavaCore.compareJavaVersions(target, JavaCore.VERSION_25) >= 0;
+        var types = new ArrayList<ITypeBinding>();
+        parsed.unit().accept(new ASTVisitor() { @Override public void preVisit(ASTNode node) {
+            if (node instanceof AbstractTypeDeclaration declaration) {
+                ITypeBinding binding = declaration.resolveBinding();
+                if (binding != null && !binding.isRecovered()) types.add(binding);
+            }
+        } });
+        return types.stream().anyMatch(type -> hasMainCandidate(type, type, extended,
+                new HashSet<>(), new HashSet<>(), new ArrayList<>()));
+    }
+
+    /** JLS 12.1.4 candidates, respecting real method types and Java member inheritance.
+     * Constructor/initialization failure and erroneous source remain compiler/launcher concerns. */
+    private static boolean hasMainCandidate(ITypeBinding type, ITypeBinding initial, boolean extended,
+            Set<String> visited, Set<String> signatures, List<String> descendants) {
+        if (type == null || type.isRecovered() || !visited.add(type.getKey())) return false;
+        String ownerPackage = type.getPackage() == null ? "" : type.getPackage().getName();
+        boolean inherited = !type.isEqualTo(initial);
+        for (IMethodBinding method : type.getDeclaredMethods()) {
+            if (method.isConstructor() || method.isRecovered() || !method.getName().equals("main")) continue;
+            int modifiers = method.getModifiers();
+            if (inherited && (Modifier.isPrivate(modifiers) || type.isInterface() && Modifier.isStatic(modifiers))) continue;
+            if (inherited && !Modifier.isPublic(modifiers) && !Modifier.isProtected(modifiers)
+                    && descendants.stream().anyMatch(pkg -> !pkg.equals(ownerPackage))) continue;
+            ITypeBinding[] parameters = method.getParameterTypes();
+            String signature = Arrays.stream(parameters).map(p -> p.getErasure().getQualifiedName())
+                    .collect(java.util.stream.Collectors.joining(",", "(", ")"));
+            if (!signatures.add(signature) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers)) continue;
+            ITypeBinding result = method.getReturnType();
+            if (result == null || !result.isPrimitive() || !result.getName().equals("void")) continue;
+            boolean strings = parameters.length == 1 && parameters[0].isArray() && parameters[0].getDimensions() == 1
+                    && parameters[0].getElementType().getQualifiedName().equals("java.lang.String");
+            if (extended ? parameters.length == 0 || strings : strings && Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)) return true;
+        }
+        var path = new ArrayList<>(descendants); path.add(ownerPackage);
+        if (hasMainCandidate(type.getSuperclass(), initial, extended, visited, signatures, path)) return true;
+        var interfaces = new ArrayList<>(Arrays.asList(type.getInterfaces()));
+        interfaces.sort((a, b) -> a.isSubTypeCompatible(b) ? -1 : b.isSubTypeCompatible(a) ? 1 : 0);
+        for (ITypeBinding parent : interfaces)
+            if (hasMainCandidate(parent, initial, extended, visited, signatures, path)) return true;
+        return false;
+    }
+
+    private static AbstractTypeDeclaration primaryType(CompilationUnit tree, Path file) {
+        String name = file.getFileName().toString().replaceFirst("\\.java$", "");
+        for (Object value : tree.types()) if (value instanceof AbstractTypeDeclaration type && type.getName().getIdentifier().equals(name)) return type;
+        return tree.types().size() == 1 && tree.types().getFirst() instanceof AbstractTypeDeclaration type ? type : null;
+    }
+
+    private static final Set<String> JUNIT_TEST_ANNOTATIONS = Set.of("org.junit.Test", "org.junit.jupiter.api.Test",
+            "org.junit.jupiter.api.TestFactory", "org.junit.jupiter.api.TestTemplate", "org.junit.jupiter.api.RepeatedTest",
+            "org.junit.jupiter.params.ParameterizedTest");
+
+    private static boolean hasJUnitTests(ITypeBinding type, Set<String> visited) {
+        if (type == null || type.isRecovered() || !visited.add(type.getKey())) return false;
+        if ("junit.framework.TestCase".equals(type.getQualifiedName())) return true;
+        for (IMethodBinding method : type.getDeclaredMethods()) {
+            if (method.isConstructor() || Modifier.isPrivate(method.getModifiers()) || Modifier.isStatic(method.getModifiers())
+                    || Modifier.isAbstract(method.getModifiers())) continue;
+            for (IAnnotationBinding annotation : method.getAnnotations())
+                if (junitAnnotation(annotation.getAnnotationType(), new HashSet<>())) return true;
+        }
+        for (ITypeBinding nested : type.getDeclaredTypes()) {
+            if (Arrays.stream(nested.getAnnotations()).anyMatch(a -> a.getAnnotationType().getQualifiedName().equals("org.junit.jupiter.api.Nested"))
+                    && hasJUnitTests(nested, visited)) return true;
+        }
+        if (hasJUnitTests(type.getSuperclass(), visited)) return true;
+        for (ITypeBinding parent : type.getInterfaces()) if (hasJUnitTests(parent, visited)) return true;
+        return false;
+    }
+
+    private static boolean junitAnnotation(ITypeBinding annotation, Set<String> visited) {
+        if (annotation == null || annotation.isRecovered() || !visited.add(annotation.getKey())) return false;
+        if (JUNIT_TEST_ANNOTATIONS.contains(annotation.getQualifiedName())) return true;
+        for (IAnnotationBinding meta : annotation.getAnnotations()) if (junitAnnotation(meta.getAnnotationType(), visited)) return true;
+        return false;
     }
 
     @Override

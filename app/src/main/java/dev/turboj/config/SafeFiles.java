@@ -86,6 +86,11 @@ public final class SafeFiles {
         }
     }
 
+    /** Fingerprint for a transaction's known UTF-8 bytes, without filesystem I/O on the EDT. */
+    public static byte[] utf8Fingerprint(String text) {
+        return digest(text.getBytes(StandardCharsets.UTF_8));
+    }
+
     public static byte[] atomicWriteIfUnchanged(Path path, String text, byte[] expected)
             throws IOException {
         return atomicWriteIfUnchanged(path, text, expected, StandardCharsets.UTF_8);

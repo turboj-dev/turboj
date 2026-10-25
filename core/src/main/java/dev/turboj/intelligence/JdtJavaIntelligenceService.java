@@ -63,6 +63,8 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
     }
     private void read(Path path)throws IOException{path=path.toAbsolutePath().normalize();Path file=path;String encoding=projectConfigurations.stream().filter(p->p.sourceRoots().stream().anyMatch(file::startsWith)).map(JavaProjectConfiguration::encoding).findFirst().orElse("UTF-8");diskSources.put(path,Files.readString(path,java.nio.charset.Charset.forName(encoding)));stamps.put(path,Files.getLastModifiedTime(path).toMillis());}
     @Override public TestTarget testTarget(Context context,int offset){return intelligence(context).testTarget(context,offset);}
+    @Override public boolean isTestClass(Context context,int offset){return intelligence(context).isTestClass(context,offset);}
+    @Override public boolean hasMainMethod(Context context){return intelligence(context).hasMainMethod(context);}
     @Override public JavaStructure.Range selectStructure(Context context,int start,int end,JavaStructure.Selection selection){return intelligence(context).selectStructure(context,start,end,selection);}
     @Override public JavaStructure.EditResult editStructure(Context context,int caret,int anchor,JavaStructure.Edit edit){return intelligence(context).editStructure(context,caret,anchor,edit);}
     @Override public List<JavaStructure.Target> navigationTargets(Context context,int offset,JavaStructure.Navigation navigation,String query){return intelligence(context).navigationTargets(context,offset,navigation,query);}

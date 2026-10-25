@@ -132,6 +132,7 @@ public final class RefactorJRuntime implements AutoCloseable {
         @Override public JavaIntelligence intelligence() {
             return ((JavaIntelligenceProvider) active()).intelligence();
         }
+        @Override public JavaQuickActions quickActions() { return active().quickActions(); }
         @Override public void close() {
             synchronized (RefactorJRuntime.this) {
                 if (delegate == null) return;
