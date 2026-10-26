@@ -1,5 +1,7 @@
 # TurboJ
 
+<img src="branding/turboj-icon.svg" alt="TurboJ icon: a cyan T and a yellow J on blue" width="96">
+
 A small, keyboard-first Java 25 desktop editor for macOS. DOS blue, a source buffer, real compiler diagnostics and one command to run. Swing/Java2D, no browser shell or telemetry.
 
 **Official website: [turboj.dev](https://turboj.dev)**
