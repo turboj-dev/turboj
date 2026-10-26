@@ -1,13 +1,29 @@
 # Output and status: a study and a proposal
 
-Status: approved and implemented (26 Oct 2026).
-- `OutputLog` writes every TurboJ line in the output: prefixes, rules, phases, summaries and the shared formats.
-- `StatusBar` is the segmented status line, with `flash` for UI feedback and its history.
-- `TestOutput` reports like Surefire.
-- Maven goals and `:!` commands get the same header and summary.
-- About 60 UI notices moved from the output to the status line.
-- Each TurboJ line keeps the `[INFO]` prefix, as Maven does.
+Status: revised and implemented (26 Oct 2026). The first version wrote every action as a Maven-style log in one
+pane; in use, TurboJ's own lines (`[INFO]` headers, phases, rules, Surefire summaries, stack traces from JUnit)
+buried the program's output. The current rules:
+
+| Where | What | Never |
+| --- | --- | --- |
+| **Terminal** tab | What the program prints, verbatim; real commands (`:!`, Maven goals) echoed after `$ ` as a shell shows them, then their output verbatim | Headers, phases, rules, summaries, timings, notices |
+| **Tests** tab | One run: its title and verdict, each suite with its tests (✔ ✖ ○ !), and detail only for problems: the failure message, the stack frames of the project's own code, compiler errors, engine errors, and what the tests printed when the run did not pass | JUnit and JDK frames, passing tests' detail, output of a passing run |
+| **Status line** | Each action's outcome (`Run HelloWorld.java done · exit 0 · 67 ms (15 ms running)`, `Run HelloWorld.java failed · 1 error · src/main/java/HelloWorld.java:[3,43] ';' expected`), hints, the TESTS and AI segments; the message history keeps them | — |
+| **JShell** tab | The REPL | — |
+
+- `OutputLog` is the terminal's writer: `program` and `command` write, everything else becomes a `Notice` for
+  the status line. Overlapping actions still never interleave.
+- `TestOutput` feeds `TestResultsPane` (the Tests tab); a compile-only run (Compile Project) reports in the status line.
+- An explicit test run shows the Tests tab; automatic runs (on save, after refactoring) update it without taking
+  the panel. The tab title carries the verdict: `Tests ✔` or `Tests ✖ 2`.
+- **Next / Previous Failed Test** (⌥⌘' / ⇧⌥⌘' in the TurboJ keymap, Run menu, Find Action) select the failure in
+  the Tests tab, open the failing line in the editor and name it in the status line (`CalculatorTest#fails (1 of 2)
+  · expected: <5> but was: <4>`); they wrap at both ends. In the tab, ↑/↓ move between tests and Enter or a double
+  click opens one.
 - Clear Output Before Each Run (Run menu) is off by default.
+
+The rest of this document is the original study, kept for its inventory and reasoning; where it describes the
+Maven-style log in the output, the table above replaces it.
 
 The inventory below describes the code before the change: about 150 places wrote to the output (68 in `TurboFrame`,
 26 in `MavenProjectController`, 20 in `TestOutput`, the rest in the controllers).

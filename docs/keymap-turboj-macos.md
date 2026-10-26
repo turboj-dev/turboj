@@ -110,6 +110,7 @@ Eclipse's Alt+Shift for the ⌥⌘ family.
 | Rerun failed tests | ⌥⌘U | — | Alt+Shift+U |
 | Stop | ⌘. | Ctrl+F2 | Ctrl+F2 |
 | Next / previous error | ⌘' / ⇧⌘' or ⌥F8 / ⌥F7 | Alt+F8 / Alt+F7 | F8 / Shift+F8 (GNOME takes Alt+F7/F8) |
+| Next / previous failed test | ⌥⌘' / ⇧⌥⌘' | — | — |
 | Open quickly (classes, files, methods) | ⌘P or F3 | F3 (open) | Ctrl+P or F3 |
 | Go to class | ⌘T | — | Ctrl+T |
 | Go to file | ⇧⌘P | — | Ctrl+Shift+P |

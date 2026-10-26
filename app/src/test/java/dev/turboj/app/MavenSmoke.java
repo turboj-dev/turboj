@@ -79,7 +79,7 @@ public final class MavenSmoke {
             SwingUtilities.invokeLater(() -> trusted.complete(frame.mavenProjects().requireTrust()));
             approveTop(frame); check(trusted.get(10, TimeUnit.SECONDS), "project execution requires an explicit in-frame trust choice");
             edt(() -> frame.compile(true, false)).get(60, TimeUnit.SECONDS);
-            waitFor(() -> frame.console().text().contains("SUCCESS · exit 0"));
+            waitFor(() -> frame.statusMessages().contains(" done · exit 0"));
             check(edt(() -> frame.console().text().contains("43")), "native Run uses selected project runtime and reactor classpath");
             edt(() -> frame.commandRegistry().execute("tests.auto", CommandContext.of())).stage().toCompletableFuture().get(5, TimeUnit.SECONDS);
             check(edt(() -> frame.tests().automatic()), "Auto Test enabled through the real CommandJ action");
@@ -122,7 +122,7 @@ public final class MavenSmoke {
             }
             SwingUtilities.invokeLater(() -> frame.mavenProjects().runLifecycle("validate"));
             approveTop(frame);
-            waitFor(() -> Files.exists(marker) && !frame.mavenProjects().lifecycleRunning() && frame.console().text().contains("MAVEN SUCCESS · exit 0"));
+            waitFor(() -> Files.exists(marker) && !frame.mavenProjects().lifecycleRunning() && frame.statusMessages().contains("Maven ") && frame.statusMessages().matches("(?s).*Maven [^\n]* done.*"));
             check(Files.readAllLines(marker).size() == 1, "explicit Maven Validate uses the project wrapper exactly once");
             check(edt(() -> frame.console().text().contains("BUILD SUCCESS")), "real Maven offline lifecycle produces its actual output and exit status");
             Files.writeString(output.resolve("report.txt"), "PASS real offline reactor import, Java17 model, warm native compile/run, unsaved buffers, cross-module RefactorJ rename, FormatJ, actual Auto Test after Java edit with current-generation JUnit pass, POM preview/edit/diagnostics, compact explorer, theme menus/internal dialogs, trust and explicit real Maven wrapper validate; no Maven invocation for typing/formatting/refactoring/automatic tests.\n");

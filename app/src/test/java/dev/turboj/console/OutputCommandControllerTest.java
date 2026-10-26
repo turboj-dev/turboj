@@ -53,11 +53,10 @@ class OutputCommandControllerTest {
         assertTrue(completion.get(5, TimeUnit.SECONDS).succeeded());
         edt(() -> {
             String text = fixture.console.text();
-            assertTrue(text.startsWith("server ready\n"));
-            assertTrue(text.indexOf(":! printf") < text.indexOf("\nHTTP/1.1 200 OK\n"));
-            assertTrue(text.contains("{\"status\":200,\"message\":\"OK\"}"));
-            assertTrue(text.contains("[INFO] Command :! printf"), text);
-            assertTrue(text.contains("[INFO] COMMAND SUCCESS · exit 0"), text);
+            assertEquals("server ready\n$ printf 'HTTP/1.1 200 OK\\n{\"status\":200,\"message\":\"OK\"}\\n'\n"
+                    + "HTTP/1.1 200 OK\n{\"status\":200,\"message\":\"OK\"}\n", text, "the command as a shell echoes it, then its output, nothing else");
+            assertTrue(fixture.notices.getLast().text().startsWith("Command printf"), fixture.notices.toString());
+            assertTrue(fixture.notices.getLast().text().contains(" done · exit 0"), fixture.notices.toString());
             assertFalse(fixture.controller.isRunning());
             assertEquals(completion.join(), fixture.controller.lastResult());
             assertEquals(List.of(), fixture.stdin);
@@ -114,7 +113,7 @@ class OutputCommandControllerTest {
         edt(() -> {
             assertTrue(fixture.console.inputComponent().isEditable(), "A separate Java program remains running");
             assertEquals(List.of(), fixture.stdin);
-            assertTrue(fixture.console.text().contains("COMMAND STOPPED · cancelled"), fixture.console.text());
+            assertTrue(fixture.notices.getLast().text().contains(" stopped · cancelled"), fixture.notices.toString());
             fixture.controller.close();
             return null;
         });
@@ -146,11 +145,12 @@ class OutputCommandControllerTest {
             console.append("server ready\n", false);
             var returned = new AtomicInteger();
             var binding = console.commandLine().getInputMap().get(KeyStroke.getKeyStroke("meta C"));
+            var notices = new java.util.concurrent.CopyOnWriteArrayList<OutputLog.Notice>();
             var controller = new OutputCommandController(console, () -> {
                 assertTrue(SwingUtilities.isEventDispatchThread());
                 return directory;
-            }, returned::incrementAndGet);
-            return new Fixture(console, controller, stdin, returned, binding);
+            }, returned::incrementAndGet, notices::add);
+            return new Fixture(console, controller, stdin, returned, binding, notices);
         });
         edt(() -> null);
         return fixture;
@@ -171,5 +171,5 @@ class OutputCommandControllerTest {
     }
 
     private record Fixture(ConsolePane console, OutputCommandController controller, List<String> stdin,
-                           AtomicInteger returned, Object copyBinding) {}
+                           AtomicInteger returned, Object copyBinding, List<OutputLog.Notice> notices) {}
 }

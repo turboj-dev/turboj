@@ -308,6 +308,27 @@ public final class ConsolePane extends JPanel {
         return output.getText();
     }
 
+    /**
+     * Whether the next output starts a line: the last character appended, still queued or already shown, is a line
+     * break, or nothing was written. Typed program input counts as shown text.
+     */
+    public boolean atLineStart() {
+        synchronized (pending) {
+            for (var it = pending.descendingIterator(); it.hasNext(); ) {
+                String text = it.next().text();
+                if (!text.isEmpty()) return text.endsWith("\n");
+            }
+        }
+        if (!SwingUtilities.isEventDispatchThread()) return true;
+        var document = output.getDocument();
+        if (inputStart == 0) return true;
+        try {
+            return document.getText(inputStart - 1, 1).equals("\n");
+        } catch (BadLocationException e) {
+            return true;
+        }
+    }
+
     /** Used by the REPL's dedicated input field. Program input uses inputComponent(). */
     public JTextField inputField() {
         return input;

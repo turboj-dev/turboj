@@ -3,72 +3,91 @@ package dev.turboj.console;
 import static org.junit.jupiter.api.Assertions.*;
 import dev.turboj.ui.ConsolePane;
 import java.nio.file.Path;
-import java.time.LocalTime;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.swing.SwingUtilities;
 import org.junit.jupiter.api.Test;
 
+/** The terminal shows the program and real commands verbatim; everything TurboJ says goes to notices. */
 class OutputLogTest {
-    private static final String RULE = "[INFO] " + "-".repeat(72) + "\n";
-
-    @Test void aRunReadsLikeMavenAndTheProgramOutputIsLeftAlone() throws Exception {
+    @Test void aRunShowsOnlyWhatTheProgramPrintsAndItsOutcomeIsANotice() throws Exception {
         var console = edt(() -> new ConsolePane(ignored -> {}));
         var clock = new AtomicLong();
-        var log = new OutputLog(console, clock::get, () -> LocalTime.of(9, 12, 3));
+        var notices = new CopyOnWriteArrayList<OutputLog.Notice>();
+        var log = new OutputLog(console, notices::add, clock::get);
         edt(() -> {
-            var run = log.start("Run", "HelloWorld · hello-world · Java 25");
+            var run = log.start("Run", "HelloWorld");
             run.phase("compile");
             run.info("Compiled in 13 ms");
             run.phase("run HelloWorld.main");
-            run.program("Hello World!", false); // no trailing newline: the summary still starts on its own line
+            run.program("Hello World!\n", false);
             clock.set(4_200_000);
             run.finish(OutputLog.Outcome.SUCCESS, "exit 0", 2_000_000L);
             return null;
         });
-        assertEquals(RULE + "[INFO] Run HelloWorld · hello-world · Java 25\n[INFO] --- compile ---\n[INFO] Compiled in 13 ms\n"
-                + "[INFO] --- run HelloWorld.main ---\nHello World!\n" + RULE + "[INFO] RUN SUCCESS · exit 0\n"
-                + "[INFO] Total time: 4 ms (run 2 ms) · Finished at 09:12:03\n" + RULE, edt(console::text));
+        assertEquals("Hello World!\n", edt(console::text), "no header, phase, rule or summary line");
+        assertEquals(List.of(new OutputLog.Notice(OutputLog.Level.INFO, "Run HelloWorld done · exit 0 · 4 ms (2 ms running)")), notices);
+    }
+
+    @Test void aRealCommandIsEchoedAsAShellDoesThenItsOutputVerbatim() throws Exception {
+        var console = edt(() -> new ConsolePane(ignored -> {}));
+        var log = new OutputLog(console);
+        edt(() -> {
+            console.append("previous output without newline", ConsolePane.Role.NORMAL);
+            var maven = log.start("Maven", "mvn -q test");
+            maven.command("mvn -q test");
+            maven.program("[INFO] Tests run: 3, Failures: 0\n", false);
+            maven.program("warning on stderr\n", true);
+            maven.finish(OutputLog.Outcome.SUCCESS, null, null);
+            return null;
+        });
+        assertEquals("previous output without newline\n$ mvn -q test\n[INFO] Tests run: 3, Failures: 0\nwarning on stderr\n",
+                edt(console::text), "a command starts on its own line; Maven's own [INFO] lines are its output");
     }
 
     @Test void overlappingActionsNeverInterleaveTheSecondWaitsForTheFirst() throws Exception {
         var console = edt(() -> new ConsolePane(ignored -> {}));
         var log = new OutputLog(console);
+        var runs = new CopyOnWriteArrayList<OutputLog.Action>();
         edt(() -> {
-            var run = log.start("Run", "HelloWorld");   // Save starts the Run and the tests together
-            var tests = log.start("Test", "all tests");
-            tests.phase("test");
-            tests.program("test output\n", false);
-            run.phase("run HelloWorld.main");
-            run.program("Hello World!\n", false);
-            tests.finish(OutputLog.Outcome.SUCCESS, "2 of 2 passed", null); // finishes first, still waits its turn
-            assertFalse(console.text().contains("Test all tests") && !console.text().contains("RUN SUCCESS"));
+            var run = log.start("Run", "HelloWorld");
+            runs.add(run);
+            var command = log.start("Command", "ls");
+            command.command("ls");
+            command.program("a.txt\n", false);
+            run.program("Hello ", false);
+            command.finish(OutputLog.Outcome.SUCCESS, "exit 0", null); // finishes first, still waits its turn
+            return null;
+        });
+        assertEquals("Hello ", edt(console::text), "the command waits for the run");
+        edt(() -> {
+            var run = runs.getFirst();
+            run.program("World!\n", false);
             run.finish(OutputLog.Outcome.SUCCESS, "exit 0", null);
             return null;
         });
-        String text = edt(console::text);
-        int runEnd = text.indexOf("[INFO] RUN SUCCESS"), testStart = text.indexOf("[INFO] Test all tests");
-        assertTrue(runEnd > 0 && testStart > runEnd, "the tests appear whole after the run:\n" + text);
-        assertTrue(text.indexOf("Hello World!") < runEnd && text.indexOf("test output") > testStart, text);
+        assertEquals("Hello World!\n$ ls\na.txt\n", edt(console::text));
     }
 
-    @Test void everyTurboJLineIsPrefixedAndEveryActionEndsWithASummary() throws Exception {
+    @Test void problemsAndFailuresReachTheStatusLineNotTheTerminal() throws Exception {
         var console = edt(() -> new ConsolePane(ignored -> {}));
-        var log = new OutputLog(console);
+        var notices = new CopyOnWriteArrayList<OutputLog.Notice>();
+        var log = new OutputLog(console, notices::add, () -> 0);
         edt(() -> {
             var compile = log.start("Compile", "A.java");
             compile.problem(OutputLog.Level.ERROR, "/p/src/A.java", 3, 18, "';' expected", Path.of("/p"));
+            compile.error("Unable to start");
             compile.finish(OutputLog.Outcome.FAILURE, "1 error", null);
-            log.start("Test", "all tests").finish(OutputLog.Outcome.STOPPED, "superseded", null);
+            log.start("Run", "B").finish(OutputLog.Outcome.STOPPED, "superseded", null);
             return null;
         });
-        String text = edt(console::text);
-        assertTrue(text.lines().allMatch(line -> line.matches("\\[(INFO|WARN|ERROR)\\]( .*)?")), text);
-        assertTrue(text.contains("[ERROR] src/A.java:[3,18] ';' expected"));
-        assertTrue(text.contains("[ERROR] COMPILE FAILURE · 1 error"));
-        assertTrue(text.contains("[ERROR] TEST STOPPED · superseded"));
-        assertEquals(2, text.lines().filter(line -> line.startsWith("[INFO] Total time: ")).count());
+        assertEquals("", edt(console::text));
+        assertEquals(List.of(new OutputLog.Notice(OutputLog.Level.ERROR, "Compile A.java: Unable to start"),
+                new OutputLog.Notice(OutputLog.Level.ERROR, "Compile A.java failed · 1 error · src/A.java:[3,18] ';' expected · <1 ms"),
+                new OutputLog.Notice(OutputLog.Level.WARN, "Run B stopped · superseded · <1 ms")), notices);
     }
 
     @Test void oneFormatForDurationsLocationsAndCounts() {
@@ -80,9 +99,10 @@ class OutputLogTest {
     }
 
     private static <T> T edt(Callable<T> task) throws Exception {
-        var future = new FutureTask<>(task); SwingUtilities.invokeAndWait(future);
+        var future = new FutureTask<>(task);
+        SwingUtilities.invokeAndWait(future);
         // The console drains appended text on the EDT; one more turn makes it visible.
-        var drained = new FutureTask<>(() -> null); SwingUtilities.invokeAndWait(drained);
+        SwingUtilities.invokeAndWait(() -> {});
         return future.get();
     }
 }

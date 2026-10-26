@@ -39,9 +39,9 @@ public final class SaveFocusSmoke {
                 await("editor focus", () -> frame.editor().isFocusOwner());
                 edt(() -> { frame.editor().replaceSelection("!"); return null; }); // a change to save, inside the string
                 int before = edt(() -> frame.editor().caretOffset());
-                int runs = edt(() -> count(frame.console().text(), "RUN SUCCESS"));
+                int runs = edt(() -> count(frame.statusMessages(), " done · exit 0"));
                 key(KeyEvent.VK_S, KeyEvent.META_DOWN_MASK);
-                await("saved and run", () -> count(frame.console().text(), "RUN SUCCESS") > runs && !frame.isRunning());
+                await("saved and run", () -> count(frame.statusMessages(), " done · exit 0") > runs && !frame.isRunning());
                 Thread.sleep(600); // let any late focus request land
                 int finalRound = round;
                 check(edt(() -> frame.editor().isFocusOwner()), "round " + finalRound + ": the caret stays in the editor after Save, Run and Test on Save; focus "

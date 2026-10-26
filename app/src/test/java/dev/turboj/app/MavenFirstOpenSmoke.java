@@ -81,7 +81,7 @@ public final class MavenFirstOpenSmoke {
             check(edt(() -> choices(dialog(frame, "Run Maven project")).getItemCount() == 2), "multiple mains require an explicit in-frame choice");
             edt(() -> { button(dialog(frame, "Run Maven project"), "Cancel").doClick(); return null; });
             waitFor(frame, "cancel main chooser", () -> dialog(frame, "Run Maven project") == null);
-            check(edt(() -> !frame.isRunning() && !frame.console().text().contains("--- run ")), "Cancel does not launch an arbitrary main");
+            check(edt(() -> !frame.isRunning() && !frame.console().text().contains("CHOSEN OTHER MAIN")), "Cancel does not launch an arbitrary main");
             command(frame, "run").get(10, TimeUnit.SECONDS);
             waitFor(frame, "choose main again", () -> dialog(frame, "Run Maven project") != null);
             edt(() -> {
@@ -93,7 +93,7 @@ public final class MavenFirstOpenSmoke {
                 button(dialog(frame, "Run Maven project"), "OK").doClick();
                 return null;
             });
-            waitFor(frame, "selected main execution", () -> frame.console().text().contains("CHOSEN OTHER MAIN") && frame.console().text().contains("SUCCESS · exit 0"));
+            waitFor(frame, "selected main execution", () -> frame.console().text().contains("CHOSEN OTHER MAIN") && frame.statusMessages().contains(" done · exit 0"));
             check(true, "selected target executes with its project runtime");
             check(!Files.exists(second.resolve("target")) && !Files.exists(second.resolve("wrapper-invoked")), "folder Run/Test and target chooser never invoke Maven");
 
@@ -104,7 +104,7 @@ public final class MavenFirstOpenSmoke {
             edt(() -> { frame.openPath(library.resolve("pom.xml")); return null; });
             imported(frame, library);
             runAndApprove(frame);
-            waitFor(frame, "library has no main", () -> frame.console().text().contains("No runnable main class found"));
+            waitFor(frame, "library has no main", () -> frame.statusMessages().contains("No runnable main class found"));
             check(edt(() -> !frame.isRunning() && OverlayHost.dialogs(frame).isEmpty()), "library without main has a clear message and no fake target");
             check(edt(() -> Arrays.stream(Window.getWindows()).filter(Window::isVisible).count() == 1), "all operations stay inside one native frame");
             Files.writeString(output.resolve("report.txt"), String.join("\n", checks) + "\nFresh home: " + home + "\n");
@@ -154,7 +154,7 @@ public final class MavenFirstOpenSmoke {
     }
 
     private static void calculatorOutput(TurboFrame frame) throws Exception {
-        waitFor(frame, "calculator Run", () -> frame.console().text().contains("SUCCESS · exit 0"));
+        waitFor(frame, "calculator Run", () -> frame.statusMessages().contains(" done · exit 0"));
         check(edt(() -> frame.console().text().contains("3 + 4 = 7") && frame.console().text().contains("7 / 2 = 3.5")), "project Run produces expected calculator output");
     }
 
@@ -164,7 +164,9 @@ public final class MavenFirstOpenSmoke {
         check(command.status() == CommandResult.Status.SUCCEEDED, "Run All Tests command accepted without selecting test source");
         waitFor(frame, "two JUnit tests", () -> frame.tests().lastReport() != null && frame.tests().lastReport() != before && !frame.tests().busy());
         check(edt(() -> frame.tests().lastReport().passed() == 2 && frame.tests().lastReport().failed() == 0
-                && frame.tests().lastReport().tests().size() == 2), "native JUnit executes exactly two passing tests");
+                && frame.tests().lastReport().tests().size() == 2), "native JUnit executes exactly two passing tests: "
+                + edt(() -> frame.tests().lastReport().tests().stream().map(t -> t.status() + " " + t.name() + " " + t.failure()).toList()
+                        + " engine " + frame.tests().lastReport().engineFailures() + "\nTests tab:\n" + frame.testResults().text()));
     }
 
     private static CompletableFuture<CommandResult> command(TurboFrame frame, String id) {

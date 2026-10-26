@@ -5,50 +5,60 @@ import dev.turboj.console.OutputLog;
 import dev.turboj.turbotest.TestEngine;
 import dev.turboj.ui.ConsolePane.Role;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
- * A test run in the output, written the way Maven Surefire reports one (docs/output-and-status.md): a compile phase,
- * the tests' own output verbatim, one count line per class with its failures, then Results and the summary.
+ * A test run in the Tests tab (docs/output-and-status.md): suites, their tests, and detail only for what failed. A
+ * compile-only run (Compile Project) has no tab of its own: its problems and outcome go to the status line.
  */
 public final class TestOutput {
-    private final OutputLog log;
+    private final TestResultsPane pane;
+    private final Consumer<OutputLog.Notice> notices;
     private final LinkedHashMap<String, String> compilerDetails = new LinkedHashMap<>();
-    private OutputLog.Action action;
-    private boolean compiled = true;
+    private boolean open, compilationOnly, compiled = true;
+    private String subject = "";
 
-    public TestOutput(OutputLog log) { this.log = log; }
+    public TestOutput(TestResultsPane pane, Consumer<OutputLog.Notice> notices) {
+        this.pane = Objects.requireNonNull(pane);
+        this.notices = Objects.requireNonNull(notices);
+    }
 
-    /** Opens the action: {@code [INFO] Test CalculatorTest · hello-world · Java 25}, then its compile phase. */
+    /** Opens the run: {@code Test CalculatorTest · hello-world · Java 25}. */
     public void begin(boolean compilationOnly, String subject) {
         compilerDetails.clear();
         compiled = true;
-        action = log.start(compilationOnly ? "Compile Project" : "Test", subject);
-        action.phase("compile");
+        open = true;
+        this.compilationOnly = compilationOnly;
+        this.subject = (compilationOnly ? "Compile Project" : "Test") + (subject == null || subject.isBlank() ? "" : " " + subject);
+        if (!compilationOnly) pane.begin(this.subject);
     }
 
     public void begin(boolean compilationOnly) { begin(compilationOnly, ""); }
 
-    /** The test run is still writing to the output. */
-    public boolean open() { return action != null && action.open(); }
+    /** The run is still in progress. */
+    public boolean open() { return open; }
 
-    /** Output the tests print themselves, under the test phase. */
-    public void program(String text, boolean stderr) { if (open()) action.program(text, stderr); }
+    /** Output the tests print themselves: kept, and shown only if the run does not pass. */
+    public void program(String text, boolean stderr) { if (open && !compilationOnly) pane.output(text); }
 
     /**
-     * A progress message from the test controller. Phase changes become {@code --- test ---}; a message outside a run is
-     * not log material, so the caller shows it in the status line instead.
+     * A progress message from the test controller. Phase changes need no words; any other message is not results
+     * material, so the caller shows it in the status line instead.
      */
     public boolean status(String text) {
-        if (!open()) return false;
-        if (text.startsWith("Compiling")) return true; // the compile phase is already open
-        if (text.startsWith("Running JUnit")) { action.phase("test"); return true; }
-        if (text.equals("Tests stopped.")) { action.finish(OutputLog.Outcome.STOPPED, null, null); return true; }
-        action.info(text);
-        return true;
+        if (!open) return false;
+        if (text.startsWith("Compiling") || text.startsWith("Running JUnit")) return true;
+        if (text.equals("Tests stopped.")) {
+            if (!compilationOnly) pane.completed("stopped", false);
+            open = false;
+            notices.accept(new OutputLog.Notice(OutputLog.Level.WARN, subject + " stopped"));
+            return true;
+        }
+        return false;
     }
 
     public void compilation(WorkspaceCompilationResult result, Path root) {
@@ -59,81 +69,34 @@ public final class TestOutput {
             String detail = diagnostic.kind() + (location.isEmpty() ? "" : " " + location) + ": " + diagnostic.message();
             // javac emits the same toolchain note for main and test compilation.
             String key = note ? diagnostic.kind() + "\n" + diagnostic.message() : detail;
-            if (compilerDetails.putIfAbsent(key, detail) == null && !note && open())
-                action.problem(diagnostic.isError() ? OutputLog.Level.ERROR : OutputLog.Level.WARN, source.fileName(),
-                        Math.max(0, diagnostic.line()), Math.max(0, diagnostic.column()), diagnostic.message(), root);
+            if (compilerDetails.putIfAbsent(key, detail) == null && diagnostic.isError() && open && !compilationOnly)
+                pane.problem(location + (location.isEmpty() ? "" : " ") + diagnostic.message());
         }
         compiled = result.success();
-        if (open() && result.success()) action.info("Compiled in " + OutputLog.duration(result.durationNanos()));
     }
 
     public List<String> compilerDetails() { return List.copyOf(compilerDetails.values()); }
 
     /** The run ended without a report: compile-only, a compile failure, or a setup error. */
     public void completed(String message) {
-        if (!open()) return;
-        if (compiled && message != null && message.toLowerCase(Locale.ROOT).contains("compiled")) {
-            action.info(message);
-            action.finish(OutputLog.Outcome.SUCCESS, null, null);
-        } else {
-            if (message != null && !message.isBlank()) action.error(message);
-            long errors = compilerDetails.values().stream().filter(detail -> detail.startsWith("ERROR")).count();
-            action.finish(OutputLog.Outcome.FAILURE, errors == 0 ? null : errors + (errors == 1 ? " error" : " errors"), null);
-        }
+        if (!open) return;
+        open = false;
+        boolean success = compiled && message != null && message.toLowerCase(Locale.ROOT).contains("compiled");
+        long errors = compilerDetails.values().stream().filter(detail -> detail.startsWith("ERROR")).count();
+        if (!compilationOnly) pane.completed(message, success);
+        String first = compilerDetails.values().stream().filter(detail -> detail.startsWith("ERROR")).findFirst()
+                .map(detail -> " · " + detail.substring(detail.indexOf(' ') + 1)).orElse("");
+        notices.accept(success ? new OutputLog.Notice(OutputLog.Level.INFO, subject + " done · " + message)
+                : new OutputLog.Notice(OutputLog.Level.ERROR, subject + " failed"
+                        + (errors == 0 ? (message == null || message.isBlank() ? "" : " · " + message)
+                        : " · " + errors + (errors == 1 ? " error" : " errors") + first)));
     }
 
-    /**
-     * <pre>
-     * [INFO] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3 ms -- in CalculatorTest
-     * [ERROR] CalculatorTest#testAdd · expected: &lt;4&gt; but was: &lt;5&gt;
-     * [INFO]
-     * [INFO] Results:
-     * [ERROR] Failures:
-     * [ERROR]   CalculatorTest#testAdd · expected: &lt;4&gt; but was: &lt;5&gt;
-     * [INFO] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
-     * </pre>
-     * Failures are failed assertions, Errors are engine failures, Skipped counts skipped and aborted tests.
-     */
+    /** The report: suites, tests, and the detail of what failed, in the Tests tab. */
     public void report(TestEngine.Report report) {
-        if (!open()) begin(false, "");
-        var classes = new LinkedHashMap<String, List<TestEngine.Test>>();
-        for (var test : report.tests()) classes.computeIfAbsent(className(test), name -> new ArrayList<>()).add(test);
-        classes.forEach((name, tests) -> {
-            long failed = tests.stream().filter(test -> test.status() == TestEngine.Status.FAILED).count();
-            long skipped = tests.stream().filter(test -> test.status() == TestEngine.Status.SKIPPED || test.status() == TestEngine.Status.ABORTED).count();
-            long elapsed = tests.stream().mapToLong(TestEngine.Test::durationNanos).sum();
-            action.info(OutputLog.counts(tests.size(), failed, 0, skipped) + ", Time elapsed: " + OutputLog.duration(elapsed) + " -- in " + name,
-                    failed > 0 ? Role.ERROR : Role.SUCCESS);
-            for (var test : tests) {
-                String reason = test.failure() == null || test.failure().isBlank() ? "" : " · " + test.failure().lines().findFirst().orElse("");
-                switch (test.status()) {
-                    case FAILED -> { action.error(name(test) + reason); action.detail(test.trace()); }
-                    case ABORTED -> action.warn(name(test) + " aborted" + reason);
-                    case SKIPPED -> action.warn(name(test) + " skipped" + reason);
-                    case PASSED -> { }
-                }
-            }
-        });
-        action.blank();
-        action.info("Results:");
-        action.blank();
-        var failures = report.tests().stream().filter(test -> test.status() == TestEngine.Status.FAILED).toList();
-        if (!failures.isEmpty()) {
-            action.error("Failures:");
-            for (var test : failures)
-                action.error("  " + name(test) + (test.failure() == null || test.failure().isBlank() ? ""
-                        : " · " + test.failure().lines().findFirst().orElse("")));
-        }
-        if (!report.engineFailures().isEmpty()) {
-            action.error("Errors:");
-            for (String failure : report.engineFailures()) action.error("  " + failure);
-        }
-        if (report.tests().isEmpty() && report.engineFailures().isEmpty()) action.warn("No tests to run.");
-        action.info(OutputLog.counts(report.tests().size(), report.failed(), report.engineFailures().size(),
-                count(report, TestEngine.Status.SKIPPED) + count(report, TestEngine.Status.ABORTED)), summaryRole(report));
-        // As Surefire: no tests is not a failure, only a warning above.
-        action.finish(report.successful() ? OutputLog.Outcome.SUCCESS : OutputLog.Outcome.FAILURE,
-                report.tests().isEmpty() ? "no tests" : report.passed() + " of " + report.tests().size() + " passed", report.durationNanos());
+        if (!open) begin(false, "");
+        open = false;
+        pane.report(report);
     }
 
     public static String summary(TestEngine.Report report) {

@@ -150,14 +150,18 @@ public final class TurboFrame extends JFrame {
     private TurboTestController tests;
     private LineIntelligenceController lineIntelligence;
     private java.util.function.Consumer<LineIntelligence.Run> cherryResultsView = ignored -> {};
-    private final dev.turboj.console.OutputLog log = new dev.turboj.console.OutputLog(console);
+    /** The terminal: program and command output only; an action's outcome goes to the status line. */
+    private final dev.turboj.console.OutputLog log = new dev.turboj.console.OutputLog(console, this::outputNotice);
+    /** Test runs: suites and tests, detail only for failures. */
+    private final dev.turboj.testing.TestResultsPane testsPane = new dev.turboj.testing.TestResultsPane();
+    /** Terminal, Tests and JShell share the bottom panel as tabs. */
+    private final JTabbedPane outputTabs = new JTabbedPane();
     /** The Run or Compile action in the output, and the Maven goal: each writes only to its own action. */
     private dev.turboj.console.OutputLog.Action runLog, mavenLog;
-    private final TestOutput testOutput = new TestOutput(log);
+    private final TestOutput testOutput = new TestOutput(testsPane, this::outputNotice);
     private List<String> testCompilerDetails = List.of();
     private NativeWorkspaceCommitter.Capture testCapture;
     private Model.WorkspaceSnapshot testWorkspace;
-    private EmbeddedDialog testResults;
     private boolean pendingTestSnapshot;
     private long testSelectionRequest;
     private boolean saveTestRun;
@@ -267,7 +271,12 @@ public final class TurboFrame extends JFrame {
                 else if (isXmlBuffer()) publishPomDiagnostics();
             }
             @Override public void notice(String text, boolean error) { flash(text, error ? StatusBar.Level.ERROR : StatusBar.Level.NORMAL); }
-            @Override public void actionStart(String action, String subject) { setMessagesVisible(true); mavenLog = startRunLog(action, subject); }
+            @Override public void actionStart(String action, String subject) {
+                setMessagesVisible(true);
+                showOutputTab(console);
+                mavenLog = startRunLog(action, subject);
+                mavenLog.command(subject);
+            }
             @Override public void actionOutput(String text) { if (mavenLog != null) mavenLog.program(text, false); }
             @Override public void actionFinish(boolean success, String detail) {
                 if (mavenLog != null) mavenLog.finish(success ? dev.turboj.console.OutputLog.Outcome.SUCCESS : dev.turboj.console.OutputLog.Outcome.FAILURE, detail, null);
@@ -283,9 +292,21 @@ public final class TurboFrame extends JFrame {
                 }
             }
         });
-        messages.add(console, BorderLayout.CENTER);
+        outputTabs.setName("output-tabs");
+        outputTabs.addTab("Terminal", console);
+        outputTabs.addTab("Tests", testsPane);
+        outputTabs.addTab("JShell", repl);
+        outputTabs.setFocusable(false);
+        outputTabs.addChangeListener(event -> {
+            replVisible = outputTabs.getSelectedComponent() == repl;
+            lastMessageTitle = "";
+            refreshTitle();
+            refreshWorkspaceMinimums();
+        });
+        messages.add(outputTabs, BorderLayout.CENTER);
+        testsPane.onOpen(this::navigateTest);
         outputCommands = new OutputCommandController(console, this::outputCommandDirectory,
-                () -> editor.requestFocusInWindow());
+                () -> editor.requestFocusInWindow(), this::outputNotice);
         console.setInlineInput(true);
         console.setProgramRunning(false);
         var content = new JPanel(new BorderLayout());
@@ -853,6 +874,15 @@ public final class TurboFrame extends JFrame {
                         errorLater(e);
                     }
                 });
+    }
+
+    public dev.turboj.testing.TestResultsPane testResults() {
+        return testsPane;
+    }
+
+    /** The title of the bottom panel's selected tab, without its count: Terminal, Tests or JShell. */
+    public String outputTabTitle() {
+        return outputTabs.getTitleAt(outputTabs.getSelectedIndex()).split(" ")[0];
     }
 
     public ConsolePane console() {
@@ -1756,9 +1786,10 @@ public final class TurboFrame extends JFrame {
             return Availability.disabled("Open a project first");
         if (Set.of("navigation.mavenModule", "navigation.projectDependency").contains(id)
                 && maven.importRequest() == null) return Availability.disabled("Open a Maven project first");
-        if (Set.of("view.focusTestResults", "view.toggleTestPanel", "navigation.testFailure").contains(id)
+        if (Set.of("view.focusTestResults", "view.toggleTestPanel", "navigation.testFailure", "tests.nextFailure", "tests.previousFailure").contains(id)
                 && (tests == null || tests.lastReport() == null)) return Availability.disabled("Run tests first");
-        if (id.equals("navigation.testFailure") && tests.lastReport().failed() == 0) return Availability.disabled("No failed tests");
+        if (Set.of("navigation.testFailure", "tests.nextFailure", "tests.previousFailure").contains(id) && tests.lastReport().failed() == 0)
+            return Availability.disabled("No failed tests");
         if (id.equals("console.copy") && console.inputComponent().getSelectionStart() == console.inputComponent().getSelectionEnd())
             return Availability.disabled("Select console output first");
         if (id.equals("console.cancelCommand") && !outputCommands.isRunning())
@@ -2523,7 +2554,8 @@ public final class TurboFrame extends JFrame {
             revalidate();
         });
         command("view.toggleTestPanel", "Toggle Test Results", () -> {
-            if (testResults != null && testResults.isVisible()) testResults.dispose(); else showTestResults();
+            if (messages.isVisible() && outputTabs.getSelectedComponent() == testsPane) { setMessagesVisible(false); editor.requestFocusInWindow(); }
+            else showTestResults();
         });
         command("view.maximizeEditor", "Maximize Editor Area", this::maximizeEditor);
         command("view.restoreLayout", "Restore Previous Layout", this::restoreEditorLayout);
@@ -2555,9 +2587,9 @@ public final class TurboFrame extends JFrame {
         command("navigation.goToSymbol", "Go to Symbol…", () -> searchProject(ProjectSearchDialog.Tab.METHODS));
         command("navigation.searchEverywhere", "Search Everywhere…", () -> searchProject(ProjectSearchDialog.Tab.ALL));
         command("navigation.goToTest", "Navigate Between Source and Test", this::navigateRelatedTest);
-        command("navigation.testFailure", "Go to Test Failure", () -> {
-            tests.lastReport().tests().stream().filter(test -> test.status() == TestEngine.Status.FAILED).findFirst().ifPresent(this::navigateTest);
-        });
+        command("navigation.testFailure", "Go to Test Failure", () -> nextTestFailure(1));
+        command("tests.nextFailure", "Next Failed Test", () -> nextTestFailure(1));
+        command("tests.previousFailure", "Previous Failed Test", () -> nextTestFailure(-1));
         command("navigation.mavenModule", "Navigate to Maven Module…", () -> maven.findFile(true));
         command("navigation.projectDependency", "Navigate to Project Dependency", maven::focusDependencies);
         command("run.configuration", "Program Arguments and Standard Input…", this::showRunConfiguration);
@@ -3170,6 +3202,9 @@ public final class TurboFrame extends JFrame {
         editor.setTheme(t);
         console.setTheme(t);
         repl.setTheme(t);
+        testsPane.setTheme(t);
+        testsPane.setFont(console.inputComponent().getFont());
+        dev.turboj.commandj.swing.AsciiStyle.apply(outputTabs, AsciiChrome.output(t));
         if (intelligence != null) intelligence.setTheme(t);
         if (quickFix != null) quickFix.setTheme(t);
         if (maven != null) maven.setTheme(t);
@@ -3231,7 +3266,7 @@ public final class TurboFrame extends JFrame {
         int projectHeight = maven.panel().isVisible() ? maven.panel().getMinimumSize().height : 0;
         projectSplit.setMinimumSize(new Dimension(0, Math.max(editorHeight, projectHeight)));
         Insets outputEdge = messages.getInsets();
-        int outputHeight = (replVisible ? repl : console).getMinimumSize().height;
+        int outputHeight = ((JComponent) outputTabs.getSelectedComponent()).getMinimumSize().height + 24;
         messages.setMinimumSize(new Dimension(0, outputEdge.top + outputEdge.bottom + outputHeight));
         int chromeHeight = menus.getPreferredSize().height + statusBar.getPreferredSize().height;
         Insets frameEdge = getInsets();
@@ -3241,9 +3276,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private void showRepl(boolean visible) {
-        replVisible = visible;
-        messages.removeAll();
-        messages.add(visible ? repl : console, BorderLayout.CENTER);
+        showOutputTab(visible ? repl : console);
         setMessagesVisible(true);
         lastMessageTitle = "";
         refreshTitle();
@@ -3284,7 +3317,7 @@ public final class TurboFrame extends JFrame {
             lastEditorTitle = name + dirty;
             editorPanel.setBorder(new AsciiBorder(name + dirty, AsciiChrome.editor(theme), AsciiBorder.Line.SINGLE));
         }
-        String messageTitle = replVisible ? "Java REPL" : "Output";
+        String messageTitle = "Output";
         if (outputSplit != null && outputSplit.isFocusOwner()) messageTitle += " · ↑/↓ resize · Esc editor";
         if (!lastMessageTitle.equals(messageTitle)) {
             lastMessageTitle = messageTitle;
@@ -4241,8 +4274,6 @@ public final class TurboFrame extends JFrame {
         if (tests != null)
             tests.close();
         if (lineIntelligence != null) lineIntelligence.close();
-        if (testResults != null)
-            testResults.dispose();
         if (commandDispatcher != null)
             commandDispatcher.close();
         if (keymapListener != null)
@@ -4527,8 +4558,11 @@ public final class TurboFrame extends JFrame {
     private final class NativeTestHost implements TurboTestController.Host {
         @Override
         public void begin(boolean compilationOnly) {
-            showRepl(false);
-            setMessagesVisible(true);
+            // An explicit run shows its results; an automatic one updates them without taking the panel.
+            if (!compilationOnly && !tests.automatic() && !saveTestRun) {
+                setMessagesVisible(true);
+                showOutputTab(testsPane);
+            }
             testOutput.begin(compilationOnly, testSubject + projectSuffix());
             buildStatus = compilationOnly ? "PROJECT COMPILING…" : "TURBOTEST · COMPILING…";
             refreshTitle();
@@ -4579,9 +4613,9 @@ public final class TurboFrame extends JFrame {
             testCompilerDetails = testOutput.compilerDetails();
             testOutput.report(result);
             buildStatus = "TURBOTEST · " + TestOutput.outcome(result);
+            outputTabs.setTitleAt(outputTabs.indexOfComponent(testsPane), result.successful() ? "Tests ✔"
+                    : "Tests ✖ " + (result.failed() + result.engineFailures().size()));
             refreshTitle();
-            if (!tests.automatic() && !saveTestRun)
-                showTestResults();
         }
 
         @Override
@@ -4628,95 +4662,39 @@ public final class TurboFrame extends JFrame {
         });
     }
 
+    /** The Tests tab, with the keyboard in it: ↑/↓ move between tests, Enter opens one. */
     private void showTestResults() {
-        TestEngine.Report report = tests == null ? null : tests.lastReport();
+        setMessagesVisible(true);
+        showOutputTab(testsPane);
+        testsPane.view().requestFocusInWindow();
+    }
 
-        if (report == null)
-            return;
-        if (testResults != null)
-            testResults.dispose();
-        testResults = new EmbeddedDialog(this, "TurboTest — " + report.passed() + " passed, " + report
-                .failed() + " failed", false);
-        var list = new JList<TestEngine.Test> (report.tests().toArray(TestEngine.Test[]::new));
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setCellRenderer((view, test, index, selected, focus) -> {
-            JLabel row = new JLabel("[" + test.status() + "] " + TestOutput.name(test) + " · "
-                    + TestOutput.duration(test.durationNanos()));
-            row.setFont(AsciiChrome.font());
-            row.setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 8));
-            row.setOpaque(true);
-            row.setBackground(selected ? view.getSelectionBackground() : view.getBackground());
-            row.setForeground(selected ? view.getSelectionForeground()
-                    : ConsolePane.colorFor(theme, TestOutput.role(test.status()), view.getBackground()));
-            return row;
+    /** Next ({@code 1}) or previous ({@code -1}) failed test of the last run, in the Tests tab and in the editor. */
+    private void nextTestFailure(int direction) {
+        setMessagesVisible(true);
+        showOutputTab(testsPane);
+        var failed = testsPane.nextFailure(direction);
+        if (failed == null) { flash("No failed tests"); return; }
+        int position = testsPane.failures().indexOf(failed) + 1;
+        flash(TestOutput.name(failed) + " (" + position + " of " + testsPane.failures().size() + ")"
+                + (failed.failure() == null || failed.failure().isBlank() ? "" : " · " + failed.failure().lines().findFirst().orElse("")),
+                StatusBar.Level.ERROR);
+        navigateTest(failed);
+    }
+
+    private void showOutputTab(Component tab) {
+        if (outputTabs.getSelectedComponent() != tab) outputTabs.setSelectedComponent(tab);
+        replVisible = tab == repl;
+    }
+
+    /** An action's outcome or problem from the terminal or a test run: the status line, never the terminal. */
+    private void outputNotice(dev.turboj.console.OutputLog.Notice notice) {
+        Runnable show = () -> flash(notice.text(), switch (notice.level()) {
+            case ERROR -> StatusBar.Level.ERROR;
+            case WARN -> StatusBar.Level.WARNING;
+            case INFO -> notice.text().contains(" done") ? StatusBar.Level.SUCCESS : StatusBar.Level.NORMAL;
         });
-        JTextArea detail = new JTextArea();
-        detail.setEditable(false);
-        detail.setFont(editor.getFont().deriveFont(12f));
-        list.addListSelectionListener(event -> {
-            var selected = list.getSelectedValue();
-            detail.setText(selected == null ? "" : "[" + selected.status() + "] "
-                    + TestOutput.name(selected) + "\nDuration: "
-                    + TestOutput.duration(selected.durationNanos())
-                    + (selected.failure() == null || selected.failure().isBlank() ? "" : "\n\n" + selected.failure())
-                    + (selected.trace() == null || selected.trace().isBlank() ? "" : "\n\n" + selected.trace()));
-            detail.setCaretPosition(0);
-        });
-        if (!report.tests().isEmpty())
-            list.setSelectedIndex(0);
-        else
-            detail.setText(String.join("\n", report.engineFailures()));
-        var details = new JTabbedPane();
-        details.addTab("Test details", new JScrollPane(detail));
-        JTextArea compilationDetails = new JTextArea(testCompilerDetails.isEmpty()
-                ? "No compiler diagnostics." : String.join("\n\n", testCompilerDetails));
-        compilationDetails.setEditable(false);
-        compilationDetails.setFont(detail.getFont());
-        compilationDetails.setCaretPosition(0);
-        details.addTab("Compilation details (" + testCompilerDetails.size() + ")",
-                new JScrollPane(compilationDetails));
-        if (!report.engineFailures().isEmpty()) {
-            JTextArea failures = new JTextArea(String.join("\n\n", report.engineFailures()));
-            failures.setEditable(false);
-            failures.setFont(detail.getFont());
-            failures.setCaretPosition(0);
-            details.addTab("Engine errors", new JScrollPane(failures));
-        }
-        var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(list), details);
-        split.setResizeWeight(.45);
-        JPanel panel = new JPanel(new BorderLayout(6, 6));
-        panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        panel.add(new JLabel(TestOutput.summary(report) + " · Source " + report.sourceVersion()),
-                BorderLayout.NORTH);
-        panel.add(split, BorderLayout.CENTER);
-        JButton open = new JButton("Go to source"), failed = new JButton("Run failed"),
-                close = new JButton("Close");
-        open.addActionListener(event -> navigateTest(list.getSelectedValue()));
-        failed.setEnabled(report.failed() > 0);
-        failed.addActionListener(event -> {
-            testResults.dispose();
-            startTests(TurboTestController.Mode.FAILED, false);
-        });
-        close.addActionListener(event -> testResults.dispose());
-        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        actions.add(open);
-        actions.add(failed);
-        actions.add(close);
-        panel.add(actions, BorderLayout.SOUTH);
-        list.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "open-test");
-        list.getActionMap().put("open-test", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                open.doClick();
-            }
-        });
-        testResults.setContentPane(panel);
-        testResults.setSize(Math.min(950, getWidth()), Math.min(600, getHeight()));
-        testResults.setLocationRelativeTo(this);
-        SwingUtilities.invokeLater(list::requestFocusInWindow);
-        testResults.getRootPane().registerKeyboardAction(event -> testResults.dispose(), KeyStroke
-                .getKeyStroke("ESCAPE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        testResults.setVisible(true);
+        if (SwingUtilities.isEventDispatchThread()) show.run(); else SwingUtilities.invokeLater(show);
     }
 
     private void navigateTest(TestEngine.Test test) {
@@ -4753,16 +4731,12 @@ public final class TurboFrame extends JFrame {
                 openTestLocation(path, null, symbols.getFirst().declaration().start());
             else {
                 openTestLocation(path, 1, null);
-                console
-                        .append("Opened test source; a unique declaration location is unavailable.\n",
-                        false);
+                flash("Opened test source; a unique declaration location is unavailable.");
             }
         }));
     }
 
     private void openTestLocation(Path path, Integer line, Integer offset) {
-        if (testResults != null)
-            testResults.dispose();
         openPath(path);
         javax.swing.Timer follow = new javax.swing.Timer(30, null);
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);

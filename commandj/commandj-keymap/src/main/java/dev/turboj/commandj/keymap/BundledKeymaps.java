@@ -94,6 +94,9 @@ public final class BundledKeymaps {
         bind(t, "stop", "META+PERIOD");
         bind(t, "navigation.nextError", "META+QUOTE", "ALT+F8");
         bind(t, "navigation.previousError", "META+SHIFT+QUOTE", "ALT+F7");
+        // ⌥ turns the error keys into the failed-test keys: ⌥⌘' next failed test, ⇧⌥⌘' previous.
+        bind(t, "tests.nextFailure", "META+ALT+QUOTE");
+        bind(t, "tests.previousFailure", "META+ALT+SHIFT+QUOTE");
         bind(t, "save", "META+S", "F2");
         bind(t, "file.saveAll", "META+ALT+S");
         bind(t, "documentation", "META+J", "F1");

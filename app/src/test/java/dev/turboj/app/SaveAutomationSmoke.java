@@ -106,11 +106,11 @@ public final class SaveAutomationSmoke {
             pause();
             check(edt(() -> frame.tests().lastReport() == previous && !frame.console().text().contains("AUTO_GENERATION=")),
                     kind + ": both new toggles still require Save rather than a text change");
+            int compiles = edt(() -> occurrences(frame.statusMessages(), "Compile Project "));
             save(frame, fixture, 4);
             ran(frame, 4);
             tested(frame, previous, kind + ": combined Run and Test");
-            check(edt(() -> occurrences(frame.console().text(), "[INFO] Test ") == 1
-                            && !frame.console().text().contains("[INFO] Compile Project")),
+            check(edt(() -> occurrences(frame.statusMessages(), "Compile Project ") == compiles),
                     kind + ": combined save uses one workspace compilation before execution");
             check(edt(() -> OverlayHost.dialogs(frame).isEmpty()),
                     kind + ": automatic tests report inline without a modal result dialog");
@@ -119,7 +119,7 @@ public final class SaveAutomationSmoke {
             clear(frame);
             edit(frame, fixture.source(5).replace("return first + second;", "return first + ;"));
             accepted(command(frame, "save"));
-            waitFor(frame, "compile failure stops automation", () -> frame.console().text().contains("Tests were not run because") && !frame.tests().busy());
+            waitFor(frame, "compile failure stops automation", () -> frame.testResults().text().contains("Tests were not run because") && !frame.tests().busy());
             check(Files.readString(fixture.main()).contains("return first + ;"),
                     kind + ": invalid Java is saved while compilation rejects execution");
             check(edt(() -> frame.tests().lastReport() == successful && !frame.console().text().contains("AUTO_GENERATION=")),
@@ -269,7 +269,7 @@ public final class SaveAutomationSmoke {
     private static void ran(TurboFrame frame, int generation) throws Exception {
         waitFor(frame, "automatic main generation " + generation, () -> !frame.isRunning()
                 && frame.console().text().contains("AUTO_GENERATION=" + generation)
-                && frame.console().text().contains("SUCCESS · exit 0"));
+                && frame.statusMessages().contains(" done · exit 0"));
     }
 
     private static void tested(TurboFrame frame, TestEngine.Report previous, String description) throws Exception {

@@ -1,7 +1,6 @@
 package dev.turboj.app;
 
 import dev.turboj.commandj.core.CommandContext;
-import dev.turboj.commandj.swing.EmbeddedDialog;
 import dev.turboj.config.Settings;
 import dev.turboj.testing.TestOutput;
 import dev.turboj.turbotest.TestEngine;
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import javax.swing.text.StyleConstants;
 
-/** Exercises real JUnit outcomes through the actual editor command and themed transcript. */
+/** Exercises real JUnit outcomes through the actual editor command and the themed Tests tab. */
 public final class TestOutputSmoke {
     private static final StringBuilder checks = new StringBuilder();
 
@@ -55,51 +54,46 @@ public final class TestOutputSmoke {
                     && report.tests().stream().anyMatch(test -> test.status() == TestEngine.Status.SKIPPED)
                     && report.tests().stream().anyMatch(test -> test.status() == TestEngine.Status.ABORTED),
                     "resident JUnit worker returned four actual outcomes");
-            String text = edt(() -> frame.console().text());
-            check(text.contains("[INFO] --- test ---") && text.contains("Tests run: 4, Failures: 1, Errors: 0, Skipped: 2"),
-                    "separate test section and exact outcome counts are visible");
-            check(text.contains("Deliberate output fixture failure") && text.contains("ResultsTest.fails(ResultsTest.java:4)"),
-                    "failure and source stack location remain in selectable output");
-            check(!text.contains("4 tests: 1 passed, 1 failed"), "structured report replaces the duplicate plain summary");
+            String text = edt(() -> frame.testResults().text());
+            check(text.contains("ResultsTest  4 tests · 1 failed") && text.contains("1 failed · 1 of 4 passed"),
+                    "the Tests tab names the suite and the exact outcome");
+            check(text.contains("  ✔ passes  ") && text.contains("  ✖ fails  ") && text.contains("  ○ skipped  ") && text.contains("  ! aborted  "),
+                    "every test is listed with its outcome");
+            check(text.contains("Deliberate output fixture failure") && text.contains("at ResultsTest.fails(ResultsTest.java:4)")
+                    && !text.contains("org.junit"), "the failure keeps its message and the project's frame, without JUnit frames");
+            check(!edt(() -> frame.console().text()).contains("ResultsTest"), "tests write nothing to the terminal");
+            check(edt(() -> frame.outputTabTitle()).equals("Tests"), "an explicit run shows the Tests tab");
             var statusField = TurboFrame.class.getDeclaredField("buildStatus");
             statusField.setAccessible(true);
             check(edt(() -> "TURBOTEST · FAILED".equals(statusField.get(frame))),
                     "failed tests cannot leave a successful project-build status");
-            var dialogField = TurboFrame.class.getDeclaredField("testResults");
-            dialogField.setAccessible(true);
             for (String id : Theme.BUNDLED) {
                 edt(() -> { frame.applyTheme(Theme.bundled(id)); return null; });
-                screenshot(frame, output.resolve(id + "-details.png"));
+                screenshot(frame, output.resolve(id + "-tests.png"));
                 check(edt(() -> {
                     var theme = Theme.bundled(id);
-                    var document = ((JTextPane) frame.console().inputComponent()).getStyledDocument();
-                    // Failures are written in the error role and skipped or aborted tests in the warning role.
-                    for (var marker : java.util.Map.of("[ERROR] ResultsTest#fails", ConsolePane.Role.ERROR,
-                            "[WARN] ResultsTest#aborted", ConsolePane.Role.WARNING).entrySet()) {
-                        int offset = text.indexOf(marker.getKey());
-                        if (offset < 0 || !StyleConstants.getForeground(document.getCharacterElement(offset).getAttributes())
+                    var document = frame.testResults().view().getStyledDocument();
+                    // Failures are written in the error role and aborted tests in the warning role.
+                    for (var marker : java.util.Map.of("  ✖ fails", ConsolePane.Role.ERROR, "  ! aborted", ConsolePane.Role.WARNING).entrySet()) {
+                        int offset = text.indexOf(marker.getKey()) + 2;
+                        if (offset < 2 || !StyleConstants.getForeground(document.getCharacterElement(offset).getAttributes())
                                 .equals(ConsolePane.colorFor(theme, marker.getValue(), theme.messagesBackground()))) return false;
                     }
                     return true;
-                }), "existing failure and warning lines recolor with " + id);
-            }
-            edt(() -> { ((EmbeddedDialog) dialogField.get(frame)).dispose(); return null; });
-            for (String id : Theme.BUNDLED) {
-                edt(() -> { frame.applyTheme(Theme.bundled(id)); return null; });
-                screenshot(frame, output.resolve(id + "-output.png"));
+                }), "failure and warning lines recolor with " + id);
             }
             edt(() -> {
-                var component = frame.console().inputComponent();
-                int start = text.lastIndexOf("[INFO] Tests run: 4");
-                component.select(start, text.indexOf('\n', start));
-                check(component.getSelectedText().contains("Failures: 1, Errors: 0, Skipped: 2"), "summary stays selectable for copying");
+                var view = frame.testResults().view();
+                int start = text.indexOf("Deliberate output fixture failure");
+                view.select(start, start + "Deliberate output fixture failure".length());
+                check("Deliberate output fixture failure".equals(view.getSelectedText()), "failure detail stays selectable for copying");
                 return null;
             });
             check(Files.readString(source).equals(code), "test execution preserves saved source");
             Files.writeString(output.resolve("transcript.txt"), text);
             Files.writeString(output.resolve("report.txt"), checks.toString());
         } catch (Throwable error) {
-            System.err.println("TEST CONSOLE:\n" + edt(() -> frame.console().text()));
+            System.err.println("TESTS TAB:\n" + edt(() -> frame.testResults().text()));
             throw error;
         } finally {
             edt(() -> { frame.shutdown(); frame.dispose(); return null; });

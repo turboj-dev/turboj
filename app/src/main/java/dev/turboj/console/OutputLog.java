@@ -3,140 +3,144 @@ package dev.turboj.console;
 import dev.turboj.ui.ConsolePane;
 import dev.turboj.ui.ConsolePane.Role;
 import java.nio.file.Path;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.LongSupplier;
-import java.util.function.Supplier;
 
 /**
- * The output as a log of the actions the user started, in Maven's grammar (docs/output-and-status.md): every line
- * TurboJ writes carries a level prefix, every action opens with a ruled header and phases and closes with the same
- * summary, and the program's own output passes through verbatim and unprefixed. Only this class formats those lines.
+ * The terminal (docs/output-and-status.md): the program's output and the output of real commands, verbatim, and
+ * nothing TurboJ writes of its own. A command line is echoed after {@code $ }, as a shell shows it. An action's
+ * problems and outcome become {@link Notice}s for the status line; test results have their own tab.
  * <p>
  * Actions that overlap, such as the Run and the tests Save starts together, never interleave: the first one writes
- * to the output, the next waits in order and appears whole as soon as the first has finished, as Maven runs one goal
- * after another.
+ * to the terminal, the next waits in order and appears whole as soon as the first has finished.
  */
 public final class OutputLog {
     public enum Level { INFO, WARN, ERROR }
 
-    /** How an action ended; the word Maven would print. */
+    /** How an action ended. */
     public enum Outcome {
         SUCCESS, FAILURE, STOPPED;
         boolean failed() { return this != SUCCESS; }
     }
 
-    static final String RULE = "-".repeat(72);
-    private static final DateTimeFormatter CLOCK = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ROOT);
+    /** A message about an action, for the status line: never written to the terminal. */
+    public record Notice(Level level, String text) {}
 
     private record Chunk(String text, Role role) {}
 
+    /** Marks an action's first queued text: it starts on a line of its own when it is finally written. */
+    private static final String LINE_START = "\u0000";
+
     private final ConsolePane console;
+    private final Consumer<Notice> notices;
     private final LongSupplier clock;
-    private final Supplier<LocalTime> time;
     private final ArrayDeque<Action> queue = new ArrayDeque<>();
     private boolean clearBeforeEachAction;
 
-    public OutputLog(ConsolePane console) { this(console, System::nanoTime, LocalTime::now); }
+    public OutputLog(ConsolePane console) { this(console, notice -> {}); }
 
-    OutputLog(ConsolePane console, LongSupplier clock, Supplier<LocalTime> time) {
+    public OutputLog(ConsolePane console, Consumer<Notice> notices) { this(console, notices, System::nanoTime); }
+
+    OutputLog(ConsolePane console, Consumer<Notice> notices, LongSupplier clock) {
         this.console = Objects.requireNonNull(console);
+        this.notices = Objects.requireNonNull(notices);
         this.clock = clock;
-        this.time = time;
     }
 
-    /** Clear Output Before Each Run: an action that starts on an idle output starts on an empty one. */
+    /** Clear Output Before Each Run: an action that starts on an idle terminal starts on an empty one. */
     public synchronized void setClearBeforeEachAction(boolean value) { clearBeforeEachAction = value; }
 
-    /** {@code [INFO] Run HelloWorld · hello-world · Java 25} under a rule: a new action, written now or after the current ones. */
+    /** A new action, written now or after the current ones; {@code action} and {@code subject} name it in notices. */
     public synchronized Action start(String action, String subject) {
         if (queue.isEmpty() && clearBeforeEachAction) console.clear();
-        var started = new Action(action.toUpperCase(Locale.ROOT));
+        // "HelloWorld · hello-world · Java 25": the status line needs only what was run.
+        String what = subject == null ? "" : subject.split(" · ")[0].strip();
+        var started = new Action(action + (what.isEmpty() ? "" : " " + what));
         queue.addLast(started);
-        started.line(Level.INFO, RULE, Role.MUTED);
-        started.line(Level.INFO, action + (subject == null || subject.isBlank() ? "" : " " + subject), Role.HEADING);
         return started;
     }
 
-    /** One action in the output; safe to use from any thread. */
+    /** One action in the terminal; safe to use from any thread. */
     public final class Action {
-        private final String word;
+        private final String name;
         private final long started = clock.getAsLong();
         private final List<Chunk> waiting = new ArrayList<>();
-        private boolean open = true, lineStart = true;
+        private boolean open = true, wrote;
+        private String firstProblem;
 
-        private Action(String word) { this.word = word; }
+        private Action(String name) { this.name = name; }
 
         public boolean open() { synchronized (OutputLog.this) { return open; } }
 
-        /** {@code [INFO] --- compile ---}: a step of the action, as Maven names a plugin goal. */
-        public void phase(String name) { line(Level.INFO, "--- " + name + " ---", Role.HEADING); }
+        /** A step of the action; the terminal shows only what the step prints. */
+        public void phase(String name) { }
 
-        public void info(String text) { line(Level.INFO, text, Role.MUTED); }
-        public void warn(String text) { line(Level.WARN, text, Role.WARNING); }
-        public void error(String text) { line(Level.ERROR, text, Role.ERROR); }
+        /** Progress worth no line anywhere: the status line and the outcome say it. */
+        public void info(String text) { }
 
-        /** A plain {@code [INFO]} line, as Maven separates sections. */
-        public void blank() { line(Level.INFO, "", Role.MUTED); }
+        public void info(String text, Role role) { }
 
-        /** A line in a role of its own, such as a passed or failed count. */
-        public void info(String text, Role role) { line(Level.INFO, text, role); }
+        public void blank() { }
 
-        /** {@code [ERROR] src/main/java/A.java:[3,18] ';' expected}: a compiler or test location, relative to the project. */
+        /** A warning about the action, for the status line. */
+        public void warn(String text) { notice(Level.WARN, text); }
+
+        /** An error about the action, for the status line. */
+        public void error(String text) { notice(Level.ERROR, text); }
+
+        /**
+         * A compiler or test location, {@code src/main/java/A.java:[3,18] ';' expected}: the editor marks it and Next
+         * Error reaches it; the first error is named in the action's outcome.
+         */
         public void problem(Level level, String file, long line, long column, String message, Path root) {
-            String where = location(file, line, column, root);
-            String text = (where.isEmpty() ? "" : where + " ") + message;
-            if (level == Level.ERROR) error(text); else if (level == Level.WARN) warn(text); else info(text);
-        }
-
-        /** Detail that belongs under the previous line, unprefixed, as Surefire prints a stack trace. */
-        public void detail(String text) {
-            if (text == null || text.isBlank()) return;
             synchronized (OutputLog.this) {
-                if (!open) return;
-                if (!lineStart) emit("\n", Role.NORMAL);
-                emit(text.endsWith("\n") ? text : text + "\n", Role.MUTED);
-                lineStart = true;
+                if (level == Level.ERROR && firstProblem == null) {
+                    String where = location(file, line, column, root);
+                    firstProblem = (where.isEmpty() ? "" : where + " ") + message;
+                }
             }
         }
 
-        /** The program's own output: verbatim, unprefixed, stderr in the error color. */
+        /** Detail under a previous line, such as a stack trace: not terminal material. */
+        public void detail(String text) { }
+
+        /** The command line a real command runs, as a shell echoes it: {@code $ mvn test}. */
+        public void command(String line) {
+            if (line == null || line.isBlank()) return;
+            synchronized (OutputLog.this) {
+                if (!open) return;
+                write("$ " + line.strip() + "\n", Role.MUTED);
+            }
+        }
+
+        /** The program's own output: verbatim, stderr in the error color. */
         public void program(String text, boolean stderr) {
             if (text.isEmpty()) return;
             synchronized (OutputLog.this) {
                 if (!open) return;
-                emit(text, stderr ? Role.ERROR : Role.NORMAL);
-                lineStart = text.endsWith("\n");
+                write(text, stderr ? Role.ERROR : Role.NORMAL);
             }
         }
 
         /**
-         * The summary that ends every action:
-         * <pre>
-         * [INFO] ------------------------------------------------------------------------
-         * [INFO] RUN SUCCESS · exit 0
-         * [INFO] Total time: 4 ms (run 2 ms) · Finished at 09:12:03
-         * [INFO] ------------------------------------------------------------------------
-         * </pre>
-         * {@code detail} follows the outcome word; {@code partNanos}, when known, is the part the program itself took.
+         * Ends the action: {@code Run HelloWorld · exit 0 · 8 ms (run 1 ms)} goes to the status line. {@code detail}
+         * follows the outcome; {@code partNanos}, when known, is the part the program itself took.
          */
         public void finish(Outcome outcome, String detail, Long partNanos) {
             synchronized (OutputLog.this) {
                 if (!open) return;
                 long total = clock.getAsLong() - started;
-                line(Level.INFO, RULE, Role.MUTED);
-                line(outcome.failed() ? Level.ERROR : Level.INFO, word + " " + (outcome == Outcome.STOPPED ? "STOPPED" : outcome.name())
-                                + (detail == null || detail.isBlank() ? "" : " · " + detail),
-                        outcome == Outcome.SUCCESS ? Role.SUCCESS : outcome == Outcome.STOPPED ? Role.WARNING : Role.ERROR);
-                line(Level.INFO, "Total time: " + duration(total) + (partNanos == null ? "" : " (" + word.toLowerCase(Locale.ROOT)
-                        + " " + duration(partNanos) + ")") + " · Finished at " + time.get().format(CLOCK), Role.MUTED);
-                line(Level.INFO, RULE, Role.MUTED);
+                String word = switch (outcome) { case SUCCESS -> "done"; case FAILURE -> "failed"; case STOPPED -> "stopped"; };
+                String text = name + " " + word + (detail == null || detail.isBlank() ? "" : " · " + detail)
+                        + (outcome == Outcome.FAILURE && firstProblem != null ? " · " + firstProblem : "")
+                        + " · " + duration(total) + (partNanos == null ? "" : " (" + duration(partNanos) + " running)");
                 open = false;
+                notices.accept(new Notice(outcome == Outcome.SUCCESS ? Level.INFO : outcome == Outcome.STOPPED ? Level.WARN : Level.ERROR, text));
                 // The finished head leaves; the next action's waiting text appears whole, and so on.
                 while (!queue.isEmpty() && !queue.peekFirst().open) {
                     queue.removeFirst();
@@ -146,23 +150,35 @@ public final class OutputLog {
             }
         }
 
-        private void line(Level level, String text, Role role) {
+        private void notice(Level level, String text) {
+            if (text == null || text.isBlank()) return;
             synchronized (OutputLog.this) {
                 if (!open) return;
-                if (!lineStart) emit("\n", Role.NORMAL);
-                emit("[" + level.name() + "]" + (text.isEmpty() ? "" : " " + text) + "\n",
-                        level == Level.INFO && role == Role.NORMAL ? Role.MUTED : role);
-                lineStart = true;
             }
+            notices.accept(new Notice(level, name + ": " + text.strip()));
         }
 
-        private void emit(String text, Role role) {
-            if (queue.peekFirst() == this) console.append(text, role);
-            else waiting.add(new Chunk(text, role));
+        /** The first text of an action starts on a line of its own, as a shell prompt does. */
+        private void write(String text, Role role) {
+            boolean first = !wrote;
+            wrote = true;
+            if (queue.peekFirst() != this) {
+                waiting.add(new Chunk(first ? LINE_START + text : text, role));
+                return;
+            }
+            if (first && !console.atLineStart()) console.append("\n", Role.NORMAL);
+            console.append(text, role);
         }
 
         private void flush() {
-            for (Chunk chunk : waiting) console.append(chunk.text(), chunk.role());
+            for (Chunk chunk : waiting) {
+                String text = chunk.text();
+                if (text.startsWith(LINE_START)) {
+                    text = text.substring(LINE_START.length());
+                    if (!console.atLineStart()) console.append("\n", Role.NORMAL);
+                }
+                console.append(text, chunk.role());
+            }
             waiting.clear();
         }
     }

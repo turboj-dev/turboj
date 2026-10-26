@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 public final class OutputCommandController implements AutoCloseable {
     private final ConsolePane console;
     private final OutputLog log;
+    private final java.util.function.Consumer<OutputLog.Notice> notices;
     private OutputLog.Action action;
     private final Supplier<Path> workingDirectory;
     private final Runnable focusEditor;
@@ -33,10 +34,22 @@ public final class OutputCommandController implements AutoCloseable {
         this(console, workingDirectory, focusEditor, new OutputCommandRunner());
     }
 
+    /** {@code notices} receive the command's outcome and hints, for the status line; the terminal shows only the command. */
+    public OutputCommandController(ConsolePane console, Supplier<Path> workingDirectory, Runnable focusEditor,
+            java.util.function.Consumer<OutputLog.Notice> notices) {
+        this(console, workingDirectory, focusEditor, new OutputCommandRunner(), notices);
+    }
+
     OutputCommandController(ConsolePane console, Supplier<Path> workingDirectory,
                             Runnable focusEditor, OutputCommandRunner runner) {
+        this(console, workingDirectory, focusEditor, runner, notice -> {});
+    }
+
+    OutputCommandController(ConsolePane console, Supplier<Path> workingDirectory, Runnable focusEditor,
+            OutputCommandRunner runner, java.util.function.Consumer<OutputLog.Notice> notices) {
         this.console = Objects.requireNonNull(console);
-        this.log = new OutputLog(console);
+        this.notices = Objects.requireNonNull(notices);
+        this.log = new OutputLog(console, notices);
         this.workingDirectory = Objects.requireNonNull(workingDirectory);
         this.focusEditor = Objects.requireNonNull(focusEditor);
         this.runner = Objects.requireNonNull(runner);
@@ -81,13 +94,13 @@ public final class OutputCommandController implements AutoCloseable {
         String entry = console.commandLine().getText().strip();
         if (entry.isEmpty()) return;
         if (running) {
-            console.append("\nA command is running. Control+C stops that command; Maven keeps running.\n", ConsolePane.Role.WARNING);
+            notices.accept(new OutputLog.Notice(OutputLog.Level.WARN, "A command is running. Control+C stops that command; Maven keeps running."));
             return;
         }
         // The colon is the fixed prompt. Accept a pasted full :! command as well.
         if (entry.startsWith(":")) entry = entry.substring(1).stripLeading();
         if (!entry.startsWith("!") || entry.substring(1).isBlank()) {
-            console.append("\nUse ! followed by a shell command, for example ! curl http://localhost:8080/hello\n", ConsolePane.Role.WARNING);
+            notices.accept(new OutputLog.Notice(OutputLog.Level.WARN, "Use ! followed by a shell command, for example ! curl http://localhost:8080/hello"));
             return;
         }
         String command = entry.substring(1).stripLeading();
@@ -95,7 +108,8 @@ public final class OutputCommandController implements AutoCloseable {
         try {
             directory = Objects.requireNonNull(workingDirectory.get(), "No command working directory");
             // Runner validates text before scheduling; the shell is launched only after explicit Enter.
-            var current = action = log.start("Command", ":! " + command);
+            var current = action = log.start("Command", command);
+            current.command(command);
             var completion = runner.start(command, directory, (text, stderr) -> current.program(text, stderr));
             lastCompletion = new CompletableFuture<>();
             var visibleCompletion = lastCompletion;

@@ -9,7 +9,10 @@ import java.util.Map;
 import java.util.concurrent.*;
 import javax.swing.*;
 
-/** Real window, TurboJ keymap, plain project with JUnit: the output reads like Maven and the status line holds the state. */
+/**
+ * Real window, TurboJ keymap, plain project with JUnit: the terminal holds only what the program prints, the Tests
+ * tab holds the tests, the status line holds outcomes, and ⌥⌘' walks the failed tests.
+ */
 public final class OutputStatusSmoke {
     private static TurboFrame frame;
     private static final int CMD = KeyEvent.META_DOWN_MASK;
@@ -43,12 +46,11 @@ public final class OutputStatusSmoke {
                     .map(OutputStatusSmoke::segmentNow).filter(text -> !text.isEmpty()).toList()));
 
             key(KeyEvent.VK_R, CMD);
-            await("run summary", () -> frame.console().text().contains("[INFO] RUN SUCCESS · exit 0"));
+            await("run outcome", () -> frame.statusBar().history().stream().anyMatch(m -> m.contains("Run HelloWorld") && m.contains(" done · exit 0")));
+            await("program output", () -> frame.console().text().contains("Hello World!"));
             String run = edt(() -> frame.console().text());
-            check(run.contains("[INFO] Run HelloWorld.java · hello-world · Java ") && run.contains("[INFO] --- compile ---")
-                    && run.contains("[INFO] --- run HelloWorld.main ---\nHello World!\n[INFO] ---") && run.contains("[INFO] Total time: "),
-                    "Run reads like Maven: header, phases, the program's own output unprefixed, summary\n" + run);
-            System.out.println("PASS Run output:\n" + run.strip());
+            check(run.equals("Hello World!\n"), "the terminal shows exactly what the program printed:\n[" + run + "]");
+            System.out.println("PASS Run: terminal [" + run.strip() + "], status " + edt(() -> frame.statusBar().lastMessage()));
 
             edt(() -> { frame.editor().setText(frame.editor().getText().replace("Hello World!\");", "Hello World!\")")); return null; });
             key(KeyEvent.VK_S, CMD);
@@ -56,24 +58,36 @@ public final class OutputStatusSmoke {
             check(!edt(() -> frame.console().text()).contains("Saved HelloWorld.java"), "Saved goes to the status line, not the output");
             System.out.println("PASS Saved HelloWorld.java appears in the status line only");
             key(KeyEvent.VK_R, CMD);
-            await("compile failure", () -> frame.console().text().contains("[ERROR] RUN FAILURE · 1 error"));
-            String failed = edt(() -> frame.console().text());
-            check(failed.contains("[ERROR] src/main/java/HelloWorld.java:[3,"), "compile errors point at path:[line,col]\n" + failed);
+            await("compile failure", () -> frame.statusBar().history().stream().anyMatch(m -> m.contains("failed · 1 error")));
+            String failure = edt(() -> frame.statusBar().history().stream().filter(m -> m.contains("failed · 1 error")).findFirst().orElseThrow());
+            check(failure.contains("src/main/java/HelloWorld.java:[3,"), "the failure names path:[line,col]: " + failure);
+            check(edt(() -> frame.console().text()).equals("Hello World!\n"), "a compile failure writes nothing to the terminal");
             await("failed state", () -> segment(StatusBar.Segment.STATE).startsWith("✖"));
-            System.out.println("PASS compile error: " + failed.lines().filter(line -> line.startsWith("[ERROR]")).toList() + " · state " + segment(StatusBar.Segment.STATE));
+            System.out.println("PASS compile error in the status line: " + failure.substring(10) + " · state " + segment(StatusBar.Segment.STATE));
             edt(() -> { frame.editor().setText(frame.editor().getText().replace("Hello World!\")", "Hello World!\");")); return null; });
             key(KeyEvent.VK_S, CMD);
 
             open(test);
-            edt(() -> { frame.console().clear(); return null; });
             key(KeyEvent.VK_U, CMD | KeyEvent.SHIFT_DOWN_MASK);
-            await("test summary", () -> frame.console().text().contains("[ERROR] TEST FAILURE · 1 of 2 passed"));
-            String tests = edt(() -> frame.console().text());
-            check(tests.contains("[INFO] Test all tests · hello-world") && tests.contains("[INFO] --- test ---")
-                    && tests.contains("Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: ") && tests.contains("[ERROR] Failures:"),
-                    "tests read like Surefire\n" + tests);
+            await("tests tab", () -> frame.testResults().text().contains("1 failed · 1 of 2 passed"));
+            String tests = edt(() -> frame.testResults().text());
+            check(tests.startsWith("Test all tests · hello-world") && tests.contains("CalculatorTest  2 tests · 1 failed")
+                    && tests.contains("  ✔ adds  ") && tests.contains("  ✖ fails  ") && tests.contains("expected: <5> but was: <4>")
+                    && tests.contains("at CalculatorTest.fails(CalculatorTest.java:8)") && !tests.contains("org.junit") && !tests.contains("[INFO]"),
+                    "the Tests tab lists suites and tests; only the failure has detail\n" + tests);
+            check(edt(() -> frame.outputTabTitle()).equals("Tests"), "an explicit run shows the Tests tab");
+            check(edt(() -> frame.console().text()).equals("Hello World!\n"), "tests write nothing to the terminal");
             await("tests segment", () -> segment(StatusBar.Segment.TESTS).equals("✖ 1 of 2 tests failed"));
-            System.out.println("PASS Test output:\n" + tests.strip() + "\nPASS tests segment: " + segment(StatusBar.Segment.TESTS));
+            System.out.println("PASS Tests tab:\n" + tests.strip() + "\nPASS tests segment: " + segment(StatusBar.Segment.TESTS));
+
+            edt(() -> { frame.editor().gotoOffset(0); frame.editor().requestFocusInWindow(); return null; });
+            key(KeyEvent.VK_QUOTE, CMD | KeyEvent.ALT_DOWN_MASK);
+            await("next failure in the editor", () -> test.equals(frame.currentFile()) && frame.editor().caretLine() == 8);
+            check(edt(() -> frame.testResults().selectedTest().methodName()).equals("fails"), "the failure is selected in the Tests tab");
+            check(edt(() -> frame.statusBar().lastMessage()).contains("CalculatorTest#fails (1 of 1)"), "the status line names it");
+            key(KeyEvent.VK_QUOTE, CMD | KeyEvent.ALT_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
+            await("previous failure wraps to the same one", () -> frame.editor().caretLine() == 8);
+            System.out.println("PASS ⌥⌘' / ⇧⌥⌘' go to the failing assertion, line 8 of CalculatorTest.java");
             System.exit(0);
         } catch (Throwable failure) {
             failure.printStackTrace();

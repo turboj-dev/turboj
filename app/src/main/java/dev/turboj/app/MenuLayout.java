@@ -95,6 +95,7 @@ final class MenuLayout {
                         c("run"), c("isolated"), c("run.configuration"), c("stop"), c("eof"), SEPARATOR,
                         c("make"), c("compile"), c("compileProject"), c("error"), SEPARATOR,
                         c("tests.current"), c("tests.class"), c("tests.all"), c("tests.failed"), c("tests.stop"), c("tests.results"),
+                        c("tests.nextFailure"), c("tests.previousFailure"),
                         SEPARATOR,
                         check("run.onSave"), check("tests.onSave"), check("tests.auto"), SEPARATOR,
                         new Submenu("Java REPL", items(c("repl"), c("replReset"), c("evaluateSelection"), c("evaluateStatement"))),

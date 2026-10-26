@@ -61,6 +61,7 @@ Help → **Print Keyboard Cheat Sheet…** prints the active map on two A4 pages
 | ⌘← / ⌘→ (fn← / fn→) | Smart line start / end |
 | ⌥⌫ / ⌥fn⌫ | Delete previous / next word |
 | ⌥⌘T / ⌥⌘R | Refactor menu / rename |
+| ⌥⌘' / ⇧⌥⌘' | Next / previous failed test (Tests tab and editor) |
 | ⌥⌘M / ⌥⌘V / ⌥⌘C | Extract method / variable / constant |
 | ⌥⌘L / ⌥⌘O | Format / organize imports |
 | ⌥↑ / ⌥↓, ⌥⌘↑ / ⌥⌘↓, ⇧⌘K | Move, copy, delete line |
