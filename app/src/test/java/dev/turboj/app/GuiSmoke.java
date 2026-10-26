@@ -86,7 +86,7 @@ public final class GuiSmoke {
                     () ->
                             !frame.isRunning()
                                     && frame.console().text().contains("Shortcut works!")
-                                    && frame.console().text().contains("SUCCESS · exit 0"),
+                                    && frame.statusMessages().contains(" done · exit 0"),
                     "Cmd+R program output");
             edt(
                     () -> {
@@ -515,7 +515,7 @@ public final class GuiSmoke {
                 () ->
                         !frame.isRunning()
                                 && frame.console().text().contains(expected)
-                                && frame.console().text().contains("SUCCESS · exit 0"),
+                                && frame.statusMessages().contains(" done · exit 0"),
                 expected);
     }
 

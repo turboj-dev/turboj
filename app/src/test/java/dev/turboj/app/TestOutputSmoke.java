@@ -55,9 +55,10 @@ public final class TestOutputSmoke {
                     && report.tests().stream().anyMatch(test -> test.status() == TestEngine.Status.ABORTED),
                     "resident JUnit worker returned four actual outcomes");
             String text = edt(() -> frame.testResults().text());
-            check(text.contains("ResultsTest  4 tests · 1 failed") && text.contains("1 failed · 1 of 4 passed"),
+            check(text.startsWith("✖ ResultsTest 4 tests  ") && text.contains(" · 2 failed")
+                    && text.strip().lines().toList().getLast().contains("1 failed · 1 of 4 passed"),
                     "the Tests tab names the suite and the exact outcome");
-            check(text.contains("  ✔ passes  ") && text.contains("  ✖ fails  ") && text.contains("  ○ skipped  ") && text.contains("  ! aborted  "),
+            check(text.contains("\n  ✔ passes ") && text.contains("\n  ✖ fails ") && text.contains("\n  ○ skipped ") && text.contains("\n  ! aborted "),
                     "every test is listed with its outcome");
             check(text.contains("Deliberate output fixture failure") && text.contains("at ResultsTest.fails(ResultsTest.java:4)")
                     && !text.contains("org.junit"), "the failure keeps its message and the project's frame, without JUnit frames");

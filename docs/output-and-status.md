@@ -6,10 +6,13 @@ buried the program's output. The current rules:
 
 | Where | What | Never |
 | --- | --- | --- |
-| **Terminal** tab | What the program prints, verbatim; real commands (`:!`, Maven goals) echoed after `$ ` as a shell shows them, then their output verbatim | Headers, phases, rules, summaries, timings, notices |
+| **Output** tab | What the program prints, verbatim; real commands (`:!`, Maven goals) echoed after `$ ` as a shell shows them, then their output verbatim | Headers, phases, rules, summaries, timings, notices |
 | **Tests** tab | One run: its title and verdict, each suite with its tests (✔ ✖ ○ !), and detail only for problems: the failure message, the stack frames of the project's own code, compiler errors, engine errors, and what the tests printed when the run did not pass | JUnit and JDK frames, passing tests' detail, output of a passing run |
 | **Status line** | Each action's outcome (`Run HelloWorld.java done · exit 0 · 67 ms (15 ms running)`, `Run HelloWorld.java failed · 1 error · src/main/java/HelloWorld.java:[3,43] ';' expected`), hints, the TESTS and AI segments; the message history keeps them | — |
 | **JShell** tab | The REPL | — |
+
+The three tabs are named in the panel's top rule, `┌─[Output]│ Tests │ JShell ───┐`: one title line, no tab
+strip; a click on a name selects it.
 
 - `OutputLog` is the terminal's writer: `program` and `command` write, everything else becomes a `Notice` for
   the status line. Overlapping actions still never interleave.

@@ -51,8 +51,8 @@ class LocalModelManagerTest {
 
     @Test
     void anInstalledStoppedRuntimeIsStartedOnLoopbackOwnedLoadedAndWarmed() throws Exception {
-        int port = freePort();
-        var ollama = new FakeOllama(port, List.of(MODEL));
+        var ollama = new FakeOllama(List.of(MODEL));
+        int port = ollama.port;
         var launched = new AtomicInteger();
         var environment = new ArrayList<Map<String, String>>();
         var process = new FakeProcess(ollama);
@@ -88,8 +88,8 @@ class LocalModelManagerTest {
 
     @Test
     void aHealthyRunningServerIsReusedAndNeverStopped() throws Exception {
-        int port = freePort();
-        var ollama = new FakeOllama(port, List.of(MODEL)).start();
+        var ollama = new FakeOllama(List.of(MODEL)).start();
+        int port = ollama.port;
         var manager = manager(locator(executable()), unusedLauncher());
         var status = manager.configure(config(port, AIConfig.LocalRuntime.AUTOMATIC)).get(10, TimeUnit.SECONDS);
         assertEquals(LocalModelManager.State.READY, status.state(), status.detail());
@@ -101,8 +101,8 @@ class LocalModelManagerTest {
 
     @Test
     void aMissingModelIsReportedWithSizeAndDownloadsOnlyWhenAsked() throws Exception {
-        int port = freePort();
-        var ollama = new FakeOllama(port, List.of("qwen2.5-coder:0.5b-base")).start();
+        var ollama = new FakeOllama(List.of("qwen2.5-coder:0.5b-base")).start();
+        int port = ollama.port;
         var manager = manager(locator(executable()), unusedLauncher());
         var status = manager.configure(config(port, AIConfig.LocalRuntime.EXTERNAL)).get(10, TimeUnit.SECONDS);
         assertEquals(LocalModelManager.State.UNAVAILABLE, status.state());
@@ -120,8 +120,8 @@ class LocalModelManagerTest {
 
     @Test
     void aDownloadStopsWhenTheDiskIsTooFullOrTheUserCancels() throws Exception {
-        int port = freePort();
-        var ollama = new FakeOllama(port, List.of()).start();
+        var ollama = new FakeOllama(List.of()).start();
+        int port = ollama.port;
         var full = new LocalModelManager(directory, statuses::add, locator(executable()), unusedLauncher(), System::nanoTime,
                 Duration.ofSeconds(30), store -> 100_000_000L);
         cleanup.add(full);
@@ -145,11 +145,12 @@ class LocalModelManagerTest {
 
     @Test
     void externalPolicyNeverStartsAndManagedPolicyRefusesSomeoneElsesPort() throws Exception {
-        int port = freePort();
+        var ollama = new FakeOllama(List.of(MODEL));
+        int port = ollama.port;
         var status = manager(locator(executable()), unusedLauncher()).configure(config(port, AIConfig.LocalRuntime.EXTERNAL))
                 .get(10, TimeUnit.SECONDS);
         assertEquals(AIError.RUNTIME_NOT_RUNNING, status.error());
-        new FakeOllama(port, List.of(MODEL)).start();
+        ollama.start();
         status = manager(locator(executable()), unusedLauncher()).configure(config(port, AIConfig.LocalRuntime.MANAGED))
                 .get(10, TimeUnit.SECONDS);
         assertEquals(AIError.INVALID_CONFIGURATION, status.error());
@@ -158,8 +159,8 @@ class LocalModelManagerTest {
 
     @Test
     void aModelWithoutFimIsRefusedAndAModelSwitchLoadsTheNewOne() throws Exception {
-        int port = freePort();
-        var ollama = new FakeOllama(port, List.of(MODEL, "llama3:latest")).start();
+        var ollama = new FakeOllama(List.of(MODEL, "llama3:latest")).start();
+        int port = ollama.port;
         var manager = manager(locator(executable()), unusedLauncher());
         var status = manager.configure(config(port, AIConfig.LocalRuntime.EXTERNAL).withLocal(AIConfig.LocalBackend.OLLAMA,
                 "http://127.0.0.1:" + port, "llama3", AIConfig.LocalRuntime.EXTERNAL)).get(10, TimeUnit.SECONDS);
@@ -171,8 +172,8 @@ class LocalModelManagerTest {
 
     @Test
     void anOwnedServerThatCrashesIsRestartedAndUnloadedModelsShowAsIdle() throws Exception {
-        int port = freePort();
-        var ollama = new FakeOllama(port, List.of(MODEL));
+        var ollama = new FakeOllama(List.of(MODEL));
+        int port = ollama.port;
         var processes = new CopyOnWriteArrayList<FakeProcess>();
         ProcessLauncher launcher = (command, env, log) -> {
             ollama.start();
@@ -300,37 +301,43 @@ class LocalModelManagerTest {
     }
 
     /** Enough of Ollama 0.40's API: version, tags, ps, show, generate, pull. */
+    /**
+     * Enough of Ollama 0.40's API. It holds its port from the start, so no other test can take it, and answers only
+     * while "running": until then and after a crash it drops connections, as a port with no server does.
+     */
     private final class FakeOllama implements AutoCloseable {
         final int port;
         final List<String> models;
         final List<String[]> requests = new CopyOnWriteArrayList<>();
-        volatile boolean loaded = true;
+        volatile boolean loaded = true, running;
         volatile CountDownLatch slowPull;
         final CountDownLatch pulling = new CountDownLatch(1);
-        HttpServer server;
+        final HttpServer server;
 
-        FakeOllama(int port, List<String> models) {
-            this.port = port;
+        FakeOllama(List<String> models) throws IOException {
             this.models = new CopyOnWriteArrayList<>(models);
+            server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+            server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+            server.createContext("/", exchange -> {
+                if (!running) { exchange.close(); return; }
+                handle(exchange);
+            });
+            server.start();
+            port = server.getAddress().getPort();
             cleanup.add(this);
         }
 
-        synchronized FakeOllama start() throws IOException {
-            if (server != null) return this;
-            server = HttpServer.create(new InetSocketAddress("127.0.0.1", port), 0);
-            server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
-            server.createContext("/", this::handle);
-            server.start();
+        FakeOllama start() {
+            running = true;
             return this;
         }
 
-        synchronized void stop() {
-            if (server != null) server.stop(0);
-            server = null;
+        void stop() {
+            running = false;
         }
 
         boolean answers() {
-            return server != null;
+            return running;
         }
 
         List<JsonObject> bodies(String path) {
@@ -391,7 +398,8 @@ class LocalModelManagerTest {
 
         @Override
         public void close() {
-            stop();
+            running = false;
+            server.stop(0);
         }
     }
 }

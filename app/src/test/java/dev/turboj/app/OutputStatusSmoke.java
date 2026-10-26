@@ -71,8 +71,10 @@ public final class OutputStatusSmoke {
             key(KeyEvent.VK_U, CMD | KeyEvent.SHIFT_DOWN_MASK);
             await("tests tab", () -> frame.testResults().text().contains("1 failed · 1 of 2 passed"));
             String tests = edt(() -> frame.testResults().text());
-            check(tests.startsWith("Test all tests · hello-world") && tests.contains("CalculatorTest  2 tests · 1 failed")
-                    && tests.contains("  ✔ adds  ") && tests.contains("  ✖ fails  ") && tests.contains("expected: <5> but was: <4>")
+            check(tests.strip().lines().toList().getLast().startsWith("Test all tests · hello-world")
+                    && tests.startsWith("✖ CalculatorTest 2 tests  ") && tests.contains(" · 1 failed")
+                    && tests.matches("(?s).*\\n  ✔ adds +\\d+ ms.*") && tests.matches("(?s).*\\n  ✖ fails +\\d+ ms.*")
+                    && tests.contains("expected: <5> but was: <4>")
                     && tests.contains("at CalculatorTest.fails(CalculatorTest.java:8)") && !tests.contains("org.junit") && !tests.contains("[INFO]"),
                     "the Tests tab lists suites and tests; only the failure has detail\n" + tests);
             check(edt(() -> frame.outputTabTitle()).equals("Tests"), "an explicit run shows the Tests tab");
@@ -88,6 +90,14 @@ public final class OutputStatusSmoke {
             key(KeyEvent.VK_QUOTE, CMD | KeyEvent.ALT_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
             await("previous failure wraps to the same one", () -> frame.editor().caretLine() == 8);
             System.out.println("PASS ⌥⌘' / ⇧⌥⌘' go to the failing assertion, line 8 of CalculatorTest.java");
+
+            // One title line: the tabs are named in the panel's top rule, and a click on a name selects it.
+            check(edt(() -> frame.outputTabsInTitle()).equals(java.util.List.of("Output", "Tests ✖ 1", "JShell")), "tabs in the panel's title");
+            for (String name : new String[] {"Output", "JShell", "Tests"}) {
+                edt(() -> { frame.clickOutputTab(name); return null; });
+                check(edt(() -> frame.outputTabTitle()).equals(name), "a click on " + name + " selects it");
+            }
+            System.out.println("PASS one title line: " + edt(() -> frame.outputTabsInTitle()) + "; clicks select tabs");
             System.exit(0);
         } catch (Throwable failure) {
             failure.printStackTrace();

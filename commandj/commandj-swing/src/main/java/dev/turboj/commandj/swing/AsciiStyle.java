@@ -93,7 +93,7 @@ public final class AsciiStyle {
         else if (component instanceof JLabel label) label.setUI(new Label());
         else if (component instanceof JComboBox<?> combo) { combo.setUI(new Combo()); combo.setBorder(new InputBorder()); }
         else if (component instanceof JSpinner spinner) { spinner.setUI(new Spinner()); spinner.setBorder(new InputBorder()); }
-        else if (component instanceof JTabbedPane tabs) tabs.setUI(new Tabs());
+        else if (component instanceof JTabbedPane tabs) { if (!(tabs.getUI() instanceof BorderTabs)) tabs.setUI(new Tabs()); }
         else if (component instanceof JScrollBar bar) bar.setUI(new ScrollBar());
         else if (component instanceof JSplitPane split) splitPane(split, palette);
         else if (component instanceof JToolTip tip) {
@@ -345,6 +345,15 @@ public final class AsciiStyle {
             g.drawString(title, text.x, text.y + fm.getAscent());
             if (selected) { g.drawString("[", text.x - fm.charWidth('['), text.y + fm.getAscent()); g.drawString("]", text.x + text.width, text.y + fm.getAscent()); }
         }
+    }
+    /** Tabs without a strip of their own: an {@link AsciiBorder} with tabs shows and selects them. */
+    public static final class BorderTabs extends BasicTabbedPaneUI {
+        @Override protected int calculateTabAreaHeight(int placement, int runCount, int maxTabHeight) { return 0; }
+        @Override protected int calculateTabAreaWidth(int placement, int runCount, int maxTabWidth) { return 0; }
+        @Override protected Insets getContentBorderInsets(int placement) { return new Insets(0, 0, 0, 0); }
+        @Override protected Insets getTabAreaInsets(int placement) { return new Insets(0, 0, 0, 0); }
+        @Override protected void paintTabArea(Graphics g, int placement, int selected) { }
+        @Override protected void paintContentBorder(Graphics g, int placement, int selected) { }
     }
     public static final class ScrollBar extends BasicScrollBarUI {
         public static ComponentUI createUI(JComponent c) { return new ScrollBar(); }

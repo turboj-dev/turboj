@@ -128,26 +128,31 @@ public final class TestResultsPane extends JPanel {
         failures.clear();
         selected = -1;
         var parts = new ArrayList<Object>();
-        String verdict = report.successful()
-                ? (report.tests().isEmpty() ? "no tests" : report.passed() + " of " + report.tests().size() + " passed")
-                : (report.failed() + report.engineFailures().size()) + " failed · " + report.passed() + " of " + report.tests().size() + " passed";
-        parts.add(title + " — " + verdict + " · " + TestOutput.duration(report.durationNanos()) + "\n");
-        parts.add(TestOutput.summaryRole(report));
-        for (String problem : problems) { parts.add("  " + problem + "\n"); parts.add(Role.ERROR); }
+        for (String problem : problems) { parts.add(problem + "\n"); parts.add(Role.ERROR); }
         var suites = new LinkedHashMap<String, List<TestEngine.Test>>();
         for (var test : report.tests())
             suites.computeIfAbsent(test.className() == null || test.className().isBlank() ? test.name() : test.className(),
                     name -> new ArrayList<>()).add(test);
+        // One column for every duration: the names, suites included, are padded to the longest.
+        int width = 0;
+        for (var entry : suites.entrySet()) {
+            width = Math.max(width, suiteLabel(entry.getKey(), entry.getValue().size()).length());
+            for (var test : entry.getValue()) width = Math.max(width, 2 + displayName(test).length());
+        }
+        int column = width;
         var pending = new ArrayList<Object[]>(); // test lines are located after the text is in place
         suites.forEach((suite, members) -> {
-            long failed = members.stream().filter(t -> t.status() == TestEngine.Status.FAILED).count();
+            long failed = members.stream().filter(t -> t.status() == TestEngine.Status.FAILED || t.status() == TestEngine.Status.ABORTED).count();
             long elapsed = members.stream().mapToLong(TestEngine.Test::durationNanos).sum();
-            parts.add(suite + "  " + members.size() + (members.size() == 1 ? " test" : " tests")
-                    + (failed > 0 ? " · " + failed + " failed" : "") + " · " + TestOutput.duration(elapsed) + "\n");
-            parts.add(failed > 0 ? Role.ERROR : Role.HEADING);
+            // A suite reads like its tests: the same flag and color, its worst outcome.
+            var status = failed > 0 ? TestEngine.Status.FAILED
+                    : members.stream().allMatch(t -> t.status() == TestEngine.Status.SKIPPED) ? TestEngine.Status.SKIPPED : TestEngine.Status.PASSED;
+            parts.add(mark(status) + " " + pad(suiteLabel(suite, members.size()), column)
+                    + "  " + TestOutput.duration(elapsed) + (failed > 0 ? " · " + failed + " failed" : "") + "\n");
+            parts.add(TestOutput.role(status));
             for (var test : members) {
-                String mark = switch (test.status()) { case PASSED -> "✔"; case FAILED -> "✖"; case ABORTED -> "!"; case SKIPPED -> "○"; };
-                String text = "  " + mark + " " + displayName(test) + "  " + TestOutput.duration(test.durationNanos()) + "\n";
+                String text = "  " + mark(test.status()) + " " + pad(displayName(test), column - 2) + "  "
+                        + TestOutput.duration(test.durationNanos()) + "\n";
                 pending.add(new Object[] {parts.size(), text.length(), test});
                 parts.add(text);
                 parts.add(TestOutput.role(test.status()));
@@ -172,6 +177,12 @@ public final class TestResultsPane extends JPanel {
             parts.add("Output\n"); parts.add(Role.HEADING);
             parts.add(output.toString().endsWith("\n") ? output.toString() : output + "\n"); parts.add(Role.NORMAL);
         }
+        // The verdict closes the run, as a test runner's summary does.
+        String verdict = report.successful()
+                ? (report.tests().isEmpty() ? "no tests" : report.passed() + " of " + report.tests().size() + " passed")
+                : (report.failed() + report.engineFailures().size()) + " failed · " + report.passed() + " of " + report.tests().size() + " passed";
+        parts.add(title + " — " + verdict + " · " + TestOutput.duration(report.durationNanos()) + "\n");
+        parts.add(TestOutput.summaryRole(report));
         int[] offsets = setText(parts);
         for (Object[] entry : pending) {
             int index = (int) entry[0] / 2;
@@ -278,11 +289,12 @@ public final class TestResultsPane extends JPanel {
         }
     }
 
+    /** Problems first, then the run's line, which closes it as the verdict does. */
     private void renderProblems(String heading) {
         var parts = new ArrayList<Object>();
+        for (String problem : problems) { parts.add(problem + "\n"); parts.add(Role.ERROR); }
         parts.add(heading + "\n");
         parts.add(problems.isEmpty() ? Role.HEADING : Role.ERROR);
-        for (String problem : problems) { parts.add("  " + problem + "\n"); parts.add(Role.ERROR); }
         setText(parts);
     }
 
@@ -319,6 +331,18 @@ public final class TestResultsPane extends JPanel {
 
     private static Role roleOf(javax.swing.text.AttributeSet attributes) {
         return attributes.getAttribute(ROLE) instanceof Role role ? role : null;
+    }
+
+    private static String suiteLabel(String suite, int tests) {
+        return suite + " " + tests + (tests == 1 ? " test" : " tests");
+    }
+
+    private static String mark(TestEngine.Status status) {
+        return switch (status) { case PASSED -> "✔"; case FAILED -> "✖"; case ABORTED -> "!"; case SKIPPED -> "○"; };
+    }
+
+    private static String pad(String text, int width) {
+        return text.length() >= width ? text : text + " ".repeat(width - text.length());
     }
 
     private static String displayName(TestEngine.Test test) {

@@ -71,7 +71,8 @@ public final class InterfaceZoomSmoke {
                 edt(() -> {
                     int chrome = AsciiChrome.font().getSize();
                     JMenu menu = ((AsciiMenuBar) frame.getJMenuBar()).allMenus().getFirst();
-                    check(frame.editor().getFont().getSize() == 20 && chrome == 20,
+                    int larger = new dev.turboj.config.Settings().fontSize + 2;
+                    check(frame.editor().getFont().getSize() == larger && chrome == larger,
                             id + " font command uses one point size in editor and chrome");
                     check(menu.getFont().getSize() == chrome && UIManager.getFont("MenuItem.acceleratorFont").getSize() == chrome
                             && frame.console().inputComponent().getFont().getSize() == chrome && status.getFont().getSize() == chrome,
@@ -88,12 +89,13 @@ public final class InterfaceZoomSmoke {
                 });
                 screenshot(frame, output.resolve(id + ".png"));
                 command(frame, "fontDown");
-                check(edt(() -> frame.editor().getFont().getSize() == 18 && status.getFont().getSize() == 18
+                int initial = new dev.turboj.config.Settings().fontSize;
+                check(edt(() -> frame.editor().getFont().getSize() == initial && status.getFont().getSize() == initial
                         && table.getRowHeight() == baseRow), id + " smaller font restores the complete text grid");
             }
             edt(() -> { dialog.dispose(); frame.setSize(640, 480); return null; });
             command(frame, "fontUp");
-            waitFor(() -> Settings.load().fontSize == 20);
+            waitFor(() -> Settings.load().fontSize == new Settings().fontSize + 2);
             check(true, "interface font setting persists");
             edt(() -> {
                 frame.validate();
@@ -106,8 +108,8 @@ public final class InterfaceZoomSmoke {
                         "compact footer keeps the complete activity first and visible");
                 check(!status.getText().contains(root.getFileName().toString()),
                         "the project has its own segment, not the state's");
-                check(frame.console().getParent() instanceof JComponent panel && panel.getBorder() instanceof AsciiBorder border
-                        && border.title().equals("Output"), "output title does not duplicate the status line");
+                check(frame.outputTabsInTitle().equals(java.util.List.of("Output", "Tests", "JShell")),
+                        "the output panel's title is its tabs and does not duplicate the status line");
                 return null;
             });
             screenshot(frame, output.resolve("compact.png"));

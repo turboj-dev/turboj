@@ -43,19 +43,19 @@ class TestOutputTest {
         });
         String text = edt(fixture.pane::text);
         assertEquals("""
-                Test CalculatorTest — 1 failed · 1 of 4 passed · 12 ms
-                example.CalculatorTest  4 tests · 1 failed · 7 ms
-                  ✔ passes  1 ms
-                  ✖ fails  2 ms
+                ✖ example.CalculatorTest 4 tests  7 ms · 2 failed
+                  ✔ passes                        1 ms
+                  ✖ fails                         2 ms
                       expected: <1> but was: <0>
                       at example.CalculatorTest.fails(CalculatorTest.java:12)
-                  ○ ignored  <1 ms
+                  ○ ignored                       <1 ms
                       Disabled on this JDK
-                  ! aborts  3 ms
+                  ! aborts                        3 ms
                       Assumption failed
                 Output
                 debug: computing
-                """, text, "no [INFO], no Surefire summary, no JUnit or JDK frames");
+                Test CalculatorTest — 1 failed · 1 of 4 passed · 12 ms
+                """, text, "suites flagged like tests, durations in one column, the verdict last; no JUnit or JDK frames");
         assertEquals(List.of("fails", "aborts"), edt(() -> fixture.pane.failures().stream().map(TestEngine.Test::methodName).toList()));
         assertEquals(ConsolePane.Role.ERROR, TestOutput.summaryRole(report));
     }
@@ -70,7 +70,8 @@ class TestOutputTest {
             fixture.output.report(report);
             return null;
         });
-        assertEquals("Test all tests — 1 of 1 passed · 4 ms\nexample.CalculatorTest  1 test · 1 ms\n  ✔ passes  1 ms\n", edt(fixture.pane::text));
+        assertEquals("✔ example.CalculatorTest 1 test  1 ms\n  ✔ passes                       1 ms\nTest all tests — 1 of 1 passed · 4 ms\n",
+                edt(fixture.pane::text));
     }
 
     @Test
@@ -110,7 +111,7 @@ class TestOutputTest {
         String text = edt(fixture.pane::text);
         assertTrue(text.contains("Errors\n  JUnit engine initialization failed\n"), text);
         assertFalse(text.contains("somewhere"));
-        assertTrue(text.startsWith("Test — 1 failed · 0 of 0 passed"), text);
+        assertTrue(text.endsWith("Test — 1 failed · 0 of 0 passed · <1 ms\n"), text);
     }
 
     @Test
@@ -139,7 +140,7 @@ class TestOutputTest {
             return null;
         });
         String text = edt(fixture.pane::text);
-        assertEquals("Test all tests — failed\n  src/Main.java:[8] Cannot resolve Calculator\n  Test compilation failed.\n", text);
+        assertEquals("src/Main.java:[8] Cannot resolve Calculator\nTest compilation failed.\nTest all tests — failed\n", text);
         var details = edt(fixture.output::compilerDetails);
         assertEquals(3, details.size());
         assertEquals("NOTE pom.xml: Resident javac 25, project JDK 21", details.getFirst());

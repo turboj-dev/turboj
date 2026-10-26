@@ -143,7 +143,7 @@ public final class FirstLaunchKeyboardSmoke {
         eclipseRun();
         handleLaunchDialogs();
         waitFor("HelloWorld actual console output", () -> !frame.isRunning()
-                && frame.console().text().contains("\nHello World!\n") && frame.console().text().contains("SUCCESS · exit 0"));
+                && frame.console().text().contains("\nHello World!\n") && frame.statusMessages().contains(" done · exit 0"));
         check(true, chapter + ": generated main compiled and ran through native application");
         snapshot(chapter + "-hello");
 

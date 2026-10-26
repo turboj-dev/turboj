@@ -42,6 +42,11 @@ public final class MavenProjectController implements AutoCloseable {
         void stateChanged();
         /** Where Open Project starts browsing: the selected workspace. */
         default Path projectsDirectory() { return Path.of(System.getProperty("user.home")); }
+        /**
+         * The context menu of an explorer item: a file or folder under the project, shown at {@code x, y} of
+         * {@code invoker} (Shift+F10 or a right click).
+         */
+        default void explorerMenu(Path path, boolean directory, Component invoker, int x, int y) {}
         /** A folder without pom.xml is a plain Java project, which the host owns. */
         default void openPlainProject(Path root) { notice("Not a Maven project (no pom.xml): " + root + "\n", true); }
     }
@@ -68,6 +73,8 @@ public final class MavenProjectController implements AutoCloseable {
     private boolean defaultRepositoryPolicy;
     private Set<String> reportedDiagnostics = Set.of();
     private Set<Path> existingRoots = Set.of();
+    private Path plainRoot;
+    private List<Path> plainRoots = List.of();
     private boolean plainProject;
     private record Preferences(String userSettings, String globalSettings, String localRepository, String javaHome,
             boolean offline, Set<String> repositories, Set<String> activeProfiles, Set<String> inactiveProfiles, String mavenExecutable,
@@ -96,7 +103,13 @@ public final class MavenProjectController implements AutoCloseable {
         tree.setShowsRootHandles(true);
         tree.addMouseListener(new MouseAdapter() {
             @Override public void mouseClicked(MouseEvent event) { if (event.getClickCount() == 2) activateTree(); }
+            // macOS raises the popup on press, other systems on release; a Control-click is a right click on the Mac.
+            @Override public void mousePressed(MouseEvent event) { if (event.isPopupTrigger()) popup(event); }
+            @Override public void mouseReleased(MouseEvent event) { if (event.isPopupTrigger()) popup(event); }
         });
+        tree.getInputMap().put(KeyStroke.getKeyStroke("shift F10"), "context-menu");
+        tree.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_CONTEXT_MENU, 0), "context-menu");
+        tree.getActionMap().put("context-menu", new AbstractAction() { @Override public void actionPerformed(ActionEvent e) { showContextMenu(); } });
         tree.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "open");
         tree.getActionMap().put("open", new AbstractAction() { @Override public void actionPerformed(ActionEvent e) { activateTree(); } });
         tree.addTreeWillExpandListener(new javax.swing.event.TreeWillExpandListener() {
@@ -135,6 +148,87 @@ public final class MavenProjectController implements AutoCloseable {
     }
 
     public void openSelectedItem() { activateTree(); }
+
+    /** The file or folder selected in the explorer, or null. */
+    public Path selectedPath() {
+        return tree.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode node && node.getUserObject() instanceof Entry entry
+                ? entry.path() : null;
+    }
+
+    /** The selected item's context menu, under its row: Shift+F10, the context-menu key, or the Find Action command. */
+    public void showContextMenu() {
+        var path = tree.getSelectionPath();
+        if (path == null || !(path.getLastPathComponent() instanceof DefaultMutableTreeNode node) || !(node.getUserObject() instanceof Entry entry)) return;
+        var bounds = tree.getPathBounds(path);
+        if (bounds == null) return;
+        tree.scrollPathToVisible(path);
+        host.explorerMenu(entry.path(), entry.directory() || Files.isDirectory(entry.path()), tree, bounds.x + 12, bounds.y + bounds.height);
+    }
+
+    private void popup(MouseEvent event) {
+        var path = tree.getPathForLocation(event.getX(), event.getY());
+        if (path == null) return;
+        tree.setSelectionPath(path);
+        if (path.getLastPathComponent() instanceof DefaultMutableTreeNode node && node.getUserObject() instanceof Entry entry)
+            host.explorerMenu(entry.path(), entry.directory() || Files.isDirectory(entry.path()), tree, event.getX(), event.getY());
+    }
+
+    /**
+     * The project's Java source folders, main and test, where folders are packages and files are compilation units.
+     * Generated sources are left out: they are rewritten by the build.
+     */
+    public List<Path> javaRoots() {
+        var model = workspace;
+        if (model != null) return model.modules().stream().flatMap(module -> Stream.concat(module.sourceRoots().stream(), module.testRoots().stream()))
+                .map(root -> root.toAbsolutePath().normalize()).distinct().toList();
+        return plainRoots;
+    }
+
+    /** The project folder, or null. */
+    public Path projectRoot() {
+        var model = workspace;
+        return model != null ? model.root() : plainRoot;
+    }
+
+    /**
+     * Reloads every folder the tree has loaded, after files were created, renamed, moved or deleted; folders that were
+     * open stay open, and {@code select} is selected once it appears.
+     */
+    public void refresh(Path select) {
+        requireEdt();
+        var root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        var expanded = new HashSet<Path>();
+        var loaded = new ArrayList<DefaultMutableTreeNode>();
+        var nodes = root.breadthFirstEnumeration();
+        while (nodes.hasMoreElements()) {
+            var node = (DefaultMutableTreeNode) nodes.nextElement();
+            if (!(node.getUserObject() instanceof Entry entry) || !entry.directory()) continue;
+            if (tree.isExpanded(new TreePath(node.getPath()))) expanded.add(entry.path());
+            if (listing(node) && isTop(node)) loaded.add(node);
+        }
+        for (var node : loaded) {
+            Path path = ((Entry) node.getUserObject()).path();
+            if (Files.isDirectory(path)) loadDirectory(node, path, expanded, select);
+        }
+    }
+
+    /** A folder whose listing was loaded: a directory entry whose children are files and folders, not groups. */
+    private static boolean listing(DefaultMutableTreeNode node) {
+        if (!(node.getUserObject() instanceof Entry entry) || !entry.directory()) return false;
+        if (node.getChildCount() == 1 && "…".equals(((DefaultMutableTreeNode) node.getFirstChild()).getUserObject())) return false;
+        for (int i = 0; i < node.getChildCount(); i++) {
+            Object child = ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject();
+            if (!(child instanceof Entry) && !(child instanceof String text && text.startsWith("Unavailable"))) return false;
+        }
+        return true;
+    }
+
+    /** A loaded folder whose ancestors are not reloaded too: their reload replaces it. */
+    private static boolean isTop(DefaultMutableTreeNode node) {
+        for (var parent = (DefaultMutableTreeNode) node.getParent(); parent != null; parent = (DefaultMutableTreeNode) parent.getParent())
+            if (listing(parent)) return false;
+        return true;
+    }
 
     public void expandSelectedItem(boolean expand) {
         var path = tree.getSelectionPath();
@@ -181,6 +275,8 @@ public final class MavenProjectController implements AutoCloseable {
                 if (closed || ticket != requests.get()) return;
                 existingRoots = directories;
                 plainProject = true;
+                plainRoot = root.toAbsolutePath().normalize();
+                plainRoots = sourceRoots.stream().map(path -> path.toAbsolutePath().normalize()).toList();
                 if (theme != null) panel.setBorder(new AsciiBorder("Project", AsciiChrome.editor(theme), AsciiBorder.Line.SINGLE));
                 summary.setText(" Java project · TurboJ Native "); summary.setToolTipText(root.toString());
                 Path properties = root.resolve(".turboj/project.properties");
@@ -360,7 +456,9 @@ public final class MavenProjectController implements AutoCloseable {
         }
     }
 
-    private void loadDirectory(DefaultMutableTreeNode node, Path path) {
+    private void loadDirectory(DefaultMutableTreeNode node, Path path) { loadDirectory(node, path, Set.of(), null); }
+
+    private void loadDirectory(DefaultMutableTreeNode node, Path path, Set<Path> expanded, Path select) {
         long ticket = requests.get();
         worker.execute(() -> {
             var children = new ArrayList<DefaultMutableTreeNode>();
@@ -376,6 +474,20 @@ public final class MavenProjectController implements AutoCloseable {
                 if (closed || ticket != requests.get()) return;
                 node.removeAllChildren(); children.forEach(node::add);
                 ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
+                if (expanded.contains(path)) tree.expandPath(new TreePath(node.getPath()));
+                for (var child : children) {
+                    if (!(child.getUserObject() instanceof Entry entry)) continue;
+                    var childPath = new TreePath(child.getPath());
+                    if (entry.path().equals(select)) { tree.setSelectionPath(childPath); tree.scrollPathToVisible(childPath); }
+                    // Reopening a folder loads it, and it reopens its own open folders in turn.
+                    if (entry.directory() && expanded.contains(entry.path())) {
+                        child.removeAllChildren();
+                        loadDirectory(child, entry.path(), expanded, select);
+                    } else if (entry.directory() && select != null && select.startsWith(entry.path()) && !select.equals(entry.path())) {
+                        child.removeAllChildren();
+                        loadDirectory(child, entry.path(), expanded, select);
+                    }
+                }
             });
         });
     }

@@ -154,7 +154,7 @@ public final class TurboFrame extends JFrame {
     private final dev.turboj.console.OutputLog log = new dev.turboj.console.OutputLog(console, this::outputNotice);
     /** Test runs: suites and tests, detail only for failures. */
     private final dev.turboj.testing.TestResultsPane testsPane = new dev.turboj.testing.TestResultsPane();
-    /** Terminal, Tests and JShell share the bottom panel as tabs. */
+    /** Output, Tests and JShell share the bottom panel as tabs, named in its top rule (no tab strip of their own). */
     private final JTabbedPane outputTabs = new JTabbedPane();
     /** The Run or Compile action in the output, and the Maven goal: each writes only to its own action. */
     private dev.turboj.console.OutputLog.Action runLog, mavenLog;
@@ -245,6 +245,9 @@ public final class TurboFrame extends JFrame {
         editorPanel.add(editor, BorderLayout.CENTER);
         maven = new MavenProjectController(new MavenProjectController.Host() {
             @Override public Component owner() { return TurboFrame.this; }
+            @Override public void explorerMenu(Path path, boolean directory, Component invoker, int x, int y) {
+                explorerActions.showMenu(path, directory, invoker, x, y);
+            }
             @Override public Path activeFile() { return file; }
             @Override public Map<Path, String> pomOverlays() {
                 rememberBuffer();
@@ -293,7 +296,8 @@ public final class TurboFrame extends JFrame {
             }
         });
         outputTabs.setName("output-tabs");
-        outputTabs.addTab("Terminal", console);
+        outputTabs.setUI(new dev.turboj.commandj.swing.AsciiStyle.BorderTabs());
+        outputTabs.addTab("Output", console);
         outputTabs.addTab("Tests", testsPane);
         outputTabs.addTab("JShell", repl);
         outputTabs.setFocusable(false);
@@ -304,6 +308,17 @@ public final class TurboFrame extends JFrame {
             refreshWorkspaceMinimums();
         });
         messages.add(outputTabs, BorderLayout.CENTER);
+        messages.addMouseListener(new MouseAdapter() {
+            @Override public void mousePressed(MouseEvent event) {
+                if (!(messages.getBorder() instanceof AsciiBorder border)) return;
+                int tab = border.tabAt(messages, event.getPoint());
+                if (tab < 0) return;
+                Component chosen = outputTabs.getComponentAt(tab);
+                if (chosen == repl) showRepl(true);
+                else if (chosen == testsPane) showTestResults();
+                else focusConsole();
+            }
+        });
         testsPane.onOpen(this::navigateTest);
         outputCommands = new OutputCommandController(console, this::outputCommandDirectory,
                 () -> editor.requestFocusInWindow(), this::outputNotice);
@@ -452,6 +467,8 @@ public final class TurboFrame extends JFrame {
             long revision = refactoringRevision;
             changed();
             refactoringRevision = revision;
+            // Renames, moves and deletes, and their Undo, change files the explorer shows.
+            if (maven.hasProject()) maven.refresh(null);
             // Runs after the template a quick fix starts, never on its provisional values.
             SwingUtilities.invokeLater(() -> {
                 if (inlineSession != null) inlineSession.automaticTests = true;
@@ -548,6 +565,9 @@ public final class TurboFrame extends JFrame {
     }
 
     public MavenProjectController mavenProjects() { return maven; }
+    public dev.turboj.project.ExplorerActions explorerActions() { return explorerActions; }
+    /** Open files with unsaved changes. */
+    public List<Path> unsavedFiles() { return dirtyBufferKeys(); }
 
     private boolean isXmlBuffer() {
         return file != null && isXmlPath(file);
@@ -880,7 +900,28 @@ public final class TurboFrame extends JFrame {
         return testsPane;
     }
 
-    /** The title of the bottom panel's selected tab, without its count: Terminal, Tests or JShell. */
+    /** The tab names drawn in the bottom panel's top rule. */
+    public List<String> outputTabsInTitle() {
+        return messages.getBorder() instanceof AsciiBorder border ? border.tabs() : List.of();
+    }
+
+    /** A mouse click on a tab name in the bottom panel's top rule, as the user makes it. */
+    public void clickOutputTab(String name) {
+        var border = (AsciiBorder) messages.getBorder();
+        var metrics = messages.getFontMetrics(AsciiChrome.output(theme).font());
+        for (int x = 0; x < messages.getWidth(); x += 2) {
+            int tab = border.tabAt(messages, new Point(x, metrics.getHeight() / 2));
+            if (tab >= 0 && border.tabs().get(tab).startsWith(name)) {
+                for (var listener : messages.getMouseListeners())
+                    listener.mousePressed(new MouseEvent(messages, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, x,
+                            metrics.getHeight() / 2, 1, false, MouseEvent.BUTTON1));
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No tab " + name + " in " + border.tabs());
+    }
+
+    /** The title of the bottom panel's selected tab, without its count: Output, Tests or JShell. */
     public String outputTabTitle() {
         return outputTabs.getTitleAt(outputTabs.getSelectedIndex()).split(" ")[0];
     }
@@ -1016,7 +1057,10 @@ public final class TurboFrame extends JFrame {
 
     private record NewClassContext(Model.WorkspaceSnapshot snapshot, Path sourceRoot) {}
 
-    private void createMainClass() {
+    private void createMainClass() { createMainClass(null, ""); }
+
+    /** New Java Class: in {@code targetRoot} and {@code packageName} from the explorer, else next to the current file. */
+    private void createMainClass(Path targetRoot, String packageName) {
         if (firstLaunchBusy || closing) return;
         var captured = new NativeRefactoringHost().capture();
         var project = createdProject;
@@ -1024,12 +1068,16 @@ public final class TurboFrame extends JFrame {
         Path active = file;
         String source = editor.getText();
         var overlays = intelligenceSnapshot().openSources();
+        Path explorerProject = maven.projectRoot();
+        List<Path> explorerRoots = maven.javaRoots();
         firstLaunchBusy = true;
         CompletableFuture.supplyAsync(() -> {
             try {
                 ProjectContext.Config config;
-                if (mavenModel != null && active != null && mavenModel.moduleFor(active).isPresent())
+                if (mavenModel != null && (targetRoot != null || active != null && mavenModel.moduleFor(active).isPresent()))
                     config = ProjectContext.fromMaven(mavenModel);
+                else if (targetRoot != null && explorerProject != null)
+                    config = new ProjectContext.Config(explorerProject, explorerRoots, List.of(), List.of(), 1, List.of());
                 else if (project != null && (active == null || active.startsWith(project.root())))
                     config = new ProjectContext.Config(project.root(), project.sourceRoots(), List.of(), List.of(), 1, List.of());
                 else {
@@ -1046,7 +1094,7 @@ public final class TurboFrame extends JFrame {
                 var snapshot = new Model.WorkspaceSnapshot(disk.root(), disk.version(), List.copyOf(sources.values()), disk.sourceRoots(), disk.classpath(), config.projects());
                 var roots = mavenModel != null && active != null
                         ? mavenModel.moduleFor(active).map(MavenModels.Module::sourceRoots).orElse(config.sourceRoots()) : config.sourceRoots();
-                Path root = roots.stream().filter(p -> active != null && active.startsWith(p)).findFirst()
+                Path root = targetRoot != null ? targetRoot : roots.stream().filter(p -> active != null && active.startsWith(p)).findFirst()
                         .orElseGet(() -> roots.stream().findFirst().orElse(config.projectRoot()));
                 return new NewClassContext(snapshot, root);
             } catch (Exception failure) { throw new CompletionException(failure); }
@@ -1055,7 +1103,7 @@ public final class TurboFrame extends JFrame {
             if (failure != null) { showError(message(failure)); return; }
             if (mavenModel != maven.workspace()) { showError("Project changed; create the class again."); return; }
             if (!captured.equals(new NativeRefactoringHost().capture())) { showError("Source changed; create the class again."); return; }
-            var spec = FirstLaunchForms.mainClass(this, context.sourceRoot(), "");
+            var spec = FirstLaunchForms.mainClass(this, context.sourceRoot(), packageName);
             if (spec != null) prepareGenerated(captured, () -> FirstLaunchProjects.mainPlan(context.snapshot(), spec));
         }));
     }
@@ -1650,8 +1698,12 @@ public final class TurboFrame extends JFrame {
         };
     }
 
+    private static final Set<String> EXPLORER_REFACTORINGS = Set.of("refactor.rename", "refactor.move", "refactor.safe-delete");
+
     private static String[] commandContexts(String id) {
         if (id.equals("refactor.context-actions")) return new String[0];
+        // Rename, Move and Safe Delete act on the selected file or folder when the explorer has the focus.
+        if (EXPLORER_REFACTORINGS.contains(id)) return new String[0];
         if (id.startsWith("editor.") || id.startsWith("java.") || id.startsWith("refactor.")
                 || id.startsWith("completion.") || id.startsWith("documentation.")
                 || Set.of("complete", "documentation", "ai.request", "ai.another", "ai.larger").contains(id)
@@ -1779,6 +1831,9 @@ public final class TurboFrame extends JFrame {
     }
 
     private Availability commandAvailability(String id, CommandContext context) {
+        if (context.has("explorer") && (EXPLORER_REFACTORINGS.contains(id) || id.startsWith("explorer.") && !id.equals("explorer.contextMenu")))
+            return maven.selectedPath() == null ? Availability.disabled("Select a file or folder") : Availability.available();
+        if (EXPLORER_REFACTORINGS.contains(id) && !context.has("editor")) return Availability.disabled("Focus Java source or the Project Explorer");
         if (id.equals("refactor.context-actions") && !context.has("editor") && !context.has("quick-fix-popup"))
             return Availability.disabled("Focus Java source or its Quick Fix popup");
         if (id.startsWith("explorer.") && !context.has("explorer")) return Availability.disabled("Focus the Project Explorer");
@@ -2306,8 +2361,10 @@ public final class TurboFrame extends JFrame {
             if (operation == Operation.CREATE_CLASS) continue; // Contextual target inference owns this operation.
             String id = operation == Operation.ORGANIZE_IMPORTS ? "organizeImports" : "refactor."
                     + operation.id();
-            command(id, RefactoringController.title(operation) + "…", () -> refactoring
-                    .invoke(operation));
+            command(id, RefactoringController.title(operation) + "…", () -> {
+                if (EXPLORER_REFACTORINGS.contains(id) && maven.hasExplorerFocus()) explorerAction(id);
+                else refactoring.invoke(operation);
+            });
         }
         command("refactor.this", "Refactor This…", () -> refactoring.choose(false));
         command("refactor.context-actions", "Quick Fix / Quick Assist…", () -> quickFix.invoke());
@@ -2560,6 +2617,12 @@ public final class TurboFrame extends JFrame {
         command("view.maximizeEditor", "Maximize Editor Area", this::maximizeEditor);
         command("view.restoreLayout", "Restore Previous Layout", this::restoreEditorLayout);
         command("explorer.open", "Open Selected Explorer Item", maven::openSelectedItem);
+        command("explorer.contextMenu", "Explorer Item Menu", maven::showContextMenu);
+        command("explorer.newClass", "New Java Class Here…", () -> explorerAction("explorer.newClass"));
+        command("explorer.newPackage", "New Package Here…", () -> explorerAction("explorer.newPackage"));
+        command("explorer.newFolder", "New Folder Here…", () -> explorerAction("explorer.newFolder"));
+        command("explorer.newFile", "New File Here…", () -> explorerAction("explorer.newFile"));
+        command("explorer.delete", "Delete Explorer Item…", () -> explorerAction("refactor.safe-delete"));
         command("explorer.expand", "Expand Explorer Item", () -> maven.expandSelectedItem(true));
         command("explorer.collapse", "Collapse Explorer Item", () -> maven.expandSelectedItem(false));
         command("console.copy", "Copy Selected Console Output", () -> console.inputComponent().copy());
@@ -3317,11 +3380,14 @@ public final class TurboFrame extends JFrame {
             lastEditorTitle = name + dirty;
             editorPanel.setBorder(new AsciiBorder(name + dirty, AsciiChrome.editor(theme), AsciiBorder.Line.SINGLE));
         }
-        String messageTitle = "Output";
-        if (outputSplit != null && outputSplit.isFocusOwner()) messageTitle += " · ↑/↓ resize · Esc editor";
+        // The tabs are the panel's title: ┌─[Output]│ Tests │ JShell ─── ↑/↓ resize · Esc editor ─┐
+        var tabTitles = new ArrayList<String>();
+        for (int i = 0; i < outputTabs.getTabCount(); i++) tabTitles.add(outputTabs.getTitleAt(i));
+        String hint = outputSplit != null && outputSplit.isFocusOwner() ? "↑/↓ resize · Esc editor" : "";
+        String messageTitle = String.join("|", tabTitles) + "#" + outputTabs.getSelectedIndex() + "#" + hint;
         if (!lastMessageTitle.equals(messageTitle)) {
             lastMessageTitle = messageTitle;
-            messages.setBorder(new AsciiBorder(messageTitle, AsciiChrome.output(theme), AsciiBorder.Line.SINGLE));
+            messages.setBorder(new AsciiBorder(tabTitles, outputTabs.getSelectedIndex(), hint, AsciiChrome.output(theme), AsciiBorder.Line.SINGLE));
         }
         messages.setBackground(theme.messagesBackground());
         refreshStatusLine();
@@ -4615,6 +4681,7 @@ public final class TurboFrame extends JFrame {
             buildStatus = "TURBOTEST · " + TestOutput.outcome(result);
             outputTabs.setTitleAt(outputTabs.indexOfComponent(testsPane), result.successful() ? "Tests ✔"
                     : "Tests ✖ " + (result.failed() + result.engineFailures().size()));
+            lastMessageTitle = "";
             refreshTitle();
         }
 
@@ -4660,6 +4727,66 @@ public final class TurboFrame extends JFrame {
                 Desktop.getDesktop().browse(report.toUri());
             } catch (Exception failure) { errorLater(failure); }
         });
+    }
+
+    /** An explorer command on the selected file or folder. */
+    private void explorerAction(String id) {
+        Path selected = maven.selectedPath();
+        if (selected == null) { flash("Select a file or folder in the Project Explorer"); return; }
+        var node = explorerActions.node(selected, Files.isDirectory(selected));
+        switch (id) {
+            case "refactor.rename" -> explorerActions.rename(node);
+            case "refactor.move" -> explorerActions.move(node);
+            case "refactor.safe-delete" -> explorerActions.delete(node);
+            case "explorer.newClass" -> explorerActions.newClass(node);
+            case "explorer.newPackage" -> explorerActions.newPackage(node);
+            case "explorer.newFolder" -> explorerActions.newFolder(node);
+            case "explorer.newFile" -> explorerActions.newFile(node);
+            default -> throw new IllegalArgumentException(id);
+        }
+    }
+
+    /** The explorer's file operations, on TurboJ's buffers, RefactorJ and the workspace transactions. */
+    private final dev.turboj.project.ExplorerActions explorerActions = new dev.turboj.project.ExplorerActions(new dev.turboj.project.ExplorerActions.Host() {
+        @Override public Component owner() { return TurboFrame.this; }
+        @Override public List<Path> javaRoots() { return maven.javaRoots(); }
+        @Override public Path projectRoot() { return maven.projectRoot(); }
+        @Override public String text(Path file) throws java.io.IOException {
+            Path key = file.toAbsolutePath().normalize();
+            return key.equals(bufferKey) || buffers.containsKey(key) ? bufferText(key) : Files.readString(key);
+        }
+        @Override public List<Path> dirtyFiles() { return dirtyBufferKeys(); }
+        @Override public CompletableFuture<RefactoringController.Prepared> prepare(dev.turboj.refactorj.api.Requests.Request request) {
+            return refactoring.prepare(request);
+        }
+        @Override public CompletableFuture<NativeWorkspaceCommitter.Result> apply(RefactoringController.Prepared prepared) {
+            return refactoring.apply(prepared);
+        }
+        @Override public NativeWorkspaceCommitter.Capture capture() { return new NativeRefactoringHost().capture(); }
+        @Override public CompletableFuture<List<Model.Location>> referencesOutside(List<Model.Location> declarations, Path inside) {
+            return intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> {
+                var workspace = service.sharedRefactorJ(context).workspace();
+                var outside = new ArrayList<Model.Location>();
+                for (var declaration : declarations) {
+                    var symbol = workspace.resolve(declaration, dev.turboj.refactorj.api.Cancellation.NONE);
+                    if (symbol == null) continue;
+                    for (var reference : workspace.references(symbol.id(), dev.turboj.refactorj.api.Cancellation.NONE))
+                        if (!reference.file().startsWith(inside)) outside.add(reference);
+                }
+                return List.copyOf(outside);
+            });
+        }
+        @Override public void newClass(Path sourceRoot, String packageName) { createMainClass(sourceRoot, packageName); }
+        @Override public void open(Path file) { openPath(file); }
+        @Override public void refresh(Path select) { maven.refresh(select); }
+        @Override public void message(String text, boolean error) { flash(text, error ? StatusBar.Level.ERROR : StatusBar.Level.NORMAL); }
+        @Override public void styleMenu(JPopupMenu menu) { styleMenuTree(menu); }
+    });
+
+    private void styleMenuTree(Component component) {
+        MenuStyler.style(component, theme);
+        if (component instanceof JMenu submenu) styleMenuTree(submenu.getPopupMenu());
+        if (component instanceof Container container) for (Component child : container.getComponents()) styleMenuTree(child);
     }
 
     /** The Tests tab, with the keyboard in it: ↑/↓ move between tests, Enter opens one. */

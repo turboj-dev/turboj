@@ -10,7 +10,8 @@ public final class Settings {
     public String theme = "classic";
     public dev.turboj.ai.AIConfig ai = dev.turboj.ai.AIConfig.defaults();
     public String externalThemePath;
-    public int fontSize = 18;
+    /** One ⌘− step below the 18 pt the interface is drawn for: more code on screen by default. */
+    public int fontSize = 16;
     public int width = 1060, height = 740;
     public int tabWidth = dev.turboj.formatting.StandardFormatters.DEFAULT.indent();
     /** The Java style Format Document applies: google, aosp, eclipse or javafmt (StandardFormatters). */

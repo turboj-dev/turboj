@@ -107,7 +107,7 @@ public final class InteractiveRunSmoke {
             awaitPrompt(frame, "Inserisci il voto: ", 3);
             typeLine(frame, "5");
             waitFor(
-                    () -> !frame.isRunning() && frame.console().text().contains("SUCCESS · exit 0"),
+                    () -> !frame.isRunning() && frame.statusMessages().contains(" done · exit 0"),
                     "Menu completion");
             edt(
                     () -> {
@@ -153,7 +153,7 @@ public final class InteractiveRunSmoke {
                         () ->
                                 !frame.isRunning()
                                         && frame.console().text().contains("Hello TurboJ!")
-                                        && frame.console().text().contains("SUCCESS · exit 0"),
+                                        && frame.statusMessages().contains(" done · exit 0"),
                         "replacement Hello");
                 edt(
                         () -> {
@@ -200,7 +200,7 @@ public final class InteractiveRunSmoke {
                     () ->
                             !frame.isRunning()
                                     && frame.console().text().contains("latest output")
-                                    && frame.console().text().contains("SUCCESS · exit 0"),
+                                    && frame.statusMessages().contains(" done · exit 0"),
                     "latest rapid Run");
             edt(
                     () -> {
@@ -255,7 +255,7 @@ public final class InteractiveRunSmoke {
                     () ->
                             !frame.isRunning()
                                     && frame.console().text().contains("Totale note: 6.0")
-                                    && frame.console().text().contains("SUCCESS · exit 0"),
+                                    && frame.statusMessages().contains(" done · exit 0"),
                     "restarted Menu completion");
             edt(
                     () -> {

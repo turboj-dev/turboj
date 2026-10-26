@@ -102,7 +102,7 @@ Screenshots for local review:
 - [Compact window](../target/native-visual-preview/after-03/compact-640.png)
 
 The 100/125/150 screenshot names use 16 pt as the comparison baseline;
-TurboJ's unchanged default size is 18 pt.
+TurboJ's default size was 18 pt when this preview was made; since 26 October 2026 it is 16 pt (one ⌘− step).
 
 Changed production files: `TurboFrame`, `MavenProjectController`, `AsciiChrome`
 and `ConsolePane`. Verification changes: `WorkspaceLayoutSmoke`,

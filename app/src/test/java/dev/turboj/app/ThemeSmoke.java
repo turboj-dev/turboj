@@ -124,7 +124,7 @@ public final class ThemeSmoke {
                 () ->
                         !frame.isRunning()
                                 && frame.console().text().contains("Read 20")
-                                && frame.console().text().contains("SUCCESS · exit 0"),
+                                && frame.statusMessages().contains(" done · exit 0"),
                 "program completes with preserved stdin");
         note(
                 "PASS actual Scanner program keeps output, pending stdin and execution across"

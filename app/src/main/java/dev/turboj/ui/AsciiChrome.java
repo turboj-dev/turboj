@@ -8,8 +8,8 @@ import javax.swing.JSplitPane;
 
 /** The editor, output and embedded forms share one text-cell chrome geometry. */
 public final class AsciiChrome {
-    private static int editorFontSize = 18;
-    private static Font font = new Font(Font.MONOSPACED, Font.PLAIN, 18);
+    private static int editorFontSize = 16;
+    private static Font font = new Font(Font.MONOSPACED, Font.PLAIN, 16);
 
     private AsciiChrome() {}
 

@@ -43,6 +43,10 @@ public final class BundledKeymaps {
                 .requiring("completion-popup"))));
         b.put("completion.previous", List.of(new KeyBinding(KeySequence.parse("UP"), BindingContext
                 .requiring("completion-popup"))));
+        // In the Project Explorer, ⌫ and ⌦ delete the selected item (Safe Delete for Java code), as in Finder.
+        b.put("explorer.delete", List.of(new KeyBinding(KeySequence.parse("BACK_SPACE"), BindingContext.requiring("explorer")),
+                new KeyBinding(KeySequence.parse("DELETE"), BindingContext.requiring("explorer"))));
+        b.put("explorer.contextMenu", List.of(new KeyBinding(KeySequence.parse("SHIFT+F10"), BindingContext.requiring("explorer"))));
         b.put("indent", List.of(new KeyBinding(KeySequence.parse("TAB"), new BindingContext(Set
                 .of("editor"), Set.of("completion")))));
         b.put("unindent", List.of(KeyBinding.editor("SHIFT+TAB")));

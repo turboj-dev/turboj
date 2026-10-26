@@ -62,7 +62,7 @@ public final class WorkspaceLayoutSmoke {
                 screenshot(frame,output.resolve("startup-48.png"));return;
             }
             waitFor(()->source.equals(frame.currentFile()) && frame.mavenProjects().workspace()!=null && !frame.mavenProjects().busy());
-            command(frame,"run");waitFor(()->!frame.isRunning() && frame.console().text().contains("SUCCESS · exit 0") && frame.console().text().contains("One font size"));
+            command(frame,"run");waitFor(()->!frame.isRunning() && frame.statusMessages().contains(" done · exit 0") && frame.console().text().contains("One font size"));
             edt(()->{ ((JSplitPane)frame.mavenProjects().panel().getParent()).setDividerLocation(300);
                 frame.console().inputComponent().setCaretPosition(0);frame.validate();return null; });
             screenshot(frame,output.resolve(baseline?"before-default-18.png":"after-default-18.png"));
@@ -162,7 +162,7 @@ public final class WorkspaceLayoutSmoke {
                 var input=frame.console().inputComponent();
                 check(input.isEditable()&&((JViewport)input.getParent()).getHeight()>=input.getFontMetrics(input.getFont()).getHeight(),"minimum program output retains editable Scanner input");
                 frame.console().setInputText("Ada");frame.console().submitInput();return null;});
-            waitFor(()->!frame.isRunning()&&frame.console().text().contains("Hello Ada")&&frame.console().text().contains("SUCCESS · exit 0"));
+            waitFor(()->!frame.isRunning()&&frame.console().text().contains("Hello Ada")&&frame.statusMessages().contains(" done · exit 0"));
             check(true,"actual Scanner input completes after console is resized to its minimum");
             while(settings.fontSize<48)command(frame,"fontUp");
             edt(()->{frame.setSize(640,420);frame.validate();
