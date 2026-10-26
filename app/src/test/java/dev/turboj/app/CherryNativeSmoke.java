@@ -39,7 +39,7 @@ public final class CherryNativeSmoke {
                 .append("\nProject: ").append(project).append("\nCLI: ").append(args[0]).append('\n');
         frame = edt(() -> {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            Settings settings = new Settings(); settings.keymapProfile = "turboj-classic"; settings.cherryTestExecutable = args[0];
+            Settings settings = new Settings(); settings.keymapProfile = "turboj-macos"; settings.cherryTestExecutable = args[0];
             var app = new TurboFrame(settings,Map.of()); app.setVisible(true); app.toFront(); app.openPath(source); return app;
         });
         try {

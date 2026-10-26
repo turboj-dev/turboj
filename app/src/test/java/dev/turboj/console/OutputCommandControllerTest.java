@@ -56,7 +56,8 @@ class OutputCommandControllerTest {
             assertTrue(text.startsWith("server ready\n"));
             assertTrue(text.indexOf(":! printf") < text.indexOf("\nHTTP/1.1 200 OK\n"));
             assertTrue(text.contains("{\"status\":200,\"message\":\"OK\"}"));
-            assertTrue(text.contains("[command exited 0]"));
+            assertTrue(text.contains("[INFO] Command :! printf"), text);
+            assertTrue(text.contains("[INFO] COMMAND SUCCESS · exit 0"), text);
             assertFalse(fixture.controller.isRunning());
             assertEquals(completion.join(), fixture.controller.lastResult());
             assertEquals(List.of(), fixture.stdin);
@@ -113,7 +114,7 @@ class OutputCommandControllerTest {
         edt(() -> {
             assertTrue(fixture.console.inputComponent().isEditable(), "A separate Java program remains running");
             assertEquals(List.of(), fixture.stdin);
-            assertTrue(fixture.console.text().contains("[command cancelled]"));
+            assertTrue(fixture.console.text().contains("COMMAND STOPPED · cancelled"), fixture.console.text());
             fixture.controller.close();
             return null;
         });

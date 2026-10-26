@@ -1,18 +1,26 @@
 # Keyboard shortcuts
 
-New installations use **IntelliJ IDEA macOS**. Existing installations retain
-**TurboJ Classic** until changed in Options → Keymap. IntelliJ, Eclipse, VS Code
-and Classic profiles are independent of the visual theme. The menus and
+New installations use **TurboJ macOS**; TurboJ Classic was retired and a saved
+Classic selection moves to it. Eclipse, IntelliJ IDEA and VS Code profiles stay
+available in Options → Keymap, independent of the visual theme. The menus and
 Help → Shortcuts use the live CommandJ registry and show current bindings.
 See [profiles, verified sources and customization](../commandj/docs/KEYMAPS.md).
 
 Find Action defaults to Cmd+Shift+A in IntelliJ, Cmd+3 in Eclipse,
-Cmd+Shift+P/F1 in VS Code, and Cmd+Shift+P in Classic.
+Cmd+Shift+P/F1 in VS Code, and ⇧⌘A in TurboJ.
 
 Options → **Show Pressed Shortcuts** (`showPressedShortcuts`) adds a brief,
 theme-accent indicator in the editor's bottom-right corner. It displays actual
 executed bindings, including remapped shortcuts and multi-stroke sequences;
 ordinary typing and password input are excluded. The preference defaults off.
+
+Options → **Shortcuts as ⌃⌥⇧⌘ Symbols** (`settings.shortcutSymbols`) writes
+shortcuts the macOS way in menus, Find Action, Keymap and hints: ⌃⌥⇧⌘ in that
+order, then the key, without plus signs (`⌃⌥⌘O`). It defaults on for macOS.
+
+Code → **Formatter** chooses the Java style that Format Document, Format Selection and Format on Save apply:
+IntelliJ IDEA (default), Eclipse and AWS (Smithy) on the Eclipse engine; AOSP, Classic 80, Wide 120 and Google on google-java-format. The editor indents as the chosen style
+does. See [Java formatting](formatting.md).
 
 **Smaller Font / Larger Font** (`fontDown` / `fontUp`) scale the editor, menus,
 output, project explorer, status line and embedded dialogs together. The font
@@ -23,38 +31,46 @@ Options → **Auto Run on Save** (`run.onSave`) and **Auto Test on Save**
 workspace compilation. They default off and are independent of Test → **Auto
 Test on Changes** (`tests.auto`). All three actions can receive custom shortcuts.
 
-## Preserved TurboJ Classic bindings
+## TurboJ macOS bindings
+
+The default map applies Turbo C's grammar to the Mac ([study and full table](keymap-turboj-macos.md)):
+⌘+letter is the verb, ⇧ widens it, ⌥⌘ transforms code, and Turbo's function keys stay as second bindings.
+Help → **Print Keyboard Cheat Sheet…** prints the active map on two A4 pages; the bundled sheets are in
+[cheatsheets](cheatsheets/).
 
 | Shortcut | Action |
 |---|---|
-| F1 | Quick documentation for the Java symbol at the caret |
-| Cmd+Click / Cmd+B / F12 | Go to the resolved declaration |
-| Ctrl+Space | Completion alternatives, signatures and overloads |
-| F2 / Cmd+S | Save |
-| F3 / Cmd+O | Open |
-| F5 | Expand editor / restore messages |
-| F6 | Editor / console input |
-| F9 / Alt+F9 | Make current buffer |
-| Ctrl+F9 / Cmd+R / Cmd+Enter | Stop previous program, compile if needed and Fast Run |
-| F10 | Open menu; arrows / Enter / Escape navigate |
-| Cmd+. | Stop program |
-| Cmd+N | New file |
-| Cmd+Shift+S | Save as |
-| Cmd+Z / Cmd+Shift+Z | Undo / redo |
-| Cmd+C / Cmd+X / Cmd+V / Cmd+A | Copy / cut / paste / select all |
-| Cmd+F / Cmd+G / Cmd+Shift+G | Find / next / previous |
-| Cmd+L | Go to line |
+| ⌘↩ | Complete, Import or Run: accept the shown completion; else import what the line misses (type, static member such as `assertEquals`, JUnit); else complete the name being typed; else Run |
+| ⌥Space / ⌃Space | Completion alternatives, signatures and overloads (macOS gives ⌃Space to the input-source switch) |
+| ⌥↩ / ⌘1 | Quick Fix / Quick Assist |
+| ⌘J / F1 | Quick documentation for the Java symbol at the caret |
+| ⌘B / F9 | Make project |
+| ⌥⌘B / ⌥F9 | Fast compile |
+| ⌘R / ⌃F9 | Stop previous program, compile if needed and run (Java or JUnit) |
+| ⌘U / ⇧⌘U | Run the test at the caret / all tests |
+| ⌘. | Stop program |
+| ⌘' / ⇧⌘' (⌥F8 / ⌥F7) | Next / previous error |
+| ⌘P / F3 | Search everywhere: classes, files, methods, fields |
+| ⌘T / ⇧⌘O / ⇧⌘T | Go to class / symbol / between source and test |
+| ⌘D / F12 / ⌘-click | Go to declaration; ⇧⌘D references, ⌘I implementation |
+| ⌘[ / ⌘] | Navigate back / forward, restoring selection and viewport |
+| ⌘L / ⌘E | Go to line / recent files |
+| ⌘S / F2, ⌥⌘S | Save, save all |
+| ⌘N / ⌥⌘N | File ▸ New menu / Code ▸ Generate menu |
+| ⌥⌘F | Find and Replace dialog (Replace All is one undo) |
+| ⌘← / ⌘→ (fn← / fn→) | Smart line start / end |
+| ⌥⌫ / ⌥fn⌫ | Delete previous / next word |
+| ⌥⌘T / ⌥⌘R | Refactor menu / rename |
+| ⌥⌘M / ⌥⌘V / ⌥⌘C | Extract method / variable / constant |
+| ⌥⌘L / ⌥⌘O | Format / organize imports |
+| ⌥↑ / ⌥↓, ⌥⌘↑ / ⌥⌘↓, ⇧⌘K | Move, copy, delete line |
+| ⌘/ / ⌥⌘/ | Line / block comment |
+| ⌘0 / ⇧⌘C / ⇧⌘M | Explorer / console / problems |
+| F5 / F6 | Expand editor / editor ↔ console input |
+| ⇧⌘A / F10 | Find Action / open menu |
+| ⌘, / ⌘K / ⇧F1 | Settings / keymap / keyboard reference |
+| ⌥⇧Space | Request optional AI completion |
 | Tab / Shift+Tab | Accept inline suggestion when present; otherwise indent / unindent |
-| Alt+Left / Alt+Right | Navigate back / forward, restoring selection and viewport |
-| Ctrl+Left / Ctrl+Right | Move by word (Shift extends selection) |
-| Cmd+Left / Cmd+Right | Start / end of line |
-| Cmd+Up / Cmd+Down | Start / end of document |
-| Cmd+/ | Toggle line comments |
-| Cmd+Shift+P | Search command palette |
-| Alt+Space | Request optional AI completion |
-| Alt+Shift+Space | Request AI again without the completion cache |
-| Ctrl+Alt+Enter | Accept next word of an AI suggestion |
-| Alt+X | Quit |
 | Escape | Dismiss inline suggestion, alternatives, documentation or menu |
 
 macOS may reserve function keys for hardware controls; hold Fn or adjust macOS keyboard settings. System shortcuts are not globally intercepted. On other operating systems Ctrl substitutes for Cmd in application bindings.

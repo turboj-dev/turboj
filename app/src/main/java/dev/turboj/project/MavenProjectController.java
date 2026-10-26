@@ -34,8 +34,16 @@ public final class MavenProjectController implements AutoCloseable {
         default void navigate(Path file, int offset, boolean readOnly) { throw new UnsupportedOperationException("Host does not support source navigation"); }
         void published(Workspace workspace);
         void notice(String text, boolean error);
+        /** A Maven goal the user started: a header, Maven's own output verbatim, then the summary. */
+        default void actionStart(String action, String subject) { notice(action + " " + subject + "\n", false); }
+        default void actionOutput(String text) { notice(text, false); }
+        default void actionFinish(boolean success, String detail) { notice(detail + "\n", !success); }
         void previewPom(String title, java.util.function.UnaryOperator<String> edit);
         void stateChanged();
+        /** Where Open Project starts browsing: the selected workspace. */
+        default Path projectsDirectory() { return Path.of(System.getProperty("user.home")); }
+        /** A folder without pom.xml is a plain Java project, which the host owns. */
+        default void openPlainProject(Path root) { notice("Not a Maven project (no pom.xml): " + root + "\n", true); }
     }
 
     private final Host host;
@@ -60,6 +68,7 @@ public final class MavenProjectController implements AutoCloseable {
     private boolean defaultRepositoryPolicy;
     private Set<String> reportedDiagnostics = Set.of();
     private Set<Path> existingRoots = Set.of();
+    private boolean plainProject;
     private record Preferences(String userSettings, String globalSettings, String localRepository, String javaHome,
             boolean offline, Set<String> repositories, Set<String> activeProfiles, Set<String> inactiveProfiles, String mavenExecutable,
             Boolean defaultRepositoryPolicy) {}
@@ -105,6 +114,8 @@ public final class MavenProjectController implements AutoCloseable {
     public JPanel panel() { return panel; }
     public Workspace workspace() { return workspace; }
     public ImportRequest importRequest() { return request; }
+    /** A Maven project or a plain Java project is shown in the explorer. */
+    public boolean hasProject() { return request != null || plainProject; }
     public boolean busy() { return busy; }
     public boolean lifecycleRunning() { return lifecycleStarting || execution != null && !execution.completion().isDone(); }
     public boolean trusted() { return trusted; }
@@ -149,9 +160,47 @@ public final class MavenProjectController implements AutoCloseable {
 
     public void chooseProject() {
         var chooser = new EmbeddedFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Maven project (pom.xml or folder)", "xml"));
-        if (chooser.showOpenDialog(host.owner()) == JFileChooser.APPROVE_OPTION) open(chooser.getSelectedFile().toPath());
+        // Any folder is a project: with pom.xml it is Maven, otherwise plain Java. Enter opens the selected folder.
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setDialogTitle("Open Project — Enter opens the folder · → browses into it");
+        Path start = host.projectsDirectory();
+        if (start != null && Files.isDirectory(start)) chooser.setCurrentDirectory(start.toFile());
+        if (chooser.showOpenDialog(host.owner()) != JFileChooser.APPROVE_OPTION) return;
+        Path selected = chooser.getSelectedFile().toPath().toAbsolutePath().normalize();
+        if (Files.isDirectory(selected) && !Files.isRegularFile(selected.resolve("pom.xml"))) host.openPlainProject(selected);
+        else open(selected);
+    }
+
+    /** Explorer view of a plain Java project; any previous Maven model is released. */
+    public void showPlainProject(Path root, List<Path> sourceRoots) {
+        clearProject();
+        long ticket = requests.get();
+        worker.execute(() -> {
+            Set<Path> directories = sourceRoots.stream().filter(Files::isDirectory).collect(java.util.stream.Collectors.toSet());
+            SwingUtilities.invokeLater(() -> {
+                if (closed || ticket != requests.get()) return;
+                existingRoots = directories;
+                plainProject = true;
+                if (theme != null) panel.setBorder(new AsciiBorder("Project", AsciiChrome.editor(theme), AsciiBorder.Line.SINGLE));
+                summary.setText(" Java project · TurboJ Native "); summary.setToolTipText(root.toString());
+                Path properties = root.resolve(".turboj/project.properties");
+                var top = new DefaultMutableTreeNode(Files.isRegularFile(properties)
+                        ? new Entry(root.getFileName().toString(), properties) : new Entry(root.getFileName().toString(), root, true));
+                // A conventional test root holds tests; every other configured root is a source root.
+                addRoots(top, "Sources", sourceRoots.stream().filter(path -> !isTestRoot(root, path)).toList(), root);
+                addRoots(top, "Tests", sourceRoots.stream().filter(path -> isTestRoot(root, path)).toList(), root);
+                tree.setModel(new DefaultTreeModel(top));
+                // Ready but hidden: TurboJ is keyboard first, and Focus Project Explorer reveals it on demand.
+                for (int row = 0; row < tree.getRowCount(); row++) tree.expandRow(row);
+                host.stateChanged();
+            });
+        });
+    }
+
+    private static boolean isTestRoot(Path project, Path path) {
+        if (!path.startsWith(project)) return false;
+        for (Path segment : project.relativize(path)) if (segment.toString().equals("test")) return true;
+        return false;
     }
 
     /** Switch to a plain Java project without retaining a previous Maven model. */
@@ -161,7 +210,7 @@ public final class MavenProjectController implements AutoCloseable {
         requests.incrementAndGet();
         if (pending != null) pending.cancel(false);
         if (watcher != null) { watcher.close(); watcher = null; }
-        request = null; workspace = null; busy = false; trusted = false;
+        request = null; workspace = null; busy = false; trusted = false; plainProject = false;
         reportedDiagnostics = Set.of(); panel.setVisible(false); host.stateChanged();
     }
 
@@ -177,7 +226,6 @@ public final class MavenProjectController implements AutoCloseable {
         request = MavenImportDefaults.online(normalized);
         defaultRepositoryPolicy = true;
         mavenExecutable = null;
-        panel.setVisible(true);
         long opening = requests.incrementAndGet(); busy = true; summary.setText(" Loading Maven configuration… "); host.stateChanged();
         worker.execute(() -> {
             Preferences preferences = readPreferences(normalized);
@@ -433,22 +481,23 @@ public final class MavenProjectController implements AutoCloseable {
                     if (EmbeddedOptionPane.showConfirmDialog(host.owner(), details, "Run Maven Build", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) {
                         lifecycleStarting = false; host.stateChanged(); return;
                     }
-                    host.notice("MAVEN BUILD\n" + details + "\n", false);
+                    host.actionStart("Maven", String.join(" ", description.command()));
+                    host.actionOutput(details.replaceFirst("^Command: [^\n]*\n", "") + "\n");
                     worker.execute(() -> {
                         try {
                             if (closed) return;
-                            var running = MavenLifecycle.start(lifecycle, text -> host.notice(text, false));
+                            var running = MavenLifecycle.start(lifecycle, host::actionOutput);
                             execution = running;
                             if (closed) { running.cancel(); return; }
                             SwingUtilities.invokeLater(() -> { if (closed) { running.cancel(); return; } lifecycleStarting = false; host.stateChanged(); });
                             running.completion().whenComplete((result, failure) -> SwingUtilities.invokeLater(() -> {
                                 if (closed) return;
-                                host.notice(failure == null ? "Maven exit " + result.exitCode() + " · " + result.elapsed().toMillis() + " ms"
-                                        + (result.cancelled() ? " · cancelled" : "") + (result.timedOut() ? " · timeout" : "") + "\n" : "Maven failed: " + message(failure) + "\n", failure != null || result != null && !result.success());
+                                host.actionFinish(failure == null && result.success(), failure == null ? "exit " + result.exitCode()
+                                        + (result.cancelled() ? " · cancelled" : "") + (result.timedOut() ? " · timed out" : "") : message(failure));
                                 if (execution == running) execution = null;
                                 host.stateChanged(); reload(false);
                             }));
-                        } catch (Exception error) { SwingUtilities.invokeLater(() -> { lifecycleStarting = false; host.stateChanged(); }); host.notice("Maven build: " + message(error) + "\n", true); }
+                        } catch (Exception error) { SwingUtilities.invokeLater(() -> { lifecycleStarting = false; host.stateChanged(); host.actionFinish(false, message(error)); }); }
                     });
                 });
             } catch (Exception error) { SwingUtilities.invokeLater(() -> { lifecycleStarting = false; host.stateChanged(); }); host.notice("Maven command: " + message(error) + "\n", true); }

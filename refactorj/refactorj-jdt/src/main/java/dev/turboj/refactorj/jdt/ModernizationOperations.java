@@ -294,7 +294,9 @@ public final class ModernizationOperations {
         ICompilationUnit destination = ((IType) owner.getJavaElement()).getCompilationUnit();
         require(destination != null && destination.exists(), "A binary dependency cannot be modified.");
         for (Expression argument : arguments) require(argument.resolveTypeBinding() != null, "Every argument type must resolve.");
-        PrimitiveType.Code preferred = invocation instanceof MethodInvocation call ? primitiveOverloadContext(call) : null;
+        PrimitiveType.Code overload = invocation instanceof MethodInvocation call ? primitiveOverloadContext(call) : null;
+        PrimitiveType.Code preferred = overload == null && invocation instanceof MethodInvocation call
+                ? favoriteOverloadContext(unit.getJavaProject(), call) : overload;
         return new NewMethodCorrectionProposalCore(operation.id(), destination, invocation, arguments, owner, 0) {
             @Override protected Type getNewMethodType(ASTRewrite rewrite, ImportRewrite.ImportRewriteContext context) throws CoreException {
                 // A missing expression is commonly provisionally bound to the boxed overload.
@@ -303,6 +305,33 @@ public final class ModernizationOperations {
                 return preferred == null ? super.getNewMethodType(rewrite, context) : rewrite.getAST().newPrimitiveType(preferred);
             }
         }.getTextChange();
+    }
+
+    /** assertEquals(0, calculator.add(0, 0)) before assertEquals is imported: the favorite's exact overload names the type. */
+    private static PrimitiveType.Code favoriteOverloadContext(IJavaProject project, MethodInvocation missing) {
+        if (!(missing.getParent() instanceof MethodInvocation outer) || outer.getExpression() != null
+                || outer.resolveMethodBinding() != null) return null;
+        int position = outer.arguments().indexOf(missing);
+        for (String favorite : JupiterApi.FAVORITES) {
+            try {
+                IType type = project.findType(favorite);
+                if (type == null || !type.exists()) continue;
+                for (IMethod candidate : type.getMethods()) {
+                    String[] formals = candidate.getParameterTypes();
+                    if (!candidate.getElementName().equals(outer.getName().getIdentifier()) || !Flags.isStatic(candidate.getFlags())
+                            || formals.length != outer.arguments().size()) continue;
+                    String wanted = Signature.toString(formals[position]);
+                    boolean exact = true, sibling = false;
+                    for (int i = 0; i < formals.length; i++) if (i != position) {
+                        ITypeBinding actual = ((Expression) outer.arguments().get(i)).resolveTypeBinding();
+                        if (actual == null || !actual.isPrimitive() || !actual.getName().equals(Signature.toString(formals[i]))) { exact = false; break; }
+                        sibling = true;
+                    }
+                    if (exact && sibling && PrimitiveType.toCode(wanted) != null) return PrimitiveType.toCode(wanted);
+                }
+            } catch (JavaModelException unavailable) { }
+        }
+        return null;
     }
 
     private static PrimitiveType.Code primitiveOverloadContext(MethodInvocation missing) {

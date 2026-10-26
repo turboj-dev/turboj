@@ -92,6 +92,7 @@ public final class ShortcutRecorderDialog extends EmbeddedDialog {
             strokes.clear();
         strokes.add(key);
         var sequence = new KeySequence(strokes);
+        field.setFont(KeyGlyphs.shortcutFont(field.getFont()));
         field.setText(sequence.display());
         warning.setText(ReservedShortcuts.warning(sequence).orElse(key.modifiers().isEmpty() && key
                 .key().length()

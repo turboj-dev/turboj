@@ -24,6 +24,10 @@ public record KeySequence(List<KeyStrokeSpec> strokes) {
     }
 
     public String display() {
-        return String.join(", ", strokes.stream().map(KeyStrokeSpec::display).toList());
+        return KeyStrokeSpec.usesSymbols() ? String.join(" ", strokes.stream().map(KeyStrokeSpec::symbols).toList()) : words();
+    }
+
+    public String words() {
+        return String.join(", ", strokes.stream().map(KeyStrokeSpec::words).toList());
     }
 }

@@ -33,7 +33,8 @@ public final class PressedShortcutsSmoke {
         var calls = new AtomicInteger();
         TurboFrame frame = edt(() -> {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            var app = new TurboFrame(new Settings(), Map.of());
+            Settings words = new Settings(); words.shortcutSymbols = false; // Asserts the spelled-out form.
+            var app = new TurboFrame(words, Map.of());
             app.registerCommand("shortcut.probe", "Example action", "Test", calls::incrementAndGet,
                     context -> Availability.available());
             check(app.commandKeymaps().replaceBindings("shortcut.probe", List.of(KeyBinding.of("CTRL+ALT+F12"))).applied(), "custom shortcut registered");

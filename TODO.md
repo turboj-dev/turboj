@@ -1,6 +1,19 @@
 # TODO
 
-- [ ] Rename the formatter project from `javafmt` to **FormatJ**, with directory/repository name `formatj`.
+- [ ] Decide the ecosystem naming before any rename: the current `*J` names, or a common **Turbo** family
+      (TurboTest already uses it):
+
+  | Today | `*J` naming | Turbo naming |
+  | --- | --- | --- |
+  | `javafmt` | FormatJ | **TurboFormat** |
+  | `refactorj` | RefactorJ | **TurboRefactor** |
+  | `commandj` | CommandJ | **TurboCommand** |
+  | `mavenj` | MavenJ | **TurboMaven** |
+
+  - The choice decides the FormatJ rename below and the sibling directory names in the layout item.
+  - Same care as any rename: Java packages, Maven coordinates, CLI commands, docs and the website.
+
+- [ ] (On hold with javafmt itself: TurboJ formats with google-java-format; see docs/formatting.md.) Rename the formatter project from `javafmt` to **FormatJ**, with directory/repository name `formatj`.
   - Check consumers before changing Java packages or Maven coordinates.
   - Preserve the existing `javafmt` CLI command for compatibility.
   - Update project branding, documentation and build references.

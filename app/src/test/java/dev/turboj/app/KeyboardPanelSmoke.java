@@ -35,7 +35,7 @@ public final class KeyboardPanelSmoke {
         System.setProperty("apple.laf.useScreenMenuBar", "false");
         frame = edt(() -> {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            Settings settings = new Settings(); settings.keymapProfile = "turboj-classic";
+            Settings settings = new Settings(); settings.keymapProfile = "turboj-macos";
             var result = new TurboFrame(settings, Map.of());
             result.setVisible(true); result.toFront(); result.editor().requestFocusInWindow(); return result;
         });

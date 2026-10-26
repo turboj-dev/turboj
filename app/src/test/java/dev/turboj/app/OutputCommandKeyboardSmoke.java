@@ -34,7 +34,7 @@ public final class OutputCommandKeyboardSmoke {
         });
         try {
             waitFor(() -> frame.isActive() && frame.editor().isFocusOwner(), "initial focus");
-            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic")) {
+            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos")) {
                 edt(() -> { frame.commandKeymaps().select(profile); frame.editor().setText(""); return null; });
                 type(":");
                 check(edt(() -> frame.editor().getText().equals(":")), profile + ": ordinary colon edits source");

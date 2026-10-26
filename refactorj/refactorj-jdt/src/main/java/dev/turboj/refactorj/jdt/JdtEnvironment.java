@@ -28,6 +28,8 @@ public final class JdtEnvironment {
         preferences.putBoolean(CodeGenerationSettingsConstants.CODEGEN_USE_OVERRIDE_ANNOTATION, true);
         preferences.putBoolean(CodeGenerationSettingsConstants.CODEGEN_KEYWORD_THIS, false);
         preferences.putBoolean(CodeGenerationSettingsConstants.ORGIMPORTS_IGNORELOWERCASE, true);
+        // Organize Imports filters every type-name match through this list; unset, it throws on the first unresolved type.
+        preferences.put("org.eclipse.jdt.ui.typefilter.enabled", "");
         preferences.put(MembersOrderPreferenceCacheCommon.APPEARANCE_MEMBER_SORT_ORDER, "SF,SI,F,I,C,SM,M,T");
         preferences.put(MembersOrderPreferenceCacheCommon.APPEARANCE_VISIBILITY_SORT_ORDER, "B,R,D,V");
         preferences.putBoolean(MembersOrderPreferenceCacheCommon.APPEARANCE_ENABLE_VISIBILITY_SORT_ORDER, false);

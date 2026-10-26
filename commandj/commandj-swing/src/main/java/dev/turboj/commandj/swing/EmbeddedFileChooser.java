@@ -12,8 +12,18 @@ import javax.swing.plaf.FileChooserUI;
 
 /** A small internal file browser. Directory reads run off EDT; no platform file-dialog windows. */
 public final class EmbeddedFileChooser extends JFileChooser {
+    private java.util.function.Predicate<File> openableDirectory = directory -> false;
+
     public EmbeddedFileChooser() {
         super();
+    }
+
+    /**
+     * In FILES_AND_DIRECTORIES mode, Open on a matching folder chooses it instead of browsing into it (→ still
+     * browses). Evaluated off the EDT, so it may inspect the folder's contents.
+     */
+    public void setOpenableDirectory(java.util.function.Predicate<File> openable) {
+        openableDirectory = Objects.requireNonNull(openable);
     }
 
     public EmbeddedFileChooser(File directory) {
@@ -83,7 +93,7 @@ public final class EmbeddedFileChooser extends JFileChooser {
             final Path target;
 
             try {
-                target = Path.of(directory.getText()).toAbsolutePath().normalize();
+                target = expandHome(directory.getText().strip()).toAbsolutePath().normalize();
             } catch (InvalidPathException error) {
                 status.setText("Invalid directory path");
                 return;
@@ -131,8 +141,9 @@ public final class EmbeddedFileChooser extends JFileChooser {
             Path path;
 
             try {
-                path = filename.getText().isBlank() ? current[0] : current[0].resolve(filename
-                        .getText()).normalize();
+                // An absolute or ~/ name replaces the current directory, as in a shell.
+                path = filename.getText().isBlank() ? current[0] : current[0].resolve(expandHome(filename
+                        .getText().strip())).normalize();
             } catch (InvalidPathException error) {
                 status.setText("Invalid file name");
                 return;
@@ -141,7 +152,9 @@ public final class EmbeddedFileChooser extends JFileChooser {
             approve.setEnabled(false);
             new SwingWorker<int[], Void> () {
                 protected int[] doInBackground() {
-                    return new int[] {Files.isDirectory(path) ? 1 : 0, Files.exists(path) ? 1 : 0};
+                    boolean folder = Files.isDirectory(path);
+                    return new int[] {folder ? 1 : 0, Files.exists(path) ? 1 : 0,
+                            folder && openableDirectory.test(path.toFile()) ? 1 : 0};
                 }
 
                 protected void done() {
@@ -153,7 +166,7 @@ public final class EmbeddedFileChooser extends JFileChooser {
                         int[] state = get();
 
                         if (state[0] == 1 && getFileSelectionMode() != DIRECTORIES_ONLY && !filename
-                                .getText().isBlank()) {
+                                .getText().isBlank() && state[2] == 0) {
                             directory.setText(path.toString());
                             filename.setText("");
                             reload[0].run();
@@ -203,6 +216,21 @@ public final class EmbeddedFileChooser extends JFileChooser {
             public void actionPerformed(ActionEvent event) {
                 open.run();
             }
+        });
+        // → browses into the selected folder and ← (or Backspace) goes up, so Enter can choose a folder.
+        list.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "enter-folder");
+        list.getActionMap().put("enter-folder", new AbstractAction() {
+            public void actionPerformed(ActionEvent event) {
+                Entry selected = list.getSelectedValue();
+                if (selected == null || !selected.directory) return;
+                directory.setText(selected.file.getAbsolutePath());
+                filename.setText("");
+                reload[0].run();
+            }
+        });
+        for (String key : List.of("LEFT", "BACK_SPACE")) list.getInputMap().put(KeyStroke.getKeyStroke(key), "parent-folder");
+        list.getActionMap().put("parent-folder", new AbstractAction() {
+            public void actionPerformed(ActionEvent event) { up.doClick(); }
         });
         directory.addActionListener(event -> reload[0].run());
         filename.addActionListener(event -> open.run());
@@ -259,6 +287,13 @@ public final class EmbeddedFileChooser extends JFileChooser {
         dialog.setVisible(true);
         generation[0]++;
         return result[0];
+    }
+
+    /** ~ is the user's home, as in a shell; Path.of would treat it as a folder named "~". */
+    static Path expandHome(String text) {
+        if (text.equals("~") || text.startsWith("~/") || text.startsWith("~" + File.separator))
+            return Path.of(System.getProperty("user.home") + text.substring(1));
+        return Path.of(text);
     }
 
     private record Entry(File file, boolean directory) {

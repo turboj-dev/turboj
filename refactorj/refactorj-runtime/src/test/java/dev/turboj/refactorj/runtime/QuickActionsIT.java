@@ -19,6 +19,181 @@ class QuickActionsIT {
     @BeforeAll static void start() throws Exception { runtime = new RefactorJRuntime(); }
     @AfterAll static void stop() { runtime.close(); }
 
+    @Test void caretWithoutFixMovesToClosestFixableProblemOnItsLineLikeEclipse() throws Exception {
+        Path file = root.resolve("src/HelloWorld.java");
+        String source = """
+                public class HelloWorld {
+                    public static void main(String[] args) {
+                        System.out.println("Hello World!"); Calculator calculator = new Calculator();
+                        int unrelated = 1;
+                    }
+                }
+                """;
+        var snapshot = snapshot(Map.of(file, source), List.of(root.resolve("src")), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            int declared = source.indexOf("Calculator"), created = source.lastIndexOf("Calculator");
+            var afterWord = engine.quickActions().inspect(new Location(file, created + "Calculator".length()), Cancellation.NONE);
+            assertEquals(new Location(file, created + "Calculator".length()), afterWord.location(), "touching caret stays put");
+            assertEquals("Create class 'Calculator'", only(afterWord, Action.CREATE_CLASS).title());
+
+            var endOfLine = engine.quickActions().inspect(new Location(file, source.indexOf(';', created) + 1), Cancellation.NONE);
+            assertEquals(new Location(file, created), endOfLine.location(), "caret jumps to the closest problem");
+            var proposal = only(endOfLine, Action.CREATE_CLASS);
+            assertTrue(engine.quickActions().prepare(proposal, Cancellation.NONE).plan().valid());
+
+            var lineStart = engine.quickActions().inspect(new Location(file, source.indexOf("System")), Cancellation.NONE);
+            assertEquals(new Location(file, declared), lineStart.location());
+
+            int otherLine = source.indexOf("int unrelated");
+            var clean = engine.quickActions().inspect(new Location(file, otherLine), Cancellation.NONE);
+            assertEquals(new Location(file, otherLine), clean.location(), "problems on other lines are never chosen");
+            assertTrue(clean.fixes().isEmpty());
+
+            var selection = new Location(file, source.indexOf("System"), source.indexOf("System") + 6);
+            assertEquals(selection, engine.quickActions().inspect(selection, Cancellation.NONE).location(), "selections are honored");
+        }
+    }
+
+    @Test void unqualifiedAssertionImportsItsStaticFavoriteAndTheLibraryWhenMissing() throws Exception {
+        Path file = root.resolve("test/CalculatorTest.java");
+        String source = """
+                import org.junit.jupiter.api.Test;
+
+                public class CalculatorTest {
+                    @Test
+                    public void test() {
+                        assertEquals();
+                    }
+                }
+                """;
+        String imported = source.replace("import org.junit.jupiter.api.Test;\n",
+                "import static org.junit.jupiter.api.Assertions.assertEquals;\n\nimport org.junit.jupiter.api.Test;\n");
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root.resolve("test")), junitClasspath()))) {
+            var proposal = only(engine.quickActions().inspect(at(file, source, "assertEquals"), Cancellation.NONE), Action.ADD_IMPORT);
+            assertEquals("Import static 'Assertions.assertEquals'", proposal.title());
+            assertEquals(imported, TextEdit.apply(source, engine.quickActions().prepare(proposal, Cancellation.NONE).plan().edits().getFirst().edits()));
+        }
+        String missing = source.replace("import org.junit.jupiter.api.Test;\n\n", "");
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, missing), List.of(root.resolve("test")), List.of()))) {
+            var proposal = only(engine.quickActions().inspect(at(file, missing, "assertEquals"), Cancellation.NONE), Action.ADD_JUNIT_LIBRARY);
+            assertTrue(TextEdit.apply(missing, engine.quickActions().prepare(proposal, Cancellation.NONE).plan().edits().getFirst().edits())
+                    .startsWith("import static org.junit.jupiter.api.Assertions.assertEquals;"));
+        }
+    }
+
+    @Test void unresolvedJUnit4ImportsMoveToJupiterWithTheLibraryWhenItIsMissing() throws Exception {
+        Path file = root.resolve("test/CalculatorTest.java");
+        String source = """
+                import org.junit.Before;
+                import org.junit.Test;
+
+                public class CalculatorTest {
+                    @Before
+                    public void setUp() {}
+
+                    @Test
+                    public void test() {
+                        Calculator calculator = new Calculator();
+                    }
+                }
+                """;
+        String migrated = source.replace("org.junit.Before", "org.junit.jupiter.api.BeforeEach")
+                .replace("org.junit.Test", "org.junit.jupiter.api.Test").replace("@Before\n", "@BeforeEach\n");
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root.resolve("test")), List.of()))) {
+            for (String caret : List.of("org.junit.Test", "Test\n    public")) {
+                var proposal = only(engine.quickActions().inspect(at(file, source, caret), Cancellation.NONE), Action.ADD_JUNIT_LIBRARY);
+                assertEquals("Add JUnit 5 library to the build path", proposal.title());
+                var plan = engine.quickActions().prepare(proposal, Cancellation.NONE).plan();
+                assertEquals(migrated, TextEdit.apply(source, plan.edits().getFirst().edits()), "from " + caret);
+            }
+        }
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root.resolve("test")), junitClasspath()))) {
+            var inspection = engine.quickActions().inspect(at(file, source, "org.junit.Test"), Cancellation.NONE);
+            assertTrue(inspection.proposals().stream().noneMatch(p -> p.action() == Action.ADD_JUNIT_LIBRARY), "Jupiter is already there");
+            var proposal = only(inspection, Action.ADD_IMPORT);
+            assertEquals("Change JUnit 4 imports to JUnit 5", proposal.title());
+            assertEquals(migrated, TextEdit.apply(source, engine.quickActions().prepare(proposal, Cancellation.NONE).plan().edits().getFirst().edits()));
+        }
+    }
+
+    @Test void unresolvedJupiterAnnotationOffersTheLibraryOnlyWhileItIsMissing() throws Exception {
+        Path file = root.resolve("test/CalculatorTest.java");
+        String source = "package demo;\n\nclass CalculatorTest {\n    @Test\n    void adds() {}\n}\n";
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root.resolve("test")), List.of()))) {
+            var inspection = engine.quickActions().inspect(at(file, source, "Test\n"), Cancellation.NONE);
+            var proposal = only(inspection, Action.ADD_JUNIT_LIBRARY);
+            assertEquals("Add JUnit 5 library to the build path", proposal.title());
+            assertEquals(Kind.FIX, proposal.kind());
+            var plan = engine.quickActions().prepare(proposal, Cancellation.NONE).plan();
+            assertTrue(plan.fileOperations().isEmpty(), "the host owns the library; the engine prepares only Java");
+            assertEquals("package demo;\n\nimport org.junit.jupiter.api.Test;\n\nclass CalculatorTest {\n    @Test\n    void adds() {}\n}\n",
+                    TextEdit.apply(source, plan.edits().getFirst().edits()));
+
+            String plain = "class CalculatorTest {\n    @Override\n    @Missing\n    void adds() {}\n}\n";
+            Path other = root.resolve("test/Other.java");
+            engine.workspace().synchronize(snapshot(Map.of(file, source, other, plain), List.of(root.resolve("test")), List.of()), Cancellation.NONE);
+            assertTrue(engine.quickActions().inspect(at(other, plain, "Missing"), Cancellation.NONE).proposals().stream()
+                    .noneMatch(p -> p.action() == Action.ADD_JUNIT_LIBRARY), "only Jupiter annotations need JUnit");
+        }
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root.resolve("test")), junitClasspath()))) {
+            var inspection = engine.quickActions().inspect(at(file, source, "Test\n"), Cancellation.NONE);
+            assertTrue(inspection.proposals().stream().noneMatch(p -> p.action() == Action.ADD_JUNIT_LIBRARY));
+            assertEquals("Import 'org.junit.jupiter.api.Test'", only(inspection, Action.ADD_IMPORT).title());
+        }
+    }
+
+    @Test void misspelledCreatedTypeOffersASubclassAndTheSimilarExistingTypeLikeEclipse() throws Exception {
+        Path file = root.resolve("src/CalculatorTest.java"), existing = root.resolve("src/Calculator.java");
+        String source = "public class CalculatorTest {\n    void test() {\n        Calculator calculator = new Calculator1();\n    }\n}\n";
+        var snapshot = snapshot(Map.of(file, source, existing, "public class Calculator {}\n"), List.of(root.resolve("src")), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var inspection = engine.quickActions().inspect(new Location(file, source.indexOf(';') + 1), Cancellation.NONE);
+            assertEquals(new Location(file, source.indexOf("Calculator1")), inspection.location(), "end of line jumps to the problem");
+            assertEquals(List.of("Create class 'Calculator1'", "Change to 'Calculator'"), inspection.fixes().stream().map(Proposal::title).toList());
+
+            var created = engine.quickActions().prepare(only(inspection, Action.CREATE_CLASS), Cancellation.NONE);
+            assertEquals("Calculator", only(inspection, Action.CREATE_CLASS).parameters().get("superclass"));
+            var transactions = new WorkspaceTransactions(new InMemoryWorkspace(snapshot));
+            var applied = transactions.apply(created.plan(), Cancellation.NONE);
+            assertEquals("public class Calculator1 extends Calculator {\n    \n}\n", applied.snapshot().source(root.resolve("src/Calculator1.java")).text());
+            compile(applied.snapshot());
+
+            var changed = engine.quickActions().prepare(only(inspection, Action.REFACTOR), Cancellation.NONE);
+            var renamed = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(changed.plan(), Cancellation.NONE);
+            assertEquals(source.replace("Calculator1", "Calculator"), renamed.snapshot().source(file).text());
+        }
+    }
+
+    @Test void missingMethodInsideAnUnimportedAssertionCreatesTheMethodAndTheStaticImportTogether() throws Exception {
+        Path file = root.resolve("src/CalculatorTest.java"), calculator = root.resolve("src/Calculator.java");
+        String source = """
+                import org.junit.jupiter.api.Test;
+
+                public class CalculatorTest {
+                    Calculator calculator = new Calculator();
+
+                    @Test
+                    public void testAdd() {
+                        assertEquals(0, calculator.add(0, 0));
+                    }
+                }
+                """;
+        var snapshot = snapshot(Map.of(file, source, calculator, "public class Calculator {}\n"), List.of(root.resolve("src")), junitClasspath());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var line = engine.quickActions().inspect(new Location(file, source.indexOf("        assertEquals")), Cancellation.NONE);
+            assertEquals(new Location(file, source.indexOf("add(")), line.location(), "the caret anywhere on the line reaches add");
+            var prepared = engine.quickActions().prepare(only(line, Action.CREATE_METHOD), Cancellation.NONE);
+            var applied = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(prepared.plan(), Cancellation.NONE);
+            assertTrue(applied.snapshot().source(calculator).text().contains("int add(int"), applied.snapshot().source(calculator).text());
+            assertTrue(applied.snapshot().source(file).text().contains("import static org.junit.jupiter.api.Assertions.assertEquals;"));
+            compile(applied.snapshot());
+
+            var onAssert = engine.quickActions().inspect(new Location(file, source.indexOf("assertEquals") + 3), Cancellation.NONE);
+            assertEquals("Import static 'Assertions.assertEquals'", only(onAssert, Action.ADD_IMPORT).title(),
+                    "the compiler hides the unresolved caller while its argument is in error");
+        }
+    }
+
     @Test void missingClassUsesUnsavedBufferAndPackageRootThenUndoRedo() throws Exception {
         Path file = root.resolve("src/example/Hello.java");
         String source = "package example; public class Hello { Calculator calculator = new Calculator(); }";
@@ -111,7 +286,7 @@ class QuickActionsIT {
     }
 
     @Test void importsComeFromProjectResolutionAndAvoidUnrelatedErrors() throws Exception {
-        Path file = root.resolve("C.java"); String source = "class C { List<String> names; Missing missing; }";
+        Path file = root.resolve("C.java"); String source = "class C {\n    List<String> names; Missing missing;\n}";
         try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root), List.of()))) {
             var inspected = engine.quickActions().inspect(at(file, source, "List"), Cancellation.NONE);
             var imported = inspected.fixes().stream().filter(p -> p.action() == Action.ADD_IMPORT && p.parameters().get("qualifiedName").equals("java.util.List")).findFirst().orElseThrow(() -> new AssertionError(inspected));

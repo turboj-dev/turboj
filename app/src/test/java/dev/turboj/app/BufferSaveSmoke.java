@@ -199,7 +199,7 @@ public final class BufferSaveSmoke {
                                 !"ERROR".equals(frame.buildStatus()),
                                 "second save reported an unexpected error");
                         check(
-                                !frame.console().text().contains("File changed outside TurboJ"),
+                                !frame.statusMessages().contains("File changed outside TurboJ"),
                                 "second save incorrectly detected an external change");
                         check(
                                 savedMessages.get() > beforeSecondSave,
@@ -234,7 +234,7 @@ public final class BufferSaveSmoke {
                                 unsavedThird.equals(frame.editor().getText()),
                                 "rejected save discarded the local buffer");
                         check(
-                                frame.console().text().contains("File changed outside TurboJ"),
+                                frame.statusMessages().contains("File changed outside TurboJ"),
                                 "external-change protection did not report the conflict");
                         check(
                                 frame.editor().version()
@@ -279,7 +279,8 @@ public final class BufferSaveSmoke {
     }
 
     private static void saveFromMenu(TurboFrame frame) {
-        JMenu file = frame.getJMenuBar().getMenu(0);
+        JMenu file = java.util.stream.IntStream.range(0, frame.getJMenuBar().getMenuCount()).mapToObj(frame.getJMenuBar()::getMenu)
+                .filter(menu -> menu.getText().equals("File")).findFirst().orElseThrow();
         for (int i = 0; i < file.getItemCount(); i++) {
             JMenuItem item = file.getItem(i);
             if (item != null && "Save".equals(item.getText())) {

@@ -42,7 +42,8 @@ public final class InteractiveRunSmoke {
                         () -> {
                             UIManager.setLookAndFeel(
                                     UIManager.getCrossPlatformLookAndFeelClassName());
-                            TurboFrame value = new TurboFrame(new Settings(), Map.of());
+                            Settings settings = new Settings(); settings.clearOutputBeforeRun = true; // Each transcript starts empty.
+                            TurboFrame value = new TurboFrame(settings, Map.of());
                             value.setVisible(true);
                             value.toFront();
                             value.editor().requestFocusInWindow();
@@ -106,7 +107,7 @@ public final class InteractiveRunSmoke {
             awaitPrompt(frame, "Inserisci il voto: ", 3);
             typeLine(frame, "5");
             waitFor(
-                    () -> !frame.isRunning() && frame.console().text().contains("[exit 0"),
+                    () -> !frame.isRunning() && frame.console().text().contains("SUCCESS · exit 0"),
                     "Menu completion");
             edt(
                     () -> {
@@ -152,7 +153,7 @@ public final class InteractiveRunSmoke {
                         () ->
                                 !frame.isRunning()
                                         && frame.console().text().contains("Hello TurboJ!")
-                                        && frame.console().text().contains("[exit 0"),
+                                        && frame.console().text().contains("SUCCESS · exit 0"),
                         "replacement Hello");
                 edt(
                         () -> {
@@ -199,7 +200,7 @@ public final class InteractiveRunSmoke {
                     () ->
                             !frame.isRunning()
                                     && frame.console().text().contains("latest output")
-                                    && frame.console().text().contains("[exit 0"),
+                                    && frame.console().text().contains("SUCCESS · exit 0"),
                     "latest rapid Run");
             edt(
                     () -> {
@@ -220,6 +221,9 @@ public final class InteractiveRunSmoke {
                     });
             launch(frame, false);
             awaitPrompt(frame, "Quanti voti vuoi inserire? ", 1);
+            // A marker the restart's cleared output no longer holds: the new prompt cannot be confused with the old one.
+            edt(() -> { frame.console().append("RESTART-MARKER\n", false); return null; });
+            waitFor(() -> frame.console().text().contains("RESTART-MARKER"), "restart marker");
             typeText(frame, "99");
             edt(
                     () -> {
@@ -241,6 +245,7 @@ public final class InteractiveRunSmoke {
                                         'r'));
                         return null;
                     });
+            waitFor(() -> !frame.console().text().contains("RESTART-MARKER"), "output cleared on restart");
             awaitPrompt(frame, "Quanti voti vuoi inserire? ", 1);
             waitFor(() -> frame.console().inputText().isEmpty(), "input cleared on restart");
             typeLine(frame, "1");
@@ -250,7 +255,7 @@ public final class InteractiveRunSmoke {
                     () ->
                             !frame.isRunning()
                                     && frame.console().text().contains("Totale note: 6.0")
-                                    && frame.console().text().contains("[exit 0"),
+                                    && frame.console().text().contains("SUCCESS · exit 0"),
                     "restarted Menu completion");
             edt(
                     () -> {
@@ -321,7 +326,8 @@ public final class InteractiveRunSmoke {
                     JTextComponent field = frame.console().inputComponent();
                     check(
                             frame.console().inputText().equals(text),
-                            "input keystrokes were lost: " + frame.console().inputText());
+                            "input keystrokes were lost: " + frame.console().inputText() + " · output:\n" + frame.console().text()
+                                    + "\n· caret " + field.getCaretPosition() + " of " + field.getDocument().getLength() + " editable " + field.isEditable());
                     field.dispatchEvent(
                             new KeyEvent(
                                     field,

@@ -124,7 +124,7 @@ public final class ThemeSmoke {
                 () ->
                         !frame.isRunning()
                                 && frame.console().text().contains("Read 20")
-                                && frame.console().text().contains("[exit 0"),
+                                && frame.console().text().contains("SUCCESS · exit 0"),
                 "program completes with preserved stdin");
         note(
                 "PASS actual Scanner program keeps output, pending stdin and execution across"
@@ -682,7 +682,7 @@ public final class ThemeSmoke {
         for (int i = 0; i < bar.getMenuCount(); i++) {
             JMenu menu = bar.getMenu(i);
             if (menu == null) continue;
-            if (!menu.getText().equals("Options")) continue;
+            if (!menu.getText().equals("≡")) continue;
             for (Component item : menu.getMenuComponents())
                 if (item instanceof JMenu themes && themes.getText().equals("Themes"))
                     for (Component child : themes.getMenuComponents())

@@ -109,6 +109,12 @@ class ModernizationIT {
         compile(output);
     }
 
+    @Test void organizeImportsSearchesForUnqualifiedTypes() throws Exception {
+        String output = transform("class C { ArrayList<String> names = new ArrayList<>(); }", "class C", OrganizeImports::new);
+        assertTrue(output.contains("import java.util.ArrayList;"));
+        compile(output);
+    }
+
     @Test void addsResolvedImportOnly() throws Exception {
         String output = transform("class C { List<String> names; }", "List", location -> new AddImport(location, "java.util.List", false));
         assertTrue(output.contains("import java.util.List;"));

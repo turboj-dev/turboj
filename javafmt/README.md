@@ -1,5 +1,9 @@
 # javafmt
 
+> **On hold (26 Oct 2026).** TurboJ now formats with google-java-format 1.37.0 (see `docs/formatting.md` in the
+> TurboJ repository). This engine's code, tests and documentation are kept unchanged; its evolution is paused while
+> the google-java-format presets are evaluated.
+
 **One Java style. Zero configuration.**
 
 An independent Java 25 formatter with an original AST-guided layout engine,

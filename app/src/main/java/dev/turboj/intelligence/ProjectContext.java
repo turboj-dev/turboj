@@ -221,6 +221,44 @@ public final class ProjectContext {
         }
     }
 
+    /** A folder that File › Open opens as a project rather than browsing into it. */
+    public static boolean isProjectFolder(Path directory) {
+        for (String marker : List.of("pom.xml", ".turboj", "build.gradle", "build.gradle.kts", "src", ".git"))
+            if (Files.exists(directory.resolve(marker))) return true;
+        return false;
+    }
+
+    /** The Java source to show when a project opens without a remembered file: its main class, else any source. */
+    public static Path startSource(List<Path> sourceRoots) {
+        Path first = null;
+        int seen = 0;
+        for (Path root : sourceRoots) {
+            List<Path> sources;
+            try (var paths = Files.walk(root, 16)) {
+                sources = paths.filter(path -> path.toString().endsWith(".java") && Files.isRegularFile(path))
+                        .sorted(java.util.Comparator.comparingInt(Path::getNameCount).thenComparing(Path::toString)).limit(2000).toList();
+            } catch (IOException | RuntimeException unreadable) { continue; }
+            for (Path source : sources) {
+                if (first == null) first = source;
+                try { if (Files.size(source) < MAX_CONFIG_BYTES * 16 && Files.readString(source).contains("static void main(")) return source; }
+                catch (IOException | RuntimeException unreadable) { /* Not a candidate. */ }
+                if (++seen >= 2000) return first;
+            }
+        }
+        return first;
+    }
+
+    /** Source roots of a plain Java project folder: .turboj/source-roots.txt, else the conventional layouts. */
+    public static List<Path> plainSourceRoots(Path projectRoot) {
+        Path root = projectRoot.toAbsolutePath().normalize();
+        var roots = new LinkedHashSet<Path>();
+        readPaths(root.resolve(".turboj/source-roots.txt"), root, roots, true, new ArrayList<>(), 0);
+        if (roots.isEmpty()) for (String relative : List.of("src/main/java", "src/test/java")) addDirectory(roots, root.resolve(relative));
+        if (roots.isEmpty()) addDirectory(roots, root.resolve("src"));
+        if (roots.isEmpty()) roots.add(root);
+        return List.copyOf(roots);
+    }
+
     private static void addDirectory(Set<Path> paths, Path path) {
         if (Files.isDirectory(path)) paths.add(path.toAbsolutePath().normalize());
     }

@@ -32,19 +32,21 @@ public final class KeyboardProfileSmoke {
                 .append("; Swing key dispatch, no mouse; isolated settings; fixture and custom binding setup programmatic.\n");
         System.setProperty("turboj.config", Files.createTempDirectory(output, "settings-").toString());
         System.setProperty("apple.laf.useScreenMenuBar", "false");
-        frame = open(new Settings());
+        check(new Settings().keymapProfile.equals("turboj-macos"), "New settings default to TurboJ macOS");
+        Settings intellij = new Settings(); intellij.keymapProfile = "intellij-macos"; // The fixture customizes IntelliJ.
+        frame = open(intellij);
         try {
             waitFor(() -> frame.isActive() && frame.editor().isFocusOwner(), "initial editor focus");
-            check(edt(() -> frame.commandKeymaps().selectedId()).equals("intellij-macos"), "New settings default to IntelliJ macOS");
+            check(edt(() -> frame.commandKeymaps().selectedId()).equals("intellij-macos"), "The saved IntelliJ selection is restored");
             check(edt(() -> frame.commandKeymaps().replaceCommandBindings(frame.commandRegistry(),
                     "editor.trimTrailingWhitespace", List.of(KeyBinding.editor(CUSTOM_BINDING)), Set.of()).applied()),
                     "Fixture installs one conflict-free IntelliJ custom binding");
-            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic")) {
+            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos")) {
                 palette("keymap.profile." + profile);
                 waitFor(() -> frame.commandKeymaps().selectedId().equals(profile) && frame.editor().isFocusOwner(), "profile " + profile);
                 check(true, "Palette switches to " + profile + " using the previously active palette shortcut");
                 selectedMarker(profile);
-                if (!profile.equals("turboj-classic")) commandD(profile);
+                commandD(profile);
             }
             menuSwitch("vscode-macos");
             comboSwitch("eclipse-macos");
@@ -112,6 +114,7 @@ public final class KeyboardProfileSmoke {
                 check(edt(() -> frame.editor().caretCount()) == 2 && edt(() -> frame.editor().getText()).equals(source), "VS Code repeated Cmd+D adds the next occurrence without modifying source");
                 key(KeyEvent.VK_ESCAPE, 0);
             }
+            case "turboj-macos" -> check(edt(() -> frame.editor().getText()).equals(source), "TurboJ Cmd+D goes to a declaration and never edits");
             default -> throw new AssertionError(profile);
         }
     }
@@ -133,8 +136,8 @@ public final class KeyboardProfileSmoke {
     private static void menuSwitch(String profile) throws Exception {
         key(KeyEvent.VK_F10, 0); // This route deliberately starts in the Classic profile.
         waitFor(() -> MenuSelectionManager.defaultManager().getSelectedPath().length > 0, "menu opens");
-        for (int i = 0; i < 20 && !edt(() -> topMenu().equals("Options")); i++) key(KeyEvent.VK_RIGHT, 0);
-        check(edt(KeyboardProfileSmoke::topMenu).equals("Options"), "Keyboard arrows reach Options");
+        for (int i = 0; i < 20 && !edt(() -> topMenu().equals("≡")); i++) key(KeyEvent.VK_RIGHT, 0);
+        check(edt(KeyboardProfileSmoke::topMenu).equals("≡"), "Keyboard arrows reach the ≡ menu");
         for (int i = 0; i < 20 && !edt(() -> selectedMenuItem() instanceof JMenu menu && "Keyboard Profile".equals(menu.getText())); i++) key(KeyEvent.VK_DOWN, 0);
         check(edt(() -> selectedMenuItem() instanceof JMenu menu && "Keyboard Profile".equals(menu.getText())), "Keyboard arrows select the Keyboard Profile submenu");
         key(KeyEvent.VK_RIGHT, 0);

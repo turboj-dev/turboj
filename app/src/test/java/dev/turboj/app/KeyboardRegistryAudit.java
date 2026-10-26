@@ -17,7 +17,8 @@ public final class KeyboardRegistryAudit {
         Files.createDirectories(output);
         System.setProperty("turboj.config", Files.createTempDirectory("turboj-keyboard-inventory-").toString());
         var task = new FutureTask<Void>(() -> {
-            TurboFrame frame = new TurboFrame(new Settings(), Map.of());
+            Settings words = new Settings(); words.shortcutSymbols = false; // Generated docs spell shortcuts out.
+            TurboFrame frame = new TurboFrame(words, Map.of());
             try {
                 var registry = frame.commandRegistry();
                 var maps = frame.commandKeymaps();
@@ -26,9 +27,9 @@ public final class KeyboardRegistryAudit {
                         .append("Do not edit this table manually. Unassigned actions remain discoverable in the Command Palette.\n")
                         .append("Status describes registration and availability in an editable Java buffer, not proof of every language case.\n")
                         .append("The Test column identifies the relevant suite; actual execution and limits are in `keyboard-accessibility-audit.md`.\n\n")
-                        .append("| Command ID | Category | IntelliJ | Eclipse | VS Code | Classic | Status | Test |\n")
+                        .append("| Command ID | Category | IntelliJ | Eclipse | VS Code | TurboJ | Status | Test |\n")
                         .append("| --- | --- | --- | --- | --- | --- | --- | --- |\n");
-                List<String> profiles = List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic");
+                List<String> profiles = List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos");
                 var context = CommandContext.of("workspace", "editor", "editable");
                 for (Command command : registry.commands().stream().sorted(Comparator.comparing(Command::id)).toList()) {
                     inventory.append("| `").append(command.id()).append("` | ").append(cell(command.category())).append(" |");

@@ -45,15 +45,17 @@ public final class InterfaceZoomSmoke {
                 Container content = (Container) ((BorderLayout) frame.getContentPane().getLayout()).getLayoutComponent(BorderLayout.CENTER);
                 check(((BorderLayout) content.getLayout()).getLayoutComponent(BorderLayout.NORTH) == null,
                         "no extra status strip above the editor");
-                check(footer.getComponentCount() == 2 && status.getParent() == footer,
+                check(SwingUtilities.isDescendingFrom(status, footer) && SwingUtilities.isDescendingFrom(named(frame, "caret-status"), footer),
                         "one bottom line contains current state and file/caret position");
                 check(!status.getText().contains(" Save") && status.getToolTipText().contains(" Save"),
                         "shortcut help is in the tooltip instead of the bottom text");
                 frame.mavenProjects().open(root); return null;
             });
             waitFor(() -> frame.mavenProjects().workspace() != null && !frame.mavenProjects().busy());
-            check(edt(() -> status.getText().contains("Maven") && status.getText().contains("Java 21")
-                    && status.getToolTipText().contains("Modules 1")), "Maven import updates the same compact footer");
+            check(edt(() -> frame.statusBar().text(dev.turboj.ui.StatusBar.Segment.PROJECT).contains("Maven")
+                    && frame.statusBar().text(dev.turboj.ui.StatusBar.Segment.PROJECT).contains("Java 21")
+                    && frame.statusBar().label(dev.turboj.ui.StatusBar.Segment.PROJECT).getToolTipText().contains("Modules 1")),
+                    "Maven import updates the project segment of the footer");
             JTextField input = new JTextField("Preserve dialog text", 24);
             JTable table = new JTable(2, 2);
             EmbeddedDialog dialog = edt(() -> {
@@ -100,10 +102,10 @@ public final class InterfaceZoomSmoke {
                 check(footer.getHeight() == status.getPreferredSize().height,
                         "compact frame keeps one text row at the bottom");
                 String activity = TurboFrame.compactStatus(frame.buildStatus());
-                check(status.getText().startsWith(" " + activity) && status.getFontMetrics(status.getFont()).stringWidth(" " + activity) < status.getWidth(),
+                check(status.getText().contains(activity) && status.getFontMetrics(status.getFont()).stringWidth(status.getText()) <= status.getWidth() + 1,
                         "compact footer keeps the complete activity first and visible");
-                check(!status.getText().contains(root.getFileName().toString()) && status.getToolTipText().contains(root.getFileName().toString()),
-                        "project name and module details remain in the tooltip");
+                check(!status.getText().contains(root.getFileName().toString()),
+                        "the project has its own segment, not the state's");
                 check(frame.console().getParent() instanceof JComponent panel && panel.getBorder() instanceof AsciiBorder border
                         && border.title().equals("Output"), "output title does not duplicate the status line");
                 return null;
@@ -116,10 +118,10 @@ public final class InterfaceZoomSmoke {
             edt(() -> {
                 frame.editor().gotoOffset(12); frame.validate();
                 JLabel caret = (JLabel) named(frame, "caret-status");
-                check(caret.getText().contains("…") && caret.getText().stripTrailing().endsWith("1:13")
-                        && caret.getToolTipText().equals(longFile.toString()), "long filename shortens while retaining caret and full path tooltip");
-                check(caret.getPreferredSize().width <= footer.getWidth() / 2 && status.getWidth() >= footer.getWidth() / 2,
-                        "long filename reserves at least half of footer for current activity");
+                check(caret.getText().strip().equals("Ln 1, Col 13") && caret.getToolTipText().startsWith(longFile.toString()),
+                        "the caret segment stays short; the full path is its tooltip (the file name is the editor's title)");
+                check(caret.getPreferredSize().width <= footer.getWidth() / 4 && status.getWidth() >= status.getPreferredSize().width,
+                        "a long file name never squeezes the current activity");
                 return null;
             });
             screenshot(frame, output.resolve("long-filename.png"));

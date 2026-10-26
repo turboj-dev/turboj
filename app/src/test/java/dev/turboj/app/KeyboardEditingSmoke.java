@@ -40,7 +40,7 @@ public final class KeyboardEditingSmoke {
         });
         try {
             waitFor(() -> frame.isActive() && frame.editor().isFocusOwner());
-            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic")) {
+            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos")) {
                 edt(() -> { frame.commandKeymaps().select(profile); return null; });
                 replaceDocument("alpha\nbeta\ngamma");
                 key(KeyEvent.VK_HOME, KeyEvent.META_DOWN_MASK); key(KeyEvent.VK_DOWN, 0);

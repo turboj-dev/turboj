@@ -25,11 +25,11 @@ public final class QuickFixPopupSmoke {
         try {
             frame = edt(() -> {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                Settings settings = new Settings(); settings.theme = "vscode-monokai"; settings.keymapProfile = "turboj-classic";
+                Settings settings = new Settings(); settings.theme = "vscode-monokai"; settings.keymapProfile = "turboj-macos";
                 TurboFrame result = new TurboFrame(settings,Map.of()); result.setVisible(true); result.toFront(); result.openPath(source); return result;
             });
             await(() -> source.equals(frame.currentFile()));
-            for (String profile : new String[]{"turboj-classic","eclipse-macos"}) {
+            for (String profile : new String[]{"turboj-macos","eclipse-macos"}) {
                 edt(() -> { frame.commandKeymaps().select(profile); frame.editor().gotoOffset(text.indexOf("Calculator") + 3);
                     frame.editor().requestFocusInWindow(); return null; });
                 await(() -> frame.editor().isFocusOwner());
@@ -59,6 +59,22 @@ public final class QuickFixPopupSmoke {
             key(KeyEvent.VK_1,KeyEvent.META_DOWN_MASK);
             await(() -> named("quick-actions-filter") instanceof JTextField field && field.isFocusOwner());
             edt(() -> {
+                JList<?> list = (JList<?>) named("quick-actions-proposals"); boolean found = false;
+                for (int i = 0; i < list.getModel().getSize(); i++)
+                    if (((Proposal)list.getModel().getElementAt(i)).title().contains("Create class 'Calculator'")) found = true;
+                if (!found) throw new AssertionError("Caret after the statement must reach the line's Create Calculator fix");
+                if (frame.editor().caretOffset() != text.lastIndexOf("Calculator"))
+                    throw new AssertionError("Caret must move to the closest problem, was " + frame.editor().caretOffset());
+                return null;
+            });
+            key(KeyEvent.VK_ESCAPE,0); await(() -> frame.editor().isFocusOwner());
+            if (edt(() -> frame.editor().caretOffset()) != text.lastIndexOf("Calculator"))
+                throw new AssertionError("Escape must keep the caret on the problem, as in Eclipse");
+            System.out.println("PASS Eclipse-style Cmd+1 after the statement jumps to the closest problem on its line");
+            edt(() -> { frame.editor().gotoOffset(text.indexOf("    }\n}")); return null; });
+            key(KeyEvent.VK_1,KeyEvent.META_DOWN_MASK);
+            await(() -> named("quick-actions-filter") instanceof JTextField field && field.isFocusOwner());
+            edt(() -> {
                 JTextArea details = (JTextArea)named("quick-actions-explanation");
                 if (!details.getText().contains("No applicable")) throw new AssertionError("Expected empty-caret explanation");
                 if (AsciiPalette.contrast(details.getForeground(),details.getBackground()) < 4.5) throw new AssertionError("Unreadable empty state");
@@ -70,7 +86,7 @@ public final class QuickFixPopupSmoke {
                 Graphics2D g = b.createGraphics(); frame.printAll(g); g.dispose(); return b;
             });
             ImageIO.write(capture,"png",image.toFile());
-            System.out.println("PASS Monokai empty state readable; caret after statement has no diagnostic proposal. Screenshot: " + image);
+            System.out.println("PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: " + image);
         } finally { if (frame != null) edt(() -> { frame.shutdown(); frame.dispose(); return null; }); }
     }
     private static Component named(String name) { return named(frame,name); }

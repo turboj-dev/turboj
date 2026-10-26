@@ -103,7 +103,7 @@ public final class ShortcutReference {
             for (var profile : profiles) {
                 var keys = bindings(registry, resolved.get(profile.id()), command.id());
                 out.append(' ').append(keys.isEmpty() ? "Unassigned" : cell(String.join(" / ", keys.stream()
-                        .map(key -> key.sequence().display()).toList()))).append(" |");
+                        .map(key -> key.sequence().words()).toList()))).append(" |");
             }
             out.append('\n');
         }

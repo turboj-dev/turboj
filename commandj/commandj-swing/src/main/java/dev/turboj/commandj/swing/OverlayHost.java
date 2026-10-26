@@ -56,8 +56,9 @@ public final class OverlayHost extends JLayeredPane {
             if (focus == null || SwingUtilities.getWindowAncestor(focus) != SwingUtilities
                     .getWindowAncestor(root))
                 return false;
+            // A component without focus traversal keys handles Tab itself (Swing's contract), e.g. a search's categories.
             if (event.getKeyCode() == KeyEvent.VK_TAB && !event.isAltDown()
-                    && !event.isMetaDown() && !event.isControlDown()) {
+                    && !event.isMetaDown() && !event.isControlDown() && focus.getFocusTraversalKeysEnabled()) {
                 if (event.isShiftDown()) focus.transferFocusBackward(); else focus.transferFocus();
                 event.consume();
                 return true;

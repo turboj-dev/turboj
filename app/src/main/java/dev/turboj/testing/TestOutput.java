@@ -1,77 +1,146 @@
 package dev.turboj.testing;
 
 import dev.turboj.compiler.WorkspaceCompilationResult;
+import dev.turboj.console.OutputLog;
 import dev.turboj.turbotest.TestEngine;
-import dev.turboj.ui.ConsolePane;
 import dev.turboj.ui.ConsolePane.Role;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
-/** Presents real test outcomes separately from program stdout without discarding diagnostics. */
+/**
+ * A test run in the output, written the way Maven Surefire reports one (docs/output-and-status.md): a compile phase,
+ * the tests' own output verbatim, one count line per class with its failures, then Results and the summary.
+ */
 public final class TestOutput {
-    private final ConsolePane console;
+    private final OutputLog log;
     private final LinkedHashMap<String, String> compilerDetails = new LinkedHashMap<>();
+    private OutputLog.Action action;
+    private boolean compiled = true;
 
-    public TestOutput(ConsolePane console) { this.console = console; }
+    public TestOutput(OutputLog log) { this.log = log; }
 
-    public void begin(boolean compilationOnly) {
+    /** Opens the action: {@code [INFO] Test CalculatorTest · hello-world · Java 25}, then its compile phase. */
+    public void begin(boolean compilationOnly, String subject) {
         compilerDetails.clear();
-        console.append("\n══ " + (compilationOnly ? "PROJECT BUILD" : "TURBOTEST")
-                + " ══════════════════════════════════════════════\n", Role.HEADING);
+        compiled = true;
+        action = log.start(compilationOnly ? "Compile Project" : "Test", subject);
+        action.phase("compile");
     }
 
-    public void status(String text) { console.append(text + "\n", Role.MUTED); }
+    public void begin(boolean compilationOnly) { begin(compilationOnly, ""); }
+
+    /** The test run is still writing to the output. */
+    public boolean open() { return action != null && action.open(); }
+
+    /** Output the tests print themselves, under the test phase. */
+    public void program(String text, boolean stderr) { if (open()) action.program(text, stderr); }
+
+    /**
+     * A progress message from the test controller. Phase changes become {@code --- test ---}; a message outside a run is
+     * not log material, so the caller shows it in the status line instead.
+     */
+    public boolean status(String text) {
+        if (!open()) return false;
+        if (text.startsWith("Compiling")) return true; // the compile phase is already open
+        if (text.startsWith("Running JUnit")) { action.phase("test"); return true; }
+        if (text.equals("Tests stopped.")) { action.finish(OutputLog.Outcome.STOPPED, null, null); return true; }
+        action.info(text);
+        return true;
+    }
 
     public void compilation(WorkspaceCompilationResult result, Path root) {
         for (var source : result.diagnostics()) {
             var diagnostic = source.diagnostic();
             boolean note = !diagnostic.isError() && !diagnostic.kind().contains("WARNING");
-            String location = location(source.fileName(), diagnostic.line(), root);
-            String detail = diagnostic.kind() + (location.isEmpty() ? "" : " " + location)
-                    + ": " + diagnostic.message();
+            String location = OutputLog.location(source.fileName(), Math.max(0, diagnostic.line()), Math.max(0, diagnostic.column()), root);
+            String detail = diagnostic.kind() + (location.isEmpty() ? "" : " " + location) + ": " + diagnostic.message();
             // javac emits the same toolchain note for main and test compilation.
             String key = note ? diagnostic.kind() + "\n" + diagnostic.message() : detail;
-            if (compilerDetails.putIfAbsent(key, detail) == null && !note)
-                console.append(detail + "\n", diagnostic.isError() ? Role.ERROR : Role.WARNING);
+            if (compilerDetails.putIfAbsent(key, detail) == null && !note && open())
+                action.problem(diagnostic.isError() ? OutputLog.Level.ERROR : OutputLog.Level.WARN, source.fileName(),
+                        Math.max(0, diagnostic.line()), Math.max(0, diagnostic.column()), diagnostic.message(), root);
         }
+        compiled = result.success();
+        if (open() && result.success()) action.info("Compiled in " + OutputLog.duration(result.durationNanos()));
     }
 
     public List<String> compilerDetails() { return List.copyOf(compilerDetails.values()); }
 
-    public void report(TestEngine.Report report) {
-        console.append("\n", Role.NORMAL);
-        for (var test : report.tests()) {
-            console.append("  [" + test.status() + "] " + name(test) + " · "
-                    + duration(test.durationNanos()) + "\n", role(test.status()));
-            if (test.failure() != null && !test.failure().isBlank())
-                console.append("    " + test.failure().replace("\n", "\n    ") + "\n", role(test.status()));
-            if (test.trace() != null && !test.trace().isBlank())
-                console.append(test.trace() + (test.trace().endsWith("\n") ? "" : "\n"), Role.MUTED);
+    /** The run ended without a report: compile-only, a compile failure, or a setup error. */
+    public void completed(String message) {
+        if (!open()) return;
+        if (compiled && message != null && message.toLowerCase(Locale.ROOT).contains("compiled")) {
+            action.info(message);
+            action.finish(OutputLog.Outcome.SUCCESS, null, null);
+        } else {
+            if (message != null && !message.isBlank()) action.error(message);
+            long errors = compilerDetails.values().stream().filter(detail -> detail.startsWith("ERROR")).count();
+            action.finish(OutputLog.Outcome.FAILURE, errors == 0 ? null : errors + (errors == 1 ? " error" : " errors"), null);
         }
-        for (String failure : report.engineFailures())
-            console.append("  [ENGINE FAILED] " + failure + "\n", Role.ERROR);
-        console.append("\n" + outcome(report) + " · " + countLabel(report.tests().size(), "test") + " · ", summaryRole(report));
-        console.append(report.passed() + " passed", report.passed() > 0 ? Role.SUCCESS : Role.MUTED);
-        console.append(" · ", Role.NORMAL);
-        console.append(report.failed() + " failed", report.failed() > 0 ? Role.ERROR : Role.MUTED);
-        console.append(" · ", Role.NORMAL);
-        console.append(count(report, TestEngine.Status.SKIPPED) + " skipped", Role.SKIPPED);
-        console.append(" · ", Role.NORMAL);
-        console.append(count(report, TestEngine.Status.ABORTED) + " aborted",
-                count(report, TestEngine.Status.ABORTED) > 0 ? Role.WARNING : Role.MUTED);
-        if (!report.engineFailures().isEmpty())
-            console.append(" · " + countLabel(report.engineFailures().size(), "engine failure"), Role.ERROR);
-        console.append(" · " + duration(report.durationNanos()) + "\n", Role.MUTED);
-        console.append("══════════════════════════════════════════════════════════\n", Role.HEADING);
+    }
+
+    /**
+     * <pre>
+     * [INFO] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3 ms -- in CalculatorTest
+     * [ERROR] CalculatorTest#testAdd · expected: &lt;4&gt; but was: &lt;5&gt;
+     * [INFO]
+     * [INFO] Results:
+     * [ERROR] Failures:
+     * [ERROR]   CalculatorTest#testAdd · expected: &lt;4&gt; but was: &lt;5&gt;
+     * [INFO] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
+     * </pre>
+     * Failures are failed assertions, Errors are engine failures, Skipped counts skipped and aborted tests.
+     */
+    public void report(TestEngine.Report report) {
+        if (!open()) begin(false, "");
+        var classes = new LinkedHashMap<String, List<TestEngine.Test>>();
+        for (var test : report.tests()) classes.computeIfAbsent(className(test), name -> new ArrayList<>()).add(test);
+        classes.forEach((name, tests) -> {
+            long failed = tests.stream().filter(test -> test.status() == TestEngine.Status.FAILED).count();
+            long skipped = tests.stream().filter(test -> test.status() == TestEngine.Status.SKIPPED || test.status() == TestEngine.Status.ABORTED).count();
+            long elapsed = tests.stream().mapToLong(TestEngine.Test::durationNanos).sum();
+            action.info(OutputLog.counts(tests.size(), failed, 0, skipped) + ", Time elapsed: " + OutputLog.duration(elapsed) + " -- in " + name,
+                    failed > 0 ? Role.ERROR : Role.SUCCESS);
+            for (var test : tests) {
+                String reason = test.failure() == null || test.failure().isBlank() ? "" : " · " + test.failure().lines().findFirst().orElse("");
+                switch (test.status()) {
+                    case FAILED -> { action.error(name(test) + reason); action.detail(test.trace()); }
+                    case ABORTED -> action.warn(name(test) + " aborted" + reason);
+                    case SKIPPED -> action.warn(name(test) + " skipped" + reason);
+                    case PASSED -> { }
+                }
+            }
+        });
+        action.blank();
+        action.info("Results:");
+        action.blank();
+        var failures = report.tests().stream().filter(test -> test.status() == TestEngine.Status.FAILED).toList();
+        if (!failures.isEmpty()) {
+            action.error("Failures:");
+            for (var test : failures)
+                action.error("  " + name(test) + (test.failure() == null || test.failure().isBlank() ? ""
+                        : " · " + test.failure().lines().findFirst().orElse("")));
+        }
+        if (!report.engineFailures().isEmpty()) {
+            action.error("Errors:");
+            for (String failure : report.engineFailures()) action.error("  " + failure);
+        }
+        if (report.tests().isEmpty() && report.engineFailures().isEmpty()) action.warn("No tests to run.");
+        action.info(OutputLog.counts(report.tests().size(), report.failed(), report.engineFailures().size(),
+                count(report, TestEngine.Status.SKIPPED) + count(report, TestEngine.Status.ABORTED)), summaryRole(report));
+        // As Surefire: no tests is not a failure, only a warning above.
+        action.finish(report.successful() ? OutputLog.Outcome.SUCCESS : OutputLog.Outcome.FAILURE,
+                report.tests().isEmpty() ? "no tests" : report.passed() + " of " + report.tests().size() + " passed", report.durationNanos());
     }
 
     public static String summary(TestEngine.Report report) {
         return outcome(report) + " · " + report.passed() + " passed · " + report.failed() + " failed · "
                 + count(report, TestEngine.Status.SKIPPED) + " skipped · " + count(report, TestEngine.Status.ABORTED)
                 + " aborted" + (report.engineFailures().isEmpty() ? "" : " · " + countLabel(report.engineFailures().size(), "engine failure"))
-                + " · " + duration(report.durationNanos());
+                + " · " + OutputLog.duration(report.durationNanos());
     }
 
     public static String name(TestEngine.Test test) {
@@ -84,9 +153,11 @@ public final class TestOutput {
         return name;
     }
 
-    public static String duration(long nanos) {
-        return String.format(Locale.ROOT, "%.2f ms", Math.max(0, nanos) / 1_000_000.0);
+    private static String className(TestEngine.Test test) {
+        return test.className() == null || test.className().isBlank() ? test.name() : test.className();
     }
+
+    public static String duration(long nanos) { return OutputLog.duration(nanos); }
 
     public static Role role(TestEngine.Status status) {
         return switch (status) {
@@ -115,15 +186,4 @@ public final class TestOutput {
     }
 
     private static String countLabel(long count, String label) { return count + " " + label + (count == 1 ? "" : "s"); }
-
-    private static String location(String fileName, long line, Path root) {
-        String file = fileName;
-        if (!file.isBlank() && root != null) {
-            try {
-                Path path = Path.of(file).toAbsolutePath().normalize();
-                if (path.startsWith(root.toAbsolutePath().normalize())) file = root.toAbsolutePath().normalize().relativize(path).toString();
-            } catch (RuntimeException ignored) { /* Keep compiler-supplied names intact. */ }
-        }
-        return line > 0 ? file + ":" + line : file;
-    }
 }

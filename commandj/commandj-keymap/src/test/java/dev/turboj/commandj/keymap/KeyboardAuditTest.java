@@ -13,7 +13,7 @@ class KeyboardAuditTest {
             registry.register(Command.action("refactor.context-actions", "Quick Fix", "Code", () -> {}));
             registry.register(Command.action("view.focusExplorer", "Explorer", "View", () -> {}));
             var resolver = new ShortcutResolver(maps,registry);
-            for (String profile : List.of("turboj-classic","eclipse-macos")) {
+            for (String profile : List.of("turboj-macos","eclipse-macos")) {
                 maps.select(profile);
                 assertEquals("refactor.context-actions",resolver.accept(KeyStrokeSpec.parse("META+1"),CommandContext.of("editor"),1).command());
                 assertEquals("refactor.context-actions",resolver.accept(KeyStrokeSpec.parse("META+1"),CommandContext.of("quick-fix-popup"),2).command());
@@ -25,7 +25,7 @@ class KeyboardAuditTest {
     }
 
     @Test void classicQuickFixMigrationPreservesCustomizedCmdOneAndExplicitUnbinding() {
-        var maps = new KeymapManager(); maps.select("turboj-classic");
+        var maps = new KeymapManager(); maps.select("turboj-macos");
         var profile = maps.selected();
         var previous = new LinkedHashMap<>(profile.overrides());
         previous.remove("refactor.context-actions");
@@ -36,7 +36,7 @@ class KeyboardAuditTest {
         assertTrue(maps.migrationNotices().stream().anyMatch(s -> s.contains("refactor.context-actions")));
         previous.remove("custom.action");
         maps.install(List.of(new KeymapProfile(profile.id(),profile.name(),null,previous,true)),profile.id());
-        assertEquals(List.of(KeyBinding.of("META+1")),maps.bindings("refactor.context-actions"));
+        assertEquals(List.of(KeyBinding.of("ALT+ENTER"),KeyBinding.of("META+1")),maps.bindings("refactor.context-actions"));
         previous.put("refactor.context-actions",List.of());
         maps.install(List.of(new KeymapProfile(profile.id(),profile.name(),null,previous,true)),profile.id());
         assertTrue(maps.bindings("refactor.context-actions").isEmpty());
@@ -48,12 +48,14 @@ class KeyboardAuditTest {
             registry.register(Command.action("saveAs", "Save As", "File", () -> {}));
             registry.register(Command.action("file.saveAll", "Save All", "File", () -> {}));
             var resolver = new ShortcutResolver(maps, registry);
-            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic")) {
+            for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos")) {
                 maps.select(profile);
                 boolean eclipse = profile.equals("eclipse-macos");
                 assertEquals(eclipse ? "file.saveAll" : "saveAs", resolver.accept(
                         KeyStrokeSpec.parse("META+SHIFT+S"), CommandContext.of("editor"), 1).command(), profile);
-                assertTrue(maps.bindings(eclipse ? "saveAs" : "file.saveAll").isEmpty(), profile);
+                if (profile.equals("turboj-macos")) assertEquals(List.of(KeyBinding.of("META+ALT+S")), maps.bindings("file.saveAll"),
+                        "TurboJ follows the macOS Option-means-all convention");
+                else assertTrue(maps.bindings(eclipse ? "saveAs" : "file.saveAll").isEmpty(), profile);
                 assertTrue(maps.conflicts().isEmpty(), profile);
             }
         }
@@ -116,8 +118,8 @@ class KeyboardAuditTest {
         assertEquals(KeySequence.parse("META+D"), maps.bindings("editor.selectNextOccurrence").getFirst().sequence());
         assertEquals(KeySequence.parse("ALT+SHIFT+DOWN"), maps.bindings("editor.copyLineDown").getFirst().sequence());
         assertTrue(maps.bindings("duplicateLine").isEmpty());
-        maps.select("turboj-classic");
-        assertEquals(KeySequence.parse("F1"), maps.bindings("help").getFirst().sequence());
+        maps.select("turboj-macos");
+        assertEquals(KeySequence.parse("SHIFT+F1"), maps.bindings("help").getFirst().sequence());
         assertTrue(maps.bindings("run").stream().anyMatch(b -> b.sequence().equals(KeySequence.parse("CTRL+F9"))));
     }
 

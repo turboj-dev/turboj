@@ -25,6 +25,11 @@ public final class SwingKeys {
 
     private SwingKeys() {}
 
+    /** The portable key name (ENTER, OPEN_BRACKET…) of an AWT key code. */
+    public static Optional<String> keyName(int code) {
+        return Optional.ofNullable(NAMES.get(code));
+    }
+
     public static Optional<KeyStrokeSpec> fromEvent(KeyEvent event) {
         if (event.isAltGraphDown())
             return Optional.empty();

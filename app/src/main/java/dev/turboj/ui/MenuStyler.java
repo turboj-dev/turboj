@@ -1,5 +1,7 @@
 package dev.turboj.ui;
 
+import dev.turboj.commandj.swing.KeyGlyphs;
+
 import dev.turboj.commandj.swing.AsciiBorder;
 import dev.turboj.commandj.swing.AsciiPalette;
 import dev.turboj.commandj.swing.AsciiStyle;
@@ -145,6 +147,17 @@ public final class MenuStyler {
         if (shortcut == null) return "";
         var label = new StringBuilder();
         int modifiers = shortcut.getModifiers();
+        if (dev.turboj.commandj.keymap.KeyStrokeSpec.usesSymbols()) {
+            // Apple's menu notation: ⌃⌥⇧⌘ then the key, no plus signs.
+            if ((modifiers & InputEvent.CTRL_DOWN_MASK) != 0) label.append('⌃');
+            if ((modifiers & InputEvent.ALT_DOWN_MASK) != 0) label.append('⌥');
+            if ((modifiers & InputEvent.SHIFT_DOWN_MASK) != 0) label.append('⇧');
+            if ((modifiers & InputEvent.META_DOWN_MASK) != 0) label.append('⌘');
+            return label.append(shortcut.getKeyCode() == KeyEvent.VK_UNDEFINED ? String.valueOf(shortcut.getKeyChar())
+                    : dev.turboj.commandj.swing.SwingKeys.keyName(shortcut.getKeyCode())
+                            .map(dev.turboj.commandj.keymap.KeyStrokeSpec::keySymbol)
+                            .orElse(KeyEvent.getKeyText(shortcut.getKeyCode()))).toString();
+        }
         if ((modifiers & InputEvent.META_DOWN_MASK) != 0) label.append("Cmd+");
         if ((modifiers & InputEvent.CTRL_DOWN_MASK) != 0) label.append("Ctrl+");
         if ((modifiers & InputEvent.ALT_DOWN_MASK) != 0) label.append("Option+");
@@ -164,12 +177,12 @@ public final class MenuStyler {
         FontMetrics fm = item.getFontMetrics(AsciiChrome.font());
         int cell = fm.charWidth('M'), width = fm.stringWidth(item.getText() == null ? "" : item.getText());
         if (topLevel(item)) return new Dimension(topLevelWidth((JMenu) item), fm.getHeight() + 4);
-        int shortcuts = fm.stringWidth(accelerator(item.getAccelerator()));
+        int shortcuts = KeyGlyphs.width(item, AsciiChrome.font(), accelerator(item.getAccelerator()));
         Container parent = item.getParent();
         if (parent != null)
             for (Component sibling : parent.getComponents())
                 if (sibling instanceof JMenuItem other)
-                    shortcuts = Math.max(shortcuts, fm.stringWidth(accelerator(other.getAccelerator())));
+                    shortcuts = Math.max(shortcuts, KeyGlyphs.width(item, AsciiChrome.font(), accelerator(other.getAccelerator())));
         return new Dimension(width + cell * 8 + (shortcuts == 0 ? 0 : shortcuts + cell * 2), fm.getHeight() + 2);
     }
 
@@ -194,9 +207,9 @@ public final class MenuStyler {
             String label = item.getText() == null ? "" : item.getText();
             if (!top) {
                 String shortcut = accelerator(item.getAccelerator());
-                int shortcutWidth = fm.stringWidth(shortcut);
+                int shortcutWidth = KeyGlyphs.width(item, AsciiChrome.font(), shortcut);
                 int shortcutX = leftToRight ? item.getWidth() - cell * 3 - shortcutWidth : cell * 3;
-                if (!shortcut.isEmpty()) g.drawString(shortcut, shortcutX, baseline);
+                if (!shortcut.isEmpty()) KeyGlyphs.draw((Graphics2D) g, shortcut, shortcutX, baseline);
                 String marker = choice(item);
                 if (!marker.isEmpty()) g.drawString(marker, leftToRight ? cell : item.getWidth() - cell * 4, baseline);
                 if (item instanceof JMenu) g.drawString(leftToRight ? ">" : "<",

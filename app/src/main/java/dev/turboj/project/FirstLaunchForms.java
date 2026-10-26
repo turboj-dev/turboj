@@ -23,6 +23,9 @@ public final class FirstLaunchForms {
         JTextField root = form.text("Source folder", "source-root", parameters.getOrDefault("sourceRoot", "")); root.setEditable(false);
         JTextField pkg = form.text("Package", "package", parameters.getOrDefault("packageName", "")); pkg.setEditable(false);
         JTextField name = form.text("Name", "name", parameters.getOrDefault("className", parameters.getOrDefault("name", ""))); name.setEditable(false);
+        for (String kind : java.util.List.of("superclass", "interface"))
+            if (!parameters.getOrDefault(kind, "").isEmpty())
+                form.text(kind.equals("superclass") ? "Superclass" : "Interface", kind, parameters.get(kind)).setEditable(false);
         form.note(proposal.explanation());
         form.note("These values are inferred from the unresolved reference. No main method is added.");
         form.initial = null;
@@ -46,24 +49,30 @@ public final class FirstLaunchForms {
 
     public static FirstLaunchProjects.ProjectSpec project(Component owner, Path workspace, boolean maven) {
         Form form = new Form(owner, maven ? "New Maven Project" : "New Java Project", "project");
-        JTextField name = form.text("Project name", "name", "");
-        JTextField location = form.text("Location", "location", workspace.toString());
+        String initialName = "HelloWorld", folder = FirstLaunchProjects.directoryName(initialName);
+        JTextField name = form.text("Project name", "name", initialName);
+        // The project folder lives inside the workspace and follows the name until edited: HelloWorld → hello-world.
+        JTextField location = form.text("Location", "location", workspace.resolve(folder).toString());
         JLabel kind = new JLabel(maven ? "Maven" : "TurboJ Native"); kind.setName("first-launch-project-kind");
         form.row("Build system", kind);
         form.row("Java version", new JLabel("Java 25"));
         JTextField group = maven ? form.text("Group ID", "group", "example") : null;
-        JTextField artifact = maven ? form.text("Artifact ID", "artifact", "") : null;
-        final String[] previous = {workspace.toString(), ""};
+        JTextField artifact = maven ? form.text("Artifact ID", "artifact", folder) : null;
+        JCheckBox main = form.check(mainLabel(initialName), "main", true);
+        final String[] previous = {location.getText(), folder};
         name.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent event) { update(); }
             public void removeUpdate(DocumentEvent event) { update(); }
             public void changedUpdate(DocumentEvent event) { update(); }
             private void update() {
-                String next = workspace.resolve(name.getText().strip()).toString();
+                String directory = FirstLaunchProjects.directoryName(name.getText());
+                String next = name.getText().isBlank() ? workspace.toString() : workspace.resolve(directory).toString();
                 if (location.getText().equals(previous[0])) location.setText(next);
                 previous[0] = next;
-                if (artifact != null && artifact.getText().equals(previous[1])) artifact.setText(name.getText().strip());
-                previous[1] = name.getText().strip();
+                if (artifact != null && artifact.getText().equals(previous[1])) artifact.setText(directory);
+                previous[1] = directory;
+                main.setText(mainLabel(name.getText()));
+                main.setEnabled(!FirstLaunchProjects.mainClassName(name.getText()).isEmpty());
             }
         });
         form.note("Main sources: src/main/java     Test sources: src/test/java");
@@ -74,8 +83,14 @@ public final class FirstLaunchForms {
             if (destination.equals(workspace.toAbsolutePath().normalize())) throw new IllegalArgumentException("Choose a new project folder inside the workspace.");
             return new FirstLaunchProjects.ProjectSpec(workspace, value, destination,
                     maven ? FirstLaunchProjects.Kind.MAVEN : FirstLaunchProjects.Kind.JAVA,
-                    group == null ? "" : group.getText().strip(), artifact == null ? "" : artifact.getText().strip(), "25");
+                    group == null ? "" : group.getText().strip(), artifact == null ? "" : artifact.getText().strip(), "25",
+                    main.isEnabled() && main.isSelected() ? FirstLaunchProjects.mainClassName(value) : "");
         });
+    }
+
+    private static String mainLabel(String projectName) {
+        String type = FirstLaunchProjects.mainClassName(projectName);
+        return type.isEmpty() ? "Create main class (the project name is not a Java name)" : "Create " + type + ".java with main";
     }
 
     public static FirstLaunchProjects.MainSpec mainClass(Component owner, Path sourceRoot, String packageName) {
@@ -119,7 +134,11 @@ public final class FirstLaunchForms {
 
     private static Path requiredPath(JTextField field) {
         if (field.getText().isBlank()) throw new IllegalArgumentException("Enter a directory.");
-        return Path.of(field.getText().strip()).toAbsolutePath().normalize();
+        String text = field.getText().strip();
+        // ~ means the user's home, as in a shell; Path.of would create a folder literally named "~".
+        if (text.equals("~") || text.startsWith("~/") || text.startsWith("~" + java.io.File.separator))
+            text = System.getProperty("user.home") + text.substring(1);
+        return Path.of(text).toAbsolutePath().normalize();
     }
 
     private static final class Form {

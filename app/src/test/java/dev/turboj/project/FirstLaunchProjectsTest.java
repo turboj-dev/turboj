@@ -25,6 +25,41 @@ class FirstLaunchProjectsTest {
         assertEquals("do not touch", Files.readString(result.root().resolve("owned.java")));
     }
 
+    @Test void projectNamesDeriveTheFolderAndTheMainClass() {
+        assertEquals("hello-world", FirstLaunchProjects.directoryName("HelloWorld"));
+        assertEquals("my-app", FirstLaunchProjects.directoryName("My App"));
+        assertEquals("xml-parser2", FirstLaunchProjects.directoryName("XMLParser2"));
+        assertEquals("first-launch-java", FirstLaunchProjects.directoryName("first-launch-java"));
+        assertEquals("HelloWorld", FirstLaunchProjects.mainClassName("HelloWorld"));
+        assertEquals("HelloWorld", FirstLaunchProjects.mainClassName("hello-world"));
+        assertEquals("MyApp", FirstLaunchProjects.mainClassName("my app"));
+        assertEquals("", FirstLaunchProjects.mainClassName("2048"), "no Java class starts with a digit");
+        assertEquals("example.helloworld", FirstLaunchProjects.mavenPackage("example", "hello-world"));
+        assertEquals("example", FirstLaunchProjects.mavenPackage("example", "2048"));
+    }
+
+    @Test void newProjectOpensItsEmptyMainWithTheCaretInsideMain() throws Exception {
+        var plain = FirstLaunchProjects.createProject(new FirstLaunchProjects.ProjectSpec(temporary, "HelloWorld",
+                temporary.resolve("hello-world"), FirstLaunchProjects.Kind.JAVA, "", "", "25", "HelloWorld"));
+        Path main = plain.root().resolve("src/main/java/HelloWorld.java");
+        assertEquals(main, plain.initialFile());
+        String text = Files.readString(main);
+        assertEquals("public class HelloWorld {\n\n    public static void main(String[] args) {\n        \n    }\n}\n", text);
+        assertEquals("        ", text.substring(text.lastIndexOf('\n', plain.initialCaret() - 1) + 1, plain.initialCaret()),
+                "the caret is on main's indented empty line");
+        assertEquals('\n', text.charAt(plain.initialCaret()));
+
+        var maven = FirstLaunchProjects.createProject(new FirstLaunchProjects.ProjectSpec(temporary, "HelloWorld",
+                temporary.resolve("hello-maven"), FirstLaunchProjects.Kind.MAVEN, "example", "hello-world", "25", "HelloWorld"));
+        Path mavenMain = maven.root().resolve("src/main/java/example/helloworld/HelloWorld.java");
+        assertEquals(mavenMain, maven.initialFile());
+        assertTrue(Files.readString(mavenMain).startsWith("package example.helloworld;\n\npublic class HelloWorld {\n"));
+
+        var none = FirstLaunchProjects.createProject(project("no-main", false));
+        assertEquals(-1, none.initialCaret());
+        assertEquals(none.root().resolve(".turboj/project.properties"), none.initialFile());
+    }
+
     @Test void mavenProjectPinsCompilerAndTestPluginWithoutInventingJUnitDependency() throws Exception {
         var result = FirstLaunchProjects.createProject(project("maven", true));
         String pom = Files.readString(result.root().resolve("pom.xml"));
@@ -139,6 +174,34 @@ class FirstLaunchProjectsTest {
         assertTrue(updated.contains("<scope>test</scope>"));
         assertEquals(context.pomText(), Files.readString(pom), "Preparation must not save a POM");
         assertFalse(Files.exists(generated.file()));
+    }
+
+    @Test void addJUnitLibraryKeepsTheImportWithThePomOrPlainMarkerInOneTransaction() throws Exception {
+        var maven = context("maven-library", true);
+        var mavenLibrary = FirstLaunchProjects.junitLibrary(maven.snapshot(), maven.projectRoot(), maven.testRoot(), maven.pomText());
+        var importEdit = new FileEdits(maven.sourceFile(), List.of(new TextEdit(0, 0, "import org.junit.jupiter.api.Test;\n")));
+        var pomPlan = FirstLaunchProjects.junitLibraryPlan(maven.snapshot(), mavenLibrary, maven.sourceFile(), List.of(importEdit)).plan();
+        Path pom = maven.projectRoot().resolve("pom.xml");
+        assertEquals(List.of(maven.sourceFile(), pom), pomPlan.edits().stream().map(FileEdits::file).toList());
+        assertTrue(pomPlan.fileOperations().isEmpty());
+        String updated = TextEdit.apply(maven.pomText(), pomPlan.edits().get(1).edits());
+        assertTrue(updated.contains("<artifactId>junit-jupiter</artifactId>") && updated.contains("<scope>test</scope>"));
+        assertEquals(maven.pomText(), Files.readString(pom), "Preparation must not save a POM");
+
+        var plain = context("plain-library", false);
+        var plainLibrary = FirstLaunchProjects.junitLibrary(plain.snapshot(), plain.projectRoot(), plain.testRoot(), null);
+        var markerPlan = FirstLaunchProjects.junitLibraryPlan(plain.snapshot(), plainLibrary, plain.sourceFile(), List.of()).plan();
+        assertEquals(List.of(), markerPlan.edits());
+        var marker = markerPlan.fileOperations().getFirst();
+        assertEquals(plain.projectRoot().resolve(FirstLaunchProjects.JUNIT_MARKER), marker.path());
+        assertEquals("runtime=bundled-jupiter-5.13.4\n", marker.content());
+        assertFalse(Files.exists(marker.path()));
+
+        var withJUnit = new WorkspaceSnapshot(plain.snapshot().root(), 1, plain.snapshot().sources(), plain.snapshot().sourceRoots(),
+                FirstLaunchProjects.bundledJUnitClasspath());
+        var present = FirstLaunchProjects.junitLibrary(withJUnit, plain.projectRoot(), plain.testRoot(), null);
+        assertTrue(present.available());
+        assertThrows(IllegalStateException.class, () -> FirstLaunchProjects.junitLibraryPlan(withJUnit, present, plain.sourceFile(), List.of()));
     }
 
     @Test void refusesDuplicateJUnitDeclarationUntilMavenClasspathHasResolved() throws Exception {

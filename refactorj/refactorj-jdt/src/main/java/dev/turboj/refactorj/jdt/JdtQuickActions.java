@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.rewrite.ImportRewrite;
 import org.eclipse.jdt.core.search.*;
 import org.eclipse.jdt.internal.ui.text.correction.proposals.AssignToVariableAssistProposalCore;
 import org.eclipse.ltk.core.refactoring.Change;
@@ -25,7 +26,7 @@ final class JdtQuickActions implements JavaQuickActions {
         @Override protected boolean removeEldestEntry(Map.Entry<String, Offered> entry) { return size() > 128; }
     };
     @FunctionalInterface private interface Provider { void collect(Context context, List<Proposal> into); }
-    private final List<Provider> providers = List.of(this::missingTypes, this::missingMethods,
+    private final List<Provider> providers = List.of(this::missingJUnit, this::missingTypes, this::missingStaticImports, this::missingMethods,
             this::diagnosticCorrections, this::testGeneration, this::refactoringAssists, this::assignAssists);
     private record Context(Location at, WorkspaceSnapshot snapshot, CompilationUnit tree, ASTNode node,
                            List<IProblem> problems, Cancellation cancel) {}
@@ -39,6 +40,19 @@ final class JdtQuickActions implements JavaQuickActions {
         if (at.end() > text.length()) throw new IllegalArgumentException("Selection is outside the current source");
         offered.entrySet().removeIf(e -> !e.getValue().snapshot().equals(before));
         var tree = workspace.ast(at.file());
+        var inspection = inspect(at, before, text, tree, cancel);
+        if (!inspection.fixes().isEmpty() || at.start() != at.end()) return inspection;
+        // Like Eclipse, a caret without fixes moves to the closest fixable problem on its line, errors first.
+        for (IProblem problem : lineProblems(tree, text, at)) {
+            var moved = inspect(new Location(at.file(), problem.getSourceStart()), before, text, tree, cancel);
+            if (moved.fixes().isEmpty()) { forget(moved); continue; }
+            forget(inspection);
+            return moved;
+        }
+        return inspection;
+    }
+
+    private Inspection inspect(Location at, WorkspaceSnapshot before, String text, CompilationUnit tree, Cancellation cancel) {
         ASTNode node = NodeFinder.perform(tree, at.start(), at.end() - at.start());
         if (node == null && at.start() > 0) node = NodeFinder.perform(tree, at.start() - 1, 0);
         List<IProblem> problems = Arrays.stream(tree.getProblems()).filter(p -> intersects(at, p)).toList();
@@ -144,6 +158,11 @@ final class JdtQuickActions implements JavaQuickActions {
         if (!problem(c, IProblem.UndefinedType)) return;
         SimpleName name = c.node() instanceof SimpleName n ? n : ancestor(c.node(), SimpleName.class);
         if (name == null || name.resolveBinding() != null && !name.resolveBinding().isRecovered()) return;
+        if (name.getParent() instanceof Annotation annotation && annotation.getTypeName() == name) {
+            // An annotation's name is not a SimpleType; it is only ever imported, never created as a class.
+            offerImports(c, into, name.getIdentifier(), IJavaSearchConstants.ANNOTATION_TYPE);
+            return;
+        }
         SimpleType type = ancestor(name, SimpleType.class);
         if (type == null || ancestor(name, ImportDeclaration.class) != null) return;
         String identifier = name.getIdentifier();
@@ -151,15 +170,12 @@ final class JdtQuickActions implements JavaQuickActions {
         String pkg = qualified.contains(".") ? qualified.substring(0, qualified.lastIndexOf('.')) : packageName(c.tree());
         if (!identifier(identifier) || !packageNameValid(pkg)) return;
 
-        // Import alternatives come from the actual Java project's visible source/library types.
-        if (!qualified.contains(".")) for (String candidate : importCandidates(c, identifier)) {
-            var request = new Requests.AddImport(c.at(), candidate, false);
-            Plan plan = engine.prepare(request, c.cancel());
-            if (!plan.valid()) continue;
-            offer(c, into, Kind.FIX, Action.ADD_IMPORT, "Import '" + candidate + "'",
-                    "Add the resolved type import to this source file.", c.at(), Operation.ADD_IMPORT,
-                    Map.of("qualifiedName", candidate), cancel -> prepared(plan, c.at()));
-        }
+        if (!qualified.contains(".")) offerImports(c, into, identifier, IJavaSearchConstants.TYPE);
+        createClass(c, into, type, identifier, pkg);
+        if (!qualified.contains(".")) similarTypes(c, into, name);
+    }
+
+    private void createClass(Context c, List<Proposal> into, SimpleType type, String identifier, String pkg) {
         // An implemented interface or annotation cannot truthfully be offered as Create class.
         ASTNode topType = type;
         while (topType.getParent() instanceof ParameterizedType || topType.getParent() instanceof ArrayType) topType = topType.getParent();
@@ -176,27 +192,306 @@ final class JdtQuickActions implements JavaQuickActions {
         String typeParameters = arity == 0 ? "" : "<" + java.util.stream.IntStream.range(0, arity)
                 .mapToObj(i -> i == 0 ? "T" : "T" + (i + 1)).collect(java.util.stream.Collectors.joining(", ")) + ">";
         String separator = c.snapshot().source(c.at().file()).text().contains("\r\n") ? "\r\n" : "\n";
-        String content = (pkg.isEmpty() ? "" : "package " + pkg + ";" + separator + separator)
-                + "public class " + identifier + typeParameters + " {" + separator + "    " + separator + "}" + separator;
+        // Like Eclipse's new-class wizard, `Base b = new Missing()` creates Missing as a Base, so the assignment compiles.
+        ITypeBinding expected = creation == null || creation.getType() != type ? null : supertype(expectedType(creation));
+        String imported = expected == null || expected.getPackage().getName().isEmpty()
+                || expected.getPackage().getName().equals("java.lang") || expected.getPackage().getName().equals(pkg)
+                ? "" : "import " + expected.getQualifiedName() + ";" + separator + separator;
+        String header = expected == null ? "" : (expected.isInterface() ? " implements " : " extends ") + expected.getName();
+        String content = (pkg.isEmpty() ? "" : "package " + pkg + ";" + separator + separator) + imported
+                + "public class " + identifier + typeParameters + header + " {" + separator + "    " + separator + "}" + separator;
         var at = new Location(destination, content.indexOf("    ") + 4);
         Plan plan = checkedPlan(Operation.CREATE_CLASS, c.snapshot(), List.of(),
                 List.of(new FileOperation(FileOperationKind.CREATE, destination, null, content)),
                 "Create class '" + identifier + "'", c.cancel());
         if (!plan.valid()) return;
         offer(c, into, Kind.FIX, Action.CREATE_CLASS, "Create class '" + identifier + "'",
-                "Create " + destination.getFileName() + " in " + (pkg.isEmpty() ? "the default package" : pkg)
-                        + " under " + c.snapshot().root().relativize(root) + ".",
+                "Create " + destination.getFileName() + (header.isEmpty() ? "" : " (" + header.strip() + ")") + " in "
+                        + (pkg.isEmpty() ? "the default package" : pkg) + " under " + c.snapshot().root().relativize(root) + ".",
                 c.at(), Operation.CREATE_CLASS, Map.of("className", identifier, "packageName", pkg,
-                        "sourceRoot", root.toString(), "targetFile", destination.toString()),
+                        "sourceRoot", root.toString(), "targetFile", destination.toString(),
+                        expected != null && expected.isInterface() ? "interface" : "superclass",
+                        expected == null ? "" : expected.getQualifiedName()),
                 cancel -> new Prepared(plan, at, List.of()));
     }
 
-    private List<String> importCandidates(Context c, String name) {
+    /** The type a `new` expression must produce: its variable's, its assignment target's or its method's return type. */
+    private static ITypeBinding expectedType(ClassInstanceCreation creation) {
+        ASTNode parent = creation.getParent();
+        if (parent instanceof VariableDeclarationFragment fragment && fragment.getInitializer() == creation)
+            return fragment.resolveBinding() == null ? null : fragment.resolveBinding().getType();
+        if (parent instanceof Assignment assignment && assignment.getRightHandSide() == creation)
+            return assignment.getLeftHandSide().resolveTypeBinding();
+        if (parent instanceof ReturnStatement) {
+            for (ASTNode node = parent; node != null; node = node.getParent()) {
+                if (node instanceof LambdaExpression) return null;
+                if (node instanceof MethodDeclaration method)
+                    return method.resolveBinding() == null ? null : method.resolveBinding().getReturnType();
+            }
+        }
+        return null;
+    }
+
+    /** Only a plain, importable, extendable class or interface; validation still rejects one the new class cannot satisfy. */
+    private static ITypeBinding supertype(ITypeBinding type) {
+        if (type == null || type.isRecovered() || !type.isTopLevel() || !type.isClass() && !type.isInterface()
+                || type.isAnnotation() || type.isParameterizedType() || type.isGenericType() || type.isRawType()
+                || Modifier.isFinal(type.getModifiers()) || type.getQualifiedName().equals("java.lang.Object")) return null;
+        return type;
+    }
+
+    /** Like Eclipse's "Change to", a misspelled type offers the visible types with a nearly identical name. */
+    private void similarTypes(Context c, List<Proposal> into, SimpleName name) {
+        String identifier = name.getIdentifier();
+        String pkg = packageName(c.tree());
+        var similar = new TreeMap<String, Integer>();
+        try {
+            new SearchEngine(workspace.units().toArray(ICompilationUnit[]::new)).searchAllTypeNames(null,
+                    SearchPattern.R_EXACT_MATCH, identifier.substring(0, 1).toCharArray(),
+                    SearchPattern.R_PREFIX_MATCH | SearchPattern.R_CASE_SENSITIVE, IJavaSearchConstants.CLASS_AND_INTERFACE,
+                    SearchEngine.createJavaSearchScope(new IJavaElement[]{workspace.javaProject(c.at().file())}),
+                    new TypeNameMatchRequestor() { @Override public void acceptTypeNameMatch(TypeNameMatch match) {
+                        c.cancel().check();
+                        IType type = match.getType();
+                        String simple = match.getSimpleTypeName();
+                        int distance = distance(identifier, simple);
+                        if (type == null || type.getDeclaringType() != null || simple.equals(identifier)
+                                || distance > Math.max(1, identifier.length() / 4)
+                                || !Flags.isPublic(match.getModifiers()) && !type.getPackageFragment().getElementName().equals(pkg)) return;
+                        similar.put(type.getFullyQualifiedName('.'), distance);
+                    } }, IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH, LtkWorkspace.monitor(c.cancel()));
+        } catch (CoreException error) { return; }
+        // Project types (the same package first) before library types, then the closest spelling.
+        var ranked = similar.keySet().stream().sorted(Comparator.<String>comparingInt(similar::get)
+                .thenComparing(qualified -> !samePackage(qualified, pkg)).thenComparing(Comparator.naturalOrder())).limit(3).toList();
+        for (String qualified : ranked) {
+            String simple = qualified.substring(qualified.lastIndexOf('.') + 1);
+            String before = c.snapshot().source(c.at().file()).text(), after;
+            try {
+                var document = new org.eclipse.jface.text.Document(before);
+                ImportRewrite imports = ImportRewrite.create(c.tree(), true);
+                if (!samePackage(qualified, pkg) && !imports.addImport(qualified).equals(simple)) continue;
+                var edit = new org.eclipse.text.edits.MultiTextEdit();
+                edit.addChild(new org.eclipse.text.edits.ReplaceEdit(name.getStartPosition(), name.getLength(), simple));
+                edit.addChild(imports.rewriteImports(LtkWorkspace.monitor(c.cancel())));
+                edit.apply(document);
+                after = document.get();
+            } catch (CoreException | org.eclipse.jface.text.BadLocationException | org.eclipse.text.edits.MalformedTreeException error) { continue; }
+            String title = "Change to '" + simple + "'" + (samePackage(qualified, pkg) ? "" : " (" + qualified.substring(0, qualified.lastIndexOf('.')) + ")");
+            Plan plan = checkedPlan(Operation.FIX_TYPE_MISMATCH, c.snapshot(),
+                    List.of(new FileEdits(c.at().file(), ChangePlans.difference(before, after))), List.of(), title, c.cancel());
+            if (!plan.valid()) continue;
+            offer(c, into, Kind.FIX, Action.REFACTOR, title, "Replace '" + identifier + "' with the existing type " + qualified + ".",
+                    c.at(), Operation.FIX_TYPE_MISMATCH, Map.of("direct", "true"), cancel -> prepared(plan, c.at()));
+        }
+    }
+
+    private static boolean samePackage(String qualified, String pkg) {
+        return qualified.lastIndexOf('.') < 0 ? pkg.isEmpty() : qualified.substring(0, qualified.lastIndexOf('.')).equals(pkg);
+    }
+
+    private static int distance(String a, String b) {
+        int[] previous = new int[b.length() + 1], current = new int[b.length() + 1];
+        for (int j = 0; j <= b.length(); j++) previous[j] = j;
+        for (int i = 1; i <= a.length(); i++) {
+            current[0] = i;
+            for (int j = 1; j <= b.length(); j++)
+                current[j] = Math.min(Math.min(current[j - 1], previous[j]) + 1, previous[j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1));
+            int[] swap = previous; previous = current; current = swap;
+        }
+        return previous[b.length()];
+    }
+
+    /** Like Eclipse, an unresolved Jupiter annotation offers the library itself when it is missing from the build path.
+     * Unresolved JUnit 4 imports (org.junit.Test…) move to Jupiter, the JUnit that TurboJ provides. */
+    private void missingJUnit(Context c, List<Proposal> into) {
+        boolean jupiter = onBuildPath(c, JupiterApi.PROBE);
+        var junit4 = onBuildPath(c, JupiterApi.JUNIT4_PROBE) ? List.<ImportDeclaration>of() : junit4Imports(c.tree());
+        if (atJUnit4(c, junit4)) { migrateJUnit4(c, into, junit4, jupiter); return; }
+        if (jupiter || !problem(c, IProblem.UndefinedType)) return;
+        SimpleName name = c.node() instanceof SimpleName n ? n : ancestor(c.node(), SimpleName.class);
+        if (name == null || !(name.getParent() instanceof Annotation annotation) || annotation.getTypeName() != name
+                || !JupiterApi.ANNOTATIONS.contains(name.getIdentifier())) return;
+        String qualified = JupiterApi.PACKAGE + "." + name.getIdentifier();
+        ImportRewrite imports = ImportRewrite.create(c.tree(), true);
+        if (!imports.addImport(qualified).equals(name.getIdentifier())) return;
+        String before = c.snapshot().source(c.at().file()).text(), after;
+        try {
+            var document = new org.eclipse.jface.text.Document(before);
+            imports.rewriteImports(LtkWorkspace.monitor(c.cancel())).apply(document);
+            after = document.get();
+        } catch (CoreException | org.eclipse.jface.text.BadLocationException error) { return; }
+        // The import cannot compile until the host adds the library, so it is not validated against this snapshot.
+        Plan plan = new Plan(UUID.randomUUID().toString(), Operation.ADD_IMPORT, c.snapshot(), List.of(),
+                List.of(new FileEdits(c.at().file(), ChangePlans.difference(before, after))), List.of(), List.of(),
+                ValidationStatus.VALID, "Add JUnit 5 library to the build path");
+        offer(c, into, Kind.FIX, Action.ADD_JUNIT_LIBRARY, "Add JUnit 5 library to the build path",
+                "Add JUnit Jupiter to this project, then import '" + qualified + "'.", c.at(), Operation.ADD_IMPORT,
+                Map.of("qualifiedName", qualified), cancel -> new Prepared(plan, c.at(), List.of()));
+    }
+
+    /** An unqualified call such as assertEquals(…) imports its static favorite, as IntelliJ's and Eclipse's fixes do. */
+    private void missingStaticImports(Context c, List<Proposal> into) {
+        MethodInvocation call = ancestor(c.node(), MethodInvocation.class);
+        if (call == null || call.getExpression() != null || !contains(call.getName(), c.at())) return;
+        // While an argument is in error, the compiler does not report the call itself: assertEquals(0, missing()).
+        if (!problem(c, IProblem.UndefinedMethod) && !unimported(c.tree(), call)) return;
+        String name = call.getName().getIdentifier();
+        for (String owner : favoriteOwners(c, name)) {
+            // The arguments may still be unwritten (assertEquals()), so the import is not compile-validated.
+            Plan plan = staticImportPlan(c, owner, name, "Import static " + owner + "." + name);
+            if (plan == null) continue;
+            String shortName = owner.substring(owner.lastIndexOf('.') + 1) + "." + name;
+            offer(c, into, Kind.FIX, Action.ADD_IMPORT, "Import static '" + shortName + "'",
+                    "Add 'import static " + owner + "." + name + ";' to this source file.", c.at(), Operation.ADD_IMPORT,
+                    Map.of("qualifiedName", owner + "." + name), cancel -> new Prepared(plan, c.at(), List.of()));
+        }
+        if (!JupiterApi.ASSERTION_METHODS.contains(name) || onBuildPath(c, JupiterApi.PROBE)) return;
+        Plan plan = staticImportPlan(c, JupiterApi.ASSERTIONS, name, "Add JUnit 5 library to the build path");
+        if (plan == null) return;
+        offer(c, into, Kind.FIX, Action.ADD_JUNIT_LIBRARY, "Add JUnit 5 library to the build path",
+                "Add JUnit Jupiter to this project, then 'import static " + JupiterApi.ASSERTIONS + "." + name + ";'.", c.at(),
+                Operation.ADD_IMPORT, Map.of("qualifiedName", JupiterApi.ASSERTIONS + "." + name), cancel -> new Prepared(plan, c.at(), List.of()));
+    }
+
+    /** The favorites on the build path (Assertions, Mockito…) declaring a public static method with this name. */
+    private List<String> favoriteOwners(Context c, String name) {
+        var owners = new ArrayList<String>();
+        for (String owner : JupiterApi.FAVORITES) {
+            try {
+                IType type = workspace.javaProject(c.at().file()).findType(owner);
+                if (type != null && type.exists() && Arrays.stream(type.getMethods())
+                        .anyMatch(method -> method.getElementName().equals(name) && hasStatic(method))) owners.add(owner);
+            } catch (JavaModelException unavailable) { }
+        }
+        return owners;
+    }
+
+    /** An unqualified call that resolves nowhere: neither statically imported nor declared by an enclosing class. */
+    private static boolean unimported(CompilationUnit tree, MethodInvocation call) {
+        if (call.getExpression() != null || call.resolveMethodBinding() != null) return false;
+        String name = call.getName().getIdentifier();
+        for (Object value : tree.imports())
+            if (value instanceof ImportDeclaration declaration && declaration.isStatic() && (declaration.isOnDemand()
+                    || declaration.getName().getFullyQualifiedName().endsWith("." + name))) return false;
+        for (ASTNode node = call; node != null; node = node.getParent())
+            if (node instanceof AbstractTypeDeclaration type)
+                for (ITypeBinding owner = type.resolveBinding(); owner != null; owner = owner.getSuperclass())
+                    if (Arrays.stream(owner.getDeclaredMethods()).anyMatch(method -> method.getName().equals(name))) return false;
+        return true;
+    }
+
+    /** One plan's edits per file, in order; null when two edits overlap. */
+    private static List<FileEdits> merged(List<FileEdits> first, List<FileEdits> second) {
+        var files = new LinkedHashMap<Path, List<TextEdit>>();
+        for (var plan : List.of(first, second))
+            for (FileEdits edits : plan) files.computeIfAbsent(edits.file(), file -> new ArrayList<>()).addAll(edits.edits());
+        var out = new ArrayList<FileEdits>();
+        for (var entry : files.entrySet()) {
+            var edits = entry.getValue().stream().sorted(Comparator.comparingInt(TextEdit::start)).toList();
+            for (int i = 1; i < edits.size(); i++) if (edits.get(i).start() < edits.get(i - 1).end()) return null;
+            out.add(new FileEdits(entry.getKey(), edits));
+        }
+        return out;
+    }
+
+    /** import static owner.member; null when another static import already claims the name. */
+    private Plan staticImportPlan(Context c, String owner, String member, String title) {
+        ImportRewrite imports = ImportRewrite.create(c.tree(), true);
+        if (!imports.addStaticImport(owner, member, false).equals(member)) return null;
+        String before = c.snapshot().source(c.at().file()).text(), after;
+        try {
+            var document = new org.eclipse.jface.text.Document(before);
+            imports.rewriteImports(LtkWorkspace.monitor(c.cancel())).apply(document);
+            after = document.get();
+        } catch (CoreException | org.eclipse.jface.text.BadLocationException error) { return null; }
+        if (before.equals(after)) return null;
+        return new Plan(UUID.randomUUID().toString(), Operation.ADD_IMPORT, c.snapshot(), List.of(),
+                List.of(new FileEdits(c.at().file(), ChangePlans.difference(before, after))), List.of(), List.of(), ValidationStatus.VALID, title);
+    }
+
+    private static boolean hasStatic(IMethod method) {
+        try { return Flags.isStatic(method.getFlags()) && Flags.isPublic(method.getFlags()); }
+        catch (JavaModelException unavailable) { return false; }
+    }
+
+    private boolean onBuildPath(Context c, String type) {
+        try {
+            IType found = workspace.javaProject(c.at().file()).findType(type);
+            return found != null && found.exists();
+        } catch (JavaModelException error) { return false; }
+    }
+
+    private static List<ImportDeclaration> junit4Imports(CompilationUnit tree) {
+        var result = new ArrayList<ImportDeclaration>();
+        for (Object object : tree.imports())
+            if (object instanceof ImportDeclaration declaration && !declaration.isStatic() && !declaration.isOnDemand()
+                    && declaration.getName() instanceof QualifiedName name
+                    && name.getQualifier().getFullyQualifiedName().equals(JupiterApi.JUNIT4_PACKAGE)
+                    && JupiterApi.JUNIT4.containsKey(name.getName().getIdentifier()))
+                result.add(declaration);
+        return result;
+    }
+
+    /** The caret is on one of the JUnit 4 imports, or on an annotation that one of them names. */
+    private static boolean atJUnit4(Context c, List<ImportDeclaration> junit4) {
+        if (junit4.isEmpty()) return false;
+        ImportDeclaration declaration = ancestor(c.node(), ImportDeclaration.class);
+        if (declaration != null) return junit4.contains(declaration);
+        SimpleName name = c.node() instanceof SimpleName n ? n : ancestor(c.node(), SimpleName.class);
+        return name != null && name.getParent() instanceof Annotation annotation && annotation.getTypeName() == name
+                && junit4.stream().anyMatch(d -> ((QualifiedName) d.getName()).getName().getIdentifier().equals(name.getIdentifier()));
+    }
+
+    /** Rewrites every JUnit 4 annotation import, and renamed annotations (@Before → @BeforeEach), in one fix. */
+    private void migrateJUnit4(Context c, List<Proposal> into, List<ImportDeclaration> junit4, boolean jupiter) {
+        var edits = new ArrayList<TextEdit>();
+        var renames = new HashMap<String, String>();
+        for (ImportDeclaration declaration : junit4) {
+            QualifiedName name = (QualifiedName) declaration.getName();
+            String replacement = JupiterApi.JUNIT4.get(name.getName().getIdentifier());
+            edits.add(new TextEdit(name.getStartPosition(), name.getStartPosition() + name.getLength(), JupiterApi.PACKAGE + "." + replacement));
+            if (!replacement.equals(name.getName().getIdentifier())) renames.put(name.getName().getIdentifier(), replacement);
+        }
+        if (!renames.isEmpty()) c.tree().accept(new ASTVisitor() {
+            @Override public void endVisit(MarkerAnnotation annotation) { rename(annotation.getTypeName()); }
+            @Override public void endVisit(SingleMemberAnnotation annotation) { rename(annotation.getTypeName()); }
+            @Override public void endVisit(NormalAnnotation annotation) { rename(annotation.getTypeName()); }
+            private void rename(Name name) {
+                if (name instanceof SimpleName simple && renames.containsKey(simple.getIdentifier()))
+                    edits.add(new TextEdit(simple.getStartPosition(), simple.getStartPosition() + simple.getLength(), renames.get(simple.getIdentifier())));
+            }
+        });
+        edits.sort(Comparator.comparingInt(TextEdit::start));
+        String qualified = JupiterApi.PACKAGE + "." + JupiterApi.JUNIT4.get(((QualifiedName) junit4.getFirst().getName()).getName().getIdentifier());
+        String title = jupiter ? "Change JUnit 4 imports to JUnit 5" : "Add JUnit 5 library to the build path";
+        // Deterministic import edits; with the library still missing they cannot compile against this snapshot yet.
+        Plan plan = new Plan(UUID.randomUUID().toString(), Operation.ADD_IMPORT, c.snapshot(), List.of(),
+                List.of(new FileEdits(c.at().file(), edits)), List.of(), List.of(), ValidationStatus.VALID, title);
+        offer(c, into, Kind.FIX, jupiter ? Action.ADD_IMPORT : Action.ADD_JUNIT_LIBRARY, title,
+                (jupiter ? "Change" : "TurboJ provides JUnit 5 (Jupiter): add it to this project and change")
+                        + " the JUnit 4 imports to " + JupiterApi.PACKAGE + ", e.g. '" + qualified + "'.",
+                c.at(), Operation.ADD_IMPORT, Map.of("qualifiedName", qualified), cancel -> new Prepared(plan, c.at(), List.of()));
+    }
+
+    // Import alternatives come from the actual Java project's visible source/library types.
+    private void offerImports(Context c, List<Proposal> into, String identifier, int kind) {
+        for (String candidate : importCandidates(c, identifier, kind)) {
+            var request = new Requests.AddImport(c.at(), candidate, false);
+            Plan plan = engine.prepare(request, c.cancel());
+            if (!plan.valid()) continue;
+            offer(c, into, Kind.FIX, Action.ADD_IMPORT, "Import '" + candidate + "'",
+                    "Add the resolved type import to this source file.", c.at(), Operation.ADD_IMPORT,
+                    Map.of("qualifiedName", candidate), cancel -> prepared(plan, c.at()));
+        }
+    }
+
+    private List<String> importCandidates(Context c, String name, int kind) {
         var names = new TreeSet<String>();
         try {
             new SearchEngine(workspace.units().toArray(ICompilationUnit[]::new)).searchAllTypeNames(null,
                     SearchPattern.R_EXACT_MATCH, name.toCharArray(), SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE,
-                    IJavaSearchConstants.TYPE, SearchEngine.createJavaSearchScope(new IJavaElement[]{workspace.javaProject(c.at().file())}),
+                    kind, SearchEngine.createJavaSearchScope(new IJavaElement[]{workspace.javaProject(c.at().file())}),
                     new TypeNameMatchRequestor() { @Override public void acceptTypeNameMatch(TypeNameMatch match) {
                         c.cancel().check();
                         IType type = match.getType();
@@ -224,10 +519,23 @@ final class JdtQuickActions implements JavaQuickActions {
                 .collect(java.util.stream.Collectors.joining(", ")) + ")";
         String methodName = call.getName().getIdentifier();
         Plan plan = engine.prepare(new Requests.CreateMethod(c.at()), c.cancel());
+        String imported = "";
+        if (!plan.valid() && !plan.edits().isEmpty() && call.getParent() instanceof MethodInvocation caller && unimported(c.tree(), caller)) {
+            // assertEquals(0, calculator.add(0, 0)) before assertEquals is imported: the compiler checks the caller only
+            // once its argument resolves, so the method and the caller's static import are created together.
+            String name = caller.getName().getIdentifier();
+            for (String favorite : favoriteOwners(c, name)) {
+                Plan importing = staticImportPlan(c, favorite, name, plan.description());
+                var edits = importing == null ? null : merged(plan.edits(), importing.edits());
+                if (edits == null) continue;
+                Plan combined = checkedPlan(Operation.CREATE_METHOD, c.snapshot(), edits, plan.fileOperations(), plan.description(), c.cancel());
+                if (combined.valid()) { plan = combined; imported = ", importing static " + favorite + "." + name; break; }
+            }
+        }
         if (!plan.valid()) return;
         Prepared prepared = methodPrepared(plan, targetFile, methodName, arguments.size());
         offer(c, into, Kind.FIX, Action.CREATE_METHOD, "Create method '" + signature + "' in " + owner.getName(),
-                "Infer the signature from this call, create the method in " + unit.getElementName()
+                "Infer the signature from this call, create the method in " + unit.getElementName() + imported
                         + ", and continue in its editable body. Tab visits the generated parameters.",
                 c.at(), Operation.CREATE_METHOD, Map.of("className", owner.getName(), "targetFile", targetFile.toString(),
                         "methodName", methodName),
@@ -417,9 +725,21 @@ final class JdtQuickActions implements JavaQuickActions {
         for (var edits : plan.edits()) if (edits.file().equals(file)) source = TextEdit.apply(source, edits.edits());
         return source;
     }
+    /** A caret also touches a problem when it sits right after the problem's last character. */
     private static boolean intersects(Location at, IProblem problem) {
-        return problem.getSourceStart() >= 0 && problem.getSourceStart() <= at.end() && problem.getSourceEnd() >= at.start();
+        int end = at.start() == at.end() ? problem.getSourceEnd() + 1 : problem.getSourceEnd();
+        return problem.getSourceStart() >= 0 && problem.getSourceStart() <= at.end() && end >= at.start();
     }
+    private static List<IProblem> lineProblems(CompilationUnit tree, String text, Location at) {
+        int lineStart = text.lastIndexOf('\n', at.start() - 1) + 1, next = text.indexOf('\n', at.start());
+        int lineEnd = next < 0 ? text.length() : next;
+        return Arrays.stream(tree.getProblems())
+                .filter(p -> p.getSourceStart() >= lineStart && p.getSourceStart() < lineEnd && !intersects(at, p))
+                .sorted(Comparator.comparing((IProblem p) -> !p.isError())
+                        .thenComparingInt(p -> Math.max(p.getSourceStart() - at.start(), at.start() - p.getSourceEnd() - 1)))
+                .toList();
+    }
+    private void forget(Inspection inspection) { inspection.proposals().forEach(p -> offered.remove(p.id())); }
     private static boolean problem(Context c, int id) { return c.problems().stream().anyMatch(p -> p.getID() == id); }
     private static boolean contains(ASTNode node, Location at) { return node.getStartPosition() <= at.end() && node.getStartPosition() + node.getLength() >= at.start(); }
     private static <T> T ancestor(ASTNode node, Class<T> type) { for (ASTNode n = node; n != null; n = n.getParent()) if (type.isInstance(n)) return type.cast(n); return null; }

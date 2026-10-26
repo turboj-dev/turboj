@@ -3,6 +3,7 @@ package dev.turboj.refactorj.api;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Shared, offline semantic operations. Call only from a serial background executor. All source
@@ -52,7 +53,8 @@ public interface JavaIntelligence extends AutoCloseable {
 
     record TextEdit(int start, int end, String text) {}
 
-    /** caret is relative to the replacement text. Additional edits use the original snapshot. */
+    /** caret is relative to the replacement text. Additional edits use the original snapshot.
+     * A non-empty library names a project library the host must add when this proposal is accepted. */
     record Completion(
             int start,
             int end,
@@ -60,9 +62,16 @@ public interface JavaIntelligence extends AutoCloseable {
             int caret,
             String display,
             String detail,
-            List<TextEdit> additionalEdits) {
+            List<TextEdit> additionalEdits,
+            String library) {
+        public static final String JUNIT_JUPITER = "junit-jupiter";
         public Completion {
             additionalEdits = List.copyOf(additionalEdits);
+            library = Objects.requireNonNullElse(library, "");
+        }
+        public Completion(int start, int end, String text, int caret, String display, String detail,
+                List<TextEdit> additionalEdits) {
+            this(start, end, text, caret, display, detail, additionalEdits, "");
         }
     }
 

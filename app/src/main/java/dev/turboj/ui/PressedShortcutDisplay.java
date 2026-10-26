@@ -1,5 +1,7 @@
 package dev.turboj.ui;
 
+import dev.turboj.commandj.swing.KeyGlyphs;
+
 import dev.turboj.commandj.swing.AsciiPalette;
 import dev.turboj.ui.themes.Theme;
 import java.awt.Color;
@@ -57,8 +59,9 @@ final class PressedShortcutDisplay {
     }
 
     Rectangle bounds(Graphics2D graphics, int width, int height) {
-        var metrics = graphics.getFontMetrics(AsciiChrome.font().deriveFont(Font.BOLD));
-        int badgeWidth = Math.min(Math.max(0, width - 32), metrics.stringWidth(text) + 18);
+        Font font = AsciiChrome.font().deriveFont(Font.BOLD);
+        var metrics = graphics.getFontMetrics(font);
+        int badgeWidth = Math.min(Math.max(0, width - 32), KeyGlyphs.width(graphics, font, text) + 18);
         int badgeHeight = metrics.getHeight() + 6;
         return new Rectangle(Math.max(0, width - 16 - badgeWidth), Math.max(0, height - 12 - badgeHeight),
                 badgeWidth, Math.min(height, badgeHeight));
@@ -75,14 +78,15 @@ final class PressedShortcutDisplay {
             g.setFont(AsciiChrome.font().deriveFont(Font.BOLD));
             g.setColor(foreground);
             var metrics = g.getFontMetrics();
+            Font font = g.getFont();
             String label = text;
-            if (metrics.stringWidth(label) > badge.width - 18) {
+            if (KeyGlyphs.width(g, font, label) > badge.width - 18) {
                 int end = text.length();
                 do { end = text.offsetByCodePoints(end, -1); }
-                while (end > 0 && metrics.stringWidth(text.substring(0, end) + "…") > badge.width - 18);
+                while (end > 0 && KeyGlyphs.width(g, font, text.substring(0, end) + "…") > badge.width - 18);
                 label = text.substring(0, end) + "…";
             }
-            g.drawString(label, badge.x + 9, badge.y + 3 + metrics.getAscent());
+            KeyGlyphs.draw(g, label, badge.x + 9, badge.y + 3 + metrics.getAscent());
         } finally { g.dispose(); }
     }
 }

@@ -35,9 +35,9 @@ class CommandSettingsTest {
         String old = System.getProperty("turboj.config");
         System.setProperty("turboj.config", temp.toString());
         try {
-            assertEquals("intellij-macos", Settings.load().keymapProfile);
+            assertEquals("turboj-macos", Settings.load().keymapProfile);
             Files.writeString(temp.resolve("config.json"), "{\"theme\":\"light\"}");
-            assertEquals("turboj-classic", Settings.load().keymapProfile);
+            assertEquals("turboj-macos", Settings.load().keymapProfile);
             Files.writeString(temp.resolve("config.json"),
                     "{\"theme\":\"dark\",\"keymapProfile\":\"vscode-macos\"}");
             assertEquals("vscode-macos", Settings.load().keymapProfile);
@@ -47,9 +47,9 @@ class CommandSettingsTest {
             assertFalse(Settings.load().snapshotJson().contains("commandKeymapJson"));
             Files.delete(temp.resolve("commandj-keymap.json"));
             Files.writeString(temp.resolve("config.json"), "{broken");
-            assertEquals("turboj-classic", Settings.load().keymapProfile);
+            assertEquals("turboj-macos", Settings.load().keymapProfile);
             Files.writeString(temp.resolve("config.json"), " ".repeat(65_537));
-            assertEquals("turboj-classic", Settings.load().keymapProfile);
+            assertEquals("turboj-macos", Settings.load().keymapProfile);
         } finally {
             if (old == null)
                 System.clearProperty("turboj.config");

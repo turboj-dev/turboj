@@ -16,6 +16,8 @@ import javax.swing.SwingUtilities;
 /** Vim-style :! entry into the existing output pane, independent from program stdin and Maven jobs. */
 public final class OutputCommandController implements AutoCloseable {
     private final ConsolePane console;
+    private final OutputLog log;
+    private OutputLog.Action action;
     private final Supplier<Path> workingDirectory;
     private final Runnable focusEditor;
     private final OutputCommandRunner runner;
@@ -34,6 +36,7 @@ public final class OutputCommandController implements AutoCloseable {
     OutputCommandController(ConsolePane console, Supplier<Path> workingDirectory,
                             Runnable focusEditor, OutputCommandRunner runner) {
         this.console = Objects.requireNonNull(console);
+        this.log = new OutputLog(console);
         this.workingDirectory = Objects.requireNonNull(workingDirectory);
         this.focusEditor = Objects.requireNonNull(focusEditor);
         this.runner = Objects.requireNonNull(runner);
@@ -92,8 +95,8 @@ public final class OutputCommandController implements AutoCloseable {
         try {
             directory = Objects.requireNonNull(workingDirectory.get(), "No command working directory");
             // Runner validates text before scheduling; the shell is launched only after explicit Enter.
-            console.append("\n:! " + command + "\n", ConsolePane.Role.HEADING);
-            var completion = runner.start(command, directory, console::append);
+            var current = action = log.start("Command", ":! " + command);
+            var completion = runner.start(command, directory, (text, stderr) -> current.program(text, stderr));
             lastCompletion = new CompletableFuture<>();
             var visibleCompletion = lastCompletion;
             running = true;
@@ -109,11 +112,10 @@ public final class OutputCommandController implements AutoCloseable {
                     return;
                 }
                 if (!closed) {
-                    if (result.error() != null) console.append("\n[command error: " + result.error() + "]\n", true);
-                    else if (result.timedOut()) console.append("\n[command timed out; process stopped]\n", true);
-                    else if (result.cancelled()) console.append("\n[command cancelled]\n", ConsolePane.Role.WARNING);
-                    else console.append("\n[command exited " + result.exitCode() + "]\n",
-                            result.succeeded() ? ConsolePane.Role.SUCCESS : ConsolePane.Role.ERROR);
+                    if (result.error() != null) action.finish(OutputLog.Outcome.FAILURE, "error: " + result.error(), null);
+                    else if (result.timedOut()) action.finish(OutputLog.Outcome.FAILURE, "timed out; process stopped", null);
+                    else if (result.cancelled()) action.finish(OutputLog.Outcome.STOPPED, "cancelled", null);
+                    else action.finish(result.succeeded() ? OutputLog.Outcome.SUCCESS : OutputLog.Outcome.FAILURE, "exit " + result.exitCode(), null);
                     console.setCommandRunning(false);
                 }
                 // append() schedules its EDT drain before this callback: expose a visible result.
@@ -124,7 +126,8 @@ public final class OutputCommandController implements AutoCloseable {
                 });
             }));
         } catch (RuntimeException failure) {
-            console.append("\nCommand: " + failure.getMessage() + "\n", true);
+            if (action != null && action.open()) action.finish(OutputLog.Outcome.FAILURE, failure.getMessage(), null);
+            else log.start("Command", "").finish(OutputLog.Outcome.FAILURE, failure.getMessage(), null);
         }
     }
 

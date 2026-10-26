@@ -56,7 +56,7 @@ public final class TestOutputSmoke {
                     && report.tests().stream().anyMatch(test -> test.status() == TestEngine.Status.ABORTED),
                     "resident JUnit worker returned four actual outcomes");
             String text = edt(() -> frame.console().text());
-            check(text.contains("══ TURBOTEST") && text.contains("FAILED · 4 tests · 1 passed · 1 failed · 1 skipped · 1 aborted"),
+            check(text.contains("[INFO] --- test ---") && text.contains("Tests run: 4, Failures: 1, Errors: 0, Skipped: 2"),
                     "separate test section and exact outcome counts are visible");
             check(text.contains("Deliberate output fixture failure") && text.contains("ResultsTest.fails(ResultsTest.java:4)"),
                     "failure and source stack location remain in selectable output");
@@ -73,13 +73,15 @@ public final class TestOutputSmoke {
                 check(edt(() -> {
                     var theme = Theme.bundled(id);
                     var document = ((JTextPane) frame.console().inputComponent()).getStyledDocument();
-                    for (var test : report.tests()) {
-                        int offset = text.indexOf("[" + test.status() + "]");
+                    // Failures are written in the error role and skipped or aborted tests in the warning role.
+                    for (var marker : java.util.Map.of("[ERROR] ResultsTest#fails", ConsolePane.Role.ERROR,
+                            "[WARN] ResultsTest#aborted", ConsolePane.Role.WARNING).entrySet()) {
+                        int offset = text.indexOf(marker.getKey());
                         if (offset < 0 || !StyleConstants.getForeground(document.getCharacterElement(offset).getAttributes())
-                                .equals(ConsolePane.colorFor(theme, TestOutput.role(test.status()), theme.messagesBackground()))) return false;
+                                .equals(ConsolePane.colorFor(theme, marker.getValue(), theme.messagesBackground()))) return false;
                     }
                     return true;
-                }), "existing passed/failed/skipped/aborted lines recolor with " + id);
+                }), "existing failure and warning lines recolor with " + id);
             }
             edt(() -> { ((EmbeddedDialog) dialogField.get(frame)).dispose(); return null; });
             for (String id : Theme.BUNDLED) {
@@ -88,9 +90,9 @@ public final class TestOutputSmoke {
             }
             edt(() -> {
                 var component = frame.console().inputComponent();
-                int start = text.indexOf("FAILED · 4 tests");
+                int start = text.lastIndexOf("[INFO] Tests run: 4");
                 component.select(start, text.indexOf('\n', start));
-                check(component.getSelectedText().contains("1 skipped · 1 aborted"), "summary stays selectable for copying");
+                check(component.getSelectedText().contains("Failures: 1, Errors: 0, Skipped: 2"), "summary stays selectable for copying");
                 return null;
             });
             check(Files.readString(source).equals(code), "test execution preserves saved source");

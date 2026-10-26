@@ -33,6 +33,7 @@ public final class KeymapEditorDialog extends EmbeddedDialog {
         commandSearch = new CommandSearch(registry, maps::revision, id -> maps.commandBindings(registry, id).stream()
                 .flatMap(b -> java.util.stream.Stream.of(b.sequence().display(), b.sequence().external())).toList());
         table = new JTable(rows);
+        table.setDefaultRenderer(Object.class, KeyGlyphs.tableRenderer());
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getAccessibleContext().setAccessibleName("Commands and keyboard shortcuts");
         setLayout(new BorderLayout(8, 8));

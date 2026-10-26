@@ -18,7 +18,7 @@ class ProfileSwitchTest {
 
     @Test void eachBundledProfilesCustomBindingsAndExplicitUnbindingsSurviveSwitchingAndReload() throws Exception {
         var maps = new KeymapManager();
-        var ids = List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-classic");
+        var ids = List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos");
         var expected = new LinkedHashMap<String,Map<String,List<KeyBinding>>>();
         for (int index = 0; index < ids.size(); index++) {
             maps.select(ids.get(index));
@@ -44,6 +44,18 @@ class ProfileSwitchTest {
         }
     }
 
+    @Test void savedTurboJClassicSelectionMovesToTurboJMacosAndItsStoredCopyIsDropped() {
+        String saved = "{\"schemaVersion\":1,\"selected\":\"turboj-classic\",\"profiles\":[{\"id\":\"turboj-classic\",\"name\":\"TurboJ Classic\","
+                + "\"bindings\":{\"run\":[{\"keys\":\"CTRL+F9\",\"required\":[],\"forbidden\":[]}]}},"
+                + "{\"id\":\"mine\",\"name\":\"Mine\",\"parent\":\"turboj-classic\",\"bindings\":{}}]}";
+        var maps = new KeymapManager();
+        KeymapJson.read(maps, saved);
+        assertEquals("turboj-macos", maps.selectedId());
+        assertTrue(maps.profiles().stream().noneMatch(profile -> profile.id().equals("turboj-classic")));
+        assertEquals("turboj-macos", maps.profiles().stream().filter(profile -> profile.id().equals("mine")).findFirst().orElseThrow().parentId());
+        assertEquals(KeySequence.parse("META+R"), maps.bindings("run").getFirst().sequence());
+    }
+
     @Test void returningToInheritedUserProfilePreservesOverridesAndNotifiesWithResolvedState() throws Exception {
         var maps = new KeymapManager();
         Map<String,List<KeyBinding>> original = maps.bindings();
@@ -58,12 +70,12 @@ class ProfileSwitchTest {
         })) {
             maps.select("eclipse-macos");
             maps.select("vscode-macos");
-            maps.select("turboj-classic");
+            maps.select("turboj-macos");
             maps.select("intellij-macos");
             assertEquals(original,maps.bindings(),"personal overrides do not mutate the bundled parent");
             maps.select("personal-intellij");
         }
-        assertEquals(List.of("eclipse-macos","vscode-macos","turboj-classic","intellij-macos","personal-intellij"),notifications);
+        assertEquals(List.of("eclipse-macos","vscode-macos","turboj-macos","intellij-macos","personal-intellij"),notifications);
         assertEquals(personal,maps.bindings());
         var loaded = new KeymapManager(); KeymapJson.read(loaded,KeymapJson.write(maps));
         assertEquals("personal-intellij",loaded.selectedId());
@@ -92,7 +104,7 @@ class ProfileSwitchTest {
                 registry.execute(match.command(),context).stage().toCompletableFuture().join();
             }
             assertEquals(ShortcutResolver.Kind.PENDING,resolver.accept(KeyStrokeSpec.parse("META+K"),context,11).kind());
-            maps.select("turboj-classic");
+            maps.select("turboj-macos");
             assertEquals(ShortcutResolver.Kind.NONE,resolver.accept(KeyStrokeSpec.parse("META+D"),context,12).kind());
             assertFalse(resolver.pending(),"a profile switch clears the previous profile's pending chord");
             maps.select("intellij-macos");

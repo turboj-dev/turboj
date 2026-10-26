@@ -206,6 +206,8 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         Prefix prefix = prefix(context.source(), offset);
         if (!isCode(context.source(), offset) || (!prefix.member() && prefix.value().isEmpty()))
             return emptyCompletion(started);
+        if (!prefix.member() && prefix.start() > 0 && context.source().charAt(prefix.start() - 1) == '@')
+            return new CompletionResult(annotationCompletions(context, prefix), System.nanoTime() - started);
         String after = context.source().substring(prefix.end()).stripLeading();
         String inserted = MARKER + (after.startsWith("(") ? "" : "()");
         String probe =
@@ -272,6 +274,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             unique.putIfAbsent(proposalIdentity(binding), proposal);
             if (unique.size() == 160) break;
         }
+        if (!prefix.member() && !smart) addFavorites(context, prefix, after, unique);
         if (!prefix.member() && !smart)
             for (Completion type : typeCompletions(context, prefix))
                 unique.putIfAbsent("type:" + type.detail(), type);
@@ -839,7 +842,133 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
                 });
     }
 
+    /** After '@' only annotation types apply. Jupiter is offered with its library when the build path lacks it,
+     * and replaces an unresolved JUnit 4 import of the same name (import org.junit.Test → org.junit.jupiter.api.Test). */
+    private List<Completion> annotationCompletions(Context context, Prefix prefix) {
+        List<Completion> result = new ArrayList<>(typeCompletions(context, prefix, true));
+        if (prefix.value().length() < 2 || !Character.isUpperCase(prefix.value().charAt(0))) return result;
+        CompilationUnit current = syntax(context.source());
+        String currentPackage = current.getPackage() == null ? "" : current.getPackage().getName().getFullyQualifiedName();
+        boolean available = resolved(resolveType(context, JupiterApi.PROBE, currentPackage));
+        Map<String, Name> junit4 = new HashMap<>();
+        if (!resolved(resolveType(context, JupiterApi.JUNIT4_PROBE, currentPackage)))
+            for (Object object : current.imports())
+                if (object instanceof ImportDeclaration declaration && !declaration.isStatic() && !declaration.isOnDemand()
+                        && declaration.getName() instanceof QualifiedName name
+                        && name.getQualifier().getFullyQualifiedName().equals(JupiterApi.JUNIT4_PACKAGE)
+                        && name.getName().getIdentifier().equals(JupiterApi.JUNIT4.get(name.getName().getIdentifier())))
+                    junit4.put(name.getName().getIdentifier(), name);
+        List<Completion> jupiter = new ArrayList<>();
+        for (String simple : JupiterApi.ANNOTATIONS.stream().filter(name -> name.startsWith(prefix.value())).sorted(
+                Comparator.comparing((String name) -> !name.equals(prefix.value())).thenComparing(name -> name)).toList()) {
+            Name old = junit4.get(simple);
+            if (available && old == null) continue; // An ordinary type completion already offers it.
+            String qualified = JupiterApi.PACKAGE + "." + simple;
+            List<TextEdit> edits = old != null
+                    ? List.of(new TextEdit(old.getStartPosition(), old.getStartPosition() + old.getLength(), qualified))
+                    : importEdit(context, current, qualified);
+            if (edits == null) continue;
+            if (old != null) result.removeIf(proposal -> proposal.detail().equals(qualified));
+            jupiter.add(new Completion(prefix.start(), prefix.end(), simple, simple.length(),
+                    "@" + simple + (available ? " · replaces the JUnit 4 import" : " · adds JUnit 5 to the project"),
+                    qualified, edits, available ? "" : Completion.JUNIT_JUPITER));
+        }
+        result.addAll(0, jupiter);
+        return result;
+    }
+
+    private static boolean resolved(ITypeBinding type) { return type != null && !type.isRecovered(); }
+
+    /** Static favorites (Assertions.assertEquals…) complete by name with their static import, in test sources. */
+    private void addFavorites(Context context, Prefix prefix, String after, Map<String, Completion> unique) {
+        if (prefix.value().length() < 2 || !JupiterApi.testSource(context.file(), context.source())) return;
+        CompilationUnit current = syntax(context.source());
+        String currentPackage = current.getPackage() == null ? "" : current.getPackage().getName().getFullyQualifiedName();
+        boolean call = after.startsWith("(");
+        for (String owner : JupiterApi.FAVORITES) {
+            ITypeBinding type = resolveType(context, owner, currentPackage);
+            if (!resolved(type)) {
+                if (owner.equals(JupiterApi.ASSERTIONS)) addMissingAssertions(context, current, prefix, call, unique);
+                continue;
+            }
+            var overloads = new LinkedHashMap<String, List<IMethodBinding>>();
+            for (IMethodBinding method : type.getDeclaredMethods())
+                if (Modifier.isStatic(method.getModifiers()) && Modifier.isPublic(method.getModifiers()) && method.getName().startsWith(prefix.value()))
+                    overloads.computeIfAbsent(method.getName(), name -> new ArrayList<>()).add(method);
+            for (var entry : overloads.entrySet()) {
+                List<TextEdit> edits = staticImportEdit(context, current, owner, entry.getKey());
+                if (edits == null) continue;
+                // One row per name: the overloads share the inserted text, so the list stays scannable.
+                String display = entry.getValue().size() == 1 ? signature(entry.getValue().getFirst())
+                        : entry.getKey() + "(…) · " + entry.getValue().size() + " overloads";
+                boolean arguments = entry.getValue().stream().allMatch(method -> method.getParameterTypes().length > 0);
+                unique.putIfAbsent("static:" + owner + "#" + entry.getKey(), staticCompletion(prefix, entry.getKey(), call, arguments,
+                        display, owner, edits, ""));
+            }
+        }
+    }
+
+    private void addMissingAssertions(Context context, CompilationUnit current, Prefix prefix, boolean call, Map<String, Completion> unique) {
+        for (String name : JupiterApi.ASSERTION_METHODS.stream().filter(name -> name.startsWith(prefix.value())).sorted().toList()) {
+            List<TextEdit> edits = staticImportEdit(context, current, JupiterApi.ASSERTIONS, name);
+            if (edits != null) unique.putIfAbsent("static:" + JupiterApi.ASSERTIONS + "#" + name, staticCompletion(prefix, name, call, true,
+                    name + "(…) · adds JUnit 5 to the project", JupiterApi.ASSERTIONS, edits, Completion.JUNIT_JUPITER));
+        }
+    }
+
+    private static Completion staticCompletion(Prefix prefix, String name, boolean call, boolean arguments, String display,
+            String owner, List<TextEdit> edits, String library) {
+        String text = call ? name : name + "()";
+        int caret = call || !arguments ? text.length() : text.length() - 1;
+        return new Completion(prefix.start(), prefix.end(), text, caret, display, owner, edits, library);
+    }
+
+    /** import static owner.member; empty when already imported, null when another static import claims the name. */
+    private static List<TextEdit> staticImportEdit(Context context, CompilationUnit current, String owner, String member) {
+        for (Object object : current.imports()) {
+            ImportDeclaration declaration = (ImportDeclaration) object;
+            if (!declaration.isStatic()) continue;
+            String name = declaration.getName().getFullyQualifiedName();
+            if (declaration.isOnDemand() ? name.equals(owner) : name.equals(owner + "." + member)) return List.of();
+            if (!declaration.isOnDemand() && simpleName(name).equals(member)) return null;
+        }
+        String newline = context.source().contains("\r\n") ? "\r\n" : "\n";
+        int position = 0;
+        if (!current.imports().isEmpty()) {
+            ASTNode last = (ASTNode) current.imports().getLast();
+            position = last.getStartPosition() + last.getLength();
+        } else if (current.getPackage() != null)
+            position = current.getPackage().getStartPosition() + current.getPackage().getLength();
+        String statement = "import static " + owner + "." + member + ";";
+        return List.of(new TextEdit(position, position, position == 0 ? statement + newline : newline + statement));
+    }
+
+    /** One import edit, empty when no import is needed, or null when another import already claims the simple name. */
+    private static List<TextEdit> importEdit(Context context, CompilationUnit current, String qualified) {
+        String simple = simpleName(qualified), pkg = qualified.substring(0, qualified.lastIndexOf('.'));
+        for (Object object : current.imports()) {
+            ImportDeclaration declaration = (ImportDeclaration) object;
+            if (declaration.isStatic()) continue;
+            String name = declaration.getName().getFullyQualifiedName();
+            if (declaration.isOnDemand() ? name.equals(pkg) : name.equals(qualified)) return List.of();
+            if (!declaration.isOnDemand() && simpleName(name).equals(simple)) return null;
+        }
+        String newline = context.source().contains("\r\n") ? "\r\n" : "\n";
+        int position = 0;
+        if (!current.imports().isEmpty()) {
+            ASTNode last = (ASTNode) current.imports().getLast();
+            position = last.getStartPosition() + last.getLength();
+        } else if (current.getPackage() != null)
+            position = current.getPackage().getStartPosition() + current.getPackage().getLength();
+        String text = position == 0 ? "import " + qualified + ";" + newline : newline + "import " + qualified + ";";
+        return List.of(new TextEdit(position, position, text));
+    }
+
     private List<Completion> typeCompletions(Context context, Prefix prefix) {
+        return typeCompletions(context, prefix, false);
+    }
+
+    private List<Completion> typeCompletions(Context context, Prefix prefix, boolean annotations) {
         if (prefix.value().length() < 2 || !Character.isUpperCase(prefix.value().charAt(0)))
             return List.of();
         CompilationUnit current = syntax(context.source());
@@ -897,6 +1026,8 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             }
         }
         if (platformTypes == null) platformTypes = indexPlatformTypes();
+        // Most platform types are not annotations; after '@' project and library types must not be crowded out.
+        Set<String> projectTypes = annotations ? new HashSet<>(names) : Set.of();
         platformTypes.stream()
                 .filter(name -> simpleName(name).startsWith(prefix.value()))
                 .forEach(names::add);
@@ -906,11 +1037,15 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
                         .sorted(
                                 Comparator.<String>comparingInt(
                                                 name ->
-                                                        name.startsWith("java.lang.")
+                                                        annotations && simpleName(name).equals(prefix.value())
+                                                                ? -2
+                                                                : name.startsWith("java.lang.")
                                                                 ? 0
+                                                                : projectTypes.contains(name)
+                                                                ? 1
                                                                 : name.startsWith("java.util.")
-                                                                        ? 1
-                                                                        : 2)
+                                                                        ? 2
+                                                                        : 3)
                                         .thenComparing(String::compareTo))
                         .limit(32)
                         .toList();
@@ -923,7 +1058,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         List<Completion> result = new ArrayList<>();
         for (String qualified : ordered) {
             ITypeBinding type = resolveType(context, qualified, currentPackage);
-            if (type == null || type.isRecovered()) continue;
+            if (type == null || type.isRecovered() || annotations && !type.isAnnotation()) continue;
             if (!Modifier.isPublic(type.getModifiers())
                     && !type.getPackage().getName().equals(currentPackage)) continue;
             String simple = simpleName(qualified),

@@ -62,27 +62,111 @@ public final class BundledKeymaps {
         b.put(id, Arrays.stream(keys).map(KeyBinding::editor).toList());
     }
 
+    /** The default profile: TurboJ's own map. */
+    public static final String DEFAULT = "turboj-macos";
+    /** Bundled profiles that were replaced: a saved selection moves to the successor, the stored copy is dropped. */
+    public static final Map<String, String> RETIRED = Map.of("turboj-classic", DEFAULT);
+
+    public static String current(String id) { return RETIRED.getOrDefault(id, id); }
+
+    /**
+     * Turbo C's grammar on macOS (docs/keymap-turboj-macos.md): Cmd+letter is the verb, Shift widens or reverses it,
+     * Cmd+Option is the code-transform family. Option alone never takes a letter (it types characters) and Ctrl
+     * takes only Space and Tab (Ctrl+letters are the system's text keys). Turbo's function keys stay as second
+     * bindings: most Macs need fn for them, and Ctrl+F1…F8 belong to macOS keyboard navigation.
+     */
+    private static Map<String, List<KeyBinding>> turbo() {
+        var t = common();
+        // The edit–compile–run loop: Turbo F9 make, Alt+F9 compile, Ctrl+F9 run, Alt+F7/F8 errors, F2 save, F1 help.
+        bind(t, "smart.action", "META+ENTER"); // Complete, import, or Run when there is nothing to complete.
+        bind(t, "make", "META+B", "F9");
+        bind(t, "compile", "META+ALT+B", "ALT+F9");
+        bind(t, "compileProject", "META+SHIFT+B");
+        bind(t, "run", "META+R", "CTRL+F9");
+        bind(t, "run.configuration", "META+SHIFT+R");
+        bind(t, "tests.current", "META+U");
+        bind(t, "tests.all", "META+SHIFT+U");
+        bind(t, "tests.failed", "META+ALT+U");
+        bind(t, "stop", "META+PERIOD");
+        bind(t, "navigation.nextError", "META+QUOTE", "ALT+F8");
+        bind(t, "navigation.previousError", "META+SHIFT+QUOTE", "ALT+F7");
+        bind(t, "save", "META+S", "F2");
+        bind(t, "file.saveAll", "META+ALT+S");
+        bind(t, "documentation", "META+J", "F1");
+        bind(t, "help", "SHIFT+F1");
+        bind(t, "zoom", "F5");
+        bind(t, "focus", "F6");
+        // The Enter family: Cmd does the next thing, Option lists the choices.
+        // ⌃Space is every IDE's completion, but macOS gives it to the input-source switch; ⌥Space always reaches TurboJ.
+        bind(t, "complete", "ALT+SPACE", "CTRL+SPACE");
+        bind(t, "ai.request", "ALT+SHIFT+SPACE");
+        bind(t, "ai.another");
+        bind(t, "refactor.context-actions", "ALT+ENTER", "META+1");
+        editor(t, "java.completeStatement", "META+SHIFT+ENTER");
+        editor(t, "editor.insertLineBelow", "SHIFT+ENTER");
+        // Finding code.
+        bind(t, "navigation.searchEverywhere", "META+P", "F3");
+        bind(t, "navigation.goToType", "META+T");
+        bind(t, "navigation.goToSymbol", "META+SHIFT+O");
+        bind(t, "navigation.goToFile", "META+SHIFT+P");
+        bind(t, "navigation.typeHierarchy", "META+SHIFT+H");
+        bind(t, "navigation.callHierarchy", "META+ALT+SHIFT+H");
+        bind(t, "navigation.previousEditLocation", "META+SHIFT+BACK_SPACE");
+        bind(t, "navigation.matchingBrace", "META+SHIFT+BACK_SLASH");
+        bind(t, "navigation.goToTest", "META+SHIFT+T");
+        bind(t, "declaration", "META+D", "F12");
+        bind(t, "navigation.findReferences", "META+SHIFT+D");
+        bind(t, "navigation.goToImplementation", "META+I");
+        bind(t, "back", "META+OPEN_BRACKET", "CTRL+META+LEFT");
+        bind(t, "forward", "META+CLOSE_BRACKET", "CTRL+META+RIGHT");
+        bind(t, "goto", "META+L");
+        bind(t, "navigation.recentFiles", "META+E");
+        bind(t, "navigation.recentLocations", "META+SHIFT+E");
+        bind(t, "navigation.nextEditorTab", "META+SHIFT+CLOSE_BRACKET");
+        bind(t, "navigation.previousEditorTab", "META+SHIFT+OPEN_BRACKET");
+        bind(t, "replace", "META+ALT+F");
+        // Lines and selections.
+        editor(t, "moveLineUp", "ALT+UP");
+        editor(t, "moveLineDown", "ALT+DOWN");
+        editor(t, "editor.copyLineUp", "META+ALT+UP");
+        editor(t, "editor.copyLineDown", "META+ALT+DOWN");
+        editor(t, "deleteLine", "META+SHIFT+K");
+        editor(t, "editor.toggleBlockComment", "META+ALT+SLASH");
+        editor(t, "editor.selectNextOccurrence", "META+ALT+G");
+        editor(t, "editor.selectAllOccurrences", "META+ALT+SHIFT+G");
+        // MacBooks have no Home or End key: ⌘← and ⌘→ are the Mac's line start and end (fn← and fn→ still work).
+        editor(t, "editor.smartHome", "META+LEFT", "HOME");
+        editor(t, "editor.smartEnd", "META+RIGHT", "END");
+        editor(t, "editor.expandSelection", "CTRL+SHIFT+RIGHT");
+        editor(t, "editor.shrinkSelection", "CTRL+SHIFT+LEFT");
+        editor(t, "navigation.nextMethod", "CTRL+SHIFT+DOWN");
+        editor(t, "navigation.previousMethod", "CTRL+SHIFT+UP");
+        // Cmd+Option transforms the code.
+        bind(t, "refactor.this", "META+ALT+T");
+        bind(t, "refactor.rename", "META+ALT+R");
+        bind(t, "refactor.extract-method", "META+ALT+M");
+        bind(t, "refactor.extract-variable", "META+ALT+V");
+        bind(t, "refactor.extract-constant", "META+ALT+C");
+        bind(t, "refactor.extract-parameter", "META+ALT+P");
+        bind(t, "refactor.inline", "META+ALT+I");
+        bind(t, "refactor.safe-delete", "META+ALT+BACK_SPACE");
+        bind(t, "format.document", "META+ALT+L");
+        bind(t, "format.selection", "META+ALT+SHIFT+L");
+        bind(t, "organizeImports", "META+ALT+O");
+        bind(t, "java.generate", "META+ALT+N");
+        // Panels and the application.
+        bind(t, "view.toggleExplorer", "META+0");
+        bind(t, "view.focusConsole", "META+SHIFT+C");
+        bind(t, "view.toggleConsole", "META+SHIFT+Y");
+        bind(t, "view.focusDiagnostics", "META+SHIFT+M");
+        bind(t, "file.newJavaProject", "META+SHIFT+N");
+        bind(t, "palette", "META+SHIFT+A");
+        bind(t, "settings.general", "META+COMMA");
+        bind(t, "keymap", "META+K");
+        return t;
+    }
+
     public static List<KeymapProfile> profiles() {
-        var classic = common();
-        bind(classic, "help", "F1");
-        bind(classic, "declaration", "F12", "META+B");
-        bind(classic, "complete", "CTRL+SPACE");
-        bind(classic, "back", "ALT+LEFT");
-        bind(classic, "forward", "ALT+RIGHT");
-        bind(classic, "save", "F2", "META+S");
-        bind(classic, "open", "F3", "META+O");
-        bind(classic, "zoom", "F5");
-        bind(classic, "focus", "F6");
-        bind(classic, "compile", "F9", "ALT+F9");
-        bind(classic, "run", "CTRL+F9", "META+R", "META+ENTER");
-        bind(classic, "quit", "ALT+X", "META+Q");
-        bind(classic, "format.document", "META+ALT+L");
-        bind(classic, "format.selection", "META+ALT+SHIFT+L");
-        bind(classic, "palette", "META+SHIFT+P");
-        bind(classic, "goto", "META+L");
-        bind(classic, "stop", "META+PERIOD");
-        bind(classic, "keymap", "META+K, META+S");
-        bind(classic, "refactor.context-actions", "META+1");
         var idea = common();
         idea.remove("open");
         bind(idea, "goType", "META+O");
@@ -157,6 +241,7 @@ public final class BundledKeymaps {
         bind(eclipse, "back", "META+ALT+LEFT");
         bind(eclipse, "forward", "META+ALT+RIGHT");
         bind(eclipse, "goto", "META+L");
+        bind(eclipse, "smart.action", "META+ENTER");
         bind(eclipse, "goType", "META+SHIFT+T");
         bind(eclipse, "goFile", "META+SHIFT+R");
         bind(eclipse, "goSymbol", "META+O");
@@ -232,9 +317,9 @@ public final class BundledKeymaps {
         bind(vscode, "view.focusDiagnostics", "META+SHIFT+M");
         bind(vscode, "view.toggleExplorer", "META+B");
         bind(vscode, "run", "CTRL+F5");
-        return List.of(new KeymapProfile("intellij-macos", "IntelliJ IDEA macOS", null, idea, true),
+        return List.of(new KeymapProfile(DEFAULT, "TurboJ macOS", null, turbo(), true),
                 new KeymapProfile("eclipse-macos", "Eclipse macOS", null, eclipse, true),
-                new KeymapProfile("vscode-macos", "VS Code macOS", null, vscode, true),
-                new KeymapProfile("turboj-classic", "TurboJ Classic", null, classic, true));
+                new KeymapProfile("intellij-macos", "IntelliJ IDEA macOS", null, idea, true),
+                new KeymapProfile("vscode-macos", "VS Code macOS", null, vscode, true));
     }
 }

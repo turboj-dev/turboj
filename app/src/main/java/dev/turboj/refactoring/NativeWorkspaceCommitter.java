@@ -184,9 +184,11 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
         return new PreparedDisk(store, disk, ChangeSet.prepare(diskPlan));
     }
 
-    /** The explicit Add JUnit decision may persist an unmodified POM, never pre-existing unsaved edits. */
+    /** The explicit Add JUnit decision (with a new test, or alone with its import) may persist an unmodified POM,
+     * never pre-existing unsaved edits. */
     public static boolean savesConfiguration(Plan plan, BufferSnapshot buffer) {
-        return buffer != null && plan.operation() == dev.turboj.refactorj.api.Operation.CREATE_CLASS
+        return buffer != null && (plan.operation() == dev.turboj.refactorj.api.Operation.CREATE_CLASS
+                || plan.operation() == dev.turboj.refactorj.api.Operation.ADD_IMPORT)
                 && buffer.path().getFileName().toString().equals("pom.xml")
                 && Objects.equals(buffer.savedSha256(), HexFormat.of().formatHex(SafeFiles.utf8Fingerprint(buffer.text())));
     }

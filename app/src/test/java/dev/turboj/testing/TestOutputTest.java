@@ -23,17 +23,17 @@ class TestOutputTest {
                 test("ignored", TestEngine.Status.SKIPPED, 0, "Disabled on this JDK", ""),
                 test("aborts", TestEngine.Status.ABORTED, 3_450_000, "Assumption failed", "at CalculatorTest.aborts(CalculatorTest.java:18)"));
         var report = new TestEngine.Report(42, 12_340_000, tests, List.of());
-        edt(() -> { fixture.output.begin(false); fixture.output.report(report); return null; });
+        edt(() -> { fixture.output.begin(false, "CalculatorTest"); fixture.output.report(report); return null; });
         String text = edt(fixture.console::text);
-        assertTrue(text.startsWith("\n══ TURBOTEST"));
-        assertTrue(text.contains("[PASSED] example.CalculatorTest#passes · 1.23 ms"));
-        assertTrue(text.contains("[FAILED] example.CalculatorTest#fails · 2.34 ms"));
-        assertTrue(text.contains("[SKIPPED] example.CalculatorTest#ignored · 0.00 ms"));
-        assertTrue(text.contains("[ABORTED] example.CalculatorTest#aborts · 3.45 ms"));
-        assertTrue(text.contains("expected <4> but was <5>"));
-        assertTrue(text.contains("at CalculatorTest.fails(CalculatorTest.java:12)"));
-        assertTrue(text.contains("Disabled on this JDK"));
-        assertTrue(text.contains("FAILED · 4 tests · 1 passed · 1 failed · 1 skipped · 1 aborted · 12.34 ms"));
+        assertTrue(text.contains("[INFO] Test CalculatorTest\n[INFO] --- compile ---\n"), text);
+        assertTrue(text.contains("[INFO] Tests run: 4, Failures: 1, Errors: 0, Skipped: 2, Time elapsed: 7 ms -- in example.CalculatorTest"), text);
+        assertTrue(text.contains("[ERROR] example.CalculatorTest#fails · expected <4> but was <5>\nat CalculatorTest.fails(CalculatorTest.java:12)\n"), text);
+        assertTrue(text.contains("[WARN] example.CalculatorTest#ignored skipped · Disabled on this JDK"));
+        assertTrue(text.contains("[WARN] example.CalculatorTest#aborts aborted · Assumption failed"));
+        assertTrue(text.contains("[INFO] Results:\n[INFO]\n[ERROR] Failures:\n[ERROR]   example.CalculatorTest#fails · expected <4> but was <5>\n"), text);
+        assertTrue(text.contains("[INFO] Tests run: 4, Failures: 1, Errors: 0, Skipped: 2\n"));
+        assertTrue(text.contains("[ERROR] TEST FAILURE · 1 of 4 passed\n"), text);
+        assertFalse(text.contains("#passes"), "passed tests are counted, not listed, as in Surefire");
         assertEquals(ConsolePane.Role.ERROR, TestOutput.summaryRole(report));
     }
 
@@ -54,10 +54,10 @@ class TestOutputTest {
         var fixture = fixture();
         edt(() -> { fixture.output.report(failure); return null; });
         String text = edt(fixture.console::text);
-        assertTrue(text.contains("[ENGINE FAILED] JUnit engine initialization failed"));
-        assertTrue(text.contains("FAILED · 0 tests"));
-        assertTrue(text.contains("1 engine failure"));
-        assertFalse(text.contains("PASSED"));
+        assertTrue(text.contains("[ERROR] Errors:\n[ERROR]   JUnit engine initialization failed\n"), text);
+        assertTrue(text.contains("[INFO] Tests run: 0, Failures: 0, Errors: 1, Skipped: 0"));
+        assertTrue(text.contains("[ERROR] TEST FAILURE · no tests"), text);
+        assertFalse(text.contains("SUCCESS"));
     }
 
     @Test
@@ -83,8 +83,8 @@ class TestOutputTest {
         String text = edt(fixture.console::text);
         assertFalse(text.contains("NOTE"));
         assertFalse(text.contains(":-1"));
-        assertTrue(text.contains("ERROR src/Main.java:8: Cannot resolve Calculator"));
-        assertTrue(text.contains("WARNING src/Main.java:10: Unchecked conversion"));
+        assertTrue(text.contains("[ERROR] src/Main.java:[8] Cannot resolve Calculator"), text);
+        assertTrue(text.contains("[WARN] src/Main.java:[10] Unchecked conversion"), text);
         var details = edt(fixture.output::compilerDetails);
         assertEquals(3, details.size());
         assertEquals("NOTE pom.xml: Resident javac 25, project JDK 21", details.getFirst());
@@ -104,7 +104,7 @@ class TestOutputTest {
     private static Fixture fixture() throws Exception {
         return edt(() -> {
             var console = new ConsolePane(ignored -> {});
-            return new Fixture(console, new TestOutput(console));
+            return new Fixture(console, new TestOutput(new dev.turboj.console.OutputLog(console)));
         });
     }
 

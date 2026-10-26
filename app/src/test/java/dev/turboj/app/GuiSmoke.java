@@ -39,6 +39,7 @@ public final class GuiSmoke {
                             UIManager.setLookAndFeel(
                                     UIManager.getCrossPlatformLookAndFeelClassName());
                             TurboFrame value = new TurboFrame(new Settings(), Map.of());
+                            frameForDiagnostics = value;
                             value.setVisible(true);
                             value.toFront();
                             value.editor().requestFocusInWindow();
@@ -51,7 +52,7 @@ public final class GuiSmoke {
                     (System.nanoTime() - launched) / 1e6);
             edt(
                     () -> {
-                        action(frame, "File", "New");
+                        action(frame, "File", "Java File");
                         frame.editor().replaceSelection(TurboFrame.HELLO);
                         return null;
                     });
@@ -70,8 +71,8 @@ public final class GuiSmoke {
                     () -> {
                         check(frame.editor().find("Hello again!", true), "find shortcut literal");
                         frame.editor().replaceSelection("Shortcut works!");
-                        frame.editor()
-                                .dispatchEvent(
+                        java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue()
+                                .postEvent(
                                         new KeyEvent(
                                                 frame.editor(),
                                                 KeyEvent.KEY_PRESSED,
@@ -85,12 +86,12 @@ public final class GuiSmoke {
                     () ->
                             !frame.isRunning()
                                     && frame.console().text().contains("Shortcut works!")
-                                    && frame.console().text().contains("[exit 0"),
+                                    && frame.console().text().contains("SUCCESS · exit 0"),
                     "Cmd+R program output");
             edt(
                     () -> {
-                        frame.editor()
-                                .dispatchEvent(
+                        java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue()
+                                .postEvent(
                                         new KeyEvent(
                                                 frame.editor(),
                                                 KeyEvent.KEY_PRESSED,
@@ -105,8 +106,8 @@ public final class GuiSmoke {
                     "F10 menu");
             edt(
                     () -> {
-                        frame.editor()
-                                .dispatchEvent(
+                        java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue()
+                                .postEvent(
                                         new KeyEvent(
                                                 frame.editor(),
                                                 KeyEvent.KEY_PRESSED,
@@ -299,7 +300,7 @@ public final class GuiSmoke {
                     return null;
                 });
         waitFor(
-                () -> frame.console().text().contains("changed outside TurboJ"),
+                () -> frame.statusMessages().contains("changed outside TurboJ"),
                 "external modification diagnostic");
         check(
                 Files.readString(file).equals("// changed externally\n"),
@@ -514,7 +515,7 @@ public final class GuiSmoke {
                 () ->
                         !frame.isRunning()
                                 && frame.console().text().contains(expected)
-                                && frame.console().text().contains("[exit 0"),
+                                && frame.console().text().contains("SUCCESS · exit 0"),
                 expected);
     }
 
@@ -522,15 +523,22 @@ public final class GuiSmoke {
         for (int m = 0; m < frame.getJMenuBar().getMenuCount(); m++) {
             JMenu candidate = frame.getJMenuBar().getMenu(m);
             if (!candidate.getText().equals(menu)) continue;
-            for (Component component : candidate.getMenuComponents())
-                if (component instanceof JMenuItem item && item.getText().equals(label)) {
-                    item.getAction()
-                            .actionPerformed(
-                                    new ActionEvent(item, ActionEvent.ACTION_PERFORMED, label));
-                    return;
-                }
+            JMenuItem item = item(candidate, label);
+            if (item != null) {
+                item.getAction().actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, label));
+                return;
+            }
         }
         throw new AssertionError("missing action " + menu + " / " + label);
+    }
+
+    /** The command item with this label anywhere in the menu, submenus included. */
+    private static JMenuItem item(JMenu menu, String label) {
+        for (Component component : menu.getMenuComponents()) {
+            if (component instanceof JMenu submenu) { JMenuItem found = item(submenu, label); if (found != null) return found; }
+            else if (component instanceof JMenuItem item && item.getText().equals(label)) return item;
+        }
+        return null;
     }
 
     private static JTextField findInput(Container root) {
@@ -550,8 +558,12 @@ public final class GuiSmoke {
             if (edt(predicate)) return;
             Thread.sleep(20);
         }
-        throw new AssertionError("Timed out: " + label);
+        throw new AssertionError("Timed out: " + label + "; focus " + edt(() -> String.valueOf(java.awt.KeyboardFocusManager
+                .getCurrentKeyboardFocusManager().getFocusOwner()).replaceAll(",.*", "")) + "; dialogs "
+                + edt(() -> dev.turboj.commandj.swing.OverlayHost.dialogs(frameForDiagnostics).stream().map(d -> d.getTitle()).toList())
+                + "; console:\n" + edt(() -> frameForDiagnostics.console().text()));
     }
+    private static TurboFrame frameForDiagnostics;
 
     private static <T> T edt(Callable<T> action) throws Exception {
         CompletableFuture<T> result = new CompletableFuture<>();

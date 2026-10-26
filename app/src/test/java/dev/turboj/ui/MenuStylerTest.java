@@ -55,7 +55,11 @@ class MenuStylerTest {
                     assertEquals(p.selectedBackground().getRGB(), selected.getRGB(x, selected.getHeight() - 1));
                 }
                 assertEquals(shortcut, item.getAccelerator());
+                dev.turboj.commandj.keymap.KeyStrokeSpec.useSymbols(false);
                 assertEquals("Cmd+Shift+F6", MenuStyler.accelerator(shortcut));
+                dev.turboj.commandj.keymap.KeyStrokeSpec.useSymbols(true);
+                assertEquals("⇧⌘F6", MenuStyler.accelerator(shortcut), "macOS notation: ⌃⌥⇧⌘ then the key");
+                dev.turboj.commandj.keymap.KeyStrokeSpec.useSymbols(false);
                 assertEquals(0, UIManager.getIcon("MenuItem.arrowIcon").getIconWidth());
                 var popup = new JPopupMenu(); popup.add(item); popup.addSeparator();
                 MenuStyler.style(popup, theme);

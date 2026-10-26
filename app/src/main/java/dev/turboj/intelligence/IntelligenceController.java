@@ -41,6 +41,9 @@ public final class IntelligenceController implements AutoCloseable {
     private volatile ProjectProvider projectProvider = ProjectContext::detect;
 
     public void setProjectProvider(ProjectProvider provider) { projectProvider = Objects.requireNonNull(provider); changed(); }
+    private Consumer<String> libraryAccepted = library -> {};
+    /** Receives Completion.library after an explicitly chosen proposal has been inserted. */
+    public void setLibraryAccepted(Consumer<String> callback) { libraryAccepted = Objects.requireNonNull(callback); }
 
     private JavaIntelligenceService service() {
         if (service == null) service = new JdtJavaIntelligenceService();
@@ -96,6 +99,7 @@ public final class IntelligenceController implements AutoCloseable {
         this.notice = notice;
         completionWindow = new InlinePopup(owner);
         completionWindow.setFocusableWindowState(false);
+        choices.setName("completion-choices");
         choices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         choices.setCellRenderer(
                 (list, value, index, selected, focus) -> {
@@ -497,6 +501,10 @@ public final class IntelligenceController implements AutoCloseable {
                     try {
                         Context context = context(t);
                         CompletionResult result = smart ? service().completeSmart(context, t.offset) : service().complete(context, t.offset);
+                        // A proposal that changes the project's libraries is offered only on explicit request.
+                        if (!alternatives) result = new CompletionResult(result.proposals().stream()
+                                .filter(p -> p.library().isEmpty()).toList(), result.durationNanos());
+                        CompletionResult shown = result;
                         SignatureHelp help = service().signatureHelp(context, t.offset);
                         long duration = System.nanoTime() - start;
                         SwingUtilities.invokeLater(
@@ -506,14 +514,14 @@ public final class IntelligenceController implements AutoCloseable {
                                             || !editor.hasFocus()
                                             || documentationWindow.isVisible()) return;
                                     sample(completionTimes, duration);
-                                    lastCompletion = result;
+                                    lastCompletion = shown;
                                     lastSignature = help;
                                     completionTicket = t;
-                                    if (!result.proposals().isEmpty()) {
+                                    if (!shown.proposals().isEmpty()) {
                                         completions.semantic(
-                                                inline(t, result.proposals().getFirst()),
+                                                inline(t, shown.proposals().getFirst()),
                                                 alternatives);
-                                        if (alternatives) showChoices(result.proposals());
+                                        if (alternatives) showChoices(shown.proposals());
                                     } else if (alternatives)
                                         notice.accept(smart ? "No assignment-compatible proposals in a resolved expected-type context." : "No semantic completions at this position.");
                                     showSignatures(help);
@@ -547,9 +555,9 @@ public final class IntelligenceController implements AutoCloseable {
 
     private void acceptChoice() {
         Completion p = choices.getSelectedValue();
-        if (p != null && completionTicket != null && valid(completionTicket)) {
-            editor.applyCompletion(inline(completionTicket, p));
-        }
+        if (p != null && completionTicket != null && valid(completionTicket)
+                && editor.applyCompletion(inline(completionTicket, p)) && !p.library().isEmpty())
+            libraryAccepted.accept(p.library());
         completionWindow.setVisible(false);
         completions.alternatives(false);
         editor.requestFocusInWindow();

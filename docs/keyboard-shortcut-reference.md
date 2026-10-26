@@ -1,12 +1,12 @@
 # Command reference
 
-Active keymap: **IntelliJ IDEA macOS**
+Active keymap: **TurboJ macOS**
 
 Generated from the executable registry. Availability reflects the captured context.
 
 | Command ID | Command | Category | Shortcut | Context | Availability | Aliases |
 | --- | --- | --- | --- | --- | --- | --- |
-| zoom | Expand editor | Appearance | Unassigned | Any | Available | zoom |
+| zoom | Expand editor | Appearance | F5 | Any | Available | zoom |
 | fontUp | Larger font | Appearance | Cmd+EQUALS | Any | Available | fontUp |
 | theme.load | Load theme JSON… | Appearance | Unassigned | Any | Available | theme load |
 | theme.dark | Modern Dark | Appearance | Unassigned | Any | Available | theme dark |
@@ -16,57 +16,60 @@ Generated from the executable registry. Availability reflects the captured conte
 | fontDown | Smaller font | Appearance | Cmd+MINUS | Any | Available | fontDown |
 | fullscreen | Toggle full screen | Appearance | Ctrl+Cmd+F | Any | Available | fullscreen |
 | theme.classic | Turbo Classic | Appearance | Unassigned | Any | Available | theme classic |
-| compileProject | Compile Project | Compilation | Unassigned | Any | Available | compileProject |
-| compile | Fast Compile | Compilation | Cmd+F9 | Any | Available | compile |
+| compileProject | Compile Project | Compilation | Shift+Cmd+B | Any | Available | compileProject |
+| compile | Fast Compile | Compilation | Option+Cmd+B / Option+F9 | Any | Available | compile |
 | error | Go to first error | Compilation | Unassigned | Any | Available | error |
-| make | Make Project | Compilation | Unassigned | Any | Available | make |
+| make | Make Project | Compilation | Cmd+B / F9 | Any | Available | make |
 | console.copy | Copy Selected Console Output | Console | Unassigned | Any | Select console output first | console copy |
 | console.commandLine | Output Command Line (:! command) | Console | Unassigned | Any | Available | ! command, Esc :, curl, shell command, vim command line |
 | console.cancelCommand | Stop Output Command | Console | Unassigned | Any | No output command is running | console cancelCommand |
 | editor.addCaretAbove | Add Caret Above | Edit | Unassigned | editor | Available | editor addCaretAbove |
 | editor.addCaretBelow | Add Caret Below | Edit | Unassigned | editor | Available | editor addCaretBelow |
-| editor.autoIndentLines | Auto-Indent Java Lines | Edit | Ctrl+Option+I | editor; binding requires [editor] | Available | editor autoIndentLines |
-| editor.changeCase | Change Selection Case… | Edit | Shift+Cmd+U | editor; binding requires [editor] | Available | editor changeCase |
+| editor.autoIndentLines | Auto-Indent Java Lines | Edit | Unassigned | editor | Available | editor autoIndentLines |
+| editor.changeCase | Change Selection Case… | Edit | Unassigned | editor | Available | editor changeCase |
 | workspace.select | Choose Workspace… | Edit | Unassigned | Any | Available | workspace select |
+| run.clearOutputBefore | Clear Output Before Each Run | Edit | Unassigned | Any | Available | run clearOutputBefore |
+| smart.action | Complete, Import or Run | Edit | Cmd+ENTER | Any | Available | smart action |
 | editor.convertSpacesToTabs | Convert Leading Spaces to Tabs | Edit | Unassigned | editor | Available | editor convertSpacesToTabs |
 | editor.lowerCase | Convert Selection to Lowercase | Edit | Unassigned | editor | Available | editor lowerCase |
 | editor.upperCase | Convert Selection to Uppercase | Edit | Unassigned | editor | Available | editor upperCase |
 | editor.convertTabsToSpaces | Convert Tabs to Spaces | Edit | Unassigned | editor | Available | editor convertTabsToSpaces |
 | copy | Copy | Edit | Cmd+C | Any | Available | copy, editor.copyLine |
-| editor.copyLineDown | Copy Line Down | Edit | Unassigned | editor | Available | editor copyLineDown |
-| editor.copyLineUp | Copy Line Up | Edit | Unassigned | editor | Available | editor copyLineUp |
+| editor.copyLineDown | Copy Line Down | Edit | Option+Cmd+DOWN | editor; binding requires [editor] | Available | editor copyLineDown |
+| editor.copyLineUp | Copy Line Up | Edit | Option+Cmd+UP | editor; binding requires [editor] | Available | editor copyLineUp |
 | cut | Cut | Edit | Cmd+X | Any | Available | cut, editor.cutLine |
 | editor.deleteNextWord | Delete Next Word | Edit | Option+DELETE | editor; binding requires [editor] | Available | editor deleteNextWord |
 | editor.deletePreviousWord | Delete Previous Word | Edit | Option+BACK_SPACE | editor; binding requires [editor] | Available | editor deletePreviousWord |
-| deleteLine | Delete line | Edit | Cmd+BACK_SPACE | editor | Available | clear line, delete current line, editor.deleteLine, remove row |
+| deleteLine | Delete line | Edit | Shift+Cmd+K | editor; binding requires [editor] | Available | clear line, delete current line, editor.deleteLine, remove row |
 | editor.deleteToLineEnd | Delete to Line End | Edit | Unassigned | editor | Available | editor deleteToLineEnd |
 | editor.deleteToLineStart | Delete to Line Start | Edit | Unassigned | editor | Available | editor deleteToLineStart |
-| duplicateLine | Duplicate line | Edit | Cmd+D | editor | Available | copy line below, duplicate row, editor.duplicateLine |
+| duplicateLine | Duplicate line | Edit | Unassigned | editor | Available | copy line below, duplicate row, editor.duplicateLine |
+| replace | Find and Replace… | Edit | Option+Cmd+F | Any | Available | replace |
 | findNext | Find next | Edit | Cmd+G | Any | Available | findNext |
 | findPrevious | Find previous | Edit | Shift+Cmd+G | Any | Available | findPrevious |
 | find | Find… | Edit | Cmd+F | Any | Available | find |
 | documentation.focus | Focus Quick Documentation | Edit | Unassigned | editor | Available | documentation focus |
+| java.generate | Generate… | Edit | Option+Cmd+N | editor | Available | java generate |
 | indent | Indent / Next Template Placeholder | Edit | TAB | editor; binding requires [editor]; excludes [completion] | Available | editor.indentSelection, indent |
-| editor.insertLineAbove | Insert Line Above | Edit | Option+Cmd+ENTER | editor; binding requires [editor] | Available | editor insertLineAbove |
+| editor.insertLineAbove | Insert Line Above | Edit | Unassigned | editor | Available | editor insertLineAbove |
 | editor.insertLineBelow | Insert Line Below | Edit | Shift+ENTER | editor; binding requires [editor] | Available | editor insertLineBelow |
-| editor.joinLines | Join Lines | Edit | Ctrl+Shift+J | editor; binding requires [editor] | Available | editor joinLines |
-| moveLineDown | Move line down | Edit | Option+Shift+DOWN | editor; binding requires [editor] | Available | editor.moveLineDown, moveLineDown |
-| moveLineUp | Move line up | Edit | Option+Shift+UP | editor; binding requires [editor] | Available | editor.moveLineUp, moveLineUp |
-| openFolder | Open Folder / Maven Project… | Edit | Unassigned | Any | Available | openFolder |
+| editor.joinLines | Join Lines | Edit | Unassigned | editor | Available | editor joinLines |
+| moveLineDown | Move line down | Edit | Option+DOWN | editor; binding requires [editor] | Available | editor.moveLineDown, moveLineDown |
+| moveLineUp | Move line up | Edit | Option+UP | editor; binding requires [editor] | Available | editor.moveLineUp, moveLineUp |
+| openFolder | Open Folder… | Edit | Unassigned | Any | Available | openFolder |
 | paste | Paste | Edit | Cmd+V | Any | Available | paste |
-| run.configuration | Program Arguments and Standard Input… | Edit | Unassigned | Any | Available | run configuration |
-| editor.toggleColumnSelection | Rectangular Selection from Selected Range | Edit | Shift+Cmd+8 | editor; binding requires [editor] | Available | editor toggleColumnSelection |
+| run.configuration | Program Arguments and Standard Input… | Edit | Shift+Cmd+R | Any | Available | run configuration |
+| editor.toggleColumnSelection | Rectangular Selection from Selected Range | Edit | Unassigned | editor | Available | editor toggleColumnSelection |
 | redo | Redo | Edit | Shift+Cmd+Z | Any | Nothing to redo | redo |
 | editor.removeSecondaryCarets | Remove Secondary Carets | Edit | Unassigned | editor | Available | editor removeSecondaryCarets |
-| replace | Replace selection… | Edit | Cmd+R | Any | Available | replace |
 | editor.reverseSelectedLines | Reverse Selected Lines | Edit | Unassigned | editor | Available | editor reverseSelectedLines |
-| editor.selectAllOccurrences | Select All Occurrences | Edit | Ctrl+Cmd+G | editor; binding requires [editor] | Available | editor selectAllOccurrences |
+| editor.selectAllOccurrences | Select All Occurrences | Edit | Option+Shift+Cmd+G | editor; binding requires [editor] | Available | editor selectAllOccurrences |
 | editor.selectCurrentLine | Select Current Line | Edit | Unassigned | editor | Available | editor selectCurrentLine, editor.selectLine |
 | editor.selectCurrentWord | Select Current Word | Edit | Unassigned | editor | Available | editor selectCurrentWord |
-| editor.selectNextOccurrence | Select Next Occurrence | Edit | Ctrl+G | editor; binding requires [editor] | Available | editor selectNextOccurrence |
+| editor.selectNextOccurrence | Select Next Occurrence | Edit | Option+Cmd+G | editor; binding requires [editor] | Available | editor selectNextOccurrence |
 | selectAll | Select all | Edit | Cmd+A | Any | Available | selectAll |
-| editor.smartEnd | Smart End | Edit | END | editor; binding requires [editor] | Available | editor smartEnd |
-| editor.smartHome | Smart Home | Edit | HOME | editor; binding requires [editor] | Available | editor smartHome |
+| editor.smartEnd | Smart End | Edit | Cmd+RIGHT / END | editor; binding requires [editor] | Available | editor smartEnd |
+| editor.smartHome | Smart Home | Edit | Cmd+LEFT / HOME | editor; binding requires [editor] | Available | editor smartHome |
 | editor.sortSelectedLines | Sort Selected Lines | Edit | Unassigned | editor | Available | editor sortSelectedLines |
 | editor.splitLine | Split Line | Edit | Unassigned | editor | Available | editor splitLine |
 | editor.toggleBlockComment | Toggle Block Comment | Edit | Option+Cmd+SLASH | editor; binding requires [editor] | Available | editor toggleBlockComment |
@@ -83,45 +86,54 @@ Generated from the executable registry. Availability reflects the captured conte
 | repl | Java REPL | Execution | Unassigned | Any | Available | repl |
 | output | Program output / messages | Execution | Unassigned | Any | Available | output |
 | replReset | Reset Java REPL | Execution | Unassigned | Any | Available | replReset |
-| run | Run Java / JUnit | Execution | Ctrl+R | Any | Available | run |
+| run | Run Java / JUnit | Execution | Cmd+R / Ctrl+F9 | Any | Available | run |
 | eof | Send EOF | Execution | Unassigned | Any | No program is running | eof |
-| stop | Stop program | Execution | Cmd+F2 | Any | No program is running or waiting to run | stop |
-| focus | Switch editor / console | Execution | Unassigned | Any | Available | focus |
+| stop | Stop program | Execution | Cmd+PERIOD | Any | No program is running or waiting to run | stop |
+| focus | Switch editor / console | Execution | F6 | Any | Available | focus |
 | file.close | Close Current File | File | Cmd+W | Any | Available | file close, navigation.closeEditor |
-| new | New | File | Cmd+N | Any | Available | new |
+| file.newFile | Java File | File | Unassigned | Any | Available | file newFile |
 | file.newJavaClass | New Java Class… | File | Unassigned | Any | Available | file newJavaClass |
-| file.newJavaProject | New Java Project… | File | Unassigned | Any | Available | file newJavaProject |
+| file.newJavaProject | New Java Project… | File | Shift+Cmd+N | Any | Available | file newJavaProject |
 | file.newMavenProject | New Maven Project… | File | Unassigned | Any | Available | file newMavenProject |
-| open | Open… | File | Unassigned | Any | Available | open |
+| new | New… | File | Cmd+N | Any | Available | new |
+| open | Open… | File | Cmd+O | Any | Available | open |
 | quit | Quit TurboJ | File | Cmd+Q | Any | Available | quit |
 | file.reopenClosed | Reopen Closed File | File | Unassigned | Any | No closed files to reopen | file reopenClosed, navigation.reopenEditor |
-| save | Save | File | Cmd+S | Any | Available | save |
-| file.saveAll | Save All | File | Unassigned | Any | Available | file saveAll |
+| save | Save | File | Cmd+S / F2 | Any | Available | save |
+| file.saveAll | Save All | File | Option+Cmd+S | Any | Available | file saveAll |
 | saveAs | Save as… | File | Shift+Cmd+S | Any | Available | saveAs |
+| format.style.aosp | AOSP | Formatting | Unassigned | Any | Available | format style aosp |
+| format.style.aws | AWS (Smithy) | Formatting | Unassigned | Any | Available | format style aws |
+| format.style.classic80 | Classic 80 | Formatting | Unassigned | Any | Available | format style classic80 |
+| format.style.eclipse | Eclipse | Formatting | Unassigned | Any | Available | format style eclipse |
 | format.document | Format Document | Formatting | Option+Cmd+L | Any | Available | format document |
 | format.selection | Format Selection | Formatting | Option+Shift+Cmd+L | Any | Select source text first | format selection |
 | format.onSave | Format on Save | Formatting | Unassigned | Any | Available | format onSave |
-| organizeImports | Organize Imports… | Formatting | Ctrl+Option+O | Any | Available | organizeImports |
+| format.style.google | Google | Formatting | Unassigned | Any | Available | format style google |
+| format.style.intellij | IntelliJ IDEA | Formatting | Unassigned | Any | Available | format style intellij |
+| format.style.javafmt | JavaFMT (on hold) | Formatting | Unassigned | Any | Available | format style javafmt |
+| organizeImports | Organize Imports… | Formatting | Option+Cmd+O | Any | Available | organizeImports |
+| format.style.wide120 | Wide 120 | Formatting | Unassigned | Any | Available | format style wide120 |
 | completion.acceptWord | Accept next AI word | Java Intelligence | Ctrl+Option+ENTER | editor; binding requires [completion] | No AI suggestion is visible | completion acceptWord |
 | completion.accept | Accept suggestion | Java Intelligence | TAB / ENTER | editor; binding requires [completion]; binding requires [completion-popup] | No completion is visible | completion accept |
 | ai.cloud | Cloud… | Java Intelligence | Unassigned | Any | Available | ai cloud |
-| complete | Completion alternatives | Java Intelligence | Ctrl+SPACE | editor | Available | complete |
+| complete | Completion alternatives | Java Intelligence | Option+SPACE / Ctrl+SPACE | editor | Available | complete |
 | ai.settings | Configure AI completion… | Java Intelligence | Unassigned | Any | Available | ai settings |
 | ai.disabled | Disabled | Java Intelligence | Unassigned | Any | Available | ai disabled |
 | completion.dismiss | Dismiss suggestion | Java Intelligence | Unassigned | editor | Available | completion dismiss |
 | ai.local | Local… | Java Intelligence | Unassigned | Any | Available | ai local |
 | completion.next | Next completion | Java Intelligence | DOWN | editor; binding requires [completion-popup] | Completion alternatives are not open | completion next |
-| completion.parameterInformation | Parameter Information | Java Intelligence | Cmd+P | editor | Available | completion parameterInformation, signature |
+| completion.parameterInformation | Parameter Information | Java Intelligence | Unassigned | editor | Available | completion parameterInformation, signature |
 | completion.previous | Previous completion | Java Intelligence | UP | editor; binding requires [completion-popup] | Completion alternatives are not open | completion previous |
-| ai.request | Request AI completion | Java Intelligence | Option+SPACE | editor | Available | ai request |
+| ai.request | Request AI completion | Java Intelligence | Option+Shift+SPACE | editor | Available | ai request |
 | ai.larger | Request a longer AI completion | Java Intelligence | Unassigned | editor | Available | ai larger |
-| ai.another | Request another AI completion | Java Intelligence | Option+Shift+SPACE | editor | Available | ai another |
-| completion.smart | Smart Completion | Java Intelligence | Shift+Cmd+SPACE | editor; binding requires [editor] | Available | completion smart |
-| navigation.callHierarchy | Call Hierarchy | Java Structure | Unassigned | Any | Available | navigation callHierarchy |
+| ai.another | Request another AI completion | Java Intelligence | Unassigned | editor | Available | ai another |
+| completion.smart | Smart Completion | Java Intelligence | Unassigned | editor | Available | completion smart |
+| navigation.callHierarchy | Call Hierarchy | Java Structure | Option+Shift+Cmd+H | Any | Available | navigation callHierarchy |
 | navigation.calledMethods | Called Methods | Java Structure | Unassigned | Any | Available | navigation calledMethods |
-| java.completeStatement | Complete Statement… | Java Structure | Unassigned | editor | Available | java completeStatement |
-| editor.expandSelection | Expand Selection | Java Structure | Option+UP | editor; binding requires [editor] | Available | editor expandSelection |
-| navigation.findReferences | Find References | Java Structure | Option+F7 | Any | Available | navigation findReferences, navigation.findUsages, references |
+| java.completeStatement | Complete Statement… | Java Structure | Shift+Cmd+ENTER | editor; binding requires [editor] | Available | java completeStatement |
+| editor.expandSelection | Expand Selection | Java Structure | Ctrl+Shift+RIGHT | editor; binding requires [editor] | Available | editor expandSelection |
+| navigation.findReferences | Find References | Java Structure | Shift+Cmd+D | Any | Available | navigation findReferences, navigation.findUsages, references |
 | java.generateConstructor | Generate Constructor… | Java Structure | Unassigned | editor | Available | java generateConstructor |
 | java.generateEquals | Generate Equals… | Java Structure | Unassigned | editor | Available | java generateEquals |
 | java.generateGetterSetter | Generate Getter Setter… | Java Structure | Unassigned | editor | Available | java generateGetterSetter |
@@ -130,17 +142,15 @@ Generated from the executable registry. Availability reflects the captured conte
 | java.generateJavadoc | Generate Javadoc… | Java Structure | Unassigned | editor | Available | java generateJavadoc |
 | java.generateSetters | Generate Setters… | Java Structure | Unassigned | editor | Available | java generateSetters |
 | java.generateToString | Generate To String… | Java Structure | Unassigned | editor | Available | java generateToString |
-| navigation.goToImplementation | Go To Implementation | Java Structure | Option+Cmd+B | Any | Available | implementation, navigation goToImplementation |
-| navigation.goToSymbol | Go To Symbol | Java Structure | Option+Cmd+O | Any | Available | goSymbol, navigation goToSymbol |
-| navigation.goToType | Go To Type | Java Structure | Cmd+O | Any | Available | goType, navigation goToType |
+| navigation.goToImplementation | Go To Implementation | Java Structure | Cmd+I | Any | Available | implementation, navigation goToImplementation |
 | java.implementMethods | Implement Methods… | Java Structure | Unassigned | editor | Available | java implementMethods |
-| navigation.matchingBrace | Matching Brace | Java Structure | Ctrl+M | Any; binding requires [editor] | Available | navigation matchingBrace |
+| navigation.matchingBrace | Matching Brace | Java Structure | Shift+Cmd+BACK_SLASH | Any | Available | navigation matchingBrace |
 | editor.moveCodeBlockDown | Move Code Block Down… | Java Structure | Unassigned | editor | Available | editor.moveBlockDown, move block, move method, move statement |
 | editor.moveCodeBlockUp | Move Code Block Up… | Java Structure | Unassigned | editor | Available | editor.moveBlockUp, move block, move method, move statement |
-| editor.moveElementLeft | Move Element Left… | Java Structure | Option+Shift+Cmd+LEFT | editor; binding requires [editor] | Available | editor moveElementLeft |
-| editor.moveElementRight | Move Element Right… | Java Structure | Option+Shift+Cmd+RIGHT | editor; binding requires [editor] | Available | editor moveElementRight |
-| editor.moveStatementDown | Move Statement Down… | Java Structure | Shift+Cmd+DOWN | editor; binding requires [editor] | Available | move block, move method, move statement |
-| editor.moveStatementUp | Move Statement Up… | Java Structure | Shift+Cmd+UP | editor; binding requires [editor] | Available | move block, move method, move statement |
+| editor.moveElementLeft | Move Element Left… | Java Structure | Unassigned | editor | Available | editor moveElementLeft |
+| editor.moveElementRight | Move Element Right… | Java Structure | Unassigned | editor | Available | editor moveElementRight |
+| editor.moveStatementDown | Move Statement Down… | Java Structure | Unassigned | editor | Available | move block, move method, move statement |
+| editor.moveStatementUp | Move Statement Up… | Java Structure | Unassigned | editor | Available | move block, move method, move statement |
 | navigation.nextMethod | Next Method | Java Structure | Ctrl+Shift+DOWN | Any; binding requires [editor] | Available | navigation nextMethod |
 | java.overrideMethods | Override Methods… | Java Structure | Unassigned | editor | Available | java overrideMethods |
 | navigation.previousMethod | Previous Method | Java Structure | Ctrl+Shift+UP | Any; binding requires [editor] | Available | navigation previousMethod |
@@ -149,10 +159,10 @@ Generated from the executable registry. Availability reflects the captured conte
 | editor.selectCurrentStatement | Select Current Statement | Java Structure | Unassigned | editor | Available | editor selectCurrentStatement |
 | editor.selectEnclosingType | Select Enclosing Type | Java Structure | Unassigned | editor | Available | editor selectEnclosingType |
 | editor.selectMatchingBrackets | Select Matching Brackets | Java Structure | Unassigned | editor | Available | editor selectMatchingBrackets |
-| editor.shrinkSelection | Shrink Selection | Java Structure | Option+DOWN | editor; binding requires [editor] | Available | editor shrinkSelection |
+| editor.shrinkSelection | Shrink Selection | Java Structure | Ctrl+Shift+LEFT | editor; binding requires [editor] | Available | editor shrinkSelection |
 | java.surroundIf | Surround If… | Java Structure | Unassigned | editor | Available | java surroundIf |
 | java.surroundTryFinally | Surround Try Finally… | Java Structure | Unassigned | editor | Available | java surroundTryFinally |
-| navigation.typeHierarchy | Type Hierarchy | Java Structure | Unassigned | Any | Available | navigation typeHierarchy |
+| navigation.typeHierarchy | Type Hierarchy | Java Structure | Shift+Cmd+H | Any | Available | navigation typeHierarchy |
 | maven.build.clean | Maven clean | Maven | Unassigned | Any | Open a Maven project first | maven build clean |
 | maven.build.compile | Maven compile | Maven | Unassigned | Any | Open a Maven project first | maven build compile |
 | maven.build.dependency:tree | Maven dependency:tree | Maven | Unassigned | Any | Open a Maven project first | maven build dependency:tree |
@@ -165,42 +175,45 @@ Generated from the executable registry. Availability reflects the captured conte
 | maven.refresh | Refresh Dependencies | Maven | Unassigned | Any | Open a Maven project first | maven refresh, maven.refreshProject |
 | maven.build.custom | Run Maven Goal… | Maven | Unassigned | Any | Open a Maven project first | maven build custom |
 | maven.stop | Stop Maven Build | Maven | Unassigned | Any | Open a Maven project first | maven stop |
-| navigation.goToFile | Go to File… | Navigation | Shift+Cmd+O | Any | Available | goFile, navigation goToFile |
+| navigation.goToType | Go to Class… | Navigation | Cmd+T | Any | Available | goType, navigation goToType |
+| navigation.goToFile | Go to File… | Navigation | Shift+Cmd+P | Any | Available | goFile, navigation goToFile |
+| navigation.goToSymbol | Go to Symbol… | Navigation | Shift+Cmd+O | Any | Available | goSymbol, navigation goToSymbol |
 | navigation.testFailure | Go to Test Failure | Navigation | Unassigned | Any | Run tests first | navigation testFailure |
-| declaration | Go to declaration | Navigation | Cmd+B | Any | Available | declaration, navigation.goToDefinition |
+| declaration | Go to declaration | Navigation | Cmd+D / F12 | Any | Available | declaration, navigation.goToDefinition |
 | goto | Go to line… | Navigation | Cmd+L | Any | Available | goto |
-| navigation.goToTest | Navigate Between Source and Test | Navigation | Unassigned | Any | Open a saved Java source file | navigation goToTest |
-| back | Navigate back | Navigation | Cmd+OPEN_BRACKET / Option+Cmd+LEFT | Any | Available | back |
-| forward | Navigate forward | Navigation | Cmd+CLOSE_BRACKET / Option+Cmd+RIGHT | Any | Available | forward |
+| navigation.goToTest | Navigate Between Source and Test | Navigation | Shift+Cmd+T | Any | Open a saved Java source file | navigation goToTest |
+| back | Navigate back | Navigation | Cmd+OPEN_BRACKET / Ctrl+Cmd+LEFT | Any | Available | back |
+| forward | Navigate forward | Navigation | Cmd+CLOSE_BRACKET / Ctrl+Cmd+RIGHT | Any | Available | forward |
 | navigation.mavenModule | Navigate to Maven Module… | Navigation | Unassigned | Any | Open a Maven project first | navigation mavenModule |
 | navigation.projectDependency | Navigate to Project Dependency | Navigation | Unassigned | Any | Open a Maven project first | navigation projectDependency |
 | navigation.nextEditLocation | Next Edit Location | Navigation | Unassigned | Any | Available | navigation nextEditLocation |
-| navigation.nextError | Next Error | Navigation | Unassigned | Any | Available | navigation nextError |
-| navigation.nextEditorTab | Next Open File | Navigation | Ctrl+TAB | Any | Available | navigation nextEditorTab, navigation.nextEditor |
+| navigation.nextError | Next Error | Navigation | Cmd+QUOTE / Option+F8 | Any | Available | navigation nextError |
+| navigation.nextEditorTab | Next Open File | Navigation | Ctrl+TAB / Shift+Cmd+CLOSE_BRACKET | Any | Available | navigation nextEditorTab, navigation.nextEditor |
 | navigation.nextWarning | Next Warning | Navigation | Unassigned | Any | Available | navigation nextWarning |
 | navigation.previousEditLocation | Previous Edit Location | Navigation | Shift+Cmd+BACK_SPACE | Any | Available | navigation previousEditLocation, navigation.previousEdit |
-| navigation.previousError | Previous Error | Navigation | Unassigned | Any | Available | navigation previousError |
-| navigation.previousEditorTab | Previous Open File | Navigation | Ctrl+Shift+TAB | Any | Available | navigation previousEditorTab, navigation.previousEditor |
+| navigation.previousError | Previous Error | Navigation | Shift+Cmd+QUOTE / Option+F7 | Any | Available | navigation previousError |
+| navigation.previousEditorTab | Previous Open File | Navigation | Ctrl+Shift+TAB / Shift+Cmd+OPEN_BRACKET | Any | Available | navigation previousEditorTab, navigation.previousEditor |
 | navigation.previousWarning | Previous Warning | Navigation | Unassigned | Any | Available | navigation previousWarning |
-| documentation | Quick documentation | Navigation | F1 / Ctrl+J | editor | Available | documentation |
+| documentation | Quick documentation | Navigation | Cmd+J / F1 | editor | Available | documentation |
 | navigation.recentFiles | Recent Files… | Navigation | Cmd+E | Any | Available | navigation recentFiles, recentFiles |
-| navigation.recentLocations | Recent Locations… | Navigation | Unassigned | Any | Available | navigation recentLocations |
+| navigation.recentLocations | Recent Locations… | Navigation | Shift+Cmd+E | Any | Available | navigation recentLocations |
+| navigation.searchEverywhere | Search Everywhere… | Navigation | Cmd+P / F3 | Any | Available | navigation searchEverywhere |
 | explorer.collapse | Collapse Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer collapse |
-| view.focusDiagnostics | Compiler Diagnostics… | Panels | Unassigned | Any | Available | view focusDiagnostics |
+| view.focusDiagnostics | Compiler Diagnostics… | Panels | Shift+Cmd+M | Any | Available | view focusDiagnostics |
 | explorer.expand | Expand Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer expand |
-| view.focusConsole | Focus Console | Panels | Cmd+4 | Any | Available | view focusConsole |
+| view.focusConsole | Focus Console | Panels | Shift+Cmd+C | Any | Available | view focusConsole |
 | view.focusEditor | Focus Editor | Panels | Unassigned | Any | Available | view focusEditor |
 | view.focusJShell | Focus JShell | Panels | Unassigned | Any | Available | view focusJShell |
 | view.focusNextPanel | Focus Next Panel | Panels | Ctrl+F6 | Any | Available | view focusNextPanel |
 | view.focusPreviousPanel | Focus Previous Panel | Panels | Ctrl+Shift+F6 | Any | Available | view focusPreviousPanel |
-| view.focusExplorer | Focus Project Explorer | Panels | Cmd+1 | Any | Open a Maven project first | view focusExplorer |
+| view.focusExplorer | Focus Project Explorer | Panels | Unassigned | Any | Open a project first | view focusExplorer |
 | view.focusTestResults | Focus Test Results | Panels | Unassigned | Any | Run tests first | view focusTestResults |
 | view.maximizeEditor | Maximize Editor Area | Panels | Unassigned | Any | Available | view maximizeEditor |
 | explorer.open | Open Selected Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer open |
 | view.resizeOutput | Resize Output | Panels | Unassigned | Any | Available | view resizeOutput |
 | view.restoreLayout | Restore Previous Layout | Panels | Unassigned | Any | The editor is not maximized | view restoreLayout |
-| view.toggleConsole | Toggle Console | Panels | Unassigned | Any | Available | view toggleConsole |
-| view.toggleExplorer | Toggle Explorer | Panels | Unassigned | Any | Open a Maven project first | view toggleExplorer |
+| view.toggleConsole | Toggle Console | Panels | Shift+Cmd+Y | Any | Available | view toggleConsole |
+| view.toggleExplorer | Toggle Explorer | Panels | Cmd+0 | Any | Open a project first | view toggleExplorer |
 | view.toggleTestPanel | Toggle Test Results | Panels | Unassigned | Any | Run tests first | view toggleTestPanel |
 | project.profiles | Active Profiles… | Project | Unassigned | Any | Open a Maven project first | project profiles |
 | project.pom.add-dependency | Add Dependency… | Project | Unassigned | Any | Open a Maven project first | project pom add-dependency |
@@ -216,7 +229,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | project.pomDeclaration | Go to POM Declaration | Project | Unassigned | Any | Open a Maven project first | project pomDeclaration |
 | project.parentPom | Go to Parent POM | Project | Unassigned | Any | Open a Maven project first | project parentPom |
 | project.settings | Maven Settings… | Project | Unassigned | Any | Open a Maven project first | project settings |
-| project.open | Open Maven Project… | Project | Unassigned | Any | Available | project open |
+| project.open | Open Project… | Project | Unassigned | Any | Available | project open |
 | project.structure | Project Structure… | Project | Unassigned | Any | Open a Maven project first | project structure |
 | project.reload | Reload Maven Project | Project | Unassigned | Any | Open a Maven project first | project reload |
 | project.pom.remove-dependency | Remove Dependency… | Project | Unassigned | Any | Open a Maven project first | project pom remove-dependency |
@@ -224,7 +237,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | project.pom.update-dependency-version | Update Dependency Version… | Project | Unassigned | Any | Open a Maven project first | project pom update-dependency-version |
 | refactor.add-import | Add Import… | Refactoring | Unassigned | editor | Available | refactor add-import |
 | refactor.anonymous-to-lambda | Anonymous To Lambda… | Refactoring | Unassigned | editor | Available | refactor anonymous-to-lambda |
-| refactor.change-signature | Change Signature… | Refactoring | Cmd+F6 | editor | Available | refactor change-signature |
+| refactor.change-signature | Change Signature… | Refactoring | Unassigned | editor | Available | refactor change-signature |
 | refactor.constructor-to-factory | Constructor To Factory… | Refactoring | Unassigned | editor | Available | refactor constructor-to-factory |
 | refactor.create-constructor | Create Constructor… | Refactoring | Unassigned | editor | Available | refactor create-constructor |
 | refactor.create-field | Create Field… | Refactoring | Unassigned | editor | Available | refactor create-field |
@@ -232,7 +245,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | refactor.create-method | Create Method… | Refactoring | Unassigned | editor | Available | refactor create-method |
 | refactor.encapsulate-field | Encapsulate Field… | Refactoring | Unassigned | editor | Available | refactor encapsulate-field |
 | refactor.extract-constant | Extract Constant… | Refactoring | Option+Cmd+C | editor | Available | refactor extract-constant |
-| refactor.extract-field | Extract Field… | Refactoring | Option+Cmd+F | editor | Available | refactor extract-field |
+| refactor.extract-field | Extract Field… | Refactoring | Unassigned | editor | Available | refactor extract-field |
 | refactor.extract-interface | Extract Interface… | Refactoring | Unassigned | editor | Available | refactor extract-interface |
 | refactor.extract-method | Extract Method… | Refactoring | Option+Cmd+M | editor | Available | refactor extract-method |
 | refactor.extract-parameter | Extract Parameter… | Refactoring | Option+Cmd+P | editor | Available | refactor extract-parameter |
@@ -241,38 +254,46 @@ Generated from the executable registry. Availability reflects the captured conte
 | refactor.implement-methods | Implement Methods… | Refactoring | Unassigned | editor | Available | refactor implement-methods |
 | refactor.inline-method | Inline Method… | Refactoring | Unassigned | editor | Available | refactor inline-method |
 | refactor.inline-variable | Inline Variable… | Refactoring | Unassigned | editor | Available | refactor inline-variable |
-| refactor.inline | Inline… | Refactoring | Option+Cmd+N | editor | Available | refactor inline |
+| refactor.inline | Inline… | Refactoring | Option+Cmd+I | editor | Available | refactor inline |
 | refactor.introduce-interface | Introduce Interface… | Refactoring | Unassigned | editor | Available | refactor introduce-interface |
 | refactor.lambda-to-method-reference | Lambda To Method Reference… | Refactoring | Unassigned | editor | Available | refactor lambda-to-method-reference |
 | refactor.method-reference-to-lambda | Method Reference To Lambda… | Refactoring | Unassigned | editor | Available | refactor method-reference-to-lambda |
-| refactor.move | Move… | Refactoring | F6 | editor | Available | refactor move |
+| refactor.move | Move… | Refactoring | Unassigned | editor | Available | refactor move |
 | refactor.pull-up | Pull Up… | Refactoring | Unassigned | editor | Available | refactor pull-up |
 | refactor.push-down | Push Down… | Refactoring | Unassigned | editor | Available | refactor push-down |
-| refactor.context-actions | Quick Fix / Quick Assist… | Refactoring | Option+ENTER | Any | Available | refactor context-actions |
-| refactor.this | Refactor This… | Refactoring | Ctrl+T | editor | Available | refactor this |
+| refactor.context-actions | Quick Fix / Quick Assist… | Refactoring | Option+ENTER / Cmd+1 | Any | Available | refactor context-actions |
+| refactor.this | Refactor This… | Refactoring | Option+Cmd+T | editor | Available | refactor this |
 | refactor.remove-import | Remove Import… | Refactoring | Unassigned | editor | Available | refactor remove-import |
 | refactor.remove-unreachable | Remove Unreachable… | Refactoring | Unassigned | editor | Available | refactor remove-unreachable |
-| refactor.rename | Rename… | Refactoring | Shift+F6 | editor | Available | refactor rename |
-| refactor.safe-delete | Safe Delete… | Refactoring | Cmd+DELETE | editor | Available | refactor safe-delete |
+| refactor.rename | Rename… | Refactoring | Option+Cmd+R | editor | Available | refactor rename |
+| refactor.safe-delete | Safe Delete… | Refactoring | Option+Cmd+BACK_SPACE | editor | Available | refactor safe-delete |
 | refactor.switch-to-expression | Switch To Expression… | Refactoring | Unassigned | editor | Available | refactor switch-to-expression |
 | refactor.type-to-var | Type To Var… | Refactoring | Unassigned | editor | Available | refactor type-to-var |
 | refactor.var-to-type | Var To Type… | Refactoring | Unassigned | editor | Available | refactor var-to-type |
 | palette | Command palette… | Settings | Shift+Cmd+A | Any | Available | find action, show all commands |
-| settings.general | General Settings… | Settings | Unassigned | Any | Available | settings general |
+| settings.general | General Settings… | Settings | Cmd+COMMA | Any | Available | settings general |
 | keymap.profile.eclipse-macos | Keyboard Profile: Eclipse macOS | Settings | Unassigned | Any | Available | change keymap, keymap profile eclipse-macos, switch keyboard profile |
 | keymap.profile.intellij-macos | Keyboard Profile: IntelliJ IDEA macOS | Settings | Unassigned | Any | Available | change keymap, keymap profile intellij-macos, switch keyboard profile |
-| keymap.profile.turboj-classic | Keyboard Profile: TurboJ Classic | Settings | Unassigned | Any | Available | change keymap, keymap profile turboj-classic, switch keyboard profile |
+| keymap.profile.turboj-macos | Keyboard Profile: TurboJ macOS | Settings | Unassigned | Any | Available | change keymap, keymap profile turboj-macos, switch keyboard profile |
 | keymap.profile.vscode-macos | Keyboard Profile: VS Code macOS | Settings | Unassigned | Any | Available | change keymap, keymap profile vscode-macos, switch keyboard profile |
-| help | Keyboard reference… | Settings | Unassigned | Any | Available | help |
-| keymap | Keymap… | Settings | Cmd+COMMA | Any | Available | bindings, configure shortcuts, keyboard settings |
+| help | Keyboard reference… | Settings | Shift+F1 | Any | Available | help |
+| keymap | Keymap… | Settings | Cmd+K | Any | Available | bindings, configure shortcuts, keyboard settings |
 | menu | Open menu | Settings | F10 | Any | Available | menu |
 | metrics | Performance | Settings | Unassigned | Any | Available | metrics |
+| help.cheatSheet | Print Keyboard Cheat Sheet… | Settings | Unassigned | Any | Available | help cheatSheet |
 | escape | Return to editor / dismiss | Settings | ESCAPE | Any | Available | escape |
+| settings.shortcutSymbols | Shortcuts as ⌃⌥⇧⌘ Symbols | Settings | Unassigned | Any | Available | settings shortcutSymbols |
+| cherry.cancel | Cherry Test: Cancel Execution | Testing Intelligence | Unassigned | Any | Cherry Test is not running | cherry cancel |
+| cherry.configure | Cherry Test: Configure CLI… | Testing Intelligence | Unassigned | Any | Available | cherry configure |
+| cherry.results | Cherry Test: Native Results… | Testing Intelligence | Unassigned | Any | No Cherry Test execution has been loaded | cherry results |
+| cherry.report | Cherry Test: Open Full Report | Testing Intelligence | Unassigned | Any | No HTML report supplied by Cherry Test | cherry report |
+| cherry.run | Cherry Test: Run Configured Suites | Testing Intelligence | Unassigned | Any | No Cherry Test configuration detected | cherry run |
+| editor.inspectLineIntelligence | Inspect Line Intelligence… | Testing Intelligence | Unassigned | editor | Available | editor inspectLineIntelligence |
 | tests.auto | Auto Test on Changes | TurboTest | Unassigned | Any | Available | tests auto |
 | tests.onSave | Auto Test on Save | TurboTest | Unassigned | Any | Available | tests onSave |
-| tests.all | Run All Tests | TurboTest | Unassigned | Any | Available | tests all |
-| tests.current | Run Current Test | TurboTest | Unassigned | Any | Available | tests current |
-| tests.failed | Run Failed Tests | TurboTest | Unassigned | Any | No failed tests to rerun | test.rerunFailed, tests failed |
+| tests.all | Run All Tests | TurboTest | Shift+Cmd+U | Any | Available | tests all |
+| tests.current | Run Current Test | TurboTest | Cmd+U | Any | Available | tests current |
+| tests.failed | Run Failed Tests | TurboTest | Option+Cmd+U | Any | No failed tests to rerun | test.rerunFailed, tests failed |
 | tests.class | Run Test Class | TurboTest | Unassigned | Any | Available | tests class |
 | tests.stop | Stop Tests | TurboTest | Unassigned | Any | No tests are running or waiting to run | tests stop |
 | tests.results | Test Results… | TurboTest | Unassigned | Any | No test results yet | tests results |

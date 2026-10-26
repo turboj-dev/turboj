@@ -8,7 +8,8 @@ import java.util.*;
  * exact inspected snapshot and must be inspected again after any source/project change. */
 public interface JavaQuickActions {
     enum Kind { FIX, ASSIST }
-    enum Action { CREATE_CLASS, CREATE_METHOD, ADD_IMPORT, CREATE_JUNIT_TEST, REFACTOR }
+    /** ADD_JUNIT_LIBRARY prepares only the Java import; the host adds the library to the project. */
+    enum Action { CREATE_CLASS, CREATE_METHOD, ADD_IMPORT, CREATE_JUNIT_TEST, ADD_JUNIT_LIBRARY, REFACTOR }
 
     /** Parameters describe inferred targets and UI defaults, never arbitrary executable code. */
     record Proposal(String id, Kind kind, Action action, String title, String explanation,

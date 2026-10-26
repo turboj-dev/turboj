@@ -28,7 +28,7 @@ public final class QuickFixController implements AutoCloseable {
     private final NativeWorkspaceCommitter.Host host;
     private final RefactoringController refactoring;
     private final Consumer<Prepared> navigate;
-    private final BiConsumer<Inspection, Proposal> createTest;
+    private final BiConsumer<Inspection, Proposal> junit;
     private final Consumer<String> notice;
     private InlinePopup popup;
     private JTextField filter;
@@ -48,10 +48,10 @@ public final class QuickFixController implements AutoCloseable {
     public QuickFixController(JFrame owner, EditorComponent editor, IntelligenceController intelligence,
             Supplier<IntelligenceController.Snapshot> snapshots, NativeWorkspaceCommitter.Host host,
             RefactoringController refactoring, Consumer<Prepared> navigate,
-            BiConsumer<Inspection, Proposal> createTest, Consumer<String> notice) {
+            BiConsumer<Inspection, Proposal> junit, Consumer<String> notice) {
         this.owner = owner; this.editor = editor; this.intelligence = intelligence;
         this.snapshots = snapshots; this.host = host; this.refactoring = refactoring;
-        this.navigate = navigate; this.createTest = createTest; this.notice = notice;
+        this.navigate = navigate; this.junit = junit; this.notice = notice;
     }
 
     public boolean visible() { return popup != null && popup.isVisible(); }
@@ -63,6 +63,27 @@ public final class QuickFixController implements AutoCloseable {
         if (visible() && capture.equals(host.capture())) {
             assists = !assists; filter.setText(""); refresh(); filter.requestFocusInWindow(); return;
         }
+        notice.accept("Finding Java fixes and assists…");
+        inspectAtCaret(result -> { followProblem(result); inspection = result; assists = result.fixes().isEmpty(); show(); });
+    }
+
+    /**
+     * Cmd+Enter: an import-like fix (a type, a static member, the JUnit library) applies at once, several are offered;
+     * without one the caret stays put and fallback runs (completion, or Run).
+     */
+    public void importOrElse(Runnable fallback) {
+        if (closed || editor.isReadOnly() || editor.hasInputComposition() || refactoring.busy()) { fallback.run(); return; }
+        inspectAtCaret(result -> {
+            var imports = result.fixes().stream().filter(proposal -> proposal.action() == JavaQuickActions.Action.ADD_IMPORT
+                    || proposal.action() == JavaQuickActions.Action.ADD_JUNIT_LIBRARY).toList();
+            if (imports.isEmpty()) { fallback.run(); return; }
+            followProblem(result);
+            inspection = new Inspection(result.snapshot(), result.location(), result.diagnostics(), imports);
+            if (imports.size() == 1) apply(imports.getFirst()); else { assists = false; show(); }
+        });
+    }
+
+    private void inspectAtCaret(java.util.function.Consumer<Inspection> found) {
         dismiss(false);
         if (editor.caretCount() != 1) { notice.accept("Quick Fix requires one caret."); return; }
         intelligence.dismiss(); editor.clearInlineCompletion();
@@ -71,7 +92,6 @@ public final class QuickFixController implements AutoCloseable {
         var snapshot = snapshots.get(); var requestedDocument = editor.document(); long ticket = ++epoch;
         var location = new Location(snapshot.file(), Math.min(selection.caret(), selection.anchor()),
                 Math.max(selection.caret(), selection.anchor()));
-        notice.accept("Finding Java fixes and assists…");
         intelligence.submitSemantic(snapshot, (service, context) -> service.sharedRefactorJ(context)
                 .quickActions().inspect(location, () -> closed || ticket != epoch))
                 .whenComplete((result, error) -> SwingUtilities.invokeLater(() -> {
@@ -83,8 +103,16 @@ public final class QuickFixController implements AutoCloseable {
                             || current.anchor() != originalSelection.anchor()) {
                         notice.accept("Source or caret changed; invoke Quick Fix again."); return;
                     }
-                    inspection = result; assists = result.fixes().isEmpty(); show();
+                    found.accept(result);
                 }));
+    }
+
+    /** The engine may have moved to the closest fixable problem on the line; the caret follows it, as in Eclipse. */
+    private void followProblem(Inspection result) {
+        if (result.location().start() == Math.min(selection.caret(), selection.anchor())
+                && result.location().end() == Math.max(selection.caret(), selection.anchor())) return;
+        editor.setSelection(result.location().start(), result.location().end());
+        selection = editor.captureLocation();
     }
 
     private void show() {
@@ -169,11 +197,16 @@ public final class QuickFixController implements AutoCloseable {
         list.setSelectedIndex(index); list.ensureIndexIsVisible(index);
     }
     private void apply() {
-        var proposal = list.getSelectedValue(); if (proposal == null) return;
+        var proposal = list.getSelectedValue(); if (proposal != null) apply(proposal);
+    }
+
+    private void apply(Proposal proposal) {
         if (!capture.equals(host.capture())) { dismiss(true); notice.accept("Source changed; invoke Quick Fix again."); return; }
         var original = capture; var context = inspection;
         dismiss(true); editor.restoreLocation(selection);
-        if (proposal.action() == JavaQuickActions.Action.CREATE_JUNIT_TEST) { createTest.accept(context, proposal); return; }
+        // JUnit actions change project configuration, which the host owns.
+        if (proposal.action() == JavaQuickActions.Action.CREATE_JUNIT_TEST
+                || proposal.action() == JavaQuickActions.Action.ADD_JUNIT_LIBRARY) { junit.accept(context, proposal); return; }
         if (proposal.action() == JavaQuickActions.Action.CREATE_CLASS
                 && !dev.turboj.project.FirstLaunchForms.confirmQuickClass(owner, proposal)) return;
         if (proposal.action() == JavaQuickActions.Action.REFACTOR && !"true".equals(proposal.parameters().get("direct"))) {

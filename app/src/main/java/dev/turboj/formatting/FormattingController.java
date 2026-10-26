@@ -33,6 +33,8 @@ public final class FormattingController implements AutoCloseable {
     public interface Engine {
         FormatResult format(FormatRequest request, TextRange range);
         default FormatResult format(FormatRequest request,TextRange range,String languageLevel){return format(request,range);}
+        /** The style named in notices: "Google Java Style · 3 edits". */
+        default String label() { return "JavaFMT Style 1"; }
     }
 
     public record Applied(
@@ -47,10 +49,11 @@ public final class FormattingController implements AutoCloseable {
             PieceTable.Snapshot source,
             TextRange range,
             String languageLevel,
+            Engine engine,
             Consumer<Outcome> done) {}
 
     private final EditorComponent editor;
-    private final Engine engine;
+    private volatile Engine engine;
     private final Consumer<String> notice;
     private final Consumer<Applied> applied;
     private final ThreadPoolExecutor worker =
@@ -108,6 +111,11 @@ public final class FormattingController implements AutoCloseable {
         worker.allowCoreThreadTimeOut(true);
     }
 
+    /** The formatter the next request uses; a request already running finishes with its own. */
+    public void setEngine(Engine value) { requireEdt(); engine = Objects.requireNonNull(value); }
+
+    public String engineLabel() { return engine.label(); }
+
     public void format(boolean selection) {
         format(selection, ignored -> {});
     }
@@ -134,7 +142,7 @@ public final class FormattingController implements AutoCloseable {
                                 Math.min(location.caret(), location.anchor()),
                                 Math.max(location.caret(), location.anchor()))
                         : null;
-        var request = new Pending(++generation, editor.document(), source, range, languageLevel, done);
+        var request = new Pending(++generation, editor.document(), source, range, languageLevel, engine, done);
         pending = request;
         worker.execute(() -> run(request));
     }
@@ -148,7 +156,7 @@ public final class FormattingController implements AutoCloseable {
                             pending.source().toString(),
                             pending.source().version(),
                             LineEndingPolicy.PRESERVE);
-            FormatResult result = engine.format(request, pending.range(),pending.languageLevel());
+            FormatResult result = pending.engine().format(request, pending.range(), pending.languageLevel());
             long duration = System.nanoTime() - started;
             SwingUtilities.invokeLater(() -> deliver(pending, result, duration));
         } catch (RuntimeException | LinkageError error) {
@@ -191,8 +199,8 @@ public final class FormattingController implements AutoCloseable {
         notice.accept(
                 String.format(
                         Locale.ROOT,
-                        "JavaFMT Style %d · %s · %.2f ms",
-                        result.styleVersion(),
+                        "%s · %s · %.2f ms",
+                        request.engine().label(),
                         changed ? result.edits().size() + " edits" : "already formatted",
                         duration / 1e6));
         finish(request, changed ? Outcome.APPLIED : Outcome.UNCHANGED);

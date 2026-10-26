@@ -289,6 +289,11 @@ public final class RefactoringController implements AutoCloseable {
                 notice.accept("Source changed while preparing; no edits applied");
                 return;
             }
+            if (unchanged(prepared.plan())) {
+                notice.accept(prepared.plan().operation() == Operation.ORGANIZE_IMPORTS
+                        ? "Imports are already organized" : "Nothing to change");
+                return;
+            }
             showPreview(prepared);
         }));
     }
@@ -378,6 +383,12 @@ public final class RefactoringController implements AutoCloseable {
         return values
                 .isEmpty() ? "Validated source changes. Preview does not modify files." : String
                 .join("\n", values.stream().map(d -> d.severity() + ": " + d.message()).toList());
+    }
+
+    /** A request that changes nothing gets a notice, as Eclipse does, not an error preview. */
+    private static boolean unchanged(Plan plan) {
+        return plan.edits().isEmpty() && plan.fileOperations().isEmpty() && plan.diagnostics().stream()
+                .allMatch(d -> d.code().equals("no.changes") || d.severity().ordinal() < Severity.ERROR.ordinal());
     }
 
     private static boolean sameCapture(NativeWorkspaceCommitter.Capture a,

@@ -26,7 +26,8 @@ public final class ClipboardSmoke {
         Transferable previous = clipboard.getContents(null);
         TurboFrame frame = edt(() -> {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            TurboFrame value = new TurboFrame(new Settings(), Map.of());
+            Settings settings = new Settings(); settings.keymapProfile = "intellij-macos"; // Custom Copy uses a free IntelliJ key.
+            TurboFrame value = new TurboFrame(settings, Map.of());
             value.setVisible(true); value.toFront();
             value.editor().setText("public class ClipboardSource {}\n");
             value.console().clear(); value.console().append("dependency could not be resolved\n", true);

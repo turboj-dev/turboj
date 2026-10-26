@@ -42,7 +42,8 @@ public final class FormattingSmoke {
                         () -> {
                             UIManager.setLookAndFeel(
                                     UIManager.getCrossPlatformLookAndFeelClassName());
-                            var window = new TurboFrame(new Settings(), Map.of());
+                            Settings javafmt = new Settings(); javafmt.formatter = "javafmt"; javafmt.tabWidth = 4; // This smoke checks JavaFMT's layout.
+                            var window = new TurboFrame(javafmt, Map.of());
                             window.setVisible(true);
                             window.toFront();
                             window.editor().requestFocusInWindow();
@@ -164,7 +165,7 @@ public final class FormattingSmoke {
                         return null;
                     });
             waitFor(
-                    () -> frame.console().text().contains("Saved FormatMe.java"),
+                    () -> frame.statusMessages().contains("Saved FormatMe.java"),
                     "format-on-save acknowledgment");
             check(
                     EXPECTED.equals(Files.readString(file)),
@@ -191,7 +192,7 @@ public final class FormattingSmoke {
                         return null;
                     });
             waitFor(
-                    () -> frame.console().text().contains("Saved FormatMe.java"),
+                    () -> frame.statusMessages().contains("Saved FormatMe.java"),
                     "malformed-source save");
             check(
                     invalid.equals(Files.readString(file)),

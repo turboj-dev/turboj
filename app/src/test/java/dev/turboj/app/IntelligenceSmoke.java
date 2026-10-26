@@ -54,7 +54,7 @@ public final class IntelligenceSmoke {
         TurboFrame frame = edt(() -> {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             Settings settings = new Settings();
-            settings.keymapProfile = "turboj-classic"; // This legacy-navigation suite exercises the preserved profile.
+            settings.keymapProfile = "turboj-macos"; // TurboJ: Cmd+D declaration, F12 and F1 kept from Turbo, Cmd+[ / Cmd+] history.
             TurboFrame value = new TurboFrame(settings, Map.of());
             value.setVisible(true); value.toFront(); value.editor().requestFocusInWindow();
             return value;
@@ -142,8 +142,8 @@ public final class IntelligenceSmoke {
         });
         var origin = edt(() -> frame.editor().captureLocation());
         String original = edt(() -> frame.editor().getText());
-        edt(() -> { key(frame, KeyEvent.VK_B, InputEvent.META_DOWN_MASK); return null; });
-        waitFor(() -> calculator.equals(frame.currentFile()), "Cmd+B cross-file declaration");
+        edt(() -> { key(frame, KeyEvent.VK_D, InputEvent.META_DOWN_MASK); return null; });
+        waitFor(() -> calculator.equals(frame.currentFile()), "Cmd+D cross-file declaration");
         check(edt(() -> frame.editor().caretOffset() == frame.editor().getText().indexOf("add(int")),
                 "integer overload navigation selected wrong method: caret=" + edt(() -> frame.editor().caretOffset())
                         + ", expected=" + edt(() -> frame.editor().getText().indexOf("add(int"))
@@ -156,16 +156,16 @@ public final class IntelligenceSmoke {
         var middle = edt(() -> frame.editor().captureLocation());
         edt(() -> { key(frame, KeyEvent.VK_F12, 0); return null; });
         waitFor(() -> math.equals(frame.currentFile()), "F12 nested declaration");
-        edt(() -> { key(frame, KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK); return null; });
-        waitFor(() -> calculator.equals(frame.currentFile()), "Alt+Left to Calculator");
+        edt(() -> { key(frame, KeyEvent.VK_OPEN_BRACKET, InputEvent.META_DOWN_MASK); return null; });
+        waitFor(() -> calculator.equals(frame.currentFile()), "Cmd+[ to Calculator");
         check(edt(() -> frame.editor().captureLocation()).equals(middle), "middle history position mismatch");
         check(edt(() -> frame.editor().getText()).startsWith("// unsaved Calculator edit"), "unsaved Calculator lost");
-        edt(() -> { key(frame, KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK); return null; });
-        waitFor(() -> main.equals(frame.currentFile()), "Alt+Left to Main");
+        edt(() -> { key(frame, KeyEvent.VK_OPEN_BRACKET, InputEvent.META_DOWN_MASK); return null; });
+        waitFor(() -> main.equals(frame.currentFile()), "Cmd+[ to Main");
         check(edt(() -> frame.editor().captureLocation()).equals(origin), "origin history position mismatch");
         check(edt(() -> frame.editor().getText()).equals(original), "unsaved Main lost");
-        edt(() -> { key(frame, KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK); return null; });
-        waitFor(() -> calculator.equals(frame.currentFile()), "Alt+Right forward navigation");
+        edt(() -> { key(frame, KeyEvent.VK_CLOSE_BRACKET, InputEvent.META_DOWN_MASK); return null; });
+        waitFor(() -> calculator.equals(frame.currentFile()), "Cmd+] forward navigation");
         edt(() -> { frame.navigateBack(); return null; });
         waitFor(() -> main.equals(frame.currentFile()), "return Main for mouse navigation");
         edt(() -> {

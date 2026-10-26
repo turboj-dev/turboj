@@ -85,8 +85,9 @@ public final class KeyboardJavaController {
                     if (prepared.refactoring() != null) { refactoring.accept(prepared.refactoring()); return; }
                     var result = prepared.result();
                     if (!result.applicable()) { notice.accept(result.explanation()); return; }
-                    boolean move = action.name().startsWith("MOVE_");
-                    if (move && result.warnings().isEmpty()) apply(snapshot, result);
+                    // Moves and the one-semicolon Complete Statement apply at once, like typing; generation previews first.
+                    boolean direct = action.name().startsWith("MOVE_") || action == JavaStructure.Edit.COMPLETE_STATEMENT;
+                    if (direct && result.warnings().isEmpty()) apply(snapshot, result);
                     else preview(snapshot, result);
                 }));
     }

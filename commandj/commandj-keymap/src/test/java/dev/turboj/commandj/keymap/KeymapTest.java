@@ -11,6 +11,20 @@ class KeymapTest {
     @TempDir
     Path temporary;
 
+    @Test void shortcutsReadTheMacOSWayWhenSymbolsAreOn() {
+        var sequence = KeySequence.parse("CTRL+ALT+META+O");
+        assertEquals("Ctrl+Option+Cmd+O", sequence.display());
+        try {
+            KeyStrokeSpec.useSymbols(true);
+            assertEquals("⌃⌥⌘O", sequence.display());
+            assertEquals("⇧⌘↩", KeySequence.parse("META+SHIFT+ENTER").display());
+            assertEquals("⌘K ⌘S", KeySequence.parse("META+K, META+S").display());
+            assertEquals("Cmd+K, Cmd+S", KeySequence.parse("META+K, META+S").words(), "words stay available for search and docs");
+        } finally {
+            KeyStrokeSpec.useSymbols(false);
+        }
+    }
+
     @Test void resolvedShortcutReportsExactChordIncludingTimeoutAndRebinding() {
         var maps = new KeymapManager();
         maps.select("vscode-macos");
@@ -42,9 +56,9 @@ class KeymapTest {
         }
         maps.select("intellij-macos");
         assertEquals("SHIFT+F6", maps.bindings("refactor.rename").getFirst().sequence().external());
-        maps.select("turboj-classic");
+        maps.select("turboj-macos");
         assertTrue(maps.bindings("save").stream().anyMatch(b -> b.sequence().external()
-                .equals("F2")));
+                .equals("F2")), "Turbo C's F2 stays a second Save binding");
         maps.select("vscode-macos");
         assertEquals(2, maps.bindings("format.selection").getFirst().sequence().strokes().size());
     }

@@ -14,12 +14,10 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @Warmup(iterations = 3, time = 1)
 @Measurement(iterations = 5, time = 1)
-@Fork(
-        value = 1,
-        jvmArgsAppend = {"-Xms256m", "-Xmx1g"})
+@Fork(value = 1, jvmArgsAppend = { "-Xms256m", "-Xmx1g" })
 @State(Scope.Thread)
 public class CoreBenchmarks {
-    @Param({"100", "1000", "10000"})
+    @Param({ "100", "1000", "10000" })
     public int lines;
 
     private PieceTable document;

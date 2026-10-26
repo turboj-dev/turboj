@@ -81,7 +81,7 @@ public final class MavenFirstOpenSmoke {
             check(edt(() -> choices(dialog(frame, "Run Maven project")).getItemCount() == 2), "multiple mains require an explicit in-frame choice");
             edt(() -> { button(dialog(frame, "Run Maven project"), "Cancel").doClick(); return null; });
             waitFor(frame, "cancel main chooser", () -> dialog(frame, "Run Maven project") == null);
-            check(edt(() -> !frame.isRunning() && !frame.console().text().contains("FAST RUN")), "Cancel does not launch an arbitrary main");
+            check(edt(() -> !frame.isRunning() && !frame.console().text().contains("--- run ")), "Cancel does not launch an arbitrary main");
             command(frame, "run").get(10, TimeUnit.SECONDS);
             waitFor(frame, "choose main again", () -> dialog(frame, "Run Maven project") != null);
             edt(() -> {
@@ -93,7 +93,7 @@ public final class MavenFirstOpenSmoke {
                 button(dialog(frame, "Run Maven project"), "OK").doClick();
                 return null;
             });
-            waitFor(frame, "selected main execution", () -> frame.console().text().contains("CHOSEN OTHER MAIN") && frame.console().text().contains("[exit 0"));
+            waitFor(frame, "selected main execution", () -> frame.console().text().contains("CHOSEN OTHER MAIN") && frame.console().text().contains("SUCCESS · exit 0"));
             check(true, "selected target executes with its project runtime");
             check(!Files.exists(second.resolve("target")) && !Files.exists(second.resolve("wrapper-invoked")), "folder Run/Test and target chooser never invoke Maven");
 
@@ -154,7 +154,7 @@ public final class MavenFirstOpenSmoke {
     }
 
     private static void calculatorOutput(TurboFrame frame) throws Exception {
-        waitFor(frame, "calculator Run", () -> frame.console().text().contains("[exit 0"));
+        waitFor(frame, "calculator Run", () -> frame.console().text().contains("SUCCESS · exit 0"));
         check(edt(() -> frame.console().text().contains("3 + 4 = 7") && frame.console().text().contains("7 / 2 = 3.5")), "project Run produces expected calculator output");
     }
 

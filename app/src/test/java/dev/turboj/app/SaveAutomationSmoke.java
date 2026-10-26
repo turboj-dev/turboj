@@ -109,8 +109,8 @@ public final class SaveAutomationSmoke {
             save(frame, fixture, 4);
             ran(frame, 4);
             tested(frame, previous, kind + ": combined Run and Test");
-            check(edt(() -> occurrences(frame.console().text(), "══ TURBOTEST ") == 1
-                            && !frame.console().text().contains("══ PROJECT BUILD ")),
+            check(edt(() -> occurrences(frame.console().text(), "[INFO] Test ") == 1
+                            && !frame.console().text().contains("[INFO] Compile Project")),
                     kind + ": combined save uses one workspace compilation before execution");
             check(edt(() -> OverlayHost.dialogs(frame).isEmpty()),
                     kind + ": automatic tests report inline without a modal result dialog");
@@ -158,8 +158,8 @@ public final class SaveAutomationSmoke {
             edit(frame, fixture.source(9));
             Files.writeString(fixture.main(), fixture.source(10));
             accepted(command(frame, "save"));
-            waitFor(frame, "external modification blocks Save", () -> frame.console().text().contains("changed outside")
-                    || frame.console().text().contains("modified outside") || frame.console().text().contains("changed on disk"));
+            waitFor(frame, "external modification blocks Save", () -> frame.statusMessages().contains("changed outside")
+                    || frame.statusMessages().contains("modified outside") || frame.statusMessages().contains("changed on disk"));
             pause();
             check(Files.readString(fixture.main()).equals(fixture.source(10))
                             && edt(() -> frame.tests().lastReport() == latest && !frame.console().text().contains("AUTO_GENERATION=")),
@@ -190,7 +190,7 @@ public final class SaveAutomationSmoke {
             clear(frame);
             edit(frame, fixture.source(1));
             save(frame, fixture, 1);
-            waitFor(frame, "untrusted automatic execution blocked", () -> frame.console().text().contains("Save automation paused:"));
+            waitFor(frame, "untrusted automatic execution blocked", () -> frame.statusMessages().contains("Save automation paused:"));
             check(edt(() -> frame.tests().lastReport() == null && !frame.tests().busy()
                             && !frame.isRunning() && !frame.console().text().contains("AUTO_GENERATION=")),
                     "untrusted Maven Save writes source but runs neither main nor tests");
@@ -269,7 +269,7 @@ public final class SaveAutomationSmoke {
     private static void ran(TurboFrame frame, int generation) throws Exception {
         waitFor(frame, "automatic main generation " + generation, () -> !frame.isRunning()
                 && frame.console().text().contains("AUTO_GENERATION=" + generation)
-                && frame.console().text().contains("[exit 0"));
+                && frame.console().text().contains("SUCCESS · exit 0"));
     }
 
     private static void tested(TurboFrame frame, TestEngine.Report previous, String description) throws Exception {

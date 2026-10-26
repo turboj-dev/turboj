@@ -12,7 +12,11 @@ public final class Settings {
     public String externalThemePath;
     public int fontSize = 18;
     public int width = 1060, height = 740;
-    public int tabWidth = 4;
+    public int tabWidth = dev.turboj.formatting.StandardFormatters.DEFAULT.indent();
+    /** The Java style Format Document applies: google, aosp, eclipse or javafmt (StandardFormatters). */
+    /** Each action starts on an empty output; off keeps the history scrollable, as a terminal does. */
+    public boolean clearOutputBeforeRun = false;
+    public String formatter = dev.turboj.formatting.StandardFormatters.DEFAULT.id();
     public boolean isolated = false;
     public boolean autoClose = true;
     public boolean formatOnSave = false;
@@ -21,7 +25,9 @@ public final class Settings {
     public boolean autoTestOnSave = false;
     public String cherryTestExecutable = "";
     public boolean showPressedShortcuts = false;
-    public String keymapProfile = "intellij-macos";
+    /** Shortcuts written the macOS way (⌃⌥⇧⌘O) rather than in words (Ctrl+Option+Shift+Cmd+O). */
+    public boolean shortcutSymbols = System.getProperty("os.name", "").toLowerCase(java.util.Locale.ROOT).contains("mac");
+    public String keymapProfile = dev.turboj.commandj.keymap.BundledKeymaps.DEFAULT;
     public String workspaceDirectory;
     public boolean rememberWorkspace;
     public transient String commandKeymapJson;
@@ -43,9 +49,15 @@ public final class Settings {
             Settings s = new Gson().fromJson(json, Settings.class);
             if (s == null) return loadCommandKeymap(legacyDefaults());
             if (!JsonParser.parseString(json).getAsJsonObject().has("keymapProfile"))
-                s.keymapProfile = "turboj-classic";
+                s.keymapProfile = dev.turboj.commandj.keymap.BundledKeymaps.DEFAULT;
+            // An installation that never chose a formatter gets TurboJ's default; the editor indents as that style does.
+            if (!JsonParser.parseString(json).getAsJsonObject().has("formatter")) {
+                s.formatter = dev.turboj.formatting.StandardFormatters.DEFAULT.id();
+                s.tabWidth = dev.turboj.formatting.StandardFormatters.DEFAULT.indent();
+            }
+            s.formatter = dev.turboj.formatting.StandardFormatters.of(s.formatter).id();
             if (s.keymapProfile == null || s.keymapProfile.isBlank())
-                s.keymapProfile = "turboj-classic";
+                s.keymapProfile = dev.turboj.commandj.keymap.BundledKeymaps.DEFAULT;
             s.fontSize = Math.clamp(s.fontSize, 10, 48);
             s.width = Math.clamp(s.width, 640, 4000);
             s.height = Math.clamp(s.height, 420, 2400);
@@ -65,7 +77,7 @@ public final class Settings {
 
     private static Settings legacyDefaults() {
         Settings settings = new Settings();
-        settings.keymapProfile = "turboj-classic";
+        settings.keymapProfile = dev.turboj.commandj.keymap.BundledKeymaps.DEFAULT;
         return settings;
     }
 
@@ -76,7 +88,7 @@ public final class Settings {
             if (Files.isRegularFile(file) && Files.size(file) <= 1_048_576)
                 settings.commandKeymapJson = Files.readString(file);
             else if (Files.exists(directory().resolve("keymap.json")))
-                settings.keymapProfile = "turboj-classic";
+                settings.keymapProfile = dev.turboj.commandj.keymap.BundledKeymaps.DEFAULT;
         } catch (IOException ignored) {
             // Preserve the previous/default profile if preferences are inaccessible.
         }

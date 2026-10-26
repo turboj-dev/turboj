@@ -36,6 +36,7 @@ public final class ShortcutReferenceDialog extends EmbeddedDialog {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getAccessibleContext().setAccessibleName("Generated shortcut reference");
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setDefaultRenderer(Object.class, KeyGlyphs.tableRenderer());
         add(new JScrollPane(table), BorderLayout.CENTER);
         var buttons = new JPanel();
         buttons.add(button("Shortcut diagnostics", this::diagnostics));

@@ -57,8 +57,43 @@ public record KeyStrokeSpec(String key, Set<Modifier> modifiers) {
         return s.append(key).toString();
     }
 
+    /** Apple's notation (⌃⌥⇧⌘ then the key, no plus signs) instead of words; TurboJ turns it on for macOS users. */
+    private static volatile boolean symbols;
+
+    public static void useSymbols(boolean value) { symbols = value; }
+
+    public static boolean usesSymbols() { return symbols; }
+
+    /** How shortcuts are shown everywhere: {@link #symbols()} or {@link #words()}, as the user prefers. */
     public String display() {
+        return symbols ? symbols() : words();
+    }
+
+    public String words() {
         return external().replace("META+", "Cmd+").replace("CTRL+", "Ctrl+").replace("ALT+",
                 "Option+").replace("SHIFT+", "Shift+");
+    }
+
+    public String symbols() {
+        var s = new StringBuilder();
+        if (modifiers.contains(Modifier.CTRL)) s.append('⌃');
+        if (modifiers.contains(Modifier.ALT)) s.append('⌥');
+        if (modifiers.contains(Modifier.SHIFT)) s.append('⇧');
+        if (modifiers.contains(Modifier.META)) s.append('⌘');
+        return s.append(keySymbol(key)).toString();
+    }
+
+    /** The key as macOS menus print it. */
+    public static String keySymbol(String key) {
+        return switch (key) {
+            case "ENTER" -> "↩"; case "SPACE" -> "Space"; case "TAB" -> "⇥"; case "BACK_SPACE" -> "⌫";
+            case "ESCAPE" -> "Esc"; case "LEFT" -> "←"; case "RIGHT" -> "→"; case "UP" -> "↑"; case "DOWN" -> "↓";
+            // MacBook keyboards have none of these keys: they are fn with ⌫ and the arrows.
+            case "DELETE" -> "fn⌫"; case "HOME" -> "fn←"; case "END" -> "fn→"; case "PAGE_UP" -> "fn↑"; case "PAGE_DOWN" -> "fn↓";
+            case "OPEN_BRACKET" -> "["; case "CLOSE_BRACKET" -> "]"; case "SLASH" -> "/"; case "BACK_SLASH" -> "\\";
+            case "PERIOD" -> "."; case "COMMA" -> ","; case "QUOTE" -> "'"; case "BACK_QUOTE" -> "`"; case "SEMICOLON" -> ";";
+            case "MINUS" -> "-"; case "EQUALS" -> "="; case "PLUS" -> "+";
+            default -> key;
+        };
     }
 }

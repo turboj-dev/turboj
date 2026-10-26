@@ -67,6 +67,7 @@ public final class KeymapJson {
                 JsonObject p = element.getAsJsonObject();
                 String id = p.get("id").getAsString();
 
+                if (BundledKeymaps.RETIRED.containsKey(id)) continue;
                 if (!ids.add(id))
                     throw new IllegalArgumentException("Duplicate keymap identity");
                 var bindings = new TreeMap<String, List<KeyBinding>> ();
@@ -88,10 +89,10 @@ public final class KeymapJson {
                     }
                     bindings.put(entry.getKey(), b);
                 }
-                profiles.add(new KeymapProfile(id, p.get("name").getAsString(), p.has("parent") ? p
-                        .get("parent").getAsString() : null, bindings, false));
+                profiles.add(new KeymapProfile(id, p.get("name").getAsString(), p.has("parent")
+                        ? BundledKeymaps.current(p.get("parent").getAsString()) : null, bindings, false));
             }
-            manager.install(profiles, root.get("selected").getAsString(), root.has("preserveConflicts")
+            manager.install(profiles, BundledKeymaps.current(root.get("selected").getAsString()), root.has("preserveConflicts")
                     && root.get("preserveConflicts").getAsBoolean());
         } catch (IllegalArgumentException e) {
             throw e;

@@ -482,4 +482,77 @@ class JavaIntelligenceTest {
             assertTrue(list.additionalEdits().isEmpty());
         }
     }
+
+    @Test
+    void annotationCompletionImportsJupiterAndAddsTheLibraryOnlyWhenMissing() throws Exception {
+        String source = "package demo;\n\nclass CalculatorTest {\n    @Test\n    void adds() {}\n}\n";
+        int offset = source.indexOf("@Test") + 5;
+        Path test = directory.resolve("CalculatorTest.java");
+        var missing = new Context(test, source, 1, Map.of(), List.of(directory), List.of(), 1);
+        List<Path> jupiter = List.of(Path.of(Test.class.getProtectionDomain().getCodeSource().getLocation().toURI()),
+                Path.of(org.apiguardian.api.API.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        var available = new Context(test, source, 1, Map.of(), List.of(directory), jupiter, 1);
+        try (var service = new JdtJavaIntelligenceService()) {
+            var offered = service.complete(missing, offset).proposals().getFirst();
+            assertEquals("Test", offered.text());
+            assertEquals("org.junit.jupiter.api.Test", offered.detail());
+            assertEquals(Completion.JUNIT_JUPITER, offered.library());
+            assertEquals(List.of(new TextEdit(13, 13, "\nimport org.junit.jupiter.api.Test;")), offered.additionalEdits());
+
+            var resolved = service.complete(available, offset).proposals();
+            assertEquals("org.junit.jupiter.api.Test", resolved.getFirst().detail(), "the exact name comes first");
+            assertEquals("", resolved.getFirst().library(), "an available library is never added again");
+            assertTrue(resolved.stream().allMatch(p -> p.detail().startsWith("org.junit.") || p.detail().startsWith("java.lang.")
+                    || p.detail().startsWith("jdk.")), "only annotation types after '@': " + resolved);
+        }
+    }
+
+    @Test
+    void assertionsCompleteByNameWithTheirStaticImportOnlyInTestSources() throws Exception {
+        String source = "import org.junit.jupiter.api.Test;\n\npublic class CalculatorTest {\n    @Test\n    public void test() {\n        assertEq\n    }\n}\n";
+        int offset = source.indexOf("assertEq") + 8;
+        Path test = directory.resolve("CalculatorTest.java");
+        List<Path> jupiter = List.of(Path.of(Test.class.getProtectionDomain().getCodeSource().getLocation().toURI()),
+                Path.of(org.apiguardian.api.API.class.getProtectionDomain().getCodeSource().getLocation().toURI()),
+                Path.of(org.opentest4j.AssertionFailedError.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        var importStatic = List.of(new TextEdit(34, 34, "\nimport static org.junit.jupiter.api.Assertions.assertEquals;"));
+        try (var service = new JdtJavaIntelligenceService()) {
+            var available = service.complete(new Context(test, source, 1, Map.of(), List.of(directory), jupiter, 1), offset).proposals();
+            var assertEquals = available.stream().filter(p -> p.text().equals("assertEquals()")).findFirst().orElseThrow(() -> new AssertionError(available));
+            assertEquals("org.junit.jupiter.api.Assertions", assertEquals.detail());
+            assertEquals(importStatic, assertEquals.additionalEdits());
+            assertEquals("assertEquals(".length(), assertEquals.caret(), "the caret lands between the parentheses");
+            assertEquals("", assertEquals.library());
+
+            var missing = service.complete(new Context(test, source, 1, Map.of(), List.of(directory), List.of(), 1), offset).proposals();
+            var offered = missing.stream().filter(p -> p.text().equals("assertEquals()")).findFirst().orElseThrow(() -> new AssertionError(missing));
+            assertEquals(Completion.JUNIT_JUPITER, offered.library());
+
+            String plain = "public class Main {\n    void run() {\n        assertEq\n    }\n}\n";
+            var none = service.complete(new Context(directory.resolve("Main.java"), plain, 1, Map.of(), List.of(directory), jupiter, 1),
+                    plain.indexOf("assertEq") + 8).proposals();
+            assertTrue(none.stream().noneMatch(p -> p.text().startsWith("assertEquals")), "not offered outside test sources: " + none);
+        }
+    }
+
+    @Test
+    void annotationCompletionReplacesAnUnresolvedJUnit4Import() throws Exception {
+        String source = "import org.junit.Test;\n\npublic class CalculatorTest {\n    @Test\n    public void test() {}\n}\n";
+        int offset = source.indexOf("@Test") + 5;
+        Path test = directory.resolve("CalculatorTest.java");
+        List<Path> jupiter = List.of(Path.of(Test.class.getProtectionDomain().getCodeSource().getLocation().toURI()),
+                Path.of(org.apiguardian.api.API.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        var replaceImport = List.of(new TextEdit(7, 21, "org.junit.jupiter.api.Test"));
+        try (var service = new JdtJavaIntelligenceService()) {
+            var missing = service.complete(new Context(test, source, 1, Map.of(), List.of(directory), List.of(), 1), offset).proposals();
+            assertEquals("org.junit.jupiter.api.Test", missing.getFirst().detail());
+            assertEquals(replaceImport, missing.getFirst().additionalEdits(), "import org.junit.Test becomes Jupiter's");
+            assertEquals(Completion.JUNIT_JUPITER, missing.getFirst().library());
+
+            var available = service.complete(new Context(test, source, 1, Map.of(), List.of(directory), jupiter, 1), offset).proposals();
+            assertEquals(replaceImport, available.getFirst().additionalEdits());
+            assertEquals("", available.getFirst().library());
+            assertEquals(1, available.stream().filter(p -> p.detail().equals("org.junit.jupiter.api.Test")).count(), "no qualified duplicate");
+        }
+    }
 }
