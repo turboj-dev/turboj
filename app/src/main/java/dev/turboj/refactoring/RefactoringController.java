@@ -35,6 +35,10 @@ public final class RefactoringController implements AutoCloseable {
     private CompletableFuture<?> request;
     private EmbeddedDialog preview, rename;
     private long epoch;
+    /** Renames a local variable or parameter in the editor itself; false leaves the Rename dialog to this controller. */
+    private java.util.function.BiPredicate<Location, Symbol> inlineRename = (at, symbol) -> false;
+
+    public void setInlineRename(java.util.function.BiPredicate<Location, Symbol> value) { inlineRename = Objects.requireNonNull(value); }
 
     public RefactoringController(Window owner, Supplier<Point> renameAnchor,
             IntelligenceController intelligence,
@@ -87,6 +91,17 @@ public final class RefactoringController implements AutoCloseable {
                     .failedFuture(new IllegalArgumentException("The preview contains conflicts"));
         var future = committer.apply(prepared.plan(), prepared.capture());
         observe(future, "Refactoring applied");
+        return future;
+    }
+
+    /** The workspace transaction the next Undo takes back, or null. */
+    public String undoPlanId() { requireEdt(); return committer.peekUndoPlanId(); }
+
+    /** Undo the last workspace transaction, for hosts that continue once it is done. */
+    public CompletableFuture<NativeWorkspaceCommitter.Result> undoTransaction() {
+        requireEdt();
+        var future = committer.undo();
+        observe(future, "Refactoring undone");
         return future;
     }
 
@@ -238,6 +253,12 @@ public final class RefactoringController implements AutoCloseable {
             notice.accept("No Java declaration resolves at the caret");
             return;
         }
+        if (inlineRename.test(at, symbol)) return;
+        renameWithDialog(at, symbol, original);
+    }
+
+    /** The Rename dialog: for symbols whose rename can reach other files, with its preview. */
+    public void renameWithDialog(Location at, Symbol symbol, NativeWorkspaceCommitter.Capture original) {
         if (rename != null)
             rename.dispose();
         rename = new EmbeddedDialog(owner, "Rename " + symbol.name(), false);

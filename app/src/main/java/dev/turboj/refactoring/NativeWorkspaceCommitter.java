@@ -47,6 +47,8 @@ public final class NativeWorkspaceCommitter implements AutoCloseable {
     public NativeWorkspaceCommitter(Host host) { this.host = Objects.requireNonNull(host); }
     public boolean busy() { return busy.get(); }
     public boolean canUndo() { edtRequired(); return !busy() && !undo.isEmpty() && host.historyReady(undo.peek().token, Direction.UNDO); }
+    /** The plan the next Undo takes back, or null. */
+    public String peekUndoPlanId() { edtRequired(); return undo.isEmpty() ? null : undo.peek().plan.id(); }
     public boolean canRedo() { edtRequired(); return !busy() && !redo.isEmpty() && host.historyReady(redo.peek().token, Direction.REDO); }
     public CompletableFuture<Result> apply(Plan plan, Capture capture) {
         edtRequired(); Objects.requireNonNull(plan); Objects.requireNonNull(capture);

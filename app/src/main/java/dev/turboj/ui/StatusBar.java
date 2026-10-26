@@ -25,7 +25,8 @@ public final class StatusBar extends JPanel {
     private final EnumMap<Segment, JLabel> labels = new EnumMap<>(Segment.class);
     private final EnumMap<Segment, Level> levels = new EnumMap<>(Segment.class);
     private final Deque<String> history = new ArrayDeque<>();
-    private final javax.swing.Timer fade = new javax.swing.Timer(5000, event -> set(Segment.MESSAGE, "", Level.NORMAL));
+    private String held = "";
+    private final javax.swing.Timer fade = new javax.swing.Timer(5000, event -> set(Segment.MESSAGE, held, Level.NORMAL));
     private Color foreground = Color.BLACK, success = new Color(0, 110, 0), warning = new Color(130, 90, 0), error = new Color(170, 0, 0);
     private Color separator = Color.GRAY;
 
@@ -73,9 +74,25 @@ public final class StatusBar extends JPanel {
         String single = message.lines().findFirst().orElse(message);
         history.addFirst(LocalTime.now().format(CLOCK) + "  " + message);
         while (history.size() > HISTORY) history.removeLast();
+        // While a mode holds the segment, only problems show over its keys; routine feedback goes to the history.
+        if (!held.isEmpty() && level != Level.WARNING && level != Level.ERROR) return;
         set(Segment.MESSAGE, single + (message.contains("\n") ? " …" : ""), level);
         setTooltip(Segment.MESSAGE, message);
         fade.restart();
+    }
+
+    /** A message that stays while a mode lasts, such as an inline template's keys; warnings and errors show over it, then it returns. */
+    public void hold(String text) {
+        held = text == null ? "" : text;
+        fade.stop();
+        set(Segment.MESSAGE, held, Level.NORMAL);
+        setTooltip(Segment.MESSAGE, held);
+    }
+
+    public void release() {
+        boolean showing = !held.isEmpty() && text(Segment.MESSAGE).equals(held.strip());
+        held = "";
+        if (showing) set(Segment.MESSAGE, "", Level.NORMAL);
     }
 
     /** The current message, or the last one after it faded. */

@@ -688,21 +688,49 @@ final class JdtQuickActions implements JavaQuickActions {
         return (CompilationUnit) parser.createAST(null);
     }
 
+    /**
+     * The inline template of a generated method, in Tab order: return type, method name, each parameter name, then the
+     * returned expression. "end" is not a stop: it is where the caret goes when the template is confirmed (after the
+     * returned expression, or inside a void method's body). The focus is the first stop.
+     */
     private static Prepared methodTemplate(Plan plan, Path target, MethodDeclaration method) {
         var placeholders = new ArrayList<Placeholder>();
-        Location focus = range(target, method.getName());
-        if (method.getBody() != null) {
-            if (!method.getBody().statements().isEmpty()) focus = range(target, (ASTNode) method.getBody().statements().getFirst());
-            else focus = new Location(target, method.getBody().getStartPosition() + 1);
-            placeholders.add(new Placeholder("body", focus));
-        }
+        if (method.getReturnType2() != null) placeholders.add(new Placeholder("returnType", range(target, method.getReturnType2())));
+        placeholders.add(new Placeholder("methodName", range(target, method.getName())));
         for (int i = 0; i < method.parameters().size(); i++) {
             SingleVariableDeclaration parameter = (SingleVariableDeclaration) method.parameters().get(i);
             placeholders.add(new Placeholder("parameter." + i, range(target, parameter.getName())));
         }
-        if (method.getReturnType2() != null) placeholders.add(new Placeholder("returnType", range(target, method.getReturnType2())));
-        placeholders.add(new Placeholder("methodName", range(target, method.getName())));
-        return new Prepared(plan, focus, placeholders);
+        Location end = null;
+        if (method.getBody() != null) {
+            var statements = method.getBody().statements();
+            if (statements.size() == 1 && statements.getFirst() instanceof ReturnStatement returned && returned.getExpression() != null) {
+                Location value = range(target, returned.getExpression());
+                placeholders.add(new Placeholder("body", value));
+                end = new Location(target, value.end());
+            } else end = statements.isEmpty() ? new Location(target, method.getBody().getStartPosition() + 1)
+                    : range(target, (ASTNode) statements.getFirst());
+        }
+        if (end != null) placeholders.add(new Placeholder("end", new Location(target, end.end())));
+        return new Prepared(plan, placeholders.getFirst().location(), placeholders);
+    }
+
+    @Override public List<Location> localOccurrences(Location location, Cancellation cancel) {
+        cancel.check();
+        CompilationUnit tree = workspace.ast(location.file());
+        ASTNode node = NodeFinder.perform(tree, location.start(), Math.max(0, location.end() - location.start()));
+        if (!(node instanceof SimpleName name)) node = NodeFinder.perform(tree, location.start(), 0);
+        if (!(node instanceof SimpleName name) || !(name.resolveBinding() instanceof IVariableBinding variable)
+                || variable.isField() || variable.isRecordComponent() || variable.isRecovered()) return List.of();
+        var occurrences = new ArrayList<Location>();
+        tree.accept(new ASTVisitor() {
+            @Override public boolean visit(SimpleName candidate) {
+                if (candidate.resolveBinding() instanceof IVariableBinding other && other.isEqualTo(variable))
+                    occurrences.add(range(location.file(), candidate));
+                return true;
+            }
+        });
+        return occurrences;
     }
 
     private static String methodIdentity(MethodDeclaration method) {

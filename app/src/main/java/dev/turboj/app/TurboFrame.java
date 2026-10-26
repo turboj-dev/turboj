@@ -421,9 +421,13 @@ public final class TurboFrame extends JFrame {
             long revision = refactoringRevision;
             changed();
             refactoringRevision = revision;
-            if (tests != null && tests.automatic())
-                startTests(TurboTestController.Mode.ALL, true);
+            // Runs after the template a quick fix starts, never on its provisional values.
+            SwingUtilities.invokeLater(() -> {
+                if (inlineSession != null) inlineSession.automaticTests = true;
+                else if (tests != null && tests.automatic()) startTests(TurboTestController.Mode.ALL, true);
+            });
         });
+        refactoring.setInlineRename(this::renameLocalInline);
         tests = new TurboTestController(new NativeTestHost());
         lineIntelligence = new LineIntelligenceController(editor, () -> file, tests,
                 Settings.directory().resolve("cherry-runs"), this::cherryResult, this::flash);
@@ -1140,14 +1144,18 @@ public final class TurboFrame extends JFrame {
         var target = prepared.focus();
         Buffer buffer = buffers.get(target.file());
         if (buffer == null) { note("Generated source is unavailable; reopen " + target.file().getFileName() + ".\n", true); return; }
+        Visit origin = visit();
         if (rememberOrigin || !target.file().equals(bufferKey))
             navigateDeclaration(new Declaration(target.file(), buffer.state().document().toString(), target.start(), target.end() - target.start(), false, "Java Quick Fix"));
         editor.setSelection(target.start(), target.end());
+        // Fields in the action's Tab order; "end" is not a field but where the caret goes on confirmation.
         var groups = new LinkedHashMap<String, List<EditorComponent.Selection>>();
+        EditorComponent.Selection exit = null;
         for (var placeholder : prepared.placeholders()) {
             var location = placeholder.location();
-            if (location.file().equals(target.file())) groups.computeIfAbsent(placeholder.group(), key -> new ArrayList<>())
-                    .add(new EditorComponent.Selection(location.end(), location.start()));
+            if (!location.file().equals(target.file())) continue;
+            if (placeholder.group().equals("end")) exit = new EditorComponent.Selection(location.start(), location.start());
+            else groups.computeIfAbsent(placeholder.group(), key -> new ArrayList<>()).add(new EditorComponent.Selection(location.end(), location.start()));
         }
         if (!groups.isEmpty()) {
             var names = List.copyOf(groups.keySet());
@@ -1160,11 +1168,16 @@ public final class TurboFrame extends JFrame {
             }
             var after = new Model.WorkspaceSnapshot(prior.root(), prior.version() + 1,
                     List.copyOf(projected.values()), prior.sourceRoots(), prior.classpath(), prior.projects());
-            editor.startTemplate(List.copyOf(groups.values()), index -> {
+            // One session spans the generation and the linked renames that restart the template.
+            var session = rememberOrigin || inlineSession == null ? new InlineSession(origin, names) : inlineSession;
+            session.plans.add(prepared.plan().id());
+            session.restarting = true;
+            inlineSession = session;
+            editor.startTemplate(List.copyOf(groups.values()), exit, index -> {
                 linkedName = null;
                 if (!linkedSemanticName(names.get(index))) return;
                 var sources = new LinkedHashMap<Path, Model.SourceSnapshot>();
-                after.sources().forEach(s -> sources.put(s.file(), s));
+                after.sources().forEach(source -> sources.put(source.file(), source));
                 new NativeRefactoringHost().capture().buffers().forEach((path, value) -> {
                     if (sources.containsKey(path)) sources.put(path,
                             new Model.SourceSnapshot(path, value.text(), value.version(), true));
@@ -1174,11 +1187,269 @@ public final class TurboFrame extends JFrame {
                 var range = editor.currentTemplateRanges().getFirst();
                 linkedName = new LinkedName(baseline, new Model.Location(bufferKey, range.start(), range.end()),
                         editor.document(), editor.document().peekUndoTransactionId(), editor.captureLocation());
-            }, (index, next) -> !linkedSemanticName(names.get(index)) || completeLinkedName(
-                    next >= names.size() ? null : names.get(Math.floorMod(next, names.size()))));
+            }, (index, next) -> {
+                if (next == EditorComponent.TEMPLATE_CONFIRM) return confirmInlineSession(session, index);
+                if (names.get(index).equals("returnType")) deriveReturnValue(names);
+                return !linkedSemanticName(names.get(index)) || completeLinkedName(names.get(next));
+            }, () -> templateEnded(session));
+            session.restarting = false;
+            session.document = editor.document();
+            session.checkpoint = editor.document().peekUndoTransactionId();
+            session.baseline = editor.getText();
+            statusBar.hold(TEMPLATE_KEYS);
+            validateTemplate();
             if (resumeGroup != null) editor.selectTemplateStop(names.indexOf(resumeGroup));
+            // A confirmation that waited for a linked rename continues on the refreshed template.
+            if (session.confirming) { session.confirming = false; editor.confirmTemplate(); }
         }
         editor.clearInlineCompletion(); editor.requestFocusInWindow();
+    }
+
+    private static final String TEMPLATE_KEYS = "Tab: next · Shift+Tab: previous · Enter: confirm · Esc: cancel";
+
+    /**
+     * An inline template in progress: where it started, the workspace transactions it applied (generation, then linked
+     * renames), and the local edits since the last of them. Esc takes exactly these back; confirming keeps them.
+     */
+    private static final class InlineSession {
+        final Visit origin;
+        final List<String> ids;
+        final List<String> plans = new ArrayList<>();
+        dev.turboj.editor.document.PieceTable document;
+        long checkpoint = -1;
+        String baseline = "";
+        boolean restarting, confirming, automaticTests;
+        Runnable afterConfirm;
+        /** Local rename only: the original source, location and name its semantic check starts from. */
+        IntelligenceController.Snapshot snapshot;
+        Model.Location location;
+        String name;
+
+        InlineSession(Visit origin, List<String> ids) { this.origin = origin; this.ids = List.copyOf(ids); }
+    }
+
+    private InlineSession inlineSession;
+
+    /** The template ended without confirm or cancel (Undo, another buffer, an edit outside the fields). */
+    private void templateEnded(InlineSession session) {
+        if (session.restarting || inlineSession != session) return;
+        endInlineSession(session, false);
+    }
+
+    /** Enter: every field must be valid; a changed name first reaches its calls through the linked rename. */
+    private boolean confirmInlineSession(InlineSession session, int index) {
+        if (inlineSession != session) return true;
+        deriveReturnValue(session.ids);
+        var errors = validateTemplate();
+        if (!errors.isEmpty()) {
+            int first = errors.keySet().stream().min(Integer::compare).orElse(index);
+            if (first != index) editor.selectTemplateStop(first);
+            flash(errors.get(first), StatusBar.Level.WARNING);
+            session.afterConfirm = null;
+            return false;
+        }
+        String id = session.ids.get(index);
+        if (id.equals("localName")) return confirmLocalRename(session);
+        if (linkedSemanticName(id) && !completeLinkedName(id)) { session.confirming = true; return false; }
+        endInlineSession(session, true);
+        return true;
+    }
+
+    /** Confirmed: the field edits since the last transaction become one Undo step. Either way, deferred work resumes once. */
+    private void endInlineSession(InlineSession session, boolean confirmed) {
+        if (inlineSession != session) return;
+        inlineSession = null;
+        statusBar.release();
+        editor.setTemplateErrors(Map.of());
+        if (confirmed && session.document == editor.document() && !editor.getText().equals(session.baseline)
+                && session.document.canCoalesceSince(session.checkpoint)) {
+            try { session.document.coalesceSince(session.checkpoint, session.baseline); }
+            catch (RuntimeException history) { /* The edits stay as separate Undo steps. */ }
+        }
+        if (session.automaticTests && tests != null && tests.automatic()) startTests(TurboTestController.Mode.ALL, true);
+        Runnable after = session.afterConfirm;
+        if (confirmed && after != null) SwingUtilities.invokeLater(after);
+    }
+
+    /**
+     * Esc: undo the session's own edits, newest first: the field edits since the last transaction, then each workspace
+     * transaction it applied (with any field edits made before it), never an older or unrelated change. Then back to
+     * where the action was invoked.
+     */
+    private void cancelInlineSession() {
+        var session = inlineSession;
+        if (session == null) { editor.finishTemplate(); return; }
+        inlineSession = null;
+        ++linkedRenameRequest;
+        linkedRenameBusy = false;
+        statusBar.release();
+        editor.finishTemplate();
+        undoLocalEdits(session);
+        undoSessionPlans(session, new ArrayDeque<>(session.plans.reversed()));
+    }
+
+    private void undoLocalEdits(InlineSession session) {
+        while (editor.document() == session.document && session.document.canUndo()
+                && session.document.peekUndoTransactionId() != session.checkpoint) editor.undo();
+    }
+
+    private void undoSessionPlans(InlineSession session, ArrayDeque<String> plans) {
+        if (plans.isEmpty()) {
+            if (session.origin != null && buffers.containsKey(session.origin.key())) restoreVisit(session.origin);
+            editor.requestFocusInWindow();
+            if (session.automaticTests && tests != null && tests.automatic()) startTests(TurboTestController.Mode.ALL, true);
+            flash("Template cancelled");
+            return;
+        }
+        String expected = plans.pop();
+        // Field edits made before this transaction sit above it in the document's history: take them back first.
+        for (int guard = 0; guard < 1000 && !refactoring.canUndo() && expected.equals(refactoring.undoPlanId())
+                && editor.document() == session.document && session.document.canUndo(); guard++) editor.undo();
+        if (!expected.equals(refactoring.undoPlanId()) || !refactoring.canUndo()) {
+            flash("Template cancelled; later edits kept the generated code. Use Undo to remove it.", StatusBar.Level.WARNING);
+            return;
+        }
+        refactoring.undoTransaction().whenComplete((result, failure) -> SwingUtilities.invokeLater(() -> {
+            if (closing) return;
+            if (failure != null) { flash(message(failure), StatusBar.Level.ERROR); return; }
+            undoSessionPlans(session, plans);
+        }));
+    }
+
+    /** A returned expression still generated follows the return type: 0, false, null, or nothing for void. */
+    private void deriveReturnValue(List<String> ids) {
+        int type = ids.indexOf("returnType"), body = ids.indexOf("body");
+        if (type < 0 || body < 0 || !editor.templateActive() || editor.templateModified(body)) return;
+        String value = defaultReturnValue(editor.templateText(type).strip());
+        if (value != null && !value.equals(editor.templateText(body))) editor.replaceTemplateText(body, value);
+    }
+
+    static String defaultReturnValue(String type) {
+        return switch (type) {
+            case "void" -> "";
+            case "boolean" -> "false";
+            case "int", "long", "short", "byte", "char", "float", "double" -> "0";
+            default -> javaType(type) ? "null" : null;
+        };
+    }
+
+    /** Errors beside the fields; an empty field being typed is not an error yet. */
+    private Map<Integer, String> validateTemplate() {
+        var session = inlineSession;
+        if (session == null || !editor.templateActive()) return Map.of();
+        var errors = new LinkedHashMap<Integer, String>();
+        var ids = session.ids;
+        String type = ids.contains("returnType") ? editor.templateText(ids.indexOf("returnType")).strip() : null;
+        var parameters = new HashSet<String>();
+        for (int i = 0; i < ids.size() && i < editor.templateStopCount(); i++) {
+            String id = ids.get(i), text = editor.templateText(i).strip();
+            boolean typing = i == editor.templateIndex() && text.isEmpty();
+            String error = null;
+            if (id.equals("returnType")) error = typing ? null : text.equals("void") || javaType(text) ? null : "Not a Java type";
+            else if (id.equals("methodName") || id.startsWith("parameter.") || id.equals("localName")) {
+                if (!typing && !javax.lang.model.SourceVersion.isName(text)) error = text.isEmpty() ? "Name required" : "Not a Java name";
+                else if (id.startsWith("parameter.") && !text.isEmpty() && !parameters.add(text)) error = "Duplicate parameter name";
+            } else if (id.equals("body") && type != null) {
+                if (type.equals("void") && !text.isEmpty()) error = "A void method returns no value";
+                else if (!type.equals("void") && text.isEmpty() && !typing) error = "Return value required";
+            }
+            if (error != null) errors.put(i, error);
+        }
+        editor.setTemplateErrors(errors);
+        return errors;
+    }
+
+    /** Java type syntax: primitives, qualified names, type arguments with wildcards, arrays. Not "void". */
+    static boolean javaType(String type) {
+        String compact = type.replaceAll("\\s+", " ").strip();
+        if (compact.isEmpty() || !compact.matches("[\\p{L}\\p{N}_$.<>,?\\[\\] &]+") || compact.matches(".*\\[(?!\\]).*")) return false;
+        int depth = 0;
+        for (char c : compact.toCharArray()) { if (c == '<') depth++; else if (c == '>' && --depth < 0) return false; }
+        if (depth != 0 || compact.startsWith("<") || compact.startsWith("[")) return false;
+        var primitives = Set.of("boolean", "byte", "short", "int", "long", "char", "float", "double");
+        for (String token : compact.split("[<>,\\[\\] &?]+")) {
+            if (token.isEmpty() || token.equals("extends") || token.equals("super") || primitives.contains(token)) continue;
+            for (String part : token.split("\\.", -1))
+                if (!javax.lang.model.SourceVersion.isIdentifier(part) || javax.lang.model.SourceVersion.isKeyword(part)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Rename of a local variable or parameter, in place: all its occurrences in the file are one linked field. Enter
+     * checks the name with RefactorJ's semantic Rename on the original source; the inline result must equal it.
+     */
+    private boolean renameLocalInline(Model.Location at, Model.Symbol symbol) {
+        if (!symbol.kind().equals("local") || !isJavaBuffer() || editor.isReadOnly() || !at.file().equals(bufferKey)) return false;
+        var snapshot = intelligenceSnapshot();
+        var capture = new NativeRefactoringHost().capture();
+        long version = editor.version();
+        intelligence.submitSemantic(snapshot, (service, context) -> service.sharedRefactorJ(context).quickActions()
+                .localOccurrences(at, () -> closing)).whenComplete((occurrences, failure) -> SwingUtilities.invokeLater(() -> {
+                    if (closing) return;
+                    if (failure != null || occurrences.isEmpty() || editor.version() != version || !capture.equals(new NativeRefactoringHost().capture())) {
+                        refactoring.renameWithDialog(at, symbol, capture);
+                        return;
+                    }
+                    startLocalRename(occurrences, at, symbol.name(), snapshot);
+                }));
+        return true;
+    }
+
+    private void startLocalRename(List<Model.Location> occurrences, Model.Location at, String name, IntelligenceController.Snapshot snapshot) {
+        int caret = editor.caretOffset();
+        var ranges = new ArrayList<EditorComponent.Selection>();
+        for (var occurrence : occurrences) {
+            if (!editor.getText().substring(occurrence.start(), occurrence.end()).equals(name)) { flash("Source changed; invoke Rename again"); return; }
+            ranges.add(new EditorComponent.Selection(occurrence.end(), occurrence.start()));
+        }
+        // The occurrence under the caret is the primary selection.
+        ranges.sort(java.util.Comparator.comparingInt((EditorComponent.Selection r) -> caret >= r.start() && caret <= r.end() ? 0 : 1));
+        var session = new InlineSession(visit(), List.of("localName"));
+        session.snapshot = snapshot; session.location = at; session.name = name;
+        session.restarting = true;
+        inlineSession = session;
+        var exit = new EditorComponent.Selection(ranges.getFirst().end(), ranges.getFirst().end());
+        editor.startTemplate(List.of(List.copyOf(ranges)), exit, index -> {},
+                (index, next) -> next != EditorComponent.TEMPLATE_CONFIRM || confirmInlineSession(session, index), () -> templateEnded(session));
+        session.restarting = false;
+        session.document = editor.document();
+        session.checkpoint = editor.document().peekUndoTransactionId();
+        session.baseline = editor.getText();
+        statusBar.hold(TEMPLATE_KEYS);
+        editor.requestFocusInWindow();
+    }
+
+    /** The inline result must be exactly what the semantic Rename produces; then it stands, as one Undo step. */
+    private boolean confirmLocalRename(InlineSession session) {
+        String name = editor.templateText(0);
+        if (name.equals(session.name)) { endInlineSession(session, true); return true; }
+        if (session.confirming) return false;
+        session.confirming = true;
+        String expected = editor.getText();
+        Path file = bufferKey;
+        intelligence.submitSemantic(session.snapshot, (service, context) -> service.sharedRefactorJ(context)
+                .prepare(new dev.turboj.refactorj.api.Requests.Rename(session.location, name), () -> closing || inlineSession != session))
+                .whenComplete((plan, failure) -> SwingUtilities.invokeLater(() -> {
+                    session.confirming = false;
+                    if (closing || inlineSession != session || !editor.templateActive()) return;
+                    String problem = failure != null ? message(failure)
+                            : !plan.valid() ? plan.diagnostics().stream().filter(d -> d.severity() == Model.Severity.ERROR)
+                                    .map(Model.Diagnostic::message).findFirst().orElse("Rename is not possible here")
+                            : plan.edits().stream().anyMatch(e -> !e.file().equals(file)) || !plan.fileOperations().isEmpty()
+                                    ? "Renaming reaches other files: use Refactor ▸ Rename"
+                            : !Model.TextEdit.apply(session.baseline, plan.edits().stream().filter(e -> e.file().equals(file))
+                                    .findFirst().map(Model.FileEdits::edits).orElse(List.of())).equals(expected)
+                                    ? "Renaming here changes other code too: use Refactor ▸ Rename" : null;
+                    if (problem != null) {
+                        editor.setTemplateErrors(Map.of(0, problem.lines().findFirst().orElse(problem)));
+                        flash(problem, StatusBar.Level.WARNING);
+                        return;
+                    }
+                    endInlineSession(session, true);
+                    editor.finishTemplateAtExit();
+                }));
+        return false;
     }
 
     private static boolean linkedSemanticName(String group) { return group.equals("methodName") || group.startsWith("parameter."); }
@@ -1199,23 +1470,34 @@ public final class TurboFrame extends JFrame {
                 .renameLinked(entered.baseline(), entered.declaration(), name, () -> closing || ticket != linkedRenameRequest))
                 .whenComplete((prepared, failure) -> SwingUtilities.invokeLater(() -> {
                     if (closing || ticket != linkedRenameRequest) { linkedRenameBusy = false; return; }
-                    if (failure != null) { linkedRenameBusy = false; showError(message(failure)); return; }
+                    if (failure != null) { linkedRenameBusy = false; linkedRenameFailed(message(failure)); return; }
                     if (!capture.equals(new NativeRefactoringHost().capture()) || editor.document() != entered.document()
                             || !bufferKey.equals(entered.declaration().file()) || !editor.templateActive()) {
-                        linkedRenameBusy = false; showError("Source changed; invoke Rename again."); return;
+                        linkedRenameBusy = false; linkedRenameFailed("Source changed; the calls were not renamed"); return;
                     }
                     if (!prepared.plan().valid()) {
-                        linkedRenameBusy = false; showError(prepared.plan().diagnostics().stream().map(Model.Diagnostic::message)
+                        linkedRenameBusy = false; linkedRenameFailed(prepared.plan().diagnostics().stream().map(Model.Diagnostic::message)
                                 .collect(java.util.stream.Collectors.joining("\n"))); return;
                     }
                     linkedRenameUndo = new LinkedRenameUndo(prepared.plan().id(), entered);
+                    // Applying the rename rewrites the buffer the template lives in: the session outlives it and restarts it.
+                    var session = inlineSession;
+                    if (session != null) session.restarting = true;
                     refactoring.apply(new RefactoringController.Prepared(prepared.plan(), capture))
                             .whenComplete((result, error) -> SwingUtilities.invokeLater(() -> {
                                 linkedRenameBusy = false; linkedRenameUndo = null; linkedName = null;
+                                if (session != null) session.restarting = false;
                                 if (closing) return;
-                                if (error != null) { showError(message(error)); return; }
+                                if (error != null) { settleInlineSession(); showError(message(error)); return; }
+                                // A template session continues even if the window lost focus meanwhile; a plain linked edit does not.
                                 if (ticket != linkedRenameRequest || editor.document() != entered.document()
-                                        || !bufferKey.equals(entered.declaration().file()) || !editor.isFocusOwner()) return;
+                                        || !bufferKey.equals(entered.declaration().file())
+                                        || session == null && !editor.isFocusOwner()) {
+                                    if (session != null) session.confirming = false;
+                                    settleInlineSession();
+                                    return;
+                                }
+                                if (session != null) session.restarting = true;
                                 editor.finishTemplate();
                                 navigateGeneratedSource(resumeGroup == null
                                         ? new dev.turboj.refactorj.api.JavaQuickActions.Prepared(prepared.plan(), prepared.focus(), List.of())
@@ -1223,6 +1505,40 @@ public final class TurboFrame extends JFrame {
                             }));
                 }));
         return false;
+    }
+
+    /** A session whose template ended while a linked rename was applying ends too. */
+    private void settleInlineSession() {
+        var session = inlineSession;
+        if (session != null && !session.restarting && !editor.templateActive()) endInlineSession(session, false);
+    }
+
+    /** A linked rename that cannot apply: in a template the message stays beside the field, which stays editable. */
+    private void linkedRenameFailed(String message) {
+        if (inlineSession != null && editor.templateActive()) {
+            inlineSession.confirming = false;
+            inlineSession.afterConfirm = null;
+            editor.setTemplateErrors(Map.of(editor.templateIndex(), message.lines().findFirst().orElse(message)));
+            flash(message, StatusBar.Level.WARNING);
+        } else showError(message);
+    }
+
+    /** Save, Format and other explicit commands first resolve a template: confirmed when valid, kept with its errors otherwise. */
+    private boolean resolveInlineSessionThen(Runnable command) {
+        var session = inlineSession;
+        if (session == null || !editor.templateActive()) return false;
+        session.afterConfirm = command;
+        editor.confirmTemplate();
+        if (inlineSession == session && !session.confirming) session.afterConfirm = null;
+        return true;
+    }
+
+    /** The text of an open buffer, saved or not; the current one is the editor's. */
+    public String bufferText(Path file) {
+        Path key = file.toAbsolutePath().normalize();
+        if (key.equals(bufferKey)) return editor.getText();
+        Buffer buffer = buffers.get(key);
+        return buffer == null ? "" : buffer.state().document().toString();
     }
 
     public CompilationResult currentResult() {
@@ -1620,8 +1936,8 @@ public final class TurboFrame extends JFrame {
         command("documentation", "Quick documentation", () -> intelligence.quickDocumentation());
         command("back", "Navigate back", this::navigateBack);
         command("forward", "Navigate forward", this::navigateForward);
-        command("format.document", "Format Document", () -> formatting.format(false));
-        command("format.selection", "Format Selection", () -> formatting.format(true));
+        command("format.document", "Format Document", () -> { if (!resolveInlineSessionThen(() -> formatting.format(false))) formatting.format(false); });
+        command("format.selection", "Format Selection", () -> { if (!resolveInlineSessionThen(() -> formatting.format(true))) formatting.format(true); });
         for (var style : dev.turboj.formatting.StandardFormatters.values()) {
             command("format.style." + style.id(), style.title(), () -> selectFormatter(style));
             commands.get("format.style." + style.id()).putValue(Action.SHORT_DESCRIPTION, style.description());
@@ -1889,9 +2205,14 @@ public final class TurboFrame extends JFrame {
                 outputCommands.dismiss();
                 refreshWorkspaceMinimums();
             }
-            ++linkedRenameRequest;
+            boolean popup = editor.inlineCompletion() != null || (intelligence != null && intelligence.alternativesVisible());
+            // Escape closes a completion first; the next one cancels the template.
+            if (inlineSession != null && editor.templateActive() && !popup) { cancelInlineSession(); return; }
+            if (!popup || inlineSession == null) {
+                ++linkedRenameRequest;
+                editor.finishTemplate();
+            }
             if (quickFix != null) quickFix.dismiss(true);
-            editor.finishTemplate();
             MenuSelectionManager.defaultManager().clearSelectedPath();
             boolean completion = editor.inlineCompletion() != null || (intelligence != null && intelligence.alternativesVisible());
             if (aiCompletion != null)
@@ -2965,6 +3286,7 @@ public final class TurboFrame extends JFrame {
     private void changed() {
         if (refactoringPublishing)
             return;
+        if (inlineSession != null) validateTemplate();
         if (lineIntelligence != null) lineIntelligence.changed();
         if (keyboardJava != null) keyboardJava.changed();
         if (quickFix != null) quickFix.changed();
@@ -3235,7 +3557,10 @@ public final class TurboFrame extends JFrame {
                 if (target == null) { runLog.finish(dev.turboj.console.OutputLog.Outcome.STOPPED, "no main class chosen", null); return; }
                 if (closing || request != runRequest || model != maven.workspace() || revision != refactoringRevision || op != operation.get()) return;
                 launchMavenTarget(model, target, value.active(), revision, op, request, isolated, previous);
-            } else if (value.active().success() && tests.automatic() && maven.trusted() && !tests.busy()) startTests(TurboTestController.Mode.ALL, true);
+            } else if (value.active().success() && tests.automatic() && maven.trusted() && !tests.busy()) {
+                if (inlineSession != null) inlineSession.automaticTests = true;
+                else startTests(TurboTestController.Mode.ALL, true);
+            }
         }));
         return future.thenApply(NativeCompilation::active);
     }
@@ -3592,6 +3917,8 @@ public final class TurboFrame extends JFrame {
     }
 
     private void save(boolean as, Runnable next) {
+        // Save confirms a valid template first, then saves; an invalid one stays, with its errors shown.
+        if (resolveInlineSessionThen(() -> save(as, next))) return;
         if (editor.isReadOnly() && !as) {
             showError("Attached source is read only. Use Save as to create an editable copy.");
             return;

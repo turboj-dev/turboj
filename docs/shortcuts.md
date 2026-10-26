@@ -70,8 +70,9 @@ Help → **Print Keyboard Cheat Sheet…** prints the active map on two A4 pages
 | ⇧⌘A / F10 | Find Action / open menu |
 | ⌘, / ⌘K / ⇧F1 | Settings / keymap / keyboard reference |
 | ⌥⇧Space | Request optional AI completion |
-| Tab / Shift+Tab | Accept inline suggestion when present; otherwise indent / unindent |
-| Escape | Dismiss inline suggestion, alternatives, documentation or menu |
+| Tab / Shift+Tab | Accept inline suggestion when present; in an [inline template](inline-templates.md), next / previous field; otherwise indent / unindent |
+| Return | In an inline template, confirm it from any field |
+| Escape | Dismiss inline suggestion, alternatives, documentation or menu; in an inline template, take its edits back |
 
 macOS may reserve function keys for hardware controls; hold Fn or adjust macOS keyboard settings. System shortcuts are not globally intercepted. On other operating systems Ctrl substitutes for Cmd in application bindings.
 

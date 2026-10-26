@@ -13,6 +13,23 @@ import javax.swing.SwingUtilities;
 
 class EditorComponentTest {
     @Test
+    void aBufferChangedWhileHiddenReopensWithoutItsStaleSelections() throws Exception {
+        SwingUtilities.invokeAndWait(
+                () -> {
+                    EditorComponent editor = new EditorComponent();
+                    editor.setText("public int product(int i, int j) {}");
+                    editor.setSelections(java.util.List.of(new EditorComponent.Selection(30, 26), new EditorComponent.Selection(33, 31)));
+                    var hidden = editor.captureState();
+                    editor.restoreState(new EditorComponent.EditorState(
+                            new dev.turboj.editor.document.PieceTable("other"), new EditorComponent.Location(0, 0, 0, 0), false));
+                    hidden.document().delete(5, hidden.document().length());
+                    editor.restoreState(new EditorComponent.EditorState(hidden.document(), new EditorComponent.Location(3, 3, 0, 0), false));
+                    assertEquals("publi", editor.getText());
+                    assertEquals(3, editor.caretOffset(), "the saved location stands in for selections past the end");
+                });
+    }
+
+    @Test
     void keyboardEditingPreservesUnicodeAndCrlf() throws Exception {
         SwingUtilities.invokeAndWait(
                 () -> {

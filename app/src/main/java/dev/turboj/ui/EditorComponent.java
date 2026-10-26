@@ -8,6 +8,7 @@ import dev.turboj.testing.intelligence.LineIntelligence.Lane;
 import dev.turboj.testing.intelligence.LineIntelligence.Snapshot;
 import dev.turboj.ui.intelligence.LineGutter;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -225,6 +226,7 @@ public final class EditorComponent extends JComponent
                             caret = document.lineEnd(document.lineAt(caret));
                             repaint();
                         }
+                        templateCaretMoved();
                     }
 
                     @Override
@@ -350,8 +352,11 @@ public final class EditorComponent extends JComponent
         secondaryCarets.clear();
         resetVisualState();
         restoreLocation(state.location());
-        setSelectionsInternal(bufferSelections.getOrDefault(document,
-                List.of(new Selection(caret, anchor))));
+        // Selections remembered for this document are stale once Undo or a refactoring changed it while hidden.
+        var remembered = bufferSelections.get(document);
+        int length = document.length();
+        setSelectionsInternal(remembered != null && remembered.stream().allMatch(s -> s.end() <= length)
+                ? remembered : List.of(new Selection(caret, anchor)));
         onChange.run();
     }
 
@@ -1039,10 +1044,21 @@ public final class EditorComponent extends JComponent
         return true;
     }
 
+    // An inline template (IntelliJ live templates, Eclipse linked editing): fields are ranges of the document itself.
+    // Each field is one Tab stop; its linked occurrences are further ranges edited together as multiple selections.
+    // Ranges move with every edit; Enter confirms the whole template, the host decides what Esc cancels.
+    /** The host's leaving check receives this instead of a field index when Enter confirms the template. */
+    public static final int TEMPLATE_CONFIRM = -2;
     private List<List<Selection>> templateStops = List.of();
+    private List<String> templateInitial = List.of();
+    private boolean[] templateModified = new boolean[0];
+    private java.util.Map<Integer, String> templateErrors = java.util.Map.of();
+    private Selection templateExit;
+    private boolean templateProgrammatic;
     private int templateStop;
     private java.util.function.IntConsumer templateEntered = index -> {};
     private java.util.function.BiPredicate<Integer, Integer> templateLeaving = (index, next) -> true;
+    private Runnable templateEnded = () -> {};
 
     /** Linked occurrences in one group use real multiple selections and one edit transaction. */
     public void startTemplate(List<List<Selection>> stops) {
@@ -1051,6 +1067,16 @@ public final class EditorComponent extends JComponent
 
     public void startTemplate(List<List<Selection>> stops, java.util.function.IntConsumer entered,
             java.util.function.BiPredicate<Integer, Integer> leaving) {
+        startTemplate(stops, null, entered, leaving, () -> {});
+    }
+
+    /**
+     * Starts a template on these fields, in Tab order. {@code exit} (may be null) is where the caret goes when the
+     * template is confirmed; {@code leaving} may veto leaving a field (or confirming, {@link #TEMPLATE_CONFIRM});
+     * {@code ended} runs once whenever the template ends, however it ends.
+     */
+    public void startTemplate(List<List<Selection>> stops, Selection exit, java.util.function.IntConsumer entered,
+            java.util.function.BiPredicate<Integer, Integer> leaving, Runnable ended) {
         finishTemplate();
         if (stops.isEmpty()) return;
         for (var group : stops) {
@@ -1060,58 +1086,202 @@ public final class EditorComponent extends JComponent
                 throw new IllegalArgumentException("Invalid template range");
         }
         templateStops = stops.stream().map(List::copyOf).toList(); templateStop = 0;
-        templateEntered = entered; templateLeaving = leaving;
+        templateInitial = templateStops.stream().map(group -> document.substring(group.getFirst().start(), group.getFirst().end())).toList();
+        templateModified = new boolean[templateStops.size()];
+        templateErrors = java.util.Map.of();
+        templateExit = exit != null && exit.start() >= 0 && exit.end() <= document.length() ? exit : null;
+        templateEntered = entered; templateLeaving = leaving; templateEnded = ended;
         setSelections(templateStops.getFirst());
         templateEntered.accept(0);
+        repaint();
     }
 
     public boolean templateActive() { return !templateStops.isEmpty(); }
     public List<Selection> currentTemplateRanges() { return templateActive() ? templateStops.get(templateStop) : List.of(); }
+    public int templateIndex() { return templateActive() ? templateStop : -1; }
+    public int templateStopCount() { return templateStops.size(); }
 
+    /** The current text of a field (its first range). */
+    public String templateText(int index) {
+        var range = templateStops.get(index).getFirst();
+        return document.substring(range.start(), range.end());
+    }
+
+    public String templateInitialText(int index) { return templateInitial.get(index); }
+
+    /** The user typed in this field; a field still holding the generated value can be updated by the host. */
+    public boolean templateModified(int index) { return templateModified[index]; }
+
+    public List<Selection> templateRanges(int index) { return templateStops.get(index); }
+
+    /** Short messages shown beside invalid fields; Enter is the host's to refuse while they apply. */
+    public void setTemplateErrors(java.util.Map<Integer, String> errors) {
+        if (!templateActive() || templateErrors.equals(errors)) return;
+        templateErrors = java.util.Map.copyOf(errors);
+        repaint();
+    }
+
+    public java.util.Map<Integer, String> templateErrors() { return templateErrors; }
+
+    /** Tab and Shift+Tab: the next or previous field, wrapping around; the template never ends on Tab. */
     public boolean advanceTemplate(boolean previous) {
         if (!templateActive()) return false;
-        var current = templateStops.get(templateStop);
-        if (selections().stream().anyMatch(s -> current.stream().noneMatch(r -> s.start() >= r.start() && s.end() <= r.end()))) {
-            finishTemplate(); return false;
-        }
-        int next = templateStop + (previous ? -1 : 1);
+        int next = Math.floorMod(templateStop + (previous ? -1 : 1), templateStops.size());
         if (!templateLeaving.test(templateStop, next)) return true;
-        if (next >= templateStops.size()) {
-            int end = current.getFirst().end(); finishTemplate(); setSelection(end, end);
-        } else {
-            templateStop = Math.floorMod(next, templateStops.size()); setSelections(templateStops.get(templateStop));
-            templateEntered.accept(templateStop);
-        }
+        if (!templateActive()) return true;
+        templateStop = next;
+        setSelections(templateStops.get(templateStop));
+        templateEntered.accept(templateStop);
+        repaint();
         return true;
     }
 
+    /** Enter: confirm the whole template from any field, keeping every value as it stands. */
+    public boolean confirmTemplate() {
+        if (!templateActive()) return false;
+        if (templateLeaving.test(templateStop, TEMPLATE_CONFIRM) && templateActive()) finishTemplateAtExit();
+        return true;
+    }
+
+    /** Ends the template and puts the caret at its exit, or at the end of the current field. */
+    public void finishTemplateAtExit() {
+        if (!templateActive()) return;
+        int exit = templateExit != null ? templateExit.start() : templateStops.get(templateStop).getFirst().end();
+        finishTemplate();
+        setSelection(exit, exit);
+    }
+
     public void finishTemplate() {
-        templateStops = List.of(); templateStop = 0;
-        templateEntered = index -> {}; templateLeaving = (index, next) -> true;
+        boolean active = templateActive();
+        Runnable ended = templateEnded;
+        templateStops = List.of(); templateStop = 0; templateInitial = List.of(); templateModified = new boolean[0];
+        templateErrors = java.util.Map.of(); templateExit = null;
+        templateEntered = index -> {}; templateLeaving = (index, next) -> true; templateEnded = () -> {};
+        if (active) {
+            repaint();
+            ended.run();
+        }
     }
 
     /** Resume a semantic template after its transaction updated references. */
     public void selectTemplateStop(int index) {
         if (!templateActive() || index < 0 || index >= templateStops.size()) return;
         templateStop = index; setSelections(templateStops.get(index)); templateEntered.accept(index);
+        repaint();
+    }
+
+    /** The host replaces a field it still manages (a derived value), without counting it as the user's edit. */
+    public boolean replaceTemplateText(int index, String text) {
+        if (!templateActive() || index < 0 || index >= templateStops.size()) return false;
+        var active = selections();
+        var edits = templateStops.get(index).stream().sorted(java.util.Comparator.comparingInt(Selection::start))
+                .map(range -> new TextEdit(range.start(), range.end(), text)).toList();
+        var after = active.stream().map(selection -> new Selection(mapped(selection.caret(), edits), mapped(selection.anchor(), edits))).toList();
+        templateProgrammatic = true;
+        try { return applyEdits(version(), edits, after); }
+        finally { templateProgrammatic = false; }
+    }
+
+    /** The field holding this offset, borders included, or -1. */
+    public int templateStopAt(int offset) {
+        for (int i = 0; i < templateStops.size(); i++)
+            for (var range : templateStops.get(i)) if (offset >= range.start() && offset <= range.end()) return i;
+        return -1;
+    }
+
+    /**
+     * After a click or a motion key: a click in another field makes it active, leaving every field confirms the
+     * template, and a single caret in a linked field becomes one caret per occurrence again, so they stay identical.
+     */
+    private void templateCaretMoved() {
+        if (!templateActive()) return;
+        int at = templateStopAt(caret);
+        if (at < 0) { confirmTemplateKeepingCaret(); return; }
+        if (at != templateStop) {
+            int clicked = caret, clickedAnchor = anchor;
+            if (!templateLeaving.test(templateStop, at) || !templateActive()) return;
+            templateStop = at;
+            templateEntered.accept(at);
+            setSelection(clickedAnchor, clicked);
+        }
+        var group = templateStops.get(templateStop);
+        if (group.size() > 1 && secondaryCarets.isEmpty()) {
+            var own = group.stream().filter(r -> caret >= r.start() && caret <= r.end()).findFirst().orElse(group.getFirst());
+            int relative = caret - own.start();
+            setSelections(group.stream().map(r -> { int offset = r.start() + Math.min(relative, r.end() - r.start()); return new Selection(offset, offset); }).toList());
+        }
+        repaint();
+    }
+
+    private void confirmTemplateKeepingCaret() {
+        int keptCaret = caret, keptAnchor = anchor;
+        if (templateLeaving.test(templateStop, TEMPLATE_CONFIRM) && templateActive()) {
+            finishTemplate();
+            setSelection(keptAnchor, keptCaret);
+        }
     }
 
     private void remapTemplate(List<TextEdit> edits) {
         if (!templateActive() || edits.isEmpty()) return;
-        var active = templateStops.get(templateStop);
-        if (edits.stream().anyMatch(e -> active.stream().noneMatch(r -> e.start() >= r.start() && e.end() <= r.end()))) {
-            finishTemplate(); return;
-        }
-        templateStops = templateStops.stream().map(group -> group.stream().map(range -> {
-            int start = range.start(), end = range.end();
+        // The user edits the active field; the host edits any field. Anything else ends the template.
+        boolean inside = templateProgrammatic
+                ? edits.stream().allMatch(e -> templateStops.stream().flatMap(List::stream).anyMatch(r -> e.start() >= r.start() && e.end() <= r.end()))
+                : edits.stream().allMatch(e -> templateStops.get(templateStop).stream().anyMatch(r -> e.start() >= r.start() && e.end() <= r.end()));
+        if (!inside) { finishTemplate(); return; }
+        if (!templateProgrammatic) templateModified[templateStop] = true;
+        templateStops = templateStops.stream().map(group -> group.stream().map(range -> remapped(range, edits)).toList()).toList();
+        if (templateExit != null) {
+            int exit = templateExit.start();
             for (var edit : edits) {
                 int delta = edit.text().length() - (edit.end() - edit.start());
-                if (edit.end() <= range.start() && !(edit.start() == range.start() && edit.end() <= range.end())) {
-                    start += delta; end += delta;
-                } else if (edit.start() >= range.start() && edit.end() <= range.end()) end += delta;
+                if (edit.end() <= templateExit.start()) exit += delta;
             }
-            return new Selection(end, start);
-        }).toList()).toList();
+            templateExit = new Selection(exit, exit);
+        }
+        repaint();
+    }
+
+    /** A range after edits given in the original document's offsets: edits inside or at its borders resize it. */
+    private static Selection remapped(Selection range, List<TextEdit> edits) {
+        int start = range.start(), end = range.end();
+        for (var edit : edits) {
+            int delta = edit.text().length() - (edit.end() - edit.start());
+            if (edit.end() <= range.start() && !(edit.start() == range.start() && edit.end() <= range.end())) {
+                start += delta; end += delta;
+            } else if (edit.start() >= range.start() && edit.end() <= range.end()) end += delta;
+        }
+        return new Selection(end, start);
+    }
+
+    /**
+     * Template fields on one line: a dotted outline for the others, a solid, thicker one for the active field (shape,
+     * not only color, tells them apart), red for an invalid field, with its message after the line's text.
+     */
+    private void paintTemplate(Graphics2D row, String text, int[] columns, int lineStart) {
+        int lineEnd = lineStart + text.length();
+        var dotted = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10f, new float[]{2f, 2f}, 0f);
+        var solid = new BasicStroke(2f);
+        var messages = new StringBuilder();
+        for (int i = 0; i < templateStops.size(); i++) {
+            boolean active = i == templateStop, invalid = templateErrors.containsKey(i);
+            for (var range : templateStops.get(i)) {
+                if (range.end() < lineStart || range.start() > lineEnd) continue;
+                int a = columns[Math.clamp(range.start() - lineStart, 0, text.length())];
+                int b = columns[Math.clamp(range.end() - lineStart, 0, text.length())];
+                int x = (a - leftColumn) * cellWidth, width = Math.max(3, (b - a) * cellWidth);
+                row.setColor(invalid ? error : active ? cursor : comment);
+                row.setStroke(active || invalid ? solid : dotted);
+                row.drawRect(x, 1, width - 1, cellHeight - 3);
+            }
+            var first = templateStops.get(i).getFirst();
+            if (invalid && first.start() >= lineStart && first.start() <= lineEnd)
+                messages.append(messages.isEmpty() ? "" : "  ").append("⚠ ").append(templateErrors.get(i));
+        }
+        row.setStroke(new BasicStroke(1f));
+        if (!messages.isEmpty()) {
+            row.setColor(error);
+            row.drawString(messages.toString(), (columns[text.length()] - leftColumn + 2) * cellWidth, ascent);
+        }
     }
 
     private boolean resultBoundary(int offset, int length, List<TextEdit> edits) {
@@ -1828,6 +1998,7 @@ public final class EditorComponent extends JComponent
             }
             if (!secondaryCarets.isEmpty() && isMotion(code)) {
                 moveMultipleCarets(e);
+                templateCaretMoved();
                 e.consume();
                 return;
             }
@@ -1886,10 +2057,13 @@ public final class EditorComponent extends JComponent
                         super.processKeyEvent(e);
                         return;
                     }
-                    splitLine();
+                    // In a template Enter confirms it, from any field; it never inserts a line there.
+                    if (templateActive() && composition.isEmpty()) confirmTemplate();
+                    else splitLine();
                 }
                 case KeyEvent.VK_ESCAPE -> {
-                    if (secondaryCarets.isEmpty()) handled = false;
+                    // A template's Escape belongs to the host, which knows what the template's edits were.
+                    if (secondaryCarets.isEmpty() || templateActive()) handled = false;
                     else removeSecondaryCarets();
                 }
                 case KeyEvent.VK_TAB -> {
@@ -1897,11 +2071,12 @@ public final class EditorComponent extends JComponent
                         super.processKeyEvent(e);
                         return;
                     }
-                    indent(shift);
+                    if (!advanceTemplate(shift)) indent(shift);
                 }
                 default -> handled = false;
             }
             if (handled) {
+                if (isMotion(code)) templateCaretMoved();
                 e.consume();
                 return;
             }
@@ -2380,6 +2555,7 @@ public final class EditorComponent extends JComponent
                         paintSelectedText(row, text, columns, start, extra.start(), extra.end());
                     if (emphasisStart >= 0)
                         paintSelectedText(row, text, columns, start, emphasisStart, emphasisEnd);
+                    if (templateActive()) paintTemplate(row, text, columns, start);
                     for (CompilerDiagnostic diagnostic : diagnostics) {
                         if (diagnostic.line() == line + 1
                                 && "ERROR".equalsIgnoreCase(diagnostic.kind())) {

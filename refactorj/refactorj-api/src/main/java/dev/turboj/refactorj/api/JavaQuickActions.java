@@ -42,4 +42,7 @@ public interface JavaQuickActions {
     default Prepared renameLinked(WorkspaceSnapshot beforeTyping, Location declaration, String newName, Cancellation cancellation) {
         throw new UnsupportedOperationException("Linked semantic rename is unavailable");
     }
+    /** Every occurrence, in its compilation unit, of the local variable or parameter at the location, in source order;
+     * empty for any other symbol. Hosts edit them together as one linked field. */
+    default List<Location> localOccurrences(Location location, Cancellation cancellation) { return List.of(); }
 }

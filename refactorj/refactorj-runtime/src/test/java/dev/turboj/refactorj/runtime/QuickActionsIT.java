@@ -194,6 +194,36 @@ class QuickActionsIT {
         }
     }
 
+    @Test void localOccurrencesAreTheSameVariableOnlyNotHomonymsStringsOrComments() throws Exception {
+        Path file = root.resolve("src/Totals.java");
+        String source = """
+                class Totals {
+                    int total = 9; // the field named total
+                    int sum(int[] values) {
+                        int total = 0;
+                        for (int value : values) total += value;
+                        String label = "total";
+                        return total;
+                    }
+                    int other(int total) { return total; }
+                }
+                """;
+        var snapshot = snapshot(Map.of(file, source), List.of(root.resolve("src")), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            int declared = source.indexOf("int total = 0") + 4;
+            var occurrences = engine.quickActions().localOccurrences(new Location(file, declared, declared + 5), Cancellation.NONE);
+            var expected = List.of(declared, source.indexOf("total += value"), source.indexOf("return total;") + 7);
+            assertEquals(expected, occurrences.stream().map(Location::start).toList(), "declaration, compound assignment, return");
+            assertTrue(occurrences.stream().allMatch(o -> source.substring(o.start(), o.end()).equals("total")));
+            int parameter = source.indexOf("int total)") + 4;
+            assertEquals(2, engine.quickActions().localOccurrences(new Location(file, parameter, parameter), Cancellation.NONE).size(),
+                    "a parameter and its use, not the other method's local");
+            int field = source.indexOf("total = 9");
+            assertTrue(engine.quickActions().localOccurrences(new Location(file, field, field + 5), Cancellation.NONE).isEmpty(),
+                    "fields are renamed by the semantic Rename, not inline");
+        }
+    }
+
     @Test void missingClassUsesUnsavedBufferAndPackageRootThenUndoRedo() throws Exception {
         Path file = root.resolve("src/example/Hello.java");
         String source = "package example; public class Hello { Calculator calculator = new Calculator(); }";
@@ -258,8 +288,16 @@ class QuickActionsIT {
             String generated = applied.source(main).text();
             assertTrue(generated.contains("int add(int"), generated);
             assertEquals(main, result.focus().file());
-            assertEquals("return 0;", generated.substring(result.focus().start(), result.focus().end()));
-            assertEquals(5, result.placeholders().size());
+            assertEquals("int", generated.substring(result.focus().start(), result.focus().end()), "the return type is the first stop");
+            assertEquals(List.of("returnType", "methodName", "parameter.0", "parameter.1", "body", "end"),
+                    result.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList(), "Tab order, then the exit position");
+            var text = new java.util.LinkedHashMap<String, String>();
+            for (var placeholder : result.placeholders())
+                text.put(placeholder.group(), generated.substring(placeholder.location().start(), placeholder.location().end()));
+            assertEquals("add", text.get("methodName"));
+            assertEquals("0", text.get("body"), "only the returned expression is a field");
+            var end = result.placeholders().getLast().location();
+            assertEquals(";", generated.substring(end.start(), end.start() + 1), "the caret ends after the returned expression");
             compile(applied);
         }
     }
@@ -433,7 +471,10 @@ class QuickActionsIT {
             var prepared = engine.quickActions().prepare(only(inspection, Action.CREATE_METHOD), Cancellation.NONE);
             assertTrue(prepared.plan().valid(), prepared.plan().diagnostics().toString());
             String after = TextEdit.apply(snapshot.source(target).text(), prepared.plan().edits().getFirst().edits());
-            assertEquals("return 0;", after.substring(prepared.focus().start(), prepared.focus().end()));
+            // The focus is the new method's return type, not the existing overload's.
+            int focus = prepared.focus().start();
+            assertEquals("int", after.substring(focus, prepared.focus().end()));
+            assertTrue(after.substring(focus).startsWith("int sum(int"), after);
         }
     }
 
@@ -495,11 +536,11 @@ class QuickActionsIT {
             assertTrue(changed.contains("return leftOperand+second;"), changed);
             assertTrue(changed.contains("int other(int first){return first;}"), changed);
             assertEquals("leftOperand", changed.substring(prepared.focus().start(), prepared.focus().end()));
-            assertEquals(List.of("body", "parameter.0", "parameter.1", "returnType", "methodName"),
+            assertEquals(List.of("returnType", "methodName", "parameter.0", "parameter.1", "body", "end"),
                     prepared.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList());
             var slots = prepared.placeholders().stream().collect(java.util.stream.Collectors.toMap(JavaQuickActions.Placeholder::group,
                     p -> changed.substring(p.location().start(), p.location().end())));
-            assertEquals("return leftOperand+second;", slots.get("body"));
+            assertEquals("leftOperand+second", slots.get("body"));
             assertEquals("leftOperand", slots.get("parameter.0"));
             assertEquals("second", slots.get("parameter.1"));
             assertEquals("int", slots.get("returnType"));
@@ -557,6 +598,167 @@ class QuickActionsIT {
             assertEquals(target, prepared.focus().file());
             var after = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(prepared.plan(), Cancellation.NONE).snapshot();
             assertTrue(after.source(target).text().contains("int add(int")); compile(after);
+        }
+    }
+
+    @Test void multiplyCreationUsesTheFiveFieldsAndDoesNotInventAProduct() throws Exception {
+        Path calculator = root.resolve("src/Calculator.java");
+        Path test = root.resolve("test/CalculatorTest.java");
+        String type = """
+                public class Calculator {
+                    String label = "multiply";
+                    // int stays a comment
+                    int kept = 0;
+                }
+                """;
+        String caller = """
+                import static org.junit.jupiter.api.Assertions.assertEquals;
+                class CalculatorTest {
+                    void check(Calculator calculator) {
+                        assertEquals(0, calculator.multiply(0, 0));
+                        UnknownType unrelated;
+                    }
+                }
+                """;
+        var snapshot = snapshot(Map.of(calculator, type, test, caller), List.of(root.resolve("src"), root.resolve("test")), junitClasspath());
+        WorkspaceSnapshot applied;
+        WorkspaceSnapshot current;
+        int declaration;
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var inspection = engine.quickActions().inspect(at(test, caller, "multiply("), Cancellation.NONE);
+            var proposal = only(inspection, Action.CREATE_METHOD);
+            assertEquals("Create method 'multiply(int, int)' in Calculator", proposal.title());
+            var prepared = engine.quickActions().prepare(proposal, Cancellation.NONE);
+            assertTrue(prepared.plan().valid(), prepared.plan().diagnostics().toString());
+            applied = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(prepared.plan(), Cancellation.NONE).snapshot();
+            String generated = applied.source(calculator).text();
+            String callerAfter = applied.source(test).text();
+            assertFalse(callerAfter.contains("int multiply("), callerAfter);
+            assertFalse(callerAfter.contains("multiply(int"), callerAfter);
+            assertTrue(callerAfter.contains("calculator.multiply(0, 0)"), callerAfter);
+            assertTrue(callerAfter.contains("UnknownType unrelated"), "an unrelated error stays and does not block creation");
+            assertEquals("int", generated.substring(prepared.focus().start(), prepared.focus().end()));
+            var groups = prepared.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList();
+            assertEquals(List.of("returnType", "methodName", "parameter.0", "parameter.1", "body", "end"), groups);
+            var text = new java.util.LinkedHashMap<String, String>();
+            for (var placeholder : prepared.placeholders())
+                text.put(placeholder.group(), generated.substring(placeholder.location().start(), placeholder.location().end()));
+            assertEquals("int", text.get("returnType"));
+            assertEquals("multiply", text.get("methodName"));
+            assertEquals("i", text.get("parameter.0"));
+            assertEquals("j", text.get("parameter.1"));
+            assertEquals("0", text.get("body"));
+            assertEquals("", text.get("end"));
+            int exit = prepared.placeholders().getLast().location().start();
+            assertEquals(';', generated.charAt(exit));
+            assertTrue(generated.contains("return 0;"), generated);
+            assertFalse(generated.contains("i * j") || generated.contains("i*j"), generated);
+            assertTrue(generated.contains("\"multiply\""));
+            assertTrue(generated.contains("// int stays a comment"));
+            assertTrue(generated.contains("int kept = 0;"));
+            declaration = generated.indexOf("multiply(");
+            assertTrue(declaration >= 0 && declaration != generated.indexOf("\"multiply\""));
+            String renamed = generated.substring(0, declaration) + "product" + generated.substring(declaration + "multiply".length());
+            current = new WorkspaceSnapshot(applied.root(), applied.version() + 1, List.of(
+                    new SourceSnapshot(calculator, renamed, applied.version() + 1, true),
+                    new SourceSnapshot(test, callerAfter, applied.version() + 1, true)),
+                    applied.sourceRoots(), applied.classpath(), applied.projects());
+            compile(new WorkspaceSnapshot(applied.root(), applied.version(), List.of(applied.source(calculator)),
+                    List.of(root.resolve("src")), List.of()));
+        }
+        try (var engine = runtime.openWorkspace(current)) {
+            var linked = engine.quickActions().renameLinked(applied, new Location(calculator, declaration, declaration + "multiply".length()), "product", Cancellation.NONE);
+            assertTrue(linked.plan().valid(), linked.plan().diagnostics().toString());
+            var after = new WorkspaceTransactions(new InMemoryWorkspace(current)).apply(linked.plan(), Cancellation.NONE).snapshot();
+            String linkedCalculator = after.source(calculator).text();
+            String linkedCaller = after.source(test).text();
+            assertTrue(linkedCalculator.contains("product(int i, int j)") || linkedCalculator.contains("product(int i,int j)"), linkedCalculator);
+            assertTrue(linkedCaller.contains("calculator.product(0, 0)"), linkedCaller);
+            assertTrue(linkedCaller.contains("assertEquals(0,"), linkedCaller);
+            assertTrue(linkedCalculator.contains("\"multiply\""), linkedCalculator);
+            assertTrue(linkedCalculator.contains("int kept = 0;"), linkedCalculator);
+            assertFalse(linkedCalculator.contains("i * j") || linkedCalculator.contains("i*j"), linkedCalculator);
+        }
+    }
+
+    @Test void voidCreationHasNoReturnedExpressionAndKeepsTheCaretInTheBody() throws Exception {
+        Path calculator = root.resolve("src/Calculator.java");
+        Path caller = root.resolve("src/Caller.java");
+        String type = "public class Calculator {}";
+        String source = "class Caller { void run(Calculator calculator) { calculator.ping(); } }";
+        var snapshot = snapshot(Map.of(calculator, type, caller, source), List.of(root.resolve("src")), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var prepared = engine.quickActions().prepare(only(engine.quickActions().inspect(at(caller, source, "ping("), Cancellation.NONE), Action.CREATE_METHOD), Cancellation.NONE);
+            assertTrue(prepared.plan().valid(), prepared.plan().diagnostics().toString());
+            String generated = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(prepared.plan(), Cancellation.NONE).snapshot().source(calculator).text();
+            var groups = prepared.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList();
+            assertFalse(groups.contains("body"), groups.toString());
+            assertEquals("void", generated.substring(prepared.placeholders().getFirst().location().start(), prepared.placeholders().getFirst().location().end()));
+            var end = prepared.placeholders().getLast().location();
+            assertEquals(end.start(), end.end());
+            assertTrue(generated.substring(0, end.start()).contains("{"), generated);
+            assertTrue(generated.substring(end.start()).contains("}"), generated);
+        }
+    }
+
+    @Test void discordStagingSourcesKeepTheirLiteralsWhenAMethodIsCreatedBesideThem() throws Exception {
+        Path jug = Path.of(System.getProperty("jug.repo", "/Users/luca/Workspace/jug/jug"));
+        Path policiesSource = jug.resolve("platform-application/src/main/java/com/juglugano/platform/application/community/discord/DiscordChannelPolicies.java");
+        Path setupSource = jug.resolve("deploy/cloudflare/StagingDiscordSetup.java");
+        Assumptions.assumeTrue(Files.isRegularFile(policiesSource) && Files.isRegularFile(setupSource), "JUG staging Discord sources are not on this machine");
+        String policies = Files.readString(policiesSource);
+        String setup = Files.readString(setupSource);
+        Path policiesFile = root.resolve("src/com/juglugano/platform/application/community/discord/DiscordChannelPolicies.java");
+        Path setupFile = root.resolve("src/StagingDiscordSetup.java");
+        Path callerFile = root.resolve("src/com/juglugano/platform/application/community/discord/StagingCaller.java");
+        String caller = """
+                package com.juglugano.platform.application.community.discord;
+                class StagingCaller {
+                    void check() {
+                        String name = DiscordChannelPolicies.bitName(10);
+                        String callback = "https://staging.juglugano.ch/api/community/discord/callback";
+                        long guild = 1560312852609507538L;
+                        String note = "bitName";
+                    }
+                }
+                """;
+        var snapshot = snapshot(Map.of(policiesFile, policies, setupFile, setup, callerFile, caller), List.of(root.resolve("src")), List.of());
+        WorkspaceSnapshot applied;
+        WorkspaceSnapshot current;
+        int declaration;
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var inspection = engine.quickActions().inspect(at(callerFile, caller, "bitName("), Cancellation.NONE);
+            var proposal = only(inspection, Action.CREATE_METHOD);
+            assertTrue(proposal.title().contains("bitName(int)") && proposal.title().contains("DiscordChannelPolicies"), proposal.title());
+            var prepared = engine.quickActions().prepare(proposal, Cancellation.NONE);
+            assertTrue(prepared.plan().valid(), prepared.plan().diagnostics().toString());
+            assertEquals(policiesFile, prepared.focus().file());
+            applied = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(prepared.plan(), Cancellation.NONE).snapshot();
+            String generated = applied.source(policiesFile).text();
+            assertTrue(generated.contains("bitName("), generated);
+            assertTrue(generated.contains("\"VIEW\""), generated);
+            assertTrue(generated.contains("50013"), generated);
+            assertEquals(setup, applied.source(setupFile).text());
+            assertEquals(caller, applied.source(callerFile).text());
+            declaration = generated.indexOf("bitName(");
+            String renamed = generated.substring(0, declaration) + "flagName" + generated.substring(declaration + "bitName".length());
+            current = new WorkspaceSnapshot(applied.root(), applied.version() + 1, List.of(
+                    new SourceSnapshot(policiesFile, renamed, applied.version() + 1, true),
+                    new SourceSnapshot(setupFile, setup, applied.version() + 1, true),
+                    new SourceSnapshot(callerFile, caller, applied.version() + 1, true)),
+                    applied.sourceRoots(), applied.classpath(), applied.projects());
+        }
+        try (var engine = runtime.openWorkspace(current)) {
+            var linked = engine.quickActions().renameLinked(applied, new Location(policiesFile, declaration, declaration + "bitName".length()), "flagName", Cancellation.NONE);
+            assertTrue(linked.plan().valid(), linked.plan().diagnostics().toString());
+            var after = new WorkspaceTransactions(new InMemoryWorkspace(current)).apply(linked.plan(), Cancellation.NONE).snapshot();
+            assertTrue(after.source(callerFile).text().contains("DiscordChannelPolicies.flagName(10)"), after.source(callerFile).text());
+            assertTrue(after.source(callerFile).text().contains("https://staging.juglugano.ch/api/community/discord/callback"));
+            assertTrue(after.source(callerFile).text().contains("1560312852609507538L"));
+            assertTrue(after.source(callerFile).text().contains("\"bitName\""));
+            assertEquals(setup, after.source(setupFile).text());
+            assertTrue(after.source(policiesFile).text().contains("50013"));
+            assertTrue(after.source(policiesFile).text().contains("\"VIEW\""));
         }
     }
 
