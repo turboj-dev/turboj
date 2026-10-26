@@ -70,6 +70,7 @@ Help → **Print Keyboard Cheat Sheet…** prints the active map on two A4 pages
 | ⇧⌘A / F10 | Find Action / open menu |
 | ⌘, / ⌘K / ⇧F1 | Settings / keymap / keyboard reference |
 | ⌥⇧Space | Request optional AI completion |
+| ⌥→ / ⌥⇧→ | With an AI suggestion shown: accept its next word / next line |
 | Tab / Shift+Tab | Accept inline suggestion when present; in an [inline template](inline-templates.md), next / previous field; otherwise indent / unindent |
 | Return | In an inline template, confirm it from any field |
 | Escape | Dismiss inline suggestion, alternatives, documentation or menu; in an inline template, take its edits back |

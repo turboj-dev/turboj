@@ -79,7 +79,7 @@ final class MenuLayout {
                         SEPARATOR,
                         c("format.document"), c("format.selection"), c("organizeImports"), check("format.onSave"),
                         new Submenu("Formatter", formatters()), SEPARATOR,
-                        new Submenu("AI", items(c("ai.request"), c("ai.another"), c("ai.larger"))))),
+                        new Submenu("AI", items(c("ai.request"), c("ai.another"), c("ai.larger"), SEPARATOR, c("ai.test"), c("ai.download"), c("ai.retry"), c("ai.diagnostics"))))),
                 new Menu("Refactor", "Refactor", 'T', List.of(
                         c("refactor.this"), SEPARATOR,
                         c("refactor.rename"), c("refactor.change-signature"), c("refactor.move"), c("refactor.safe-delete"), SEPARATOR,

@@ -373,7 +373,7 @@ class AICompletionControllerTest {
                 };
         try (Harness h = create(local(true), c -> provider)) {
             request(h);
-            waitFor(() -> h.status.get().contains("unavailable"));
+            waitFor(() -> h.status.get().endsWith("· Unavailable"));
             edt(
                     () -> {
                         h.editor.replaceSelection(" ");
@@ -476,6 +476,85 @@ class AICompletionControllerTest {
     private Harness create(AIConfig config, AICompletionController.ProviderFactory factory)
             throws Exception {
         return edt(() -> new Harness(directory.resolve("Calculator.java"), config, factory));
+    }
+
+    @Test
+    void typingTheSuggestionKeepsTheRestWithoutAnotherRequest() throws Exception {
+        FakeProvider provider = new FakeProvider("return value * value;", false);
+        try (Harness h = create(local(true), c -> provider)) {
+            request(h);
+            awaitAI(h);
+            edt(() -> {
+                h.editor.replaceSelection("r");
+                h.editor.replaceSelection("e");
+                assertTrue(h.editor.isAIInlineCompletion(), "the ghost survives typing its own text");
+                assertEquals("turn value * value;", h.editor.inlineCompletion().insertion());
+                h.editor.replaceSelection("x");
+                assertFalse(h.editor.isAIInlineCompletion(), "a different character discards it");
+                return null;
+            });
+            assertEquals(1, provider.calls.get(), "typed-through text costs no request");
+        }
+    }
+
+    @Test
+    void acceptNextLineTakesOneLineAndLeavesTheRest() throws Exception {
+        FakeProvider provider = new FakeProvider("int result = value * value;\n        return result;", false);
+        try (Harness h = create(local(false), c -> provider)) {
+            h.controller.setNextLineKey(KeyStroke.getKeyStroke("alt shift RIGHT"));
+            request(h);
+            awaitAI(h);
+            edt(() -> {
+                assertTrue(h.controller.handleKey(key(h.editor, KeyEvent.VK_RIGHT, KeyEvent.ALT_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK)));
+                assertTrue(h.editor.getText().contains("int result = value * value;\n"));
+                assertFalse(h.editor.getText().contains("return result;"));
+                assertEquals("        return result;", h.editor.inlineCompletion().insertion());
+                h.editor.undo();
+                assertEquals(SOURCE, h.editor.getText(), "one Undo per accepted part");
+                return null;
+            });
+        }
+    }
+
+    @Test
+    void noSuggestionIsRequestedWhileAnInlineTemplateOrALoadingModelOwnsTheEditor() throws Exception {
+        FakeProvider provider = new FakeProvider("return value * value;", false);
+        var ready = new java.util.concurrent.atomic.AtomicBoolean(false);
+        try (Harness h = create(local(false), c -> provider)) {
+            edt(() -> {
+                h.controller.setLocalRuntime(ready::get);
+                h.controller.runtimeStatus("Loading model…", "Loading qwen2.5-coder:1.5b-base", false);
+                h.controller.request(true, false);
+                assertTrue(h.notices.getLast().startsWith("Local AI is not ready: Loading qwen2.5-coder"), h.notices.getLast());
+                assertEquals("AI · Local · Loading model…", h.status.get());
+                ready.set(true);
+                h.controller.runtimeStatus("Ready", "", true);
+                h.editor.startTemplate(List.of(List.of(new EditorComponent.Selection(6, 16))));
+                h.controller.request(true, false);
+                return null;
+            });
+            Thread.sleep(150);
+            assertEquals(0, provider.calls.get(), "neither a loading model nor a template gets a request");
+            edt(() -> {
+                h.editor.finishTemplate();
+                h.editor.gotoOffset(CARET);
+                return null;
+            });
+            request(h);
+            awaitAI(h);
+            assertEquals(1, provider.calls.get());
+        }
+    }
+
+    @Test
+    void aSuggestionWithAnInventedVariableIsNotShown() throws Exception {
+        FakeProvider provider = new FakeProvider("return value * factor;", false);
+        try (Harness h = create(local(false), c -> provider)) {
+            request(h);
+            waitFor(() -> !h.notices.isEmpty());
+            assertEquals("AI returned no safe insertion at this position.", h.notices.getLast());
+            assertFalse(edt(() -> h.editor.isAIInlineCompletion()));
+        }
     }
 
     private static AIConfig local(boolean automatic) {

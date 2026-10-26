@@ -1,16 +1,20 @@
 # Optional native AI completion
 
 AI is disabled by default. Java intelligence, compilation and execution remain
-independent of the AI worker. No model is bundled, downloaded or started by
-TurboJ. There is no chat panel, telemetry, source upload to turboj.dev, or
-execution of a suggestion before explicit acceptance and an ordinary Run command.
+independent of the AI worker. The AI runtime is the [TurboAI library](../turbo-ai/README.md).
+No model is bundled; in Local mode TurboJ reuses a running Ollama or starts its
+own, and downloads a model only after you confirm (see
+[local model manager](ai/local-model-manager.md)). There is no chat panel,
+telemetry, source upload to turboj.dev, or execution of a suggestion before
+explicit acceptance and an ordinary Run command.
 
 ## Setup and controls
 
 Open **Options → AI Completion → Configure AI completion…**. Select Disabled,
-Local or Cloud. Local supports a separately managed Ollama FIM model or
-llama.cpp infill server. Cloud supports the OpenAI Responses protocol with a
-configurable HTTPS endpoint and model. The Cloud tab explains source sharing and
+Local or Cloud. Local supports an Ollama FIM model (reused, or started and
+stopped by TurboJ) or a llama.cpp infill server. Cloud supports OpenAI
+(Responses), Anthropic (Messages) and xAI (Chat Completions) with a
+configurable HTTPS endpoint and model ([provider compatibility](ai/provider-compatibility.md)). The Cloud tab explains source sharing and
 API charges and requires explicit consent. Automatic cloud requests have a
 separate opt-in; editing never enables them implicitly.
 
@@ -19,9 +23,13 @@ separate opt-in; editing never enables them implicitly.
 | Alt+Space | Request an AI insertion |
 | Alt+Shift+Space | Request again, bypassing the cache |
 | Tab | Accept the entire displayed suggestion as one undo operation |
-| Ctrl+Alt+Enter | Accept the next word of an AI suggestion |
+| ⌥→ or Ctrl+Alt+Enter | Accept the next word of an AI suggestion |
+| ⌥⇧→ | Accept the next line of an AI suggestion |
+| Typing the suggestion's next characters | Keeps the rest of it, without a new request |
 | Escape | Dismiss and cancel pending suggestions |
-| Options → AI Completion → Disabled | Immediately stop AI requests |
+| Options → AI Completion → Disabled | Immediately stop AI requests and the server TurboJ started |
+| Code → AI → Test Completion | One synthetic request with its latency; no project source |
+| Code → AI → Download Local Model… | Install the configured model after confirmation |
 
 `keymap.json` overrides `ai.request`, `ai.another`, `ai.larger`,
 `aiAcceptWord`, `acceptCompletion` and `dismissCompletion`. These bindings apply
@@ -30,7 +38,8 @@ The menu also offers a longer completion, capped at twice the configured token
 limit and at 2,048 tokens. A new request can produce the same answer; model
 sampling is not a guarantee of different suggestions.
 
-The small status indicator identifies Local or Cloud. AI ghost text uses each
+The AI status segment ("AI · Local · Ready", "Loading model…", "Model not
+installed") identifies Local or Cloud and the runtime state; click it for settings. AI ghost text uses each
 native theme's `intelligence.aiGhost` token, including custom/imported themes.
 Multiline display creates temporary visual rows and shifts the remaining source
 visually without changing document offsets, line indexing or undo history.

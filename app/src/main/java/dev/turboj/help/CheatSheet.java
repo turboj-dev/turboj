@@ -2,7 +2,6 @@ package dev.turboj.help;
 
 import dev.turboj.commandj.core.Command;
 import dev.turboj.commandj.core.CommandRegistry;
-import dev.turboj.commandj.keymap.BundledKeymaps;
 import dev.turboj.commandj.keymap.KeyBinding;
 import dev.turboj.commandj.keymap.KeyStrokeSpec;
 import dev.turboj.commandj.keymap.ShortcutReference;
@@ -20,14 +19,15 @@ import java.util.concurrent.TimeUnit;
 public final class CheatSheet {
     record Section(String title, List<String> commands) {}
     private record Row(String title, String keys) {}
-    /** A titled list of rows, or a fixed box of paragraphs that is never split. */
+    /** A titled list of rows. */
     private record Block(String title, List<Row> rows, List<String> paragraphs, String style) {}
     private record Fragment(Block block, List<Row> rows, boolean continued) {}
 
     /** Ordered by how often a session reaches for them; rows without a shortcut are left out. */
     static final List<Section> SECTIONS = List.of(
             new Section("Do the next thing", List.of("smart.action", "complete", "refactor.context-actions", "completion.smart",
-                    "completion.parameterInformation", "documentation", "java.completeStatement", "ai.request", "ai.another")),
+                    "completion.parameterInformation", "documentation", "java.completeStatement", "ai.request", "ai.another",
+                    "completion.accept", "completion.acceptWord", "completion.acceptLine")),
             new Section("Build · Run · Test", List.of("make", "compile", "compileProject", "run", "run.configuration", "stop",
                     "tests.current", "tests.class", "tests.all", "tests.failed", "tests.results", "navigation.nextError",
                     "navigation.previousError", "error")),
@@ -60,10 +60,27 @@ public final class CheatSheet {
             new Section("TurboJ", List.of("palette", "menu", "keymap", "settings.general", "help", "help.cheatSheet", "fontUp", "fontDown",
                     "quit")));
     /** Shorter names where the menu title would be cut in a column. */
-    private static final Map<String, String> SHORT = Map.of("complete", "Completions", "refactor.context-actions", "Quick Fix / Assist",
-            "ai.another", "Another AI completion", "navigation.goToTest", "Source ↔ test", "run.configuration", "Arguments and input",
-            "indent", "Indent / next placeholder", "unindent", "Unindent / previous placeholder",
-            "navigation.nextEditorTab", "Next tab", "navigation.previousEditorTab", "Previous tab");
+    private static final Map<String, String> SHORT = Map.ofEntries(Map.entry("complete", "Completions"),
+            Map.entry("refactor.context-actions", "Quick Fix / Assist"), Map.entry("ai.another", "Another AI completion"),
+            Map.entry("navigation.goToTest", "Source ↔ test"), Map.entry("run.configuration", "Arguments and input"),
+            Map.entry("indent", "Indent / next placeholder"), Map.entry("unindent", "Unindent / previous placeholder"),
+            Map.entry("navigation.nextEditorTab", "Next tab"), Map.entry("navigation.previousEditorTab", "Previous tab"),
+            Map.entry("completion.accept", "Accept suggestion"), Map.entry("completion.acceptWord", "Accept AI word"),
+            Map.entry("completion.acceptLine", "Accept AI line"));
+
+    /**
+     * Keys the editor itself handles, in every profile: listed only where the profile does not give the same
+     * key to an always-active command, so the sheet never promises a key that does something else.
+     */
+    private static final List<Section> NATIVE = List.of(
+            new Section("Caret and selection", List.of("Previous word=ALT+LEFT", "Next word=ALT+RIGHT", "Line start=META+LEFT",
+                    "Line end=META+RIGHT", "Document start=META+UP", "Document end=META+DOWN", "Page up=PAGE_UP", "Page down=PAGE_DOWN",
+                    "Select previous word=SHIFT+ALT+LEFT", "Select next word=SHIFT+ALT+RIGHT", "Select to line start=SHIFT+META+LEFT",
+                    "Select to line end=SHIFT+META+RIGHT", "Select to document start=SHIFT+META+UP", "Select to document end=SHIFT+META+DOWN",
+                    "Delete to line start=META+BACK_SPACE", "Delete to line end=META+DELETE", "Delete previous word=ALT+BACK_SPACE",
+                    "Delete next word=ALT+DELETE")),
+            new Section("Inline templates", List.of("Next field=TAB", "Previous field=SHIFT+TAB", "Confirm the template=ENTER",
+                    "Take its edits back=ESCAPE")));
     /** Bound, but too obvious to spend a line on. */
     private static final Set<String> SKIPPED = Set.of("completion.next", "completion.previous", "completion.dismiss");
 
@@ -72,46 +89,20 @@ public final class CheatSheet {
     private static final double COLUMN_HEIGHT = 166, COLUMN_WIDTH = (297 - 2 * 9 - 3 * 5.5) / 4;
     private static final double MIN_ROW = 3.9, MAX_ROW = 7.5, HEADER = 1.6, GAP = 0.75;
 
-    /** What this Mac does with keys before TurboJ sees them; only the facts that change how the sheet is read. */
-    public record Environment(boolean functionKeysNeedFn, boolean ctrlSpaceSwitchesInput) {
-        public static final Environment GENERIC = new Environment(true, false);
-
-        /** Reads the user's macOS keyboard settings; elsewhere function keys are plain keys. */
-        public static Environment detect() {
-            if (!System.getProperty("os.name", "").toLowerCase(Locale.ROOT).contains("mac")) return new Environment(false, false);
-            String fn = run("defaults", "read", "-g", "com.apple.keyboard.fnState");
-            String hotkeys = run("defaults", "read", "com.apple.symbolichotkeys", "AppleSymbolicHotKeys");
-            // Hotkey 60 is "Select the previous input source": Ctrl+Space unless the user changed or disabled it.
-            var entry = java.util.regex.Pattern.compile("(?m)^\\s*60 = \\{\\s*enabled = (\\d)").matcher(hotkeys);
-            boolean inputSource = !entry.find() || entry.group(1).equals("1");
-            return new Environment(!fn.strip().equals("1"), inputSource);
-        }
-
-        private static String run(String... command) {
-            try {
-                Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
-                try (InputStream output = process.getInputStream()) {
-                    String text = new String(output.readNBytes(1 << 20));
-                    return process.waitFor(5, TimeUnit.SECONDS) ? text : "";
-                }
-            } catch (IOException | InterruptedException unavailable) { return ""; }
-        }
-    }
-
     private CheatSheet() {}
 
     /** A self-contained HTML page (fonts embedded) laid out as two landscape A4 pages for printing. */
-    public static String html(CommandRegistry registry, Map<String, List<KeyBinding>> bindings, String profileId, String profile,
-            Environment environment) {
+    public static String html(CommandRegistry registry, Map<String, List<KeyBinding>> bindings, String profileId, String profile) {
         String palette = keys(ShortcutReference.bindings(registry, bindings, registry.canonicalId("palette")));
         var blocks = blocks(registry, bindings);
-        if (profileId.equals(BundledKeymaps.DEFAULT)) blocks.add(grammar());
-        blocks.add(notes(environment, bindings, palette));
         // The largest type that still fits; below the smallest, the least used rows give way.
         double row = MIN_ROW;
-        while (pack(blocks, MIN_ROW) == null && trimmed(blocks)) {}
-        for (double size = MAX_ROW; size >= MIN_ROW; size -= 0.05) if (pack(blocks, size) != null) { row = size; break; }
-        var columns = pack(blocks, row);
+        while (pack(blocks, MIN_ROW, COLUMN_HEIGHT / MIN_ROW) == null && trimmed(blocks)) {}
+        for (double size = MAX_ROW; size >= MIN_ROW; size -= 0.05) if (pack(blocks, size, COLUMN_HEIGHT / size) != null) { row = size; break; }
+        // Then the shortest columns that still hold everything, so the eight columns end level and none is left half empty.
+        double full = COLUMN_HEIGHT / row, capacity = full;
+        for (double cap = full; cap >= full / 2; cap -= 0.25) if (pack(blocks, row, cap) != null) capacity = cap; else break;
+        var columns = pack(blocks, row, capacity);
 
         double font = Math.min(11, row * 1.9);
         var out = new StringBuilder("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>TurboJ · ")
@@ -124,12 +115,11 @@ public final class CheatSheet {
                     .append(PAGES).append("</span></header><div class=\"columns\">");
             for (int column = page * COLUMNS_PER_PAGE; column < (page + 1) * COLUMNS_PER_PAGE; column++) {
                 var fragments = columns.get(column);
-                // The last row or two of slack makes this column's rows a little taller, so it ends at the foot too.
-                double lists = 0, boxes = 0;
-                for (Fragment fragment : fragments)
-                    if (fragment.block().paragraphs().isEmpty()) lists += HEADER + fragment.rows().size() + GAP;
-                    else boxes += boxUnits(fragment.block(), row) + GAP;
-                double stretch = lists == 0 ? 1 : Math.clamp((COLUMN_HEIGHT / row - boxes) / lists, 1, 1.2);
+                // Each column's rows grow a little so that it ends at the foot of the page like the others (the last
+                // section draws no bottom margin, hence one gap less).
+                double lists = 0;
+                for (Fragment fragment : fragments) lists += HEADER + fragment.rows().size() + GAP;
+                double stretch = lists == 0 ? 1 : Math.clamp(COLUMN_HEIGHT / row / (lists - GAP), 1, 1.8);
                 out.append("<div class=\"column\" style=\"--row:").append(String.format(Locale.ROOT, "%.2fmm", row * stretch)).append("\">");
                 for (Fragment fragment : fragments) out.append(render(fragment));
                 out.append("</div>");
@@ -148,6 +138,21 @@ public final class CheatSheet {
         for (Section section : SECTIONS) {
             var rows = new ArrayList<Row>();
             for (String id : section.commands()) row(registry, bindings, id, shown).ifPresent(rows::add);
+            if (!rows.isEmpty()) blocks.add(new Block(section.title(), rows, List.of(), ""));
+        }
+        var taken = new HashSet<String>();
+        for (var entry : bindings.values())
+            for (KeyBinding binding : entry)
+                if (binding.context().required().isEmpty() || binding.context().required().equals(Set.of("editor")))
+                    taken.add(binding.sequence().external());
+        for (Section section : NATIVE) {
+            var rows = new ArrayList<Row>();
+            for (String entry : section.commands()) {
+                String title = entry.substring(0, entry.indexOf('=')), key = entry.substring(entry.indexOf('=') + 1);
+                var binding = KeyBinding.of(key);
+                boolean template = section.title().equals("Inline templates");
+                if (template || !taken.contains(binding.sequence().external())) rows.add(new Row(title, keys(List.of(binding))));
+            }
             if (!rows.isEmpty()) blocks.add(new Block(section.title(), rows, List.of(), ""));
         }
         var rest = new TreeMap<String, List<Row>>();
@@ -169,36 +174,20 @@ public final class CheatSheet {
     }
 
     /**
-     * Boxes sit at the foot of the last columns; lists fill every column from the top, splitting between columns, so
-     * each column ends within a row or two of the page foot. Null when the blocks need more than two pages.
+     * Lists fill every column from the top, splitting between columns, each column holding at most
+     * {@code capacity} rows; null when the blocks need more than two pages.
      */
-    private static List<List<Fragment>> pack(List<Block> blocks, double row) {
+    private static List<List<Fragment>> pack(List<Block> blocks, double row, double capacity) {
         int count = COLUMNS_PER_PAGE * PAGES;
-        double full = COLUMN_HEIGHT / row;
-        double[] room = new double[count];
-        Arrays.fill(room, full);
         var columns = new ArrayList<List<Fragment>>();
         for (int i = 0; i < count; i++) columns.add(new ArrayList<>());
-        var boxes = new ArrayList<Fragment>();
-        var lists = new ArrayList<Block>();
-        for (Block block : blocks) if (block.paragraphs().isEmpty()) lists.add(block); else boxes.add(new Fragment(block, List.of(), false));
-        // The last box ends the last column, the one before it the column before.
-        var feet = new ArrayList<List<Fragment>>();
-        for (int i = 0; i < count; i++) feet.add(new ArrayList<>());
-        for (int i = boxes.size() - 1, column = count - 1; i >= 0; i--, column--) {
-            if (column < 0) return null;
-            double need = boxUnits(boxes.get(i).block(), row) + GAP;
-            if (need > full) return null;
-            room[column] -= need;
-            feet.get(column).add(0, boxes.get(i));
-        }
         int column = 0;
         double used = 0;
-        for (Block block : lists) {
+        for (Block block : blocks) {
             int next = 0;
             while (next < block.rows().size()) {
                 if (column >= count) return null;
-                int fits = (int) Math.floor(room[column] - used - HEADER);
+                int fits = (int) Math.floor(capacity - used - HEADER);
                 int left = block.rows().size() - next;
                 // A list never starts with a lone row at the foot of a column.
                 if (fits < Math.min(2, left)) { column++; used = 0; continue; }
@@ -209,16 +198,7 @@ public final class CheatSheet {
                 next += take;
             }
         }
-        for (int i = 0; i < count; i++) columns.get(i).addAll(feet.get(i));
         return columns;
-    }
-
-    /** The height a column's fragments take, in rows. */
-    private static double units(List<Fragment> column, double row) {
-        double units = 0;
-        for (Fragment fragment : column)
-            units += fragment.block().paragraphs().isEmpty() ? HEADER + fragment.rows().size() + GAP : boxUnits(fragment.block(), row) + GAP;
-        return units;
     }
 
     /** Drops the last row of the least used list; false when nothing is left to drop. */
@@ -233,15 +213,6 @@ public final class CheatSheet {
         return false;
     }
 
-    /** A box's height in rows: its paragraphs wrapped at the column width, with some margin for the estimate. */
-    private static double boxUnits(Block box, double row) {
-        double font = Math.min(11, row * 1.9) * 0.3528 * 0.94, line = font * 1.4;
-        double perLine = COLUMN_WIDTH / (font * 0.53);
-        double lines = 0;
-        for (String paragraph : box.paragraphs()) lines += Math.ceil(paragraph.replaceAll("<[^>]+>", "").length() / perLine) + 0.35;
-        return (HEADER * row + lines * line + 3) / row * 1.08;
-    }
-
     private static String render(Fragment fragment) {
         Block block = fragment.block();
         var out = new StringBuilder("<div class=\"section").append(block.style().isEmpty() ? "" : " " + block.style()).append("\"><h2>")
@@ -249,42 +220,7 @@ public final class CheatSheet {
         for (Row row : fragment.rows())
             out.append("<div class=\"row\"><span class=\"what\">").append(escape(row.title()))
                     .append("</span><span class=\"keys\">").append(row.keys()).append("</span></div>");
-        block.paragraphs().forEach(paragraph -> out.append("<p>").append(paragraph).append("</p>"));
         return out.append("</div>").toString();
-    }
-
-    /** TurboJ's own map is a grammar (docs/keymap-turboj-macos.md), so its sheet teaches the rules, not only the keys. */
-    private static Block grammar() {
-        return new Block("How the keys work", List.of(), List.of(
-                k("⌘") + "+letter is the verb: <b>B</b>uild, <b>R</b>un, <b>U</b>nit tests, <b>D</b>eclaration, <b>T</b>ype, "
-                        + "o<b>P</b>en, <b>J</b>avadoc, <b>L</b>ine, r<b>E</b>cent.",
-                k("⇧") + " widens or reverses it: " + k("⇧⌘U") + " all tests, " + k("⇧⌘D") + " every reference, "
-                        + k("⇧⌘G") + " find previous.",
-                k("⌥⌘") + " (Ctrl+Alt on a PC) transforms code: <b>R</b>ename, <b>M</b>ethod, <b>V</b>ariable, <b>C</b>onstant, "
-                        + "<b>I</b>nline, <b>L</b>ayout, imp<b>O</b>rts, <b>T</b>his menu.",
-                k("↩") + " family: " + k("⌘↩") + " does the next thing, " + k("⌥↩") + " lists the choices, " + k("⇧⌘↩")
-                        + " completes the statement.",
-                "Turbo C's function keys still work: " + k("F9") + " make, " + k("⌃F9") + " run, " + k("⌥F9") + " compile, "
-                        + k("⌥F7") + k("⌥F8") + " errors, " + k("F2") + " save, " + k("F1") + " help.",
-                k("⌥") + "+letter types characters and " + k("⌃") + "+letter are the Mac's text keys: TurboJ binds neither."), "grammar");
-    }
-
-    private static Block notes(Environment environment, Map<String, List<KeyBinding>> bindings, String palette) {
-        var notes = new ArrayList<String>();
-        boolean functionKeys = bindings.values().stream().flatMap(List::stream)
-                .anyMatch(binding -> binding.sequence().strokes().stream().anyMatch(stroke -> stroke.key().matches("F\\d{1,2}")));
-        if (environment.functionKeysNeedFn() && functionKeys)
-            notes.add("F-keys need " + k("fn") + " unless “Use F1, F2, etc. keys as standard function keys” is on in Keyboard settings.");
-        boolean ctrlSpace = bindings.values().stream().flatMap(List::stream)
-                .anyMatch(binding -> binding.sequence().external().equals("CTRL+SPACE"));
-        if (environment.ctrlSpaceSwitchesInput() && ctrlSpace)
-            notes.add(k("⌃Space") + " switches the input source first: turn it off in System Settings › Keyboard › "
-                    + "Keyboard Shortcuts › Input Sources, or complete with " + k("⌘↩") + ".");
-        notes.add("macOS keeps " + k("⌘Space") + ", " + k("⌘⇥") + ", " + k("⌘`") + ", " + k("⌃←") + k("⌃→") + " and "
-                + k("⌃F1") + "…" + k("⌃F8") + ".");
-        notes.add("Click a symbol with " + k("⌘") + " to open its declaration; " + k("Esc") + " always returns to the editor.");
-        if (!palette.isEmpty()) notes.add("Find Action " + palette + " lists every command with its shortcut; Keymap edits them.");
-        return new Block("On the Mac", List.of(), notes, "notes");
     }
 
     /** Up to two bindings, each written the macOS way (⌃⌥⇧⌘ then the key). */
@@ -367,7 +303,7 @@ public final class CheatSheet {
             .legend kbd{font-size:8pt;margin-left:2.2mm}
             .columns{display:grid;grid-template-columns:repeat(4,1fr);column-gap:5.5mm;height:166mm;margin-top:4mm}
             .column{overflow:hidden;display:flex;flex-direction:column}
-            .column .section:last-child{margin-bottom:0}.column .grammar,.column .notes{margin-top:auto}.column .grammar + .notes{margin-top:0}
+            .column .section:last-child{margin-bottom:0}
             .section{margin:0 0 calc(var(--row)*.75)}
             h2{font:600 calc(var(--font)*1.02)/1 var(--mono);color:var(--ink);background:var(--menu);margin:0;height:calc(var(--row)*1.6);
             display:flex;align-items:center;padding:0 2mm;text-transform:uppercase;letter-spacing:.04em}
@@ -378,9 +314,6 @@ public final class CheatSheet {
             border-radius:1mm;padding:.35mm .9mm;margin-left:.6mm;display:inline-flex;align-items:center;gap:.15mm}
             svg.k{width:1.02em;height:1.02em;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none}
             i{font:italic calc(var(--font)*.8) var(--sans);color:var(--muted);margin:0 .3mm 0 .9mm}
-            .grammar p,.notes p{font-size:calc(var(--font)*.94);line-height:1.4;margin:1.2mm 0 0}.grammar b{color:var(--blue);font-weight:700}
-            .grammar kbd,.notes kbd{margin:0 .3mm;vertical-align:-.12em}
-            .notes{background:var(--cyan);color:#000;padding:0 2.4mm 1.8mm}.notes h2{background:transparent;padding-left:0}
             footer{margin-top:auto;display:flex;justify-content:space-between;gap:4mm;border-top:.3mm solid var(--rule);padding-top:1.5mm;font:500 7pt var(--mono);color:var(--muted)}
             footer kbd{font-size:6.8pt}
             @media screen{body{background:#C7CCD3}.page{margin:8mm auto;box-shadow:0 1mm 4mm rgba(0,0,0,.25)}}

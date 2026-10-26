@@ -20,7 +20,7 @@ public final class CheatSheetExport {
                 var pages = new LinkedHashMap<String, String>();
                 for (var profile : BundledKeymaps.profiles())
                     pages.put("cheatsheet-" + profile.id(), CheatSheet.html(frame.commandRegistry(),
-                            frame.commandKeymaps().bindingsForProfile(profile.id()), profile.id(), profile.name(), CheatSheet.Environment.GENERIC));
+                            frame.commandKeymaps().bindingsForProfile(profile.id()), profile.id(), profile.name()));
                 return pages;
             } finally {
                 frame.dispose();

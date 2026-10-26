@@ -185,6 +185,9 @@ public final class TurboFrame extends JFrame {
 
     private final CredentialStore aiCredentials = new MacKeychainCredentialStore();
     private String aiStatus = "";
+    /** The local inference runtime: started, reused, watched and stopped off the EDT (TurboAI). */
+    private dev.turboj.ai.local.LocalModelManager localAI;
+    private dev.turboj.ai.local.LocalModelManager.Status localAIStatus = dev.turboj.ai.local.LocalModelManager.Status.OFF;
     private dev.turboj.editor.document.PieceTable observedDocument;
 
     private record Buffer(
@@ -330,6 +333,7 @@ public final class TurboFrame extends JFrame {
         statusBar.onClick(StatusBar.Segment.TESTS, () -> { if (tests != null && tests.lastReport() != null) showTestResults(); });
         statusBar.onClick(StatusBar.Segment.CARET, () -> commands.get("goto").actionPerformed(null));
         statusBar.onClick(StatusBar.Segment.FORMATTER, () -> openMenu("Code", "Formatter"));
+        statusBar.onClick(StatusBar.Segment.AI, () -> showAISettings(settings.ai));
         statusBar.onClick(StatusBar.Segment.KEYMAP, () -> openMenu("≡", "Keyboard Profile"));
         statusBar.onClick(StatusBar.Segment.PROJECT, () -> { if (maven.workspace() != null) commands.get("project.structure").actionPerformed(null); });
         statusBar.addComponentListener(new ComponentAdapter() {
@@ -377,6 +381,8 @@ public final class TurboFrame extends JFrame {
         intelligence.setCompletionKeys(
                 acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
                 dismissCompletion == null ? KeyStroke.getKeyStroke("ESCAPE") : dismissCompletion);
+        localAI = new dev.turboj.ai.local.LocalModelManager(Settings.directory().resolve("ai"),
+                status -> SwingUtilities.invokeLater(() -> localRuntimeChanged(status)));
         aiCompletion =
                 new AICompletionController(
                         editor,
@@ -392,7 +398,8 @@ public final class TurboFrame extends JFrame {
                                             } catch (java.io.IOException error) {
                                                 throw new UncheckedIOException(error);
                                             }
-                                        }),
+                                        },
+                                        this::localAIReady),
                         this::flash,
                         text -> {
                             aiStatus = text;
@@ -402,6 +409,9 @@ public final class TurboFrame extends JFrame {
                 acceptCompletion == null ? KeyStroke.getKeyStroke("TAB") : acceptCompletion,
                 dismissCompletion == null ? KeyStroke.getKeyStroke("ESCAPE") : dismissCompletion,
                 shortcut("aiAcceptWord", "ctrl alt ENTER"));
+        aiCompletion.setNextLineKey(shortcut("aiAcceptLine", "alt shift RIGHT"));
+        aiCompletion.setLocalRuntime(this::localAIReady);
+        localAI.configure(settings.ai);
         formatting =
                 new FormattingController(
                         editor,
@@ -568,7 +578,19 @@ public final class TurboFrame extends JFrame {
         String shortcuts = commandKeymaps.shortcutText("save") + " Save   " + commandKeymaps.shortcutText("compile")
                 + " Fast Compile   " + commandKeymaps.shortcutText("run") + " Run   "
                 + commandKeymaps.shortcutText("palette") + " Actions";
-        statusBar.setTooltip(StatusBar.Segment.STATE, buildStatus + (aiStatus.isEmpty() ? "" : "   " + aiStatus) + "   " + shortcuts);
+        statusBar.setTooltip(StatusBar.Segment.STATE, buildStatus + "   " + shortcuts);
+        var runtime = localAIStatus;
+        StatusBar.Level aiLevel = settings.ai.mode() != AIConfig.Mode.LOCAL ? StatusBar.Level.NORMAL
+                : switch (runtime.state()) {
+                    case READY, IDLE, OFF -> StatusBar.Level.NORMAL;
+                    case DETECTING_RUNTIME, STARTING_RUNTIME, DOWNLOADING_MODEL, LOADING_MODEL -> StatusBar.Level.BUSY;
+                    case UNAVAILABLE -> StatusBar.Level.WARNING;
+                    case ERROR -> StatusBar.Level.ERROR;
+                };
+        if (aiStatus.contains("·") && aiStatus.matches(".*· (Unavailable|Timed out|Check settings|Key rejected|Model not installed|Runtime not running|Model has no FIM|Rate-limited)$"))
+            aiLevel = StatusBar.Level.WARNING;
+        statusBar.set(StatusBar.Segment.AI, aiStatus, aiLevel);
+        statusBar.setTooltip(StatusBar.Segment.AI, aiDetail());
         var report = tests == null ? null : tests.lastReport();
         if (report == null) statusBar.set(StatusBar.Segment.TESTS, "", StatusBar.Level.NORMAL);
         else if (!report.successful()) statusBar.set(StatusBar.Segment.TESTS, "✖ " + (report.failed() + report.engineFailures().size())
@@ -730,15 +752,14 @@ public final class TurboFrame extends JFrame {
             commands.get("format.style." + style.id()).putValue(Action.SELECTED_KEY, style.id().equals(settings.formatter));
     }
 
-    /** The active keymap's cheat sheet, with the user's own bindings and this Mac's keyboard settings, as a PDF to print. */
+    /** The active keymap's cheat sheet, with the user's own bindings, as a PDF to print. */
     private void printCheatSheet() {
         var profile = commandKeymaps.selected();
         var bindings = commandKeymaps.bindings();
         note("Printing the " + profile.name() + " cheat sheet…\n", false);
         background.execute(() -> {
-            var environment = dev.turboj.help.CheatSheet.Environment.detect();
             SwingUtilities.invokeLater(() -> {
-                String html = dev.turboj.help.CheatSheet.html(commandRegistry, bindings, profile.id(), profile.name(), environment);
+                String html = dev.turboj.help.CheatSheet.html(commandRegistry, bindings, profile.id(), profile.name());
                 background.execute(() -> {
                     try {
                         var printed = dev.turboj.help.CheatSheetPrinter.print(html, Settings.directory().resolve("cheatsheets"),
@@ -1614,6 +1635,11 @@ public final class TurboFrame extends JFrame {
         return commandRegistry;
     }
 
+    /** Runs a registered command as its menu item would. */
+    public void runCommand(String id) {
+        commands.get(id).actionPerformed(null);
+    }
+
     public KeymapManager commandKeymaps() {
         return commandKeymaps;
     }
@@ -1646,6 +1672,8 @@ public final class TurboFrame extends JFrame {
             tags.add("running");
         if (editor.inlineCompletion() != null && !editor.templateActive())
             tags.add("completion");
+        if (editor.isAIInlineCompletion() && !editor.templateActive())
+            tags.add("ai-completion");
         if (intelligence != null && intelligence.alternativesVisible() && !editor.templateActive()) {
             tags.add("completion");
             tags.add("completion-popup");
@@ -1790,7 +1818,7 @@ public final class TurboFrame extends JFrame {
         if (Set.of("completion.next", "completion.previous").contains(id) && !context
                 .has("completion-popup"))
             return Availability.disabled("Completion alternatives are not open");
-        if (id.equals("completion.acceptWord") && !editor.isAIInlineCompletion())
+        if ((id.equals("completion.acceptWord") || id.equals("completion.acceptLine")) && !editor.isAIInlineCompletion())
             return Availability.disabled("No AI suggestion is visible");
         if (id.startsWith("refactor.") || id.equals("organizeImports")) {
             boolean contextPopup = id.equals("refactor.context-actions") && context.has("quick-fix-popup");
@@ -1968,6 +1996,14 @@ public final class TurboFrame extends JFrame {
                 "Request a longer AI completion",
                 () -> aiCompletion.request(true, true));
         command("ai.settings", "Configure AI completion…", () -> showAISettings(settings.ai));
+        command("ai.test", "Test Completion", this::testAICompletion);
+        command("ai.download", "Download Local Model…", this::downloadLocalModel);
+        command("ai.retry", "Retry Local AI", () -> localAI.retry());
+        command("ai.diagnostics", "Copy AI Diagnostics", () -> {
+            String report = AIDiagnostics.global().report() + "\nLocal runtime: " + localAIStatus;
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(report), null);
+            flash("AI diagnostics copied (no source, no keys)");
+        });
         command(
                 "ai.disabled",
                 "Disabled",
@@ -2226,6 +2262,8 @@ public final class TurboFrame extends JFrame {
         command("completion.accept", "Accept suggestion", () -> completionKey("TAB"));
         command("completion.acceptWord", "Accept next AI word",
                 () -> completionKey("ctrl alt ENTER"));
+        command("completion.acceptLine", "Accept next AI line",
+                () -> completionKey("acceptLine"));
         command("completion.next", "Next completion", () -> completionKey("DOWN"));
         command("completion.previous", "Previous completion", () -> completionKey("UP"));
         command("completion.dismiss", "Dismiss suggestion", () -> {
@@ -2854,6 +2892,7 @@ public final class TurboFrame extends JFrame {
         KeyStroke stroke = switch (key) {
             case "TAB" -> shortcut("acceptCompletion", "TAB");
             case "ctrl alt ENTER" -> shortcut("aiAcceptWord", "ctrl alt ENTER");
+            case "acceptLine" -> shortcut("aiAcceptLine", "alt shift RIGHT");
             default -> KeyStroke.getKeyStroke(key);
         };
         var event = new KeyEvent(editor, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), stroke
@@ -4195,6 +4234,7 @@ public final class TurboFrame extends JFrame {
         if (quickFix != null) quickFix.close();
         intelligence.close();
         aiCompletion.close();
+        localAI.close();
         formatting.close();
         if (refactoring != null)
             refactoring.close();
@@ -5058,6 +5098,97 @@ public final class TurboFrame extends JFrame {
                 });
     }
 
+    /** Local routes take requests when the manager says the model is ready, or when no manager is involved. */
+    private boolean localAIReady() {
+        var status = localAI.status();
+        return status.ready() || status.state() == dev.turboj.ai.local.LocalModelManager.State.OFF;
+    }
+
+    /** What choosing these AI preferences in the settings does: saved, applied to suggestions and to the runtime. */
+    public void configureAI(AIConfig value) {
+        saveAIConfig(value);
+    }
+
+    public dev.turboj.ai.local.LocalModelManager.Status localAIStatus() {
+        return localAIStatus;
+    }
+
+    /** The manager's news, on the EDT: status segment, readiness for the controller, a notice when it matters. */
+    private void localRuntimeChanged(dev.turboj.ai.local.LocalModelManager.Status status) {
+        if (closing) return;
+        var previous = localAIStatus;
+        localAIStatus = status;
+        aiCompletion.runtimeStatus(settings.ai.mode() == AIConfig.Mode.LOCAL ? status.summary() : "", status.detail(), status.ready());
+        if (previous.state() != status.state() && settings.ai.mode() == AIConfig.Mode.LOCAL) {
+            if (status.state() == dev.turboj.ai.local.LocalModelManager.State.READY && !previous.ready())
+                flash("Local AI ready: " + status.model() + " on " + status.runtime()
+                        + (status.ownership() == dev.turboj.ai.local.LocalModelManager.Ownership.MANAGED ? " (started by TurboJ)" : "")
+                        + (status.loadMillis() > 0 ? " in " + status.loadMillis() + " ms" : ""), StatusBar.Level.SUCCESS);
+            else if (status.state() == dev.turboj.ai.local.LocalModelManager.State.UNAVAILABLE
+                    || status.state() == dev.turboj.ai.local.LocalModelManager.State.ERROR)
+                flash("Local AI: " + status.detail() + (status.error() == AIError.MODEL_DOWNLOAD_REQUIRED
+                        ? " Code ▸ AI ▸ Download Local Model… installs it." : ""), StatusBar.Level.WARNING);
+        }
+        refreshStatusLine();
+    }
+
+    private String aiDetail() {
+        if (settings.ai.mode() == AIConfig.Mode.DISABLED) return "AI completion is off";
+        var status = localAIStatus;
+        if (settings.ai.mode() == AIConfig.Mode.CLOUD)
+            return "Cloud " + settings.ai.cloudProvider().label() + " · " + settings.ai.cloudModel() + " (click for settings)";
+        return status.summary() + " · " + status.model() + " · " + (status.runtime().isEmpty() ? "no runtime" : status.runtime())
+                + " · " + switch (status.ownership()) {
+                    case MANAGED -> "started by TurboJ";
+                    case EXTERNAL -> "external server";
+                    case NONE -> "not connected";
+                } + (status.detail().isEmpty() ? "" : " — " + status.detail());
+    }
+
+    /** One real request with a synthetic snippet, through the same chain as suggestions; no user source. */
+    private void testAICompletion() {
+        if (settings.ai.mode() == AIConfig.Mode.DISABLED) {
+            flash("AI is disabled. Configure Options ▸ AI Completion first.", StatusBar.Level.WARNING);
+            return;
+        }
+        AIConfig config = settings.ai;
+        flash("Testing AI completion with a synthetic snippet…", StatusBar.Level.BUSY);
+        Thread.ofVirtual().name("turboj-ai-test").start(() -> {
+            CompletionProbe.Result result;
+            try (var provider = AIProviders.create(config, () -> {
+                try {
+                    return aiCredentials.read(config.cloudEndpoint());
+                } catch (java.io.IOException error) {
+                    throw new UncheckedIOException(error);
+                }
+            }, this::localAIReady)) {
+                result = CompletionProbe.run(provider, new Cancellation());
+            } catch (RuntimeException failure) {
+                result = new CompletionProbe.Result(false, "", -1, -1, "", "Test completion failed: " + failure.getMessage());
+            }
+            var shown = result;
+            SwingUtilities.invokeLater(() -> {
+                if (closing) return;
+                flash(shown.message(), shown.valid() ? StatusBar.Level.SUCCESS : StatusBar.Level.WARNING);
+            });
+        });
+    }
+
+    /** Explicit consent: name, size, license and source first; the download itself never blocks the editor. */
+    private void downloadLocalModel() {
+        var config = settings.ai;
+        if (config.mode() != AIConfig.Mode.LOCAL || config.localBackend() != AIConfig.LocalBackend.OLLAMA) {
+            flash("Downloads go through Ollama in Local mode.", StatusBar.Level.WARNING);
+            return;
+        }
+        var known = dev.turboj.ai.local.ModelCatalog.find(config.localModel());
+        String what = config.localModel() + known.map(m -> " (" + m.size() + ", " + m.license() + ")\nFrom " + m.source()).orElse("")
+                + "\nInto the Ollama model store of " + (localAIStatus.endpoint().isEmpty() ? config.localEndpoint() : localAIStatus.endpoint()) + ".";
+        if (EmbeddedOptionPane.showConfirmDialog(this, "Download the local completion model?\n\n" + what,
+                "Download Local Model", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return;
+        localAI.download();
+    }
+
     private void showAISettings(AIConfig initial) {
         var dialog =
                 new AISettingsDialog(
@@ -5067,6 +5198,7 @@ public final class TurboFrame extends JFrame {
                         this::saveAIConfig,
                         this::flash);
         dialog.setTheme(theme);
+        dialog.setLocalRuntime(() -> localAIStatus, () -> localAI.download(), () -> localAI.retry());
         dialog.setVisible(true);
         editor.requestFocusInWindow();
     }
@@ -5075,6 +5207,7 @@ public final class TurboFrame extends JFrame {
         value.validate();
         settings.ai = value;
         aiCompletion.configure(value);
+        localAI.configure(value);
         String snapshot = settings.snapshotJson();
         background.execute(
                 () -> {

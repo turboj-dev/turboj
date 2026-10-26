@@ -13,12 +13,12 @@ import javax.swing.*;
 
 /**
  * The state right now, in segments (docs/output-and-status.md): build state, tests and a fading message on the left;
- * caret, file, formatter, keymap and project on the right. Each segment opens what it describes when clicked. Short UI
+ * caret, file, formatter, AI, keymap and project on the right. Each segment opens what it describes when clicked. Short UI
  * feedback goes to {@link #flash}, never into the output, and stays readable in the message history.
  */
 public final class StatusBar extends JPanel {
     public enum Level { NORMAL, SUCCESS, WARNING, ERROR, BUSY }
-    public enum Segment { STATE, TESTS, MESSAGE, CARET, FILE, FORMATTER, KEYMAP, PROJECT }
+    public enum Segment { STATE, TESTS, MESSAGE, CARET, FILE, FORMATTER, AI, KEYMAP, PROJECT }
 
     private static final int HISTORY = 50;
     private static final DateTimeFormatter CLOCK = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ROOT);

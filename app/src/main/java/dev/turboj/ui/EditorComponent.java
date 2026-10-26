@@ -610,9 +610,7 @@ public final class EditorComponent extends JComponent
     /** Accepts leading whitespace plus the next Java word or punctuation code point. */
     public boolean acceptNextAIWord() {
         if (!isAIInlineCompletion() || !validCompletion(inlineCompletion)) return false;
-        InlineCompletion proposal = inlineCompletion;
-        PieceTable acceptedDocument = document;
-        String insertion = proposal.insertion();
+        String insertion = inlineCompletion.insertion();
         int end = 0;
         while (end < insertion.length() && Character.isWhitespace(insertion.codePointAt(end)))
             end += Character.charCount(insertion.codePointAt(end));
@@ -624,6 +622,24 @@ public final class EditorComponent extends JComponent
                         && Character.isJavaIdentifierPart(insertion.codePointAt(end)));
             } else end += Character.charCount(insertion.codePointAt(end));
         }
+        return acceptAIPrefix(end);
+    }
+
+    /** Accepts the suggestion up to and including its next line break; the rest stays a suggestion. */
+    public boolean acceptNextAILine() {
+        if (!isAIInlineCompletion() || !validCompletion(inlineCompletion)) return false;
+        String insertion = inlineCompletion.insertion();
+        // A suggestion that starts with a line break accepts that break and the line after it.
+        int from = insertion.startsWith("\r\n") ? 2 : insertion.startsWith("\n") ? 1 : 0;
+        int newline = insertion.indexOf('\n', from);
+        return acceptAIPrefix(newline < 0 ? insertion.length() : newline + 1);
+    }
+
+    /** One undo step for the accepted part; the remainder is shown again only where it still applies. */
+    private boolean acceptAIPrefix(int end) {
+        InlineCompletion proposal = inlineCompletion;
+        PieceTable acceptedDocument = document;
+        String insertion = proposal.insertion();
         String accepted = insertion.substring(0, end), remaining = insertion.substring(end);
         clearInlineCompletion();
         if (!applyCompletion(

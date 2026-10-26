@@ -1,5 +1,6 @@
 package dev.turboj.ai;
 
+import dev.turboj.ai.java.CompletionContext;
 import dev.turboj.editor.document.PieceTable;
 import dev.turboj.intelligence.CompletionCoordinator;
 import dev.turboj.ui.EditorComponent;
@@ -35,6 +36,9 @@ public final class AICompletionController implements AutoCloseable {
             long scheduled) {}
 
     private record Delivery(Ticket ticket, String text) {}
+
+    /** The suggestion on screen, to keep its remainder while the user types it. */
+    private record Ghost(PieceTable document, long version, int offset, int length, String text) {}
 
     private record CacheKey(
             String prefix, String suffix, String context, AIConfig config, boolean larger) {}
@@ -74,9 +78,15 @@ public final class AICompletionController implements AutoCloseable {
     private long retryAfter;
     private int failures;
     private PieceTable lastDocument;
+    private Ghost ghost;
+    private long lastEditAt;
+    private double typingInterval = 400, latencyMillis;
+    private java.util.function.BooleanSupplier localReady = () -> true;
+    private String runtimeSummary = "", runtimeDetail = "";
     private KeyStroke accept = KeyStroke.getKeyStroke("TAB"),
             dismiss = KeyStroke.getKeyStroke("ESCAPE"),
-            nextWord = KeyStroke.getKeyStroke("ctrl alt ENTER");
+            nextWord = KeyStroke.getKeyStroke("ctrl alt ENTER"),
+            nextLine = null;
 
     public AICompletionController(
             EditorComponent editor,
@@ -125,6 +135,29 @@ public final class AICompletionController implements AutoCloseable {
         this.nextWord = nextWord;
     }
 
+    public void setNextLineKey(KeyStroke nextLine) {
+        this.nextLine = nextLine;
+    }
+
+    /**
+     * The local runtime's readiness, from the model manager. While it is not ready no automatic request
+     * is prepared, so loading a model costs no context building and opens no circuit.
+     */
+    public void setLocalRuntime(java.util.function.BooleanSupplier ready) {
+        localReady = ready == null ? () -> true : ready;
+    }
+
+    /** The manager's summary ("Ready", "Loading model…") and detail; a newly ready runtime is retried at once. */
+    public void runtimeStatus(String summary, String detail, boolean ready) {
+        runtimeSummary = summary == null ? "" : summary;
+        runtimeDetail = detail == null ? "" : detail;
+        if (ready) {
+            retryAfter = 0;
+            failures = 0;
+        }
+        updateStatus();
+    }
+
     public void configure(AIConfig value) {
         value.validate();
         dismiss();
@@ -148,32 +181,89 @@ public final class AICompletionController implements AutoCloseable {
     }
 
     private void updateStatus() {
-        status.accept(
-                config.mode() == AIConfig.Mode.DISABLED
-                        ? ""
-                        : "AI · " + (config.mode() == AIConfig.Mode.LOCAL ? "Local" : "Cloud"));
+        if (config.mode() == AIConfig.Mode.DISABLED) {
+            status.accept("");
+            return;
+        }
+        boolean local = config.mode() == AIConfig.Mode.LOCAL;
+        status.accept("AI · " + (local ? "Local" : "Cloud " + config.cloudProvider().label())
+                + (local && !runtimeSummary.isEmpty() ? " · " + runtimeSummary : ""));
     }
 
     /** Cheap disabled fast path; snapshots are captured only for an enabled service. */
     public void changed() {
         if (closed || config.mode() == AIConfig.Mode.DISABLED) return;
-        if (editor.caretCount() > 1) { dismiss(); return; }
+        // An inline template owns Tab and the caret; suggestions would only get in its way.
+        if (editor.caretCount() > 1 || editor.templateActive()) { dismiss(); return; }
         int caret = editor.caretOffset();
         if (lastDocument == editor.document()
                 && lastVersion == editor.version()
-                && lastCaret == caret) return;
+                && lastCaret == caret) {
+            restoreGhost(caret);
+            return;
+        }
         boolean edited = lastDocument != editor.document() || lastVersion != editor.version();
         lastDocument = editor.document();
         lastVersion = editor.version();
         lastCaret = caret;
+        if (edited && typeThrough(caret)) return;
         dismiss();
         if (edited
                 && config.automatic()
                 && !editor.isReadOnly()
                 && editor.getSelectedText().isEmpty()) {
-            scheduledAt = System.nanoTime();
+            long now = System.nanoTime();
+            if (lastEditAt != 0)
+                typingInterval = typingInterval * 0.7 + Math.min(2_000, (now - lastEditAt) / 1e6) * 0.3;
+            lastEditAt = now;
+            scheduledAt = now;
+            timer.setInitialDelay(adaptiveDelay());
             timer.restart();
         }
+    }
+
+    /**
+     * Typing the next characters of the suggestion keeps the rest of it, as in IntelliJ and Copilot,
+     * instead of discarding it and asking the model again.
+     */
+    private boolean typeThrough(int caret) {
+        Ghost shown = ghost;
+        if (shown == null || editor.document() != shown.document() || coordinator.hasSemanticChoice()) return false;
+        int typed = caret - shown.offset();
+        PieceTable document = editor.document();
+        if (typed <= 0 || typed >= shown.text().length() || document.length() != shown.length() + typed
+                || editor.version() <= shown.version()) return false;
+        if (!document.subSequence(shown.offset(), caret).toString().equals(shown.text().substring(0, typed))) return false;
+        String rest = shown.text().substring(typed);
+        cancelRequest();
+        timer.stop();
+        if (!coordinator.ai(coordinator.generation(),
+                new EditorComponent.InlineCompletion(editor.version(), caret, caret, caret, rest, rest.length()))) return false;
+        ghost = new Ghost(document, editor.version(), caret, document.length(), rest);
+        return true;
+    }
+
+    /**
+     * A general reset of completion presentation (each edit and caret notification clears it) must not
+     * take away a suggestion that still applies exactly where it was; Escape and Java choices still do.
+     */
+    private void restoreGhost(int caret) {
+        Ghost shown = ghost;
+        if (shown == null || editor.isAIInlineCompletion() || coordinator.hasSemanticChoice()
+                || editor.document() != shown.document() || editor.version() != shown.version() || caret != shown.offset()) return;
+        coordinator.ai(coordinator.generation(),
+                new EditorComponent.InlineCompletion(shown.version(), caret, caret, caret, shown.text(), shown.text().length()));
+    }
+
+    /**
+     * The configured pause, longer while the user types quickly (a pause between bursts is the moment to
+     * suggest) and when the provider has been slow, so its queue never fills with requests already stale.
+     */
+    private int adaptiveDelay() {
+        int delay = config.delayMillis();
+        if (typingInterval < 160) delay += 120;
+        if (latencyMillis > 600) delay += 150;
+        return Math.min(1_000, delay);
     }
 
     public void request(boolean explicit, boolean larger) {
@@ -195,8 +285,13 @@ public final class AICompletionController implements AutoCloseable {
             if (explicit) notice.accept("Remove secondary carets before requesting AI completion.");
             return;
         }
-        if (editor.isReadOnly() || !editor.getSelectedText().isEmpty()) return;
+        if (editor.isReadOnly() || !editor.getSelectedText().isEmpty() || editor.templateActive()) return;
         if (!explicit && System.nanoTime() < retryAfter) return;
+        if (config.mode() == AIConfig.Mode.LOCAL && !localReady.getAsBoolean()) {
+            if (explicit)
+                notice.accept("Local AI is not ready: " + (runtimeDetail.isBlank() ? runtimeSummary : runtimeDetail));
+            return;
+        }
         if (coordinator.hasSemanticChoice()) {
             if (explicit)
                 notice.accept(
@@ -232,6 +327,7 @@ public final class AICompletionController implements AutoCloseable {
                     CompletionContext.build(
                             ticket.snapshot.file(),
                             ticket.snapshot.source(),
+                            ticket.snapshot.source().version(),
                             ticket.offset,
                             ticket.config,
                             ticket.larger,
@@ -297,6 +393,12 @@ public final class AICompletionController implements AutoCloseable {
                     token);
             token.throwIfCancelled();
             String result = CompletionValidation.usable(request, last.get(), true);
+            // Syntax and invented names: a suggestion that would break the file or use a variable the
+            // file never mentions is dropped, not shown as if it were valid code.
+            if (!result.isEmpty()
+                    && dev.turboj.ai.java.JavaSuggestionFilter.check(ticket.snapshot.source().toString(), ticket.offset,
+                                    result, request.javaVersion())
+                            != dev.turboj.ai.java.JavaSuggestionFilter.Verdict.ACCEPT) result = "";
             if (!result.isEmpty()) {
                 first.compareAndSet(0, System.nanoTime());
                 synchronized (cache) {
@@ -311,11 +413,14 @@ public final class AICompletionController implements AutoCloseable {
                         () -> {
                             if (valid(ticket)) {
                                 coordinator.clearAI();
-                                if (ticket.explicit)
+                                // With a Java choice on screen the AI result was not wanted anyway.
+                                if (ticket.explicit && !coordinator.hasSemanticChoice())
                                     notice.accept(
                                             "AI returned no safe insertion at this position.");
                             }
                         });
+            if (generation == ticket.id && first.get() != 0)
+                latencyMillis = latencyMillis == 0 ? (first.get() - start) / 1e6 : latencyMillis * 0.7 + (first.get() - start) / 1e6 * 0.3;
             if (ticket.config.diagnostics() && config.diagnostics() && generation == ticket.id)
                 metrics.sample(
                         start - ticket.scheduled,
@@ -341,7 +446,8 @@ public final class AICompletionController implements AutoCloseable {
                                                 + (ticket.config.mode() == AIConfig.Mode.LOCAL
                                                         ? "Local"
                                                         : "Cloud")
-                                                + " unavailable");
+                                                + " · "
+                                                + summary(error));
                             }
                         });
         } finally {
@@ -350,11 +456,28 @@ public final class AICompletionController implements AutoCloseable {
         }
     }
 
+    /** Typed provider messages are written for the user and carry no source; other failures stay generic. */
     private static String safeMessage(Exception error) {
+        if (error instanceof AIException typed) return typed.getMessage();
         if (error instanceof IllegalArgumentException
                 && error.getMessage() != null
                 && error.getMessage().startsWith("AI")) return error.getMessage();
         return "check provider configuration or connection";
+    }
+
+    /** A status-line word for a failure: what is wrong, not that something is. */
+    private static String summary(Exception error) {
+        return switch (AIException.classify(error)) {
+            case MODEL_NOT_FOUND, MODEL_DOWNLOAD_REQUIRED -> "Model not installed";
+            case RUNTIME_NOT_RUNNING, RUNTIME_NOT_INSTALLED -> "Runtime not running";
+            case MODEL_NOT_LOADED -> "Loading model…";
+            case AUTHENTICATION_FAILED -> "Key rejected";
+            case RATE_LIMITED -> "Rate-limited";
+            case TIMEOUT -> "Timed out";
+            case UNSUPPORTED_ENDPOINT, INVALID_CONFIGURATION -> "Check settings";
+            case UNSUPPORTED_MODEL_CAPABILITY -> "Model has no FIM";
+            default -> "Unavailable";
+        };
     }
 
     private boolean valid(Ticket ticket) {
@@ -389,6 +512,7 @@ public final class AICompletionController implements AutoCloseable {
                         t.offset,
                         result.text,
                         result.text.length()))) {
+            ghost = new Ghost(t.document, t.snapshot.source().version(), t.offset, t.document.length(), result.text);
             retryAfter = 0;
             failures = 0;
             updateStatus();
@@ -409,6 +533,7 @@ public final class AICompletionController implements AutoCloseable {
     public void dismiss() {
         timer.stop();
         cancelRequest();
+        ghost = null;
         coordinator.clearAI();
     }
 
@@ -420,13 +545,17 @@ public final class AICompletionController implements AutoCloseable {
             return false;
         }
         if (!editor.isAIInlineCompletion()) return false;
-        if (key.equals(accept) || key.equals(nextWord)) {
+        if (key.equals(accept) || key.equals(nextWord) || key.equals(nextLine)) {
             cancelRequest();
             timer.stop();
+            ghost = null;
             boolean accepted =
                     key.equals(accept)
                             ? editor.acceptInlineCompletion()
-                            : editor.acceptNextAIWord();
+                            : key.equals(nextWord) ? editor.acceptNextAIWord() : editor.acceptNextAILine();
+            if (accepted && editor.isAIInlineCompletion())
+                ghost = new Ghost(editor.document(), editor.version(), editor.caretOffset(), editor.document().length(),
+                        editor.inlineCompletion().insertion());
             timer.stop(); // acceptance must not immediately spend another request
             if (accepted && config.diagnostics()) metrics.accepted();
             return accepted;

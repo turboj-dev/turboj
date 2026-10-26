@@ -1,0 +1,385 @@
+[
+  {
+    "id": "HelloWorld",
+    "file": "corpus/HelloWorld.java",
+    "java": 17,
+    "category": "hello-world",
+    "kind": "statement",
+    "expected": [
+      "System.out.println(\"Hello, World!\");",
+      "System.out.println(\"Hello World!\");",
+      "System.out.println(\"Hello, world!\");"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "Calculator",
+    "file": "corpus/Calculator.java",
+    "java": 17,
+    "category": "calculator",
+    "kind": "statement",
+    "expected": [
+      "return a * b;",
+      "return b * a;"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "ArrayStats",
+    "file": "corpus/ArrayStats.java",
+    "java": 17,
+    "category": "loops",
+    "kind": "line",
+    "expected": [
+      "i < values.length; i++",
+      "i < values.length; ++i",
+      "i < values.length; i += 1"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "BinarySearch",
+    "file": "corpus/BinarySearch.java",
+    "java": 17,
+    "category": "loops",
+    "kind": "multiline",
+    "expected": [
+      "if (sorted[mid] == target) {\n                return mid;\n            } else if (sorted[mid] < target) {\n                low = mid + 1;\n            } else {\n                high = mid - 1;\n            }",
+      "if (sorted[mid] < target) {\n                low = mid + 1;\n            } else if (sorted[mid] > target) {\n                high = mid - 1;\n            } else {\n                return mid;\n            }",
+      "if (sorted[mid] == target) {\n                return mid;\n            }\n            if (sorted[mid] < target) {\n                low = mid + 1;\n            } else {\n                high = mid - 1;\n            }"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "WordCounter",
+    "file": "corpus/WordCounter.java",
+    "java": 17,
+    "category": "collections",
+    "kind": "statement",
+    "expected": [
+      "counts.merge(word, 1, Integer::sum);",
+      "counts.put(word, counts.getOrDefault(word, 0) + 1);",
+      "counts.compute(word, (k, v) -> v == null ? 1 : v + 1);"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "OrderIndex",
+    "file": "corpus/OrderIndex.java",
+    "java": 17,
+    "category": "collections",
+    "kind": "line",
+    "expected": [
+      "computeIfAbsent(order.customer(), k -> new ArrayList<>()).add(order);",
+      "computeIfAbsent(order.customer(), key -> new ArrayList<>()).add(order);",
+      "computeIfAbsent(order.customer(), c -> new ArrayList<>()).add(order);",
+      "computeIfAbsent(order.customer(), customer -> new ArrayList<>()).add(order);"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "TaskQueue",
+    "file": "corpus/TaskQueue.java",
+    "java": 17,
+    "category": "collections",
+    "kind": "token",
+    "expected": [
+      "isEmpty"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "UserDirectory",
+    "file": "corpus/UserDirectory.java",
+    "java": 17,
+    "category": "streams",
+    "kind": "line",
+    "expected": [
+      ".map(User::email)",
+      ".map(user -> user.email())",
+      ".map(u -> u.email())"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "SalesReport",
+    "file": "corpus/SalesReport.java",
+    "java": 17,
+    "category": "streams",
+    "kind": "line",
+    "expected": [
+      "Collectors.groupingBy(Sale::region, Collectors.summingDouble(Sale::amount))",
+      "Collectors.groupingBy(sale -> sale.region(), Collectors.summingDouble(sale -> sale.amount()))",
+      "Collectors.toMap(Sale::region, Sale::amount, Double::sum)"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "Money",
+    "file": "corpus/Money.java",
+    "java": 17,
+    "category": "records",
+    "kind": "block",
+    "expected": [
+      "if (cents < 0) {\n            throw new IllegalArgumentException(\"cents must not be negative\");\n        }",
+      "if (cents < 0) throw new IllegalArgumentException(\"cents must not be negative\");",
+      "if (cents < 0) {\n            throw new IllegalArgumentException(\"cents must be non-negative\");\n        }",
+      "if (cents < 0) {\n            throw new IllegalArgumentException(\"amount must not be negative\");\n        }"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "Point",
+    "file": "corpus/Point.java",
+    "java": 17,
+    "category": "records",
+    "kind": "line",
+    "expected": [
+      "y - other.y()",
+      "y - other.y",
+      "this.y - other.y()",
+      "y() - other.y()"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "Version",
+    "file": "corpus/Version.java",
+    "java": 17,
+    "category": "java17-instanceof-pattern",
+    "kind": "block",
+    "expected": [
+      "if (!(obj instanceof Version other)) {\n            return false;\n        }",
+      "if (!(obj instanceof Version other)) return false;"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "PackageManifest",
+    "file": "corpus/PackageManifest.java",
+    "java": 17,
+    "category": "java17-text-block",
+    "kind": "line",
+    "expected": [
+      "name, version, deps",
+      "this.name, this.version, deps"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "Comparables",
+    "file": "corpus/Comparables.java",
+    "java": 17,
+    "category": "generics",
+    "kind": "block",
+    "expected": [
+      "if (candidate.compareTo(best) > 0) {\n                best = candidate;\n            }",
+      "if (candidate.compareTo(best) > 0) best = candidate;",
+      "if (best.compareTo(candidate) < 0) {\n                best = candidate;\n            }"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "LruCache",
+    "file": "corpus/LruCache.java",
+    "java": 17,
+    "category": "generics",
+    "kind": "token",
+    "expected": [
+      "removeEldestEntry"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "LineReader",
+    "file": "corpus/LineReader.java",
+    "java": 17,
+    "category": "exceptions",
+    "kind": "line",
+    "expected": [
+      "BufferedReader reader = Files.newBufferedReader(path)",
+      "var reader = Files.newBufferedReader(path)",
+      "BufferedReader reader = Files.newBufferedReader(this.path)"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "ConfigLoader",
+    "file": "corpus/ConfigLoader.java",
+    "java": 17,
+    "category": "exceptions",
+    "kind": "statement",
+    "expected": [
+      "throw new UncheckedIOException(e);",
+      "throw new UncheckedIOException(\"Cannot read \" + configFile, e);",
+      "throw new UncheckedIOException(\"Failed to load \" + configFile, e);",
+      "throw new RuntimeException(e);"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "CalculatorTest",
+    "file": "corpus/CalculatorTest.java",
+    "java": 17,
+    "category": "junit",
+    "kind": "statement",
+    "expected": [
+      "assertEquals(42, result);",
+      "assertEquals(6 * 7, result);"
+    ],
+    "compile": true,
+    "classpath": "junit"
+  },
+  {
+    "id": "BoundedStackTest",
+    "file": "corpus/BoundedStackTest.java",
+    "java": 17,
+    "category": "junit",
+    "kind": "statement",
+    "expected": [
+      "assertThrows(NoSuchElementException.class, stack::pop);",
+      "assertThrows(NoSuchElementException.class, () -> stack.pop());"
+    ],
+    "compile": true,
+    "classpath": "junit"
+  },
+  {
+    "id": "InventoryService",
+    "file": "corpus/InventoryService.java",
+    "java": 17,
+    "category": "maven-project",
+    "kind": "statement",
+    "expected": [
+      "stock.put(sku, current - quantity);",
+      "stock.merge(sku, -quantity, Integer::sum);",
+      "stock.put(sku, available(sku) - quantity);"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "ProductController",
+    "file": "corpus/ProductController.java",
+    "java": 17,
+    "category": "spring",
+    "kind": "line",
+    "expected": [
+      ".map(ResponseEntity::ok)",
+      ".map(product -> ResponseEntity.ok(product))",
+      ".map(p -> ResponseEntity.ok(p))",
+      ".map(product -> ResponseEntity.ok().body(product))"
+    ],
+    "compile": false,
+    "classpath": "none"
+  },
+  {
+    "id": "Shapes",
+    "file": "corpus/Shapes.java",
+    "java": 21,
+    "category": "java21-sealed-switch",
+    "kind": "line",
+    "expected": [
+      "case Rectangle r -> r.width() * r.height();",
+      "case Rectangle r -> r.height() * r.width();",
+      "case Rectangle(double width, double height) -> width * height;",
+      "case Rectangle(double w, double h) -> w * h;"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "ExprEvaluator",
+    "file": "corpus/ExprEvaluator.java",
+    "java": 21,
+    "category": "java21-record-patterns",
+    "kind": "line",
+    "expected": [
+      "eval(left) * eval(right)",
+      "eval(right) * eval(left)"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "BrowserHistory",
+    "file": "corpus/BrowserHistory.java",
+    "java": 21,
+    "category": "java21-sequenced-collections",
+    "kind": "token",
+    "expected": [
+      "getLast()",
+      "get(visited.size() - 1)"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "PageFetcher",
+    "file": "corpus/PageFetcher.java",
+    "java": 21,
+    "category": "java21-virtual-threads",
+    "kind": "token",
+    "expected": [
+      "newVirtualThreadPerTaskExecutor"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "Greeter",
+    "file": "corpus/Greeter.java",
+    "java": 25,
+    "category": "java25-compact-source",
+    "kind": "statement",
+    "expected": [
+      "IO.println(greet(name));",
+      "System.out.println(greet(name));"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "AuditLog",
+    "file": "corpus/AuditLog.java",
+    "java": 25,
+    "category": "java25-unnamed-variables",
+    "kind": "line",
+    "expected": [
+      "String user, _",
+      "String user, Instant _",
+      "var user, _",
+      "String user, var _"
+    ],
+    "compile": true,
+    "classpath": "none"
+  },
+  {
+    "id": "SavingsAccount",
+    "file": "corpus/SavingsAccount.java",
+    "java": 25,
+    "category": "java25-flexible-constructor",
+    "kind": "statement",
+    "expected": [
+      "super(id, owner);"
+    ],
+    "compile": true,
+    "classpath": "none"
+  }
+]

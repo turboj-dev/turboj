@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -28,6 +29,18 @@ public final class AISettingsDialog extends EmbeddedDialog {
             new JComboBox<>(AIConfig.LocalBackend.values());
     private final JTextField localEndpoint = new JTextField(), localModel = new JTextField();
     private final JTextField cloudEndpoint = new JTextField(), cloudModel = new JTextField();
+    private final JComboBox<AIConfig.LocalRuntime> runtime = new JComboBox<>(AIConfig.LocalRuntime.values());
+    private final JComboBox<AIConfig.CloudProvider> provider = new JComboBox<>(AIConfig.CloudProvider.values());
+    private final JTextField fallbackModel = new JTextField();
+    private final JCheckBox cloudFallback =
+            new JCheckBox("When local AI fails, fall back to the cloud provider (sends source; needs consent)");
+    private final JLabel runtimeState = new JLabel(" ");
+    private final JButton download = new JButton("Download model"), retry = new JButton("Retry"),
+            testCompletion = new JButton("Test completion");
+    private JSpinner keepAlive;
+    private Supplier<dev.turboj.ai.local.LocalModelManager.Status> runtimeStatus = () -> dev.turboj.ai.local.LocalModelManager.Status.OFF;
+    private Runnable downloadAction = () -> {}, retryAction = () -> {};
+    private javax.swing.Timer runtimeTimer;
     private final JPasswordField key = new JPasswordField();
     private final JCheckBox automaticLocal = new JCheckBox("Automatic local suggestions");
     private final JCheckBox automaticCloud =
@@ -73,6 +86,27 @@ public final class AISettingsDialog extends EmbeddedDialog {
         timeout = spinner(original.timeoutSeconds(), 1, 120, 1, "ai-timeout");
         maxTokens = spinner(original.maxTokens(), 16, 2_048, 16, "ai-max-tokens");
         contextChars = spinner(original.contextChars(), 1_024, 32_768, 1_024, "ai-context-chars");
+        keepAlive = spinner(original.keepAliveMinutes(), 1, 1_440, 5, "ai-keep-alive");
+        runtime.setSelectedItem(original.localRuntime());
+        provider.setSelectedItem(original.cloudProvider());
+        fallbackModel.setText(original.localFallbackModel());
+        cloudFallback.setSelected(original.cloudFallback());
+        runtime.setRenderer(labels(value -> switch ((AIConfig.LocalRuntime) value) {
+            case AUTOMATIC -> "Automatic: reuse a running server, or start one";
+            case MANAGED -> "Managed: TurboJ starts and stops its own server";
+            case EXTERNAL -> "External: only connect, never start or stop";
+        }));
+        provider.setRenderer(labels(value -> ((AIConfig.CloudProvider) value).label()));
+        provider.addActionListener(e -> {
+            var chosen = (AIConfig.CloudProvider) provider.getSelectedItem();
+            // A provider switch replaces values that belonged to another provider, never ones typed for this one.
+            boolean known = java.util.Arrays.stream(AIConfig.CloudProvider.values())
+                    .anyMatch(p -> p.defaultEndpoint().equals(cloudEndpoint.getText().strip()));
+            if (cloudEndpoint.getText().isBlank() || known) cloudEndpoint.setText(chosen.defaultEndpoint());
+            boolean defaultModel = cloudModel.getText().isBlank() || java.util.Arrays.stream(AIConfig.CloudProvider.values())
+                    .anyMatch(p -> p.defaultModel().equals(cloudModel.getText().strip()));
+            if (defaultModel) cloudModel.setText(chosen.defaultModel());
+        });
         mode.setSelectedItem(original.mode());
         backend.setSelectedItem(original.localBackend());
         localEndpoint.setText(original.localEndpoint());
@@ -97,6 +131,15 @@ public final class AISettingsDialog extends EmbeddedDialog {
         name(deleteKey, "ai-delete-key");
         name(exclusions, "ai-exclusions");
         name(diagnostics, "ai-diagnostics");
+        name(runtime, "ai-local-runtime");
+        name(provider, "ai-cloud-provider");
+        name(fallbackModel, "ai-local-fallback-model");
+        name(cloudFallback, "ai-cloud-fallback");
+        name(runtimeState, "ai-runtime-status");
+        name(download, "ai-download");
+        name(retry, "ai-retry");
+        name(testCompletion, "ai-test-completion");
+        runtimeState.putClientProperty("html.disable", Boolean.TRUE);
         name(result, "ai-settings-status");
         result.putClientProperty("html.disable", Boolean.TRUE);
         name(test, "ai-test");
@@ -123,12 +166,26 @@ public final class AISettingsDialog extends EmbeddedDialog {
         var bottom = new JPanel(new BorderLayout(6, 6));
         bottom.add(result, BorderLayout.NORTH);
         var buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
-        for (JButton button : new JButton[] {test, unload, cancel, apply}) buttons.add(button);
+        for (JButton button : new JButton[] {testCompletion, test, unload, cancel, apply}) buttons.add(button);
         bottom.add(buttons, BorderLayout.SOUTH);
         body.add(bottom, BorderLayout.SOUTH);
         apply.addActionListener(e -> apply());
         cancel.addActionListener(e -> close());
         test.addActionListener(e -> test(false));
+        testCompletion.addActionListener(e -> testCompletion());
+        download.addActionListener(e -> {
+            if (!applyLocal()) return;
+            downloadAction.run();
+            close();
+        });
+        retry.addActionListener(e -> {
+            if (applyLocal()) retryAction.run();
+            close();
+        });
+        cloudFallback.addActionListener(e -> {
+            if (cloudFallback.isSelected() && !cloudConsent.isSelected())
+                showFailure(new IllegalArgumentException("Cloud fallback needs the source-sharing consent on the Cloud tab."));
+        });
         unload.addActionListener(e -> test(true));
         mode.addActionListener(
                 e -> {
@@ -167,8 +224,8 @@ public final class AISettingsDialog extends EmbeddedDialog {
                         JComponent.WHEN_IN_FOCUSED_WINDOW);
         getRootPane().setDefaultButton(apply);
         if (original.mode() == AIConfig.Mode.CLOUD) tabs.setSelectedIndex(1);
-        setMinimumSize(new Dimension(660, 455));
-        setSize(720, 490);
+        setMinimumSize(new Dimension(700, 520));
+        setSize(760, 560);
         setLocationRelativeTo(owner);
         updateButtons();
     }
@@ -176,31 +233,42 @@ public final class AISettingsDialog extends EmbeddedDialog {
     private JPanel localPanel() {
         JPanel panel = form();
         row(panel, 0, "Backend", backend);
-        row(panel, 1, "Loopback endpoint", localEndpoint);
-        row(panel, 2, "FIM model", localModel);
-        wide(panel, 3, automaticLocal);
+        row(panel, 1, "Runtime", runtime);
+        row(panel, 2, "Loopback endpoint", localEndpoint);
+        row(panel, 3, "FIM model", localModel);
+        row(panel, 4, "Fallback model", fallbackModel);
+        row(panel, 5, "Keep loaded (min)", keepAlive);
+        wide(panel, 6, automaticLocal);
+        var state = new JPanel(new BorderLayout(6, 0));
+        state.add(runtimeState, BorderLayout.CENTER);
+        var actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
+        actions.add(retry);
+        actions.add(download);
+        state.add(actions, BorderLayout.EAST);
+        row(panel, 7, "Status", state);
         wide(
                 panel,
-                4,
+                8,
                 explanation(
-                        "Start an Ollama or llama.cpp FIM server separately. Local requests stay on"
-                            + " this Mac. TurboJ neither downloads models nor starts an inference"
-                            + " server. Unload is an explicit action because other apps may share"
-                            + " the model."));
+                        "Automatic reuses an Ollama server that is already running, or starts one on"
+                            + " this Mac and stops it when TurboJ quits; an external server is never"
+                            + " stopped. Models are downloaded only when you choose Download."
+                            + " Local requests stay on this Mac."));
         return panel;
     }
 
     private JPanel cloudPanel() {
         JPanel panel = form();
-        row(panel, 0, "Responses base URL", cloudEndpoint);
-        row(panel, 1, "Model", cloudModel);
-        row(panel, 2, "API key", key);
-        wide(panel, 3, deleteKey);
-        wide(panel, 4, cloudConsent);
-        wide(panel, 5, automaticCloud);
+        row(panel, 0, "Provider", provider);
+        row(panel, 1, "Base URL", cloudEndpoint);
+        row(panel, 2, "Model", cloudModel);
+        row(panel, 3, "API key", key);
+        wide(panel, 4, deleteKey);
+        wide(panel, 5, cloudConsent);
+        wide(panel, 6, automaticCloud);
         wide(
                 panel,
-                6,
+                7,
                 explanation(
                         "Your API key is stored in macOS Keychain, bound to this endpoint. Leave"
                             + " the key blank to keep it. Cloud completion shares bounded source"
@@ -219,9 +287,10 @@ public final class AISettingsDialog extends EmbeddedDialog {
         wide(panel, 0, numbers);
         row(panel, 1, "Excluded file globs", new JScrollPane(exclusions));
         wide(panel, 2, diagnostics);
+        wide(panel, 3, cloudFallback);
         wide(
                 panel,
-                3,
+                4,
                 explanation(
                         "One glob per line. Excluded files and detected secrets are blocked from AI"
                             + " context. Secret detection is a safeguard, not a guarantee."
@@ -330,7 +399,96 @@ public final class AISettingsDialog extends EmbeddedDialog {
                 (int) maxTokens.getValue(),
                 (int) contextChars.getValue(),
                 exclusions.getText(),
-                diagnostics.isSelected());
+                diagnostics.isSelected(),
+                (AIConfig.CloudProvider) provider.getSelectedItem(),
+                (AIConfig.LocalRuntime) runtime.getSelectedItem(),
+                (int) keepAlive.getValue(),
+                fallbackModel.getText(),
+                cloudFallback.isSelected() && (checkOnly || cloudConsent.isSelected()));
+    }
+
+    /**
+     * The local runtime's live state and the actions that act on it. Download and Retry first apply the
+     * Local settings shown, so they act on what the user sees.
+     */
+    public void setLocalRuntime(Supplier<dev.turboj.ai.local.LocalModelManager.Status> status, Runnable download, Runnable retry) {
+        runtimeStatus = Objects.requireNonNull(status);
+        downloadAction = Objects.requireNonNull(download);
+        retryAction = Objects.requireNonNull(retry);
+        refreshRuntime();
+        runtimeTimer = new javax.swing.Timer(500, e -> refreshRuntime());
+        runtimeTimer.start();
+    }
+
+    private void refreshRuntime() {
+        var status = runtimeStatus.get();
+        String text = status.summary() + (status.runtime().isEmpty() ? "" : " · " + status.runtime())
+                + (status.ownership() == dev.turboj.ai.local.LocalModelManager.Ownership.MANAGED ? " · started by TurboJ"
+                        : status.ownership() == dev.turboj.ai.local.LocalModelManager.Ownership.EXTERNAL ? " · external server" : "");
+        runtimeState.setText(text);
+        String installed = status.installed().isEmpty() ? "" : "\nInstalled: " + String.join(", ", status.installed());
+        runtimeState.setToolTipText(status.detail() + installed);
+        download.setEnabled(!busy && status.error() == AIError.MODEL_DOWNLOAD_REQUIRED);
+    }
+
+    /** Save the dialog's settings without closing it, for the actions that need them applied first. */
+    private boolean applyLocal() {
+        final AIConfig config;
+        try {
+            config = configuration(false);
+            config.validate();
+        } catch (IllegalArgumentException failure) {
+            showFailure(failure);
+            return false;
+        }
+        if (config.mode() == AIConfig.Mode.CLOUD) return true;
+        save.accept(config);
+        return true;
+    }
+
+    /** A real request with a synthetic snippet through the settings shown, never the user's source. */
+    private void testCompletion() {
+        if (busy) return;
+        final AIConfig config;
+        try {
+            config = configuration(true);
+            config.validate();
+        } catch (IllegalArgumentException failure) {
+            showFailure(failure);
+            return;
+        }
+        char[] password = key.getPassword();
+        long ticket = begin("Requesting a test completion with a synthetic snippet…");
+        Cancellation cancellation = active;
+        worker.execute(() -> {
+            try (AICompletionProvider tested = AIProviders.create(config, () -> {
+                if (password.length > 0) return new String(password);
+                try {
+                    return credentials.read(config.cloudEndpoint());
+                } catch (IOException failure) {
+                    throw new UncheckedIOException(failure);
+                }
+            })) {
+                var outcome = CompletionProbe.run(tested, cancellation);
+                SwingUtilities.invokeLater(() -> {
+                    if (!current(ticket)) return;
+                    busy = false;
+                    result.setText(outcome.message());
+                    result.setToolTipText(outcome.message());
+                    updateButtons();
+                });
+            } catch (RuntimeException failure) {
+                fail(ticket, failure);
+            } finally {
+                Arrays.fill(password, '\0');
+            }
+        });
+    }
+
+    private static ListCellRenderer<Object> labels(java.util.function.Function<Object, String> text) {
+        var delegate = new DefaultListCellRenderer();
+        return (list, value, index, selected, focus) ->
+                delegate.getListCellRendererComponent(list, value == null ? "" : text.apply(value), index, selected, focus);
     }
 
     static boolean needsCloudConfirmation(AIConfig before, AIConfig after) {
@@ -521,6 +679,8 @@ public final class AISettingsDialog extends EmbeddedDialog {
     private void updateButtons() {
         apply.setEnabled(!busy);
         test.setEnabled(!busy);
+        testCompletion.setEnabled(!busy);
+        retry.setEnabled(!busy);
         cancel.setEnabled(!saving);
         unload.setEnabled(
                 !busy
@@ -530,6 +690,7 @@ public final class AISettingsDialog extends EmbeddedDialog {
 
     private void close() {
         if (closed || saving) return;
+        if (runtimeTimer != null) runtimeTimer.stop();
         closed = true;
         operation++;
         if (active != null) active.cancel();
@@ -542,6 +703,7 @@ public final class AISettingsDialog extends EmbeddedDialog {
 
     @Override
     public void dispose() {
+        if (runtimeTimer != null) runtimeTimer.stop();
         if (!closed) {
             closed = true;
             operation++;

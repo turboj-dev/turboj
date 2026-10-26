@@ -34,7 +34,11 @@ public final class BundledKeymaps {
                 .requiring("completion")), new KeyBinding(KeySequence.parse("ENTER"), BindingContext
                 .requiring("completion-popup"))));
         b.put("completion.acceptWord", List.of(new KeyBinding(KeySequence.parse("CTRL+ALT+ENTER"),
-                BindingContext.requiring("completion"))));
+                BindingContext.requiring("completion")), new KeyBinding(KeySequence.parse("ALT+RIGHT"),
+                BindingContext.requiring("ai-completion"))));
+        // Only while an AI suggestion shows; otherwise ⌥→ and ⌥⇧→ stay word motions.
+        b.put("completion.acceptLine", List.of(new KeyBinding(KeySequence.parse("ALT+SHIFT+RIGHT"),
+                BindingContext.requiring("ai-completion"))));
         b.put("completion.next", List.of(new KeyBinding(KeySequence.parse("DOWN"), BindingContext
                 .requiring("completion-popup"))));
         b.put("completion.previous", List.of(new KeyBinding(KeySequence.parse("UP"), BindingContext
