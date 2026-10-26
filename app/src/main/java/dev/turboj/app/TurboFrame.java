@@ -2591,11 +2591,12 @@ public final class TurboFrame extends JFrame {
                 case MenuLayout.Command command -> {
                     Action action = commands.get(command.id());
                     if (action == null) throw new IllegalStateException("Menu command is not registered: " + command.id());
+                    // Menus show the shortcut beside the item: no tooltip repeats it (or shows an empty box).
                     JMenuItem menuItem = switch (command.kind()) {
-                        case PLAIN -> new JMenuItem(action);
-                        case CHECK -> new JCheckBoxMenuItem(action);
+                        case PLAIN -> new JMenuItem(action) { @Override public String getToolTipText(MouseEvent event) { return null; } };
+                        case CHECK -> new JCheckBoxMenuItem(action) { @Override public String getToolTipText(MouseEvent event) { return null; } };
                         case RADIO -> {
-                            var radio = new JRadioButtonMenuItem(action);
+                            var radio = new JRadioButtonMenuItem(action) { @Override public String getToolTipText(MouseEvent event) { return null; } };
                             groups.computeIfAbsent(command.group(), group -> new ButtonGroup()).add(radio);
                             yield radio;
                         }
@@ -2686,8 +2687,6 @@ public final class TurboFrame extends JFrame {
                     break;
                 }
             entry.getValue().putValue(Action.ACCELERATOR_KEY, accelerator);
-            entry.getValue().putValue(Action.SHORT_DESCRIPTION, commandKeymaps.shortcutText(entry
-                    .getKey()));
         }
     }
 

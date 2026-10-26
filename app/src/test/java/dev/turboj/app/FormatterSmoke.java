@@ -20,6 +20,8 @@ public final class FormatterSmoke {
             frame = edt(() -> { TurboFrame result = new TurboFrame(new Settings(), Map.of()); result.setVisible(true); result.toFront(); return result; });
             check(edt(() -> menuItem("Formatter", "IntelliJ IDEA").isSelected()), "IntelliJ IDEA's default style is TurboJ's default");
             check(edt(() -> !menuItemExists("Formatter", "JavaFMT (on hold)")), "JavaFMT is on hold and not offered");
+            check(edt(() -> menuItemsWithTooltips(frame.getJMenuBar()).isEmpty()), "no menu item shows a tooltip: "
+                    + edt(() -> menuItemsWithTooltips(frame.getJMenuBar())));
             edt(() -> { frame.editor().setText(SOURCE); frame.editor().gotoOffset(0); frame.editor().requestFocusInWindow(); return null; });
             await("editor focus", () -> frame.editor().isFocusOwner());
             key(KeyEvent.VK_L, KeyEvent.META_DOWN_MASK | KeyEvent.ALT_DOWN_MASK);
@@ -64,6 +66,23 @@ public final class FormatterSmoke {
         } catch (Throwable failure) {
             failure.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    /** Menu items that would pop up a tooltip under the pointer; the shortcut is already beside each item. */
+    private static java.util.List<String> menuItemsWithTooltips(JMenuBar bar) {
+        var found = new java.util.ArrayList<String>();
+        for (int i = 0; i < bar.getMenuCount(); i++) collectTooltips(bar.getMenu(i), found);
+        return found;
+    }
+
+    private static void collectTooltips(JMenu menu, java.util.List<String> found) {
+        for (Component child : menu.getMenuComponents()) {
+            if (child instanceof JMenu nested) collectTooltips(nested, found);
+            else if (child instanceof JMenuItem item) {
+                var event = new java.awt.event.MouseEvent(item, java.awt.event.MouseEvent.MOUSE_MOVED, 0, 0, 2, 2, 0, false);
+                if (item.getToolTipText(event) != null) found.add(item.getText());
+            }
         }
     }
 
