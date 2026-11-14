@@ -9,11 +9,15 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `ai.another` | Java Intelligence | Option+Shift+SPACE | Option+Shift+SPACE | Option+Shift+SPACE | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `ai.cloud` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `ai.diagnostics` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `ai.disabled` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `ai.download` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `ai.larger` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `ai.local` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `ai.request` | Java Intelligence | Option+SPACE | Option+SPACE | Option+SPACE | Option+Shift+SPACE | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `ai.retry` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `ai.settings` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `ai.test` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `back` | Navigation | Cmd+OPEN_BRACKET / Option+Cmd+LEFT | Option+Cmd+LEFT | Ctrl+MINUS | Cmd+OPEN_BRACKET / Ctrl+Cmd+LEFT | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.cancel` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Cherry Test is not running | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.configure` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -26,7 +30,8 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `compileProject` | Compilation | Unassigned | Unassigned | Unassigned | Shift+Cmd+B | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `complete` | Java Intelligence | Ctrl+SPACE | Ctrl+SPACE | Ctrl+SPACE / Cmd+I | Option+SPACE / Ctrl+SPACE | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `completion.accept` | Java Intelligence | TAB / ENTER | TAB / ENTER | TAB / ENTER | TAB / ENTER | Implemented; No completion is visible | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `completion.acceptWord` | Java Intelligence | Ctrl+Option+ENTER | Ctrl+Option+ENTER | Ctrl+Option+ENTER | Ctrl+Option+ENTER | Implemented; No AI suggestion is visible | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `completion.acceptLine` | Java Intelligence | Option+Shift+RIGHT | Option+Shift+RIGHT | Option+Shift+RIGHT | Option+Shift+RIGHT | Implemented; No AI suggestion is visible | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `completion.acceptWord` | Java Intelligence | Ctrl+Option+ENTER / Option+RIGHT | Ctrl+Option+ENTER / Option+RIGHT | Ctrl+Option+ENTER / Option+RIGHT | Ctrl+Option+ENTER / Option+RIGHT | Implemented; No AI suggestion is visible | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `completion.dismiss` | Java Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `completion.next` | Java Intelligence | DOWN | DOWN | DOWN | DOWN | Implemented; Completion alternatives are not open | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `completion.parameterInformation` | Java Intelligence | Cmd+P | Unassigned | Shift+Cmd+SPACE | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -93,7 +98,13 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `evaluateSelection` | Execution | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Select source text first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `evaluateStatement` | Execution | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `explorer.collapse` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `explorer.contextMenu` | Panels | Shift+F10 | Shift+F10 | Shift+F10 | Shift+F10 | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `explorer.delete` | Panels | BACK_SPACE / DELETE | BACK_SPACE / DELETE | BACK_SPACE / DELETE | BACK_SPACE / DELETE | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `explorer.expand` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `explorer.newClass` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `explorer.newFile` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `explorer.newFolder` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `explorer.newPackage` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `explorer.open` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Requires explorer | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `file.close` | File | Cmd+W | Cmd+W | Cmd+W | Cmd+W | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `file.newFile` | File | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -255,9 +266,10 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `repl` | Execution | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `replReset` | Execution | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `replace` | Edit | Cmd+R | Unassigned | Option+Cmd+F | Option+Cmd+F | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `run` | Execution | Ctrl+R | Shift+Cmd+F11 | Ctrl+F5 | Cmd+R / Ctrl+F9 | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `run` | Execution | Ctrl+R | Unassigned | Ctrl+F5 | Cmd+R / Ctrl+F9 | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `run.clearOutputBefore` | Edit | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `run.configuration` | Edit | Unassigned | Unassigned | Unassigned | Shift+Cmd+R | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `run.context` | Edit | Unassigned | Shift+Cmd+F11 | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `run.onSave` | Execution | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `save` | File | Cmd+S | Cmd+S | Cmd+S | Cmd+S / F2 | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `saveAs` | File | Shift+Cmd+S | Unassigned | Shift+Cmd+S | Shift+Cmd+S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -272,7 +284,9 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `tests.class` | TurboTest | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `tests.current` | TurboTest | Unassigned | Unassigned | Unassigned | Cmd+U | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `tests.failed` | TurboTest | Unassigned | Unassigned | Unassigned | Option+Cmd+U | Implemented; No failed tests to rerun | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `tests.nextFailure` | TurboTest | Unassigned | Unassigned | Unassigned | Option+Cmd+QUOTE | Implemented; Run tests first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `tests.onSave` | TurboTest | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `tests.previousFailure` | TurboTest | Unassigned | Unassigned | Unassigned | Option+Shift+Cmd+QUOTE | Implemented; Run tests first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `tests.results` | TurboTest | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No test results yet | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `tests.stop` | TurboTest | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No tests are running or waiting to run | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `theme.classic` | Appearance | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |

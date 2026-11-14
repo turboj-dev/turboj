@@ -98,11 +98,49 @@ public final class OutputStatusSmoke {
                 check(edt(() -> frame.outputTabTitle()).equals(name), "a click on " + name + " selects it");
             }
             System.out.println("PASS one title line: " + edt(() -> frame.outputTabsInTitle()) + "; clicks select tabs");
+
+            // Save with Run and Test on Save: both run, and the panel stays on the tab the user is reading.
+            edt(() -> { frame.runCommand("run.onSave"); frame.runCommand("tests.onSave"); return null; });
+            edt(() -> { frame.clickOutputTab("Tests"); return null; });
+            open(main);
+            String before = edt(() -> frame.console().text());
+            var report = edt(() -> frame.tests().lastReport());
+            edt(() -> { frame.editor().setText(frame.editor().getText().replace("Hello World!", "Hello again!")); return null; });
+            key(KeyEvent.VK_S, CMD);
+            await("save ran the program and the tests", () -> frame.console().text().length() > before.length()
+                    && frame.console().text().contains("Hello again!") && frame.tests().lastReport() != report);
+            check(edt(() -> frame.outputTabTitle()).equals("Tests"), "Save runs main and tests and stays on the Tests tab");
+            key(KeyEvent.VK_R, CMD);
+            await("explicit run", () -> frame.outputTabTitle().equals("Output"));
+            check(true, "Run shows the program's output");
+            System.out.println("PASS Save keeps the Tests tab; ⌘R switches to Output");
+
+            // Run is the program only, from a test class too; Run Tests is the tests only.
+            open(test);
+            var lastReport = edt(() -> frame.tests().lastReport());
+            int runs = edt(() -> count(frame.statusMessages(), "Run HelloWorld") + count(frame.statusMessages(), "Run CalculatorTest"));
+            String output = edt(() -> frame.console().text());
+            key(KeyEvent.VK_R, CMD);
+            await("⌘R in a test class runs the program", () -> frame.console().text().length() > output.length()
+                    && frame.console().text().endsWith("Hello again!\n"));
+            Thread.sleep(1500);
+            check(edt(() -> frame.tests().lastReport()) == lastReport, "⌘R in a test class runs HelloWorld's main and no test");
+            String afterRun = edt(() -> frame.console().text());
+            key(KeyEvent.VK_U, CMD | KeyEvent.SHIFT_DOWN_MASK);
+            await("⇧⌘U runs the tests", () -> frame.tests().lastReport() != lastReport);
+            check(edt(() -> frame.console().text()).equals(afterRun), "Run Tests runs no program");
+            System.out.println("PASS ⌘R runs only the program (from CalculatorTest.java too); ⇧⌘U only the tests");
             System.exit(0);
         } catch (Throwable failure) {
             failure.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private static int count(String text, String part) {
+        int count = 0;
+        for (int at = text.indexOf(part); at >= 0; at = text.indexOf(part, at + 1)) count++;
+        return count;
     }
 
     private static String segment(StatusBar.Segment segment) throws Exception {

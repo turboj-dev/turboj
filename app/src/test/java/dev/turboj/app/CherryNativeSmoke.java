@@ -47,7 +47,7 @@ public final class CherryNativeSmoke {
                     && frame.editor().lineIntelligence().testingActive(),"Cherry configuration and source detected");
             edt(() -> { frame.editor().requestFocusInWindow(); return null; });
             waitFor(() -> frame.editor().isFocusOwner(),"editor focus");
-            palette("run");
+            palette("run.context");
             waitFor(() -> completed(),"normal Run starts and completes real Cherry workflow");
             Run passing = edt(() -> frame.tests().cherry().last());
             check(passing.state() == RunState.COMPLETED && passing.tests().size() == 2
@@ -65,7 +65,7 @@ public final class CherryNativeSmoke {
                     .noneMatch(l -> l.coverage().availability() == Availability.AVAILABLE),"unsaved change withholds old line coverage");
             check(Files.readString(source).equals(original),"unsaved edit does not rewrite disk");
             palette("save"); waitFor(() -> Files.readString(source).contains("cents + cents"),"save modified source");
-            String oldRun = passing.id(); palette("run");
+            String oldRun = passing.id(); palette("run.context");
             waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(oldRun),"failing real run completes");
             Run failed = edt(() -> frame.tests().cherry().last());
             check(failed.state() == RunState.FAILED && failed.tests().stream().filter(t -> t.status() == TestStatus.FAILED).count() == 1,

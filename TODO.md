@@ -1,35 +1,706 @@
-# TODO
+# TurboJ — stato del progetto e piano unico di sviluppo
 
-- [ ] Decide the ecosystem naming before any rename: the current `*J` names, or a common **Turbo** family
-      (TurboTest already uses it):
+**Aggiornamento: 14 novembre 2026. Baseline: `fc4bdac` + modifiche locali.**
 
-  | Today | `*J` naming | Turbo naming |
-  | --- | --- | --- |
-  | `javafmt` | FormatJ | **TurboFormat** |
-  | `refactorj` | RefactorJ | **TurboRefactor** |
-  | `commandj` | CommandJ | **TurboCommand** |
-  | `mavenj` | MavenJ | **TurboMaven** |
+Questo è il **canovaccio operativo unico**: sommario, stato effettivo, decisioni, attività aggregate, dipendenze e criteri di accettazione. Sostituisce la precedente lista breve e consolida il lavoro disperso nei documenti del progetto. Le specifiche e le evidenze originali restano nei rispettivi percorsi: non vengono eliminate né trasformate retroattivamente in verifiche della versione attuale.
 
-  - The choice decides the FormatJ rename below and the sibling directory names in the layout item.
-  - Same care as any rename: Java packages, Maven coordinates, CLI commands, docs and the website.
+Le nuove attività vanno aggiunte qui, con ID stabile. I documenti specialistici descrivono contratti e risultati; non devono diventare backlog paralleli. Una richiesta in un prompt non prova un'implementazione; un limite storico superato non costituisce un'attività ancora aperta.
 
-- [ ] (On hold with javafmt itself: TurboJ formats with google-java-format; see docs/formatting.md.) Rename the formatter project from `javafmt` to **FormatJ**, with directory/repository name `formatj`.
-  - Check consumers before changing Java packages or Maven coordinates.
-  - Preserve the existing `javafmt` CLI command for compatibility.
-  - Update project branding, documentation and build references.
+## Indice
 
-- [ ] Move the ecosystem tools into sibling directories alongside `turboj/`, with one independent project per directory:
+1. [Sommario e punto di ripartenza](#1-sommario-e-punto-di-ripartenza)
+2. [Baseline e stato delle consegne](#2-baseline-e-stato-delle-consegne)
+3. [Architettura e capacità disponibili](#3-architettura-e-capacità-disponibili)
+4. [Evidenze e documenti superati](#4-evidenze-e-documenti-superati)
+5. [Sequenza di lavoro consigliata](#5-sequenza-di-lavoro-consigliata)
+6. [Registro unico delle attività](#6-registro-unico-delle-attività)
+7. [Verifica e definizione di completamento](#7-verifica-e-definizione-di-completamento)
+8. [Manutenzione del canovaccio](#8-manutenzione-del-canovaccio)
+9. [Indice delle fonti consolidate](#9-indice-delle-fonti-consolidate)
 
-  ```text
-  Workspace/
-  ├── turboj/
-  ├── formatj/
-  ├── refactorj/
-  ├── commandj/
-  ├── mavenj/
-  └── turbotest/
-  ```
+## 1. Sommario e punto di ripartenza
 
-  - Preserve each project's history and independent build/test/release workflow.
-  - Update dependency coordinates, build scripts, CI, packaging and documentation as needed.
-  - Keep TurboJ integration through versioned Java libraries in-process, with external protocol adapters optional.
+TurboJ è già un'applicazione Java/Swing con editor Java2D, compilazione ed esecuzione reali, intelligenza Java JDT, refactoring, JUnit, progetti Maven, comandi centralizzati, temi e completamento AI. La demo web ricostruisce sessioni native documentate; non esegue Java nel browser.
+
+L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro successivo deve consolidare l'esperienza esistente e completare le parti parziali, preservando tastiera, leggerezza e correttezza semantica.
+
+| Area | Stato rilevato | Prossimo risultato necessario |
+| --- | --- | --- |
+| Editor e tastiera | Editing di righe, multicaret, selezione strutturale, focus e palette implementati; prove storiche | Certificare build corrente, migrazione keymap e flussi reali macOS |
+| Quick Fix / Quick Assist | Provider semantici; Cmd+1 TurboJ/Eclipse; correzioni Monokai nel codice | Riprovare Calculator e popup sull'artefatto effettivamente usato |
+| First launch e template | Percorso Java/Maven fino a JUnit verde registrato; template successivamente evoluti | Nuova accettazione con template e Run attuali |
+| Output, Tests, Explorer | Console verbatim, Tests separato, `:!`, ridimensionamento, font condiviso e operazioni file | Validare modifiche locali Run/Run File/AutoRun e focus |
+| MavenJ / TurboTest / RefactorJ | Integrazioni operative, con limiti espliciti | Qualificazione aggiornata e percorsi alternativi per casi non supportati |
+| Cherry Test | Slice reale: processo, risultati strutturati, Git, tre corsie, contatori e inspector | Provenienza del codice eseguito, selettori, aggregazione e workflow completo |
+| TurboAI | Provider, runtime locale gestito, ghost text e filtri contestuali | Qualificare `.app`, download GUI, llama.cpp e provider live |
+| Formattazione | Default IntelliJ-style su JDT; anche preset JDT e google-java-format | Allineare documentazione; formatter proprietario sospeso |
+| Sito e hero | Cinque capitoli, evidenze, curl nell'Output nativo, controlli compatti, loop e fix tema | Verificare build/deploy e scegliere quali cambi nativi successivi rappresentare |
+| Distribuzione/ecosistema | Monorepo con moduli riutilizzabili e artefatti locali | Coordinare versioni, repository Cherry, packaging e pubblicazioni |
+
+**Ripartenza immediata:** stabilizzare modifiche locali e verificare Cmd+1/Monokai, routing Run e migrazione delle personalizzazioni. **Priorità strutturale:** completare la provenienza Cherry prima di chiamare la coverage «corrente». Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
+
+Il consolidamento iniziale è stato un audit documentale e del codice, senza riesecuzione di build, test o controlli live. Le verifiche successive sono registrate separatamente in §7; non ricertificano automaticamente le evidenze di ottobre.
+
+## 2. Baseline e stato delle consegne
+
+### Versioni e cronologia
+
+| Elemento | Stato rilevato | Interpretazione |
+| --- | --- | --- |
+| TurboJ HEAD | `fc4bdac`, 26 ottobre 2026 | Explorer, titoli tab Output e risultati test; non include il working tree |
+| Maven root | `0.1.0-SNAPSHOT`, JDK 25 | Distinto dal numero del pacchetto macOS |
+| Packaging macOS | Script ancora con app-version `1.0.10` | Da riconciliare con prossima consegna; HEAD non è automaticamente distribuito |
+| Cherry sibling | HEAD `0dc649cb`, integrazione Java/Rust modificata localmente | Il solo checkout dello SHA non riproduce tutte le capacità usate da TurboJ |
+| JUG Lugano | `b1f1ad8` baseline dell'indagine precedente | Non certifica il suo working tree corrente |
+| Sito | Ultimo deploy documentato: sorgente `294984a`, 25 ottobre; registrazione `bb59258` | Produzione non verificata oggi; push e deploy sono distinti |
+| JAR locale | `app/target/turboj-app.jar`, ricostruito il 14 novembre con `./mvnw install` | Build PASS sul working tree; hash e risultati in §7. Il pacchetto `.app` precedente non viene aggiornato da questo comando |
+| Pacchetto Quick Fix | `target/quick-fix-monokai/TurboJ.app`, JAR del 25 ottobre | Precede cambi successivi: non basta per chiudere una regressione attuale |
+
+Passaggi storici: `802f496` keyboard-first; `997057b` hero; `2ca283f` layout; `32ee964` workflow Eclipse; `61208bc` comando Output/curl; `294984a` flash tema; `db1d4ed` Cherry; `a26e6b7` keymap TurboJ/formatter; `b8f5978` template; `23425cf` TurboAI; `76db7c4` Output/Tests; `fc4bdac` Explorer/risultati.
+
+### Lavoro locale preesistente da preservare
+
+Prima di aggiornare questo file: **18 file modificati e 8 non tracciati**. Non sono cambi prodotti dall'audit né automaticamente pronti per un commit unico.
+
+| Gruppo | Percorsi | Continuazione |
+| --- | --- | --- |
+| Routing e menu | `app/src/main/java/dev/turboj/app/{TurboFrame,MenuLayout}.java`; `commandj/commandj-keymap/src/main/java/dev/turboj/commandj/keymap/BundledKeymaps.java` | Rivedere `run`/`run.context`, Eclipse e AutoRun |
+| Smoke modificati | `app/src/test/java/dev/turboj/app/{CherryNativeSmoke,OutputStatusSmoke}.java` | Eseguire sul nuovo artefatto, non dedurre PASS dalla presenza |
+| Riferimenti | `docs/{keyboard-shortcut-reference,menus-turboj,quick-fix-quick-assist,shortcuts}.md`; quattro PDF `docs/cheatsheets/` | Rigenerare dopo stabilizzazione comandi |
+| Esempi | `examples/{Calculator,Hello,SampleTest}.java`; Calculator/CalculatorTest in `examples/maven/` | Distinguere fixture deliberate e lavoro personale; nessun reset indiscriminato |
+| Nuovo harness | `app/src/test/java/dev/turboj/app/InlineTemplateAcceptance.java` | Rivedere, eseguire, versionare se pertinente |
+| Nuove evidenze | Cinque `benchmarks/results/gui-smoke-2026-10-26T*.md`; `docs/evidence/cherry-native/real-executions.json` | Verificare sorgente/build e conservare artefatti grezzi |
+| Nuovo esempio | `examples/HelloWorld.java` | Confermare ruolo e destinazione |
+
+Nel sibling Cherry sono locali le modifiche CLI Java, `NativeEvents`, test/fixture, `docs/native-ide-events.md` e report Rust. Il riepilogo locale `real-executions.json` rimanda a otto directory `rawEvidence` in `/private/tmp`: al controllo del 14 novembre non sono più presenti. Metadati e hash non sostituiscono gli output grezzi perduti; il file non va pubblicato invariato come prova riproducibile. GOV-01/02 e CH-01 coprono recupero, nuova acquisizione o dichiarazione esplicita del limite.
+
+## 3. Architettura e capacità disponibili
+
+### Componenti
+
+| Componente | Percorso | Responsabilità |
+| --- | --- | --- |
+| App | [app](app/) | Swing/Java2D, editor, pannelli, preferenze e controller |
+| Core | [core](core/) | Documento, compilazione, intelligence e modello decorazioni |
+| Worker | [worker](worker/) | Esecuzione separata, stdin/stdout/stderr e protocollo |
+| CLI / benchmark | [cli](cli/), [benchmarks](benchmarks/) | Comandi e misure; non sostituiscono accettazione GUI |
+| CommandJ | [commandj](commandj/) | Registro, contesti, profili, palette, conflitti ed export |
+| RefactorJ | [refactorj](refactorj/) | JDT/Equinox condiviso, piani/transazioni, adattatori CLI/LSP/MCP/IDE |
+| MavenJ | [mavenj](mavenj/) | Effective POM, dipendenze, toolchain, reactor, compilazione/test |
+| TurboTest | [turbotest](turbotest/) | JUnit Platform; il controller app possiede anche il processo Cherry |
+| TurboAI | [turbo-ai](turbo-ai/) | Provider/runtime, contesto Java e CLI, separati dalla UI |
+| JavaFMT | [javafmt](javafmt/) | Formatter proprietario e adattatori conservati; sviluppo sospeso |
+| Cherry Test | Sibling `../cherry-test` | Orchestrazione/adapter/report standalone; contratto strutturato consumato da TurboJ |
+| Website | [website](website/) | Astro statico, replay HTML, temi ed evidenze |
+
+Cherry: **CLI isolata → JSONL v1 e artefatti verificati → modello immutabile → repository/modulo/documento/revisione → corsie e inspector**. `TurboTestController` resta proprietario dell'esecuzione: niente secondo runner o status ricavati dai colori HTML.
+
+### Editor e interazione
+
+- Cut/Copy senza selezione operano sulla riga; una selezione esplicita mantiene la propria semantica. Delete/Duplicate/Move/Copy Lines, commenti, indentazione e altre trasformazioni passano da CommandJ.
+- Multicaret reale, undo, selezione AST e movimenti strutturali sono presenti. Trasformazioni insicure vengono rifiutate o richiedono la decisione prevista dal contratto.
+- Palette, menu, pannelli, Maven, test, refactoring, temi e preferenze hanno percorsi da tastiera. Le prove automatiche non certificano ogni layout fisico/accessibilità.
+- **Quattro profili correnti: TurboJ, IntelliJ, Eclipse, VS Code macOS. Default: TurboJ.** `turboj-classic` è ritirato e mappato al nuovo default. Il requisito storico IntelliJ-default/Classic-preservato va riconciliato; la migrazione custom non va presunta sicura.
+- Quick Fix è `refactor.context-actions`. Cmd+1 è presente in TurboJ/Eclipse; IntelliJ e VS Code conservano le proprie convenzioni. Il codice segue anche il problema correggibile più vicino sulla riga.
+- Template inline: intervalli reali, rename semantico, Tab/Shift+Tab ciclici, Enter conferma, Escape annulla. Il contratto più recente è [inline-templates](docs/inline-templates.md).
+- Bordi singoli, font condiviso e Output ridimensionabile sono implementati; default attuale 16 pt. Screenshot storici a 18 pt non definiscono il default.
+- Output è verbatim, Tests separato, JShell distinto. `Escape → : → ! comando` esegue un processo esterno nell'Output; **non è una shell persistente o PTY**.
+
+### Java, build e test
+
+JDT è condiviso da intelligence/RefactorJ, con recovery AST fuori dall'EDT. MavenJ fornisce modello e classpath dei moduli: importare non esegue automaticamente plugin. Compilazione nativa, Fast Run, Isolated Run e goal Maven mantengono semantiche diverse.
+
+TurboTest esegue JUnit realmente. **Auto Test on Save, Auto Run on Save e Auto Test on Changes sono distinti**; i primi due sono indipendenti e disabilitati di default. Compilazione, generazione corrente, esito e focus devono restare verificabili. RefactorJ dispone di journal e operazioni tipizzate, non promette atomicità globale del filesystem o correttezza rispetto a reflection arbitraria.
+
+La generazione Java (constructor/accessor, equals/hashCode/toString, implement/override e Javadoc) è disponibile nei contesti supportati. Non è universale: le operazioni interessate rifiutano records/enums/interfaces, equality con superclasse non `Object` e default-interface ambigui secondo il [contratto keyboard-first](docs/keyboard-first-design.md).
+
+### Cherry: tre fatti indipendenti
+
+| Dimensione | Disponibile | Limite |
+| --- | --- | --- |
+| Git | HEAD→buffer con staged/unstaged/unsaved, nuovi file, rename noto, worktree e ancore cancellazione | Altre baseline solo API; move non riconosciuto trattato come nuovo file |
+| Test | Risultati, runtime/fasi distinti, dichiarazioni risolte dove dimostrabili | Nessuna failure di package attribuita arbitrariamente alla produzione |
+| Coverage | Contatori JaCoCo `ci/mi/cb/mb`, LCOV binario, disabled/missing/incomplete distinti | Identità sorgente compilata/class ID/processo mancante: freshness reale `UNKNOWN` |
+| UI | Corsie indipendenti, hit-test, tastiera, geometria stabile, palette semantica | Colori di stato corrente neutrali finché manca provenienza; test sintetici non la dimostrano |
+| Esecuzione | Discovery, processo isolato, progressione per fase, cancel, storico con receipt/hash/exit code | Rerun singolo/falliti esatto, eventi per test e workflow coverage corrente incompleti |
+
+Nei progetti configurati, Run affianca Cherry all’esecuzione normale senza cambiare le garanzie Fast/Isolated. Cherry valida i file salvati: rifiutare Save non certifica il buffer modificato. La CLI conserva orchestrazione e report standalone.
+
+Coperto non significa test riuscito; non coperto non eredita una failure di package. Codice cancellato è un'annotazione diff, non una riga corrente. Un hash sorgente stabile non dimostra quale bytecode sia stato eseguito. Mostrare meno informazioni è corretto quando mancano queste prove.
+
+### AI, formatter e sito
+
+TurboAI comprende Ollama, llama.cpp, OpenAI Responses, Anthropic Messages e xAI Chat Completions; runtime gestito/esterno, download, errori tipizzati, ghost text, accettazione completa/parola/riga e precedenza JDT/template. AI è disabilitata di default; keep-alive attuale 30 minuti. Contesto current-file e filtri euristici non equivalgono a correttezza provata. Fallback cloud solo con impostazioni e consenso espliciti.
+
+Default formatter: **IntelliJ-style tramite JDT**, non il binario IntelliJ. Disponibili altri preset JDT e google-java-format 1.37.0. JavaFMT/FormatJ resta compatibile con scelte legacy ma sospeso.
+
+Hero: Hello World → due test → Rename/Extract Method → AutoRun/AutoTest → Spring Boot/curl. Il finale aggiornato conserva l'editor e usa `:! curl` nativo registrato, HTTP/JSON autentici; nessuna richiesta browser a localhost. Controlli compatti Play/Pausa, spiegazione typewriter e loop seguono le richieste successive: non ripristinare automaticamente tutti i controlli del primo prompt. Evidenze e dettagli conservati nel progetto.
+
+## 4. Evidenze e documenti superati
+
+### Evidenze storiche, non certificazione di HEAD corrente
+
+| Area | Risultati registrati | Limiti |
+| --- | --- | --- |
+| Tastiera | [Audit](docs/keyboard-accessibility-audit.md): 577 test/91 suite, controlli profili/pannelli/Robot | Ottobre, prima di cambi successivi |
+| First launch | [Accettazione](docs/first-launch-keyboard-acceptance.md): run09, 241 eventi, 100 PASS, plain e Maven | AWT/Swing iniettati, non walkthrough umano |
+| Quick Actions | [Rapporto](docs/quick-fix-quick-assist.md): 24 QuickActionsIT + 20 ModernizationIT PASS | Semantica JDT; popup attuale da riprovare |
+| Layout/font | [Preview](docs/native-layout-preview-2026-10-25.md): 148+2 layout, 33 zoom; package con 165 test app selezionati | Artefatto storico, non intero reactor ricertificato |
+| Cherry/TurboJ | [Validazione](docs/evidence/cherry-native/automated-validation.json): 721 reactor prima degli ultimi fix, poi 690 app/dipendenze inclusi 71 specifici | Esecuzioni sovrapposte: non sommare |
+| Cherry standalone | Stessa evidenza: 341 Java, 241 Rust in clone con patch confrontate | Modifiche sibling ancora da consolidare |
+| Cherry nativo | [Walkthrough](docs/evidence/cherry-native/native-walkthrough.json): pass→edit→fail→Undo/Save→pass; inspector/corsie | Contatori reali, provenienza compilata sconosciuta |
+| Progetti reali | `docs/evidence/cherry-native/real-executions.json` (locale, non versionato): mini Java 3/3, shop cart 12/12, shop-java 32/33 | Failure `reports_a_price_mismatch` conservata, non PASS complessivo |
+| JUG | Domain 9/9, Spring 5/5, Quarkus 5/5 nella stessa evidenza | Coverage disabilitata; suite complete non eseguite |
+| MavenJ | [VALIDATION](mavenj/docs/VALIDATION.md): reactor e suite mirate di ottobre | Source/API Java 17 non significano runtime Java 17 provato |
+| AI | [Validazione](docs/ai/autocomplete-validation.md): Ollama reale, Tab/Undo/JDT; [benchmark](benchmarks/results/ai-completion-2026-10-26.md): 63/84 attesi, 26/26 controlli compilazione | Non 81 suggerimenti tutti compilati; download GUI verificato con fake server, download reali tramite CLI; cloud con fixture di protocollo |
+| Sito | [QA](website/QA.md), [hero](docs/website-hero-validation-2026-10-25.md), [deploy](website/DEPLOYMENT.md) | Evidenze ottobre, nessun controllo live oggi |
+
+Le matrici mini/shop/shop-java con servizi/browser/processi separati non sono dimostrate dai sottoinsiemi sopra. JUG richiede i propri launcher e confini di rete locali; configurazione presente non significa autorizzazione ad eseguire suite esterne indiscriminatamente.
+
+### Prestazioni osservate
+
+| Misura storica | Risultato | Confine |
+| --- | --- | --- |
+| Gutter 100k righe | Paint 290,375→322,541 µs; snapshot 17,497 ms; installazione EDT 0,029 ms | Offscreen, stessa build senza/con decorazioni; non baseline pre-integrazione |
+| Git 10k righe | Warm mediana 42,374 ms / p95 46,072 ms | Non input-to-paint né qualsiasi repository |
+| Duplicate Line | p95 2,667→5,625 µs; +3.552 B/op | Regressione storica misurata, non «nessuna regressione» |
+| AI 1.5B M5/16GB | Warm p50 134 / p95 446 ms; cold 1.034 ms | Non prestazione universale, Intel/7B/cloud non deducibili |
+| Managed Ollama | Enable→Ready 1.143 ms; restart configurazione 747 ms | Osservazioni storiche, non SLA |
+| Hero | Controller 6.217 byte gzip; JS iniziale 14.360 byte gzip | Budget 8/18 KiB rispettati sulla build misurata |
+| Lighthouse locale | 99/100/100/100; LCP 1.807 ms, CLS 0,000697, TBT 0 | Non field INP o misura attuale di produzione |
+
+Fonti: [keyboard-performance](docs/keyboard-performance.md), [Cherry benchmark](docs/evidence/cherry-native/paint-and-git-benchmark.json), [performance](docs/performance.md), [AI performance](docs/ai/autocomplete-performance.md), [QA sito](website/QA.md). Restano da misurare input fisico→presentazione, scrolling nativo, memoria/GC prolungati, grandi report e cold start del pacchetto corrente.
+
+### Contraddizioni da riconciliare
+
+| Testo storico | Stato da usare | Attività |
+| --- | --- | --- |
+| IntelliJ default e Classic preservato | TurboJ default, Classic ritirato | KEY-01/02: decisione e migrazione |
+| Maven/JUnit assenti in acceptance/sessione23 ottobre | MavenJ/TurboTest implementati | GOV-03 |
+| Quick Fix solo sul caret; Escape ripristina sempre posizione | Anche problema più vicino sulla riga; caret resta sul problema | QFX-02 |
+| Vecchio ordine template; Tab esce; Escape non rollback | Nuovo ordine return/name/params/expression, ciclo Tab, Enter conferma, Escape annulla | QFX-03 |
+| Run genericamente contestuale | Working tree separa `run` e `run.context` | RUN-01 |
+| Output con intestazioni/timing/test | Output verbatim; Tests separato; stato altrove | Parte iniziale aggiornata di output-and-status prevale sulla proposta sotto |
+| FormatJ attivo o soltanto GJF | Default JDT IntelliJ-style, anche GJF; JavaFMT sospeso | FMT-01 |
+| Go to Implementation/progetti/Recent Files assenti | Implementazioni successive nei controller | GOV-03, non riaprire vecchi limiti automaticamente |
+| AI senza manager, vecchi provider, keep-alive 2 min | TurboAI/manager, 30 min | AI-08; current-architecture è baseline pre-AI 2.0 |
+| Shortcut AI universale | TurboJ: JDT Option+Space, AI Option+Shift+Space; altri profili diversi | KEY-03/AI-08 |
+| Hero HelloWorld-only o Calculator/cinque test | Cinque capitoli, due test, due refactoring, automazioni separate | WEB-01 |
+| Curl sempre in terminale esterno | Finale nativo `:! curl` successivo | WEB-01; vecchia cattura resta storica |
+| Nessuna shell | Nessun PTY persistente, ma comando one-shot presente | RUN-04/06 |
+| Cherry Task2 concluso | Slice reale; milestone 4–7 parziali/incomplete | CH-02…16 |
+
+### Confini intenzionali
+
+- Import Maven non esegue wrapper/plugin/AP. Codegen, risorse filtrate, fork custom, Surefire/Failsafe e JUnit named-module con `--patch-module` usano Maven esplicito dove il percorso nativo non li supporta.
+- `source/target 8` non prova API/runtime 8; preview precedenti richiedono JDK corretto. Query JDT di un main e lancio effettivo sono prove diverse.
+- Fast/Isolated Run non sono sandbox di sicurezza per codice ostile; limiti JVM/processi/output restano dichiarati.
+- Unknown, skipped, aborted, failure infrastrutturale, coverage disabled/missing/incomplete e zero istruzioni coperte non sono sinonimi.
+- Reflection, sorgenti generati mancanti e binari limitano i refactoring statici; recovery del journal può essere esplicito.
+- Gradle, debugger completo, PTY, font arbitrari e indice persistente sono evoluzioni, non capacità già disponibili.
+- JavaFMT sospeso non riapre automaticamente lavoro su parsing incrementale, Java malformato/preview, plugin build o GraalVM.
+- Telemetria, Electron, framework web pesanti e runner duplicati non sono attività implicitamente richieste.
+
+## 5. Sequenza di lavoro consigliata
+
+Priorità proposte dalle dipendenze tecniche e dai difetti segnalati, non nuove autorizzazioni di deploy.
+
+| Traguardo | Attività | Uscita verificabile |
+| --- | --- | --- |
+| A — Baseline affidabile | GOV-01/02, REL-01 | Diff, artefatti e prove identificati senza perdere lavoro |
+| B — Nativo stabile | KEY-01/02, QFX-01/03/04, RUN-01/02, UI-01 | Cmd+1/Monokai, template, Run e Save provati |
+| C — Cherry completo | CH-01/02/03, poi CH-04…10 | Provenienza, selettori, aggregazione e coverage corrente reali |
+| D — Qualificazione | AI, MavenJ, RefactorJ, tastiera fisica e PERF | Runtime/GUI reali e misure comparabili |
+| E — Consegna/sito | GOV-03, KEY-03, WEB, REL | Build verificata e hero coerente col nativo accettato |
+| F — Ecosistema | ECO-01/02/03 | Naming/compatibilità decisi prima di spostare/pubblicare |
+
+AI, documentazione e test librerie possono procedere in parallelo dove indipendenti. Coordinare harness GUI che contendono focus e processi/porte. Non separare i repository nel mezzo della stabilizzazione Cherry/Run.
+
+## 6. Registro unico delle attività
+
+**P0:** blocca correttezza/consegna nel proprio ambito; **P1:** prossima implementazione/qualificazione; **P2:** miglioramento successivo; **P3:** direzione da decidere. CH-02 blocca la promessa di coverage corrente, non l'uso onesto della slice neutrale.
+
+Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
+
+**Registro al 14 novembre: 112 attività aggregate, di cui 111 aperte e 1 chiusa**, non 112 difetti dimostrati. Le attività aperte comprendono 49 qualificazioni da eseguire, 29 attività parziali, 12 da fare, 18 decisioni, 2 requisiti essenziali incompleti e 1 attività sospesa.
+
+| Priorità | Attività aperte | Lettura |
+| --- | --- | --- |
+| P0 | 9 | Baseline, regressioni segnalate e correttezza semantica |
+| P1 | 56 | Consolidamento, implementazione e qualificazione prossimi |
+| P2 | 38 | Miglioramenti e decisioni successive |
+| P3 | 8 | Evoluzioni da decidere o attività sospese |
+
+### 6.1 Governo e documentazione
+
+Fonti: stato Git, [limitations](docs/limitations.md), rapporti di release e precedente TODO nella storia del repository.
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| GOV-01 | P0 | DA FARE | Consolidare working tree per gruppi coerenti. Diff/esempi classificati, nessun lavoro utente perso, harness ed evidenze destinati al versionamento identificati. |
+| GOV-02 | P0 | PARZIALE | Archiviare prove ancora disponibili e recuperare o riacquisire quelle grezze Cherry ormai assenti; dichiarare ciò che non è riproducibile. SHA sorgente/build, comandi, ambiente, output, esiti e controlli falliti conservati durevolmente. |
+| GOV-03 | P1 | DA FARE | Riconciliare contraddizioni §4, README moduli e copy pertinente. Contratti attuali univoci, rapporti storici datati, nessun backlog parallelo. |
+| GOV-04 | P1 | DA FARE | Matrice sorgente→artefatto app→librerie/Cherry→sito/deploy. Non confondere snapshot Maven, versione `.app`, SHA e produzione. |
+| GOV-05 | P1 | DA FARE | Riconciliare requisiti dei prompt con matrice attuale: consegnato, parziale, non verificato, sospeso o sostituito con motivazione; nessuna vecchia specifica riaperta alla cieca. |
+
+### 6.2 CommandJ, keymap e accessibilità
+
+Fonti: [design](docs/keyboard-first-design.md), [audit](docs/keyboard-accessibility-audit.md), [CommandJ](commandj/docs/ARCHITECTURE.md), [profilo TurboJ](docs/keymap-turboj-macos.md), `BundledKeymaps`, `KeymapJson`, `KeymapManager`.
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| KEY-01 | P0 | DA VERIFICARE | Qualificare Classic→TurboJ e custom override. `KeymapJson` ignora profili ritirati: testare preferenze legacy, copie personalizzate, selezione, rimozioni e conflitti; conservare dati/diagnostica prima di dichiarare migrazione sicura. |
+| KEY-02 | P1 | DECISIONE | Esplicitare TurboJ-default/ritiro Classic rispetto al requisito iniziale. Documentare compatibilità e scelta profilo, senza sovrascrivere preferenze o introdurre silenziosamente un quinto profilo. |
+| KEY-03 | P1 | PARZIALE | Rigenerare inventario/reference/cheatsheet/menu/export sito dal registro finale, inclusi `run.context` e AI per profilo. Manifest/hash coerenti, nessun conteggio storico presentato come attuale. |
+| KEY-04 | P1 | DA VERIFICARE | Audit tastiera completo: menu/dialoghi, Explorer/Maven, RefactorJ, Tests, console/JShell, temi/settings/file chooser/notifiche. Ogni azione ha route e focus/Escape prevedibili. |
+| KEY-05 | P1 | DA VERIFICARE | Walkthrough umano macOS: US, italiano, svizzero italiano/tedesco, Fn/Globe, dead keys, IME e VoiceOver. Layout indisponibili dichiarati; Swing sintetico non sostituisce prova host. |
+| KEY-06 | P1 | DA VERIFICARE | Collisioni esatte/prefix/chord/contesto, acceleratori menu, OS, precedenza popup/template/AI/Tab. Binding custom preservati, comandi raggiungibili e conflitti visibili. |
+| KEY-07 | P2 | DA FARE | Chiudere gap concreti di focus visibile, liste accessibili e spiegazioni per azioni indisponibili rilevati da KEY-04/05; non dedurre accessibilità dal solo registro. |
+
+### 6.3 Quick Fix, Eclipse e template
+
+Fonti: [Quick Fix](docs/quick-fix-quick-assist.md), [parità](docs/eclipse-workflow-parity.md), [accettazione](docs/first-launch-keyboard-acceptance.md), [template](docs/inline-templates.md), harness `QuickFixPopupSmoke`, `QuickFixPaletteTest`, `InlineTemplateAcceptance`.
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| QFX-01 | P0 | DA VERIFICARE | Riprodurre `Calculator calculator = new Calculator();` con Cmd+1 TurboJ/Eclipse, caret sul tipo e dopo `;`. Proposta pertinente, Return applica, focus corretto; Monokai, selezione e lista vuota leggibili con contrasto verificato. |
+| QFX-02 | P1 | PARZIALE | Contratto fix/assist univoco: priorità diagnostica, seconda invocazione, filtro e problema più vicino sulla riga. Testare problemi multipli/caret/Escape e documentare la posizione realmente mantenuta. |
+| QFX-03 | P1 | DA VERIFICARE | Template attuali: Tab/Shift+Tab, Enter, Escape rollback, caller rename, campi invalidi, completion/IME, Save/Format, cambio file e undo/redo. Esplicitare undo per transazione, non intera sessione se non implementato. |
+| QFX-04 | P1 | DA VERIFICARE | Ripetere tutorial plain e Maven da workspace al test verde con keymap/template/Run attuali. Registrare shortcut, proposte, file, diagnostica e focus; non confondere compile failure e assertion failure. |
+| QFX-05 | P2 | DA VERIFICARE | Coprire content assist del tutorial `System.out.print`→proposta/documentazione→accettazione, non dimostrato da run09. |
+| QFX-06 | P2 | PARZIALE | Provider per uncaught exceptions, conversioni aggiuntive e altri costruttori/tipi. Diagnostica/binding reali, risultati validati, contesti insicuri rifiutati; nessuna lista statica. |
+| QFX-07 | P2 | DECISIONE | Parità wizard oltre minimo: Save-and-Launch per-file/remember, superclass/interfaces/module-info/working set, framework/versioni JUnit/lifecycle stub e archetype Maven. Confermare necessità prima di aggiungere UI. |
+| QFX-08 | P2 | PARZIALE | Inline ulteriori: tipi parametri, Extract Variable/Method/Create Field, controllo tipo espressione restituita. Mantenere validazione/preview; oggi compatibilità del corpo lasciata al compilatore. |
+| QFX-09 | P2 | DECISIONE | Dependency editing JUnit in POM non UTF-8: preservare encoding e dipendenze; finché non supportato mantenere rifiuto esplicito e percorso alternativo. |
+
+### 6.4 Editor, layout, temi ed Explorer
+
+Fonti: [layout](docs/native-layout-preview-2026-10-25.md), [Explorer](docs/project-explorer.md), [temi](docs/themes.md), [limiti](docs/limitations.md), [keyboard design](docs/keyboard-first-design.md).
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| UI-01 | P1 | DA VERIFICARE | Artefatto attuale: bordi singoli, Output resize, font uniforme, zoom 10–48/HiDPI, tab nella cornice, finestre piccole, console input/focus. Registrare accettazione nativa prima di nuovi allineamenti hero. |
+| UI-02 | P1 | DA VERIFICARE | Clipboard/undo/caret/selection su prima/ultima riga, EOF senza newline, CRLF/Unicode, multicaret sovrapposti e AST move. Commenti preservati e scope/semantica insicuri rifiutati. |
+| UI-03 | P1 | DA VERIFICARE | Explorer via Shift+F10/tastiera: dirty buffer, file generici/binari, Trash, Java rename/move/delete/undo. Operazioni non journaled mantengono conferme e limiti espliciti. |
+| UI-04 | P2 | DA FARE | Eventuali move classe/package main↔test/source-root con refactoring, classpath e undo coerenti; oggi non esposti. |
+| UI-05 | P2 | PARZIALE | Modalità rettangolare persistente con frecce: oggi esiste conversione in selezioni reali, non modalità persistente completa. |
+| UI-06 | P2 | PARZIALE | Grapheme cluster completi, bidi e accessibilità renderer. Correttezza UTF-16/surrogati non equivale a ogni scrittura complessa. |
+| UI-07 | P2 | PARZIALE | Recovery di tutti i buffer con percorso/caret, crash durante scrittura e isolamento multiistanza; oggi non ricostruisce tutto lo stato. |
+| UI-08 | P2 | PARZIALE | Ridurre/rendere diagnosticabile race fingerprint→replace con modifiche esterne concorrenti, senza perdita silenziosa. |
+| UI-09 | P1 | DA VERIFICARE | Palette su 103 temi/custom: popup, selezione, focus, disabled e corsie. Cache aggiornata al cambio; contrasto e forme semantiche distinti. |
+| UI-10 | P3 | DECISIONE | Famiglia font personalizzabile/fedeltà retro: loader assente; zoom uniforme non equivale a scelta arbitraria del font. |
+
+### 6.5 Intelligence Java, refactoring e formatter
+
+Fonti: [Java](docs/java-intelligence.md), [limiti](docs/limitations.md), [RefactorJ](refactorj/docs/FEATURES.md), [transazioni](refactorj/docs/TRANSACTIONS.md), [formatter](docs/formatting.md).
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| JAVA-01 | P1 | DA VERIFICARE | Navigazione/ricerca simboli e tipi, definizioni/implementazioni/riferimenti, gerarchie supportate, errori/warning/history/source↔test su plain/Maven/unsaved. Non dedurre copertura dal nome del comando. |
+| JAVA-02 | P2 | DA VERIFICARE | Lancio reale main ereditati/annidati/Java 25: distinguere query JDT, scelta target e backend. Documentare main multipli per plain/Maven e completare eventuale chooser mancante. |
+| JAVA-03 | P3 | DECISIONE | Indice persistente, package completion e parsing realmente incrementale: recovery AST completo off-EDT e cache non equivalgono a queste capacità. |
+| JAVA-04 | P2 | PARZIALE | Javadoc/inheritDoc, sorgenti dipendenze e link/documentazione; distinguere quick documentation sicura da renderer HTML completo dei JAR. |
+| JAVA-05 | P1 | DA VERIFICARE | Qualificare source generation, Surround With e Complete Statement: contesti validi, duplicati/overload, membri final/static, compilazione del risultato e undo; rifiuti dei casi non supportati espliciti. |
+| REF-01 | P1 | DA VERIFICARE | Transazioni con ACL/ownership, case-only rename, directory concorrenti, network FS e recovery interrotto. Conservare rifiuti/RECOVERY_REQUIRED, nessuna promessa atomicità globale. |
+| REF-02 | P2 | DA VERIFICARE | IntelliJ/VS Code/LSP/MCP su versioni host dichiarate, undo e resource operations. ZIP/VSIX/protocol test non equivalgono a compatibilità host universale. |
+| REF-03 | P2 | PARZIALE | Ridurre allocazioni semantiche non cached; misurare worker/cancel/code. Cache-hit da soli non descrivono il costo reale RefactorJ. |
+| REF-04 | P0 | CHIUSA | 14 novembre: eliminata la dipendenza di QuickActionsIT dal checkout JUG mutabile che rendeva obsoleta l’asserzione `50013`. Fixture versionate autosufficienti; conservazione esatta del codice estraneo, compilazione e undo/redo. Suite QuickActionsIT: 34 test PASS, zero skip; install completo PASS con 834 test. Correzione inclusa nella consegna del 14 novembre; evidenza in §7. |
+| FMT-01 | P1 | PARZIALE | Motori/default/tab-width/preferenze legacy/Format on Save coerenti. Provare documento/selezione, CRLF, undo e save cancellato; nel pacchetto jpackage verificare i sei `--add-exports` di `jdk.compiler` richiesti da GJF: il manifest JAR non sostituisce i flag del launcher `-cp`. Aggiornare vecchie descrizioni FormatJ. |
+| FMT-02 | P2 | DECISIONE | Configurazione formatter per progetto anziché solo globale, precedenza esplicita e nessun cambio sorgente silenzioso. |
+| FMT-03 | P3 | SOSPESA | Ripresa e rename JavaFMT→FormatJ solo dopo ECO-01; preservare CLI `javafmt`, consumatori, package/coordinate e build. Nessuna riattivazione automatica. |
+
+### 6.6 MavenJ, esecuzione e TurboTest
+
+Fonti: [MavenJ](mavenj/docs/VALIDATION.md), [compatibilità](mavenj/docs/EFFECTIVE_POM.md), [test Maven](mavenj/docs/TEST_INTEGRATION.md), [TurboTest](turbotest/README.md), [Output](docs/output-and-status.md), [comandi Output](docs/output-command-line.md).
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| MVN-01 | P1 | DA VERIFICARE | Vero runtime Java 17 e toolchain dichiarate, non solo `--release`; registrare JDK app, compilatore e JVM run/test separati. |
+| MVN-02 | P1 | DA VERIFICARE | Multi-modulo realistico: model/profili/BOM, scope/module-path/toolchain, unsaved, refresh/pruning generazioni. Cache fredda e calda misurate distintamente. |
+| MVN-03 | P2 | PARZIALE | Percorsi Maven espliciti per plugin/codegen/AP, Surefire/Failsafe, risorse filtrate e named-module; import non esegue codice di progetto. |
+| MVN-04 | P3 | DECISIONE | Scope Maven model 4.1/Gradle e fixture prima di nuovi importatori; non dichiararli compatibili oggi. |
+| MVN-05 | P2 | PARZIALE | Valutare invalidazione ABI intra-modulo dopo misure, preservando dipendenze/generazioni corrette. |
+| RUN-01 | P0 | DA VERIFICARE | Diff locale: `run` programma, `run.context` file contestuale, RunTests test. Eclipse Shift+Cmd+F11; file test/implementazione/main, target precedente, main assente/multipli, isolamento workspace/modulo. |
+| RUN-02 | P0 | DA VERIFICARE | Save con AutoRun/AutoTest separati/insieme: annullamento, stale/coalescing, compile failure, nessuna esecuzione unsaved. AutoRun conserva tab Tests letto; Run esplicito mostra Output. |
+| RUN-03 | P1 | DA VERIFICARE | Scanner/stdin/EOF/stdout/stderr, Stop/timeout/System.exit, restart worker e argomenti; status IDE separato da output e processi non posseduti intatti. |
+| RUN-04 | P1 | DA VERIFICARE | `Escape → : → !command`: cwd/history, quoting shell, output bound, stdin EOF, cancel/timeout. Processo reale senza promessa PTY/persistenza. |
+| RUN-05 | P2 | PARZIALE | Preferenze GUI heap/output/timeout oggi API/configurazione parziale; validazione e compatibilità mantenute. |
+| RUN-06 | P3 | DECISIONE | Debugger JDI, JLine/PTY e CLI residente come evoluzioni separate; niente duplicato del mini comando o terminale fittizio nella demo. |
+| TEST-01 | P1 | DA VERIFICARE | Progetti senza Cherry: discovery, metodo/classe/progetto/falliti, stack/dichiarazioni, cancel, suite parziali e Tests UI. Compile failure distinto da assertion failure. |
+| TEST-02 | P1 | DA VERIFICARE | Auto Test on Changes vs Save, priorità falliti/durate reali, skip per generazione modulo; comportamento e limiti espliciti. |
+| TEST-03 | P2 | PARZIALE | Test impattati solo con dipendenze/attribuzione dimostrate; coordinare CH-05/06. In assenza di prova dichiarare/eseguire scope più ampio. |
+
+### 6.7 Cherry Test e tre dimensioni
+
+Fonti: [architettura](docs/architecture/cherry-test-turboj-integration.md), [fixture](integration-tests/fixtures/cherry-native/README.md), [evidenze](docs/evidence/cherry-native/), contratto sibling `../cherry-test/docs/native-ide-events.md`.
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| CH-01 | P0 | PARZIALE | Commit/versioni compatibili Cherry Java/Rust e TurboJ, CLI schema 1 distribuibile. Checkout puliti riproducono la slice senza patch nascoste; dipende da GOV-01/02. |
+| CH-02 | P0 | INCOMPLETA | Manifest source/compiler, class ID JaCoCo, strumentazione/sessione/processo. Bytecode mismatch esplicito; coverage corrente solo con identità provata, anche dopo undo/rebuild. |
+| CH-03 | P1 | PARZIALE | Collezioni coverage separate consultabili e merge provider/probe per processi sovrapposti/`.exec` multipli. Nessuna somma ambigua; partial deriva da contatori reali. |
+| CH-04 | P1 | PARZIALE | Rerun esatto singolo/falliti per adapter, runtime/invocation preservati; fallback suite esplicito dove selettori assenti. |
+| CH-05 | P1 | PARZIALE | Inventario completo, eventi per-test start/pending e aggregazione cross-run; cancel/runner failure/shard mancanti/late events mai promossi a successo completo. |
+| CH-06 | P1 | PARZIALE | Contratti ereditati con classpath/modulo; distinguere dichiarazione, stack/assertion, target esplicito e relazione dinamica. Euristiche restano candidati, non prova. |
+| CH-07 | P1 | PARZIALE | Multi-repository fuori root, omonimi e runtime Spring/Quarkus separati con identità stabili, non mappe filename/linea globali. |
+| CH-08 | P1 | DA VERIFICARE | Mini/shop/shop-java completi dove disponibili: Java/Kotlin/Rust, server/browser/agent/exec multipli, raccolta incompleta e failure infrastruttura. Suite non eseguibili e cause esplicite. |
+| CH-09 | P1 | DA VERIFICARE | JUG oltre sottoinsiemi: contratti, browser API simulate/backend reale, coverage disabled/enabled a scope superiore, server senza agent. Launcher locale/confini rete rispettati. |
+| CH-10 | P1 | INCOMPLETA | Uncovered→test noto/creazione→run→coverage corrente, tastiera e dati autentici; dipende da CH-02, colori sintetici insufficienti. |
+| CH-11 | P2 | PARZIALE | Preflight config/CLI/protocollo ed errori precoci; Rust/legacy senza eventi non compatibili implicitamente. Decidere eventuale contratto nativo Rust. |
+| CH-12 | P2 | DECISIONE | UI baseline Git alternative già accettate dall'API; submodule/rename non staged qualificati senza inventare identità. HEAD resta default. |
+| CH-13 | P2 | PARZIALE | Fast-first con categorie/dipendenze/risorse/durate reali Cherry e copertura eventuale suite; nessun secondo scheduler indipendente o tempo inventato; concorrenza sicura delle suite ammessa. |
+| CH-14 | P1 | DA VERIFICARE | Stale/current, switch documento/progetto, cancel, receipt/hash, eventi tardivi e close context; corsie stabili fino alla rimozione del contesto. |
+| CH-15 | P2 | DECISIONE | Eventuale import legacy oltre JSONL storico: unknown/incomplete dove mancano prove, mai status da HTML/ANSI. |
+| CH-16 | P1 | DA VERIFICARE | Grandi report/moduli/repository, memoria/update/scroll/input-to-paint e vera baseline pre-integrazione, oltre ai benchmark same-build. |
+
+Task2 non è completo finché milestone 4–7 restano aperte. CH-02/10 sono requisiti mancanti, non soltanto test da rilanciare.
+
+### 6.8 TurboAI
+
+Fonti: [TurboAI](turbo-ai/README.md), [manager](docs/ai/local-model-manager.md), [validazione](docs/ai/autocomplete-validation.md), [performance](docs/ai/autocomplete-performance.md), [troubleshooting](docs/ai/autocomplete-troubleshooting.md).
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| AI-01 | P1 | DA VERIFICARE | `.app` corrente da Finder/PATH minimo: discovery/enable/restart/disable/quit/kill/watchdog, niente orfani, server esterni intatti. Prove packaged AI 1.0.5 non certificano AI 2.0. |
+| AI-02 | P1 | DA VERIFICARE | Download reale GUI: consenso/spazio/progresso/cancel/errore/disponibilità. Distinguere fake-server smoke e download autentici CLI già eseguiti. |
+| AI-03 | P1 | DA VERIFICARE | GUI Test Completion reale e MODEL_NOT_FOUND/endpoint/namespace, spiegazioni leggibili e preferenze persistenti. |
+| AI-04 | P1 | DA VERIFICARE | Managed llama.cpp con runtime/GGUF veri: start/load/completion/cancel/ownership; compilazione adattatore non basta. |
+| AI-05 | P1 | DA VERIFICARE | OpenAI/Anthropic/xAI live solo con credenziali/consenso disponibili, nessun segreto nei log; fixture protocollo distinte. |
+| AI-06 | P2 | DA VERIFICARE | Intel/sleep-wake/restart/crash ripetuti/fallback, retry limitati e nessun cloud implicito. |
+| AI-07 | P2 | DECISIONE | Eventuale `llama-server` bundled: licenze/dimensioni/hardened runtime/notarizzazione. Oggi binario runtime installato separatamente, gestibile da TurboJ; embedding JNI/FFM non è un impegno. |
+| AI-08 | P1 | PARZIALE | Docs provider/credenziali/keep-alive/build/shortcut per profilo aggiornati; baseline pre-AI 2.0 storica, contesto e consenso descritti correttamente. |
+| AI-09 | P1 | DA VERIFICARE | Precedenza JDT/template/AI, Tab/parola/riga/type-through, UTF-16, stream obsoleto, undo/debounce e falsi rifiuti corpus, senza blocco editor. |
+| AI-10 | P2 | DA VERIFICARE | Benchmark 7B se risorse disponibili, CPU/GPU/memoria/cold-warm/typing latency. Separare attesi, mostrati e realmente compilati. |
+| AI-11 | P3 | DECISIONE | Contesto inter-file/Maven/retrieval/ranking con budget e consenso; oggi current-file e filtri, non comprensione completa repository. |
+| AI-12 | P3 | DECISIONE | Eventuale pubblicazione TurboAI dopo ECO-01/03 con API/versioni/licenze/consumer; modulo locale non equivale a Maven Central. |
+| AI-13 | P2 | DA FARE | Feedback utente del 14 novembre: il suggeritore funziona ma risulta troppo aggressivo rispetto all’esperienza IntelliJ. Analizzare trigger, frequenza, debounce, apparizione durante digitazione/navigazione e dismiss; misurare disturbo e accettazione su scenari reali, poi proporre regolazioni. Nessuna modifica immediata: precedenza alle attività P0/P1. |
+
+### 6.9 Website e demo
+
+Fonti: [QA](website/QA.md), [deployment](website/DEPLOYMENT.md), [hero](docs/website-hero-release-2026-10-25.md), [finale](docs/website-native-console-finale.md), [capture](website/demo/capture/), [tests](website/tests/).
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| WEB-01 | P1 | PARZIALE | Docs coerenti con cinque capitoli, Play/Pausa, mini prompt, loop e curl nativo. Non ripristinare vecchio terminale esterno né eliminare evidenze nascoste. |
+| WEB-02 | P1 | DA VERIFICARE | Simmetria col nativo: bordi/font/resize implementati nell’app; verificare accettazione e trasferimento nella hero, ancora subordinato a essa nelle fonti. Valutare Tests/Explorer/icona successivi; scene nuove solo da operazioni effettive. |
+| WEB-03 | P1 | DA VERIFICARE | Test contenuti/evidenze/timeline/seek rapido/pause-hidden-offscreen/loop/cambio tema. Nessun risultato anticipato o Classic flash iniziale/dialoghi/fallback. |
+| WEB-04 | P1 | DA VERIFICARE | 320/390/768/1440/1920 px, 103 temi, tastiera/focus/reduced-motion/no-JS e source/log accessibili. CTA/logo/sezioni estranee preservati. |
+| WEB-05 | P2 | DA VERIFICARE | Safari/Firefox/screen reader/audit umano; Chromium/axe storici non certificano ogni browser o accessibilità. |
+| WEB-06 | P1 | DA VERIFICARE | Payload 8 KiB controller/18 KiB JS, lazy data/DOM/Lighthouse build finale; no video/archive eager, animazione in pausa o nuova telemetria. |
+| WEB-07 | P1 | DA FARE | Export tastiera dopo KEY-03, manifest/hash/link corretti, nessuna reference hardcoded divergente. |
+| WEB-08 | P1 | DA VERIFICARE | Differenze locale/commit/deploy e destinazione verificate; nuova pubblicazione solo nel relativo incarico autorizzato. Questo consolidamento non pubblica. |
+| WEB-09 | P2 | DECISIONE | Nuova cattura eventuale per cache Maven fredda/stop Spring graceful. Demo attuale warm; exit 137 precedente prova terminazione, non shutdown graceful. Video originale facoltativo. |
+| WEB-10 | P2 | DECISIONE | Scegliere se raccontare AI/Cherry/formatter aggiornati; soltanto capacità verificate, niente promessa coverage corrente con CH-02 aperta. |
+
+### 6.10 Prestazioni, distribuzione e qualità
+
+Fonti: [performance](docs/performance.md), [tastiera](docs/keyboard-performance.md), [intelligence](docs/java-intelligence-performance.md), [dipendenze](docs/dependencies.md), [licenze](docs/licenses.md), [script](scripts/).
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| PERF-01 | P1 | DA FARE | Baseline prima/dopo stesso hardware/JDK/dataset/artefatto: dispatch/editing/AST/palette separati, distribuzioni e rumore, non migliori tempi isolati. |
+| PERF-02 | P1 | DA VERIFICARE | Input fisico→paint/presentazione e scroll nativi con file grandi/decorazioni dense; distinguere handler, offscreen e compositor. |
+| PERF-03 | P2 | PARZIALE | Piece list/frammentazione/addition buffer, paste e righe lunghe sull'EDT; mantenere correttezza e limiti 32 MiB/undo 2000 finché contratto non cambia. |
+| PERF-04 | P1 | DA VERIFICARE | Cold start installato, idle lungo, RSS/heap/GC/worker/AI/energia. Brevi campioni CPU non dimostrano costo zero. |
+| PERF-05 | P2 | DA VERIFICARE | QuickFix first/warm, RefactorJ non cached, parsing/dipendenze/grandi workspace/report/Git; separare libreria/worker/EDT. |
+| PERF-06 | P2 | PARZIALE | Analizzare Duplicate Line e allocazioni storiche, accettare o correggere con confronto riproducibile senza cambiare semantica per il benchmark. |
+| REL-01 | P0 | PARZIALE | Build completa `./mvnw install` PASS il 14 novembre, 834 test e hash in §7. Restano gli smoke nativi standalone sullo stesso artefatto finale; run-dev può riusare JAR, verificare sempre quale build si avvia. |
+| REL-02 | P1 | DA VERIFICARE | Installazione pulita macOS, profilo nuovo/migrato, runtime bundled/deps/Finder; build locale distinta da installer qualificato. |
+| REL-03 | P2 | DA VERIFICARE | Intel/architetture/OS dichiarati: eseguire o restringere matrice; nessuna estrapolazione Apple Silicon. |
+| REL-04 | P2 | DECISIONE | Signing/notarizzazione/updater: canale/processo riproducibile prima di promesse; nessun aggiornamento automatico implicito. |
+| REL-05 | P1 | DA FARE | CI/root/moduli indipendenti, integration test e export guard. Non risulta `.github` nel checkout: accertare pipeline esterne prima di duplicarle. |
+| REL-06 | P1 | DA VERIFICARE | Deps runtime/notices/licenze temi-font-modelli/engine e manifest per artefatto pubblicabile aggiornati. |
+| REL-07 | P1 | DA FARE | Consegna coerente con release notes/limiti/commit/stato test; vecchi XML non sono prova della nuova esecuzione. |
+
+### 6.11 Naming ed estrazione ecosistema
+
+Le tre attività del precedente TODO sono preservate; TurboAI si aggiunge alla valutazione della famiglia, senza rename implicito.
+
+| Oggi | Famiglia `*J` proposta | Famiglia Turbo proposta |
+| --- | --- | --- |
+| `javafmt` | FormatJ | TurboFormat |
+| `refactorj` | RefactorJ | TurboRefactor |
+| `commandj` | CommandJ | TurboCommand |
+| `mavenj` | MavenJ | TurboMaven |
+| `turbotest` / `turbo-ai` | Decisione esplicita | TurboTest / TurboAI già esistenti |
+
+| ID | P | Stato | Attività e criterio di chiusura |
+| --- | --- | --- | --- |
+| ECO-01 | P2 | DECISIONE | Naming prima di rename/spostamenti: matrice package/coordinate/CLI/repository/docs/sito e compatibilità consumer. |
+| ECO-02 | P2 | DA FARE | Sibling indipendenti dopo stabilizzazione: TurboJ, formatter, RefactorJ, CommandJ, MavenJ, TurboTest, valutazione TurboAI. Decidere se sospendere anche l’estrazione del formatter: il precedente TODO sospendeva motore/rename, ma includeva la sua estrazione. Storia/build/test/release preservati, CI/packaging aggiornati, librerie versionate in-process; dipende da ECO-01/CH-01. |
+| ECO-03 | P3 | DECISIONE | Pubblicazioni eventuali: namespace/credenziali/firma/canali/versioni/test consumer. ZIP/VSIX/JAR locali non sono pubblicazioni; protocolli esterni opzionali. |
+
+Il rename `javafmt`→`formatj` è **FMT-03, SOSPESA**, subordinato alla famiglia scelta; preserva CLI `javafmt` e verifica consumatori prima di package/coordinate. Nessuna delle tre attività precedenti è stata eliminata o duplicata in due stati concorrenti.
+
+## 7. Verifica e definizione di completamento
+
+### Controlli svolti per questo consolidamento
+
+Ispezionati stato Git, cronologia, documenti e punti di codice rilevanti; effettuata revisione separata dei perimetri nativo, AI/Cherry e sito/ecosistema. Nel consolidamento iniziale: controllati i 110 ID allora presenti, riferimenti, collegamenti locali e censimento dei 150 documenti di supporto; `git diff --check` senza errori. Quell’incarico ha modificato soltanto `TODO.md`, preservando i cambi preesistenti. Questi controlli documentali non sono build o test dell'applicazione.
+
+### Verifica successiva — correzione install, 14 novembre 2026
+
+- **Causa:** il test `discordStagingSourcesKeepTheirLiteralsWhenAMethodIsCreatedBesideThem` leggeva il checkout JUG locale ma richiedeva il literal `50013`, non più presente nel file di input. Non era evidenza di perdita di literal da parte del refactoring.
+- **Correzione REF-04:** due fixture versionate autosufficienti sotto `refactorj/refactorj-runtime/src/test/resources/quick-actions/discord/`; nessun percorso personale o skip per repository assente. Verificati membri/commenti/literal originali, file estraneo byte-per-byte, sola chiamata rinominata, compilazione Java e round-trip undo/redo. Motore di produzione invariato.
+- **Verifica mirata:** `./mvnw -q -pl refactorj/refactorj-runtime -am -Dit.test=QuickActionsIT -DfailIfNoTests=false -Dsurefire.failIfNoSpecifiedTests=false verify` → PASS; QuickActionsIT 34 test, zero failure/error/skip.
+- **Verifica completa:** `./mvnw install` → BUILD SUCCESS, 39 progetti reactor, 834 test in 122 report di suite prodotti da questa esecuzione, zero failure/error/skip. Durata Maven 3:21; fine 14 novembre 2026 alle 11:06:47 +01:00. Il conteggio completo include i 34 QuickActionsIT: non sommare la verifica mirata.
+- **Artefatto:** `app/target/turboj-app.jar`, SHA-256 `caeecafb75b3b24fde029467d169812214e3f87a36f5f2c6aff4dbbdb791b671`.
+- **Log locali:** `/private/tmp/turboj-quick-actions-verify.log` e `/private/tmp/turboj-install-verified.log`; riepilogo durevole in questa sezione. Sorgenti: `fc4bdac` più working tree, inclusa correzione non ancora committata.
+- **Avvio della build:** `./scripts/run-dev.sh`. Nessun nuovo pacchetto macOS, deploy sito o walkthrough umano eseguito in questa correzione; gli altri criteri restano aperti.
+
+### Preparazione della consegna — 14 novembre 2026
+
+- Feedback utente: ultima build funzionante; suggerimenti AI percepiti come troppo aggressivi rispetto a IntelliJ. Registrato **AI-13 (P2)**, da analizzare dopo le priorità P0/P1; comportamento AI non modificato.
+- `KeyboardRegistryAudit docs` sulla build verificata: **305 comandi, 29 alias, zero binding senza callback**. Reference, inventario e manifest rigenerati dal registro reale; quattro PDF aggiornati con `CheatSheetExport`.
+- Export sito `node website/scripts/export-keyboard-reference.mjs`: hash sorgenti e tre documenti verificati. `node --test tests/keyboard-reference.test.mjs` in `website/`: **6 PASS**, zero failure/skip. È verifica dell’export, non nuova qualificazione dell’intero sito o deploy.
+- Esclusi dal commit: esempi di lavoro manuale, `InlineTemplateAcceptance.java` locale ancora dipendente da JUG, cinque report GUI storici senza build SHA e `real-executions.json` locale con riferimenti a raw evidence ormai assenti. File preservati; gli 834 test del reactor non qualificano questi materiali.
+
+### Comandi di riferimento per la prossima esecuzione
+
+**Istruzioni da eseguire, non risultati di questo audit.** Preparare ambiente e fixture isolati, senza usare progetti personali o servizi esterni come controlli automatici.
+
+| Ambito | Comando / percorso | Evidenza richiesta |
+| --- | --- | --- |
+| TurboJ completo | Dalla root: `./mvnw verify` | Nuovi report Surefire/Failsafe, errori/skips, SHA e toolchain |
+| App/dipendenze | `./mvnw -q -pl app -am verify` | Scope esplicito, non certifica moduli esclusi dal reactor selezionato |
+| Quick Actions | `./mvnw -q -pl refactorj/refactorj-runtime -am -Dit.test=QuickActionsIT,ModernizationIT -DfailIfNoTests=false -Dsurefire.failIfNoSpecifiedTests=false verify` | Semantica reale; smoke GUI separato |
+| Cherry Java | Nel sibling, directory `java/`: `./mvnw -q verify` con JDK previsto | Commit/diff del sibling e contratto associati agli esiti |
+| Cherry Rust | Nel suo workspace: `cargo test -p cherry-test -p cherry-test-core`, build/fmt secondo documentazione | Distinguere clone di controllo e sorgenti consegnati |
+| Cherry nativo | `java -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.CherryNativeSmoke ../cherry-test/java/cherry-test-cli/target/cherry-test-java.jar` | Desktop macOS, fixture/porte/processi posseduti, nuovi report/screenshot |
+| Smoke nativi | `QuickFixPopupSmoke`, `InlineTemplateAcceptance`, `OutputStatusSmoke`, `WorkspaceLayoutSmoke`, `InterfaceZoomSmoke` e harness first-launch | Verificare argomenti dei driver correnti; eseguirli, non soltanto compilarli; evitare contesa di focus |
+| Sito | In `website/`: `npm test`, `npm run check`, `npm run build` | Export temi/reference nativi coerenti, produzione locale |
+| Browser/hero | `npm run test:browser`, `npm run test:hero:browser`, `npm run test:performance` | Ambiente/base URL come in QA, payload/replay/temi/accessibilità |
+| Preview | In `website/`: `npm run preview` dopo build | Verifica locale, non deploy |
+| Packaging | `scripts/package-macos.sh` secondo istruzioni correnti, destinazione dedicata | Hash, runtime, Finder e test sul pacchetto prodotto |
+| Igiene | `git diff --check` e revisione per ogni repository | Nessuna modifica estranea, segreto o artefatto temporaneo involontario |
+
+`scripts/test.sh` invoca `mvn test`: non sostituisce `verify` quando servono integration test. `run-dev.sh` può riusare un JAR: non dimostra ricompilazione. Fallimenti di ambiente GUI/rete vanno registrati, non convertiti in PASS.
+
+### Scenari trasversali di accettazione
+
+1. **Eclipse/Calculator:** workspace→progetto plain→main→unresolved Calculator→Cmd+1/Create Class→Create JUnit Test→dipendenze→missing add→template→Save→verde. Ripetere Maven, Monokai e profilo personalizzato.
+2. **Run/Save:** programma/test/implementazione aperti; Run Java/Run File/Run Tests; AutoRun e AutoTest separati/insieme; unsaved, save rifiutato, compile failure e risultato obsoleto; tab/input preservati.
+3. **Tre corsie:** HEAD+staged+unstaged+unsaved, cancellazioni ai confini, test pass/fail/unknown e coverage covered/uncovered/partial/disabled/missing/incomplete/stale. Fatti indipendenti; provenienza assente mantiene neutralità.
+4. **Cherry reale:** suite completa/parziale, adapter failure/cancel/switch, runtime distinti, mismatch bytecode/source, rerun noto/report. Mini/shop/shop-java/JUG con scope/infrastruttura espliciti.
+5. **Editor/accessibilità:** multicaret, clipboard, selezioni rovesciate, CRLF/Unicode/undo/zoom/HiDPI, Escape/Tab/Return. Walkthrough umano distinto da eventi Swing.
+6. **AI:** profilo pulito, consenso, runtime proprio/esterno, modello mancante, download/Test Completion GUI, precedenza ghost text, cancel/undo/quit senza orfani o cloud non autorizzato.
+7. **Sito:** build locale, Monokai senza flash, playback/loop/dialoghi, cambio tema senza reset, responsive/reduced-motion, nessun localhost dal browser, tempi/evidenze della sessione corretta.
+
+### Quando un'attività può essere chiusa
+
+- Codice reale nel repository proprietario, revisione e dipendenze identificabili; non dedotto dal menu o da callback fittizi.
+- Test pertinenti eseguiti con comandi/esiti/limiti; GUI reale quando il requisito riguarda focus/interazione.
+- Semantica e identità corrette; risultati obsoleti/cancellati non presentati come correnti.
+- Regressioni clipboard/undo/file/keymap/preferenze escluse entro lo scope dichiarato.
+- Prestazioni misurate se promesse; nessuna estrapolazione da benchmark diverso.
+- Documentazione/reference coerenti, evidenze durevoli e stato aggiornato qui. Packaging, commit/push e produzione verificati separatamente quando inclusi.
+
+Se resta un requisito, mantenere `PARZIALE`, `INCOMPLETA` o `DA VERIFICARE`, non «completato».
+
+## 8. Manutenzione del canovaccio
+
+1. Una sola lista operativa: questo file. Ogni richiesta nuova riceve ID stabile e criterio di chiusura, nella sezione pertinente.
+2. Non duplicare dipendenze: TEST-03 richiama CH-05/06, non crea un secondo runner o modello di attribuzione.
+3. Registrare cambi di default/scope/priorità con motivazione; un prompt storico non annulla automaticamente una decisione successiva.
+4. Separare codice, test, artefatto locale, commit/push e produzione. Aggiornare data/baseline a ogni consegna.
+5. Conservare la storia: aggiungere nuove evidenze senza riscrivere i vecchi risultati per farli sembrare attuali.
+6. Preservare il working tree: distinguere lavoro preesistente/fixture/artefatti prima di commit o build. Questo incarico documentale non esegue reset o pubblicazioni.
+7. Tenere il canovaccio navigabile: sommario/stato/backlog qui, protocollo e log completi nei documenti specialistici collegati.
+
+## 9. Indice delle fonti consolidate
+
+Il censimento seguente rende rintracciabili specifiche, decisioni ed evidenze. **La presenza nell'indice non certifica la verità attuale di ogni frase del documento**: le divergenze rilevate sono in §4 e GOV-03. Guide dei moduli, prompt, report datati e cataloghi generati hanno ruoli distinti.
+
+Esclusi dall'elenco per-file: output build/cache, copie pubbliche generate del sito, licenze vendorizzate e contenuti delle fixture esterne. Guide/manifest rimangono indicizzati; benchmark ed evidenze non Markdown sono riferiti per archivio, senza duplicare log e screenshot.
+
+<!-- SOURCE_INDEX:START -->
+**150 documenti Markdown di supporto censiti**, oltre a questo canovaccio. I cataloghi di comandi e temi restano generati; le loro singole righe non vengono ricopiate come attività.
+
+### Documentazione generale e nativa
+
+- [README.md](README.md)
+- [docs/acceptance.md](docs/acceptance.md)
+- [docs/architecture.md](docs/architecture.md)
+- [docs/architecture/cherry-test-turboj-integration.md](docs/architecture/cherry-test-turboj-integration.md)
+- [docs/cli.md](docs/cli.md)
+- [docs/compiler.md](docs/compiler.md)
+- [docs/dependencies.md](docs/dependencies.md)
+- [docs/eclipse-workflow-parity.md](docs/eclipse-workflow-parity.md)
+- [docs/ecosystem-release-1.0.7.md](docs/ecosystem-release-1.0.7.md)
+- [docs/evidence/first-launch/README.md](docs/evidence/first-launch/README.md)
+- [docs/first-launch-keyboard-acceptance.md](docs/first-launch-keyboard-acceptance.md)
+- [docs/first-launch-to-first-test-prompt.md](docs/first-launch-to-first-test-prompt.md)
+- [docs/formatting-comparison.md](docs/formatting-comparison.md)
+- [docs/formatting.md](docs/formatting.md)
+- [docs/inline-templates.md](docs/inline-templates.md)
+- [docs/interaction-release-1.0.10.md](docs/interaction-release-1.0.10.md)
+- [docs/java-intelligence-performance.md](docs/java-intelligence-performance.md)
+- [docs/java-intelligence-release-1.0.3.md](docs/java-intelligence-release-1.0.3.md)
+- [docs/java-intelligence.md](docs/java-intelligence.md)
+- [docs/javafmt-integration.md](docs/javafmt-integration.md)
+- [docs/javafmt-release-1.0.6.md](docs/javafmt-release-1.0.6.md)
+- [docs/keyboard-accessibility-audit.md](docs/keyboard-accessibility-audit.md)
+- [docs/keyboard-command-inventory.md](docs/keyboard-command-inventory.md)
+- [docs/keyboard-conflicts.md](docs/keyboard-conflicts.md)
+- [docs/keyboard-first-design.md](docs/keyboard-first-design.md)
+- [docs/keyboard-performance.md](docs/keyboard-performance.md)
+- [docs/keyboard-shortcut-reference.md](docs/keyboard-shortcut-reference.md)
+- [docs/keymap-comparison.md](docs/keymap-comparison.md)
+- [docs/keymap-turboj-macos.md](docs/keymap-turboj-macos.md)
+- [docs/licenses.md](docs/licenses.md)
+- [docs/limitations.md](docs/limitations.md)
+- [docs/maven-ascii-release-1.0.8.md](docs/maven-ascii-release-1.0.8.md)
+- [docs/maven-open-copy-release-1.0.9.md](docs/maven-open-copy-release-1.0.9.md)
+- [docs/menus-turboj.md](docs/menus-turboj.md)
+- [docs/native-layout-preview-2026-10-25.md](docs/native-layout-preview-2026-10-25.md)
+- [docs/output-and-status.md](docs/output-and-status.md)
+- [docs/output-command-line.md](docs/output-command-line.md)
+- [docs/performance.md](docs/performance.md)
+- [docs/project-explorer.md](docs/project-explorer.md)
+- [docs/quick-fix-quick-assist.md](docs/quick-fix-quick-assist.md)
+- [docs/session-2026-10-23.md](docs/session-2026-10-23.md)
+- [docs/shortcuts.md](docs/shortcuts.md)
+- [docs/stdin-fix.md](docs/stdin-fix.md)
+- [docs/theme-catalog-inventory.md](docs/theme-catalog-inventory.md)
+- [docs/theme-catalog.md](docs/theme-catalog.md)
+- [docs/themes-release-1.0.4.md](docs/themes-release-1.0.4.md)
+- [docs/themes.md](docs/themes.md)
+
+### AI
+
+- [docs/ai-completion.md](docs/ai-completion.md)
+- [docs/ai-credentials.md](docs/ai-credentials.md)
+- [docs/ai-local-editing-latency.md](docs/ai-local-editing-latency.md)
+- [docs/ai-local-validation.md](docs/ai-local-validation.md)
+- [docs/ai-providers.md](docs/ai-providers.md)
+- [docs/ai-release-1.0.5.md](docs/ai-release-1.0.5.md)
+- [docs/ai/autocomplete-current-architecture.md](docs/ai/autocomplete-current-architecture.md)
+- [docs/ai/autocomplete-performance.md](docs/ai/autocomplete-performance.md)
+- [docs/ai/autocomplete-ranking.md](docs/ai/autocomplete-ranking.md)
+- [docs/ai/autocomplete-troubleshooting.md](docs/ai/autocomplete-troubleshooting.md)
+- [docs/ai/autocomplete-validation.md](docs/ai/autocomplete-validation.md)
+- [docs/ai/local-model-manager.md](docs/ai/local-model-manager.md)
+- [docs/ai/provider-compatibility.md](docs/ai/provider-compatibility.md)
+- [turbo-ai/CHANGELOG.md](turbo-ai/CHANGELOG.md)
+- [turbo-ai/README.md](turbo-ai/README.md)
+
+### CommandJ
+
+- [commandj/CHANGELOG.md](commandj/CHANGELOG.md)
+- [commandj/CONTRIBUTING.md](commandj/CONTRIBUTING.md)
+- [commandj/README.md](commandj/README.md)
+- [commandj/THIRD_PARTY.md](commandj/THIRD_PARTY.md)
+- [commandj/docs/API.md](commandj/docs/API.md)
+- [commandj/docs/ARCHITECTURE.md](commandj/docs/ARCHITECTURE.md)
+- [commandj/docs/KEYMAPS.md](commandj/docs/KEYMAPS.md)
+- [commandj/docs/PERFORMANCE.md](commandj/docs/PERFORMANCE.md)
+- [commandj/docs/RELEASE.md](commandj/docs/RELEASE.md)
+- [commandj/docs/TESTING.md](commandj/docs/TESTING.md)
+
+### RefactorJ
+
+- [refactorj/CHANGELOG.md](refactorj/CHANGELOG.md)
+- [refactorj/CONTRIBUTING.md](refactorj/CONTRIBUTING.md)
+- [refactorj/README.md](refactorj/README.md)
+- [refactorj/docs/ADAPTERS.md](refactorj/docs/ADAPTERS.md)
+- [refactorj/docs/ARCHITECTURE.md](refactorj/docs/ARCHITECTURE.md)
+- [refactorj/docs/FEATURES.md](refactorj/docs/FEATURES.md)
+- [refactorj/docs/INTEGRATION.md](refactorj/docs/INTEGRATION.md)
+- [refactorj/docs/JDT.md](refactorj/docs/JDT.md)
+- [refactorj/docs/LICENSES.md](refactorj/docs/LICENSES.md)
+- [refactorj/docs/PERFORMANCE.md](refactorj/docs/PERFORMANCE.md)
+- [refactorj/docs/RELEASE.md](refactorj/docs/RELEASE.md)
+- [refactorj/docs/TRANSACTIONS.md](refactorj/docs/TRANSACTIONS.md)
+- [refactorj/refactorj-intellij/README.md](refactorj/refactorj-intellij/README.md)
+- [refactorj/refactorj-vscode/README.md](refactorj/refactorj-vscode/README.md)
+
+### MavenJ
+
+- [mavenj/CHANGELOG.md](mavenj/CHANGELOG.md)
+- [mavenj/README.md](mavenj/README.md)
+- [mavenj/docs/ARCHITECTURE.md](mavenj/docs/ARCHITECTURE.md)
+- [mavenj/docs/CLI.md](mavenj/docs/CLI.md)
+- [mavenj/docs/COMPILER_INTEGRATION.md](mavenj/docs/COMPILER_INTEGRATION.md)
+- [mavenj/docs/DEPENDENCY_RESOLUTION.md](mavenj/docs/DEPENDENCY_RESOLUTION.md)
+- [mavenj/docs/EFFECTIVE_POM.md](mavenj/docs/EFFECTIVE_POM.md)
+- [mavenj/docs/MCP.md](mavenj/docs/MCP.md)
+- [mavenj/docs/MULTI_MODULE.md](mavenj/docs/MULTI_MODULE.md)
+- [mavenj/docs/PERFORMANCE.md](mavenj/docs/PERFORMANCE.md)
+- [mavenj/docs/PROJECT_IMPORT.md](mavenj/docs/PROJECT_IMPORT.md)
+- [mavenj/docs/RELEASE.md](mavenj/docs/RELEASE.md)
+- [mavenj/docs/SECURITY.md](mavenj/docs/SECURITY.md)
+- [mavenj/docs/TEST_INTEGRATION.md](mavenj/docs/TEST_INTEGRATION.md)
+- [mavenj/docs/TOOLCHAINS.md](mavenj/docs/TOOLCHAINS.md)
+- [mavenj/docs/TURBOJ.md](mavenj/docs/TURBOJ.md)
+- [mavenj/docs/VALIDATION.md](mavenj/docs/VALIDATION.md)
+- [mavenj/examples/README.md](mavenj/examples/README.md)
+
+### TurboTest
+
+- [turbotest/CHANGELOG.md](turbotest/CHANGELOG.md)
+- [turbotest/README.md](turbotest/README.md)
+
+### JavaFMT (sospeso)
+
+- [javafmt/CHANGELOG.md](javafmt/CHANGELOG.md)
+- [javafmt/CONTRIBUTING.md](javafmt/CONTRIBUTING.md)
+- [javafmt/README.md](javafmt/README.md)
+- [javafmt/docs/ARCHITECTURE.md](javafmt/docs/ARCHITECTURE.md)
+- [javafmt/docs/CLI-VALIDATION.md](javafmt/docs/CLI-VALIDATION.md)
+- [javafmt/docs/CLI.md](javafmt/docs/CLI.md)
+- [javafmt/docs/COMPATIBILITY.md](javafmt/docs/COMPATIBILITY.md)
+- [javafmt/docs/INTEGRATION.md](javafmt/docs/INTEGRATION.md)
+- [javafmt/docs/LICENSES.md](javafmt/docs/LICENSES.md)
+- [javafmt/docs/PERFORMANCE.md](javafmt/docs/PERFORMANCE.md)
+- [javafmt/docs/STYLE.md](javafmt/docs/STYLE.md)
+- [javafmt/docs/VALIDATION.md](javafmt/docs/VALIDATION.md)
+- [javafmt/docs/measurements/2026-10-24/jmh-table.md](javafmt/docs/measurements/2026-10-24/jmh-table.md)
+- [javafmt/javafmt-intellij/README.md](javafmt/javafmt-intellij/README.md)
+- [javafmt/javafmt-test-fixtures/README.md](javafmt/javafmt-test-fixtures/README.md)
+- [javafmt/javafmt-test-fixtures/openjdk/README.md](javafmt/javafmt-test-fixtures/openjdk/README.md)
+- [javafmt/javafmt-vscode/README.md](javafmt/javafmt-vscode/README.md)
+- [javafmt/javafmt-vscode/THIRD_PARTY.md](javafmt/javafmt-vscode/THIRD_PARTY.md)
+
+### Website e catture
+
+- [docs/website-demo-feasibility.md](docs/website-demo-feasibility.md)
+- [docs/website-handoff-2026-10-24.md](docs/website-handoff-2026-10-24.md)
+- [docs/website-hero-release-2026-10-25.md](docs/website-hero-release-2026-10-25.md)
+- [docs/website-hero-validation-2026-10-25.md](docs/website-hero-validation-2026-10-25.md)
+- [docs/website-native-console-finale.md](docs/website-native-console-finale.md)
+- [website/ASSETS.md](website/ASSETS.md)
+- [website/DEPLOYMENT.md](website/DEPLOYMENT.md)
+- [website/QA.md](website/QA.md)
+- [website/README.md](website/README.md)
+- [website/demo/VERIFICATION.md](website/demo/VERIFICATION.md)
+- [website/demo/capture/CONSOLE_FINALE.md](website/demo/capture/CONSOLE_FINALE.md)
+- [website/demo/capture/CONTROL_RUNS.md](website/demo/capture/CONTROL_RUNS.md)
+- [website/demo/capture/HERO_STORY.md](website/demo/capture/HERO_STORY.md)
+- [website/demo/capture/HERO_STORY_SCHEMA.md](website/demo/capture/HERO_STORY_SCHEMA.md)
+- [website/demo/capture/README.md](website/demo/capture/README.md)
+- [website/demo/capture/SPRING_SESSION.md](website/demo/capture/SPRING_SESSION.md)
+- [website/demo/evidence/controls/README.md](website/demo/evidence/controls/README.md)
+- [website/demo/projects/console-finale/README.md](website/demo/projects/console-finale/README.md)
+- [website/demo/projects/hero-story/README.md](website/demo/projects/hero-story/README.md)
+- [website/demo/projects/spring-hello/README.md](website/demo/projects/spring-hello/README.md)
+- [website/docs/interactive-hero.md](website/docs/interactive-hero.md)
+
+### Esempi, fixture e protocolli
+
+- [examples/README.md](examples/README.md)
+- [examples/maven/README.md](examples/maven/README.md)
+- [examples/plain-java/README.md](examples/plain-java/README.md)
+- [integration-tests/fixtures/cherry-native/README.md](integration-tests/fixtures/cherry-native/README.md)
+- [worker/docs/protocol.md](worker/docs/protocol.md)
+
+### Archivi, contratti e sorgenti da consultare insieme ai documenti
+
+- [benchmarks/results](benchmarks/results/): risultati datati; ogni misura mantiene hardware, metodo e revisione propri.
+- [docs/keyboard-evidence](docs/keyboard-evidence/), [docs/evidence/first-launch](docs/evidence/first-launch/), [docs/evidence/cherry-native](docs/evidence/cherry-native/), [docs/evidence/output-command-line](docs/evidence/output-command-line/): eventi, screenshot e report; verificare quali file sono tracciati e quali riferimenti temporanei vanno preservati.
+- [website/demo/evidence](website/demo/evidence/): sessioni, controlli falliti, sorgenti e hash; la prima cattura esterna e il finale nativo restano distinguibili.
+- [docs/keyboard-reference-sources.json](docs/keyboard-reference-sources.json), [docs/runtime-dependencies.tsv](docs/runtime-dependencies.tsv): provenienza degli export e dipendenze; non sostituiscono le verifiche della build corrente.
+- [app/src/main/java/dev/turboj/app/TurboFrame.java](app/src/main/java/dev/turboj/app/TurboFrame.java), [MenuLayout](app/src/main/java/dev/turboj/app/MenuLayout.java), [BundledKeymaps](commandj/commandj-keymap/src/main/java/dev/turboj/commandj/keymap/BundledKeymaps.java): fonte corrente per integrazione, menu e profili, incluse le modifiche della consegna del 14 novembre.
+- [core/src/main/java/dev/turboj/testing/intelligence](core/src/main/java/dev/turboj/testing/intelligence/), [app/src/main/java/dev/turboj/testing](app/src/main/java/dev/turboj/testing/), [LineGutter](app/src/main/java/dev/turboj/ui/intelligence/LineGutter.java): modello, lifecycle, Git e presentazione Cherry.
+- Repository sibling Cherry Test: `../cherry-test/docs/native-ide-events.md`, CLI Java e report Java/Rust modificati. Collegamento di workspace, non dipendenza inclusa in questo repository; il suo stato richiede CH-01.
+- JUG Lugano: configurazioni e launcher del repository esterno usato dall'indagine, con revisioni/esecuzioni registrate nelle evidenze Cherry. La matrice completa resta CH-09.
+<!-- SOURCE_INDEX:END -->

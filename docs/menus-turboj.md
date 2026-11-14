@@ -126,7 +126,7 @@ Lessons:
 - *Removed:* the "Quick fixes" submenu. Its operations stay in Quick Fix and in Find Action.
 
 **Run** (Turbo's Run + Compile; Xcode's Product; TurboTest)
-- Run Java / JUnit ⌘R · Isolated Run · Arguments and Input… ⇧⌘R · Stop ⌘. · Send EOF
+- Run Java Program ⌘R · Run File (Program or Tests) · Isolated Run · Arguments and Input… ⇧⌘R · Stop ⌘. · Send EOF
 - Make Project ⌘B · Fast Compile ⌥⌘B · Compile Project · Go to First Error
 - Run Test at Caret ⌘U · Run Test Class · Run All Tests ⇧⌘U · Run Failed Tests · Stop Tests · Test Results…
 - Auto Run on Save ✓ · Auto Test on Save ✓ · Auto Test on Changes ✓

@@ -12,7 +12,7 @@
 
 - complete: Ctrl+SPACE — This shortcut may be assigned to an input source in macOS Keyboard settings.
 
-## turboj-classic
+## turboj-macos
 
 - complete: Ctrl+SPACE — This shortcut may be assigned to an input source in macOS Keyboard settings.
 

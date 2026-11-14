@@ -63,6 +63,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | redo | Redo | Edit | Shift+Cmd+Z | Any | Nothing to redo | redo |
 | editor.removeSecondaryCarets | Remove Secondary Carets | Edit | Unassigned | editor | Available | editor removeSecondaryCarets |
 | editor.reverseSelectedLines | Reverse Selected Lines | Edit | Unassigned | editor | Available | editor reverseSelectedLines |
+| run.context | Run File (Program or Tests) | Edit | Unassigned | Any | Available | run context |
 | editor.selectAllOccurrences | Select All Occurrences | Edit | Option+Shift+Cmd+G | editor; binding requires [editor] | Available | editor selectAllOccurrences |
 | editor.selectCurrentLine | Select Current Line | Edit | Unassigned | editor | Available | editor selectCurrentLine, editor.selectLine |
 | editor.selectCurrentWord | Select Current Word | Edit | Unassigned | editor | Available | editor selectCurrentWord |
@@ -86,7 +87,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | repl | Java REPL | Execution | Unassigned | Any | Available | repl |
 | output | Program output / messages | Execution | Unassigned | Any | Available | output |
 | replReset | Reset Java REPL | Execution | Unassigned | Any | Available | replReset |
-| run | Run Java / JUnit | Execution | Cmd+R / Ctrl+F9 | Any | Available | run |
+| run | Run Java Program | Execution | Cmd+R / Ctrl+F9 | Any | Available | run |
 | eof | Send EOF | Execution | Unassigned | Any | No program is running | eof |
 | stop | Stop program | Execution | Cmd+PERIOD | Any | No program is running or waiting to run | stop |
 | focus | Switch editor / console | Execution | F6 | Any | Available | focus |
@@ -114,13 +115,16 @@ Generated from the executable registry. Availability reflects the captured conte
 | format.style.javafmt | JavaFMT (on hold) | Formatting | Unassigned | Any | Available | format style javafmt |
 | organizeImports | Organize Imports… | Formatting | Option+Cmd+O | Any | Available | organizeImports |
 | format.style.wide120 | Wide 120 | Formatting | Unassigned | Any | Available | format style wide120 |
-| completion.acceptWord | Accept next AI word | Java Intelligence | Ctrl+Option+ENTER | editor; binding requires [completion] | No AI suggestion is visible | completion acceptWord |
+| completion.acceptLine | Accept next AI line | Java Intelligence | Option+Shift+RIGHT | editor; binding requires [ai-completion] | No AI suggestion is visible | completion acceptLine |
+| completion.acceptWord | Accept next AI word | Java Intelligence | Ctrl+Option+ENTER / Option+RIGHT | editor; binding requires [completion]; binding requires [ai-completion] | No AI suggestion is visible | completion acceptWord |
 | completion.accept | Accept suggestion | Java Intelligence | TAB / ENTER | editor; binding requires [completion]; binding requires [completion-popup] | No completion is visible | completion accept |
 | ai.cloud | Cloud… | Java Intelligence | Unassigned | Any | Available | ai cloud |
 | complete | Completion alternatives | Java Intelligence | Option+SPACE / Ctrl+SPACE | editor | Available | complete |
 | ai.settings | Configure AI completion… | Java Intelligence | Unassigned | Any | Available | ai settings |
+| ai.diagnostics | Copy AI Diagnostics | Java Intelligence | Unassigned | Any | Available | ai diagnostics |
 | ai.disabled | Disabled | Java Intelligence | Unassigned | Any | Available | ai disabled |
 | completion.dismiss | Dismiss suggestion | Java Intelligence | Unassigned | editor | Available | completion dismiss |
+| ai.download | Download Local Model… | Java Intelligence | Unassigned | Any | Available | ai download |
 | ai.local | Local… | Java Intelligence | Unassigned | Any | Available | ai local |
 | completion.next | Next completion | Java Intelligence | DOWN | editor; binding requires [completion-popup] | Completion alternatives are not open | completion next |
 | completion.parameterInformation | Parameter Information | Java Intelligence | Unassigned | editor | Available | completion parameterInformation, signature |
@@ -128,7 +132,9 @@ Generated from the executable registry. Availability reflects the captured conte
 | ai.request | Request AI completion | Java Intelligence | Option+Shift+SPACE | editor | Available | ai request |
 | ai.larger | Request a longer AI completion | Java Intelligence | Unassigned | editor | Available | ai larger |
 | ai.another | Request another AI completion | Java Intelligence | Unassigned | editor | Available | ai another |
+| ai.retry | Retry Local AI | Java Intelligence | Unassigned | Any | Available | ai retry |
 | completion.smart | Smart Completion | Java Intelligence | Unassigned | editor | Available | completion smart |
+| ai.test | Test Completion | Java Intelligence | Unassigned | Any | Available | ai test |
 | navigation.callHierarchy | Call Hierarchy | Java Structure | Option+Shift+Cmd+H | Any | Available | navigation callHierarchy |
 | navigation.calledMethods | Called Methods | Java Structure | Unassigned | Any | Available | navigation calledMethods |
 | java.completeStatement | Complete Statement… | Java Structure | Shift+Cmd+ENTER | editor; binding requires [editor] | Available | java completeStatement |
@@ -200,7 +206,9 @@ Generated from the executable registry. Availability reflects the captured conte
 | navigation.searchEverywhere | Search Everywhere… | Navigation | Cmd+P / F3 | Any | Available | navigation searchEverywhere |
 | explorer.collapse | Collapse Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer collapse |
 | view.focusDiagnostics | Compiler Diagnostics… | Panels | Shift+Cmd+M | Any | Available | view focusDiagnostics |
+| explorer.delete | Delete Explorer Item… | Panels | BACK_SPACE / DELETE | explorer; binding requires [explorer] | Requires explorer | explorer delete |
 | explorer.expand | Expand Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer expand |
+| explorer.contextMenu | Explorer Item Menu | Panels | Shift+F10 | explorer; binding requires [explorer] | Requires explorer | explorer contextMenu |
 | view.focusConsole | Focus Console | Panels | Shift+Cmd+C | Any | Available | view focusConsole |
 | view.focusEditor | Focus Editor | Panels | Unassigned | Any | Available | view focusEditor |
 | view.focusJShell | Focus JShell | Panels | Unassigned | Any | Available | view focusJShell |
@@ -209,6 +217,10 @@ Generated from the executable registry. Availability reflects the captured conte
 | view.focusExplorer | Focus Project Explorer | Panels | Unassigned | Any | Open a project first | view focusExplorer |
 | view.focusTestResults | Focus Test Results | Panels | Unassigned | Any | Run tests first | view focusTestResults |
 | view.maximizeEditor | Maximize Editor Area | Panels | Unassigned | Any | Available | view maximizeEditor |
+| explorer.newFile | New File Here… | Panels | Unassigned | explorer | Requires explorer | explorer newFile |
+| explorer.newFolder | New Folder Here… | Panels | Unassigned | explorer | Requires explorer | explorer newFolder |
+| explorer.newClass | New Java Class Here… | Panels | Unassigned | explorer | Requires explorer | explorer newClass |
+| explorer.newPackage | New Package Here… | Panels | Unassigned | explorer | Requires explorer | explorer newPackage |
 | explorer.open | Open Selected Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer open |
 | view.resizeOutput | Resize Output | Panels | Unassigned | Any | Available | view resizeOutput |
 | view.restoreLayout | Restore Previous Layout | Panels | Unassigned | Any | The editor is not maximized | view restoreLayout |
@@ -258,15 +270,15 @@ Generated from the executable registry. Availability reflects the captured conte
 | refactor.introduce-interface | Introduce Interface… | Refactoring | Unassigned | editor | Available | refactor introduce-interface |
 | refactor.lambda-to-method-reference | Lambda To Method Reference… | Refactoring | Unassigned | editor | Available | refactor lambda-to-method-reference |
 | refactor.method-reference-to-lambda | Method Reference To Lambda… | Refactoring | Unassigned | editor | Available | refactor method-reference-to-lambda |
-| refactor.move | Move… | Refactoring | Unassigned | editor | Available | refactor move |
+| refactor.move | Move… | Refactoring | Unassigned | Any | Available | refactor move |
 | refactor.pull-up | Pull Up… | Refactoring | Unassigned | editor | Available | refactor pull-up |
 | refactor.push-down | Push Down… | Refactoring | Unassigned | editor | Available | refactor push-down |
 | refactor.context-actions | Quick Fix / Quick Assist… | Refactoring | Option+ENTER / Cmd+1 | Any | Available | refactor context-actions |
 | refactor.this | Refactor This… | Refactoring | Option+Cmd+T | editor | Available | refactor this |
 | refactor.remove-import | Remove Import… | Refactoring | Unassigned | editor | Available | refactor remove-import |
 | refactor.remove-unreachable | Remove Unreachable… | Refactoring | Unassigned | editor | Available | refactor remove-unreachable |
-| refactor.rename | Rename… | Refactoring | Option+Cmd+R | editor | Available | refactor rename |
-| refactor.safe-delete | Safe Delete… | Refactoring | Option+Cmd+BACK_SPACE | editor | Available | refactor safe-delete |
+| refactor.rename | Rename… | Refactoring | Option+Cmd+R | Any | Available | refactor rename |
+| refactor.safe-delete | Safe Delete… | Refactoring | Option+Cmd+BACK_SPACE | Any | Available | refactor safe-delete |
 | refactor.switch-to-expression | Switch To Expression… | Refactoring | Unassigned | editor | Available | refactor switch-to-expression |
 | refactor.type-to-var | Type To Var… | Refactoring | Unassigned | editor | Available | refactor type-to-var |
 | refactor.var-to-type | Var To Type… | Refactoring | Unassigned | editor | Available | refactor var-to-type |
@@ -291,6 +303,8 @@ Generated from the executable registry. Availability reflects the captured conte
 | editor.inspectLineIntelligence | Inspect Line Intelligence… | Testing Intelligence | Unassigned | editor | Available | editor inspectLineIntelligence |
 | tests.auto | Auto Test on Changes | TurboTest | Unassigned | Any | Available | tests auto |
 | tests.onSave | Auto Test on Save | TurboTest | Unassigned | Any | Available | tests onSave |
+| tests.nextFailure | Next Failed Test | TurboTest | Option+Cmd+QUOTE | Any | Run tests first | tests nextFailure |
+| tests.previousFailure | Previous Failed Test | TurboTest | Option+Shift+Cmd+QUOTE | Any | Run tests first | tests previousFailure |
 | tests.all | Run All Tests | TurboTest | Shift+Cmd+U | Any | Available | tests all |
 | tests.current | Run Current Test | TurboTest | Cmd+U | Any | Available | tests current |
 | tests.failed | Run Failed Tests | TurboTest | Option+Cmd+U | Any | No failed tests to rerun | test.rerunFailed, tests failed |

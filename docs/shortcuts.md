@@ -46,7 +46,7 @@ Help → **Print Keyboard Cheat Sheet…** prints the active map on two A4 pages
 | ⌘J / F1 | Quick documentation for the Java symbol at the caret |
 | ⌘B / F9 | Make project |
 | ⌥⌘B / ⌥F9 | Fast compile |
-| ⌘R / ⌃F9 | Stop previous program, compile if needed and run (Java or JUnit) |
+| ⌘R / ⌃F9 | Stop the previous program, compile if needed and run the program's main (from a test class too); tests run with ⌘U / ⇧⌘U, and Save with both options on runs both |
 | ⌘U / ⇧⌘U | Run the test at the caret / all tests |
 | ⌘. | Stop program |
 | ⌘' / ⇧⌘' (⌥F8 / ⌥F7) | Next / previous error |

@@ -268,7 +268,8 @@ public final class BundledKeymaps {
         bind(eclipse, "refactor.move", "META+ALT+V");
         bind(eclipse, "refactor.this", "META+ALT+T");
         bind(eclipse, "refactor.context-actions", "META+1");
-        bind(eclipse, "run", "META+SHIFT+F11");
+        // Eclipse's Run is contextual: a test class runs its tests, anything else its program.
+        bind(eclipse, "run.context", "META+SHIFT+F11");
         bind(eclipse, "keymap", "META+SHIFT+L");
         editor(eclipse, "deleteLine", "META+D");
         editor(eclipse, "moveLineUp", "ALT+UP");

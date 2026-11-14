@@ -702,12 +702,11 @@ class QuickActionsIT {
     }
 
     @Test void discordStagingSourcesKeepTheirLiteralsWhenAMethodIsCreatedBesideThem() throws Exception {
-        Path jug = Path.of(System.getProperty("jug.repo", "/Users/luca/Workspace/jug/jug"));
-        Path policiesSource = jug.resolve("platform-application/src/main/java/com/juglugano/platform/application/community/discord/DiscordChannelPolicies.java");
-        Path setupSource = jug.resolve("deploy/cloudflare/StagingDiscordSetup.java");
-        Assumptions.assumeTrue(Files.isRegularFile(policiesSource) && Files.isRegularFile(setupSource), "JUG staging Discord sources are not on this machine");
-        String policies = Files.readString(policiesSource);
-        String setup = Files.readString(setupSource);
+        // Freeze this regression's inputs: the live JUG checkout can change its literals
+        // independently, and the regression must also run on machines without that checkout.
+        String policies = fixture("DiscordChannelPolicies.java");
+        String setup = fixture("StagingDiscordSetup.java");
+        String originalMembers = policies.substring(0, policies.lastIndexOf('}'));
         Path policiesFile = root.resolve("src/com/juglugano/platform/application/community/discord/DiscordChannelPolicies.java");
         Path setupFile = root.resolve("src/StagingDiscordSetup.java");
         Path callerFile = root.resolve("src/com/juglugano/platform/application/community/discord/StagingCaller.java");
@@ -716,8 +715,8 @@ class QuickActionsIT {
                 class StagingCaller {
                     void check() {
                         String name = DiscordChannelPolicies.bitName(10);
-                        String callback = "https://staging.juglugano.ch/api/community/discord/callback";
-                        long guild = 1560312852609507538L;
+                        String callback = "https://example.invalid/api/community/discord/callback";
+                        long guild = 1234567890123456789L;
                         String note = "bitName";
                     }
                 }
@@ -733,13 +732,16 @@ class QuickActionsIT {
             var prepared = engine.quickActions().prepare(proposal, Cancellation.NONE);
             assertTrue(prepared.plan().valid(), prepared.plan().diagnostics().toString());
             assertEquals(policiesFile, prepared.focus().file());
+            RefactoringAssertions.roundTrip(prepared.plan());
             applied = new WorkspaceTransactions(new InMemoryWorkspace(snapshot)).apply(prepared.plan(), Cancellation.NONE).snapshot();
             String generated = applied.source(policiesFile).text();
+            assertTrue(generated.startsWith(originalMembers), "Creation must preserve every original member, literal and comment");
             assertTrue(generated.contains("bitName("), generated);
             assertTrue(generated.contains("\"VIEW\""), generated);
             assertTrue(generated.contains("50013"), generated);
             assertEquals(setup, applied.source(setupFile).text());
             assertEquals(caller, applied.source(callerFile).text());
+            compile(applied);
             declaration = generated.indexOf("bitName(");
             String renamed = generated.substring(0, declaration) + "flagName" + generated.substring(declaration + "bitName".length());
             current = new WorkspaceSnapshot(applied.root(), applied.version() + 1, List.of(
@@ -751,14 +753,22 @@ class QuickActionsIT {
         try (var engine = runtime.openWorkspace(current)) {
             var linked = engine.quickActions().renameLinked(applied, new Location(policiesFile, declaration, declaration + "bitName".length()), "flagName", Cancellation.NONE);
             assertTrue(linked.plan().valid(), linked.plan().diagnostics().toString());
+            RefactoringAssertions.roundTrip(linked.plan());
             var after = new WorkspaceTransactions(new InMemoryWorkspace(current)).apply(linked.plan(), Cancellation.NONE).snapshot();
-            assertTrue(after.source(callerFile).text().contains("DiscordChannelPolicies.flagName(10)"), after.source(callerFile).text());
-            assertTrue(after.source(callerFile).text().contains("https://staging.juglugano.ch/api/community/discord/callback"));
-            assertTrue(after.source(callerFile).text().contains("1560312852609507538L"));
-            assertTrue(after.source(callerFile).text().contains("\"bitName\""));
+            assertEquals(caller.replace("DiscordChannelPolicies.bitName(10)", "DiscordChannelPolicies.flagName(10)"),
+                    after.source(callerFile).text(), "Rename must change only the bound call, not strings or numeric literals");
             assertEquals(setup, after.source(setupFile).text());
+            assertTrue(after.source(policiesFile).text().startsWith(originalMembers), "Rename must preserve the original members verbatim");
             assertTrue(after.source(policiesFile).text().contains("50013"));
             assertTrue(after.source(policiesFile).text().contains("\"VIEW\""));
+            compile(after);
+        }
+    }
+
+    private static String fixture(String name) throws Exception {
+        try (var stream = QuickActionsIT.class.getResourceAsStream("/quick-actions/discord/" + name)) {
+            assertNotNull(stream, "Missing regression fixture: " + name);
+            return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         }
     }
 

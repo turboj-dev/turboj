@@ -2161,7 +2161,9 @@ public final class TurboFrame extends JFrame {
                     }
                 });
         command("compile", "Fast Compile", () -> compile(false, false));
-        command("run", "Run Java / JUnit", () -> runContext(false));
+        // Run is the program, never the tests: those have Run Tests. Save with both options on runs both.
+        command("run", "Run Java Program", () -> runProgram(false));
+        command("run.context", "Run File (Program or Tests)", () -> runContext(false));
         command("smart.action", "Complete, Import or Run", this::smartAction);
         command("isolated", "Isolated Run", () -> compile(true, true));
         command(
@@ -3734,7 +3736,9 @@ public final class TurboFrame extends JFrame {
                 programWorker = modular ? new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, key.home(), key.modulePath(), key.moduleName(), key.mainClass())
                         : projectWorkers.computeIfAbsent(key, config -> new WorkerClient(java.time.Duration.ofSeconds(30), 1024 * 1024, 256, config.home()));
                 finishPendingSaveRun(saveRequest);
-                showRepl(false); startRun(executable, isolated, request, pin.classpath(), !preserveOutput);
+                // A run Save started keeps the tab the user is reading (Tests, say); an explicit Run shows its output.
+                if (preserveOutput) setMessagesVisible(true); else showRepl(false);
+                startRun(executable, isolated, request, pin.classpath(), !preserveOutput);
                 WorkerClient launched = programWorker;
                 execution.whenComplete((completed, problem) -> { releaseExecution(pin); if (modular) launched.close(); });
             }));
@@ -3750,6 +3754,23 @@ public final class TurboFrame extends JFrame {
     private record LastTestLaunch(Path root, Path file, String moduleId, TurboTestController.Selection selection) {}
     private LastTestLaunch lastTestLaunch;
 
+    /** Run: the program's main, from any file, a test class included; Save first if asked. */
+    private void runProgram(boolean saved) {
+        if (!saved && isJavaBuffer()) {
+            var dirty = dirtyBufferKeys();
+            if (!dirty.isEmpty()) {
+                int answer = EmbeddedOptionPane.showConfirmDialog(this, "Save all modified sources before Run?",
+                        "Save before Run", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (answer == JOptionPane.CANCEL_OPTION || answer == JOptionPane.CLOSED_OPTION) return;
+                if (answer == JOptionPane.YES_OPTION) {
+                    saveAllBuffers(new ArrayList<>(dirty), 0, editor.document(), () -> runProgram(true)); return;
+                }
+            }
+        }
+        compile(true, false);
+    }
+
+    /** Run File: the file's tests for a test class, its program otherwise (Eclipse's Run). */
     private void runContext(boolean saved) {
         if (!isJavaBuffer()) { compile(true, false); return; }
         if (!saved) {
@@ -3878,12 +3899,29 @@ public final class TurboFrame extends JFrame {
                                                                         return;
                                                                     showRepl(false);
                                                                     startRun(
-                                                                            result, isolated,
+                                                                            withProjectMain(result), isolated,
                                                                             request);
                                                                 }));
                                     }
                                 }));
         return future;
+    }
+
+    /**
+     * A file without a main, a test class for one, runs the project's program: its only main, or the one run last.
+     */
+    private CompilationResult withProjectMain(CompilationResult result) {
+        if (result.mainClass() != null && !result.mainClass().isBlank()) return result;
+        var candidates = result.bytecode().entrySet().stream().filter(entry -> JavacCompilerBackend.findMain(
+                Map.of(entry.getKey(), entry.getValue()), entry.getKey() + ".java") != null).map(Map.Entry::getKey).sorted().toList();
+        String main = candidates.size() == 1 ? candidates.getFirst() : candidates.contains(lastPlainRunTarget) ? lastPlainRunTarget : null;
+        if (main == null) {
+            if (candidates.size() > 1) flash("Several programs have a main: open the one to run, then Run", StatusBar.Level.WARNING);
+            return result;
+        }
+        lastPlainRunTarget = main;
+        return new CompilationResult(result.version(), result.success(), result.diagnostics(), result.bytecode(), result.durationNanos(),
+                result.cacheHit(), main);
     }
 
     private void startRun(CompilationResult result, boolean isolated, long request) {
@@ -3900,7 +3938,7 @@ public final class TurboFrame extends JFrame {
     private void startRun(CompilationResult result, boolean isolated, long request, List<Path> classpath, boolean explicit) {
         if (result.mainClass() == null || result.mainClass().isBlank()) {
             if (!runOpen()) startRunLog("Run", projectSuffix().replaceFirst("^ · ", ""));
-            runLog.error("No supported main entry point found.");
+            runLog.error("No main method to run · Run Tests runs the tests");
             runLog.finish(dev.turboj.console.OutputLog.Outcome.FAILURE, null, null);
             return;
         }
@@ -4487,7 +4525,8 @@ public final class TurboFrame extends JFrame {
                 if (!currentSave(request) || run != runRequest || !settings.autoRunOnSave) { finishPendingSaveRun(request); return; }
                 finishPendingSaveRun(request);
                 programWorker = worker; lastPlainRunTarget = main;
-                showRepl(false);
+                // Save runs the program without taking the panel from the tab the user is reading.
+                setMessagesVisible(true);
                 startRun(new CompilationResult(editor.version(), true, List.of(), bytes, compiled.durationNanos(), false, main), settings.isolated, run, classpath, false);
             }));
         }

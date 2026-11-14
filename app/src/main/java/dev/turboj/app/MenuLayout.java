@@ -92,7 +92,7 @@ final class MenuLayout {
                                 "method-reference-to-lambda", "switch-to-expression", "type-to-var", "var-to-type")))),
                 // Turbo C's Run and Compile, and Xcode's Product: the whole loop in one place.
                 new Menu("Run", "Run", 'R', List.of(
-                        c("run"), c("isolated"), c("run.configuration"), c("stop"), c("eof"), SEPARATOR,
+                        c("run"), c("run.context"), c("isolated"), c("run.configuration"), c("stop"), c("eof"), SEPARATOR,
                         c("make"), c("compile"), c("compileProject"), c("error"), SEPARATOR,
                         c("tests.current"), c("tests.class"), c("tests.all"), c("tests.failed"), c("tests.stop"), c("tests.results"),
                         c("tests.nextFailure"), c("tests.previousFailure"),
