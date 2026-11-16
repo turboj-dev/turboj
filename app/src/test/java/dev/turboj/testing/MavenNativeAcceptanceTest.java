@@ -39,6 +39,7 @@ class MavenNativeAcceptanceTest {
             command.environment().put("JAVA_HOME",home.toString());Process process=command.start();assertTrue(process.waitFor(90,TimeUnit.SECONDS));assertEquals(0,process.exitValue(),Files.readString(log));
             byte[] mavenClass=Files.readAllBytes(project.resolve("target/classes/SourceEight.class"));assertEquals(52,java.lang.classfile.ClassFile.of().parse(mavenClass).majorVersion());
             for(Path classes:List.of(compiler.output(module.id(),false),project.resolve("target/classes")))try(var loader=new java.net.URLClassLoader(new java.net.URL[]{classes.toUri().toURL()},ClassLoader.getPlatformClassLoader())){assertEquals(3,loader.loadClass("SourceEight").getMethod("value").invoke(null));}
+            Files.createDirectories(repository.resolve("target"));
             Files.writeString(repository.resolve("target/maven-source-target8-parity.txt"),"Fixture: Maven source/target8 on current JDK "+Runtime.version()+"; List.of API deliberately used\nNative and explicit offline Maven compile: classfile52; runtime value3\nThis is source/target compatibility, not --release8 or Java8 runtime compatibility.\n");
         }
     }
@@ -73,6 +74,7 @@ class MavenNativeAcceptanceTest {
             process.environment().put("JAVA_HOME",home.toString());Process execution=process.start();
             assertTrue(execution.waitFor(90,TimeUnit.SECONDS),"Explicit Maven verification timed out");assertEquals(0,execution.exitValue(),Files.readString(mavenLog));
             String xml=Files.readString(project.resolve("target/surefire-reports/TEST-sample.CalculatorTest.xml"));assertTrue(xml.contains("tests=\"2\""));assertTrue(xml.contains("failures=\"0\""));assertTrue(xml.contains("errors=\"0\""));
+            Files.createDirectories(repository.resolve("target"));
             Path artifact=repository.resolve("target/maven-native-lifecycle-parity.txt");Files.writeString(artifact,"Fixture: Java21 Calculator + two JUnit5.13.4 tests\nNative: sourceGeneration7, 2 passed, no target output before explicit lifecycle\nMaven: offline verify exit0, tests2 failures0 errors0\nProject JDK: "+home+"\nLimit: this fixture has no custom generators, resource filtering, Surefire provider/fork overrides or build extensions.\n");
         }
     }
