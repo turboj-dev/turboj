@@ -46,7 +46,7 @@ class MavenAutoTestControllerTest {
         project.resolve("mvnw").toFile().setExecutable(true);
         Path checkout = Path.of("").toAbsolutePath();
         while (!Files.isRegularFile(checkout.resolve("mvnw"))) checkout = Objects.requireNonNull(checkout.getParent());
-        var request = new ImportRequest(project, null, null, checkout.resolve(".cache/m2"), Set.of(), Set.of(), Map.of(), true, Set.of(), false, Path.of(System.getProperty("java.home")), Map.of());
+        var request = new ImportRequest(project, null, null, MavenTestRepository.resolve(checkout), Set.of(), Set.of(), Map.of(), true, Set.of(), false, Path.of(System.getProperty("java.home")), Map.of());
         TestHost host = new TestHost();
         try (var maven = new DefaultMavenJ(); var compiler = new MavenCompilationWorkspace(); var controller = new TurboTestController(host)) {
             Workspace model = maven.open(request);

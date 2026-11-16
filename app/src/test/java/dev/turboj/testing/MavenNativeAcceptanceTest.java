@@ -27,7 +27,7 @@ class MavenNativeAcceptanceTest {
                 """);
         Path sources=Files.createDirectories(project.resolve("src/main/java"));
         Files.writeString(sources.resolve("SourceEight.java"),"public class SourceEight { public static int value(){return java.util.List.of(1,2,3).size();} }");
-        var request=new ImportRequest(project,null,null,repository.resolve(".cache/m2"),Set.of(),Set.of(),Map.of(),true,Set.of(),false,home,Map.of());
+        var request=new ImportRequest(project,null,null,MavenTestRepository.resolve(repository),Set.of(),Set.of(),Map.of(),true,Set.of(),false,home,Map.of());
         try(var maven=new DefaultMavenJ();var compiler=new MavenCompilationWorkspace()){
             var model=maven.open(request);assertTrue(model.resolved(),model.diagnostics().toString());
             var module=model.modules().getFirst();assertEquals("",module.mainJava().release());assertEquals("8",module.mainJava().source());assertEquals("8",module.mainJava().target());
@@ -35,7 +35,7 @@ class MavenNativeAcceptanceTest {
             byte[] nativeClass=compiler.runtimeBytecode(module.id(),false).get("SourceEight");assertEquals(52,java.lang.classfile.ClassFile.of().parse(nativeClass).majorVersion());
             assertFalse(Files.exists(project.resolve("target")));
             Path log=project.resolve("maven-compile.log");
-            var command=new ProcessBuilder(repository.resolve("mvnw").toString(),"-o","-f",project.resolve("pom.xml").toString(),"-Dmaven.repo.local="+repository.resolve(".cache/m2"),"compile").directory(repository.toFile()).redirectErrorStream(true).redirectOutput(log.toFile());
+            var command=new ProcessBuilder(repository.resolve("mvnw").toString(),"-o","-f",project.resolve("pom.xml").toString(),"-Dmaven.repo.local="+MavenTestRepository.resolve(repository),"compile").directory(repository.toFile()).redirectErrorStream(true).redirectOutput(log.toFile());
             command.environment().put("JAVA_HOME",home.toString());Process process=command.start();assertTrue(process.waitFor(90,TimeUnit.SECONDS));assertEquals(0,process.exitValue(),Files.readString(log));
             byte[] mavenClass=Files.readAllBytes(project.resolve("target/classes/SourceEight.class"));assertEquals(52,java.lang.classfile.ClassFile.of().parse(mavenClass).majorVersion());
             for(Path classes:List.of(compiler.output(module.id(),false),project.resolve("target/classes")))try(var loader=new java.net.URLClassLoader(new java.net.URL[]{classes.toUri().toURL()},ClassLoader.getPlatformClassLoader())){assertEquals(3,loader.loadClass("SourceEight").getMethod("value").invoke(null));}
@@ -58,7 +58,7 @@ class MavenNativeAcceptanceTest {
         Path main=Files.createDirectories(project.resolve("src/main/java/sample")),tests=Files.createDirectories(project.resolve("src/test/java/sample"));
         Files.writeString(main.resolve("Calculator.java"),"package sample; public class Calculator { public static int sum(int a,int b){return a+b;} }");
         Files.writeString(tests.resolve("CalculatorTest.java"),"package sample; import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*; public class CalculatorTest { @Test void addition(){assertEquals(7,Calculator.sum(3,4));} @Test void runtime(){assertTrue(Runtime.version().feature()>=21);} }");
-        var request=new ImportRequest(project,null,null,repository.resolve(".cache/m2"),Set.of(),Set.of(),Map.of(),true,Set.of(),false,home,Map.of());
+        var request=new ImportRequest(project,null,null,MavenTestRepository.resolve(repository),Set.of(),Set.of(),Map.of(),true,Set.of(),false,home,Map.of());
         try(var maven=new DefaultMavenJ();var compiler=new MavenCompilationWorkspace();var junit=new JUnitRuntime();var worker=new WorkerClient(Duration.ofSeconds(20),1024*1024,256,home)) {
             var workspace=maven.open(request);assertTrue(workspace.resolved(),workspace.diagnostics()+" "+workspace.modules());
             var module=workspace.modules().getFirst();assertEquals("21",module.mainJava().release());
@@ -69,7 +69,7 @@ class MavenNativeAcceptanceTest {
             var run=worker.run(7,compiler.runtimeBytecode(module.id(),true),WorkerEntry.class.getName(),List.of(encoded,report.toString()),cp,false,event->{}).get(30,TimeUnit.SECONDS);
             assertEquals(0,run.exitCode(),run.detail());var nativeReport=new Gson().fromJson(Files.readString(report),TestEngine.Report.class);assertEquals(7,nativeReport.sourceVersion());assertEquals(2,nativeReport.passed());assertTrue(nativeReport.successful());
             Path mavenLog=project.resolve("maven-verify.log");
-            var process=new ProcessBuilder(repository.resolve("mvnw").toString(),"-o","-f",project.resolve("pom.xml").toString(),"-Dmaven.repo.local="+repository.resolve(".cache/m2"),"verify").directory(repository.toFile()).redirectErrorStream(true).redirectOutput(mavenLog.toFile());
+            var process=new ProcessBuilder(repository.resolve("mvnw").toString(),"-o","-f",project.resolve("pom.xml").toString(),"-Dmaven.repo.local="+MavenTestRepository.resolve(repository),"verify").directory(repository.toFile()).redirectErrorStream(true).redirectOutput(mavenLog.toFile());
             process.environment().put("JAVA_HOME",home.toString());Process execution=process.start();
             assertTrue(execution.waitFor(90,TimeUnit.SECONDS),"Explicit Maven verification timed out");assertEquals(0,execution.exitValue(),Files.readString(mavenLog));
             String xml=Files.readString(project.resolve("target/surefire-reports/TEST-sample.CalculatorTest.xml"));assertTrue(xml.contains("tests=\"2\""));assertTrue(xml.contains("failures=\"0\""));assertTrue(xml.contains("errors=\"0\""));
