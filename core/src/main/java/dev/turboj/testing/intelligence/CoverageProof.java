@@ -18,12 +18,22 @@ public record CoverageProof(String sourceHash, String compilationId, String comp
             if (string(value,key).isBlank() || string(value,key).length() > 16384) throw new IOException("Invalid provenance " + key);
         try {
             UUID.fromString(string(value,"collectionId"));
+            Set<String> collections = new HashSet<>();
+            if (value.has("collectionIds")) {
+                JsonArray identifiers = value.getAsJsonArray("collectionIds");
+                if (identifiers.isEmpty() || identifiers.size() > 4096) throw new IllegalArgumentException("Collection inventory");
+                for (JsonElement identifier : identifiers) {
+                    String id = identifier.getAsString(); UUID.fromString(id);
+                    if (!collections.add(id)) throw new IllegalArgumentException("Duplicate collection");
+                }
+            } else collections.add(string(value,"collectionId"));
             for (String id : string(value,"compilationId").split(",",-1)) UUID.fromString(id);
             Set<String> sessions = new HashSet<>();
             for (String session : string(value,"sessionId").split(",",-1)) {
-                String prefix = "cherry:" + string(value,"collectionId") + ":";
-                if (!session.startsWith(prefix) || !sessions.add(session)) throw new IllegalArgumentException("Session identity");
-                UUID.fromString(session.substring(prefix.length()));
+                String[] parts = session.split(":",-1);
+                if (parts.length != 3 || !parts[0].equals("cherry") || !collections.contains(parts[1]) || !sessions.add(session))
+                    throw new IllegalArgumentException("Session identity");
+                UUID.fromString(parts[2]);
             }
             String[] processes = string(value,"processId").split(",",-1);
             if (processes.length != sessions.size()) throw new IllegalArgumentException("Process/session inventory");

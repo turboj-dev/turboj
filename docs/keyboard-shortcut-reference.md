@@ -301,6 +301,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | cherry.configure | Cherry Test: Configure CLI… | Testing Intelligence | Unassigned | Any | Available | cherry configure |
 | cherry.results | Cherry Test: Native Results… | Testing Intelligence | Unassigned | Any | No Cherry Test execution has been loaded | cherry results |
 | cherry.report | Cherry Test: Open Full Report | Testing Intelligence | Unassigned | Any | No HTML report supplied by Cherry Test | cherry report |
+| cherry.execution | Cherry Test: Project Execution Mode… | Testing Intelligence | Unassigned | Any | No Cherry Test configuration detected | cherry execution |
 | cherry.run | Cherry Test: Run Configured Suites | Testing Intelligence | Unassigned | Any | No Cherry Test configuration detected | cherry run |
 | editor.inspectLineIntelligence | Inspect Line Intelligence… | Testing Intelligence | Unassigned | editor | Available | editor inspectLineIntelligence |
 | tests.auto | Auto Test on Changes | TurboTest | Unassigned | Any | Available | tests auto |

@@ -1,0 +1,269 @@
+{
+  "status": "PARTIAL: qualification performed; server provenance and native JUG remain incomplete",
+  "runs": [
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/mini-browser.jsonl",
+      "runId": "20261116-062506-0d5d98",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "functional",
+          "runtime": "mini-prices",
+          "success": false,
+          "testStatuses": {},
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": [
+            "service did not become healthy: http://127.0.0.1:62991/"
+          ]
+        },
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "visual",
+          "runtime": "mini-prices",
+          "success": false,
+          "testStatuses": {},
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": [
+            "service did not become healthy: http://127.0.0.1:63702/"
+          ]
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/mini-provenance-unit.jsonl",
+      "runId": "20261116-061624-8a2e48",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "unit",
+          "runtime": "maven",
+          "success": true,
+          "testStatuses": {
+            "passed": 3
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/mini-service.jsonl",
+      "runId": "20261116-061525-6cb420",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "integration",
+          "runtime": "mini-prices",
+          "success": true,
+          "testStatuses": {
+            "passed": 25
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        },
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "functional",
+          "runtime": "mini-prices",
+          "success": false,
+          "testStatuses": {},
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": [
+            "Command '['cargo', 'build', '--locked', '--manifest-path', '/private/tmp/turboj-qualification-20261116/mini/Cargo.toml', '--package', 'mini-rs-api']' returned non-zero exit status 101."
+          ]
+        },
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "visual",
+          "runtime": "mini-prices",
+          "success": false,
+          "testStatuses": {},
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": [
+            "Command '['cargo', 'build', '--locked', '--manifest-path', '/private/tmp/turboj-qualification-20261116/mini/Cargo.toml', '--package', 'mini-rs-api']' returned non-zero exit status 101."
+          ]
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/mini-unit.jsonl",
+      "runId": "20261116-061319-c27840",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "unit",
+          "runtime": "maven",
+          "success": true,
+          "testStatuses": {
+            "passed": 3
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl",
+      "runId": "20261116-065936-fadf88",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "unit",
+          "runtime": "maven",
+          "success": true,
+          "testStatuses": {
+            "passed": 3
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        },
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "integration",
+          "runtime": "mini-prices",
+          "success": true,
+          "testStatuses": {
+            "passed": 25
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        },
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "functional",
+          "runtime": "mini-prices",
+          "success": true,
+          "testStatuses": {
+            "passed": 4
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        },
+        {
+          "project": "prices",
+          "module": "mini-java-spring-mcap",
+          "phase": "visual",
+          "runtime": "mini-prices",
+          "success": true,
+          "testStatuses": {
+            "passed": 4
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/shop-server.jsonl",
+      "runId": "20261116-062600-ba6208",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "shop",
+          "module": "shop-java-api",
+          "phase": "integration",
+          "runtime": "shop",
+          "success": true,
+          "testStatuses": {
+            "passed": 12
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/shop-service.jsonl",
+      "runId": "20261116-061852-9ed630",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "shop",
+          "module": "shop-java-api",
+          "phase": "integration",
+          "runtime": "shop",
+          "success": false,
+          "testStatuses": {},
+          "coverageAvailability": "unavailable",
+          "completeness": "complete",
+          "diagnostics": [
+            "Postgres endpoint is missing from the adapter request"
+          ]
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/shop-unit-report.jsonl",
+      "runId": "20261116-062223-08e820",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "shop",
+          "module": "shop-java-api",
+          "phase": "unit",
+          "runtime": "maven",
+          "success": false,
+          "testStatuses": {
+            "passed": 51,
+            "failed": 1
+          },
+          "coverageAvailability": "present",
+          "completeness": "complete",
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "eventFile": "/private/tmp/turboj-qualification-20261116/shop-unit.jsonl",
+      "runId": "20261116-061340-5436f0",
+      "terminalEvent": "run.completed",
+      "phases": [
+        {
+          "project": "shop",
+          "module": "shop-java-api",
+          "phase": "unit",
+          "runtime": "maven",
+          "success": false,
+          "testStatuses": {
+            "passed": 51,
+            "failed": 1
+          },
+          "coverageAvailability": "unavailable",
+          "completeness": "complete",
+          "diagnostics": []
+        }
+      ]
+    }
+  ],
+  "focusedRegressionTests": 69,
+  "newDriversCompile": "PASS",
+  "nativeMavenSave": "PASS: imported, resolved, explicitly trusted; all four configured categories; 36 tests; native build OK",
+  "jUG": "Standalone exit 0; no schema-v1 event stream; raw adapter records 1701 passed/1 skipped, CLI summary 1719 passed/1 skipped; count difference unreconciled"
+}

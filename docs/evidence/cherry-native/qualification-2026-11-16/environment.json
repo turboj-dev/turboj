@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-16",
+  "os": "macOS 26.5.1",
+  "architecture": "arm64",
+  "jdk": "Amazon Corretto 25.0.4.1",
+  "maven": "3.9.16",
+  "docker": "29.5.3",
+  "cache": "warm/cached dependencies and images; not a performance benchmark",
+  "binaries": {
+    "turboj": {
+      "path": "app/target/turboj-app.jar",
+      "sha256": "fbd68f804c778087ab9f4f29ae1a912757f668a195a191c3acf16bc0d6ef4d20"
+    },
+    "cherry-native": {
+      "path": "/Users/luca/Workspace/cherry-test/java/cherry-test-cli/target/cherry-test-java.jar",
+      "sha256": "64df0d2b039d58e2b52fa02bcf71fee5c2a8e73d6f8b9bc39648b177c5ea7f99"
+    },
+    "cherry-sidecars": {
+      "path": "/Users/luca/Workspace/cherry-test-sidecars/java/cherry-test-cli/target/cherry-test-java.jar",
+      "sha256": "f4d25d58bf1873fb389925667ea3a1d777fef3575f0fbc001cbc21811c62548e"
+    }
+  }
+}

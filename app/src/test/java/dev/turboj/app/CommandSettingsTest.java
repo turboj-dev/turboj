@@ -10,6 +10,19 @@ class CommandSettingsTest {
     @TempDir
     Path temp;
 
+    @Test void cherryExecutionOverridesPersistPerProjectAndRejectInvalidValues() throws Exception {
+        String old = System.getProperty("turboj.config"); System.setProperty("turboj.config",temp.toString());
+        try {
+            Files.writeString(temp.resolve("config.json"),"{\"cherryTestExecution\":{\"/one\":\"container\",\"/two\":\"local\",\"/invalid\":\"arbitrary\",\"/null\":null}}");
+            var settings = Settings.load();
+            assertEquals(java.util.Map.of("/one","container","/two","local"),settings.cherryTestExecution);
+            settings.cherryTestExecution.put("/three","configured"); settings.save();
+            assertEquals(settings.cherryTestExecution,Settings.load().cherryTestExecution);
+            Files.writeString(temp.resolve("config.json"),"{}");
+            assertTrue(Settings.load().cherryTestExecution.isEmpty());
+        } finally { if(old == null)System.clearProperty("turboj.config");else System.setProperty("turboj.config",old); }
+    }
+
     @Test void coverageBackgroundsDefaultOnAndPersistWithoutChangingThemeOrKeymap() throws Exception {
         String old = System.getProperty("turboj.config");
         System.setProperty("turboj.config",temp.toString());

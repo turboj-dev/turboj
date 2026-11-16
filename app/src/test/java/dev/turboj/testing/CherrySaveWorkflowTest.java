@@ -28,8 +28,17 @@ class CherrySaveWorkflowTest {
             assertEquals(1,h.launches());
             assertEquals(Set.of("unit","integration","functional","ui"),
                     new HashSet<>(h.updates.getLast().tests().stream().map(TestResult::phase).toList()));
-            assertEquals(List.of("--root",directory.toString(),"--execution","local","--no-open","--no-banner"),
+            assertEquals(List.of("--root",directory.toString(),"--no-open","--no-banner"),
                     Files.readAllLines(directory.resolve("args")));
+        }
+    }
+
+    @Test void saveUsesTheProjectContainerOverrideForEveryConfiguredCategory() throws Exception {
+        try (Harness h = new Harness(true,"container")) {
+            edt(h::save); await(() -> h.completed() == 1);
+            assertEquals(List.of("--root",directory.toString(),"--no-open","--no-banner","--execution","container"),
+                    Files.readAllLines(directory.resolve("args")));
+            assertEquals(4,h.updates.getLast().tests().size());
         }
     }
 
@@ -114,7 +123,8 @@ class CherrySaveWorkflowTest {
         final TurboTestController tests = new TurboTestController(new NoNativeExecution());
         final Path executable;
         LineIntelligenceController controller;
-        Harness(boolean configured) throws Exception {
+        Harness(boolean configured) throws Exception { this(configured,"configured"); }
+        Harness(boolean configured,String execution) throws Exception {
             if (configured) Files.writeString(directory.resolve("cherry-test.yaml"),"# fixture\n");
             current.set(directory.resolve("Price.java"));
             Files.writeString(current.get(),"class Price {}\n");
@@ -134,7 +144,7 @@ class CherrySaveWorkflowTest {
             assertTrue(executable.toFile().setExecutable(true));
             edt(() -> {
                 EditorComponent editor = new EditorComponent(); editor.setText("class Price {}\n");
-                controller = new LineIntelligenceController(editor,current::get,tests,directory.resolve("cache"),updates::add,messages::add);
+                controller = new LineIntelligenceController(editor,current::get,tests,directory.resolve("cache"),updates::add,messages::add,root -> execution);
                 controller.changed();
             });
             await(() -> !configured || controller.project() != null);

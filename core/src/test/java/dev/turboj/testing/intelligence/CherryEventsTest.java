@@ -103,6 +103,29 @@ class CherryEventsTest {
     }
     Coverage first(CherryEvents reader) { return reader.snapshot().coverage().get(root.resolve("Price.java")).get(1); }
 
+    @Test void providerProbeUnionReplacesConflictingPhaseCountersOnlyAtCompletion() throws Exception {
+        var reader = start(true); JsonObject proof = provenance(); precisePhase(reader,proof);
+        JsonObject secondPhase = phase(2,"server",true,List.of());
+        artifact(secondPhase,"coverage","server.lcov","lcov","SF:Price.java\nDA:1,1\n");
+        reader.accept(secondPhase.toString());
+        assertEquals(Freshness.UNKNOWN,first(reader).freshness());
+        proof.add("collectionIds",gson.toJsonTree(List.of(proof.get("collectionId").getAsString())));
+        proof.addProperty("collectionId","44444444-4444-4444-8444-444444444444");
+        var union = gson.toJsonTree(Map.of("schemaVersion",1,"format","jacoco-lines-v1","files",List.of(Map.of(
+                "source","Price.java","provenance",proof,"lines",List.of(Map.of("line",1,"ci",9,"mi",0,"cb",2,"mb",0)))))).getAsJsonObject();
+        JsonObject end = event("run.completed",100); end.addProperty("complete",true); end.addProperty("outcome","passed");
+        end.add("sourceAfter",gson.toJsonTree(Map.of("Price.java",sha256(source))));
+        artifact(end,"coverageUnion","union.json","jacoco-lines-v1",union.toString());
+        reader.accept(end.toString());
+        assertEquals(Freshness.CURRENT,first(reader).freshness());
+        assertEquals(9,first(reader).coveredInstructions());
+        assertEquals(2,first(reader).coveredBranches());
+        assertEquals(CoverageState.COVERED,first(reader).state());
+        assertEquals(Freshness.UNKNOWN,reader.interrupted(true,"cancelled").coverage().get(root.resolve("Price.java")).get(1).freshness());
+        proof.add("collectionIds",gson.toJsonTree(List.of("55555555-5555-4555-8555-555555555555")));
+        assertThrows(java.io.IOException.class,() -> CoverageProof.read(proof,root));
+    }
+
     @Test void verifiedProvenanceRequiresCompletedRunAndMatchingSourcesAndClasses() throws Exception {
         var reader = start(true); precisePhase(reader,provenance());
         assertEquals(Freshness.UNKNOWN,first(reader).freshness(),"No current coverage while collection is running");

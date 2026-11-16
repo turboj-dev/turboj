@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-16T17:04:46Z",
+  "status": "PASS for CH-02 javac/JaCoCo and CH-08/09 agreed qualification; not whole Task 2",
+  "revisions": {
+    "turbojBaseline": "a03254c3a7b27eec8fafc18bacce697f195451fd",
+    "cherry": "39af874d3d7c3d2589866aed9ee5d7664d47d0df",
+    "mini": "9811e78d94fc40a8af8ad253af748af462be1975",
+    "shopJava": "b3429b6896289ccebbcfcb576c493472d6b8daf8",
+    "jug": "8cc859de0264ca4c2f205a7e615bfe84fb543339"
+  },
+  "sourceSha256": {
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "5948093aaceb2a8c5b4aa33b62e2b620397af104ba62bb3dad64111cb07e94c7",
+    "app/src/main/java/dev/turboj/config/Settings.java": "7194c68c22ee235704163b074cfcf0e67d2a1ccd13c4e7ca78e8d1ccea94e565",
+    "app/src/main/java/dev/turboj/testing/CherryTestProcess.java": "a6d5f897ef2ff1ced4576b33f00f359102ca74f4c3621c3ea6710cb7227d6f75",
+    "app/src/main/java/dev/turboj/testing/LineIntelligenceController.java": "55b7ce9e2e33cece5552ac9e1b482a43d1d35e3385061c9b7a3a2dd5a9df7ae9",
+    "core/src/main/java/dev/turboj/testing/intelligence/CherryEvents.java": "aa13b2674d73256761da8cad59f7da9b8a79ebb22e44a07078d4f51e1f7c67fb",
+    "core/src/main/java/dev/turboj/testing/intelligence/CoverageProof.java": "f81154b5bade6365fbb36a398d59d4b7507ce130081dfb6a94c800193690897c",
+    "app/src/test/java/dev/turboj/app/CherryProjectSaveQualification.java": "1fc5ffe65f9c33c51adde6f27770aa179134a92a655e5c0df9860aee2868d806",
+    "app/src/test/java/dev/turboj/app/CherryProjectRunQualification.java": "1fb189c76a2cb1693a9b7b60a92ccea7342f68d52c619d7a40efec3175e830b6",
+    "app/src/test/java/dev/turboj/testing/CherryProjectQualification.java": "5e5079893995008c2c1d080e0d2b979a0fdb04302109f27791d7bb7263cda5e3",
+    "app/src/test/java/dev/turboj/testing/CherryContainerCancellationAcceptance.java": "947d65a9f87dd128f9beb4894f363d4979b8aee282316de37626a109ee107521"
+  },
+  "builds": {
+    "turboj": {
+      "suites": 125,
+      "tests": 873,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "cherry": {
+      "suites": 60,
+      "tests": 393,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "artifacts": {
+    "/Users/luca/Workspace/turboj/app/target/turboj-app.jar": "0bd11247532870fa944dd97ca6f402b65208fb674bab9eb1d6956ad3d4a525c7",
+    "/Users/luca/Workspace/cherry-test/java/cherry-test-cli/target/cherry-test-java.jar": "7435fd1c265593e758e96a7d111a3844f248a2b26331abb1ab1c0effc179b6d8",
+    "/private/tmp/turboj-completion-20261116/cherry-test-final.jar": "7435fd1c265593e758e96a7d111a3844f248a2b26331abb1ab1c0effc179b6d8",
+    "/private/tmp/turboj-completion-20261116/cherry-test-java.jar": "41099bbef00dd4e6b744b555ecc9c72c53232496a12665cf15f6515f7a88e7af"
+  },
+  "controls": {
+    "miniNativeSave": {
+      "run": "20261116-165832-8c2fb0",
+      "tests": 36,
+      "currentLines": 81,
+      "files": 5,
+      "phases": [
+        "unit",
+        "integration",
+        "functional",
+        "visual"
+      ]
+    },
+    "shopNativeServer": {
+      "run": "20261116-165547-b6b170",
+      "tests": 12,
+      "currentLines": 425,
+      "processes": 3
+    },
+    "miniStandalone": {
+      "run": "20261116-165606-8a9170",
+      "tests": 3,
+      "nativeProfile": false
+    },
+    "jugNative": {
+      "run": "20261116-111330-b9b3f0",
+      "passed": 1701,
+      "skipped": 1,
+      "phases": 33,
+      "coverage": "disabled"
+    },
+    "jugCoverageRequested": {
+      "run": "20261116-121018-fc5b28",
+      "passed": 16,
+      "productionCoverage": "unknown; backend not instrumented"
+    },
+    "nativeContainerCancel": {
+      "run": "20261116-153407-7a8920",
+      "outcome": "cancelled; no owned containers remain"
+    },
+    "kotlin": {
+      "passed": 25,
+      "provenance": "unsupported; counters retained"
+    },
+    "rustShop": {
+      "passed": 12,
+      "provenance": "unsupported; binary counters retained"
+    }
+  },
+  "knownFailure": "shop-java existing unit assertion: 51 passed, 1 failed; preserved, not masked",
+  "noProductionDeployment": true,
+  "noRemotePush": true
+}

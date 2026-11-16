@@ -17,6 +17,7 @@ public final class CherryEvents {
     private RunState state = RunState.PENDING;
     private final Map<String,List<TestResult>> phases = new LinkedHashMap<>();
     private final Map<String,Map<Path,Map<Integer,Coverage>>> phaseCoverage = new LinkedHashMap<>();
+    private final Map<Path,Map<Integer,Coverage>> aggregateCoverage = new LinkedHashMap<>();
     private final Map<Path,String> before = new LinkedHashMap<>();
     private Map<Path,String> after = Map.of();
     private String message = "Waiting for Cherry Test", scope = "", compiledIdentity = "unknown";
@@ -66,6 +67,17 @@ public final class CherryEvents {
                     state = outcome.equals("cancelled") ? RunState.CANCELLED
                             : !complete ? RunState.INCOMPLETE
                             : outcome.equals("passed") ? RunState.COMPLETED : RunState.FAILED;
+                    if (complete && !outcome.equals("cancelled")) {
+                        for (JsonElement entry : array(event,"coverageUnion")) {
+                            JsonObject artifact = entry.getAsJsonObject();
+                            Path path = localPath(string(artifact,"path"));
+                            if (path == null || !Files.isRegularFile(path)) continue;
+                            if (Files.size(path) > 64L * 1024 * 1024) throw new IOException("Coverage union exceeds size limit");
+                            byte[] bytes = Files.readAllBytes(path);
+                            if (!hash(bytes).equals(string(artifact,"sha256"))) throw new IOException("Coverage union hash mismatch");
+                            readCounters(JsonParser.parseString(new String(bytes,StandardCharsets.UTF_8)).getAsJsonObject(),aggregateCoverage,false);
+                        }
+                    }
                     message = "Cherry Test: " + outcome + (complete ? "" : " (incomplete)")
                             + (string(event,"rawFailure").isBlank() ? "" : " — " + string(event,"rawFailure"));
                     htmlReport = localPath(string(event,"htmlReport"));
@@ -217,6 +229,16 @@ public final class CherryEvents {
                 result = value.withFreshness(Freshness.STALE);
             coverage.computeIfAbsent(file,key -> new LinkedHashMap<>()).merge(line,result,CherryEvents::merge);
         })));
+        aggregateCoverage.forEach((file,lines) -> {
+            Map<Integer,Coverage> current = new LinkedHashMap<>();
+            lines.forEach((line,value) -> {
+                Freshness freshness = state != RunState.COMPLETED && state != RunState.FAILED ? Freshness.UNKNOWN
+                        : !Objects.equals(value.sourceHash(),after.get(file)) ? Freshness.STALE : value.freshness();
+                current.put(line,value.withFreshness(freshness));
+            });
+            if (!current.isEmpty()) coverage.put(file,current);
+            else coverage.remove(file);
+        });
         return new Run(runId,root,state,results,coverage,before,message,htmlReport,sequence,coverageAvailability);
     }
 

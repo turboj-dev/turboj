@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-parent</artifactId><version>4.1.1</version><relativePath/></parent>
+  <groupId>mini</groupId><artifactId>mini-java-spring-mcap</artifactId><version>0.1.0</version>
+  <properties><java.version>21</java.version><testit.buildDirectory>${project.basedir}/target</testit.buildDirectory><skipUnitTests>false</skipUnitTests></properties>
+  <dependencies>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-webmvc</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-jdbc</artifactId></dependency>
+    <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><scope>runtime</scope></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+  </dependencies>
+  <build>
+    <directory>${testit.buildDirectory}</directory>
+    <plugins>
+      <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><configuration><skipTests>${skipUnitTests}</skipTests></configuration></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-failsafe-plugin</artifactId><executions><execution><goals><goal>integration-test</goal><goal>verify</goal></goals></execution></executions></plugin>
+      <plugin><groupId>org.jacoco</groupId><artifactId>jacoco-maven-plugin</artifactId><version>0.8.14</version><executions><execution><goals><goal>prepare-agent</goal></goals></execution></executions></plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>cherry-provenance</id>
+      <activation><property><name>env.CHERRY_TEST_PROVENANCE_TOKEN</name></property></activation>
+      <build><plugins>
+        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId>
+          <executions><execution><id>default-compile</id><configuration>
+            <annotationProcessorPaths><path><groupId>com.cherrytest</groupId><artifactId>cherry-test-provenance</artifactId><version>0.3.16</version></path></annotationProcessorPaths>
+            <compilerArgs><arg>-Xplugin:CherryProvenance ${project.build.outputDirectory}</arg></compilerArgs>
+          </configuration></execution></executions>
+        </plugin>
+        <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId>
+          <configuration><argLine>@{argLine} "-javaagent:${settings.localRepository}/com/cherrytest/cherry-test-provenance/0.3.16/cherry-test-provenance-0.3.16.jar"</argLine></configuration>
+        </plugin>
+      </plugins></build>
+    </profile>
+
+    <profile>
+      <id>mutation</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.22.1</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>1.2.3</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <targetClasses>
+                <param>mini.prices.Prices</param>
+              </targetClasses>
+              <targetTests>
+                <param>mini.prices.*</param>
+              </targetTests>
+              <timestampedReports>false</timestampedReports>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

@@ -479,7 +479,8 @@ public final class TurboFrame extends JFrame {
         refactoring.setInlineRename(this::renameLocalInline);
         tests = new TurboTestController(new NativeTestHost());
         lineIntelligence = new LineIntelligenceController(editor, () -> file, tests,
-                Settings.directory().resolve("cherry-runs"), this::cherryResult, this::flash);
+                Settings.directory().resolve("cherry-runs"), this::cherryResult, this::flash,
+                root -> settings.cherryTestExecution.getOrDefault(root.toString(), "configured"));
         editor.setOnInspectLine(target -> LineIntelligenceDialogs.inspect(this, editor, target,
                 this::showCherryResults, () -> quickFix.invoke()));
         quickFix = new QuickFixController(this, editor, intelligence, this::intelligenceSnapshot,
@@ -2413,6 +2414,20 @@ public final class TurboFrame extends JFrame {
             String preferences = settings.snapshotJson();
             background.execute(() -> { try { Settings.saveSnapshot(preferences); } catch (java.io.IOException error) { errorLater(error); } });
         }, context -> Availability.available());
+        registerCommand("cherry.execution", "Cherry Test: Project Execution Mode…", "Testing Intelligence", () -> {
+            Path root = lineIntelligence.project();
+            if (root == null) return;
+            Object choice = EmbeddedOptionPane.showInputDialog(this,
+                    "Execution for " + root + "\nConfigured preserves the project's Cherry execution settings.",
+                    "Cherry Test Execution", JOptionPane.QUESTION_MESSAGE, null,
+                    new String[]{"configured", "local", "container"},
+                    settings.cherryTestExecution.getOrDefault(root.toString(), "configured"));
+            if (choice == null) return;
+            settings.cherryTestExecution.put(root.toString(), choice.toString());
+            String preferences = settings.snapshotJson();
+            background.execute(() -> { try { Settings.saveSnapshot(preferences); } catch (java.io.IOException error) { errorLater(error); } });
+        }, context -> lineIntelligence != null && lineIntelligence.project() != null
+                ? Availability.available() : Availability.disabled("No Cherry Test configuration detected"));
         command("tests.auto", "Auto Test on Changes", () -> {
             if (!settings.autoTest && maven.workspace() != null && !maven.requireTrust()) return;
             settings.autoTest = !settings.autoTest;

@@ -1,0 +1,27 @@
+defaults:
+  coverage: true
+  html_report: true
+  open_report: false
+  scope: none
+  runs_base: target/cherry-test/runs
+adapters:
+  mini-prices:
+    command: python3
+    args: [polyglot/tools/adapter.py]
+    timeout_secs: 600
+projects:
+  prices:
+    path: .
+    packages:
+      mini-java-spring-mcap:
+        adapter: maven
+        manifest: mini-java-spring-mcap/pom.xml
+        kinds: [unit, integration, functional, visual]
+        options:
+          backend: java
+        integration:
+          adapter: mini-prices
+        functional:
+          adapter: mini-prices
+        visual:
+          adapter: mini-prices

@@ -21,6 +21,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `back` | Navigation | Cmd+OPEN_BRACKET / Option+Cmd+LEFT | Option+Cmd+LEFT | Ctrl+MINUS | Cmd+OPEN_BRACKET / Ctrl+Cmd+LEFT | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.cancel` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Cherry Test is not running | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.configure` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `cherry.execution` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No Cherry Test configuration detected | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.report` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No HTML report supplied by Cherry Test | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.results` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No Cherry Test execution has been loaded | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `cherry.run` | Testing Intelligence | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; No Cherry Test configuration detected | KeyboardWorkflowSmoke + existing controller suites; see audit |

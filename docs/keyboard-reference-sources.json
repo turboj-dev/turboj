@@ -1,14 +1,15 @@
 {
+  "aliases": 29,
   "files": {
     "app/src/main/java/dev/turboj/ai/AICompletionController.java": "78ec6688284820d901a53b1ce033221e11e27791ff8e0c367a016cf799b52a04",
     "app/src/main/java/dev/turboj/ai/AISettingsDialog.java": "197c21518d0bdc7884acdea5ed477ab2e7b4fcfe6d15825733696140432916f4",
     "app/src/main/java/dev/turboj/ai/CredentialStore.java": "b897fd1de454a72c628f6b0711bcaa350dc745924b7106e2414b8ca1bec1ef10",
     "app/src/main/java/dev/turboj/ai/MacKeychainCredentialStore.java": "b20717eab42703853ca0536b53ad8b956d8f9301cd6b49a164a8740aff42feef",
     "app/src/main/java/dev/turboj/app/MenuLayout.java": "e1f141be769ee00afb6ae49983e5ff61e6afe3db27edc7afef29e491ac035c62",
-    "app/src/main/java/dev/turboj/app/TurboFrame.java": "8de5414db7e2b48ddb9075e9798806bc306f9d36bc55cd4ba8612003dd609491",
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "5948093aaceb2a8c5b4aa33b62e2b620397af104ba62bb3dad64111cb07e94c7",
     "app/src/main/java/dev/turboj/app/TurboJ.java": "5c501cae3b519e650f8202dcf1b1e65c59ff879a6536afcffc8065eec3a4443c",
     "app/src/main/java/dev/turboj/config/SafeFiles.java": "d365a28d3fa273b88ea289d0b10d53a4720e95a64c5415efa4e6c25ccaaf987b",
-    "app/src/main/java/dev/turboj/config/Settings.java": "30568d677cb93524586ad436150c2a8940d99d696ba89e6f2655bf1f7c1b6eb4",
+    "app/src/main/java/dev/turboj/config/Settings.java": "7194c68c22ee235704163b074cfcf0e67d2a1ccd13c4e7ca78e8d1ccea94e565",
     "app/src/main/java/dev/turboj/console/OutputCommandController.java": "c610fec8b42ada45274873fd517372554dce701e9783ec54089b13562936a666",
     "app/src/main/java/dev/turboj/console/OutputCommandGesture.java": "646205c3951ba8bec1f5cbc54487bf7b246b6d912d72cf4aa962fa6fcfb95e15",
     "app/src/main/java/dev/turboj/console/OutputCommandRunner.java": "3cc8e691de0422db9d9fb5ce259695f0c391e8484b04e1b0808006924cec34d0",
@@ -39,8 +40,8 @@
     "app/src/main/java/dev/turboj/refactoring/RefactoringController.java": "728c10e3dc248fb96bdcbf2356e4dcd2710e5507a44fbfe5196dc768b5c2f6e1",
     "app/src/main/java/dev/turboj/refactoring/RefactoringForms.java": "32d4a84b7091035d9810728586f623348cc4e4e8bb2ff94001c23a1a443a64be",
     "app/src/main/java/dev/turboj/testing/CherryExecutionReceipt.java": "8079869a5246b0421af9e3b3f80cd45be9b3b0ec95585ff41cc5d7cc3d138eea",
-    "app/src/main/java/dev/turboj/testing/CherryTestProcess.java": "691797029e2824f93ea05a6402f7513848f6fa37fe6e14581164c3afb306bf66",
-    "app/src/main/java/dev/turboj/testing/LineIntelligenceController.java": "276077bc7c435bb1ad06718ca1bd2147f0bf523b90054df481cb84f52133ab14",
+    "app/src/main/java/dev/turboj/testing/CherryTestProcess.java": "a6d5f897ef2ff1ced4576b33f00f359102ca74f4c3621c3ea6710cb7227d6f75",
+    "app/src/main/java/dev/turboj/testing/LineIntelligenceController.java": "55b7ce9e2e33cece5552ac9e1b482a43d1d35e3385061c9b7a3a2dd5a9df7ae9",
     "app/src/main/java/dev/turboj/testing/LineIntelligenceDialogs.java": "734fdc261e1bbeb89f6e8c6e7176c7436a6ecb46f38e6ae840286182866b2a8a",
     "app/src/main/java/dev/turboj/testing/MissingJUnit.java": "8b8cd4e2d296466196a6836a0262df795090c94e38f1bf5cba8511fcbb253f4e",
     "app/src/main/java/dev/turboj/testing/TestOutput.java": "0884de1bbd5f96740b7310003ca3c3836c5a24e96455d99f14b00ae53c58f8eb",
@@ -116,14 +117,13 @@
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/Requests.java": "ab42bc001dcb45cad7e256f5ed298a57f711594e45d58d640885fe340d1ad842",
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/SourceInventory.java": "3a0f1e47534a69f15a6cd29259da4e4b48055b7bac437bc11039766911929cba"
   },
-  "aliases": 29,
-  "generatedfiles": {
-    "docs/keyboard-command-inventory.md": "c8507c3f215881a5c0fde6884983a1158e414fdc000f28c6b0d66f0bc3d8fc06",
-    "docs/keyboard-conflicts.md": "8a7b016dd7121268f641f91cc9f022ea0b145fda76059234940050caec023a2f",
-    "docs/keyboard-shortcut-reference.md": "4f0d50f1e662d7c454637e5a8df82687d0bd5b604cc26434a4ea6c465984370a"
-  },
+  "artifactSha256": "0bd11247532870fa944dd97ca6f402b65208fb674bab9eb1d6956ad3d4a525c7",
+  "generatedAt": "2026-11-16T15:44:32.162302Z",
+  "commands": 308,
   "schema": 1,
-  "commands": 307,
-  "generatedAt": "2026-11-16T06:08:43.950419Z",
-  "artifactSha256": "fbd68f804c778087ab9f4f29ae1a912757f668a195a191c3acf16bc0d6ef4d20"
+  "generatedfiles": {
+    "docs/keyboard-command-inventory.md": "2dcb1abc02addf4dff0eea71689ba3e9c0e59f93f0771ae2d46615f4cb00a894",
+    "docs/keyboard-conflicts.md": "8a7b016dd7121268f641f91cc9f022ea0b145fda76059234940050caec023a2f",
+    "docs/keyboard-shortcut-reference.md": "528799ade226e6caad547a78642895250ce1365f3419e64636d2c00729f13659"
+  }
 }

@@ -1,0 +1,1850 @@
+[
+  {
+    "path": "mini/mini-java-spring-mcap/src/main/java/mini/prices/Api.java",
+    "sha256": "06ab0649269830c1a6894fcd2eb6aa0cebb58d3dc033d6109d3df468f84a7e8a"
+  },
+  {
+    "path": "mini/mini-java-spring-mcap/src/main/java/mini/prices/Application.java",
+    "sha256": "275a5d7537acef3692f79ebedf31ee16245eb0407ee27506b02b7c68a0ac9b72"
+  },
+  {
+    "path": "mini/mini-java-spring-mcap/src/main/java/mini/prices/Prices.java",
+    "sha256": "8bddbe6659de1ea74de15574c65b0b769d93d12a76e7f1fb24dc399ad1015630"
+  },
+  {
+    "path": "mini/mini-java-spring-mcap/src/main/java/mini/prices/RateFailure.java",
+    "sha256": "eb4f892dd3dc3afaa0dc02c726308411344bf20026dbe30741fd4eafef3a6d29"
+  },
+  {
+    "path": "mini/mini-java-spring-mcap/src/main/java/mini/prices/SecurityHeaders.java",
+    "sha256": "4cc9a68a3d2d4a25a6d979c4511319c9ee80e27a167e693057ae2625a7e1fa8b"
+  },
+  {
+    "path": "mini/mini-java-spring-mcap/src/test/java/mini/prices/PricesTest.java",
+    "sha256": "cc0ef996f4e59c0be2a328eb268af7800e9fcf808d5e9dae4fd59040b9db6fe5"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/ApiException.java",
+    "sha256": "7134f6cdfbb1982c15033bfe0e830ec4fbad0f613c0ceae23f41e786dbe8ded5"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/Evidence.java",
+    "sha256": "929a6f237fc8d4793dd9c932ab9b9c848ddf8d1f2cf1c854740cd5133b2b74c8"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/Faults.java",
+    "sha256": "a087666f807917e4bed4dc4ee37a3a396d0793ad81816926dba2719c07d0c096"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/Fixtures.java",
+    "sha256": "9ee4273b206eb3570738a173aeac1887501e7bfa8f73de0a20e8cc40f7f186c3"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/Json.java",
+    "sha256": "113cd2787cf63145c4a5ad4f7aabc89b7dbd346bc72942f0bfd2a7a2ba4908f3"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/Main.java",
+    "sha256": "44d4625db2afafe56f01827041d31ab5d99664443995e38303ecacc6d97492fe"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/MiniSlackServer.java",
+    "sha256": "dcee4813899667b13bd917570cbd163ea5e01b5a9abce15feac74e06472c1533"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/Plan.java",
+    "sha256": "8cd7fdfc19c05a05c5bce8461d9134651d0391849397d2dc68e37563030abef7"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/ScimApi.java",
+    "sha256": "dbd7479f7cc58e113c9e956fea74180c5dda29f1302b3f659d2f8f6bfa20f2fd"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/SlackEndpoints.java",
+    "sha256": "6f0f47e2f7d686cd960e81c68218efd64b054e1e711c163a9c47eb657c0ac49c"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/SlackState.java",
+    "sha256": "2907369f444bd4d0fc9849897c7211ef73a14c94c627e402930e45012b13974f"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/TestController.java",
+    "sha256": "e4385820aed32710589c942890675318faf9175719651efa040fc4e4b6ca0e33"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/WebApi.java",
+    "sha256": "5332de085fb14a5d786c081f702f8021945c5997fee348c9c71657f5d06b00ad"
+  },
+  {
+    "path": "mini/mini-slack/src/main/java/mini/slack/package-info.java",
+    "sha256": "d57f8528af6a8c9e5f7df90cdcf7758d9dec01bcf3cd15c6b4f1d520dff26a21"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/ContainerContract.java",
+    "sha256": "42166620a84931f4acfa3fadfb81ee9c664efa899c57bfb7f54344aec22545ce"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/EvidenceTest.java",
+    "sha256": "8d4d1f74fc841e92c2aa30b26c45ef8fff598302d40ac5a56c54d4318ce3427c"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/HttpFixture.java",
+    "sha256": "73a6c956232ce217131cbf23f46adf9843100fd454e5d252c95de3046f77cb7f"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/JugReconciler.java",
+    "sha256": "ae780ff98ef3be2945e651d3ee4b7aba089c30899402cedf0b5c728380843a2a"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/JugWorkflowIT.java",
+    "sha256": "a9e350f3787563327937f455629362c3de8322a741687941072b8ed8bc251780"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/MiniSlackExtension.java",
+    "sha256": "6b952d612eb7c735d295d597ef0dc04882488e1eac7202095f8a68d425a3c188"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/MiniSlackHttpTest.java",
+    "sha256": "03168e193d9562bb821fa05aebe1d743bcdd0438b0a7a85276184907dba632cd"
+  },
+  {
+    "path": "mini/mini-slack/src/test/java/mini/slack/MiniSlackTest.java",
+    "sha256": "3c84cd6f4cf324a754d0cd3858d5fda1413261879614a730c66d460193437cde"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/coverage/merged.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/coverage/prices/mini-java-spring-mcap-unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov",
+    "sha256": "346760e77a9b06455bb9dff2e92663698f0d60a1120f6a745e8a93a1842b8862"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov.native.json",
+    "sha256": "d35b1ae5e25220d27093cf7d3ba682ca6e3909a7fb351b61f42626fead6ee326"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Api.class",
+    "sha256": "2c03b16787c5fc59bffb8eeeccfc2a655a2bc14241512247320c7b731888415e"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Application.class",
+    "sha256": "08adc7a8b3efed0a892199b2cd081ee24f0c4554197c770e1600e44a9c3388df"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Prices.class",
+    "sha256": "82a72792428897811cdb532f258bf1e76d4a592bf256ecfe1623c74957b53a97"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/RateFailure.class",
+    "sha256": "e76be7b31875ec423fe69fdca8e2fe4bf86b5168e5d18378142b02f2cbc4aa0b"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/SecurityHeaders.class",
+    "sha256": "489fca4ae9f6a9a7e708657352c2ffa08671d704dde67aa360dabb954021ff51"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/jacoco.exec",
+    "sha256": "6a668c06d83b89c1e2ae6196826a95deea292506b6f9002cb72ea553440caef4"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "1a587fd5e2553c5b06ee890839ae61f8185c34fac8f66447ab409dabd2b5c8f1"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/reports/adapters/prices/mini-java-spring-mcap/unit/result.json",
+    "sha256": "00b060bb2b4528f815e116c5a39afd9c8d636c3a52157f2b51bf6a9964fe9ba6"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061319-c27840/unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/coverage/merged.lcov",
+    "sha256": "ee1072926049bb982f28dffd74649161f162d1c16970e90d3ff45c7d966a7645"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/coverage/prices/mini-java-spring-mcap-functional.lcov",
+    "sha256": "e2984b0873548914aa92444a6aeb02f48709df304986c25ed4187abe73dd9b75"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/coverage/prices/mini-java-spring-mcap-integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/coverage/prices/mini-java-spring-mcap-visual.lcov",
+    "sha256": "e2984b0873548914aa92444a6aeb02f48709df304986c25ed4187abe73dd9b75"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "ee1072926049bb982f28dffd74649161f162d1c16970e90d3ff45c7d966a7645"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/functional/coverage.lcov",
+    "sha256": "bae6f189139a72066d1487024df75cd410314e5e234c2fad6cfa4802bed17e06"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/functional/jacoco.xml",
+    "sha256": "35f03b14e8f0942c93ea4da0096e0f11388813a927465c3fa10c9e5dd611d119"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/functional/result.json",
+    "sha256": "fa429638e6809f0fb074e94a924d1551d833a7f9c054f6e586b2f11afc941bfe"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/functional/service-coverage/service.exec",
+    "sha256": "fde19293c65d0cc88cef2c0d8e109d7a08b5fbbcb1b00c917bf3dd185d92378c"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/integration/coverage.lcov",
+    "sha256": "ffa61c9a50a9a9f13bfed5c6e97b53610309f6382cf1556335004365b62c2809"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/integration/jacoco.xml",
+    "sha256": "6fc817539f87b0153380887c9a7f04a6802c9e024afe9a3741f5fe2af53aba27"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/integration/result.json",
+    "sha256": "a6cf56733a08d5f59a12e178499b76d13e711647d929715d3105fc4fbbf4e273"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/integration/service-coverage/service.exec",
+    "sha256": "cd618d11daffd5d6450e24cd2b3ec4628d7c0437344824be1de50c52f3c36b5e"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/visual/coverage.lcov",
+    "sha256": "bae6f189139a72066d1487024df75cd410314e5e234c2fad6cfa4802bed17e06"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/visual/jacoco.xml",
+    "sha256": "d0b20ed76b7e969584b71d8087f958da9d6317a9a3e097147f8fbf1c9ddd690b"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/visual/result.json",
+    "sha256": "3093bcbd533f343f2cacb9d2017a9881b4a9501d7566835ed8f67cc4942396ce"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-061525-6cb420/reports/adapters/prices/mini-java-spring-mcap/visual/service-coverage/service.exec",
+    "sha256": "32fa42b9fa5a6b7f7adda6ee6fd456cf74d8f5b862e183d6a7078a48f9283e13"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/coverage/merged.lcov",
+    "sha256": "0b2c08296f7ae86f35415d74c8845bde8694f89ec2320ea8d6e5273801533091"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/coverage/prices/mini-java-spring-mcap-functional.lcov",
+    "sha256": "e2984b0873548914aa92444a6aeb02f48709df304986c25ed4187abe73dd9b75"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/coverage/prices/mini-java-spring-mcap-visual.lcov",
+    "sha256": "e2984b0873548914aa92444a6aeb02f48709df304986c25ed4187abe73dd9b75"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "0b2c08296f7ae86f35415d74c8845bde8694f89ec2320ea8d6e5273801533091"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/functional/coverage.lcov",
+    "sha256": "bae6f189139a72066d1487024df75cd410314e5e234c2fad6cfa4802bed17e06"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/functional/jacoco.xml",
+    "sha256": "9d11967479980e8d4c3c03804ca3b6e4bb74e82cd7fb00f7caada36fcd2f2eba"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/functional/result.json",
+    "sha256": "32afbbd23fe6b4a4028c2d8a2f7051f9941eebe4cec72aa05401243b01803cd3"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/functional/service-coverage/service.exec",
+    "sha256": "40c2d192681225e5b9e773710c17210629125a964f01ac9398f57f5fc296ce50"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/visual/coverage.lcov",
+    "sha256": "bae6f189139a72066d1487024df75cd410314e5e234c2fad6cfa4802bed17e06"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/visual/jacoco.xml",
+    "sha256": "cce5582f9acf6a5ad2a25d575a4f1c752ba1b0fac72e201cff75cd4d21cee13c"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/visual/result.json",
+    "sha256": "167827948fe9ae252e33d3bb383f325495aa3f77c353f367c7942d93c67df5e4"
+  },
+  {
+    "path": "mini/target/cherry-test/runs/20261116-062506-0d5d98/reports/adapters/prices/mini-java-spring-mcap/visual/service-coverage/service.exec",
+    "sha256": "fcd4a820120b4ae5e7ff6679573a41cc8b25d7763445f12b897685dae27a0b36"
+  },
+  {
+    "path": "mini-provenance/mini-java-spring-mcap/src/main/java/mini/prices/Api.java",
+    "sha256": "06ab0649269830c1a6894fcd2eb6aa0cebb58d3dc033d6109d3df468f84a7e8a"
+  },
+  {
+    "path": "mini-provenance/mini-java-spring-mcap/src/main/java/mini/prices/Application.java",
+    "sha256": "275a5d7537acef3692f79ebedf31ee16245eb0407ee27506b02b7c68a0ac9b72"
+  },
+  {
+    "path": "mini-provenance/mini-java-spring-mcap/src/main/java/mini/prices/Prices.java",
+    "sha256": "8bddbe6659de1ea74de15574c65b0b769d93d12a76e7f1fb24dc399ad1015630"
+  },
+  {
+    "path": "mini-provenance/mini-java-spring-mcap/src/main/java/mini/prices/RateFailure.java",
+    "sha256": "eb4f892dd3dc3afaa0dc02c726308411344bf20026dbe30741fd4eafef3a6d29"
+  },
+  {
+    "path": "mini-provenance/mini-java-spring-mcap/src/main/java/mini/prices/SecurityHeaders.java",
+    "sha256": "4cc9a68a3d2d4a25a6d979c4511319c9ee80e27a167e693057ae2625a7e1fa8b"
+  },
+  {
+    "path": "mini-provenance/mini-java-spring-mcap/src/test/java/mini/prices/PricesTest.java",
+    "sha256": "cc0ef996f4e59c0be2a328eb268af7800e9fcf808d5e9dae4fd59040b9db6fe5"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/ApiException.java",
+    "sha256": "7134f6cdfbb1982c15033bfe0e830ec4fbad0f613c0ceae23f41e786dbe8ded5"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/Evidence.java",
+    "sha256": "929a6f237fc8d4793dd9c932ab9b9c848ddf8d1f2cf1c854740cd5133b2b74c8"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/Faults.java",
+    "sha256": "a087666f807917e4bed4dc4ee37a3a396d0793ad81816926dba2719c07d0c096"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/Fixtures.java",
+    "sha256": "9ee4273b206eb3570738a173aeac1887501e7bfa8f73de0a20e8cc40f7f186c3"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/Json.java",
+    "sha256": "113cd2787cf63145c4a5ad4f7aabc89b7dbd346bc72942f0bfd2a7a2ba4908f3"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/Main.java",
+    "sha256": "44d4625db2afafe56f01827041d31ab5d99664443995e38303ecacc6d97492fe"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/MiniSlackServer.java",
+    "sha256": "dcee4813899667b13bd917570cbd163ea5e01b5a9abce15feac74e06472c1533"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/Plan.java",
+    "sha256": "8cd7fdfc19c05a05c5bce8461d9134651d0391849397d2dc68e37563030abef7"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/ScimApi.java",
+    "sha256": "dbd7479f7cc58e113c9e956fea74180c5dda29f1302b3f659d2f8f6bfa20f2fd"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/SlackEndpoints.java",
+    "sha256": "6f0f47e2f7d686cd960e81c68218efd64b054e1e711c163a9c47eb657c0ac49c"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/SlackState.java",
+    "sha256": "2907369f444bd4d0fc9849897c7211ef73a14c94c627e402930e45012b13974f"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/TestController.java",
+    "sha256": "e4385820aed32710589c942890675318faf9175719651efa040fc4e4b6ca0e33"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/WebApi.java",
+    "sha256": "5332de085fb14a5d786c081f702f8021945c5997fee348c9c71657f5d06b00ad"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/main/java/mini/slack/package-info.java",
+    "sha256": "d57f8528af6a8c9e5f7df90cdcf7758d9dec01bcf3cd15c6b4f1d520dff26a21"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/ContainerContract.java",
+    "sha256": "42166620a84931f4acfa3fadfb81ee9c664efa899c57bfb7f54344aec22545ce"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/EvidenceTest.java",
+    "sha256": "8d4d1f74fc841e92c2aa30b26c45ef8fff598302d40ac5a56c54d4318ce3427c"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/HttpFixture.java",
+    "sha256": "73a6c956232ce217131cbf23f46adf9843100fd454e5d252c95de3046f77cb7f"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/JugReconciler.java",
+    "sha256": "ae780ff98ef3be2945e651d3ee4b7aba089c30899402cedf0b5c728380843a2a"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/JugWorkflowIT.java",
+    "sha256": "a9e350f3787563327937f455629362c3de8322a741687941072b8ed8bc251780"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/MiniSlackExtension.java",
+    "sha256": "6b952d612eb7c735d295d597ef0dc04882488e1eac7202095f8a68d425a3c188"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/MiniSlackHttpTest.java",
+    "sha256": "03168e193d9562bb821fa05aebe1d743bcdd0438b0a7a85276184907dba632cd"
+  },
+  {
+    "path": "mini-provenance/mini-slack/src/test/java/mini/slack/MiniSlackTest.java",
+    "sha256": "3c84cd6f4cf324a754d0cd3858d5fda1413261879614a730c66d460193437cde"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/coverage/merged.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/coverage/prices/mini-java-spring-mcap-unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov",
+    "sha256": "ac3e3cdba8670dbb390cee87c2b8ad963b4d94cef43c3ede58c4038c368756f6"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov.native.json",
+    "sha256": "a8655a53b5ef7dc95ca480fc37aa6485121867a8844f265c37c2f2ec0fa3134b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Api.class",
+    "sha256": "2c03b16787c5fc59bffb8eeeccfc2a655a2bc14241512247320c7b731888415e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Application.class",
+    "sha256": "08adc7a8b3efed0a892199b2cd081ee24f0c4554197c770e1600e44a9c3388df"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Prices.class",
+    "sha256": "82a72792428897811cdb532f258bf1e76d4a592bf256ecfe1623c74957b53a97"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/RateFailure.class",
+    "sha256": "e76be7b31875ec423fe69fdca8e2fe4bf86b5168e5d18378142b02f2cbc4aa0b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/SecurityHeaders.class",
+    "sha256": "489fca4ae9f6a9a7e708657352c2ffa08671d704dde67aa360dabb954021ff51"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/jacoco.exec",
+    "sha256": "992efcd0ca61c67ca24dc3b884623402f86966ae2115b60610c32bc6bf53dc50"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "b5297581f3ef352bc141446fa5b17952fc20cb94cc5212044c4c860944fc3a77"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/reports/adapters/prices/mini-java-spring-mcap/unit/result.json",
+    "sha256": "ee82a1c8680d4b29b042fef3ef9fd47237640df0912ff4a76b34755fe1047fe0"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-061624-8a2e48/unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/coverage/merged.lcov",
+    "sha256": "5155e8f5dbc8b552325edfe77e358c7ee41dd7142c4c8a79244cffba2c433e7d"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/coverage/prices/mini-java-spring-mcap-functional.lcov",
+    "sha256": "e2984b0873548914aa92444a6aeb02f48709df304986c25ed4187abe73dd9b75"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/coverage/prices/mini-java-spring-mcap-integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/coverage/prices/mini-java-spring-mcap-unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/coverage/prices/mini-java-spring-mcap-visual.lcov",
+    "sha256": "e2984b0873548914aa92444a6aeb02f48709df304986c25ed4187abe73dd9b75"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "5155e8f5dbc8b552325edfe77e358c7ee41dd7142c4c8a79244cffba2c433e7d"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/functional/coverage.lcov",
+    "sha256": "10bf3b9d3d765d65e509776295766fa51ef4b571056c8fc59544bbd653fef6ef"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/functional/jacoco.xml",
+    "sha256": "5bed86bd6e0551fa054b5201d60310be714c1e0d897d4b131e39300e5bb187f0"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/functional/result.json",
+    "sha256": "b186e6bf16abf7d79bfac0b1c98715c51da0eea442e1e0f706a8cec85c8f7466"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/functional/service-coverage/service.exec",
+    "sha256": "9c4bc901d814c4de82a6430f4d98fa20c2e551cdb4a12b65a5b9c622b580b0c1"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/integration/coverage.lcov",
+    "sha256": "3cc81fd8fd102f2f3639b9011bbca50c09582d3efa8a3e6cd90a28b0a7902568"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/integration/jacoco.xml",
+    "sha256": "534b541b94b54c16ccc87bedb8642f5be83613e5590092461a357f36dbf7d34c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/integration/result.json",
+    "sha256": "565c691532943814a6155955d155344294019e40eb02da1a52a78f6dc51ffd09"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/integration/service-coverage/service.exec",
+    "sha256": "eb25a53232ff13262444e0c9158b90bd3098821977a5749af2483ce9a1c67c70"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov",
+    "sha256": "ac3e3cdba8670dbb390cee87c2b8ad963b4d94cef43c3ede58c4038c368756f6"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov.native.json",
+    "sha256": "194f8d79fee0d349b043dccc39c444051ce99fc8032180a278513de0791be232"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Api.class",
+    "sha256": "2c03b16787c5fc59bffb8eeeccfc2a655a2bc14241512247320c7b731888415e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Application.class",
+    "sha256": "08adc7a8b3efed0a892199b2cd081ee24f0c4554197c770e1600e44a9c3388df"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Prices.class",
+    "sha256": "82a72792428897811cdb532f258bf1e76d4a592bf256ecfe1623c74957b53a97"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/RateFailure.class",
+    "sha256": "e76be7b31875ec423fe69fdca8e2fe4bf86b5168e5d18378142b02f2cbc4aa0b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/SecurityHeaders.class",
+    "sha256": "489fca4ae9f6a9a7e708657352c2ffa08671d704dde67aa360dabb954021ff51"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/jacoco.exec",
+    "sha256": "f6b089a97fb2a97a844b42053b927234f923faf6f55b93db99e60ba9d52bce3b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "db77a05fceaf4fa0a280201fb6e93d7f4ae7550ce2a054e15af7f8e88f490271"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/unit/result.json",
+    "sha256": "675d69d991f6d00ef94064e80f65e265c91edf90eecfc3f9483e9f6ac8be7792"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/visual/coverage.lcov",
+    "sha256": "10bf3b9d3d765d65e509776295766fa51ef4b571056c8fc59544bbd653fef6ef"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/visual/jacoco.xml",
+    "sha256": "2b50980f17f93f538a6e53d6c665168ef00aa01e62d9415032cb15e580a56adc"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/visual/result.json",
+    "sha256": "3d16f1abac65a3958ab3c3f715473435c7a64b0e4dcf3af7415e82cfdc60cb5d"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/reports/adapters/prices/mini-java-spring-mcap/visual/service-coverage/service.exec",
+    "sha256": "3ee116299c18947ecc94df16d6307bd9fd98bc8a9ab2853ff8111d02f2d2ac5c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-062835-e1ab90/unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/coverage/merged.lcov",
+    "sha256": "f616b04e65b7875af05fd808955c9ac18ec77e9025860677ec3068b84b4968f2"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/coverage/prices/mini-java-spring-mcap-functional.lcov",
+    "sha256": "a19c17464ac21e6172d9aec7f044839a4ff716dc0f28f837c1dde44c058d66b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/coverage/prices/mini-java-spring-mcap-integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/coverage/prices/mini-java-spring-mcap-unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/coverage/prices/mini-java-spring-mcap-visual.lcov",
+    "sha256": "a19c17464ac21e6172d9aec7f044839a4ff716dc0f28f837c1dde44c058d66b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "f616b04e65b7875af05fd808955c9ac18ec77e9025860677ec3068b84b4968f2"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/functional/coverage.lcov",
+    "sha256": "0f83aaa1872528b7e8c0bac339454160628eedfab29232343ce0ffb74fb0b6e5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/functional/jacoco.xml",
+    "sha256": "9f0f4a6393dbdaf3561f86769eb55371a1edb058ce493d9fb93fe6325568241e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/functional/result.json",
+    "sha256": "76095162fc7f8fc422dab6f6557d8d1f2ecd39a431734439d4730f4bd8ccad11"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/functional/service-coverage/service.exec",
+    "sha256": "f5575a813f93f1a568f7727aaebe6b920e84c5c24de251fcadc69f758b727796"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/integration/coverage.lcov",
+    "sha256": "3cc81fd8fd102f2f3639b9011bbca50c09582d3efa8a3e6cd90a28b0a7902568"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/integration/jacoco.xml",
+    "sha256": "11a59bbfca44b6daf5f1b0d1e420ae1d09d1fa35e429b6d1b406b27f8011eb73"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/integration/result.json",
+    "sha256": "185ed10769b140a982723539211004cb55fb7080821689d324a500b4f33cd243"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/integration/service-coverage/service.exec",
+    "sha256": "6c48b7a61bd1fb37a44663e429e233dc9c31ed558bd846b05e20f57f8b51a1ea"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov",
+    "sha256": "ac3e3cdba8670dbb390cee87c2b8ad963b4d94cef43c3ede58c4038c368756f6"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov.native.json",
+    "sha256": "8d7b926e77c7ea81b4429e927ee32e806c431a459d8cee9d70226ed33e764a70"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Api.class",
+    "sha256": "2c03b16787c5fc59bffb8eeeccfc2a655a2bc14241512247320c7b731888415e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Application.class",
+    "sha256": "08adc7a8b3efed0a892199b2cd081ee24f0c4554197c770e1600e44a9c3388df"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Prices.class",
+    "sha256": "82a72792428897811cdb532f258bf1e76d4a592bf256ecfe1623c74957b53a97"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/RateFailure.class",
+    "sha256": "e76be7b31875ec423fe69fdca8e2fe4bf86b5168e5d18378142b02f2cbc4aa0b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/SecurityHeaders.class",
+    "sha256": "489fca4ae9f6a9a7e708657352c2ffa08671d704dde67aa360dabb954021ff51"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/jacoco.exec",
+    "sha256": "caabc71e90d60796031dcde9dc81fadc644d1fa1a166ed4a1b8ae587333a86bc"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "fd9df21008f2f82d4da73967e36d195da84c932a3d20ff4d893139d30da135c3"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/unit/result.json",
+    "sha256": "24e0e55256f8d96313003871865d9684b12020b163e8cb1a860ba774096c0d06"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/visual/coverage.lcov",
+    "sha256": "0f83aaa1872528b7e8c0bac339454160628eedfab29232343ce0ffb74fb0b6e5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/visual/jacoco.xml",
+    "sha256": "c782e0e1fc6eb011b32d9222d2f887da9aa8125d8fa17749f3889268651e1e43"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/visual/result.json",
+    "sha256": "27fdbe7b258fbd8bb9edee04976800ca244654778a6daffa49b210438218182f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/reports/adapters/prices/mini-java-spring-mcap/visual/service-coverage/service.exec",
+    "sha256": "c1eed457998038e5520761d0224cea03f222c56deb5de2ddf10b00d2c47ad0b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-063843-6bfd10/unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/coverage/merged.lcov",
+    "sha256": "f616b04e65b7875af05fd808955c9ac18ec77e9025860677ec3068b84b4968f2"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/coverage/prices/mini-java-spring-mcap-functional.lcov",
+    "sha256": "a19c17464ac21e6172d9aec7f044839a4ff716dc0f28f837c1dde44c058d66b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/coverage/prices/mini-java-spring-mcap-integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/coverage/prices/mini-java-spring-mcap-unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/coverage/prices/mini-java-spring-mcap-visual.lcov",
+    "sha256": "a19c17464ac21e6172d9aec7f044839a4ff716dc0f28f837c1dde44c058d66b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "f616b04e65b7875af05fd808955c9ac18ec77e9025860677ec3068b84b4968f2"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/functional/coverage.lcov",
+    "sha256": "0f83aaa1872528b7e8c0bac339454160628eedfab29232343ce0ffb74fb0b6e5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/functional/jacoco.xml",
+    "sha256": "901cb16ce8250dc6d7c117e1b9f475e65dc4e02bb98143236a04a8bacc7ec45c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/functional/result.json",
+    "sha256": "749d2c05286b4849aa3ae04185421fbefd6bb44fad4e2d31602d4666a96915b7"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/functional/service-coverage/service.exec",
+    "sha256": "53b144c6894c84f0e9610e9d5188119e6a31750033715fdec53dad1d3a9e5908"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/integration/coverage.lcov",
+    "sha256": "3cc81fd8fd102f2f3639b9011bbca50c09582d3efa8a3e6cd90a28b0a7902568"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/integration/jacoco.xml",
+    "sha256": "fe61ee9eea2ba61674edfd8ff4f48129eda7f811ec87f9f115c8383cf1d351c3"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/integration/result.json",
+    "sha256": "294539b30fb1abb8fe755a8ec400ac26dbf01c58696f0c02148a07b2345aef33"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/integration/service-coverage/service.exec",
+    "sha256": "67b54970b50aa0f1d58bf8ff055e0ade3057c8c4f23ea611f479a9e4cd4b4763"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov",
+    "sha256": "ac3e3cdba8670dbb390cee87c2b8ad963b4d94cef43c3ede58c4038c368756f6"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov.native.json",
+    "sha256": "d75ac01561519e71ac408dd4bf5c4122fb59aa7b33f2271ce1ec7a1b8e3c7120"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Api.class",
+    "sha256": "2c03b16787c5fc59bffb8eeeccfc2a655a2bc14241512247320c7b731888415e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Application.class",
+    "sha256": "08adc7a8b3efed0a892199b2cd081ee24f0c4554197c770e1600e44a9c3388df"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Prices.class",
+    "sha256": "82a72792428897811cdb532f258bf1e76d4a592bf256ecfe1623c74957b53a97"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/RateFailure.class",
+    "sha256": "e76be7b31875ec423fe69fdca8e2fe4bf86b5168e5d18378142b02f2cbc4aa0b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/SecurityHeaders.class",
+    "sha256": "489fca4ae9f6a9a7e708657352c2ffa08671d704dde67aa360dabb954021ff51"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/jacoco.exec",
+    "sha256": "935e81c8562ce33ed9908e56881c4d9e0cacc292dbde0337fa4712d85d09b865"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "e95999dca07038492b4716da9108a5d5ed087bb18ba4ace6d8346de2a9fb21c0"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/unit/result.json",
+    "sha256": "7b5aad74582ed8310627926b7420b19ad48edca880ead3f8a26b276e6c35737e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/visual/coverage.lcov",
+    "sha256": "0f83aaa1872528b7e8c0bac339454160628eedfab29232343ce0ffb74fb0b6e5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/visual/jacoco.xml",
+    "sha256": "ee6503cb3bdcdb1c5657a895143a55f4efe6180d09bf07ff64ee1fb45101ebd5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/visual/result.json",
+    "sha256": "0982b2c006e0e65f9ce95f1848f92cb346923d2e57f44e44448164e405b5d237"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/reports/adapters/prices/mini-java-spring-mcap/visual/service-coverage/service.exec",
+    "sha256": "1c0bfbfd2b12b4d20d3badf91b0c38a70c581a0d30d52acd716eb512acca33fe"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-064908-7b3df0/unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/coverage/merged.lcov",
+    "sha256": "f616b04e65b7875af05fd808955c9ac18ec77e9025860677ec3068b84b4968f2"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/coverage/prices/mini-java-spring-mcap-functional.lcov",
+    "sha256": "a19c17464ac21e6172d9aec7f044839a4ff716dc0f28f837c1dde44c058d66b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/coverage/prices/mini-java-spring-mcap-integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/coverage/prices/mini-java-spring-mcap-unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/coverage/prices/mini-java-spring-mcap-visual.lcov",
+    "sha256": "a19c17464ac21e6172d9aec7f044839a4ff716dc0f28f837c1dde44c058d66b9"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/coverage/prices/mini-java-spring-mcap.lcov",
+    "sha256": "f616b04e65b7875af05fd808955c9ac18ec77e9025860677ec3068b84b4968f2"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/integration.lcov",
+    "sha256": "4826b1e0fc59100cb67e264efc2aa2adbc28ea3ad3dfa2ef6bb1a6c4357e407f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/functional/coverage.lcov",
+    "sha256": "0f83aaa1872528b7e8c0bac339454160628eedfab29232343ce0ffb74fb0b6e5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/functional/jacoco.xml",
+    "sha256": "b663a8e0127da8edc5fbed5052cdbdeef627917eaa1378a119c8768b2f0519a6"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/functional/result.json",
+    "sha256": "4f35c61784d9b2b54ecf7fdd9ee0cd1e5ee0aa65dde6b2ed7c9c7e3a70159018"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/functional/service-coverage/service.exec",
+    "sha256": "e6e0e703eae66751189ec43a78a517a70a73b54676fe54a84904afcbea65d88f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/integration/coverage.lcov",
+    "sha256": "3cc81fd8fd102f2f3639b9011bbca50c09582d3efa8a3e6cd90a28b0a7902568"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/integration/jacoco.xml",
+    "sha256": "e689d75d49c060165e499d6b1c6bdf59d51f50fdbc69b967f20759f7095ab439"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/integration/result.json",
+    "sha256": "34d6b5776c53a074d2b5fea27191599b82cf5abe935f3aa34f9120ab29b26910"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/integration/service-coverage/service.exec",
+    "sha256": "77324445f3e8222fdc7c538b6cce4266fd9c1763e0ee8f552246f083ad18c109"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov",
+    "sha256": "ac3e3cdba8670dbb390cee87c2b8ad963b4d94cef43c3ede58c4038c368756f6"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/0.lcov.native.json",
+    "sha256": "8adf7e39fdb226e5188e0aaa654d22bb63f087dd456b460c8ad17fe7b7a01144"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Api.class",
+    "sha256": "2c03b16787c5fc59bffb8eeeccfc2a655a2bc14241512247320c7b731888415e"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Application.class",
+    "sha256": "08adc7a8b3efed0a892199b2cd081ee24f0c4554197c770e1600e44a9c3388df"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/Prices.class",
+    "sha256": "82a72792428897811cdb532f258bf1e76d4a592bf256ecfe1623c74957b53a97"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/RateFailure.class",
+    "sha256": "e76be7b31875ec423fe69fdca8e2fe4bf86b5168e5d18378142b02f2cbc4aa0b"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/classes/mini/prices/SecurityHeaders.class",
+    "sha256": "489fca4ae9f6a9a7e708657352c2ffa08671d704dde67aa360dabb954021ff51"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/jacoco.exec",
+    "sha256": "1891962b00b1b287db0cee869733e40947cc92a82c4aa57b335b172a5409c383"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "d381f08bcb4a3961e17dacfe749ef78f9eda1af50b40e16a913bbcf77916b401"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/unit/result.json",
+    "sha256": "efbe3ab72827d714bca7d072f07da14802f1bb3a90ab385b90a20449085f7d9f"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/visual/coverage.lcov",
+    "sha256": "0f83aaa1872528b7e8c0bac339454160628eedfab29232343ce0ffb74fb0b6e5"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/visual/jacoco.xml",
+    "sha256": "856728f69e0038153522ce0ea0181755b1f4a13fa664345d13afa0392068cc9c"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/visual/result.json",
+    "sha256": "023a21813d6d29d94d5687d0656cbcc9fe9c9a183e4015efdad67da3de0cbf27"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/reports/adapters/prices/mini-java-spring-mcap/visual/service-coverage/service.exec",
+    "sha256": "950e7128061fbaf625ae0ef9baf46c6abf6b9b49936907fa6f4002cb88626c26"
+  },
+  {
+    "path": "mini-provenance/target/cherry-test/runs/20261116-065936-fadf88/unit.lcov",
+    "sha256": "7a3b2b1532744a01f6e4efd762fff09c90b03eb152dc94871f1243004844125c"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/ShopApplication.java",
+    "sha256": "0f2e9f3fee9dac2c6722a632130679a14ced9d4e467bb448ef6183c745def22c"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/ShopConfiguration.java",
+    "sha256": "b55da6ab2798cc1986fd077beeca25e6822f3465957d04aadfa7f8aad2b46c43"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/application/CartService.java",
+    "sha256": "73b53b4479aa8d3259ccc77db489ea340e0cfc225aa5670a96a60df43df0f5d4"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/application/CatalogService.java",
+    "sha256": "536bcfc3884b6b359d16d531bad3224f5233dd6e5b24bf0dfaee341b2e53a269"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/application/ShopError.java",
+    "sha256": "86b8f451adfc72acdc222c169f58da797bd44215c5b350d667da6c4ec8648233"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/application/ShopException.java",
+    "sha256": "0ebf48341ceeb356c6684606430906b528ff26c2775aebecc2510d21fc267ce0"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/application/package-info.java",
+    "sha256": "5d251f15e80900ffb3cadc0a3be7faa6d5991c109aa859a1088d28428d33defe"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/Cart.java",
+    "sha256": "82cc367341aaa165c59350d8c8fe5110bb814aa97e67897d5dcc217f2fdb405a"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/CartId.java",
+    "sha256": "d6f42057c285345b3dd17524ff13a54e50686390178d597a93e3f5b1fb31654f"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/CartLine.java",
+    "sha256": "1b272c2f040219a491cf688561645e3d4790b9bf5cf56cf56da50eed0d0efb33"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/CartStatus.java",
+    "sha256": "9d0aab84533e3a58b368c826d63a98104970abffa46efebd509246a5473f61f8"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/DiscountPercent.java",
+    "sha256": "79c21be4fa3b5942c8d52011414a99f7c973b32540b050437272935289068282"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/DomainError.java",
+    "sha256": "81e9718a21bf6915a72256648414ccb6982b96b20c68f4b48e206748c187c1ec"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/DomainException.java",
+    "sha256": "2e0b62e33d0a9dd92ad7170ae731dae169749167b7ab80c2822644d048be653c"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/Money.java",
+    "sha256": "872d7ca6691f40aed644110d8f136e0a2b84bd7d0a569c70a4f3b35b42aafc7a"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/Order.java",
+    "sha256": "9170c9f5055915f3591af456a18e74fe5b30246908492dc040cdf202e9cf69b1"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/OrderDraft.java",
+    "sha256": "eebd086cbe6bea99f11947e47655edd59953eb55c9562e5b064e575738114cf8"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/OrderLine.java",
+    "sha256": "9deb0171a8ca9b110e5e79134bcd2ed51be4ad48dbf68375dd9033575e6fc729"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/Product.java",
+    "sha256": "e6e9107bdcdafca419e59b322586a24c6c3cbd29c4580732d8078ad990270fda"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/Quantity.java",
+    "sha256": "c56ee07ffe25ee41f34daf1dbce9aba1edc5baf4123209426ff5afc85dd20524"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/Sku.java",
+    "sha256": "2079163f548d1f71ab0079b979e04994238c73149b7e6b4b2f2120f0957fbdb7"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/model/package-info.java",
+    "sha256": "f457f393281078c6590bfd8e510e1cbf39d69d3663fd7152b4f903be633a1650"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/port/CartRepository.java",
+    "sha256": "e529dfab14054c2feece0e9c15467c8ee681dcee9e24ed828a0da359f581d748"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/port/OrderRepository.java",
+    "sha256": "220e312eafc29190aa4c4b7fcef046c7dc610b3491d2ea7cd47367bef7f83e2d"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/port/ProductRepository.java",
+    "sha256": "8ac86ad13ef886fccdbeaad707113f55e7d4587595b7cd6501c6768a50ddfd1b"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/port/RepositoryException.java",
+    "sha256": "a8fea19ece324ea84aa4ea82e9e38db4173243a5853b8b8712d9a10dce9c3d89"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/domain/port/package-info.java",
+    "sha256": "4d753b698b06ad58720545b429bccac1e32cfcb46f10f3e5e3f78e67d173c3b7"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/PostgresCartRepository.java",
+    "sha256": "65ea33b6feb479bbc82d91228f5dbe9b6f613bd20b2a29c623129981a9420b73"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/PostgresConnection.java",
+    "sha256": "8c09ff696436d38f2b8d41b5ae522e6d0fa13f0e72e5e6fb7b06dfbb30f0e687"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/PostgresOrderRepository.java",
+    "sha256": "4f7cd515f63e23fcba89b4419e1ed5a04471773a45fb5c35832a04b78208c345"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/PostgresProductRepository.java",
+    "sha256": "d949753ca007ae7e1eb7ece6ee606f297bd14df84ac1c2705ed6201e25d71212"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/Rows.java",
+    "sha256": "0bbf5f176375c5e0908171ba2ef2f2db3b2e489356471e37728f587edcb2a01c"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/Storage.java",
+    "sha256": "a12b5a2e59d5d78271cfa370d894844f564b84bef176bb1141d5300a239021d0"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/postgres/package-info.java",
+    "sha256": "dd4a9e3f2b9a21a91ea16fc6f5c0084d1f1cb671d9b2e6db29533ab0ea54e587"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/ApiError.java",
+    "sha256": "d60dade5c9abba09eb0a5db4238034c0af2c5e227d4eb14518d235deb4f0b45c"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/ApiErrorHandler.java",
+    "sha256": "46708aff93dc14230787c01e0b4617edc58322c7eb0676f27e20c8b2976efdd4"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/CartController.java",
+    "sha256": "7cc380b2361b8e87176a9f9fd735039a1a609fe0980a93fe92040220b1ea8c5a"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/Dtos.java",
+    "sha256": "72b36352523c0e54365cc83d41416076d2e21e7d04ea0e1e43ebd04fb937e655"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/HealthController.java",
+    "sha256": "7ff5e92714fe6f8b0d3e96ddc49a5ed04ca35a3d6c43dae0732f50f6de170291"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/ProductController.java",
+    "sha256": "0a23c94586435bc0ccc7d801727f794cca6b5bade566174bd8bebdc926f49dd2"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/infrastructure/web/package-info.java",
+    "sha256": "c04dcba3c9b67869827cdfd6f958da57451a1c5a542b26570134f59c0e78430c"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/main/java/com/cherrytest/shop/package-info.java",
+    "sha256": "a9677f4c169cee9a8b83f9ccb2e1daf0b57af066d973efa3635cef632353b8d7"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/ShopApplicationTest.java",
+    "sha256": "b5eb7be4aad24cdbbaea5f78805ba298d976bd08038b0dc305c0dbf16cce5793"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/application/Fakes.java",
+    "sha256": "df87aa79d0c0df6fd15bee74764d30eeab42c09d7bf7990c8954a06f7d22976b"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/application/ServiceTest.java",
+    "sha256": "56cb9ccf5764d21cc87bbf74e6767f291a9187397f868a635c5bf80f05e0e1b2"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/domain/model/ModelTest.java",
+    "sha256": "d010b7c15402891d6fc0d31b6ee82a8add8e96b88513034eaee702e8cd85b850"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/domain/port/RepositoryExceptionTest.java",
+    "sha256": "9816047b01253ebdc3eb209537d0c4a814e4fbb84768e4cd65351c2045c3d257"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/infrastructure/postgres/PostgresRepositoriesTest.java",
+    "sha256": "a3123e977ea195300a3cdcdc0ebccb8662619eb545de23d88acf679a951dc65e"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/infrastructure/postgres/PostgresTest.java",
+    "sha256": "10986077f4ebc387773c43416d3a87505dbb33c35e994d49943d28829f83d2c2"
+  },
+  {
+    "path": "shop-java/shop-java-api/src/test/java/com/cherrytest/shop/infrastructure/web/WebTest.java",
+    "sha256": "af9196d29938e652fa57b1c7909d641945466b3eb5d38e7101dbd153759a1e08"
+  },
+  {
+    "path": "shop-java/shop-java-it/src/test/java/com/cherrytest/shop/it/ShopCheckoutIT.java",
+    "sha256": "8cbdb07809f3b214add6532e4f157b426445e7b4d36cb13a8049f978a83041db"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopApplication$Address.class",
+    "sha256": "1f43b516159ad71fbe8a1bdb872275286acaa5e16924ee7cfdd14b21f5e22c09"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopApplication$StartupException.class",
+    "sha256": "4f908fdaa509d7dc584f473bc23812191af1cef3c8af2a89c27ec224536d7e6b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopApplication.class",
+    "sha256": "af285d8e82f154690758c085a1c214fda10302224ac9a7b018e630eeba9c6c26"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopConfiguration.class",
+    "sha256": "ffb74f5dfb3918366168d4dd1ee9e6d9daaee52b34950b640add2b9f3305f682"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/CartService.class",
+    "sha256": "01c9327321c91077bb9a639790a09e33cd01765d42107cb7d1d66afa0ca2eca0"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/CatalogService.class",
+    "sha256": "a11f518f2ac935b03e4ef6053b43d0f168ae1bb7285362cb3974f4163fb0ea3e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopError$Domain.class",
+    "sha256": "8c33d1773c96f1db4471c61f4d3751d0cea71a74b5214b27a85f57a61f1da74c"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopError$Unavailable.class",
+    "sha256": "fc76733c704428e9369b2ea93b697ea9eb606874be541a7b5680b7726b4a5bce"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopError.class",
+    "sha256": "abd49a8641f5412c18d79e95ef11c8683fedf989c698223988b5a04bdb3a45e6"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopException.class",
+    "sha256": "1ecc036e9b9d906655f94f74f0c638ea5609cc554180e55a6dafd1d25d571ed6"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/package-info.class",
+    "sha256": "1299e67916e54a2290dc2cee7b3f5fe933269d866097f662cab4f79be52e0c8d"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Cart$1.class",
+    "sha256": "842496886727855837a8ef2c33229891c4bca9e2b388ec4258622ef9c2191859"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Cart.class",
+    "sha256": "5439adc0881b73e99e22fefd5b71f9a63dcbf8c595ef01ac61af9a5c02323dc8"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/CartId.class",
+    "sha256": "43e90ee8fb64c0d8fd2461aebeb66bdb9e7c90f36ed71492c2f4ff3e0464aaab"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/CartLine.class",
+    "sha256": "5783c8fcf032c038123cbefb14223e71be92c1db8002d9b02d69f2885ec1a4a2"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/CartStatus.class",
+    "sha256": "274788825442c2da4f6533f31bd0aba35048b49e30506f13190a77bd8aac6720"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DiscountPercent.class",
+    "sha256": "f4ed82bf1d482cb930469b78bcdad3c6d51552c39a9f95e82310704a88a05a2f"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$AmountOverflow.class",
+    "sha256": "6159dfb8cf0b8549d96b0de4cfbeaff27cdfbef42e28d85c9fca0fa22b3e0995"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$CartClosed.class",
+    "sha256": "6ab90914bef6d2e8f71fbf3b523709798b13627268cc3b94cd9130212d665ef7"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$CartNotFound.class",
+    "sha256": "f54b1e3eab8962a3d94c42e61fc131e9c32c539304eccd21b3090ce5e6216a04"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$EmptyCart.class",
+    "sha256": "0c055711f18ba0ff8ffeff0304a9d718d52e8ceb91a7cd71bba23aee6d774a33"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidCartId.class",
+    "sha256": "0149489e17394a342b8b9d84c86ce46a73d2d87d35bb704c5f78e48fa4e8d099"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidDiscount.class",
+    "sha256": "848f2b134db58efaf0aa89c3d13d5f5366433d1909f00764e2e0eabf47b1e93a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidMoney.class",
+    "sha256": "6264a41b3cf6f94a59879b8d8eeaa5e891fc1e29f5ca85182c5070ca21b6c905"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidQuantity.class",
+    "sha256": "dfe885fd243abae34076e751df71d6f0f3d6066e1eb6cf5153b662fbac4e5772"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidSku.class",
+    "sha256": "9c645a44cdad21e9a1de48e7c7c874fe42fe914549c685870a1b221f153425ef"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$OutOfStock.class",
+    "sha256": "8757fa476f806a1879bc1d6fb798e41284c0f8e329c89669eb6af66cbfbf90c2"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$ProductNotFound.class",
+    "sha256": "d111c071eed698d5c89c264bbab53eabbd33bf2e385b54842f48fc9b54362b08"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError.class",
+    "sha256": "07944ba38e83137a08aa495917ee552fc1ef83e241ed0ae767998d40d0932d75"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainException.class",
+    "sha256": "ba13c346ea74359f77e65ba630133df2cfcd6fa8005f421ad683d6543a1313fa"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Money.class",
+    "sha256": "a151601d650d18999bcaf28eacb4c8816e250dbed2d80800f5923ff4a5002e32"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Order.class",
+    "sha256": "8274b55d93e7c3d0c991ab95ad29c10937d8ff9f805ee615befe8ed899e335b2"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/OrderDraft.class",
+    "sha256": "c98799483139c80a63c34c074fc6ff6f8d1e21b64dcbf2dbe40b6fb6dea210de"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/OrderLine.class",
+    "sha256": "db0028ee0bdb52ccfe0da889cbc5aacf271f7b8508975cd3081bc09b796c2893"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Product.class",
+    "sha256": "63f4924dcfe6c99dd80aa9f0e3661ad2426f3cc3ff3aacb4ef31e940f17560a3"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Quantity.class",
+    "sha256": "09a46649e0d815deb9418f10f0a92d7575ef0888bbd6b38c7b635c9bfb327eda"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Sku.class",
+    "sha256": "60c31f5ffe724e2cf455c012248f59e8dbd65f4c1549cb5bef80336f7e97fb3b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/package-info.class",
+    "sha256": "009a22f9942c33e46a6d1b7f4f859a0540a1f4b1c5a9fb7ae9e96356cf3e7e1b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/CartRepository.class",
+    "sha256": "66c9131283de6fa8622f67c94acc91a50c98693bfede2866c26625b7c1664d8c"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/OrderRepository.class",
+    "sha256": "5284b92a508be2ad27153c72a19961e346e39106d3e259dd26048c68d876981e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/ProductRepository.class",
+    "sha256": "560f2e674980b3e86eb1f0db9f1e1c3ca57305e1226a813ab9ccf0551117fb05"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/RepositoryException$Rejected.class",
+    "sha256": "de76672f234ca6628767acdc2ce7567b882926c7304cb3416c0d0b6b7ec17b32"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/RepositoryException$Unavailable.class",
+    "sha256": "2f838714fa432f87f06f85273b65a2838fedd8d6df5cb7febb66dc5916bae43f"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/RepositoryException.class",
+    "sha256": "cdf19243845515efdc2efa4e6293d30d1a4b09015bd1f8fa523863e865a3b313"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/package-info.class",
+    "sha256": "168ed8a0189ac5e23fc0df720b62cd6ea804e221135a9e1d031fd323a583ec65"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresCartRepository.class",
+    "sha256": "095f38885e7650587a3bc15b003042688064ea39286721dcf0f75c2c521a3a5a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresConnection$Settings.class",
+    "sha256": "918c06150aced252684a4efe11e02079c32a0ac5e6fc877925c75d7cfc7bb48d"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresConnection.class",
+    "sha256": "db441c82f0bdbb417074ff46f45f21f2dfb79991e1242d192504344c43919dfd"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresOrderRepository.class",
+    "sha256": "bc475a1ad474c5bb1ac3122c0ffc63a1cefc2ec9d7c501d58412d18901354d29"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresProductRepository.class",
+    "sha256": "1f64f12a1aaf72bfbb47dd0dececb9d5aa907d668ada106123b6bae16c9c8b29"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Rows$CartLineRow.class",
+    "sha256": "d63ee6c9c2bd35a7557655334255f3641a6e9e4f8bb5bea8b7f0ae5a02d698be"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Rows$ProductRow.class",
+    "sha256": "331015853f71cd7e8e5039c71c572ebd88c78743cfe3e43e59b622b55766f0ac"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Rows.class",
+    "sha256": "95ee317c6f4f3f97e948e2fa4cda95c49492c801e00076885c7cb308c872dd26"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Storage.class",
+    "sha256": "d4c61116d3f3986340b01a92402daeaefd4ece6fda5c592b8589a80798cb61a6"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/package-info.class",
+    "sha256": "6183470ce7ece191e8bb781f196073fe5ee356ffc89a45eac710621d021cdb66"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/ApiError.class",
+    "sha256": "ec1e1b76f6576cdf20ea646df60c6699e4d7c4cd8491b84abdf1c66a27e897a8"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/ApiErrorHandler.class",
+    "sha256": "64b263e806ee1f089438c12125a8b9d60702562d85b93b39eb25b8e4516b2bf7"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/CartController.class",
+    "sha256": "ce749614e02574acb2715d3d865bfeb849095ba12ba425f302b668bd5c84a04e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$1.class",
+    "sha256": "33d97636287c89eda4aae7541109dfa6ce76f1492d9d97773cc6e7f73aa47c96"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$AddCartItemRequest.class",
+    "sha256": "b7aeb478d9587aa1cea589766e2268bb85f52accc45649304e04ba7c631a592b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$CartLineResponse.class",
+    "sha256": "9f55431f40c479fcb716b1f4eed82b038fde7153fbbd42d138fa21a0ba63d8d0"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$CartResponse.class",
+    "sha256": "a56025f54cb0e9a404b2621b39a6c4d28ddcb1984a1da002ebabf4c449439d83"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ErrorBody.class",
+    "sha256": "26fb345780717b6af08c2f79978cef18cb55f28aa6e0679a4485030118ed371e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ErrorResponse.class",
+    "sha256": "7a6fe6966549d6f71c341856dcac268d955c776218ba589aa442d21d03566905"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$OrderLineResponse.class",
+    "sha256": "79e19307b850ff3f86650d4388e3587334f4e17371412d2977b9f2a8b9be95fc"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$OrderResponse.class",
+    "sha256": "44e920d0259465d3c34d081b93f0689c7c3446f2f15752978e5774ca35a06e4a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ProductListResponse.class",
+    "sha256": "1cb727a776f6fbdc64c0f7315c0c99aa0183fc1e69184f8b6a92c5e70fcc0dcc"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ProductResponse.class",
+    "sha256": "508558fa2ea086e9ca959f78c1da77794181f0a2277d4c7161ad7f249fb1fb0a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos.class",
+    "sha256": "7daa1be9a6cd2080b043bb9a491392a92f9017bb1a1b21b1ae7f7028cf3b55ae"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/HealthController.class",
+    "sha256": "4297723a422462d1e36e4aebd605d51cad465c463ccd908786ee6d8a580b5f9b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/ProductController.class",
+    "sha256": "5b9693b4b260bf0a933c3e3160d8a3517a62aec5ded8099c1dffb06f633eac68"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/package-info.class",
+    "sha256": "5fb0e50a0ff4a36b11f21daf9d83b5fc2985beee91478d7ec5a3747aa0bc141b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/package-info.class",
+    "sha256": "4c2330781b88ae5410f589c31366fb10c6f6acf085a909ed6a5ecb05428ca633"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/build/jacoco.exec",
+    "sha256": "13c3c2f324088a2879b2f9f36268ec1525b7886d6a1263c4f705765b18992ffa"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061340-5436f0/reports/adapters/shop/shop-java-api/unit/result.json",
+    "sha256": "5bffacb05449208bada61f282a5bc57e4e791481f27e72b83f30252b994717d9"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-061852-9ed630/reports/adapters/shop/shop-java-api/integration/result.json",
+    "sha256": "abf9059dd80c9bf58b7fff0b32962f8a6fe25168393fdd50d529afb27de39e2c"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/coverage/merged.lcov",
+    "sha256": "841168e5b899c773e76ba9dde22e24258d9535292870f30852e11c677c44478a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/coverage/shop/shop-java-api-unit.lcov",
+    "sha256": "841168e5b899c773e76ba9dde22e24258d9535292870f30852e11c677c44478a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/coverage/shop/shop-java-api.lcov",
+    "sha256": "841168e5b899c773e76ba9dde22e24258d9535292870f30852e11c677c44478a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/0.lcov",
+    "sha256": "d3b55c75072fbf073d29c3cc3577bda3f4c66eb64575d80c297fbf5cf266722d"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/0.lcov.native.json",
+    "sha256": "9c560d0c21188b3683bdb7c8e0570717f67a09cba424595ef1b238d60027b285"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopApplication$Address.class",
+    "sha256": "1f43b516159ad71fbe8a1bdb872275286acaa5e16924ee7cfdd14b21f5e22c09"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopApplication$StartupException.class",
+    "sha256": "4f908fdaa509d7dc584f473bc23812191af1cef3c8af2a89c27ec224536d7e6b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopApplication.class",
+    "sha256": "af285d8e82f154690758c085a1c214fda10302224ac9a7b018e630eeba9c6c26"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/ShopConfiguration.class",
+    "sha256": "ffb74f5dfb3918366168d4dd1ee9e6d9daaee52b34950b640add2b9f3305f682"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/CartService.class",
+    "sha256": "01c9327321c91077bb9a639790a09e33cd01765d42107cb7d1d66afa0ca2eca0"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/CatalogService.class",
+    "sha256": "a11f518f2ac935b03e4ef6053b43d0f168ae1bb7285362cb3974f4163fb0ea3e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopError$Domain.class",
+    "sha256": "8c33d1773c96f1db4471c61f4d3751d0cea71a74b5214b27a85f57a61f1da74c"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopError$Unavailable.class",
+    "sha256": "fc76733c704428e9369b2ea93b697ea9eb606874be541a7b5680b7726b4a5bce"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopError.class",
+    "sha256": "abd49a8641f5412c18d79e95ef11c8683fedf989c698223988b5a04bdb3a45e6"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/ShopException.class",
+    "sha256": "1ecc036e9b9d906655f94f74f0c638ea5609cc554180e55a6dafd1d25d571ed6"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/application/package-info.class",
+    "sha256": "1299e67916e54a2290dc2cee7b3f5fe933269d866097f662cab4f79be52e0c8d"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Cart$1.class",
+    "sha256": "842496886727855837a8ef2c33229891c4bca9e2b388ec4258622ef9c2191859"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Cart.class",
+    "sha256": "5439adc0881b73e99e22fefd5b71f9a63dcbf8c595ef01ac61af9a5c02323dc8"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/CartId.class",
+    "sha256": "43e90ee8fb64c0d8fd2461aebeb66bdb9e7c90f36ed71492c2f4ff3e0464aaab"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/CartLine.class",
+    "sha256": "5783c8fcf032c038123cbefb14223e71be92c1db8002d9b02d69f2885ec1a4a2"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/CartStatus.class",
+    "sha256": "274788825442c2da4f6533f31bd0aba35048b49e30506f13190a77bd8aac6720"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DiscountPercent.class",
+    "sha256": "f4ed82bf1d482cb930469b78bcdad3c6d51552c39a9f95e82310704a88a05a2f"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$AmountOverflow.class",
+    "sha256": "6159dfb8cf0b8549d96b0de4cfbeaff27cdfbef42e28d85c9fca0fa22b3e0995"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$CartClosed.class",
+    "sha256": "6ab90914bef6d2e8f71fbf3b523709798b13627268cc3b94cd9130212d665ef7"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$CartNotFound.class",
+    "sha256": "f54b1e3eab8962a3d94c42e61fc131e9c32c539304eccd21b3090ce5e6216a04"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$EmptyCart.class",
+    "sha256": "0c055711f18ba0ff8ffeff0304a9d718d52e8ceb91a7cd71bba23aee6d774a33"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidCartId.class",
+    "sha256": "0149489e17394a342b8b9d84c86ce46a73d2d87d35bb704c5f78e48fa4e8d099"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidDiscount.class",
+    "sha256": "848f2b134db58efaf0aa89c3d13d5f5366433d1909f00764e2e0eabf47b1e93a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidMoney.class",
+    "sha256": "6264a41b3cf6f94a59879b8d8eeaa5e891fc1e29f5ca85182c5070ca21b6c905"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidQuantity.class",
+    "sha256": "dfe885fd243abae34076e751df71d6f0f3d6066e1eb6cf5153b662fbac4e5772"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$InvalidSku.class",
+    "sha256": "9c645a44cdad21e9a1de48e7c7c874fe42fe914549c685870a1b221f153425ef"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$OutOfStock.class",
+    "sha256": "8757fa476f806a1879bc1d6fb798e41284c0f8e329c89669eb6af66cbfbf90c2"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError$ProductNotFound.class",
+    "sha256": "d111c071eed698d5c89c264bbab53eabbd33bf2e385b54842f48fc9b54362b08"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainError.class",
+    "sha256": "07944ba38e83137a08aa495917ee552fc1ef83e241ed0ae767998d40d0932d75"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/DomainException.class",
+    "sha256": "ba13c346ea74359f77e65ba630133df2cfcd6fa8005f421ad683d6543a1313fa"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Money.class",
+    "sha256": "a151601d650d18999bcaf28eacb4c8816e250dbed2d80800f5923ff4a5002e32"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Order.class",
+    "sha256": "8274b55d93e7c3d0c991ab95ad29c10937d8ff9f805ee615befe8ed899e335b2"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/OrderDraft.class",
+    "sha256": "c98799483139c80a63c34c074fc6ff6f8d1e21b64dcbf2dbe40b6fb6dea210de"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/OrderLine.class",
+    "sha256": "db0028ee0bdb52ccfe0da889cbc5aacf271f7b8508975cd3081bc09b796c2893"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Product.class",
+    "sha256": "63f4924dcfe6c99dd80aa9f0e3661ad2426f3cc3ff3aacb4ef31e940f17560a3"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Quantity.class",
+    "sha256": "09a46649e0d815deb9418f10f0a92d7575ef0888bbd6b38c7b635c9bfb327eda"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/Sku.class",
+    "sha256": "60c31f5ffe724e2cf455c012248f59e8dbd65f4c1549cb5bef80336f7e97fb3b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/model/package-info.class",
+    "sha256": "009a22f9942c33e46a6d1b7f4f859a0540a1f4b1c5a9fb7ae9e96356cf3e7e1b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/CartRepository.class",
+    "sha256": "66c9131283de6fa8622f67c94acc91a50c98693bfede2866c26625b7c1664d8c"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/OrderRepository.class",
+    "sha256": "5284b92a508be2ad27153c72a19961e346e39106d3e259dd26048c68d876981e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/ProductRepository.class",
+    "sha256": "560f2e674980b3e86eb1f0db9f1e1c3ca57305e1226a813ab9ccf0551117fb05"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/RepositoryException$Rejected.class",
+    "sha256": "de76672f234ca6628767acdc2ce7567b882926c7304cb3416c0d0b6b7ec17b32"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/RepositoryException$Unavailable.class",
+    "sha256": "2f838714fa432f87f06f85273b65a2838fedd8d6df5cb7febb66dc5916bae43f"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/RepositoryException.class",
+    "sha256": "cdf19243845515efdc2efa4e6293d30d1a4b09015bd1f8fa523863e865a3b313"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/domain/port/package-info.class",
+    "sha256": "168ed8a0189ac5e23fc0df720b62cd6ea804e221135a9e1d031fd323a583ec65"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresCartRepository.class",
+    "sha256": "095f38885e7650587a3bc15b003042688064ea39286721dcf0f75c2c521a3a5a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresConnection$Settings.class",
+    "sha256": "918c06150aced252684a4efe11e02079c32a0ac5e6fc877925c75d7cfc7bb48d"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresConnection.class",
+    "sha256": "db441c82f0bdbb417074ff46f45f21f2dfb79991e1242d192504344c43919dfd"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresOrderRepository.class",
+    "sha256": "bc475a1ad474c5bb1ac3122c0ffc63a1cefc2ec9d7c501d58412d18901354d29"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/PostgresProductRepository.class",
+    "sha256": "1f64f12a1aaf72bfbb47dd0dececb9d5aa907d668ada106123b6bae16c9c8b29"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Rows$CartLineRow.class",
+    "sha256": "d63ee6c9c2bd35a7557655334255f3641a6e9e4f8bb5bea8b7f0ae5a02d698be"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Rows$ProductRow.class",
+    "sha256": "331015853f71cd7e8e5039c71c572ebd88c78743cfe3e43e59b622b55766f0ac"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Rows.class",
+    "sha256": "95ee317c6f4f3f97e948e2fa4cda95c49492c801e00076885c7cb308c872dd26"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/Storage.class",
+    "sha256": "d4c61116d3f3986340b01a92402daeaefd4ece6fda5c592b8589a80798cb61a6"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/postgres/package-info.class",
+    "sha256": "6183470ce7ece191e8bb781f196073fe5ee356ffc89a45eac710621d021cdb66"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/ApiError.class",
+    "sha256": "ec1e1b76f6576cdf20ea646df60c6699e4d7c4cd8491b84abdf1c66a27e897a8"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/ApiErrorHandler.class",
+    "sha256": "64b263e806ee1f089438c12125a8b9d60702562d85b93b39eb25b8e4516b2bf7"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/CartController.class",
+    "sha256": "ce749614e02574acb2715d3d865bfeb849095ba12ba425f302b668bd5c84a04e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$1.class",
+    "sha256": "33d97636287c89eda4aae7541109dfa6ce76f1492d9d97773cc6e7f73aa47c96"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$AddCartItemRequest.class",
+    "sha256": "b7aeb478d9587aa1cea589766e2268bb85f52accc45649304e04ba7c631a592b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$CartLineResponse.class",
+    "sha256": "9f55431f40c479fcb716b1f4eed82b038fde7153fbbd42d138fa21a0ba63d8d0"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$CartResponse.class",
+    "sha256": "a56025f54cb0e9a404b2621b39a6c4d28ddcb1984a1da002ebabf4c449439d83"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ErrorBody.class",
+    "sha256": "26fb345780717b6af08c2f79978cef18cb55f28aa6e0679a4485030118ed371e"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ErrorResponse.class",
+    "sha256": "7a6fe6966549d6f71c341856dcac268d955c776218ba589aa442d21d03566905"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$OrderLineResponse.class",
+    "sha256": "79e19307b850ff3f86650d4388e3587334f4e17371412d2977b9f2a8b9be95fc"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$OrderResponse.class",
+    "sha256": "44e920d0259465d3c34d081b93f0689c7c3446f2f15752978e5774ca35a06e4a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ProductListResponse.class",
+    "sha256": "1cb727a776f6fbdc64c0f7315c0c99aa0183fc1e69184f8b6a92c5e70fcc0dcc"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos$ProductResponse.class",
+    "sha256": "508558fa2ea086e9ca959f78c1da77794181f0a2277d4c7161ad7f249fb1fb0a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/Dtos.class",
+    "sha256": "7daa1be9a6cd2080b043bb9a491392a92f9017bb1a1b21b1ae7f7028cf3b55ae"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/HealthController.class",
+    "sha256": "4297723a422462d1e36e4aebd605d51cad465c463ccd908786ee6d8a580b5f9b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/ProductController.class",
+    "sha256": "5b9693b4b260bf0a933c3e3160d8a3517a62aec5ded8099c1dffb06f633eac68"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/infrastructure/web/package-info.class",
+    "sha256": "5fb0e50a0ff4a36b11f21daf9d83b5fc2985beee91478d7ec5a3747aa0bc141b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/classes/com/cherrytest/shop/package-info.class",
+    "sha256": "4c2330781b88ae5410f589c31366fb10c6f6acf085a909ed6a5ecb05428ca633"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/jacoco.exec",
+    "sha256": "1bec9a3e1087b3fc29fd2537492c3892a16d35de70081e1897d3045ac3fbd5b0"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/build/site/jacoco/jacoco.xml",
+    "sha256": "954ed70f4075bbb58f312b0f6367823f0dc48563f7147f2344ae0b012089c04f"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/reports/adapters/shop/shop-java-api/unit/result.json",
+    "sha256": "e88cbca5c501c6ec5e6df704c307af983225134de5b2153faf2f825215ff5dbf"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062223-08e820/unit.lcov",
+    "sha256": "841168e5b899c773e76ba9dde22e24258d9535292870f30852e11c677c44478a"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/coverage/merged.lcov",
+    "sha256": "b4253f7dffb2592a6fb95e2f302a0a9725a05c562d32e2c367b3f1b97ca0cdcf"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/coverage/shop/shop-java-api-integration.lcov",
+    "sha256": "b4253f7dffb2592a6fb95e2f302a0a9725a05c562d32e2c367b3f1b97ca0cdcf"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/coverage/shop/shop-java-api.lcov",
+    "sha256": "b4253f7dffb2592a6fb95e2f302a0a9725a05c562d32e2c367b3f1b97ca0cdcf"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/integration.lcov",
+    "sha256": "b4253f7dffb2592a6fb95e2f302a0a9725a05c562d32e2c367b3f1b97ca0cdcf"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/reports/adapters/shop/shop-java-api/integration/jacoco/shop-api.exec",
+    "sha256": "358b7effc383fdabe3d3db525fb699b89335b209ee47af2bdc0709a5a2776b14"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/reports/adapters/shop/shop-java-api/integration/jacoco/shop-probe-bind.exec",
+    "sha256": "c1534544755c39f1633f7933f008144b1c1b7053491960402f4ec5be4450046f"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/reports/adapters/shop/shop-java-api/integration/jacoco/shop-probe-missing-database.exec",
+    "sha256": "22d83136e259ee0077546f3b2c462810de7ed1a6b320858b834886a3be619733"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/reports/adapters/shop/shop-java-api/integration/result.json",
+    "sha256": "e31770cd9e97eb93c1e64d7ba638ac6ce238ecc0e3090b7b5bc1094c8987fe4b"
+  },
+  {
+    "path": "shop-java/target/cherry-test/runs/20261116-062600-ba6208/reports/adapters/shop/shop-java-api/integration/server-full.lcov",
+    "sha256": "be677b66255b9ceb9c1d61d189ea1c8f02e04693be39da6e80375bd527d04dc4"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/AdapterException.java",
+    "sha256": "5c18006b9d869919028fd56a471e8c0fd3d8ddb1541b437023ad0333fac5c36e"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/JunitReport.java",
+    "sha256": "dc87bb6ecbdfdda3b1532d4804f1eb70bc15ec6a707fb0b7800187272d3e82fc"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/PlaywrightReport.java",
+    "sha256": "fa05da7fe4d9658fba8eca6ecb00027506c52431b04e57bdfb4a19281966e96b"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/Processes.java",
+    "sha256": "44285e3bdb906551d9c187e5db03992db35afd4e87027e187e3ceffc3f79125e"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/Request.java",
+    "sha256": "0e456cdc84f7f4ad6a55a3a30e9653ffef0a7e00fd37b45333cffdd392b571c7"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/ServerCoverage.java",
+    "sha256": "1f43e3177411b644f4625fbe39a17e3a544f8f5f20fd0367edac30dde7aed39a"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/ShopAdapter.java",
+    "sha256": "9057c4bf0c7729d3d1e1d70d608f1c3d1b57e1cf484c81dcce5f630bf639a942"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/TestRecord.java",
+    "sha256": "69a77883b71ad4c50e34d0c1b4cd1ef1d7c0dc7371c9eb97403eb82d0acc36cf"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/main/java/com/cherrytest/shop/adapter/package-info.java",
+    "sha256": "c36e7243d377146476afd41a94a36b516ffca2b9552322ffed9b251b6f44d10f"
+  },
+  {
+    "path": "shop-java/tools/shop-adapter/src/test/java/com/cherrytest/shop/adapter/ShopAdapterTest.java",
+    "sha256": "12592307938504d80b3850dbffd6e135bdc0db68b579b47ff573d41735a769de"
+  }
+]

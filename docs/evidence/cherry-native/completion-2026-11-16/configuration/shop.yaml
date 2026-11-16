@@ -1,0 +1,63 @@
+defaults:
+  coverage: true
+  html_report: true
+  runs_base: target/cherry-test/runs
+  scope: global
+  diff_base: main
+
+adapters:
+  shop:
+    command: cargo
+    args: [run, --target-dir, target/adapter, -p, shop-adapter, --quiet, --]
+    timeout_secs: 1800
+
+projects:
+  shop:
+    path: .
+    diff_base: main
+    compose: docker-compose.test.yml
+    packages:
+      shop-rs-api:
+        kinds: [unit, integration]
+        integration:
+          adapter: shop
+          scope: shop_checkout
+      shop-ts-lib-cart:
+        runtime: node
+        manifest: shop-ts-lib-cart/package.json
+        kinds: [unit, integration]
+        unit:
+          command: pnpm
+          args: [exec, vitest, run, --coverage, src]
+          cwd: shop-ts-lib-cart
+        integration:
+          command: pnpm
+          args: [exec, vitest, run, --coverage, integration]
+          cwd: shop-ts-lib-cart
+      shop-ts-web-react:
+        runtime: node
+        manifest: shop-ts-web-react/package.json
+        kinds: [unit, functional, visual]
+        unit:
+          command: pnpm
+          args: [exec, vitest, run, --coverage]
+          cwd: shop-ts-web-react
+        functional:
+          adapter: shop
+          scope: shop_checkout
+        visual:
+          adapter: shop
+          scope: shop_checkout
+    services:
+      api:
+        service: shop-rs-api
+        port: 3000
+        health: /health
+      db:
+        service: shop-db
+        port: 5432
+        kind: postgres
+
+scopes:
+  shop_checkout:
+    projects: [shop]

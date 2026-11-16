@@ -9,6 +9,49 @@ The CLI and provenance artifact still identify themselves as `0.3.16`; pin the
 commit when reproducing this integration. No binary release or Maven Central
 publication is implied.
 
+## Real-project delivery (16 November)
+
+The [completed CH-02/08/09 delivery](../evidence/cherry-native/completion-2026-11-16/README.md)
+supersedes the implementation blockers in the earlier qualification. Cherry `39af874d`
+combines native events and the sidecar/container scheduler, pins mini `9811e78` and
+shop-java `b3429b6`, and preserves standalone behavior. TurboJ now offers the
+CommandJ action **Cherry Test: Project Execution Mode…** with persisted per-project
+configured/local/container policy; Save uses the same policy. Configured omits an
+override. Cancellation allows Cherry's TERM cleanup before forced termination.
+
+External JVM adapters identify actual source roots, fresh class directories and
+`.exec` data in a versioned `coverage-evidence.json`. The host regenerates precise
+counters and validates compiler inputs, class hashes, process IDs, session IDs and
+completion receipts. Completed phases with compatible identities can supply a
+provider-generated terminal `coverageUnion` artifact: actual probes are unioned,
+never counters added. Contributing collections, compilations, processes and class
+files remain identifiable. Missing/ambiguous/mismatched data stays unknown.
+
+A source collection whose compiler/process inputs are verified but whose class
+was not loaded is not current on its own. Only a union that actually contains
+all required matching class execution records can certify that source. Kotlin,
+Rust/LLVM, ECJ and arbitrary reused/incremental compiler outputs still have no
+supported proof producer and cannot be promoted to current by timestamps.
+
+Actual native Save runs all four mini Java categories (36 passes) and displays
+verified coverage: five source files, 81 executable lines. Shop Java's 12 passing
+integration tests produce three proven JVM sessions and 425 current lines; its
+preexisting unit assertion failure remains visible. Kotlin Spring (25) and Rust
+shop (12) integration tests pass with real counters but unknown provenance.
+
+Native JUG runs its complete configured suite: 33 phase results, 1701 passes and
+one skip, with Spring/Quarkus and browser packages distinct. Coverage-disabled
+and explicitly enabled configuration were tested independently. Enabled test-JVM
+counters do not certify an uninstrumented backend. JUG's report groups HTTP
+observations and collapses some names; the evidence report reconciles its totals
+without manufacturing native tests or source attribution. Real Docker cancel
+removes owned containers and cannot produce complete success.
+
+See the delivery report for exact commands, artifact hashes, source restoration,
+reactor-only test accounting, and known capability boundaries. QFX-04 is
+still the separate keyboard-only workflow, not implied by programmatic native
+acceptance.
+
 ## Ownership and execution
 
 Cherry Test remains the orchestrator. Its Java CLI optionally emits schema-v1 JSONL when `CHERRY_TEST_IDE_EVENTS` is set. Ordinary CLI and HTML reporting remain available. TurboJ does not parse ANSI output or HTML colors as results and adds no test-framework dependency to the editor.
@@ -155,7 +198,7 @@ Images are written to `app/target/coverage-visual-preview/`, including five `the
 | `app/src/main/java/dev/turboj/testing/LineIntelligenceDialogs.java` | Native inspection/results surfaces |
 | `app/src/main/java/dev/turboj/testing/TurboTestController.java` | Existing controller owns Cherry process lifecycle |
 | `app/src/main/java/dev/turboj/app/TurboFrame.java` | Run, commands, focus and project lifecycle |
-| `app/src/main/java/dev/turboj/config/Settings.java` | CLI path preference |
+| `app/src/main/java/dev/turboj/config/Settings.java` | CLI path and per-project execution preferences |
 | `app/src/main/java/dev/turboj/ui/EditorComponent.java` | Renderer extension and interaction |
 | `app/src/main/java/dev/turboj/ui/intelligence/LineGutter.java` | Paint/hit/description model |
 | `app/src/main/java/dev/turboj/ui/themes/Theme.java` | Semantic colors and compatibility |
@@ -202,7 +245,7 @@ Historical standalone observations (before CH-02 capture; not rerun on 15 Novemb
 | JUG shop-spring | 5/5 pass | Coverage disabled; inherited declaration mapping withheld |
 | JUG shop-quarkus | 5/5 pass | Separate runtime/package identity, coverage disabled |
 
-JUG used its mandatory local network boundary, synthetic/local fixtures and offline Maven. No production suite or production service was contacted. Entire mini/shop service/browser/Docker matrices have **not** been executed.
+JUG used its mandatory local network boundary, synthetic/local fixtures and offline Maven. No production suite or production service was contacted. That historical session did not execute the mini/shop service/browser/Docker matrix; the current supported matrix and its limitations are recorded in the CH-02/08/09 delivery above.
 
 All 103 themes passed automated role/contrast checks; raster/hit checks cover sizes 10, 24 and 48, HiDPI, CRLF/Unicode, AI projection and deletion boundaries. The targeted tests also exercise obsolete events, document/project switches, missing protocol, cancellation, child cleanup, partial collections, hash mismatches and overlapping coverage artifacts.
 
@@ -232,15 +275,15 @@ Measured offscreen painting without and with dense decorations in the **same bui
 | 2 — Native lanes | VERIFIED for rendering and inspection | Real data is accepted; synthetic verified-state raster tests exercise all colors. Real unproven freshness stays neutral; proven aggregate coverage can use current colors. |
 | 3 — Git to buffer | VERIFIED for listed cases | HEAD-to-buffer, staged/unstaged/unsaved, new files, staged renames, gaps and stale-response guards. Other baselines are provider API only. |
 | 4 — Native execution | PARTIAL | Full configured run, phase progress, cancellation and report work. Exact individual/failed-test rerun remains incomplete. |
-| 5 — High-fidelity coverage | PARTIAL | Actual instruction/branch counters survive ingestion. Opt-in javac/JaCoCo provenance is implemented. Other compilers/providers, collection presentation and broad service validation remain incomplete. |
+| 5 — High-fidelity coverage | PARTIAL | Actual instruction/branch counters survive ingestion. Opt-in javac/JaCoCo provenance is implemented. Server provenance and provider probe union are verified on the real matrix; other compiler producers and independent collection presentation remain unsupported/incomplete. |
 | 6 — Full developer workflow | INCOMPLETE | Inspection, known declaration navigation and existing Quick Fix entry work; create-test-to-current-coverage acceptance is not complete. |
-| 7 — Scale and compatibility | PARTIAL | Themes, dense offscreen painting, Git timing and representative subsets verified; full service matrices, native latency, memory and large-report validation remain. |
+| 7 — Scale and compatibility | PARTIAL | Themes, dense offscreen painting, Git timing and representative subsets verified; the agreed mini/shop/JUG matrix is now qualified; native latency, memory and wider large-report validation remain. |
 
-1. Extend the opt-in javac/JaCoCo capture contract to other compiler/provider paths and qualify realistic multi-module services. Missing capture, reused class directories and unobserved instrumentation remain unknown; they are not inferred from timestamps.
+1. Extend the opt-in javac/JaCoCo capture contract to other compiler/provider paths beyond the qualified Java server matrix. Missing capture, reused class directories and unobserved instrumentation remain unknown; they are not inferred from timestamps.
 2. Exact single-test/failed-test rerun selectors through every adapter; native UI currently offers a clearly labeled complete-suite rerun. No affected-test selection is inferred from aggregate coverage.
 3. Per-test progressive starts and complete test inventory, cross-run aggregation policy, and safe inherited contract navigation with classpath/module resolution.
-4. Preserve distinct counter collections as independently inspectable native observations, and add provider-level probe merging for overlapping instrumented processes. No numeric-counter summation is used now.
-5. Full service/browser/multi-process coverage validation for mini, shop and shop-java; multi-repository configurations outside the selected root; module-specific source/class identity.
+4. Expose distinct counter collections as independently inspectable native observations. Provider-level probe merging now handles overlapping compatible JaCoCo processes/phases; numeric counters are never summed.
+5. Broader multi-repository source navigation outside the selected root and additional provider matrices. The agreed mini Java/Kotlin, shop Rust/Java and JUG qualification is recorded in the completed delivery.
 6. A full create-test → run → refreshed-current-coverage workflow and a human keyboard walkthrough, plus native input-to-paint/scroll latency and large-report/memory measurements.
 
 The implemented slice is useful for real execution, accurate historical counters, Git and native inspection. It must not be described as the completed seven-milestone testing-intelligence product.

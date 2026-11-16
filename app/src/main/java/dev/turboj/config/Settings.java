@@ -25,6 +25,7 @@ public final class Settings {
     public boolean autoRunOnSave = false;
     public boolean autoTestOnSave = false;
     public String cherryTestExecutable = "";
+    public Map<String,String> cherryTestExecution = new LinkedHashMap<>();
     public boolean showCoverageBackgrounds = true;
     public boolean showPressedShortcuts = false;
     /** Shortcuts written the macOS way (⌃⌥⇧⌘O) rather than in words (Ctrl+Option+Shift+Cmd+O). */
@@ -64,6 +65,9 @@ public final class Settings {
             s.width = Math.clamp(s.width, 640, 4000);
             s.height = Math.clamp(s.height, 420, 2400);
             if (s.recentFiles == null) s.recentFiles = new ArrayList<>();
+            if (s.cherryTestExecution == null) s.cherryTestExecution = new LinkedHashMap<>();
+            s.cherryTestExecution.entrySet().removeIf(entry -> entry.getKey() == null
+                    || !Set.of("configured", "local", "container").contains(entry.getValue() == null ? "" : entry.getValue()));
             s.theme = dev.turboj.ui.themes.Theme.normalizeId(s.theme);
             try {
                 if (s.ai == null) s.ai = dev.turboj.ai.AIConfig.defaults();

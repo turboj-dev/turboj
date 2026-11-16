@@ -13,10 +13,15 @@ import java.util.function.Consumer;
 
 /** Isolated Cherry CLI transport owned by TurboTestController; Cherry owns test orchestration. */
 public final class CherryTestProcess implements AutoCloseable {
-    public record Request(Path root, String executable, Path eventFile, List<String> selectors) {
+    public record Request(Path root, String executable, Path eventFile, List<String> selectors, String execution) {
+        public Request(Path root, String executable, Path eventFile, List<String> selectors) {
+            this(root, executable, eventFile, selectors, "configured");
+        }
         public Request {
             root = root.toAbsolutePath().normalize(); eventFile = eventFile.toAbsolutePath().normalize();
             selectors = List.copyOf(selectors);
+            if (!Set.of("configured", "local", "container").contains(execution))
+                throw new IllegalArgumentException("Unknown Cherry execution policy: " + execution);
         }
     }
     private volatile Process process;
@@ -169,7 +174,8 @@ public final class CherryTestProcess implements AutoCloseable {
             command.add("--enable-native-access=ALL-UNNAMED"); command.add("-jar");
         }
         command.add(executable);
-        command.addAll(List.of("--root",request.root().toString(),"--execution","local","--no-open","--no-banner"));
+        command.addAll(List.of("--root",request.root().toString(),"--no-open","--no-banner"));
+        if (!request.execution().equals("configured")) command.addAll(List.of("--execution",request.execution()));
         command.addAll(request.selectors());
         return List.copyOf(command);
     }
@@ -184,13 +190,23 @@ public final class CherryTestProcess implements AutoCloseable {
     public void detach() { cancel(); generation++; busy = false; last = null; }
     private void onEdt(long ticket,Runnable action) { SwingUtilities.invokeLater(() -> { if (!closed && ticket == generation) action.run(); }); }
     private static void terminate(Process owned,Set<ProcessHandle> remembered) {
+        synchronized (owned) {
         owned.descendants().forEach(remembered::add);
         List<ProcessHandle> children = List.copyOf(remembered);
-        children.reversed().stream().filter(ProcessHandle::isAlive).forEach(ProcessHandle::destroy); owned.destroy();
-        try { owned.waitFor(2,TimeUnit.SECONDS); }
-        catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); }
+        // Cherry handles TERM to stop its owned containers and flush partial results.
+        // Its process-group grace is 30 seconds; allow that cleanup before escalation.
+        owned.destroy();
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(35);
+        boolean interrupted = false;
+        while (owned.isAlive() && System.nanoTime() < deadline) {
+            try { owned.waitFor(100,TimeUnit.MILLISECONDS); }
+            catch (InterruptedException ignored) { interrupted = true; }
+        }
+        children.reversed().stream().filter(ProcessHandle::isAlive).forEach(ProcessHandle::destroy);
         children.reversed().stream().filter(ProcessHandle::isAlive).forEach(ProcessHandle::destroyForcibly);
         if (owned.isAlive()) owned.destroyForcibly();
+        if (interrupted) Thread.currentThread().interrupt();
+        }
     }
     @Override public void close() { closed = true; cancel(); generation++; worker.shutdownNow(); }
 }

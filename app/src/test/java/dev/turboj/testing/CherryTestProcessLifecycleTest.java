@@ -24,6 +24,17 @@ class CherryTestProcessLifecycleTest {
     @TempDir Path directory;
     private final Gson gson = new Gson();
 
+    @Test void executionPolicyHonorsConfigurationOrExplicitProjectOverride() {
+        var configured = new CherryTestProcess.Request(directory,"cherry-test",directory.resolve("events"),List.of());
+        assertFalse(CherryTestProcess.command(configured).contains("--execution"));
+        for (String mode : List.of("local","container")) {
+            var request = new CherryTestProcess.Request(directory,"cherry-test",directory.resolve("events"),List.of(),mode);
+            var command = CherryTestProcess.command(request);
+            assertEquals(mode,command.get(command.indexOf("--execution") + 1));
+        }
+        assertThrows(IllegalArgumentException.class, () -> new CherryTestProcess.Request(directory,"cherry-test",directory.resolve("events"),List.of(),"container --unsafe"));
+    }
+
     @BeforeEach void supportedProcessFixture() {
         org.junit.jupiter.api.Assumptions.assumeTrue(Files.isExecutable(Path.of("/bin/sh")));
     }
@@ -47,6 +58,23 @@ class CherryTestProcessLifecycleTest {
             assertTrue(result.message().contains("partial"));
             await(() -> ProcessHandle.of(child).map(handle -> !handle.isAlive()).orElse(true));
             edt(() -> assertFalse(process.busy()));
+        }
+    }
+
+    @Test void cancellationAllowsRunnerToCompleteOwnedResourceCleanup() throws Exception {
+        Path root = Files.createDirectories(directory.resolve("cleanup"));
+        Path done = root.resolve("cleanup.done");
+        Path executable = script(root,"cleanup runner",start(root,"cleanup")
+                + "trap 'sleep 3; touch " + quote(done.toString()) + "; exit 0' TERM\n"
+                + "touch ready\nwhile :; do sleep 0.05; done\n");
+        var updates = new CopyOnWriteArrayList<Run>();
+        try (var process = new CherryTestProcess()) {
+            edt(() -> process.run(request(root,executable),updates::add,ignored -> {}));
+            await(() -> Files.exists(root.resolve("ready")));
+            edt(process::cancel);
+            await(() -> !process.busy());
+            assertTrue(Files.exists(done),"Runner cleanup must survive beyond the former two-second kill deadline");
+            assertEquals(RunState.CANCELLED,updates.getLast().state());
         }
     }
 

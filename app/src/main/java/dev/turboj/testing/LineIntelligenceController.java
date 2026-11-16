@@ -18,6 +18,7 @@ public final class LineIntelligenceController implements AutoCloseable {
     private final Path cache;
     private final Consumer<Run> results;
     private final Consumer<String> output;
+    private final Function<Path,String> executionPolicy;
     private final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor(
             Thread.ofPlatform().daemon().name("turboj-line-evidence").factory());
     private Future<?> pending;
@@ -34,8 +35,13 @@ public final class LineIntelligenceController implements AutoCloseable {
 
     public LineIntelligenceController(EditorComponent editor,Supplier<Path> file,TurboTestController tests,
             Path cache,Consumer<Run> results,Consumer<String> output) {
+        this(editor,file,tests,cache,results,output,path -> "configured");
+    }
+    public LineIntelligenceController(EditorComponent editor,Supplier<Path> file,TurboTestController tests,
+            Path cache,Consumer<Run> results,Consumer<String> output,Function<Path,String> executionPolicy) {
         this.editor = editor; this.file = file; this.tests = tests; this.cache = cache;
         this.results = results; this.output = output;
+        this.executionPolicy = executionPolicy;
         executionTimer.setRepeats(false);
     }
     public Path project() { return Objects.equals(detectedFile,file.get()) ? project : null; }
@@ -161,7 +167,7 @@ public final class LineIntelligenceController implements AutoCloseable {
         Path root = project;
         long sourceGeneration = savedGeneration;
         Path eventFile = historyDirectory(root).resolve("run-" + UUID.randomUUID() + ".jsonl");
-        tests.cherry().run(new CherryTestProcess.Request(root,executable,eventFile,selectors),value -> {
+        tests.cherry().run(new CherryTestProcess.Request(root,executable,eventFile,selectors,executionPolicy.apply(root)),value -> {
             if (!Objects.equals(root,project)) return;
             run = sourceGeneration == savedGeneration ? value : stale(value); results.accept(run);
             if (Objects.equals(detectedFile,file.get())) changed();

@@ -1,0 +1,307 @@
+[
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/jug-prepare.log",
+    "file": "logs/jug-prepare.log.gz",
+    "sourceSha256": "4ec0f2dcbf7bc82b0e2675a96bff4e2e810d97352bf5daf3f4249f9dbafe965e"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/jug-suite.log",
+    "file": "logs/jug-suite.log.gz",
+    "sourceSha256": "c0d7ec5fa975a5b50956b79d7aa5606bd754a9f144c633d359872a99b0cb73fe"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-browser.log",
+    "file": "logs/mini-browser.log.gz",
+    "sourceSha256": "0ca7b6cba46b14b5be46c8aa6feba7e38cb2b09181bcf44c20d66f251707fa4d"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-pnpm-install.log",
+    "file": "logs/mini-pnpm-install.log.gz",
+    "sourceSha256": "150df1b4ddb0b776550056ffefa958134f0708700d554c4ea897a6a3b28caa8b"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-provenance-pnpm-install.log",
+    "file": "logs/mini-provenance-pnpm-install.log.gz",
+    "sourceSha256": "92171d56cbbb40bcf0312f4e21cf5b7e6a7171ae716939d429a6173eb5541887"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-provenance-unit.log",
+    "file": "logs/mini-provenance-unit.log.gz",
+    "sourceSha256": "32eb3c16f8c2952d9179de006374accd09e17b69ac31bb27c626e24d23e58086"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-service-acceptance.log",
+    "file": "logs/mini-service-acceptance.log.gz",
+    "sourceSha256": "53607dfd9e66c6d209f6860136ffd3b61a4eecea8b59e24df38339f0580c8c5c"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-service.log",
+    "file": "logs/mini-service.log.gz",
+    "sourceSha256": "919d6b0273cd560fcacb78ab09a23038510773652dd1d9002b43bf08e7b10a7c"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-unit-acceptance.log",
+    "file": "logs/mini-unit-acceptance.log.gz",
+    "sourceSha256": "ae83cdcdef9bcf85abd596f2423ee35fa4e0ebfd646c6481b951b78d93a5e99f"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-unit.log",
+    "file": "logs/mini-unit.log.gz",
+    "sourceSha256": "d63fac23648a7883461e0c52b6ac6857308e1f2016ee0bf5232c2fd89f43e6bc"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-driver-initial-failure.log",
+    "file": "logs/native-save-driver-initial-failure.log.gz",
+    "sourceSha256": "e7dee19b8268d6df793d88a2a0e16301f80662df5727692860236a96626ce448"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final.log",
+    "file": "logs/native-save-final.log.gz",
+    "sourceSha256": "192e7b396d048131170c33db4171e4a4cd51d5b200c4692351cce78082a6c4cf"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-maven.log",
+    "file": "logs/native-save-maven.log.gz",
+    "sourceSha256": "f5276ea7e32f1005b3398b34b9a3d0ffd631f883d1ce42153a55ca9926fe0ecb"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-prepared.log",
+    "file": "logs/native-save-prepared.log.gz",
+    "sourceSha256": "13df069e057a1ce8093bcac93c4838fb9add8a21f68e0fd5402f8ddfef0afecd"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted.log",
+    "file": "logs/native-save-trusted.log.gz",
+    "sourceSha256": "1efc2bbba80d6cb7f581ca71916a981b040cf5bf77c68559fcbf0085e28e6487"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save.log",
+    "file": "logs/native-save.log.gz",
+    "sourceSha256": "f5b6ffb193897ac44525928c38b2432322aa4bec2c7836cef6ff626c06185605"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/provenance-acceptance.log",
+    "file": "logs/provenance-acceptance.log.gz",
+    "sourceSha256": "0055245a0782bb7d384e35a684c2034b62605f8f812f143cbe851a7cdcf27a85"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-missing-acceptance.log",
+    "file": "logs/shop-missing-acceptance.log.gz",
+    "sourceSha256": "c25fb95cbc2451b9b907891122e3f9544654a8c71463e5b194443d23c3ecf0ce"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-server-acceptance.log",
+    "file": "logs/shop-server-acceptance.log.gz",
+    "sourceSha256": "1a809828022cc3cea979a75f9af7142800e6d06c68320739fcc357687b83aad1"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-server.log",
+    "file": "logs/shop-server.log.gz",
+    "sourceSha256": "9a432e88813a7b426a1526b72d13897b7ebe46fd3f6eaf306eb942bb6dbbb00b"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-service.log",
+    "file": "logs/shop-service.log.gz",
+    "sourceSha256": "58f25f60d12813cf65231dbdaa9c6eb295e547db53b909ca5c21636dfbdc0976"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-unit-acceptance.log",
+    "file": "logs/shop-unit-acceptance.log.gz",
+    "sourceSha256": "926eac6dd11eba8c6db3cf096a2a3d4fbd27d989ddf35bce33902eae496b68a6"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-unit-report.log",
+    "file": "logs/shop-unit-report.log.gz",
+    "sourceSha256": "4ef7f82493a5780d27c63285a001af267e3ca6a09ccfc566a1a2cc53ecc62983"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-unit.log",
+    "file": "logs/shop-unit.log.gz",
+    "sourceSha256": "7c2ab6b3786442f0a439c43cd31c75193da03a929ce00052313193a411815d19"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/turboj-regressions-unrestricted.log",
+    "file": "logs/turboj-regressions-unrestricted.log.gz",
+    "sourceSha256": "9e470c57a27016814702201e7f631480fcf6d6e8b192f42ad424b61a9b384e8a"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/turboj-regressions.log",
+    "file": "logs/turboj-regressions.log.gz",
+    "sourceSha256": "afbd32f380a4b5bad01585ade60916556bfbe83183ca0b813b32c5e8782c4c0f"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-browser.jsonl",
+    "file": "events/mini-browser.jsonl.gz",
+    "sourceSha256": "e3e928bf23242b0769002374610601ecf357bb9e2eb95cda1193954b3e1c0115"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-provenance-unit.jsonl",
+    "file": "events/mini-provenance-unit.jsonl.gz",
+    "sourceSha256": "b2c17526a72897a0498d64f6e330444a8ba552358a36451152baa42a2f2ea19d"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-service.jsonl",
+    "file": "events/mini-service.jsonl.gz",
+    "sourceSha256": "e213c6267c208b796b0bef060fabc7dcdbd12985f84b8951f7c0fc0c11f5e3f6"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-unit.jsonl",
+    "file": "events/mini-unit.jsonl.gz",
+    "sourceSha256": "1dd40d41dd29d969ae862957a041ec371f0bd4e11358907f9f2de93e41bdc54a"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-server.jsonl",
+    "file": "events/shop-server.jsonl.gz",
+    "sourceSha256": "65ac7db008036bda864768cb22b4619f939b964a9e729a5a7294aac55c192d06"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-service.jsonl",
+    "file": "events/shop-service.jsonl.gz",
+    "sourceSha256": "0c898fb5054458033f4d8c50f2042a35ea77790fed415090af4aeabcfa9928ef"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-unit-report.jsonl",
+    "file": "events/shop-unit-report.jsonl.gz",
+    "sourceSha256": "3050044c51216cbe909a68f38b3d2fbe0bc0a7f90390fc31765b27341773b883"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-unit.jsonl",
+    "file": "events/shop-unit.jsonl.gz",
+    "sourceSha256": "80c99751381083fc9a63aff3c9647ed4dcb5a27b3236538b79d0cae475311dea"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save/console.txt",
+    "file": "native-save/console.txt.gz",
+    "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save/result.txt",
+    "file": "native-save/result.txt.gz",
+    "sourceSha256": "7a47ee1c559b8932966e1e10904a2cbc8582002899d5e0458c2282636771a988"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save/settings-13418820295360955221/cherry-runs/8f373194c4103a2d7af25668/run-4525e1a4-3331-4a0f-81c7-472aaf556c4f.jsonl",
+    "file": "native-save/settings-13418820295360955221/cherry-runs/8f373194c4103a2d7af25668/run-4525e1a4-3331-4a0f-81c7-472aaf556c4f.jsonl.gz",
+    "sourceSha256": "b04219893a1c6069e56c4453f1b2ca45a6efc48a4bb11c612f7bd108a23dcd96"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save/settings-13418820295360955221/cherry-runs/8f373194c4103a2d7af25668/run-4525e1a4-3331-4a0f-81c7-472aaf556c4f.jsonl.completion.json",
+    "file": "native-save/settings-13418820295360955221/cherry-runs/8f373194c4103a2d7af25668/run-4525e1a4-3331-4a0f-81c7-472aaf556c4f.jsonl.completion.json.gz",
+    "sourceSha256": "0c8448b69d22945e95e64b588cd60d1fa6246062e9361bed7fb6c2a54ce36537"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save/settings-13418820295360955221/cherry-runs/8f373194c4103a2d7af25668/run-4525e1a4-3331-4a0f-81c7-472aaf556c4f.jsonl.log",
+    "file": "native-save/settings-13418820295360955221/cherry-runs/8f373194c4103a2d7af25668/run-4525e1a4-3331-4a0f-81c7-472aaf556c4f.jsonl.log.gz",
+    "sourceSha256": "c707c0eb9c06522741a8dec9e84dd58d2423184792f9f27992ca0b2c040919be"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-prepared/console.txt",
+    "file": "native-save-prepared/console.txt.gz",
+    "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-prepared/result.txt",
+    "file": "native-save-prepared/result.txt.gz",
+    "sourceSha256": "3b7cf85d18830bf37347f898cf477e187de75172c8f02f3abfde98d9296d1fb2"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-prepared/settings-7040561187997977019/cherry-runs/8f373194c4103a2d7af25668/run-b78d2bb5-0871-4952-a77c-a1053a0f0efb.jsonl",
+    "file": "native-save-prepared/settings-7040561187997977019/cherry-runs/8f373194c4103a2d7af25668/run-b78d2bb5-0871-4952-a77c-a1053a0f0efb.jsonl.gz",
+    "sourceSha256": "6af2d61be4b904ccd7b65811f85282f178b008bffbbae32b55552995f1bf4808"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-prepared/settings-7040561187997977019/cherry-runs/8f373194c4103a2d7af25668/run-b78d2bb5-0871-4952-a77c-a1053a0f0efb.jsonl.completion.json",
+    "file": "native-save-prepared/settings-7040561187997977019/cherry-runs/8f373194c4103a2d7af25668/run-b78d2bb5-0871-4952-a77c-a1053a0f0efb.jsonl.completion.json.gz",
+    "sourceSha256": "ad3721ce510063db992560259ff9f8be0e9714634836114df9850a82436e83af"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-prepared/settings-7040561187997977019/cherry-runs/8f373194c4103a2d7af25668/run-b78d2bb5-0871-4952-a77c-a1053a0f0efb.jsonl.log",
+    "file": "native-save-prepared/settings-7040561187997977019/cherry-runs/8f373194c4103a2d7af25668/run-b78d2bb5-0871-4952-a77c-a1053a0f0efb.jsonl.log.gz",
+    "sourceSha256": "898ca39aed7ee2cb1f46bfd4f13a2da64d1bef4810c97d06ce7b90b52468682c"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final/console.txt",
+    "file": "native-save-final/console.txt.gz",
+    "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final/native.png",
+    "file": "native-save-final/native.png",
+    "sourceSha256": "9172a980f3a6d463bd602094f66b58254e0add54d1c920adf1521717b8a813d3"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final/result.txt",
+    "file": "native-save-final/result.txt.gz",
+    "sourceSha256": "e45ffc0d5f8cec7469c1502e530957b506473a2163f22f94e545fba81a22f555"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final/settings-16831332193875934207/cherry-runs/8f373194c4103a2d7af25668/run-1c60f90e-5891-4bbb-bf78-d3166786685d.jsonl",
+    "file": "native-save-final/settings-16831332193875934207/cherry-runs/8f373194c4103a2d7af25668/run-1c60f90e-5891-4bbb-bf78-d3166786685d.jsonl.gz",
+    "sourceSha256": "662b1563f03a70d11efc65257c19d0558c7e75a5f5f8aa218d55ccc28068e5ec"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final/settings-16831332193875934207/cherry-runs/8f373194c4103a2d7af25668/run-1c60f90e-5891-4bbb-bf78-d3166786685d.jsonl.completion.json",
+    "file": "native-save-final/settings-16831332193875934207/cherry-runs/8f373194c4103a2d7af25668/run-1c60f90e-5891-4bbb-bf78-d3166786685d.jsonl.completion.json.gz",
+    "sourceSha256": "670abad3a87b19ea283ddb02474e80adbb3eebe6b6be343b0fc108193343c8df"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-final/settings-16831332193875934207/cherry-runs/8f373194c4103a2d7af25668/run-1c60f90e-5891-4bbb-bf78-d3166786685d.jsonl.log",
+    "file": "native-save-final/settings-16831332193875934207/cherry-runs/8f373194c4103a2d7af25668/run-1c60f90e-5891-4bbb-bf78-d3166786685d.jsonl.log.gz",
+    "sourceSha256": "6714d26abbe6c43a6d6ed230b519e93510c2a61538b1e121007580644818a1f7"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-maven/saved-source.java",
+    "file": "native-save-maven/saved-source.java.gz",
+    "sourceSha256": "e14377d2a1a7a38abe89b4dbea65fb1d69cbcbb358dafe750065297627126dea"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/console.txt",
+    "file": "native-save-trusted/console.txt.gz",
+    "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/native.png",
+    "file": "native-save-trusted/native.png",
+    "sourceSha256": "99f3be5e5b32a00212e5888cd3abbf2c46a9d8769cb0c59d0f5b9547c07ca664"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/result.txt",
+    "file": "native-save-trusted/result.txt.gz",
+    "sourceSha256": "d93260be25fb3f98787d9649bcf45654ede2e38ea98eb008e1c6b7541ac09327"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/saved-source.java",
+    "file": "native-save-trusted/saved-source.java.gz",
+    "sourceSha256": "e14377d2a1a7a38abe89b4dbea65fb1d69cbcbb358dafe750065297627126dea"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl",
+    "file": "native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl.gz",
+    "sourceSha256": "adb71f0ab5dbab7f7123b43e176b2ffdbcbd6ae44d0f13713e536230c3107ac8"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl.completion.json",
+    "file": "native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl.completion.json.gz",
+    "sourceSha256": "247d82dcb6cb265c1473d2724390596b7154309864be1baa6366ed1b300f6aa8"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl.log",
+    "file": "native-save-trusted/settings-9204539352761655401/cherry-runs/8f373194c4103a2d7af25668/run-e91c5aed-a35d-4a96-b527-fabe26065cde.jsonl.log.gz",
+    "sourceSha256": "b34ef8af44991e6d0ba4799232e3bfa9d3edac3e971e1a7ad603f13fd67e3110"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-provenance/cherry-test.yaml",
+    "file": "configuration/mini-provenance.yaml",
+    "sourceSha256": "216de859335cb6cab1c2b8f466bbc788fa4a08acb122f6630177e62abf65d21c"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/shop-java/cherry-test.yaml",
+    "file": "configuration/shop-java.yaml",
+    "sourceSha256": "09f0e270d150d2ebd9a607f579c8f943bea0192c7493c8c7344493b9f5b3b605"
+  },
+  {
+    "source": "/private/tmp/turboj-qualification-20261116/mini-provenance/mini-java-spring-mcap/pom.xml",
+    "file": "configuration/mini-provenance-pom.xml",
+    "sourceSha256": "a9bee26de88ccbf36681ea99bfa63a0198280a07798a578d38a15cb4ebe38ed1"
+  }
+]
