@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "change": "Git and Tests left; Coverage at fixed right viewport edge; existing glyphs and semantics preserved",
+  "unitTests": 17,
+  "themes": 103,
+  "fontSizes": [
+    10,
+    24,
+    48
+  ],
+  "resizeWidths": [
+    320,
+    768,
+    1200
+  ],
+  "fullReactorRerun": false,
+  "native": "CherryNativeSmoke passed with real JUnit/JaCoCo, pass/fail/pass and three independent hit targets; programmatic fixture setup and actual Swing events",
+  "previews": "Explicitly synthetic Monokai/light/ASCII renderer samples; native-editor.png uses real measured fixture coverage",
+  "buildCommand": "./mvnw -q -pl cli -am package -Dtest=LineIntelligenceEditorTest,LineIntelligenceThemeTest,CommandSettingsTest,MenuLayoutTest -Dsurefire.failIfNoSpecifiedTests=false -Djava.awt.headless=true",
+  "hashes": {
+    "native-editor.png": "2a2f87a791b8fb2b8e45d2905c59a5767c03a5ec9525b294b84929ce233abe9e",
+    "ascii-fallback.png": "e36cac883ce9490e20265f0defa112a9771b351c6f463e1e4bdfd153a1fecd0b",
+    "light.png": "40522bf021d8167bb33b6ae15bf876ade7fc8345f5b2ac720022b18af39df7c3",
+    "vscode-monokai.png": "0b1ef0bef3b5c929158d448132e0c43be23a3fb33013f2e4015075793683bca5",
+    "native-report.txt": "5e97e564ea85a9db89302036eb0d030264c2510b2db6945174ea9a60d08fcbe1"
+  }
+}

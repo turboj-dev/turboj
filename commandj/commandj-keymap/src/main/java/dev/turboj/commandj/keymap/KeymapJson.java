@@ -62,12 +62,13 @@ public final class KeymapJson {
                 throw new IllegalArgumentException("Too many keymaps");
             var profiles = new ArrayList<KeymapProfile> ();
             var ids = new HashSet<String> ();
+            var savedIds = new HashSet<String>();
+            for (JsonElement element : array) savedIds.add(element.getAsJsonObject().get("id").getAsString());
 
             for (JsonElement element : array) {
                 JsonObject p = element.getAsJsonObject();
                 String id = p.get("id").getAsString();
 
-                if (BundledKeymaps.RETIRED.containsKey(id)) continue;
                 if (!ids.add(id))
                     throw new IllegalArgumentException("Duplicate keymap identity");
                 var bindings = new TreeMap<String, List<KeyBinding>> ();
@@ -90,15 +91,21 @@ public final class KeymapJson {
                     bindings.put(entry.getKey(), b);
                 }
                 profiles.add(new KeymapProfile(id, p.get("name").getAsString(), p.has("parent")
-                        ? BundledKeymaps.current(p.get("parent").getAsString()) : null, bindings, false));
+                        ? savedId(p.get("parent").getAsString(), savedIds) : null, bindings, false));
             }
-            manager.install(profiles, BundledKeymaps.current(root.get("selected").getAsString()), root.has("preserveConflicts")
+            manager.install(profiles, savedId(root.get("selected").getAsString(), savedIds), root.has("preserveConflicts")
                     && root.get("preserveConflicts").getAsBoolean());
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (RuntimeException malformed) {
             throw new IllegalArgumentException("Malformed keymap JSON", malformed);
         }
+    }
+
+    /** A retired saved profile is user data, including explicit unbindings and inherited values.
+     * Only an absent legacy profile may fall back to its bundled successor. */
+    private static String savedId(String id, Set<String> savedIds) {
+        return savedIds.contains(id) ? id : BundledKeymaps.current(id);
     }
 
     private static Set<String> tags(JsonObject obj, String name) {

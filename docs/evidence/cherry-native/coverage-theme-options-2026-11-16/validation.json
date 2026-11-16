@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS",
+  "buildCommand": "./mvnw -q -pl cli -am package -Dtest=LineIntelligenceEditorTest,LineIntelligenceThemeTest,CommandSettingsTest,MenuLayoutTest -Dsurefire.failIfNoSpecifiedTests=false -Djava.awt.headless=true",
+  "tests": 16,
+  "fullReactorRerun": false,
+  "themes": 103,
+  "nativeAcceptance": "CherryNativeSmoke; real JUnit/JaCoCo and CommandJ background toggle, isolated settings",
+  "gallery": "Synthetic colour swatches, five pages inspected; not test execution evidence",
+  "appJarSha256": "2b7408c539b19286138412273d9a0e0473543c4756fe389e52354f828b9adc67",
+  "files": {
+    "light.png": "a8a66937c7d747a0f81c2e4e6fa25b873aff3035de66e8b950b2e8149c186a65",
+    "native-editor.png": "e1156be67e2986d61ed68e1573a727850a6b22e3b7336fd8cf6d8ab409536838",
+    "native-report.txt": "858f9a82f88b2e59fdae8421b3c5036a360ac6e8fa0b9019150fe9e598f7d2d6",
+    "theme-palettes.json": "88d2b9cf7f13e2d7c40e0c09a99c61a2e9907a5fd7502f26e5184d6435756329",
+    "themes-1.png": "3254a9303cd6a63a6487a0860548abd612108a57fc7536602cc042d171dfcc30",
+    "themes-2.png": "733c66d964ebb5f38790afa0979c68682cbdf5a09d49205ce24c567a3a8b0a7e",
+    "themes-3.png": "d361117ae041755bd82f491e76ad5c9073523d134bf98e29f06ab1fe4ea319a7",
+    "themes-4.png": "7d462f63287e63e88eeeb4ad0f9b69ff66c2898abaa769b082616f7a95baa205",
+    "themes-5.png": "4919fe747fb85c711f38ba2b606b6d4f844235dcb7f456529aa45a2a7fb841ff",
+    "vscode-monokai.png": "442eccf542cfcd0316bfba58864c2cc91701ff4304f9b7394010cdd7bc4194f1"
+  }
+}

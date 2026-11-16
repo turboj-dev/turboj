@@ -72,7 +72,7 @@ public final class BundledKeymaps {
 
     /** The default profile: TurboJ's own map. */
     public static final String DEFAULT = "turboj-macos";
-    /** Bundled profiles that were replaced: a saved selection moves to the successor, the stored copy is dropped. */
+    /** Replaced bundled profiles: use the successor only when no saved profile exists. */
     public static final Map<String, String> RETIRED = Map.of("turboj-classic", DEFAULT);
 
     public static String current(String id) { return RETIRED.getOrDefault(id, id); }

@@ -1,0 +1,18 @@
+{
+  "status": "PARTIAL",
+  "implementation": "PASS: brace-only lines suppress coverage symbols/tints; raw evidence and Git/test indicators retained",
+  "unitTests": {
+    "passed": 19,
+    "failures": 0,
+    "errors": 0
+  },
+  "package": "PASS: CLI rebuilt",
+  "native": "Two attempts interrupted by Focus lost assertions. First reached genuine pass/fail/pass and Git hit check; second reached passing and failing runs. No complete native walkthrough claimed for this revision.",
+  "fullReactorRerun": false,
+  "bytecode": "fixture-bytecode.txt shows main implicit return mapped to closing-brace source line 19",
+  "hashes": {
+    "native-attempt-2.txt": "da658766345dc9db75a73388c0bde1cb0c123b6e35255f03b93b7db56b447d4d",
+    "native-attempt-1.txt": "ab850612feae4e3ec07db6290bee3feeb5c604673dc88e78c2798e14f1b82b1d",
+    "fixture-bytecode.txt": "f6fac86d047a6a8a607a7fd97e80b18a03aefb7a507897b5d38db7dc4e996fa8"
+  }
+}

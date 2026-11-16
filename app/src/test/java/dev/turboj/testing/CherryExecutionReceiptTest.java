@@ -80,4 +80,17 @@ class CherryExecutionReceiptTest {
         assertEquals(1,restored.tests().size());
         assertFalse(restored.coverage().isEmpty());
     }
+    @Test void currentCoverageCannotSurviveMissingReceiptCancellationOrPendingExit() throws Exception {
+        Path file = directory.resolve("Price.java");
+        var coverage = new Coverage(CoverageState.COVERED,Freshness.CURRENT,Availability.AVAILABLE,
+                Precision.INSTRUCTIONS,7,0,-1,-1,"JaCoCo","module","run","process",sha256("source"),"class","Verified fixture");
+        var run = new Run("run",directory,RunState.COMPLETED,List.of(),Map.of(file,Map.of(1,coverage)),
+                Map.of(file,sha256("source")),"Complete",null,3,Availability.AVAILABLE);
+        Path events = events();
+        assertEquals(Freshness.UNKNOWN,CherryExecutionReceipt.restore(events,run).coverage().get(file).get(1).freshness());
+        for (RunState state : List.of(RunState.RUNNING,RunState.CANCELLED,RunState.INCOMPLETE))
+            assertEquals(Freshness.UNKNOWN,outcome(run,state,"Waiting or interrupted").coverage().get(file).get(1).freshness());
+        CherryExecutionReceipt.write(events,run);
+        assertEquals(Freshness.CURRENT,CherryExecutionReceipt.restore(events,run).coverage().get(file).get(1).freshness());
+    }
 }

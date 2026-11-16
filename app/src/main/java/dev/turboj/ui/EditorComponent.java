@@ -173,6 +173,7 @@ public final class EditorComponent extends JComponent
     public record SymbolHover(int offset, Point point, boolean commandDown) {}
 
     public EditorComponent() {
+        lineGutter.setCoverageVisibility(this::coverageDecorationVisible);
         setOpaque(true);
         setTheme(Theme.bundled("classic"));
         setFocusable(true);
@@ -420,12 +421,12 @@ public final class EditorComponent extends JComponent
         else if (snapshot == null || previous == null || isAIInlineCompletion()
                 || previous.lines().size() + snapshot.lines().size() > 4096
                 || !previous.deletions().equals(snapshot.deletions()))
-            repaint(0, 0, lineGutter.cells() * cellWidth, getHeight());
+            repaint();
         else {
             var lines = new java.util.HashSet<>(previous.lines().keySet());
             lines.addAll(snapshot.lines().keySet());
             for (int line : lines) if (!Objects.equals(previous.line(line), snapshot.line(line)))
-                repaint(0, (line - 1 - topLine) * cellHeight, lineGutter.cells() * cellWidth, cellHeight);
+                repaint(0, (line - 1 - topLine) * cellHeight, getWidth(), cellHeight);
         }
         if (accessibleContext != null) accessibleContext.firePropertyChange(
                 AccessibleContext.ACCESSIBLE_DESCRIPTION_PROPERTY, null, getAccessibleContext().getAccessibleDescription());
@@ -441,11 +442,12 @@ public final class EditorComponent extends JComponent
     public Rectangle lineIntelligenceBounds(int line, Lane lane) {
         if (line < 1 || line > document.lineCount()) return new Rectangle();
         int y = offsetBounds(document.lineStart(line - 1)).y;
-        return lineGutter.bounds(lane, cellWidth, y, cellHeight);
+        return lineGutter.bounds(lane, cellWidth, y, cellHeight, getWidth());
     }
 
     private LineGutter.Hit gutterHit(Point point) {
-        if (point.x < 0 || point.x >= lineGutter.cells() * cellWidth || point.y < 0 || point.y >= getHeight()) return null;
+        if (point.x < 0 || point.x >= getWidth() || point.y < 0 || point.y >= getHeight()) return null;
+        if (point.x >= lineGutter.leftCells() * cellWidth && point.x < sourceRight()) return null;
         int visual = visualTopLine() + point.y / cellHeight;
         int logical = visual;
         if (isAIInlineCompletion()) {
@@ -454,7 +456,7 @@ public final class EditorComponent extends JComponent
             if (visual > lastGhost) logical -= aiLines.length - 1;
         }
         return lineGutter.hit(point, logical + 1, (visual - visualTopLine()) * cellHeight,
-                document.lineCount(), cellWidth, cellHeight);
+                document.lineCount(), cellWidth, cellHeight, getWidth());
     }
 
     @Override public String getToolTipText(MouseEvent event) {
@@ -807,7 +809,9 @@ public final class EditorComponent extends JComponent
             boolean antialias) {
         setBackground(background);
         setForeground(foreground);
-        lineGutter.setBackground(background);
+        lineGutter.setTheme(new Theme("editor", "Editor", java.util.Map.of("editor.background", background,
+                "editor.foreground", foreground, "syntax.keyword", keyword, "syntax.string", string,
+                "syntax.comment", comment), getFont() == null ? 16 : getFont().getSize(), antialias));
         this.foreground = foreground;
         this.keyword = keyword;
         this.string = string;
@@ -850,6 +854,13 @@ public final class EditorComponent extends JComponent
         lineGutter.setTheme(theme);
         repaint();
     }
+
+    public void setShowCoverageBackgrounds(boolean visible) {
+        lineGutter.setShowBackgrounds(visible);
+        repaint();
+    }
+
+    public boolean isShowCoverageBackgrounds() { return lineGutter.showBackgrounds(); }
 
     public void setFontSize(int size) {
         setFont(new Font(Font.MONOSPACED, Font.PLAIN, Math.clamp(size, 10, 48)));
@@ -1932,7 +1943,7 @@ public final class EditorComponent extends JComponent
         cellWidth = Math.max(1, fontMetrics.charWidth('M'));
         cellHeight = fontMetrics.getHeight() + 2;
         ascent = fontMetrics.getAscent() + 1;
-        gutterWidth = cellWidth * (lineGutter.cells() + Math.max(5, Integer.toString(document.lineCount()).length() + 2));
+        gutterWidth = cellWidth * (lineGutter.leftCells() + Math.max(5, Integer.toString(document.lineCount()).length() + 2));
     }
 
     @Override
@@ -2234,7 +2245,7 @@ public final class EditorComponent extends JComponent
 
     private void changed(int firstLine, boolean multiline) {
         lineGutter.invalidate();
-        repaint(0, 0, lineGutter.cells() * cellWidth, getHeight());
+        repaint();
         clearInlineCompletion();
         clearNavigableRange();
         if (emphasisTimer != null) emphasisTimer.stop();
@@ -2301,10 +2312,14 @@ public final class EditorComponent extends JComponent
         preferredColumn = column;
     }
 
+    /** Coverage stays at the viewport edge, outside the scrolling source and selection. */
+    private int sourceRight() { return Math.max(0, getWidth() - lineGutter.rightCells() * cellWidth); }
+    private int sourceWidth() { return Math.max(0, sourceRight() - gutterWidth); }
+
     private void ensureCaretVisible() {
         int line = document.lineAt(caret), column = caretColumn() - 1;
         int visibleLines = Math.max(1, getHeight() / cellHeight),
-                visibleColumns = Math.max(1, (getWidth() - gutterWidth) / cellWidth - 1);
+                visibleColumns = Math.max(1, sourceWidth() / cellWidth - 1);
         if (line < topLine) topLine = line;
         else if (line >= topLine + visibleLines) topLine = line - visibleLines + 1;
         if (column < leftColumn) leftColumn = column;
@@ -2322,7 +2337,7 @@ public final class EditorComponent extends JComponent
 
     private int symbolOffsetAt(Point point) {
         // Navigation targets the glyph under the pointer, rather than the nearest caret boundary.
-        if (point.x < gutterWidth || point.y < 0 || point.y >= getHeight()) return -1;
+        if (point.x < gutterWidth || point.x >= sourceRight() || point.y < 0 || point.y >= getHeight()) return -1;
         int visualLine = visualTopLine() + point.y / cellHeight;
         if (visualLine >= visualLineCount() || isGhostPoint(point)) return -1;
         int offset = offsetAt(new Point(point.x - cellWidth / 2, point.y));
@@ -2429,6 +2444,26 @@ public final class EditorComponent extends JComponent
         return i;
     }
 
+    /** Reuse syntax tokens so braces inside strings/text blocks are never mistaken for delimiters. */
+    private boolean coverageDecorationVisible(int sourceLine) {
+        int line = sourceLine - 1;
+        if (line < 0 || line >= document.lineCount()) return true;
+        JavaLexer.Line tokens = lexicalLine(line);
+        String text = lineTexts.get(line);
+        boolean brace = false;
+        for (JavaLexer.Span span : tokens.spans()) {
+            if (span.kind() == JavaLexer.Kind.COMMENT) continue;
+            if (span.kind() == JavaLexer.Kind.STRING) return true;
+            for (int i = span.start(); i < span.end(); i++) {
+                char c = text.charAt(i);
+                if (Character.isWhitespace(c)) continue;
+                if (c != '{' && c != '}') return true;
+                brace = true;
+            }
+        }
+        return !brace;
+    }
+
     private JavaLexer.Line lexicalLine(int line) {
         while (lexed.size() <= line) {
             int index = lexed.size();
@@ -2498,7 +2533,7 @@ public final class EditorComponent extends JComponent
             int selectionStart = Math.min(caret, anchor), selectionEnd = Math.max(caret, anchor);
             for (int line = first; line <= last; line++) {
                 int y = (line - topLine) * cellHeight;
-                lineGutter.paint(g, line + 1, y, document.lineCount(), cellWidth, cellHeight);
+                lineGutter.paint(g, line + 1, y, document.lineCount(), cellWidth, cellHeight, getWidth());
                 JavaLexer.Line tokens = lexicalLine(line);
                 String text = lineTexts.get(line);
                 int start = document.lineStart(line);
@@ -2512,9 +2547,10 @@ public final class EditorComponent extends JComponent
                                 g.create(
                                         gutterWidth,
                                         y,
-                                        Math.max(0, getWidth() - gutterWidth),
+                                        sourceWidth(),
                                         cellHeight);
                 try {
+                    lineGutter.paintSourceBackground(row, line + 1, sourceWidth(), cellHeight);
                     if (emphasisStart >= 0
                             && emphasisEnd > start
                             && emphasisStart <= start + text.length()) {
@@ -2563,7 +2599,7 @@ public final class EditorComponent extends JComponent
                                             to,
                                             offsetForColumn(
                                                     text, leftColumn + getWidth() / cellWidth + 1));
-                        row.setColor(tokenColor(span.kind()));
+                        row.setColor(lineGutter.sourceInk(line + 1,tokenColor(span.kind())));
                         drawRun(row, text, from, to, columns[from]);
                     }
                     paintSelectedText(row, text, columns, start, selectionStart, selectionEnd);
@@ -2667,7 +2703,7 @@ public final class EditorComponent extends JComponent
                                     + (columns(line)[offset - document.lineStart(line)]
                                                     - leftColumn)
                                             * cellWidth;
-                    if (x >= gutterWidth)
+                    if (x >= gutterWidth && x + cellWidth <= sourceRight())
                         g.drawRect(
                                 x,
                                 (line - topLine) * cellHeight + 1,
@@ -2717,29 +2753,30 @@ public final class EditorComponent extends JComponent
                             ? visual
                             : visual >= lastGhostRow ? visual - aiLines.length + 1 : -1;
             if (line >= 0 && (visual <= aiLine || visual > lastGhostRow)) {
-                lineGutter.paint(g, line + 1, y, document.lineCount(), cellWidth, cellHeight);
+                lineGutter.paint(g, line + 1, y, document.lineCount(), cellWidth, cellHeight, getWidth());
                 String label = Integer.toString(line + 1);
                 g.setColor(comment);
                 g.drawString(
                         label, gutterWidth - cellWidth - label.length() * cellWidth, y + ascent);
             }
             boolean labelFitsOriginal =
-                    Integer.toString(aiLine + 1).length() <= gutterWidth / cellWidth - lineGutter.cells() - 4;
+                    Integer.toString(aiLine + 1).length() <= gutterWidth / cellWidth - lineGutter.leftCells() - 4;
             if (visual == aiLine && labelFitsOriginal
                     || visual == aiLine + 1 && !labelFitsOriginal && aiLines.length > 1) {
                 g.setColor(aiGhost);
-                g.drawString("AI", lineGutter.cells() * cellWidth, y + ascent);
+                g.drawString("AI", lineGutter.leftCells() * cellWidth, y + ascent);
             }
             Graphics2D row =
                     (Graphics2D)
                             g.create(
                                     gutterWidth,
                                     y,
-                                    Math.max(0, getWidth() - gutterWidth),
+                                    sourceWidth(),
                                     cellHeight);
             try {
                 if (visual < aiLine || visual > lastGhostRow) {
-                    paintSourceSlice(row, line, 0, document.lineText(line).length(), 0);
+                    lineGutter.paintSourceBackground(row, line + 1, sourceWidth(), cellHeight);
+                    paintSourceSlice(row, line, 0, document.lineText(line).length(), 0, true);
                 } else {
                     String source = document.lineText(aiLine);
                     if (visual == aiLine) paintSourceSlice(row, aiLine, 0, aiCaretInLine, 0);
@@ -2773,6 +2810,10 @@ public final class EditorComponent extends JComponent
     }
 
     private void paintSourceSlice(Graphics2D row, int line, int from, int to, int column) {
+        paintSourceSlice(row,line,from,to,column,false);
+    }
+
+    private void paintSourceSlice(Graphics2D row, int line, int from, int to, int column, boolean shaded) {
         JavaLexer.Line tokens = lexicalLine(line);
         String text = lineTexts.get(line);
         int start = document.lineStart(line);
@@ -2791,7 +2832,8 @@ public final class EditorComponent extends JComponent
             if (a >= b) continue;
             int at = columnAfter(text, paintedOffset, a, paintedColumn);
             if (at > leftColumn + getWidth() / cellWidth + 1) break;
-            row.setColor(tokenColor(span.kind()));
+            Color ink = tokenColor(span.kind());
+            row.setColor(shaded ? lineGutter.sourceInk(line + 1,ink) : ink);
             drawRun(row, text, a, b, at);
             paintedOffset = b;
             paintedColumn = columnAfter(text, a, b, at);

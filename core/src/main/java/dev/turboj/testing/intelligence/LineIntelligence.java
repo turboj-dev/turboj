@@ -54,7 +54,14 @@ public final class LineIntelligence {
     public record Coverage(CoverageState state, Freshness freshness, Availability availability,
             Precision precision, long coveredInstructions, long missedInstructions,
             long coveredBranches, long missedBranches, String provider, String scope,
-            String runId, String processId, String sourceHash, String classIdentity, String reason) {
+            String runId, String processId, String sourceHash, String classIdentity, String reason, CoverageProof proof) {
+        public Coverage(CoverageState state, Freshness freshness, Availability availability,
+                Precision precision, long coveredInstructions, long missedInstructions,
+                long coveredBranches, long missedBranches, String provider, String scope,
+                String runId, String processId, String sourceHash, String classIdentity, String reason) {
+            this(state,freshness,availability,precision,coveredInstructions,missedInstructions,coveredBranches,missedBranches,
+                    provider,scope,runId,processId,sourceHash,classIdentity,reason,null);
+        }
         public Coverage {
             Objects.requireNonNull(state); Objects.requireNonNull(freshness);
             Objects.requireNonNull(availability); Objects.requireNonNull(precision);
@@ -74,7 +81,7 @@ public final class LineIntelligence {
         }
         public Coverage withFreshness(Freshness value) {
             return new Coverage(state,value,availability,precision,coveredInstructions,missedInstructions,
-                    coveredBranches,missedBranches,provider,scope,runId,processId,sourceHash,classIdentity,reason);
+                    coveredBranches,missedBranches,provider,scope,runId,processId,sourceHash,classIdentity,reason,proof);
         }
     }
     public record Line(boolean added, List<TestResult> tests, Coverage coverage) {
@@ -117,7 +124,13 @@ public final class LineIntelligence {
         public Run {
             id = text(id); root = absolute(root); Objects.requireNonNull(state); tests = List.copyOf(tests);
             var immutable = new LinkedHashMap<Path,Map<Integer,Coverage>>();
-            coverage.forEach((file, values) -> immutable.put(absolute(file), Map.copyOf(values)));
+            coverage.forEach((file, values) -> {
+                Map<Integer,Coverage> safe = new LinkedHashMap<>();
+                values.forEach((line,value) -> safe.put(line,
+                        state != RunState.COMPLETED && state != RunState.FAILED && value.freshness() == Freshness.CURRENT
+                                ? value.withFreshness(Freshness.UNKNOWN) : value));
+                immutable.put(absolute(file),Map.copyOf(safe));
+            });
             coverage = Collections.unmodifiableMap(immutable); sourceHashes = Map.copyOf(sourceHashes);
             message = text(message); htmlReport = absolute(htmlReport); Objects.requireNonNull(coverageAvailability);
         }

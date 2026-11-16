@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "changes": [
+    "Unique Class.java / ClassTest.java navigation opens directly",
+    "OptionPane uses input/default initial focus, not surface close button",
+    "NOT_APPLICABLE coverage has no dot; unknown/stale and inspection preserved"
+  ],
+  "unitTests": 29,
+  "unitCommand": "./mvnw -q -pl cli -am package -Dtest=OverlayHostTest,AsciiComboKeyboardTest,LineIntelligenceEditorTest,LineIntelligenceThemeTest,CommandSettingsTest,MenuLayoutTest -Dsurefire.failIfNoSpecifiedTests=false -Djava.awt.headless=true",
+  "nativeCommand": "java -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.SourceTestNavigationAcceptance",
+  "nativeMethod": "Isolated plain Java project; programmatic fixtures and CommandJ invocation; actual native window and Swing Enter/Escape event dispatch",
+  "fullReactorRerun": false,
+  "deferred": "JAVA-06: qualify existing Find References / Find Usages and implement semantic method-to-test alternatives",
+  "buildSha256": "dce90cf158b75326e5a92e9450a57648029d146d905617bee2c3f561a39d9fd9"
+}

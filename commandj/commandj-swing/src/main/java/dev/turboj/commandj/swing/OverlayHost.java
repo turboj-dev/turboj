@@ -260,6 +260,12 @@ public final class OverlayHost extends JLayeredPane {
 
         if (focus != null && SwingUtilities.isDescendingFrom(focus, top))
             return;
+        // JOptionPane knows its input/default button. The generic traversal policy can
+        // otherwise select the surface's close button and make Enter behave like Cancel.
+        if (top.getContentPane() instanceof JOptionPane pane) {
+            pane.selectInitialValue();
+            return;
+        }
         FocusTraversalPolicy policy = top.getFocusTraversalPolicy();
 
         if (policy == null)

@@ -65,6 +65,27 @@ class LineIntelligenceControllerTest {
         assertEquals(Availability.UNKNOWN,changed.line(2).coverage().availability());
     }
 
+    @Test void provenCoverageSurvivesUndoOnlyWhileCapturedClassBytesStillMatch() throws Exception {
+        Path file = directory.resolve("Price.java"), output = directory.resolve("Price.class");
+        Files.writeString(output,"captured bytecode");
+        var proof = new dev.turboj.testing.intelligence.CoverageProof(sha256(SOURCE),"generation","javac",
+                sha256("class-id"),"pid@start","session","collection",Map.of(output,sha256("captured bytecode")));
+        var value = new Coverage(CoverageState.PARTIAL,Freshness.CURRENT,Availability.AVAILABLE,
+                Precision.INSTRUCTIONS_AND_BRANCHES,5,1,1,1,"JaCoCo","module","run",proof.processId(),
+                proof.sourceHash(),proof.classIdentity(),"Verified fixture",proof);
+        var measured = run(file,SOURCE,List.of(),value);
+        assertEquals(Freshness.CURRENT,LineIntelligenceController.snapshot(file,SOURCE,1,new Object(),directory,git(),measured).line(2).coverage().freshness());
+        var changed = LineIntelligenceController.snapshot(file,SOURCE.replace("42","43"),2,new Object(),directory,git(),measured);
+        assertEquals(CoverageState.UNKNOWN,changed.line(2).coverage().state());
+        assertEquals(Freshness.CURRENT,LineIntelligenceController.snapshot(file,SOURCE,3,new Object(),directory,git(),measured).line(2).coverage().freshness());
+        Files.writeString(output,"rebuilt differently");
+        var rebuilt = LineIntelligenceController.snapshot(file,SOURCE,4,new Object(),directory,git(),measured);
+        assertEquals(Availability.BYTECODE_MISMATCH,rebuilt.line(2).coverage().availability());
+        assertEquals(CoverageState.UNKNOWN,rebuilt.line(2).coverage().state());
+        Files.delete(output);
+        assertEquals(Availability.BYTECODE_MISMATCH,LineIntelligenceController.snapshot(file,SOURCE,5,new Object(),directory,git(),measured).line(2).coverage().availability());
+    }
+
     @Test void explicitStalenessSurvivesAnEqualSourceHash() {
         Path file = directory.resolve("Price.java");
         var test = test(file,2,Attribution.TEST_DECLARATION).withFreshness(Freshness.STALE);

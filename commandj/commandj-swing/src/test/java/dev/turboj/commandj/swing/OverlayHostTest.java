@@ -8,6 +8,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OverlayHostTest {
     @Test
+    void optionPaneUsesItsOwnInitialInputInsteadOfTheSurfaceCloseButton() throws Exception {
+        var requests = new java.util.concurrent.atomic.AtomicInteger();
+        var surface = new java.util.concurrent.atomic.AtomicReference<EmbeddedDialog>();
+        edt(() -> {
+            var root = new JRootPane(); root.setSize(640,480); root.getLayeredPane().setSize(640,480);
+            var pane = new JOptionPane("Choose file:") {
+                @Override public void selectInitialValue() { requests.incrementAndGet(); super.selectInitialValue(); }
+            };
+            pane.setWantsInput(true); pane.setSelectionValues(new Object[]{"CalculatorTest.java"});
+            var dialog = new EmbeddedDialog(root,"Source / Test",false); surface.set(dialog);
+            dialog.setContentPane(pane); dialog.pack(); dialog.setVisible(true);
+        });
+        edt(() -> {
+            try { assertTrue(requests.get() > 0,"Overlay focus must defer to the option pane input/default action"); }
+            finally { surface.get().dispose(); }
+        });
+    }
+
+    @Test
     void internalStackUsesOneRootAndClampsToViewport() throws Exception {
         edt(() -> {
             var root = new JRootPane();

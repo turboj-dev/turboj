@@ -294,7 +294,11 @@ public final class KeymapManager {
             if (!previousConflicts.isEmpty()) notices.add("Stored user shortcut conflicts were preserved; resolve them explicitly in Keymap Settings.");
             for (KeymapProfile imported : values) {
                 KeymapProfile bundled = defaults.get(imported.id());
-                if (bundled == null) continue;
+                if (bundled == null) {
+                    if (BundledKeymaps.RETIRED.containsKey(imported.id()))
+                        notices.add(imported.name() + ": retired bundled profile preserved as a user profile, including custom bindings.");
+                    continue;
+                }
                 for (var entry : bundled.overrides().entrySet()) {
                     KeymapProfile current = profiles.get(imported.id());
                     if (current.overrides().containsKey(entry.getKey())) continue;

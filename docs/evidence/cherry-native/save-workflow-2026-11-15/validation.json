@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "nativeReport": "native-report.txt",
+  "status": "PASS",
+  "workflow": [
+    "Run All Tests",
+    "edit then Save only",
+    "Undo then Save only",
+    "unchanged Save: no new run"
+  ],
+  "nativeKinds": [
+    "unit"
+  ],
+  "transportRegressionKinds": [
+    "unit",
+    "integration",
+    "functional",
+    "ui"
+  ],
+  "limitations": [
+    "Four-phase transport tests use synthetic processes; no real browser/service suite was rerun here.",
+    "Swing events with programmatic fixture setup and caret placement; not a physical-keyboard test.",
+    "Raw JUnit paths are local build artifacts, not archived copies."
+  ],
+  "runs": [
+    {
+      "run": "20261115-195001-3cb988",
+      "junit": [
+        {
+          "path": "app/target/cherry-native-smoke/project-10358797468389822440/target/cherry-test/runs/20261115-195001-3cb988/reports/adapters/demo/native-ide/unit/build/surefire-reports/TEST-demo.PriceTest.xml",
+          "sha256": "26e86e79cc44d068597cf54efee38983d0d183774ec1f2801436f91132a7727f",
+          "suite": "demo.PriceTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    {
+      "run": "20261115-195004-605778",
+      "junit": [
+        {
+          "path": "app/target/cherry-native-smoke/project-10358797468389822440/target/cherry-test/runs/20261115-195004-605778/reports/adapters/demo/native-ide/unit/build/surefire-reports/TEST-demo.PriceTest.xml",
+          "sha256": "e99e264012e252f4cf3b017a823b861179ccda574be36f95974038585f363c28",
+          "suite": "demo.PriceTest",
+          "tests": 2,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    {
+      "run": "20261115-195007-328718",
+      "junit": [
+        {
+          "path": "app/target/cherry-native-smoke/project-10358797468389822440/target/cherry-test/runs/20261115-195007-328718/reports/adapters/demo/native-ide/unit/build/surefire-reports/TEST-demo.PriceTest.xml",
+          "sha256": "ae1bf9837dd08db4028e2bcbfcc57446bd1df75cdaf1aa46da07daa308281fa7",
+          "suite": "demo.PriceTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    }
+  ],
+  "finalBuild": {
+    "command": "./mvnw install",
+    "status": "PASS",
+    "tests": 848,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": 123,
+    "elapsed": "03:18 min",
+    "appJarSha256": "922270b9d7893ce518eb826f2814c34655ef493dc469ff7bbbc4bb0a7ddd770b",
+    "note": "Final build after native acceptance; subsequent code change only de-duplicates the stale-status message."
+  }
+}

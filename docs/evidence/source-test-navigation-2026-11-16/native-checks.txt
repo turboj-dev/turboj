@@ -1,0 +1,13 @@
+PASS source opens
+PASS unique test opens directly
+PASS no chooser for unique test
+PASS unique source opens directly
+PASS no chooser for unique source
+PASS ambiguous matches show chooser
+PASS file chooser focuses selection
+PASS Enter opens selected file
+PASS reverse navigation still direct
+PASS second chooser ready
+PASS Escape cancels chooser
+PASS cancel leaves source open
+PASS native source/test navigation and Enter/Escape; programmatic fixtures/commands, real Swing keyboard dispatch.

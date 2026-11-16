@@ -10,6 +10,25 @@ class CommandSettingsTest {
     @TempDir
     Path temp;
 
+    @Test void coverageBackgroundsDefaultOnAndPersistWithoutChangingThemeOrKeymap() throws Exception {
+        String old = System.getProperty("turboj.config");
+        System.setProperty("turboj.config",temp.toString());
+        try {
+            assertTrue(Settings.load().showCoverageBackgrounds);
+            Files.writeString(temp.resolve("config.json"),"{\"theme\":\"vscode-monokai\",\"keymapProfile\":\"eclipse-macos\"}");
+            var settings = Settings.load();
+            assertTrue(settings.showCoverageBackgrounds,"Older preferences retain the current display");
+            settings.showCoverageBackgrounds = false; settings.save();
+            var loaded = Settings.load();
+            assertFalse(loaded.showCoverageBackgrounds);
+            assertEquals("vscode-monokai",loaded.theme); assertEquals("eclipse-macos",loaded.keymapProfile);
+            loaded.showCoverageBackgrounds = true; loaded.save();
+            assertTrue(Settings.load().showCoverageBackgrounds);
+        } finally {
+            if (old == null) System.clearProperty("turboj.config"); else System.setProperty("turboj.config",old);
+        }
+    }
+
     @Test void pressedShortcutPreferenceDefaultsOffAndPersistsBothChoices() throws Exception {
         String old = System.getProperty("turboj.config");
         System.setProperty("turboj.config", temp.toString());

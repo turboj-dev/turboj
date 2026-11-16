@@ -1,0 +1,4431 @@
+[
+  {
+    "theme": "ayu-dark",
+    "background": "#10141C",
+    "coveredBackground": "#1D2B2F",
+    "uncoveredBackground": "#2B291B",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#E6C08A",
+        "uncovered": "#E6C08A",
+        "normal": "#E6C08A"
+      },
+      "syntax.comment": {
+        "covered": "#879099",
+        "uncovered": "#879099",
+        "normal": "#747F89"
+      },
+      "syntax.identifier": {
+        "covered": "#BFBDB6",
+        "uncovered": "#BFBDB6",
+        "normal": "#BFBDB6"
+      },
+      "syntax.keyword": {
+        "covered": "#FF8F40",
+        "uncovered": "#FF8F40",
+        "normal": "#FF8F40"
+      },
+      "syntax.number": {
+        "covered": "#D2A6FF",
+        "uncovered": "#D2A6FF",
+        "normal": "#D2A6FF"
+      },
+      "syntax.operator": {
+        "covered": "#F29668",
+        "uncovered": "#F29668",
+        "normal": "#F29668"
+      },
+      "syntax.string": {
+        "covered": "#AAD94C",
+        "uncovered": "#AAD94C",
+        "normal": "#AAD94C"
+      }
+    }
+  },
+  {
+    "theme": "ayu-light",
+    "background": "#FCFCFC",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FBF8E7",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#9C652F",
+        "uncovered": "#9C652F",
+        "normal": "#A06830"
+      },
+      "syntax.comment": {
+        "covered": "#717174",
+        "uncovered": "#717174",
+        "normal": "#747477"
+      },
+      "syntax.identifier": {
+        "covered": "#5C6166",
+        "uncovered": "#5C6166",
+        "normal": "#5C6166"
+      },
+      "syntax.keyword": {
+        "covered": "#AE5C23",
+        "uncovered": "#AE5C23",
+        "normal": "#B25E24"
+      },
+      "syntax.number": {
+        "covered": "#8463A6",
+        "uncovered": "#8463A6",
+        "normal": "#8866AB"
+      },
+      "syntax.operator": {
+        "covered": "#98645B",
+        "uncovered": "#99655B",
+        "normal": "#9C675D"
+      },
+      "syntax.string": {
+        "covered": "#5D7C00",
+        "uncovered": "#5D7C00",
+        "normal": "#5F7F00"
+      }
+    }
+  },
+  {
+    "theme": "ayu-mirage",
+    "background": "#242936",
+    "coveredBackground": "#27393F",
+    "uncoveredBackground": "#393624",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#D9BE98",
+        "uncovered": "#D9BE98",
+        "normal": "#D9BE98"
+      },
+      "syntax.comment": {
+        "covered": "#95A0AD",
+        "uncovered": "#949FAD",
+        "normal": "#8591A1"
+      },
+      "syntax.identifier": {
+        "covered": "#CCCAC2",
+        "uncovered": "#CCCAC2",
+        "normal": "#CCCAC2"
+      },
+      "syntax.keyword": {
+        "covered": "#FFA659",
+        "uncovered": "#FFA659",
+        "normal": "#FFA659"
+      },
+      "syntax.number": {
+        "covered": "#DFBFFF",
+        "uncovered": "#DFBFFF",
+        "normal": "#DFBFFF"
+      },
+      "syntax.operator": {
+        "covered": "#F29E74",
+        "uncovered": "#F29E74",
+        "normal": "#F29E74"
+      },
+      "syntax.string": {
+        "covered": "#D5FF80",
+        "uncovered": "#D5FF80",
+        "normal": "#D5FF80"
+      }
+    }
+  },
+  {
+    "theme": "catppuccin-frappe",
+    "background": "#303446",
+    "coveredBackground": "#2E4249",
+    "uncoveredBackground": "#43402A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#EF9F76",
+        "uncovered": "#EF9F76",
+        "normal": "#EF9F76"
+      },
+      "syntax.comment": {
+        "covered": "#A2A9C4",
+        "uncovered": "#A3A9C4",
+        "normal": "#949CBB"
+      },
+      "syntax.identifier": {
+        "covered": "#C6D0F5",
+        "uncovered": "#C6D0F5",
+        "normal": "#C6D0F5"
+      },
+      "syntax.keyword": {
+        "covered": "#CA9EE6",
+        "uncovered": "#CA9EE6",
+        "normal": "#CA9EE6"
+      },
+      "syntax.number": {
+        "covered": "#EF9F76",
+        "uncovered": "#EF9F76",
+        "normal": "#EF9F76"
+      },
+      "syntax.operator": {
+        "covered": "#81C8BE",
+        "uncovered": "#81C8BE",
+        "normal": "#81C8BE"
+      },
+      "syntax.string": {
+        "covered": "#A6D189",
+        "uncovered": "#A6D189",
+        "normal": "#A6D189"
+      }
+    }
+  },
+  {
+    "theme": "catppuccin-latte",
+    "background": "#EFF1F5",
+    "coveredBackground": "#E1EFF5",
+    "uncoveredBackground": "#F0EEDD",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#B84807",
+        "uncovered": "#B94807",
+        "normal": "#BC4A08"
+      },
+      "syntax.comment": {
+        "covered": "#686A7C",
+        "uncovered": "#686A7C",
+        "normal": "#6B6D7F"
+      },
+      "syntax.identifier": {
+        "covered": "#4C4F69",
+        "uncovered": "#4C4F69",
+        "normal": "#4C4F69"
+      },
+      "syntax.keyword": {
+        "covered": "#8839EF",
+        "uncovered": "#8839EF",
+        "normal": "#8839EF"
+      },
+      "syntax.number": {
+        "covered": "#B84807",
+        "uncovered": "#B94807",
+        "normal": "#BC4A08"
+      },
+      "syntax.operator": {
+        "covered": "#12777D",
+        "uncovered": "#12777D",
+        "normal": "#137A80"
+      },
+      "syntax.string": {
+        "covered": "#317A21",
+        "uncovered": "#317B21",
+        "normal": "#327D22"
+      }
+    }
+  },
+  {
+    "theme": "catppuccin-macchiato",
+    "background": "#24273A",
+    "coveredBackground": "#27393E",
+    "uncoveredBackground": "#393624",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#F5A97F",
+        "uncovered": "#F5A97F",
+        "normal": "#F5A97F"
+      },
+      "syntax.comment": {
+        "covered": "#979DB9",
+        "uncovered": "#969DB9",
+        "normal": "#939AB7"
+      },
+      "syntax.identifier": {
+        "covered": "#CAD3F5",
+        "uncovered": "#CAD3F5",
+        "normal": "#CAD3F5"
+      },
+      "syntax.keyword": {
+        "covered": "#C6A0F6",
+        "uncovered": "#C6A0F6",
+        "normal": "#C6A0F6"
+      },
+      "syntax.number": {
+        "covered": "#F5A97F",
+        "uncovered": "#F5A97F",
+        "normal": "#F5A97F"
+      },
+      "syntax.operator": {
+        "covered": "#8BD5CA",
+        "uncovered": "#8BD5CA",
+        "normal": "#8BD5CA"
+      },
+      "syntax.string": {
+        "covered": "#A6DA95",
+        "uncovered": "#A6DA95",
+        "normal": "#A6DA95"
+      }
+    }
+  },
+  {
+    "theme": "catppuccin-mocha",
+    "background": "#1E1E2E",
+    "coveredBackground": "#223237",
+    "uncoveredBackground": "#323020",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FAB387",
+        "uncovered": "#FAB387",
+        "normal": "#FAB387"
+      },
+      "syntax.comment": {
+        "covered": "#9399B2",
+        "uncovered": "#9399B2",
+        "normal": "#9399B2"
+      },
+      "syntax.identifier": {
+        "covered": "#CDD6F4",
+        "uncovered": "#CDD6F4",
+        "normal": "#CDD6F4"
+      },
+      "syntax.keyword": {
+        "covered": "#CBA6F7",
+        "uncovered": "#CBA6F7",
+        "normal": "#CBA6F7"
+      },
+      "syntax.number": {
+        "covered": "#FAB387",
+        "uncovered": "#FAB387",
+        "normal": "#FAB387"
+      },
+      "syntax.operator": {
+        "covered": "#94E2D5",
+        "uncovered": "#94E2D5",
+        "normal": "#94E2D5"
+      },
+      "syntax.string": {
+        "covered": "#A6E3A1",
+        "uncovered": "#A6E3A1",
+        "normal": "#A6E3A1"
+      }
+    }
+  },
+  {
+    "theme": "classic",
+    "background": "#0000AA",
+    "coveredBackground": "#263E47",
+    "uncoveredBackground": "#3F3B22",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FFFF55",
+        "uncovered": "#FFFF55",
+        "normal": "#FFFF55"
+      },
+      "syntax.comment": {
+        "covered": "#AAAAAA",
+        "uncovered": "#AAAAAA",
+        "normal": "#AAAAAA"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#FFFF55",
+        "uncovered": "#FFFF55",
+        "normal": "#FFFF55"
+      },
+      "syntax.number": {
+        "covered": "#56FFFF",
+        "uncovered": "#56FFFF",
+        "normal": "#56FFFF"
+      },
+      "syntax.operator": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.string": {
+        "covered": "#56FFFF",
+        "uncovered": "#56FFFF",
+        "normal": "#56FFFF"
+      }
+    }
+  },
+  {
+    "theme": "dark",
+    "background": "#171A21",
+    "coveredBackground": "#212F33",
+    "uncoveredBackground": "#2F2C1E",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#B7A4ED",
+        "uncovered": "#B7A4ED",
+        "normal": "#B7A4ED"
+      },
+      "syntax.comment": {
+        "covered": "#9BA7B8",
+        "uncovered": "#9BA7B8",
+        "normal": "#9BA7B8"
+      },
+      "syntax.identifier": {
+        "covered": "#D8DEE9",
+        "uncovered": "#D8DEE9",
+        "normal": "#D8DEE9"
+      },
+      "syntax.keyword": {
+        "covered": "#B7A4ED",
+        "uncovered": "#B7A4ED",
+        "normal": "#B7A4ED"
+      },
+      "syntax.number": {
+        "covered": "#A8CE9D",
+        "uncovered": "#A8CE9D",
+        "normal": "#A8CE9D"
+      },
+      "syntax.operator": {
+        "covered": "#D8DEE9",
+        "uncovered": "#D8DEE9",
+        "normal": "#D8DEE9"
+      },
+      "syntax.string": {
+        "covered": "#A8CE9D",
+        "uncovered": "#A8CE9D",
+        "normal": "#A8CE9D"
+      }
+    }
+  },
+  {
+    "theme": "dracula",
+    "background": "#282A36",
+    "coveredBackground": "#293B40",
+    "uncoveredBackground": "#3A3826",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#50FA7B",
+        "uncovered": "#50FA7B",
+        "normal": "#50FA7B"
+      },
+      "syntax.comment": {
+        "covered": "#95A0C1",
+        "uncovered": "#949FC1",
+        "normal": "#8390B7"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F2",
+        "uncovered": "#F8F8F2",
+        "normal": "#F8F8F2"
+      },
+      "syntax.keyword": {
+        "covered": "#FF79C6",
+        "uncovered": "#FF79C6",
+        "normal": "#FF79C6"
+      },
+      "syntax.number": {
+        "covered": "#BD93F9",
+        "uncovered": "#BD93F9",
+        "normal": "#BD93F9"
+      },
+      "syntax.operator": {
+        "covered": "#FF79C6",
+        "uncovered": "#FF79C6",
+        "normal": "#FF79C6"
+      },
+      "syntax.string": {
+        "covered": "#F1FA8C",
+        "uncovered": "#F1FA8C",
+        "normal": "#F1FA8C"
+      }
+    }
+  },
+  {
+    "theme": "github-dark-default",
+    "background": "#0D1117",
+    "coveredBackground": "#1C2A2E",
+    "uncoveredBackground": "#2A271A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FF7B72",
+        "uncovered": "#FF7B72",
+        "normal": "#FF7B72"
+      },
+      "syntax.comment": {
+        "covered": "#8B949E",
+        "uncovered": "#8B949E",
+        "normal": "#8B949E"
+      },
+      "syntax.identifier": {
+        "covered": "#E6EDF3",
+        "uncovered": "#E6EDF3",
+        "normal": "#E6EDF3"
+      },
+      "syntax.keyword": {
+        "covered": "#FF7B72",
+        "uncovered": "#FF7B72",
+        "normal": "#FF7B72"
+      },
+      "syntax.number": {
+        "covered": "#79C0FF",
+        "uncovered": "#79C0FF",
+        "normal": "#79C0FF"
+      },
+      "syntax.operator": {
+        "covered": "#FF7B72",
+        "uncovered": "#FF7B72",
+        "normal": "#FF7B72"
+      },
+      "syntax.string": {
+        "covered": "#A5D6FF",
+        "uncovered": "#A5D6FF",
+        "normal": "#A5D6FF"
+      }
+    }
+  },
+  {
+    "theme": "github-dark-dimmed",
+    "background": "#22272E",
+    "coveredBackground": "#27373C",
+    "uncoveredBackground": "#373524",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#F4766D",
+        "uncovered": "#F4766D",
+        "normal": "#F47067"
+      },
+      "syntax.comment": {
+        "covered": "#949DA8",
+        "uncovered": "#949DA7",
+        "normal": "#838E9A"
+      },
+      "syntax.identifier": {
+        "covered": "#ADBAC7",
+        "uncovered": "#ADBAC7",
+        "normal": "#ADBAC7"
+      },
+      "syntax.keyword": {
+        "covered": "#F4766D",
+        "uncovered": "#F4766D",
+        "normal": "#F47067"
+      },
+      "syntax.number": {
+        "covered": "#6CB6FF",
+        "uncovered": "#6CB6FF",
+        "normal": "#6CB6FF"
+      },
+      "syntax.operator": {
+        "covered": "#F4766D",
+        "uncovered": "#F4766D",
+        "normal": "#F47067"
+      },
+      "syntax.string": {
+        "covered": "#96D0FF",
+        "uncovered": "#96D0FF",
+        "normal": "#96D0FF"
+      }
+    }
+  },
+  {
+    "theme": "github-dark-high-contrast",
+    "background": "#0A0C10",
+    "coveredBackground": "#1B272B",
+    "uncoveredBackground": "#272619",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FF9492",
+        "uncovered": "#FF9492",
+        "normal": "#FF9492"
+      },
+      "syntax.comment": {
+        "covered": "#BDC4CC",
+        "uncovered": "#BDC4CC",
+        "normal": "#BDC4CC"
+      },
+      "syntax.identifier": {
+        "covered": "#F0F3F6",
+        "uncovered": "#F0F3F6",
+        "normal": "#F0F3F6"
+      },
+      "syntax.keyword": {
+        "covered": "#FF9492",
+        "uncovered": "#FF9492",
+        "normal": "#FF9492"
+      },
+      "syntax.number": {
+        "covered": "#91CBFF",
+        "uncovered": "#91CBFF",
+        "normal": "#91CBFF"
+      },
+      "syntax.operator": {
+        "covered": "#FF9492",
+        "uncovered": "#FF9492",
+        "normal": "#FF9492"
+      },
+      "syntax.string": {
+        "covered": "#ADDCFF",
+        "uncovered": "#ADDCFF",
+        "normal": "#ADDCFF"
+      }
+    }
+  },
+  {
+    "theme": "github-light-default",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#CF222E",
+        "uncovered": "#CF222E",
+        "normal": "#CF222E"
+      },
+      "syntax.comment": {
+        "covered": "#6A737D",
+        "uncovered": "#6C757F",
+        "normal": "#6E7781"
+      },
+      "syntax.identifier": {
+        "covered": "#1F2328",
+        "uncovered": "#1F2328",
+        "normal": "#1F2328"
+      },
+      "syntax.keyword": {
+        "covered": "#CF222E",
+        "uncovered": "#CF222E",
+        "normal": "#CF222E"
+      },
+      "syntax.number": {
+        "covered": "#0550AE",
+        "uncovered": "#0550AE",
+        "normal": "#0550AE"
+      },
+      "syntax.operator": {
+        "covered": "#CF222E",
+        "uncovered": "#CF222E",
+        "normal": "#CF222E"
+      },
+      "syntax.string": {
+        "covered": "#0A3069",
+        "uncovered": "#0A3069",
+        "normal": "#0A3069"
+      }
+    }
+  },
+  {
+    "theme": "gruvbox-dark-medium",
+    "background": "#282828",
+    "coveredBackground": "#29383C",
+    "uncoveredBackground": "#383626",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#83A598",
+        "uncovered": "#83A598",
+        "normal": "#83A598"
+      },
+      "syntax.comment": {
+        "covered": "#A89C90",
+        "uncovered": "#A89C90",
+        "normal": "#9A8C7E"
+      },
+      "syntax.identifier": {
+        "covered": "#EBDBB2",
+        "uncovered": "#EBDBB2",
+        "normal": "#EBDBB2"
+      },
+      "syntax.keyword": {
+        "covered": "#FB7463",
+        "uncovered": "#FB7463",
+        "normal": "#FB533F"
+      },
+      "syntax.number": {
+        "covered": "#D3889C",
+        "uncovered": "#D3889C",
+        "normal": "#D3869B"
+      },
+      "syntax.operator": {
+        "covered": "#8EC07C",
+        "uncovered": "#8EC07C",
+        "normal": "#8EC07C"
+      },
+      "syntax.string": {
+        "covered": "#B8BB26",
+        "uncovered": "#B8BB26",
+        "normal": "#B8BB26"
+      }
+    }
+  },
+  {
+    "theme": "gruvbox-light-medium",
+    "background": "#FBF1C7",
+    "coveredBackground": "#DFF0F5",
+    "uncoveredBackground": "#F0EDD9",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#076678",
+        "uncovered": "#076678",
+        "normal": "#076678"
+      },
+      "syntax.comment": {
+        "covered": "#75695E",
+        "uncovered": "#75695E",
+        "normal": "#786C60"
+      },
+      "syntax.identifier": {
+        "covered": "#3C3836",
+        "uncovered": "#3C3836",
+        "normal": "#3C3836"
+      },
+      "syntax.keyword": {
+        "covered": "#9D0006",
+        "uncovered": "#9D0006",
+        "normal": "#9D0006"
+      },
+      "syntax.number": {
+        "covered": "#8F3F71",
+        "uncovered": "#8F3F71",
+        "normal": "#8F3F71"
+      },
+      "syntax.operator": {
+        "covered": "#3F7755",
+        "uncovered": "#3F7655",
+        "normal": "#417957"
+      },
+      "syntax.string": {
+        "covered": "#736E0D",
+        "uncovered": "#726D0D",
+        "normal": "#75700E"
+      }
+    }
+  },
+  {
+    "theme": "light",
+    "background": "#FAFAF7",
+    "coveredBackground": "#E9F8FE",
+    "uncoveredBackground": "#F9F7E5",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#57339B",
+        "uncovered": "#57339B",
+        "normal": "#57339B"
+      },
+      "syntax.comment": {
+        "covered": "#596673",
+        "uncovered": "#596673",
+        "normal": "#596673"
+      },
+      "syntax.identifier": {
+        "covered": "#1D2632",
+        "uncovered": "#1D2632",
+        "normal": "#1D2632"
+      },
+      "syntax.keyword": {
+        "covered": "#57339B",
+        "uncovered": "#57339B",
+        "normal": "#57339B"
+      },
+      "syntax.number": {
+        "covered": "#246D3D",
+        "uncovered": "#246D3D",
+        "normal": "#246D3D"
+      },
+      "syntax.operator": {
+        "covered": "#1D2632",
+        "uncovered": "#1D2632",
+        "normal": "#1D2632"
+      },
+      "syntax.string": {
+        "covered": "#246D3D",
+        "uncovered": "#246D3D",
+        "normal": "#246D3D"
+      }
+    }
+  },
+  {
+    "theme": "nord",
+    "background": "#2E3440",
+    "coveredBackground": "#2E4148",
+    "uncoveredBackground": "#423F2A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#8FACC8",
+        "uncovered": "#8FACC8",
+        "normal": "#81A1C1"
+      },
+      "syntax.comment": {
+        "covered": "#A1A9B7",
+        "uncovered": "#A2A9B8",
+        "normal": "#939CAD"
+      },
+      "syntax.identifier": {
+        "covered": "#D8DEE9",
+        "uncovered": "#D8DEE9",
+        "normal": "#D8DEE9"
+      },
+      "syntax.keyword": {
+        "covered": "#8FACC8",
+        "uncovered": "#8FACC8",
+        "normal": "#81A1C1"
+      },
+      "syntax.number": {
+        "covered": "#BF9FB9",
+        "uncovered": "#BFA0BA",
+        "normal": "#B590AF"
+      },
+      "syntax.operator": {
+        "covered": "#8FACC8",
+        "uncovered": "#8FACC8",
+        "normal": "#81A1C1"
+      },
+      "syntax.string": {
+        "covered": "#A3BE8C",
+        "uncovered": "#A3BE8C",
+        "normal": "#A3BE8C"
+      }
+    }
+  },
+  {
+    "theme": "one-dark",
+    "background": "#282C34",
+    "coveredBackground": "#2A3B40",
+    "uncoveredBackground": "#3B3926",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#CC87E0",
+        "uncovered": "#CC87E0",
+        "normal": "#C678DD"
+      },
+      "syntax.comment": {
+        "covered": "#9DA1A9",
+        "uncovered": "#9DA1A9",
+        "normal": "#8E939C"
+      },
+      "syntax.identifier": {
+        "covered": "#ABB2BF",
+        "uncovered": "#ABB2BF",
+        "normal": "#ABB2BF"
+      },
+      "syntax.keyword": {
+        "covered": "#CC87E0",
+        "uncovered": "#CC87E0",
+        "normal": "#C678DD"
+      },
+      "syntax.number": {
+        "covered": "#D19A66",
+        "uncovered": "#D19A66",
+        "normal": "#D19A66"
+      },
+      "syntax.operator": {
+        "covered": "#CC87E0",
+        "uncovered": "#CC87E0",
+        "normal": "#C678DD"
+      },
+      "syntax.string": {
+        "covered": "#98C379",
+        "uncovered": "#98C379",
+        "normal": "#98C379"
+      }
+    }
+  },
+  {
+    "theme": "one-light",
+    "background": "#FAFAFA",
+    "coveredBackground": "#E9F8FE",
+    "uncoveredBackground": "#F9F7E5",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#A626A4",
+        "uncovered": "#A626A4",
+        "normal": "#A626A4"
+      },
+      "syntax.comment": {
+        "covered": "#707075",
+        "uncovered": "#707075",
+        "normal": "#737378"
+      },
+      "syntax.identifier": {
+        "covered": "#383A42",
+        "uncovered": "#383A42",
+        "normal": "#383A42"
+      },
+      "syntax.keyword": {
+        "covered": "#A626A4",
+        "uncovered": "#A626A4",
+        "normal": "#A626A4"
+      },
+      "syntax.number": {
+        "covered": "#976700",
+        "uncovered": "#986801",
+        "normal": "#986801"
+      },
+      "syntax.operator": {
+        "covered": "#383A42",
+        "uncovered": "#383A42",
+        "normal": "#383A42"
+      },
+      "syntax.string": {
+        "covered": "#3E7E3E",
+        "uncovered": "#3F7F3F",
+        "normal": "#408140"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-absent",
+    "background": "#252C33",
+    "coveredBackground": "#293A40",
+    "uncoveredBackground": "#3B3826",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#60ABB4",
+        "uncovered": "#61ACB4",
+        "normal": "#479EA8"
+      },
+      "syntax.comment": {
+        "covered": "#99A1A8",
+        "uncovered": "#99A1A8",
+        "normal": "#8A939B"
+      },
+      "syntax.identifier": {
+        "covered": "#AEB9C4",
+        "uncovered": "#AEB9C4",
+        "normal": "#AEB9C4"
+      },
+      "syntax.keyword": {
+        "covered": "#60ABB4",
+        "uncovered": "#61ACB4",
+        "normal": "#479EA8"
+      },
+      "syntax.number": {
+        "covered": "#61BCC6",
+        "uncovered": "#61BCC6",
+        "normal": "#61BCC6"
+      },
+      "syntax.operator": {
+        "covered": "#60ABB4",
+        "uncovered": "#61ACB4",
+        "normal": "#479EA8"
+      },
+      "syntax.string": {
+        "covered": "#ADDBBC",
+        "uncovered": "#ADDBBC",
+        "normal": "#ADDBBC"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-allure",
+    "background": "#32373D",
+    "coveredBackground": "#30434A",
+    "uncoveredBackground": "#45422D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#7AB8A5",
+        "uncovered": "#7CB9A6",
+        "normal": "#64AC96"
+      },
+      "syntax.comment": {
+        "covered": "#A4ACB4",
+        "uncovered": "#A6AEB5",
+        "normal": "#97A0A9"
+      },
+      "syntax.identifier": {
+        "covered": "#C0CCDB",
+        "uncovered": "#C0CCDB",
+        "normal": "#C0CCDB"
+      },
+      "syntax.keyword": {
+        "covered": "#7AB8A5",
+        "uncovered": "#7CB9A6",
+        "normal": "#64AC96"
+      },
+      "syntax.number": {
+        "covered": "#CEA470",
+        "uncovered": "#CFA674",
+        "normal": "#CEA36F"
+      },
+      "syntax.operator": {
+        "covered": "#7AB8A5",
+        "uncovered": "#7CB9A6",
+        "normal": "#64AC96"
+      },
+      "syntax.string": {
+        "covered": "#CEC86F",
+        "uncovered": "#CEC86F",
+        "normal": "#CEC86F"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-allure-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#457C6D",
+        "uncovered": "#467E6F",
+        "normal": "#488171"
+      },
+      "syntax.comment": {
+        "covered": "#6D727A",
+        "uncovered": "#6E747C",
+        "normal": "#71777F"
+      },
+      "syntax.identifier": {
+        "covered": "#555E68",
+        "uncovered": "#555E68",
+        "normal": "#555E68"
+      },
+      "syntax.keyword": {
+        "covered": "#457C6D",
+        "uncovered": "#467E6F",
+        "normal": "#488171"
+      },
+      "syntax.number": {
+        "covered": "#896D4A",
+        "uncovered": "#8C6E4B",
+        "normal": "#8F714D"
+      },
+      "syntax.operator": {
+        "covered": "#457C6D",
+        "uncovered": "#467E6F",
+        "normal": "#488171"
+      },
+      "syntax.string": {
+        "covered": "#777340",
+        "uncovered": "#797541",
+        "normal": "#7C7843"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-arstotzka",
+    "background": "#332E2E",
+    "coveredBackground": "#2D3E43",
+    "uncoveredBackground": "#3E3B29",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#A2A797",
+        "uncovered": "#A2A797",
+        "normal": "#A2A797"
+      },
+      "syntax.comment": {
+        "covered": "#A9A4A0",
+        "uncovered": "#A8A39E",
+        "normal": "#9B9590"
+      },
+      "syntax.identifier": {
+        "covered": "#EDEBE6",
+        "uncovered": "#EDEBE6",
+        "normal": "#EDEBE6"
+      },
+      "syntax.keyword": {
+        "covered": "#A2A797",
+        "uncovered": "#A2A797",
+        "normal": "#A2A797"
+      },
+      "syntax.number": {
+        "covered": "#A5E3D0",
+        "uncovered": "#A5E3D0",
+        "normal": "#A5E3D0"
+      },
+      "syntax.operator": {
+        "covered": "#A2A797",
+        "uncovered": "#A2A797",
+        "normal": "#A2A797"
+      },
+      "syntax.string": {
+        "covered": "#A5E3D0",
+        "uncovered": "#A5E3D0",
+        "normal": "#A5E3D0"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-arstotzka-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#707369",
+        "uncovered": "#72756A",
+        "normal": "#75786D"
+      },
+      "syntax.comment": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.identifier": {
+        "covered": "#333333",
+        "uncovered": "#333333",
+        "normal": "#333333"
+      },
+      "syntax.keyword": {
+        "covered": "#707369",
+        "uncovered": "#72756A",
+        "normal": "#75786D"
+      },
+      "syntax.number": {
+        "covered": "#527A6D",
+        "uncovered": "#537C6F",
+        "normal": "#557F72"
+      },
+      "syntax.operator": {
+        "covered": "#707369",
+        "uncovered": "#72756A",
+        "normal": "#75786D"
+      },
+      "syntax.string": {
+        "covered": "#527A6D",
+        "uncovered": "#537C6F",
+        "normal": "#557F72"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-azure",
+    "background": "#181D26",
+    "coveredBackground": "#213136",
+    "uncoveredBackground": "#312F1F",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#6AB0A3",
+        "uncovered": "#6AB0A3",
+        "normal": "#6AB0A3"
+      },
+      "syntax.comment": {
+        "covered": "#8E96A2",
+        "uncovered": "#8E96A2",
+        "normal": "#7C8593"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#6A9CB6",
+        "uncovered": "#6A9CB6",
+        "normal": "#518BAA"
+      },
+      "syntax.number": {
+        "covered": "#64AEB3",
+        "uncovered": "#64AEB3",
+        "normal": "#64AEB3"
+      },
+      "syntax.operator": {
+        "covered": "#6A9CB6",
+        "uncovered": "#6A9CB6",
+        "normal": "#518BAA"
+      },
+      "syntax.string": {
+        "covered": "#64AEB3",
+        "uncovered": "#64AEB3",
+        "normal": "#64AEB3"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-banner",
+    "background": "#1D1A26",
+    "coveredBackground": "#212F34",
+    "uncoveredBackground": "#302E1E",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#7CD827",
+        "uncovered": "#7CD827",
+        "normal": "#7CD827"
+      },
+      "syntax.comment": {
+        "covered": "#978FB4",
+        "uncovered": "#988FB4",
+        "normal": "#877DA8"
+      },
+      "syntax.identifier": {
+        "covered": "#C5BEDD",
+        "uncovered": "#C5BEDD",
+        "normal": "#C5BEDD"
+      },
+      "syntax.keyword": {
+        "covered": "#A6EF61",
+        "uncovered": "#A6EF61",
+        "normal": "#A6EF61"
+      },
+      "syntax.number": {
+        "covered": "#CDED1C",
+        "uncovered": "#CDED1C",
+        "normal": "#CDED1C"
+      },
+      "syntax.operator": {
+        "covered": "#A6EF61",
+        "uncovered": "#A6EF61",
+        "normal": "#A6EF61"
+      },
+      "syntax.string": {
+        "covered": "#CDED1C",
+        "uncovered": "#CDED1C",
+        "normal": "#CDED1C"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-banner-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#497F17",
+        "uncovered": "#4A8117",
+        "normal": "#4C8418"
+      },
+      "syntax.comment": {
+        "covered": "#737178",
+        "uncovered": "#747279",
+        "normal": "#77757C"
+      },
+      "syntax.identifier": {
+        "covered": "#373247",
+        "uncovered": "#373247",
+        "normal": "#373247"
+      },
+      "syntax.keyword": {
+        "covered": "#497F17",
+        "uncovered": "#4A8117",
+        "normal": "#4C8418"
+      },
+      "syntax.number": {
+        "covered": "#6A790E",
+        "uncovered": "#6B7B0E",
+        "normal": "#6E7E0F"
+      },
+      "syntax.operator": {
+        "covered": "#497F17",
+        "uncovered": "#4A8117",
+        "normal": "#4C8418"
+      },
+      "syntax.string": {
+        "covered": "#6A790E",
+        "uncovered": "#6B7B0E",
+        "normal": "#6E7E0F"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-brave",
+    "background": "#333846",
+    "coveredBackground": "#31454C",
+    "uncoveredBackground": "#46422D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#DD9F95",
+        "uncovered": "#DC9E94",
+        "normal": "#D78E83"
+      },
+      "syntax.comment": {
+        "covered": "#AEACB9",
+        "uncovered": "#ADACB9",
+        "normal": "#A19FAE"
+      },
+      "syntax.identifier": {
+        "covered": "#D6DBDB",
+        "uncovered": "#D6DBDB",
+        "normal": "#D6DBDB"
+      },
+      "syntax.keyword": {
+        "covered": "#ADADB9",
+        "uncovered": "#ADACB8",
+        "normal": "#ABAAB7"
+      },
+      "syntax.number": {
+        "covered": "#6BBBBB",
+        "uncovered": "#6BBBBB",
+        "normal": "#51AFAF"
+      },
+      "syntax.operator": {
+        "covered": "#ADADB9",
+        "uncovered": "#ADACB8",
+        "normal": "#ABAAB7"
+      },
+      "syntax.string": {
+        "covered": "#81B7B7",
+        "uncovered": "#81B7B7",
+        "normal": "#6EACAC"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-brave-light",
+    "background": "#F7F9F9",
+    "coveredBackground": "#E8F7FD",
+    "uncoveredBackground": "#F8F5E4",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#BC4331",
+        "uncovered": "#BC4331",
+        "normal": "#BC4331"
+      },
+      "syntax.comment": {
+        "covered": "#706E7B",
+        "uncovered": "#706E7B",
+        "normal": "#73717E"
+      },
+      "syntax.identifier": {
+        "covered": "#2C2D2D",
+        "uncovered": "#2C2D2D",
+        "normal": "#2C2D2D"
+      },
+      "syntax.keyword": {
+        "covered": "#6F6F78",
+        "uncovered": "#6F6F78",
+        "normal": "#72727B"
+      },
+      "syntax.number": {
+        "covered": "#377A7A",
+        "uncovered": "#377A7A",
+        "normal": "#397D7D"
+      },
+      "syntax.operator": {
+        "covered": "#6F6F78",
+        "uncovered": "#6F6F78",
+        "normal": "#72727B"
+      },
+      "syntax.string": {
+        "covered": "#487878",
+        "uncovered": "#487878",
+        "normal": "#4A7B7B"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-carbonight",
+    "background": "#2E2C2B",
+    "coveredBackground": "#2C3B41",
+    "uncoveredBackground": "#3C3A28",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#C4C4C4",
+        "uncovered": "#C4C4C4",
+        "normal": "#C4C4C4"
+      },
+      "syntax.comment": {
+        "covered": "#A2A1A0",
+        "uncovered": "#A3A2A0",
+        "normal": "#949391"
+      },
+      "syntax.identifier": {
+        "covered": "#B0B0B0",
+        "uncovered": "#B0B0B0",
+        "normal": "#B0B0B0"
+      },
+      "syntax.keyword": {
+        "covered": "#EEEEEE",
+        "uncovered": "#EEEEEE",
+        "normal": "#EEEEEE"
+      },
+      "syntax.number": {
+        "covered": "#B0B0B0",
+        "uncovered": "#B0B0B0",
+        "normal": "#B0B0B0"
+      },
+      "syntax.operator": {
+        "covered": "#EEEEEE",
+        "uncovered": "#EEEEEE",
+        "normal": "#EEEEEE"
+      },
+      "syntax.string": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-chocolate",
+    "background": "#261B0E",
+    "coveredBackground": "#203036",
+    "uncoveredBackground": "#312E1D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#A79173",
+        "uncovered": "#A79173",
+        "normal": "#9A805D"
+      },
+      "syntax.comment": {
+        "covered": "#AF8F72",
+        "uncovered": "#AF8F72",
+        "normal": "#A27D5B"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#B99768",
+        "uncovered": "#B99768",
+        "normal": "#B99768"
+      },
+      "syntax.number": {
+        "covered": "#F7A21B",
+        "uncovered": "#F7A21B",
+        "normal": "#F7A21B"
+      },
+      "syntax.operator": {
+        "covered": "#B99768",
+        "uncovered": "#B99768",
+        "normal": "#B99768"
+      },
+      "syntax.string": {
+        "covered": "#F7A21B",
+        "uncovered": "#F7A21B",
+        "normal": "#F7A21B"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-chocolate-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#5B472C",
+        "uncovered": "#5B472C",
+        "normal": "#5B472C"
+      },
+      "syntax.comment": {
+        "covered": "#7C7061",
+        "uncovered": "#7E7263",
+        "normal": "#817565"
+      },
+      "syntax.identifier": {
+        "covered": "#150F08",
+        "uncovered": "#150F08",
+        "normal": "#150F08"
+      },
+      "syntax.keyword": {
+        "covered": "#876E4B",
+        "uncovered": "#89704C",
+        "normal": "#8C724E"
+      },
+      "syntax.number": {
+        "covered": "#9C6711",
+        "uncovered": "#9E6811",
+        "normal": "#A26B12"
+      },
+      "syntax.operator": {
+        "covered": "#876E4B",
+        "uncovered": "#89704C",
+        "normal": "#8C724E"
+      },
+      "syntax.string": {
+        "covered": "#9C6711",
+        "uncovered": "#9E6811",
+        "normal": "#A26B12"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-codecourse",
+    "background": "#19272D",
+    "coveredBackground": "#24363C",
+    "uncoveredBackground": "#363321",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#1EA8FC",
+        "uncovered": "#1EA8FC",
+        "normal": "#1EA8FC"
+      },
+      "syntax.comment": {
+        "covered": "#869FA9",
+        "uncovered": "#859EA8",
+        "normal": "#73909C"
+      },
+      "syntax.identifier": {
+        "covered": "#B6CED8",
+        "uncovered": "#B6CED8",
+        "normal": "#B6CED8"
+      },
+      "syntax.keyword": {
+        "covered": "#1EA8FC",
+        "uncovered": "#1EA8FC",
+        "normal": "#1EA8FC"
+      },
+      "syntax.number": {
+        "covered": "#AAAAAA",
+        "uncovered": "#AAAAAA",
+        "normal": "#AAAAAA"
+      },
+      "syntax.operator": {
+        "covered": "#1EA8FC",
+        "uncovered": "#1EA8FC",
+        "normal": "#1EA8FC"
+      },
+      "syntax.string": {
+        "covered": "#CCCCCC",
+        "uncovered": "#CCCCCC",
+        "normal": "#CCCCCC"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-coffee",
+    "background": "#282122",
+    "coveredBackground": "#263439",
+    "uncoveredBackground": "#353222",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#26AAA6",
+        "uncovered": "#26AAA6",
+        "normal": "#0A9F9B"
+      },
+      "syntax.comment": {
+        "covered": "#9F9797",
+        "uncovered": "#9F9797",
+        "normal": "#918788"
+      },
+      "syntax.identifier": {
+        "covered": "#C4BABB",
+        "uncovered": "#C4BABB",
+        "normal": "#C4BABB"
+      },
+      "syntax.keyword": {
+        "covered": "#80B2B0",
+        "uncovered": "#80B2B0",
+        "normal": "#80B2B0"
+      },
+      "syntax.number": {
+        "covered": "#CC8F5D",
+        "uncovered": "#CC8F5D",
+        "normal": "#CC8F5D"
+      },
+      "syntax.operator": {
+        "covered": "#80B2B0",
+        "uncovered": "#80B2B0",
+        "normal": "#80B2B0"
+      },
+      "syntax.string": {
+        "covered": "#B2947A",
+        "uncovered": "#B29379",
+        "normal": "#A68264"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-coffee-light",
+    "background": "#F4F2F2",
+    "coveredBackground": "#E2F1F5",
+    "uncoveredBackground": "#F1EEDE",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#077976",
+        "uncovered": "#077875",
+        "normal": "#087C79"
+      },
+      "syntax.comment": {
+        "covered": "#716B6C",
+        "uncovered": "#706A6B",
+        "normal": "#736D6E"
+      },
+      "syntax.identifier": {
+        "covered": "#282122",
+        "uncovered": "#282122",
+        "normal": "#282122"
+      },
+      "syntax.keyword": {
+        "covered": "#527271",
+        "uncovered": "#527271",
+        "normal": "#547574"
+      },
+      "syntax.number": {
+        "covered": "#8D6340",
+        "uncovered": "#8D6340",
+        "normal": "#916642"
+      },
+      "syntax.operator": {
+        "covered": "#527271",
+        "uncovered": "#527271",
+        "normal": "#547574"
+      },
+      "syntax.string": {
+        "covered": "#84664F",
+        "uncovered": "#84664F",
+        "normal": "#876951"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-comrade",
+    "background": "#343939",
+    "coveredBackground": "#32454B",
+    "uncoveredBackground": "#46432E",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#DD9E9C",
+        "uncovered": "#DE9E9D",
+        "normal": "#D88D8B"
+      },
+      "syntax.comment": {
+        "covered": "#A6B0B0",
+        "uncovered": "#A6B1B1",
+        "normal": "#97A3A3"
+      },
+      "syntax.identifier": {
+        "covered": "#D6DBDB",
+        "uncovered": "#D6DBDB",
+        "normal": "#D6DBDB"
+      },
+      "syntax.keyword": {
+        "covered": "#9BB7A7",
+        "uncovered": "#9BB7A7",
+        "normal": "#9BB7A7"
+      },
+      "syntax.number": {
+        "covered": "#6BBBBB",
+        "uncovered": "#6CBBBB",
+        "normal": "#51AFAF"
+      },
+      "syntax.operator": {
+        "covered": "#9BB7A7",
+        "uncovered": "#9BB7A7",
+        "normal": "#9BB7A7"
+      },
+      "syntax.string": {
+        "covered": "#82B7B7",
+        "uncovered": "#83B8B8",
+        "normal": "#6DABAB"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-crisp",
+    "background": "#221A22",
+    "coveredBackground": "#223034",
+    "uncoveredBackground": "#302E1F",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#CBA0CD",
+        "uncovered": "#CBA0CD",
+        "normal": "#CBA0CD"
+      },
+      "syntax.comment": {
+        "covered": "#9C919C",
+        "uncovered": "#9B919B",
+        "normal": "#8C808C"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#FC6A0F",
+        "uncovered": "#FC6A0F",
+        "normal": "#FC6A0F"
+      },
+      "syntax.number": {
+        "covered": "#FC9A0F",
+        "uncovered": "#FC9A0F",
+        "normal": "#FC9A0F"
+      },
+      "syntax.operator": {
+        "covered": "#FC6A0F",
+        "uncovered": "#FC6A0F",
+        "normal": "#FC6A0F"
+      },
+      "syntax.string": {
+        "covered": "#FC9A0F",
+        "uncovered": "#FC9A0F",
+        "normal": "#FC9A0F"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-darkside",
+    "background": "#222324",
+    "coveredBackground": "#263539",
+    "uncoveredBackground": "#353323",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#1CC3E8",
+        "uncovered": "#1CC3E8",
+        "normal": "#1CC3E8"
+      },
+      "syntax.comment": {
+        "covered": "#989A9B",
+        "uncovered": "#989A9A",
+        "normal": "#888A8B"
+      },
+      "syntax.identifier": {
+        "covered": "#BABABA",
+        "uncovered": "#BABABA",
+        "normal": "#BABABA"
+      },
+      "syntax.keyword": {
+        "covered": "#F08D24",
+        "uncovered": "#F08D24",
+        "normal": "#F08D24"
+      },
+      "syntax.number": {
+        "covered": "#A98DD6",
+        "uncovered": "#A98DD6",
+        "normal": "#9A79CF"
+      },
+      "syntax.operator": {
+        "covered": "#F08D24",
+        "uncovered": "#F08D24",
+        "normal": "#F08D24"
+      },
+      "syntax.string": {
+        "covered": "#F2D42C",
+        "uncovered": "#F2D42C",
+        "normal": "#F2D42C"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-downpour",
+    "background": "#2C323D",
+    "coveredBackground": "#2D4046",
+    "uncoveredBackground": "#413D29",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#D9978D",
+        "uncovered": "#D9968C",
+        "normal": "#D38478"
+      },
+      "syntax.comment": {
+        "covered": "#A7A6B3",
+        "uncovered": "#A7A5B3",
+        "normal": "#9997A7"
+      },
+      "syntax.identifier": {
+        "covered": "#D6DBDB",
+        "uncovered": "#D6DBDB",
+        "normal": "#D6DBDB"
+      },
+      "syntax.keyword": {
+        "covered": "#ABAAB7",
+        "uncovered": "#ABAAB7",
+        "normal": "#ABAAB7"
+      },
+      "syntax.number": {
+        "covered": "#5FB5B5",
+        "uncovered": "#5EB4B4",
+        "normal": "#4EADAD"
+      },
+      "syntax.operator": {
+        "covered": "#ABAAB7",
+        "uncovered": "#ABAAB7",
+        "normal": "#ABAAB7"
+      },
+      "syntax.string": {
+        "covered": "#77B1B1",
+        "uncovered": "#77B1B1",
+        "normal": "#63A5A5"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-earthsong",
+    "background": "#36312C",
+    "coveredBackground": "#2D4046",
+    "uncoveredBackground": "#403E2A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#95CC5E",
+        "uncovered": "#95CC5E",
+        "normal": "#95CC5E"
+      },
+      "syntax.comment": {
+        "covered": "#ACA6A0",
+        "uncovered": "#ACA7A0",
+        "normal": "#9E9890"
+      },
+      "syntax.identifier": {
+        "covered": "#EBD1B7",
+        "uncovered": "#EBD1B7",
+        "normal": "#EBD1B7"
+      },
+      "syntax.keyword": {
+        "covered": "#95CC5E",
+        "uncovered": "#95CC5E",
+        "normal": "#95CC5E"
+      },
+      "syntax.number": {
+        "covered": "#7DB481",
+        "uncovered": "#7EB482",
+        "normal": "#68A86D"
+      },
+      "syntax.operator": {
+        "covered": "#E0B78F",
+        "uncovered": "#E0B78F",
+        "normal": "#E0B78F"
+      },
+      "syntax.string": {
+        "covered": "#F8BB39",
+        "uncovered": "#F8BB39",
+        "normal": "#F8BB39"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-earthsong-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#5B7B39",
+        "uncovered": "#5C7D3A",
+        "normal": "#5E803B"
+      },
+      "syntax.comment": {
+        "covered": "#777168",
+        "uncovered": "#797369",
+        "normal": "#7C766C"
+      },
+      "syntax.identifier": {
+        "covered": "#4D463E",
+        "uncovered": "#4D463E",
+        "normal": "#4D463E"
+      },
+      "syntax.keyword": {
+        "covered": "#AB5D3C",
+        "uncovered": "#AD5F3C",
+        "normal": "#B1613E"
+      },
+      "syntax.number": {
+        "covered": "#8F6C20",
+        "uncovered": "#926E21",
+        "normal": "#957122"
+      },
+      "syntax.operator": {
+        "covered": "#AB5D3C",
+        "uncovered": "#AD5F3C",
+        "normal": "#B1613E"
+      },
+      "syntax.string": {
+        "covered": "#8F6C20",
+        "uncovered": "#926E21",
+        "normal": "#957122"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-freshcut",
+    "background": "#2F3030",
+    "coveredBackground": "#2E3E43",
+    "uncoveredBackground": "#3E3C2A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#4ECDC4",
+        "uncovered": "#4ECDC4",
+        "normal": "#4ECDC4"
+      },
+      "syntax.comment": {
+        "covered": "#A0A6AC",
+        "uncovered": "#A0A6AC",
+        "normal": "#91989F"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F2",
+        "uncovered": "#F8F8F2",
+        "normal": "#F8F8F2"
+      },
+      "syntax.keyword": {
+        "covered": "#C8D7E8",
+        "uncovered": "#C8D7E8",
+        "normal": "#C8D7E8"
+      },
+      "syntax.number": {
+        "covered": "#8FBE00",
+        "uncovered": "#8FBE00",
+        "normal": "#8FBE00"
+      },
+      "syntax.operator": {
+        "covered": "#C8D7E8",
+        "uncovered": "#C8D7E8",
+        "normal": "#C8D7E8"
+      },
+      "syntax.string": {
+        "covered": "#E9EE00",
+        "uncovered": "#E9EE00",
+        "normal": "#E9EE00"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-freshcut-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#307D7A",
+        "uncovered": "#317F7C",
+        "normal": "#32827E"
+      },
+      "syntax.comment": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.identifier": {
+        "covered": "#2F3030",
+        "uncovered": "#2F3030",
+        "normal": "#2F3030"
+      },
+      "syntax.keyword": {
+        "covered": "#6B727C",
+        "uncovered": "#6C747E",
+        "normal": "#6F7781"
+      },
+      "syntax.number": {
+        "covered": "#5D7C00",
+        "uncovered": "#5F7E00",
+        "normal": "#618100"
+      },
+      "syntax.operator": {
+        "covered": "#6B727C",
+        "uncovered": "#6C747E",
+        "normal": "#6F7781"
+      },
+      "syntax.string": {
+        "covered": "#747445",
+        "uncovered": "#767646",
+        "normal": "#777747"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-frontier",
+    "background": "#36312C",
+    "coveredBackground": "#2D4046",
+    "uncoveredBackground": "#403E2A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#2EBF7E",
+        "uncovered": "#2EBF7E",
+        "normal": "#2EBF7E"
+      },
+      "syntax.comment": {
+        "covered": "#ACA6A0",
+        "uncovered": "#ACA7A0",
+        "normal": "#9E9890"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F2",
+        "uncovered": "#F8F8F2",
+        "normal": "#F8F8F2"
+      },
+      "syntax.keyword": {
+        "covered": "#FC8749",
+        "uncovered": "#FC8849",
+        "normal": "#FC803D"
+      },
+      "syntax.number": {
+        "covered": "#2EBF7E",
+        "uncovered": "#2EBF7E",
+        "normal": "#2EBF7E"
+      },
+      "syntax.operator": {
+        "covered": "#FC8749",
+        "uncovered": "#FC8849",
+        "normal": "#FC803D"
+      },
+      "syntax.string": {
+        "covered": "#F8BB39",
+        "uncovered": "#F8BB39",
+        "normal": "#F8BB39"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-gloom",
+    "background": "#2A332B",
+    "coveredBackground": "#2D3F45",
+    "uncoveredBackground": "#3F3D29",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#4DB6B6",
+        "uncovered": "#4DB6B6",
+        "normal": "#2AA8A8"
+      },
+      "syntax.comment": {
+        "covered": "#97AAA4",
+        "uncovered": "#97AAA4",
+        "normal": "#879D96"
+      },
+      "syntax.identifier": {
+        "covered": "#D8EBE5",
+        "uncovered": "#D8EBE5",
+        "normal": "#D8EBE5"
+      },
+      "syntax.keyword": {
+        "covered": "#4DB6B6",
+        "uncovered": "#4DB6B6",
+        "normal": "#2AA8A8"
+      },
+      "syntax.number": {
+        "covered": "#BCD42A",
+        "uncovered": "#BCD42A",
+        "normal": "#BCD42A"
+      },
+      "syntax.operator": {
+        "covered": "#4DB6B6",
+        "uncovered": "#4DB6B6",
+        "normal": "#2AA8A8"
+      },
+      "syntax.string": {
+        "covered": "#BCD42A",
+        "uncovered": "#BCD42A",
+        "normal": "#BCD42A"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-goldfish",
+    "background": "#2E3336",
+    "coveredBackground": "#2E4147",
+    "uncoveredBackground": "#403E2A",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#F49041",
+        "uncovered": "#F38E3D",
+        "normal": "#F38630"
+      },
+      "syntax.comment": {
+        "covered": "#A3A9AD",
+        "uncovered": "#A2A9AC",
+        "normal": "#939B9F"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F2",
+        "uncovered": "#F8F8F2",
+        "normal": "#F8F8F2"
+      },
+      "syntax.keyword": {
+        "covered": "#A7DBD8",
+        "uncovered": "#A7DBD8",
+        "normal": "#A7DBD8"
+      },
+      "syntax.number": {
+        "covered": "#F58D63",
+        "uncovered": "#F58B61",
+        "normal": "#F47441"
+      },
+      "syntax.operator": {
+        "covered": "#A7DBD8",
+        "uncovered": "#A7DBD8",
+        "normal": "#A7DBD8"
+      },
+      "syntax.string": {
+        "covered": "#F58D64",
+        "uncovered": "#F58B61",
+        "normal": "#F47442"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-goldfish-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#AB5E21",
+        "uncovered": "#AD5F22",
+        "normal": "#B26223"
+      },
+      "syntax.comment": {
+        "covered": "#65747D",
+        "uncovered": "#66767F",
+        "normal": "#697982"
+      },
+      "syntax.identifier": {
+        "covered": "#2E3336",
+        "uncovered": "#2E3336",
+        "normal": "#2E3336"
+      },
+      "syntax.keyword": {
+        "covered": "#5B7776",
+        "uncovered": "#5D7978",
+        "normal": "#5F7C7B"
+      },
+      "syntax.number": {
+        "covered": "#C74714",
+        "uncovered": "#CB4814",
+        "normal": "#CF4A15"
+      },
+      "syntax.operator": {
+        "covered": "#5B7776",
+        "uncovered": "#5D7978",
+        "normal": "#5F7C7B"
+      },
+      "syntax.string": {
+        "covered": "#B9532C",
+        "uncovered": "#BC552D",
+        "normal": "#C0572E"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-grunge",
+    "background": "#31332C",
+    "coveredBackground": "#2E4046",
+    "uncoveredBackground": "#403E2B",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#D1F2A5",
+        "uncovered": "#D1F2A5",
+        "normal": "#D1F2A5"
+      },
+      "syntax.comment": {
+        "covered": "#A5A99D",
+        "uncovered": "#A5A99D",
+        "normal": "#979B8E"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F2",
+        "uncovered": "#F8F8F2",
+        "normal": "#F8F8F2"
+      },
+      "syntax.keyword": {
+        "covered": "#9DAD83",
+        "uncovered": "#9DAD83",
+        "normal": "#91A374"
+      },
+      "syntax.number": {
+        "covered": "#F684A4",
+        "uncovered": "#F684A4",
+        "normal": "#F56B92"
+      },
+      "syntax.operator": {
+        "covered": "#9DAD83",
+        "uncovered": "#9DAD83",
+        "normal": "#91A374"
+      },
+      "syntax.string": {
+        "covered": "#D1F2A5",
+        "uncovered": "#D1F2A5",
+        "normal": "#D1F2A5"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-halflife",
+    "background": "#222222",
+    "coveredBackground": "#263338",
+    "uncoveredBackground": "#343223",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FC913A",
+        "uncovered": "#FC913A",
+        "normal": "#FC913A"
+      },
+      "syntax.comment": {
+        "covered": "#989898",
+        "uncovered": "#999999",
+        "normal": "#898989"
+      },
+      "syntax.identifier": {
+        "covered": "#CCCCCC",
+        "uncovered": "#CCCCCC",
+        "normal": "#CCCCCC"
+      },
+      "syntax.keyword": {
+        "covered": "#909AA0",
+        "uncovered": "#919AA1",
+        "normal": "#7F8A92"
+      },
+      "syntax.number": {
+        "covered": "#F9D423",
+        "uncovered": "#F9D423",
+        "normal": "#F9D423"
+      },
+      "syntax.operator": {
+        "covered": "#909AA0",
+        "uncovered": "#919AA1",
+        "normal": "#7F8A92"
+      },
+      "syntax.string": {
+        "covered": "#F9D423",
+        "uncovered": "#F9D423",
+        "normal": "#F9D423"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-hawaii",
+    "background": "#333130",
+    "coveredBackground": "#2E3F45",
+    "uncoveredBackground": "#403D2B",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#EDBD44",
+        "uncovered": "#EDBD44",
+        "normal": "#EDBD44"
+      },
+      "syntax.comment": {
+        "covered": "#AAA5A3",
+        "uncovered": "#AAA6A3",
+        "normal": "#9D9895"
+      },
+      "syntax.identifier": {
+        "covered": "#E8E1DE",
+        "uncovered": "#E8E1DE",
+        "normal": "#E8E1DE"
+      },
+      "syntax.keyword": {
+        "covered": "#E39536",
+        "uncovered": "#E39637",
+        "normal": "#E2922F"
+      },
+      "syntax.number": {
+        "covered": "#88C448",
+        "uncovered": "#88C448",
+        "normal": "#88C448"
+      },
+      "syntax.operator": {
+        "covered": "#E39536",
+        "uncovered": "#E39637",
+        "normal": "#E2922F"
+      },
+      "syntax.string": {
+        "covered": "#A2D66B",
+        "uncovered": "#A2D66B",
+        "normal": "#A2D66B"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-horizon",
+    "background": "#474466",
+    "coveredBackground": "#3A545C",
+    "uncoveredBackground": "#555035",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FDB26F",
+        "uncovered": "#FDB16D",
+        "normal": "#FDA04D"
+      },
+      "syntax.comment": {
+        "covered": "#C1BFD9",
+        "uncovered": "#C0BFD9",
+        "normal": "#B5B3D2"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#F6AFC0",
+        "uncovered": "#F5AEBF",
+        "normal": "#F49DB2"
+      },
+      "syntax.number": {
+        "covered": "#F5ABDE",
+        "uncovered": "#F5AADD",
+        "normal": "#F399D7"
+      },
+      "syntax.operator": {
+        "covered": "#F6AFC0",
+        "uncovered": "#F5AEBF",
+        "normal": "#F49DB2"
+      },
+      "syntax.string": {
+        "covered": "#FDB26F",
+        "uncovered": "#FDB16D",
+        "normal": "#FDA04D"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-hyrule",
+    "background": "#2D2C2B",
+    "coveredBackground": "#2C3B41",
+    "uncoveredBackground": "#3B3928",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#F5C504",
+        "uncovered": "#F5C504",
+        "normal": "#F5C504"
+      },
+      "syntax.comment": {
+        "covered": "#A3A19E",
+        "uncovered": "#A3A19E",
+        "normal": "#95928F"
+      },
+      "syntax.identifier": {
+        "covered": "#C0D5C1",
+        "uncovered": "#C0D5C1",
+        "normal": "#C0D5C1"
+      },
+      "syntax.keyword": {
+        "covered": "#90C93F",
+        "uncovered": "#90C93F",
+        "normal": "#90C93F"
+      },
+      "syntax.number": {
+        "covered": "#F5C504",
+        "uncovered": "#F5C504",
+        "normal": "#F5C504"
+      },
+      "syntax.operator": {
+        "covered": "#90C93F",
+        "uncovered": "#90C93F",
+        "normal": "#90C93F"
+      },
+      "syntax.string": {
+        "covered": "#D59531",
+        "uncovered": "#D59531",
+        "normal": "#CE830D"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-iceberg",
+    "background": "#323B3D",
+    "coveredBackground": "#32464D",
+    "uncoveredBackground": "#47442E",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#59C0E3",
+        "uncovered": "#59C0E3",
+        "normal": "#59C0E3"
+      },
+      "syntax.comment": {
+        "covered": "#A1B2B5",
+        "uncovered": "#A3B3B6",
+        "normal": "#93A6AA"
+      },
+      "syntax.identifier": {
+        "covered": "#BDD6DB",
+        "uncovered": "#BDD6DB",
+        "normal": "#BDD6DB"
+      },
+      "syntax.keyword": {
+        "covered": "#B1E2F2",
+        "uncovered": "#B1E2F2",
+        "normal": "#B1E2F2"
+      },
+      "syntax.number": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.operator": {
+        "covered": "#B1E2F2",
+        "uncovered": "#B1E2F2",
+        "normal": "#B1E2F2"
+      },
+      "syntax.string": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-iceberg-light",
+    "background": "#BDD6DB",
+    "coveredBackground": "#C0CFD3",
+    "uncoveredBackground": "#CFCCBD",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#2A5D6F",
+        "uncovered": "#2A5D6F",
+        "normal": "#2C6173"
+      },
+      "syntax.comment": {
+        "covered": "#4E595C",
+        "uncovered": "#4D585B",
+        "normal": "#505C5F"
+      },
+      "syntax.identifier": {
+        "covered": "#323B3D",
+        "uncovered": "#323B3D",
+        "normal": "#323B3D"
+      },
+      "syntax.keyword": {
+        "covered": "#455A61",
+        "uncovered": "#455A61",
+        "normal": "#485E65"
+      },
+      "syntax.number": {
+        "covered": "#1E5F6C",
+        "uncovered": "#1E5E6C",
+        "normal": "#1F6270"
+      },
+      "syntax.operator": {
+        "covered": "#455A61",
+        "uncovered": "#455A61",
+        "normal": "#485E65"
+      },
+      "syntax.string": {
+        "covered": "#1E5F6C",
+        "uncovered": "#1E5E6C",
+        "normal": "#1F6270"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-joker",
+    "background": "#32373D",
+    "coveredBackground": "#30434A",
+    "uncoveredBackground": "#45422D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#30C195",
+        "uncovered": "#35C298",
+        "normal": "#08B581"
+      },
+      "syntax.comment": {
+        "covered": "#A4ACB4",
+        "uncovered": "#A6AEB5",
+        "normal": "#97A0A9"
+      },
+      "syntax.identifier": {
+        "covered": "#C0CCDB",
+        "uncovered": "#C0CCDB",
+        "normal": "#C0CCDB"
+      },
+      "syntax.keyword": {
+        "covered": "#30C195",
+        "uncovered": "#35C298",
+        "normal": "#08B581"
+      },
+      "syntax.number": {
+        "covered": "#ABABAB",
+        "uncovered": "#ADADAD",
+        "normal": "#AAAAAA"
+      },
+      "syntax.operator": {
+        "covered": "#30C195",
+        "uncovered": "#35C298",
+        "normal": "#08B581"
+      },
+      "syntax.string": {
+        "covered": "#CCCCCC",
+        "uncovered": "#CCCCCC",
+        "normal": "#CCCCCC"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-joker-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#00825C",
+        "uncovered": "#00845D",
+        "normal": "#00875F"
+      },
+      "syntax.comment": {
+        "covered": "#6D7279",
+        "uncovered": "#6F747B",
+        "normal": "#72777E"
+      },
+      "syntax.identifier": {
+        "covered": "#4A5159",
+        "uncovered": "#4A5159",
+        "normal": "#4A5159"
+      },
+      "syntax.keyword": {
+        "covered": "#00825C",
+        "uncovered": "#00845D",
+        "normal": "#00875F"
+      },
+      "syntax.number": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.operator": {
+        "covered": "#00825C",
+        "uncovered": "#00845D",
+        "normal": "#00875F"
+      },
+      "syntax.string": {
+        "covered": "#69737F",
+        "uncovered": "#6B7581",
+        "normal": "#6D7784"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-laravel",
+    "background": "#2E2C2B",
+    "coveredBackground": "#2C3B41",
+    "uncoveredBackground": "#3C3A28",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FFC48C",
+        "uncovered": "#FFC48C",
+        "normal": "#FFC48C"
+      },
+      "syntax.comment": {
+        "covered": "#A5A19D",
+        "uncovered": "#A6A29E",
+        "normal": "#97928E"
+      },
+      "syntax.identifier": {
+        "covered": "#DEDEDE",
+        "uncovered": "#DEDEDE",
+        "normal": "#DEDEDE"
+      },
+      "syntax.keyword": {
+        "covered": "#FFA927",
+        "uncovered": "#FFA927",
+        "normal": "#FFA927"
+      },
+      "syntax.number": {
+        "covered": "#FC7D41",
+        "uncovered": "#FC7F44",
+        "normal": "#FC6017"
+      },
+      "syntax.operator": {
+        "covered": "#FFA927",
+        "uncovered": "#FFA927",
+        "normal": "#FFA927"
+      },
+      "syntax.string": {
+        "covered": "#FDCA49",
+        "uncovered": "#FDCA49",
+        "normal": "#FDCA49"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-laravel-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#8C6B4C",
+        "uncovered": "#8F6D4E",
+        "normal": "#927050"
+      },
+      "syntax.comment": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.identifier": {
+        "covered": "#444444",
+        "uncovered": "#444444",
+        "normal": "#444444"
+      },
+      "syntax.keyword": {
+        "covered": "#9B6618",
+        "uncovered": "#9E6818",
+        "normal": "#A26B19"
+      },
+      "syntax.number": {
+        "covered": "#C94609",
+        "uncovered": "#CC4709",
+        "normal": "#D0490A"
+      },
+      "syntax.operator": {
+        "covered": "#9B6618",
+        "uncovered": "#9E6818",
+        "normal": "#A26B19"
+      },
+      "syntax.string": {
+        "covered": "#896E27",
+        "uncovered": "#8C7028",
+        "normal": "#8F7329"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-lavender",
+    "background": "#29222E",
+    "coveredBackground": "#26353B",
+    "uncoveredBackground": "#363423",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#A29DFA",
+        "uncovered": "#A29DFA",
+        "normal": "#A29DFA"
+      },
+      "syntax.comment": {
+        "covered": "#A197A9",
+        "uncovered": "#A297A9",
+        "normal": "#93879C"
+      },
+      "syntax.identifier": {
+        "covered": "#E0CEED",
+        "uncovered": "#E0CEED",
+        "normal": "#E0CEED"
+      },
+      "syntax.keyword": {
+        "covered": "#A991BB",
+        "uncovered": "#AA92BC",
+        "normal": "#9C80B1"
+      },
+      "syntax.number": {
+        "covered": "#F25CE6",
+        "uncovered": "#F25FE6",
+        "normal": "#F25AE6"
+      },
+      "syntax.operator": {
+        "covered": "#A991BB",
+        "uncovered": "#AA92BC",
+        "normal": "#9C80B1"
+      },
+      "syntax.string": {
+        "covered": "#F5B0EF",
+        "uncovered": "#F5B0EF",
+        "normal": "#F5B0EF"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-lavender-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#6E6BAB",
+        "uncovered": "#706CAE",
+        "normal": "#736FB2"
+      },
+      "syntax.comment": {
+        "covered": "#806991",
+        "uncovered": "#826B93",
+        "normal": "#856D96"
+      },
+      "syntax.identifier": {
+        "covered": "#29222E",
+        "uncovered": "#29222E",
+        "normal": "#29222E"
+      },
+      "syntax.keyword": {
+        "covered": "#84659B",
+        "uncovered": "#87679E",
+        "normal": "#8A6AA2"
+      },
+      "syntax.number": {
+        "covered": "#B543AC",
+        "uncovered": "#B844AF",
+        "normal": "#BC46B3"
+      },
+      "syntax.operator": {
+        "covered": "#84659B",
+        "uncovered": "#87679E",
+        "normal": "#8A6AA2"
+      },
+      "syntax.string": {
+        "covered": "#8D6589",
+        "uncovered": "#90668C",
+        "normal": "#93698F"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-lichen",
+    "background": "#1A252F",
+    "coveredBackground": "#24363B",
+    "uncoveredBackground": "#353321",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#50A9A0",
+        "uncovered": "#4EA89F",
+        "normal": "#30998F"
+      },
+      "syntax.comment": {
+        "covered": "#8D9DAD",
+        "uncovered": "#8C9CAC",
+        "normal": "#7A8C9F"
+      },
+      "syntax.identifier": {
+        "covered": "#9CADBC",
+        "uncovered": "#9CADBC",
+        "normal": "#9CADBC"
+      },
+      "syntax.keyword": {
+        "covered": "#74A2AF",
+        "uncovered": "#73A1AF",
+        "normal": "#5C92A2"
+      },
+      "syntax.number": {
+        "covered": "#E4F279",
+        "uncovered": "#E4F279",
+        "normal": "#E4F279"
+      },
+      "syntax.operator": {
+        "covered": "#74A2AF",
+        "uncovered": "#73A1AF",
+        "normal": "#5C92A2"
+      },
+      "syntax.string": {
+        "covered": "#C5D671",
+        "uncovered": "#C5D671",
+        "normal": "#C5D671"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-lichen-light",
+    "background": "#E6E9ED",
+    "coveredBackground": "#D8E6EB",
+    "uncoveredBackground": "#E7E5D4",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#1C716A",
+        "uncovered": "#1C726A",
+        "normal": "#1D756D"
+      },
+      "syntax.comment": {
+        "covered": "#405B75",
+        "uncovered": "#405B75",
+        "normal": "#405B75"
+      },
+      "syntax.identifier": {
+        "covered": "#414549",
+        "uncovered": "#414549",
+        "normal": "#414549"
+      },
+      "syntax.keyword": {
+        "covered": "#246C82",
+        "uncovered": "#246C82",
+        "normal": "#246C82"
+      },
+      "syntax.number": {
+        "covered": "#646A32",
+        "uncovered": "#646A32",
+        "normal": "#676D34"
+      },
+      "syntax.operator": {
+        "covered": "#246C82",
+        "uncovered": "#246C82",
+        "normal": "#246C82"
+      },
+      "syntax.string": {
+        "covered": "#646A32",
+        "uncovered": "#646A32",
+        "normal": "#676D34"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-mellow-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#8B6C46",
+        "uncovered": "#8E6E47",
+        "normal": "#917149"
+      },
+      "syntax.comment": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.identifier": {
+        "covered": "#555555",
+        "uncovered": "#555555",
+        "normal": "#555555"
+      },
+      "syntax.keyword": {
+        "covered": "#8B6C46",
+        "uncovered": "#8E6E47",
+        "normal": "#917149"
+      },
+      "syntax.number": {
+        "covered": "#8F6C20",
+        "uncovered": "#926E21",
+        "normal": "#957122"
+      },
+      "syntax.operator": {
+        "covered": "#8B6C46",
+        "uncovered": "#8E6E47",
+        "normal": "#917149"
+      },
+      "syntax.string": {
+        "covered": "#8F6C20",
+        "uncovered": "#926E21",
+        "normal": "#957122"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-mintchoc",
+    "background": "#2B221C",
+    "coveredBackground": "#25353A",
+    "uncoveredBackground": "#353322",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#AD967B",
+        "uncovered": "#AD967B",
+        "normal": "#A08666"
+      },
+      "syntax.comment": {
+        "covered": "#A29891",
+        "uncovered": "#A29891",
+        "normal": "#938880"
+      },
+      "syntax.identifier": {
+        "covered": "#BABABA",
+        "uncovered": "#BABABA",
+        "normal": "#BABABA"
+      },
+      "syntax.keyword": {
+        "covered": "#AD967B",
+        "uncovered": "#AD967B",
+        "normal": "#A08666"
+      },
+      "syntax.number": {
+        "covered": "#00E08C",
+        "uncovered": "#00E08C",
+        "normal": "#00E08C"
+      },
+      "syntax.operator": {
+        "covered": "#AD967B",
+        "uncovered": "#AD967B",
+        "normal": "#A08666"
+      },
+      "syntax.string": {
+        "covered": "#00E08C",
+        "uncovered": "#00E08C",
+        "normal": "#00E08C"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-monzo",
+    "background": "#15243B",
+    "coveredBackground": "#23353C",
+    "uncoveredBackground": "#35331F",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#98BAA6",
+        "uncovered": "#98BAA6",
+        "normal": "#98BAA6"
+      },
+      "syntax.comment": {
+        "covered": "#899BB5",
+        "uncovered": "#899BB5",
+        "normal": "#778CAA"
+      },
+      "syntax.identifier": {
+        "covered": "#B0CBF4",
+        "uncovered": "#B0CBF4",
+        "normal": "#B0CBF4"
+      },
+      "syntax.keyword": {
+        "covered": "#E87786",
+        "uncovered": "#E87786",
+        "normal": "#E45D6F"
+      },
+      "syntax.number": {
+        "covered": "#3EA7BC",
+        "uncovered": "#3EA7BC",
+        "normal": "#3EA7BC"
+      },
+      "syntax.operator": {
+        "covered": "#E87786",
+        "uncovered": "#E87786",
+        "normal": "#E45D6F"
+      },
+      "syntax.string": {
+        "covered": "#F86C7A",
+        "uncovered": "#F86C7A",
+        "normal": "#F74A5C"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-peacock",
+    "background": "#2B2A27",
+    "coveredBackground": "#2A393F",
+    "uncoveredBackground": "#3A3827",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#3CAFAF",
+        "uncovered": "#3EB0B0",
+        "normal": "#26A6A6"
+      },
+      "syntax.comment": {
+        "covered": "#A49E97",
+        "uncovered": "#A5A098",
+        "normal": "#969087"
+      },
+      "syntax.identifier": {
+        "covered": "#EDE0CE",
+        "uncovered": "#EDE0CE",
+        "normal": "#EDE0CE"
+      },
+      "syntax.keyword": {
+        "covered": "#3CAFAF",
+        "uncovered": "#3EB0B0",
+        "normal": "#26A6A6"
+      },
+      "syntax.number": {
+        "covered": "#BCD42A",
+        "uncovered": "#BCD42A",
+        "normal": "#BCD42A"
+      },
+      "syntax.operator": {
+        "covered": "#3CAFAF",
+        "uncovered": "#3EB0B0",
+        "normal": "#26A6A6"
+      },
+      "syntax.string": {
+        "covered": "#BCD42A",
+        "uncovered": "#BCD42A",
+        "normal": "#BCD42A"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-peacock-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#1D7E7E",
+        "uncovered": "#1D8080",
+        "normal": "#1E8383"
+      },
+      "syntax.comment": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.identifier": {
+        "covered": "#333333",
+        "uncovered": "#333333",
+        "normal": "#333333"
+      },
+      "syntax.keyword": {
+        "covered": "#1D7E7E",
+        "uncovered": "#1D8080",
+        "normal": "#1E8383"
+      },
+      "syntax.number": {
+        "covered": "#6B7818",
+        "uncovered": "#6C7A18",
+        "normal": "#6F7D19"
+      },
+      "syntax.operator": {
+        "covered": "#1D7E7E",
+        "uncovered": "#1D8080",
+        "normal": "#1E8383"
+      },
+      "syntax.string": {
+        "covered": "#6B7818",
+        "uncovered": "#6C7A18",
+        "normal": "#6F7D19"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-rainbow",
+    "background": "#373C42",
+    "coveredBackground": "#34484F",
+    "uncoveredBackground": "#494530",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#B3CC57",
+        "uncovered": "#B3CC57",
+        "normal": "#B3CC57"
+      },
+      "syntax.comment": {
+        "covered": "#ABB3BA",
+        "uncovered": "#ABB2BA",
+        "normal": "#9DA6AF"
+      },
+      "syntax.identifier": {
+        "covered": "#C7D0D9",
+        "uncovered": "#C7D0D9",
+        "normal": "#C7D0D9"
+      },
+      "syntax.keyword": {
+        "covered": "#5DC0CE",
+        "uncovered": "#5DBFCE",
+        "normal": "#3FB4C5"
+      },
+      "syntax.number": {
+        "covered": "#CFA0EE",
+        "uncovered": "#CF9FED",
+        "normal": "#C78FEB"
+      },
+      "syntax.operator": {
+        "covered": "#5DC0CE",
+        "uncovered": "#5DBFCE",
+        "normal": "#3FB4C5"
+      },
+      "syntax.string": {
+        "covered": "#CFA0EE",
+        "uncovered": "#CF9FED",
+        "normal": "#C78FEB"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-rebellion",
+    "background": "#23231A",
+    "coveredBackground": "#243439",
+    "uncoveredBackground": "#343222",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FE6B14",
+        "uncovered": "#FE6B14",
+        "normal": "#FE5F00"
+      },
+      "syntax.comment": {
+        "covered": "#9A9A8D",
+        "uncovered": "#9A9A8D",
+        "normal": "#8A8A7C"
+      },
+      "syntax.identifier": {
+        "covered": "#D6C7AB",
+        "uncovered": "#D6C7AB",
+        "normal": "#D6C7AB"
+      },
+      "syntax.keyword": {
+        "covered": "#FE6B14",
+        "uncovered": "#FE6B14",
+        "normal": "#FE5F00"
+      },
+      "syntax.number": {
+        "covered": "#FD9825",
+        "uncovered": "#FD9825",
+        "normal": "#FD9825"
+      },
+      "syntax.operator": {
+        "covered": "#FE6B14",
+        "uncovered": "#FE6B14",
+        "normal": "#FE5F00"
+      },
+      "syntax.string": {
+        "covered": "#FDB825",
+        "uncovered": "#FDB825",
+        "normal": "#FDB825"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-slate",
+    "background": "#3D3D4C",
+    "coveredBackground": "#354A52",
+    "uncoveredBackground": "#4B4731",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#ACB6C1",
+        "uncovered": "#ABB5C0",
+        "normal": "#9FAAB7"
+      },
+      "syntax.comment": {
+        "covered": "#B4B4C2",
+        "uncovered": "#B3B3C1",
+        "normal": "#A8A8B8"
+      },
+      "syntax.identifier": {
+        "covered": "#EBEBF4",
+        "uncovered": "#EBEBF4",
+        "normal": "#EBEBF4"
+      },
+      "syntax.keyword": {
+        "covered": "#ACB6C1",
+        "uncovered": "#ABB5C0",
+        "normal": "#9FAAB7"
+      },
+      "syntax.number": {
+        "covered": "#A1B5DA",
+        "uncovered": "#A1B5DA",
+        "normal": "#9EB2D9"
+      },
+      "syntax.operator": {
+        "covered": "#ACB6C1",
+        "uncovered": "#ABB5C0",
+        "normal": "#9FAAB7"
+      },
+      "syntax.string": {
+        "covered": "#A1B5DA",
+        "uncovered": "#A1B5DA",
+        "normal": "#9EB2D9"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-slate-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#566981",
+        "uncovered": "#566981",
+        "normal": "#566981"
+      },
+      "syntax.comment": {
+        "covered": "#6F6F89",
+        "uncovered": "#71718C",
+        "normal": "#74748F"
+      },
+      "syntax.identifier": {
+        "covered": "#19191F",
+        "uncovered": "#19191F",
+        "normal": "#19191F"
+      },
+      "syntax.keyword": {
+        "covered": "#566981",
+        "uncovered": "#566981",
+        "normal": "#566981"
+      },
+      "syntax.number": {
+        "covered": "#66728C",
+        "uncovered": "#67748F",
+        "normal": "#6A7792"
+      },
+      "syntax.operator": {
+        "covered": "#566981",
+        "uncovered": "#566981",
+        "normal": "#566981"
+      },
+      "syntax.string": {
+        "covered": "#66728C",
+        "uncovered": "#67748F",
+        "normal": "#6A7792"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-solarflare",
+    "background": "#222222",
+    "coveredBackground": "#263338",
+    "uncoveredBackground": "#343223",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FC913A",
+        "uncovered": "#FC913A",
+        "normal": "#FC913A"
+      },
+      "syntax.comment": {
+        "covered": "#989898",
+        "uncovered": "#999999",
+        "normal": "#898989"
+      },
+      "syntax.identifier": {
+        "covered": "#E3E2E0",
+        "uncovered": "#E3E2E0",
+        "normal": "#E3E2E0"
+      },
+      "syntax.keyword": {
+        "covered": "#FF6465",
+        "uncovered": "#FF6668",
+        "normal": "#FF4E50"
+      },
+      "syntax.number": {
+        "covered": "#FF6465",
+        "uncovered": "#FF6668",
+        "normal": "#FF4E50"
+      },
+      "syntax.operator": {
+        "covered": "#FF6465",
+        "uncovered": "#FF6668",
+        "normal": "#FF4E50"
+      },
+      "syntax.string": {
+        "covered": "#EDE574",
+        "uncovered": "#EDE574",
+        "normal": "#EDE574"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-stasis-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#B05934",
+        "uncovered": "#B45B35",
+        "normal": "#B75D36"
+      },
+      "syntax.comment": {
+        "covered": "#776E82",
+        "uncovered": "#797084",
+        "normal": "#7C7387"
+      },
+      "syntax.identifier": {
+        "covered": "#605A68",
+        "uncovered": "#605A68",
+        "normal": "#605A68"
+      },
+      "syntax.keyword": {
+        "covered": "#B05934",
+        "uncovered": "#B45B35",
+        "normal": "#B75D36"
+      },
+      "syntax.number": {
+        "covered": "#83710F",
+        "uncovered": "#85730F",
+        "normal": "#887610"
+      },
+      "syntax.operator": {
+        "covered": "#B05934",
+        "uncovered": "#B45B35",
+        "normal": "#B75D36"
+      },
+      "syntax.string": {
+        "covered": "#83710F",
+        "uncovered": "#85730F",
+        "normal": "#887610"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-stealth",
+    "background": "#27292B",
+    "coveredBackground": "#29383E",
+    "uncoveredBackground": "#393726",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#9C9EA0",
+        "uncovered": "#9D9FA1",
+        "normal": "#8D8F92"
+      },
+      "syntax.comment": {
+        "covered": "#9D9EA0",
+        "uncovered": "#9E9FA0",
+        "normal": "#8E8F91"
+      },
+      "syntax.identifier": {
+        "covered": "#9A9EA2",
+        "uncovered": "#9B9FA3",
+        "normal": "#8B9095"
+      },
+      "syntax.keyword": {
+        "covered": "#9B9EA1",
+        "uncovered": "#9C9FA2",
+        "normal": "#8C9093"
+      },
+      "syntax.number": {
+        "covered": "#9A9EA2",
+        "uncovered": "#9B9FA3",
+        "normal": "#8B9094"
+      },
+      "syntax.operator": {
+        "covered": "#9B9EA1",
+        "uncovered": "#9C9FA2",
+        "normal": "#8C9093"
+      },
+      "syntax.string": {
+        "covered": "#9A9EA2",
+        "uncovered": "#9B9FA3",
+        "normal": "#8B9094"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-tron",
+    "background": "#14191F",
+    "coveredBackground": "#1F2E32",
+    "uncoveredBackground": "#2E2C1D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#539AC4",
+        "uncovered": "#539AC4",
+        "normal": "#3488BA"
+      },
+      "syntax.comment": {
+        "covered": "#89939E",
+        "uncovered": "#89939E",
+        "normal": "#76828F"
+      },
+      "syntax.identifier": {
+        "covered": "#AEC2E0",
+        "uncovered": "#AEC2E0",
+        "normal": "#AEC2E0"
+      },
+      "syntax.keyword": {
+        "covered": "#7F94AD",
+        "uncovered": "#7F94AD",
+        "normal": "#748AA6"
+      },
+      "syntax.number": {
+        "covered": "#6EE2FF",
+        "uncovered": "#6EE2FF",
+        "normal": "#6EE2FF"
+      },
+      "syntax.operator": {
+        "covered": "#7F94AD",
+        "uncovered": "#7F94AD",
+        "normal": "#748AA6"
+      },
+      "syntax.string": {
+        "covered": "#6EE2FF",
+        "uncovered": "#6EE2FF",
+        "normal": "#6EE2FF"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-tron-light",
+    "background": "#D7E5ED",
+    "coveredBackground": "#D2E0E5",
+    "uncoveredBackground": "#E1DECE",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#1E6794",
+        "uncovered": "#1E6794",
+        "normal": "#206B99"
+      },
+      "syntax.comment": {
+        "covered": "#324357",
+        "uncovered": "#324357",
+        "normal": "#324357"
+      },
+      "syntax.identifier": {
+        "covered": "#222222",
+        "uncovered": "#222222",
+        "normal": "#222222"
+      },
+      "syntax.keyword": {
+        "covered": "#536377",
+        "uncovered": "#536377",
+        "normal": "#56677B"
+      },
+      "syntax.number": {
+        "covered": "#336977",
+        "uncovered": "#336977",
+        "normal": "#356D7B"
+      },
+      "syntax.operator": {
+        "covered": "#536377",
+        "uncovered": "#536377",
+        "normal": "#56677B"
+      },
+      "syntax.string": {
+        "covered": "#336977",
+        "uncovered": "#336977",
+        "normal": "#356D7B"
+      }
+    }
+  },
+  {
+    "theme": "rainglow-turnip-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#62793F",
+        "uncovered": "#647B40",
+        "normal": "#667E42"
+      },
+      "syntax.comment": {
+        "covered": "#727272",
+        "uncovered": "#737373",
+        "normal": "#767676"
+      },
+      "syntax.identifier": {
+        "covered": "#444444",
+        "uncovered": "#444444",
+        "normal": "#444444"
+      },
+      "syntax.keyword": {
+        "covered": "#62793F",
+        "uncovered": "#647B40",
+        "normal": "#667E42"
+      },
+      "syntax.number": {
+        "covered": "#7B7332",
+        "uncovered": "#7D7532",
+        "normal": "#807834"
+      },
+      "syntax.operator": {
+        "covered": "#62793F",
+        "uncovered": "#647B40",
+        "normal": "#667E42"
+      },
+      "syntax.string": {
+        "covered": "#7B7332",
+        "uncovered": "#7D7532",
+        "normal": "#807834"
+      }
+    }
+  },
+  {
+    "theme": "rose-pine",
+    "background": "#191724",
+    "coveredBackground": "#1F2E32",
+    "uncoveredBackground": "#2E2B1D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#6899AC",
+        "uncovered": "#6798AC",
+        "normal": "#4F889F"
+      },
+      "syntax.comment": {
+        "covered": "#9290A4",
+        "uncovered": "#918FA4",
+        "normal": "#817E96"
+      },
+      "syntax.identifier": {
+        "covered": "#E0DEF4",
+        "uncovered": "#E0DEF4",
+        "normal": "#E0DEF4"
+      },
+      "syntax.keyword": {
+        "covered": "#6899AC",
+        "uncovered": "#6798AC",
+        "normal": "#4F889F"
+      },
+      "syntax.number": {
+        "covered": "#EBBCBA",
+        "uncovered": "#EBBCBA",
+        "normal": "#EBBCBA"
+      },
+      "syntax.operator": {
+        "covered": "#6899AC",
+        "uncovered": "#6798AC",
+        "normal": "#4F889F"
+      },
+      "syntax.string": {
+        "covered": "#F6C177",
+        "uncovered": "#F6C177",
+        "normal": "#F6C177"
+      }
+    }
+  },
+  {
+    "theme": "rose-pine-dawn",
+    "background": "#FAF4ED",
+    "coveredBackground": "#E4F4F9",
+    "uncoveredBackground": "#F4F2E0",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#286983",
+        "uncovered": "#286983",
+        "normal": "#286983"
+      },
+      "syntax.comment": {
+        "covered": "#706C7A",
+        "uncovered": "#706C7A",
+        "normal": "#726E7C"
+      },
+      "syntax.identifier": {
+        "covered": "#575279",
+        "uncovered": "#575279",
+        "normal": "#575279"
+      },
+      "syntax.keyword": {
+        "covered": "#286983",
+        "uncovered": "#286983",
+        "normal": "#286983"
+      },
+      "syntax.number": {
+        "covered": "#9C5D5B",
+        "uncovered": "#9C5D5B",
+        "normal": "#9E5F5D"
+      },
+      "syntax.operator": {
+        "covered": "#286983",
+        "uncovered": "#286983",
+        "normal": "#286983"
+      },
+      "syntax.string": {
+        "covered": "#956421",
+        "uncovered": "#956421",
+        "normal": "#986622"
+      }
+    }
+  },
+  {
+    "theme": "rose-pine-moon",
+    "background": "#232136",
+    "coveredBackground": "#24343A",
+    "uncoveredBackground": "#353221",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#5EA2BC",
+        "uncovered": "#5EA2BC",
+        "normal": "#4493B2"
+      },
+      "syntax.comment": {
+        "covered": "#9A97AA",
+        "uncovered": "#9A97AA",
+        "normal": "#8B879E"
+      },
+      "syntax.identifier": {
+        "covered": "#E0DEF4",
+        "uncovered": "#E0DEF4",
+        "normal": "#E0DEF4"
+      },
+      "syntax.keyword": {
+        "covered": "#5EA2BC",
+        "uncovered": "#5EA2BC",
+        "normal": "#4493B2"
+      },
+      "syntax.number": {
+        "covered": "#EA9A97",
+        "uncovered": "#EA9A97",
+        "normal": "#EA9A97"
+      },
+      "syntax.operator": {
+        "covered": "#5EA2BC",
+        "uncovered": "#5EA2BC",
+        "normal": "#4493B2"
+      },
+      "syntax.string": {
+        "covered": "#F6C177",
+        "uncovered": "#F6C177",
+        "normal": "#F6C177"
+      }
+    }
+  },
+  {
+    "theme": "tokyo-night",
+    "background": "#1A1B26",
+    "coveredBackground": "#212F34",
+    "uncoveredBackground": "#302E1E",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#BB9AF7",
+        "uncovered": "#BB9AF7",
+        "normal": "#BB9AF7"
+      },
+      "syntax.comment": {
+        "covered": "#8D93AA",
+        "uncovered": "#8F94AB",
+        "normal": "#7C829D"
+      },
+      "syntax.identifier": {
+        "covered": "#A9B1D6",
+        "uncovered": "#A9B1D6",
+        "normal": "#A9B1D6"
+      },
+      "syntax.keyword": {
+        "covered": "#BB9AF7",
+        "uncovered": "#BB9AF7",
+        "normal": "#BB9AF7"
+      },
+      "syntax.number": {
+        "covered": "#FF9E64",
+        "uncovered": "#FF9E64",
+        "normal": "#FF9E64"
+      },
+      "syntax.operator": {
+        "covered": "#89DDFF",
+        "uncovered": "#89DDFF",
+        "normal": "#89DDFF"
+      },
+      "syntax.string": {
+        "covered": "#9ECE6A",
+        "uncovered": "#9ECE6A",
+        "normal": "#9ECE6A"
+      }
+    }
+  },
+  {
+    "theme": "tokyo-night-light",
+    "background": "#E6E7ED",
+    "coveredBackground": "#D7E6EA",
+    "uncoveredBackground": "#E6E3D3",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#65359D",
+        "uncovered": "#65359D",
+        "normal": "#65359D"
+      },
+      "syntax.comment": {
+        "covered": "#64656C",
+        "uncovered": "#64656C",
+        "normal": "#66686F"
+      },
+      "syntax.identifier": {
+        "covered": "#343B59",
+        "uncovered": "#343B59",
+        "normal": "#343B59"
+      },
+      "syntax.keyword": {
+        "covered": "#65359D",
+        "uncovered": "#65359D",
+        "normal": "#65359D"
+      },
+      "syntax.number": {
+        "covered": "#965027",
+        "uncovered": "#965027",
+        "normal": "#965027"
+      },
+      "syntax.operator": {
+        "covered": "#006C86",
+        "uncovered": "#006C86",
+        "normal": "#006C86"
+      },
+      "syntax.string": {
+        "covered": "#385F0D",
+        "uncovered": "#385F0D",
+        "normal": "#385F0D"
+      }
+    }
+  },
+  {
+    "theme": "tokyo-night-storm",
+    "background": "#24283B",
+    "coveredBackground": "#27393E",
+    "uncoveredBackground": "#393724",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#BB9AF7",
+        "uncovered": "#BB9AF7",
+        "normal": "#BB9AF7"
+      },
+      "syntax.comment": {
+        "covered": "#979DBB",
+        "uncovered": "#979EBB",
+        "normal": "#868EB0"
+      },
+      "syntax.identifier": {
+        "covered": "#A9B1D6",
+        "uncovered": "#A9B1D6",
+        "normal": "#A9B1D6"
+      },
+      "syntax.keyword": {
+        "covered": "#BB9AF7",
+        "uncovered": "#BB9AF7",
+        "normal": "#BB9AF7"
+      },
+      "syntax.number": {
+        "covered": "#FF9E64",
+        "uncovered": "#FF9E64",
+        "normal": "#FF9E64"
+      },
+      "syntax.operator": {
+        "covered": "#89DDFF",
+        "uncovered": "#89DDFF",
+        "normal": "#89DDFF"
+      },
+      "syntax.string": {
+        "covered": "#9ECE6A",
+        "uncovered": "#9ECE6A",
+        "normal": "#9ECE6A"
+      }
+    }
+  },
+  {
+    "theme": "visual-studio-dark",
+    "background": "#1E1E1E",
+    "coveredBackground": "#243035",
+    "uncoveredBackground": "#312F22",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#569CD6",
+        "uncovered": "#569CD6",
+        "normal": "#569CD6"
+      },
+      "syntax.comment": {
+        "covered": "#75A162",
+        "uncovered": "#75A162",
+        "normal": "#6A9955"
+      },
+      "syntax.identifier": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.keyword": {
+        "covered": "#569CD6",
+        "uncovered": "#569CD6",
+        "normal": "#569CD6"
+      },
+      "syntax.number": {
+        "covered": "#B5CEA8",
+        "uncovered": "#B5CEA8",
+        "normal": "#B5CEA8"
+      },
+      "syntax.operator": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.string": {
+        "covered": "#CE9178",
+        "uncovered": "#CE9178",
+        "normal": "#CE9178"
+      }
+    }
+  },
+  {
+    "theme": "visual-studio-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#0000FF",
+        "uncovered": "#0000FF",
+        "normal": "#0000FF"
+      },
+      "syntax.comment": {
+        "covered": "#008000",
+        "uncovered": "#008000",
+        "normal": "#008000"
+      },
+      "syntax.identifier": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.keyword": {
+        "covered": "#0000FF",
+        "uncovered": "#0000FF",
+        "normal": "#0000FF"
+      },
+      "syntax.number": {
+        "covered": "#088255",
+        "uncovered": "#088457",
+        "normal": "#098658"
+      },
+      "syntax.operator": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.string": {
+        "covered": "#A31515",
+        "uncovered": "#A31515",
+        "normal": "#A31515"
+      }
+    }
+  },
+  {
+    "theme": "vscode-2026-dark",
+    "background": "#121314",
+    "coveredBackground": "#1F2B2E",
+    "uncoveredBackground": "#2A291C",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#4EC9B0",
+        "uncovered": "#4EC9B0",
+        "normal": "#4EC9B0"
+      },
+      "syntax.comment": {
+        "covered": "#8B949E",
+        "uncovered": "#8B949E",
+        "normal": "#8B949E"
+      },
+      "syntax.identifier": {
+        "covered": "#BBBEBF",
+        "uncovered": "#BBBEBF",
+        "normal": "#BBBEBF"
+      },
+      "syntax.keyword": {
+        "covered": "#C586C0",
+        "uncovered": "#C586C0",
+        "normal": "#C586C0"
+      },
+      "syntax.number": {
+        "covered": "#B5CEA8",
+        "uncovered": "#B5CEA8",
+        "normal": "#B5CEA8"
+      },
+      "syntax.operator": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.string": {
+        "covered": "#A5D6FF",
+        "uncovered": "#A5D6FF",
+        "normal": "#A5D6FF"
+      }
+    }
+  },
+  {
+    "theme": "vscode-2026-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#247B94",
+        "uncovered": "#257D97",
+        "normal": "#267F99"
+      },
+      "syntax.comment": {
+        "covered": "#6A737D",
+        "uncovered": "#6C757F",
+        "normal": "#6E7781"
+      },
+      "syntax.identifier": {
+        "covered": "#202020",
+        "uncovered": "#202020",
+        "normal": "#202020"
+      },
+      "syntax.keyword": {
+        "covered": "#AF00DB",
+        "uncovered": "#AF00DB",
+        "normal": "#AF00DB"
+      },
+      "syntax.number": {
+        "covered": "#088255",
+        "uncovered": "#088457",
+        "normal": "#098658"
+      },
+      "syntax.operator": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.string": {
+        "covered": "#0A3069",
+        "uncovered": "#0A3069",
+        "normal": "#0A3069"
+      }
+    }
+  },
+  {
+    "theme": "vscode-abyss",
+    "background": "#000C18",
+    "coveredBackground": "#18272C",
+    "uncoveredBackground": "#282515",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#A67AC1",
+        "uncovered": "#A67AC1",
+        "normal": "#9966B8"
+      },
+      "syntax.comment": {
+        "covered": "#7F8AB1",
+        "uncovered": "#7F8AB1",
+        "normal": "#6B77A5"
+      },
+      "syntax.identifier": {
+        "covered": "#6A8BCD",
+        "uncovered": "#6A8BCD",
+        "normal": "#6688CC"
+      },
+      "syntax.keyword": {
+        "covered": "#6D8FB0",
+        "uncovered": "#6D8FB0",
+        "normal": "#557CA3"
+      },
+      "syntax.number": {
+        "covered": "#F280D0",
+        "uncovered": "#F280D0",
+        "normal": "#F280D0"
+      },
+      "syntax.operator": {
+        "covered": "#6D8FB0",
+        "uncovered": "#6D8FB0",
+        "normal": "#557CA3"
+      },
+      "syntax.string": {
+        "covered": "#22AA44",
+        "uncovered": "#22AA44",
+        "normal": "#22AA44"
+      }
+    }
+  },
+  {
+    "theme": "vscode-dark-modern",
+    "background": "#1F1F1F",
+    "coveredBackground": "#253236",
+    "uncoveredBackground": "#323022",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#4EC9B0",
+        "uncovered": "#4EC9B0",
+        "normal": "#4EC9B0"
+      },
+      "syntax.comment": {
+        "covered": "#78A265",
+        "uncovered": "#77A264",
+        "normal": "#6A9955"
+      },
+      "syntax.identifier": {
+        "covered": "#CCCCCC",
+        "uncovered": "#CCCCCC",
+        "normal": "#CCCCCC"
+      },
+      "syntax.keyword": {
+        "covered": "#C586C0",
+        "uncovered": "#C586C0",
+        "normal": "#C586C0"
+      },
+      "syntax.number": {
+        "covered": "#B5CEA8",
+        "uncovered": "#B5CEA8",
+        "normal": "#B5CEA8"
+      },
+      "syntax.operator": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.string": {
+        "covered": "#CE9178",
+        "uncovered": "#CE9178",
+        "normal": "#CE9178"
+      }
+    }
+  },
+  {
+    "theme": "vscode-dark-plus",
+    "background": "#1E1E1E",
+    "coveredBackground": "#243035",
+    "uncoveredBackground": "#312F22",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#4EC9B0",
+        "uncovered": "#4EC9B0",
+        "normal": "#4EC9B0"
+      },
+      "syntax.comment": {
+        "covered": "#75A162",
+        "uncovered": "#75A162",
+        "normal": "#6A9955"
+      },
+      "syntax.identifier": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.keyword": {
+        "covered": "#C586C0",
+        "uncovered": "#C586C0",
+        "normal": "#C586C0"
+      },
+      "syntax.number": {
+        "covered": "#B5CEA8",
+        "uncovered": "#B5CEA8",
+        "normal": "#B5CEA8"
+      },
+      "syntax.operator": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.string": {
+        "covered": "#CE9178",
+        "uncovered": "#CE9178",
+        "normal": "#CE9178"
+      }
+    }
+  },
+  {
+    "theme": "vscode-high-contrast-dark",
+    "background": "#000000",
+    "coveredBackground": "#192225",
+    "uncoveredBackground": "#222117",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#4EC9B0",
+        "uncovered": "#4EC9B0",
+        "normal": "#4EC9B0"
+      },
+      "syntax.comment": {
+        "covered": "#7CA668",
+        "uncovered": "#7CA668",
+        "normal": "#7CA668"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#C586C0",
+        "uncovered": "#C586C0",
+        "normal": "#C586C0"
+      },
+      "syntax.number": {
+        "covered": "#B5CEA8",
+        "uncovered": "#B5CEA8",
+        "normal": "#B5CEA8"
+      },
+      "syntax.operator": {
+        "covered": "#D4D4D4",
+        "uncovered": "#D4D4D4",
+        "normal": "#D4D4D4"
+      },
+      "syntax.string": {
+        "covered": "#CE9178",
+        "uncovered": "#CE9178",
+        "normal": "#CE9178"
+      }
+    }
+  },
+  {
+    "theme": "vscode-high-contrast-light",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#185E73",
+        "uncovered": "#185E73",
+        "normal": "#185E73"
+      },
+      "syntax.comment": {
+        "covered": "#515151",
+        "uncovered": "#515151",
+        "normal": "#515151"
+      },
+      "syntax.identifier": {
+        "covered": "#292929",
+        "uncovered": "#292929",
+        "normal": "#292929"
+      },
+      "syntax.keyword": {
+        "covered": "#B5200D",
+        "uncovered": "#B5200D",
+        "normal": "#B5200D"
+      },
+      "syntax.number": {
+        "covered": "#096D48",
+        "uncovered": "#096D48",
+        "normal": "#096D48"
+      },
+      "syntax.operator": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.string": {
+        "covered": "#0F4A85",
+        "uncovered": "#0F4A85",
+        "normal": "#0F4A85"
+      }
+    }
+  },
+  {
+    "theme": "vscode-kimbie-dark",
+    "background": "#221A0F",
+    "coveredBackground": "#202F35",
+    "uncoveredBackground": "#302D1D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#AF8B8C",
+        "uncovered": "#AF8A8C",
+        "normal": "#A3787A"
+      },
+      "syntax.comment": {
+        "covered": "#B18D65",
+        "uncovered": "#B18D65",
+        "normal": "#A57B4D"
+      },
+      "syntax.identifier": {
+        "covered": "#D3AF86",
+        "uncovered": "#D3AF86",
+        "normal": "#D3AF86"
+      },
+      "syntax.keyword": {
+        "covered": "#AF8B8C",
+        "uncovered": "#AF8A8C",
+        "normal": "#A3787A"
+      },
+      "syntax.number": {
+        "covered": "#F79A32",
+        "uncovered": "#F79A32",
+        "normal": "#F79A32"
+      },
+      "syntax.operator": {
+        "covered": "#D3AF86",
+        "uncovered": "#D3AF86",
+        "normal": "#D3AF86"
+      },
+      "syntax.string": {
+        "covered": "#899C4C",
+        "uncovered": "#889B4B",
+        "normal": "#889B4A"
+      }
+    }
+  },
+  {
+    "theme": "vscode-light-modern",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#247B94",
+        "uncovered": "#257D97",
+        "normal": "#267F99"
+      },
+      "syntax.comment": {
+        "covered": "#008000",
+        "uncovered": "#008000",
+        "normal": "#008000"
+      },
+      "syntax.identifier": {
+        "covered": "#3B3B3B",
+        "uncovered": "#3B3B3B",
+        "normal": "#3B3B3B"
+      },
+      "syntax.keyword": {
+        "covered": "#AF00DB",
+        "uncovered": "#AF00DB",
+        "normal": "#AF00DB"
+      },
+      "syntax.number": {
+        "covered": "#088255",
+        "uncovered": "#088457",
+        "normal": "#098658"
+      },
+      "syntax.operator": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.string": {
+        "covered": "#A31515",
+        "uncovered": "#A31515",
+        "normal": "#A31515"
+      }
+    }
+  },
+  {
+    "theme": "vscode-light-plus",
+    "background": "#FFFFFF",
+    "coveredBackground": "#EBFAFF",
+    "uncoveredBackground": "#FEFBEA",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#247B94",
+        "uncovered": "#257D97",
+        "normal": "#267F99"
+      },
+      "syntax.comment": {
+        "covered": "#008000",
+        "uncovered": "#008000",
+        "normal": "#008000"
+      },
+      "syntax.identifier": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.keyword": {
+        "covered": "#AF00DB",
+        "uncovered": "#AF00DB",
+        "normal": "#AF00DB"
+      },
+      "syntax.number": {
+        "covered": "#088255",
+        "uncovered": "#088457",
+        "normal": "#098658"
+      },
+      "syntax.operator": {
+        "covered": "#000000",
+        "uncovered": "#000000",
+        "normal": "#000000"
+      },
+      "syntax.string": {
+        "covered": "#A31515",
+        "uncovered": "#A31515",
+        "normal": "#A31515"
+      }
+    }
+  },
+  {
+    "theme": "vscode-monokai",
+    "background": "#272822",
+    "coveredBackground": "#28383D",
+    "uncoveredBackground": "#383525",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#66D9EF",
+        "uncovered": "#66D9EF",
+        "normal": "#66D9EF"
+      },
+      "syntax.comment": {
+        "covered": "#A19E8D",
+        "uncovered": "#A09D8B",
+        "normal": "#928E7A"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F2",
+        "uncovered": "#F8F8F2",
+        "normal": "#F8F8F2"
+      },
+      "syntax.keyword": {
+        "covered": "#FB6D9F",
+        "uncovered": "#FA6C9F",
+        "normal": "#FA4988"
+      },
+      "syntax.number": {
+        "covered": "#B287FF",
+        "uncovered": "#B186FF",
+        "normal": "#AE81FF"
+      },
+      "syntax.operator": {
+        "covered": "#FB6D9F",
+        "uncovered": "#FA6C9F",
+        "normal": "#FA4988"
+      },
+      "syntax.string": {
+        "covered": "#E6DB74",
+        "uncovered": "#E6DB74",
+        "normal": "#E6DB74"
+      }
+    }
+  },
+  {
+    "theme": "vscode-monokai-dimmed",
+    "background": "#1E1E1E",
+    "coveredBackground": "#243035",
+    "uncoveredBackground": "#312F22",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#AA8AB1",
+        "uncovered": "#AA8BB2",
+        "normal": "#9D78A6"
+      },
+      "syntax.comment": {
+        "covered": "#9A9B99",
+        "uncovered": "#9A9B99",
+        "normal": "#9A9B99"
+      },
+      "syntax.identifier": {
+        "covered": "#C5C8C6",
+        "uncovered": "#C5C8C6",
+        "normal": "#C5C8C6"
+      },
+      "syntax.keyword": {
+        "covered": "#AA8AB1",
+        "uncovered": "#AA8BB2",
+        "normal": "#9D78A6"
+      },
+      "syntax.number": {
+        "covered": "#7598BE",
+        "uncovered": "#7599BE",
+        "normal": "#6089B4"
+      },
+      "syntax.operator": {
+        "covered": "#949594",
+        "uncovered": "#959695",
+        "normal": "#848584"
+      },
+      "syntax.string": {
+        "covered": "#9AA83A",
+        "uncovered": "#9AA83A",
+        "normal": "#9AA83A"
+      }
+    }
+  },
+  {
+    "theme": "vscode-quietlight",
+    "background": "#F5F5F5",
+    "coveredBackground": "#E5F3F8",
+    "uncoveredBackground": "#F4F2E1",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#7A3E9D",
+        "uncovered": "#7A3E9D",
+        "normal": "#7A3E9D"
+      },
+      "syntax.comment": {
+        "covered": "#6D6D6D",
+        "uncovered": "#6E6E6E",
+        "normal": "#707070"
+      },
+      "syntax.identifier": {
+        "covered": "#333333",
+        "uncovered": "#333333",
+        "normal": "#333333"
+      },
+      "syntax.keyword": {
+        "covered": "#4A68C5",
+        "uncovered": "#4B69C6",
+        "normal": "#4B69C6"
+      },
+      "syntax.number": {
+        "covered": "#9C5D27",
+        "uncovered": "#9C5D27",
+        "normal": "#9C5D27"
+      },
+      "syntax.operator": {
+        "covered": "#6D6D6D",
+        "uncovered": "#6E6E6E",
+        "normal": "#707070"
+      },
+      "syntax.string": {
+        "covered": "#3C7C23",
+        "uncovered": "#3C7C23",
+        "normal": "#3E7F24"
+      }
+    }
+  },
+  {
+    "theme": "vscode-red",
+    "background": "#390000",
+    "coveredBackground": "#1B2D34",
+    "uncoveredBackground": "#2D2B18",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#FF6262",
+        "uncovered": "#FF6262",
+        "normal": "#FF6262"
+      },
+      "syntax.comment": {
+        "covered": "#E7C0C0",
+        "uncovered": "#E7C0C0",
+        "normal": "#E7C0C0"
+      },
+      "syntax.identifier": {
+        "covered": "#F8F8F8",
+        "uncovered": "#F8F8F8",
+        "normal": "#F8F8F8"
+      },
+      "syntax.keyword": {
+        "covered": "#F45F5F",
+        "uncovered": "#F45F5F",
+        "normal": "#F23333"
+      },
+      "syntax.number": {
+        "covered": "#BA8383",
+        "uncovered": "#BA8383",
+        "normal": "#AF6F6F"
+      },
+      "syntax.operator": {
+        "covered": "#F45F5F",
+        "uncovered": "#F45F5F",
+        "normal": "#F23333"
+      },
+      "syntax.string": {
+        "covered": "#CD8D8D",
+        "uncovered": "#CD8D8D",
+        "normal": "#CD8D8D"
+      }
+    }
+  },
+  {
+    "theme": "vscode-solarized-dark",
+    "background": "#002B36",
+    "coveredBackground": "#21373F",
+    "uncoveredBackground": "#38351E",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#93A1A1",
+        "uncovered": "#93A1A1",
+        "normal": "#93A1A1"
+      },
+      "syntax.comment": {
+        "covered": "#8F9EA2",
+        "uncovered": "#909FA3",
+        "normal": "#7F9095"
+      },
+      "syntax.identifier": {
+        "covered": "#909FA1",
+        "uncovered": "#909FA1",
+        "normal": "#839496"
+      },
+      "syntax.keyword": {
+        "covered": "#93A51E",
+        "uncovered": "#93A51E",
+        "normal": "#859900"
+      },
+      "syntax.number": {
+        "covered": "#E27AAB",
+        "uncovered": "#E27BAC",
+        "normal": "#DD629D"
+      },
+      "syntax.operator": {
+        "covered": "#93A51E",
+        "uncovered": "#93A51E",
+        "normal": "#859900"
+      },
+      "syntax.string": {
+        "covered": "#41ABA3",
+        "uncovered": "#43ACA4",
+        "normal": "#2AA198"
+      }
+    }
+  },
+  {
+    "theme": "vscode-solarized-light",
+    "background": "#FDF6E3",
+    "coveredBackground": "#E4F5FA",
+    "uncoveredBackground": "#F5F2E0",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#586E75",
+        "uncovered": "#586E75",
+        "normal": "#586E75"
+      },
+      "syntax.comment": {
+        "covered": "#667070",
+        "uncovered": "#667070",
+        "normal": "#697373"
+      },
+      "syntax.identifier": {
+        "covered": "#5E727A",
+        "uncovered": "#5E7179",
+        "normal": "#60747C"
+      },
+      "syntax.keyword": {
+        "covered": "#667500",
+        "uncovered": "#667500",
+        "normal": "#697800"
+      },
+      "syntax.number": {
+        "covered": "#C6337B",
+        "uncovered": "#C6327A",
+        "normal": "#CA347D"
+      },
+      "syntax.operator": {
+        "covered": "#667500",
+        "uncovered": "#667500",
+        "normal": "#697800"
+      },
+      "syntax.string": {
+        "covered": "#207B74",
+        "uncovered": "#207A73",
+        "normal": "#217E77"
+      }
+    }
+  },
+  {
+    "theme": "vscode-tomorrow-night-blue",
+    "background": "#002451",
+    "coveredBackground": "#21373E",
+    "uncoveredBackground": "#37331D",
+    "syntaxInks": {
+      "syntax.annotation": {
+        "covered": "#EBBBFF",
+        "uncovered": "#EBBBFF",
+        "normal": "#EBBBFF"
+      },
+      "syntax.comment": {
+        "covered": "#8B9BC3",
+        "uncovered": "#899AC2",
+        "normal": "#788BBA"
+      },
+      "syntax.identifier": {
+        "covered": "#FFFFFF",
+        "uncovered": "#FFFFFF",
+        "normal": "#FFFFFF"
+      },
+      "syntax.keyword": {
+        "covered": "#EBBBFF",
+        "uncovered": "#EBBBFF",
+        "normal": "#EBBBFF"
+      },
+      "syntax.number": {
+        "covered": "#FFC58F",
+        "uncovered": "#FFC58F",
+        "normal": "#FFC58F"
+      },
+      "syntax.operator": {
+        "covered": "#99FFFF",
+        "uncovered": "#99FFFF",
+        "normal": "#99FFFF"
+      },
+      "syntax.string": {
+        "covered": "#D1F1A9",
+        "uncovered": "#D1F1A9",
+        "normal": "#D1F1A9"
+      }
+    }
+  }
+]

@@ -26,11 +26,17 @@ public final class LineIntelligenceController implements AutoCloseable {
     private Path project;
     private Path detectedFile;
     private Run run;
+    private final javax.swing.Timer executionTimer = new javax.swing.Timer(350,event -> dispatchQueued());
+    private QueuedExecution queued;
+    private long executionRequest;
+    private long savedGeneration;
+    private record QueuedExecution(Path source,String executable,BooleanSupplier ready,BooleanSupplier allowed) {}
 
     public LineIntelligenceController(EditorComponent editor,Supplier<Path> file,TurboTestController tests,
             Path cache,Consumer<Run> results,Consumer<String> output) {
         this.editor = editor; this.file = file; this.tests = tests; this.cache = cache;
         this.results = results; this.output = output;
+        executionTimer.setRepeats(false);
     }
     public Path project() { return Objects.equals(detectedFile,file.get()) ? project : null; }
     public Run run() { return run; }
@@ -78,18 +84,86 @@ public final class LineIntelligenceController implements AutoCloseable {
 
     private void changeProject(Path next) {
         if (Objects.equals(project,next)) return;
+        if (project != null) clearQueued();
         tests.cherry().detach(); run = null; project = next;
+    }
+
+    public boolean queued() { return queued != null; }
+
+    /** Called only after a changed disk save succeeds; all configured phases remain selected. */
+    public void saved(Path source,String executable,BooleanSupplier ready,BooleanSupplier allowed) {
+        requireEdt();
+        if (closed) return;
+        savedGeneration++;
+        if (run != null) { run = stale(run); results.accept(run); changed(); }
+        scheduleAll(source,executable,ready,allowed);
+    }
+
+    public void scheduleAll(Path source,String executable,BooleanSupplier ready,BooleanSupplier allowed) {
+        requireEdt();
+        if (closed || source == null) return;
+        queued = new QueuedExecution(source,executable,ready,allowed);
+        executionRequest++;
+        executionTimer.restart();
+    }
+
+    private void dispatchQueued() {
+        requireEdt();
+        QueuedExecution request = queued;
+        if (closed || request == null) return;
+        if (tests.cherry().busy() || !request.ready().getAsBoolean()) { executionTimer.restart(); return; }
+        long ticket = executionRequest;
+        Path active = file.get();
+        worker.execute(() -> {
+            Path root = detect(request.source());
+            Path activeRoot = active == null ? null : detect(active);
+            SwingUtilities.invokeLater(() -> {
+                if (closed || ticket != executionRequest) return;
+                if (!Objects.equals(active,file.get())) { executionTimer.restart(); return; }
+                if (root == null || !root.equals(activeRoot)) { clearQueued(); return; }
+                if (!request.allowed().getAsBoolean()) {
+                    clearQueued();
+                    output.accept("Cherry Test on save paused: resolve and trust this Maven project through Run or Test.\n");
+                    return;
+                }
+                if (tests.cherry().busy() || !request.ready().getAsBoolean()) { executionTimer.restart(); return; }
+                clearQueued();
+                changeProject(root);
+                detectedFile = active;
+                start(request.executable(),List.of());
+            });
+        });
+    }
+
+    private void clearQueued() { queued = null; executionRequest++; executionTimer.stop(); }
+
+    public void cancel() { requireEdt(); clearQueued(); tests.cherry().cancel(); }
+
+    private static Run stale(Run value) {
+        String notice = "Saved project changes; previous results are stale.\n";
+        Map<Path,Map<Integer,Coverage>> coverage = new LinkedHashMap<>();
+        value.coverage().forEach((path,lines) -> {
+            Map<Integer,Coverage> stale = new LinkedHashMap<>();
+            lines.forEach((line,item) -> stale.put(line,item.withFreshness(Freshness.STALE)));
+            coverage.put(path,stale);
+        });
+        return new Run(value.id(),value.root(),value.state(),value.tests().stream()
+                .map(test -> test.withFreshness(Freshness.STALE)).toList(),coverage,value.sourceHashes(),
+                value.message().startsWith(notice) ? value.message() : notice + value.message(),value.htmlReport(),
+                value.sequence(),value.coverageAvailability());
     }
 
     public void start(String executable,List<String> selectors) {
         requireEdt();
         if (project() == null) { output.accept("Cherry Test project detection has not resolved this source, or no configuration exists.\n"); return; }
         if (tests.cherry().busy()) { output.accept("Cherry Test is already running.\n"); return; }
+        clearQueued();
         Path root = project;
+        long sourceGeneration = savedGeneration;
         Path eventFile = historyDirectory(root).resolve("run-" + UUID.randomUUID() + ".jsonl");
         tests.cherry().run(new CherryTestProcess.Request(root,executable,eventFile,selectors),value -> {
             if (!Objects.equals(root,project)) return;
-            run = value; results.accept(value);
+            run = sourceGeneration == savedGeneration ? value : stale(value); results.accept(run);
             if (Objects.equals(detectedFile,file.get())) changed();
         },output);
     }
@@ -132,8 +206,16 @@ public final class LineIntelligenceController implements AutoCloseable {
         git.added().keySet().stream().filter(line -> line <= lineCount).forEach(line -> lines.put(line,new Line(true,List.of(),empty)));
         boolean sameSource = run != null && hash.equals(run.sourceHashes().get(file.toAbsolutePath().normalize()));
         if (run != null && sameSource) {
+            Map<dev.turboj.testing.intelligence.CoverageProof,Boolean> checked = new HashMap<>();
             run.coverage().getOrDefault(file,Map.of()).forEach((line,value) -> {
-                if (line <= lineCount) lines.put(line,new Line(git.added().containsKey(line),List.of(),value));
+                Coverage current = value;
+                if (value.freshness() == Freshness.CURRENT) {
+                    if (run.state() != RunState.COMPLETED && run.state() != RunState.FAILED)
+                        current = value.withFreshness(Freshness.UNKNOWN);
+                    else if (value.proof() != null && !checked.computeIfAbsent(value.proof(),proof -> proof.matchesClasses(run.root())))
+                        current = Coverage.unknown(Availability.BYTECODE_MISMATCH,"Compiled classes changed or are unavailable; rerun to refresh coverage");
+                }
+                if (line <= lineCount) lines.put(line,new Line(git.added().containsKey(line),List.of(),current));
             });
             for (TestResult test : run.tests()) for (Association association : test.associations()) {
                 if (!association.verified() || !file.equals(association.file()) || association.line() > lineCount) continue;
@@ -145,12 +227,15 @@ public final class LineIntelligenceController implements AutoCloseable {
         String message = run == null ? project == null ? git.diagnostic() : "Cherry configuration detected; no execution evidence"
                 : run.message() + "\nCoverage collection: " + run.coverageAvailability()
                 + (sameSource ? "" : "\nSource differs or has no recorded hash: historical line associations are withheld.");
+        String compilation = String.join(",",lines.values().stream().map(Line::coverage)
+                .filter(value -> value.freshness() == Freshness.CURRENT && value.proof() != null)
+                .map(value -> value.proof().compilationId()).distinct().sorted().toList());
         var identity = new SourceIdentity(project,git.repository(),project == null ? "" : project.toString(),"",file,
-                file + "@" + Integer.toHexString(System.identityHashCode(document)),version,hash,"");
+                file + "@" + Integer.toHexString(System.identityHashCode(document)),version,hash,compilation);
         return new Snapshot(identity,lines,git.deleted().stream().map(d -> new Deletion(d.boundary(),d.text())).toList(),
                 git.available(),project != null,"HEAD" + (git.baselineBlob().isBlank() ? "" : " · " + git.baselineBlob()),message);
     }
 
     private static void requireEdt() { if (!SwingUtilities.isEventDispatchThread()) throw new IllegalStateException("Editor lifecycle requires EDT"); }
-    @Override public void close() { closed = true; generation++; if (pending != null) pending.cancel(true); worker.shutdownNow(); }
+    @Override public void close() { closed = true; generation++; clearQueued(); if (pending != null) pending.cancel(true); worker.shutdownNow(); }
 }

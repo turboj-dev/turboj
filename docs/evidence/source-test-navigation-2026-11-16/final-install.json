@@ -1,0 +1,15 @@
+{
+  "command": "./mvnw install",
+  "status": "BUILD SUCCESS",
+  "suites": 123,
+  "tests": 858,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "duration": "03:45 min",
+  "appJarSha256": "18436a80c6d7dbebbed1670e60e2972674be18134f37c97975cd23a2db7f9453",
+  "buildLogSha256": "f5d3cb4e094bc5e0372135141825b187514c9243deccb743560679438cedbe0a",
+  "includes": "Final test-declaration placeholder suppression and all staged TurboJ source changes",
+  "scope": "TurboJ reactor; separate Cherry Test checkout not committed by this delivery",
+  "sandboxAttempt": "Initial sandboxed install aborted in Swing JVM; full install rerun outside sandbox succeeded"
+}

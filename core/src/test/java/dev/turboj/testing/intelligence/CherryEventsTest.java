@@ -78,6 +78,63 @@ class CherryEventsTest {
         assertEquals(Precision.BINARY_LINE,value.precision()); assertEquals(CoverageState.COVERED,value.state());
         assertEquals(-1,value.coveredInstructions());
     }
+
+    JsonObject provenance() throws Exception {
+        Files.writeString(root.resolve("Price.class"),"compiled fixture");
+        JsonObject proof = new JsonObject(); proof.addProperty("schemaVersion",1); proof.addProperty("status","verified");
+        proof.addProperty("sourceHash",sha256(source)); proof.addProperty("classIdentity",sha256("class identity"));
+        String collection = "11111111-1111-4111-8111-111111111111";
+        proof.addProperty("compilationId","22222222-2222-4222-8222-222222222222");
+        proof.addProperty("compilerIdentity","javac fixture"); proof.addProperty("collectionId",collection);
+        proof.addProperty("processId","123@2026-11-15T10:00:00Z");
+        proof.addProperty("sessionId","cherry:" + collection + ":33333333-3333-4333-8333-333333333333");
+        proof.addProperty("executionHashes",sha256("exec fixture"));
+        proof.add("classFiles",gson.toJsonTree(List.of(Map.of("path","Price.class","sha256",sha256("compiled fixture")))));
+        return proof;
+    }
+    void precisePhase(CherryEvents reader,JsonObject proof) throws Exception {
+        JsonObject phase = phase(1,"maven",true,List.of());
+        JsonObject file = new JsonObject(); file.addProperty("source","Price.java"); file.add("provenance",proof);
+        file.add("lines",gson.toJsonTree(List.of(Map.of("line",1,"ci",7,"mi",2,"cb",1,"mb",1))));
+        JsonObject report = new JsonObject(); report.addProperty("schemaVersion",1); report.addProperty("format","jacoco-lines-v1");
+        JsonArray files = new JsonArray(); files.add(file); report.add("files",files);
+        artifact(phase,"coveragePrecisionArtifacts","proof.native.json","jacoco-lines-v1",report.toString());
+        reader.accept(phase.toString());
+    }
+    Coverage first(CherryEvents reader) { return reader.snapshot().coverage().get(root.resolve("Price.java")).get(1); }
+
+    @Test void verifiedProvenanceRequiresCompletedRunAndMatchingSourcesAndClasses() throws Exception {
+        var reader = start(true); precisePhase(reader,provenance());
+        assertEquals(Freshness.UNKNOWN,first(reader).freshness(),"No current coverage while collection is running");
+        complete(reader,source,true,"passed");
+        assertEquals(Freshness.CURRENT,first(reader).freshness());
+        assertEquals(CoverageState.PARTIAL,first(reader).state());
+        assertNotNull(first(reader).proof());
+        assertEquals("123@2026-11-15T10:00:00Z",first(reader).processId());
+        assertTrue(reader.snapshot().tests().isEmpty(),"Coverage does not invent passing per-line tests");
+    }
+    @Test void failingTestsCanHaveVerifiedCurrentCoverageWithoutInventingAttribution() throws Exception {
+        var reader = start(true); precisePhase(reader,provenance()); complete(reader,source,true,"failed");
+        assertEquals(Freshness.CURRENT,first(reader).freshness());
+        var incomplete = reader.interrupted(false,"CLI failed after report");
+        assertEquals(Freshness.UNKNOWN,incomplete.coverage().get(root.resolve("Price.java")).get(1).freshness());
+    }
+    @Test void changedSourceAndMismatchedBytecodeCannotUseCurrentDecorations() throws Exception {
+        var reader = start(true); precisePhase(reader,provenance()); complete(reader,source + " ",true,"passed");
+        assertEquals(Freshness.STALE,first(reader).freshness());
+        reader = start(true); var proof = provenance(); Files.writeString(root.resolve("Price.class"),"different build");
+        precisePhase(reader,proof); complete(reader,source,true,"passed");
+        assertEquals(Availability.BYTECODE_MISMATCH,first(reader).availability());
+        assertEquals(CoverageState.UNKNOWN,first(reader).state());
+    }
+    @Test void malformedProvenanceCannotUpgradeLegacyCounters() throws Exception {
+        var reader = start(true); var proof = provenance(); proof.remove("schemaVersion");
+        assertThrows(java.io.IOException.class,() -> precisePhase(reader,proof));
+        var invalidReader = start(true); var invalidProof = provenance(); invalidProof.addProperty("sourceHash","bad");
+        assertThrows(java.io.IOException.class,() -> precisePhase(invalidReader,invalidProof));
+        var nullReader = start(true);
+        assertThrows(java.io.IOException.class,() -> precisePhase(nullReader,null));
+    }
     @Test void incompleteCollectionCannotClaimUncovered() throws Exception {
         var reader = start(true); var phase = phase(1,"maven",false,List.of()); phase.addProperty("completeness","cancelled");
         artifact(phase,"coverage","coverage.lcov","lcov","SF:Price.java\nDA:1,0\n"); reader.accept(phase.toString());

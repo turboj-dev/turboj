@@ -8,6 +8,29 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class LineIntelligenceThemeTest {
+    @Test void rowTintsRespectSyntaxContrastAcrossAll103Themes() {
+        for (String id : Theme.bundledResources().keySet()) {
+            Theme theme = Theme.bundled(id);
+            var palette = dev.turboj.ui.intelligence.CoverageRowPalette.resolve(theme);
+            assertNotEquals(theme.background(),palette.covered(),id);
+            assertNotEquals(theme.background(),palette.uncovered(),id);
+            assertNotEquals(palette.covered(),palette.uncovered(),id);
+            assertTrue(contrast(palette.covered(),theme.background()) < 1.5,id + " subtle covered surface");
+            assertTrue(contrast(palette.uncovered(),theme.background()) < 1.5,id + " subtle uncovered surface");
+            float coveredHue = Color.RGBtoHSB(palette.covered().getRed(),palette.covered().getGreen(),palette.covered().getBlue(),null)[0] * 360;
+            float uncoveredHue = Color.RGBtoHSB(palette.uncovered().getRed(),palette.uncovered().getGreen(),palette.uncovered().getBlue(),null)[0] * 360;
+            assertTrue(coveredHue >= 160 && coveredHue <= 230,id + " cyan/blue background");
+            assertTrue(uncoveredHue >= 38 && uncoveredHue <= 66,id + " yellow/amber background");
+            for (var entry : theme.colors().entrySet()) {
+                if (!entry.getKey().startsWith("syntax.") && !entry.getKey().equals("editor.foreground")) continue;
+                double original = contrast(entry.getValue(),theme.background());
+                double minimum = Math.min(4.5,original);
+                assertTrue(contrast(palette.ink(entry.getValue(),false),palette.covered()) >= minimum,id + " covered " + entry.getKey());
+                assertTrue(contrast(palette.ink(entry.getValue(),true),palette.uncovered()) >= minimum,id + " uncovered " + entry.getKey());
+            }
+        }
+    }
+
     @Test void allNativeThemesResolveDistinctReadableSemanticFamilies() {
         assertEquals(103, Theme.bundledResources().size());
         for (String id : Theme.bundledResources().keySet()) {
@@ -42,6 +65,14 @@ class LineIntelligenceThemeTest {
         assertTrue(contrast(custom.color("coverage", "uncovered"), custom.background()) >= 4.5);
         assertEquals(Theme.parse(json).background(), custom.background());
         assertEquals(Theme.parse(json).keyword(), custom.keyword());
+        coverage.addProperty("coveredBackground","#123448");
+        coverage.addProperty("uncoveredBackground","#383010");
+        var customRows = dev.turboj.ui.intelligence.CoverageRowPalette.resolve(Theme.parse(definition.toString()));
+        assertEquals(Color.decode("#123448"),customRows.covered());
+        assertEquals(Color.decode("#383010"),customRows.uncovered());
+        coverage.addProperty("coveredBackground","invalid");
+        assertThrows(IllegalArgumentException.class,() -> Theme.parse(definition.toString()));
+        coverage.remove("coveredBackground");
         tests.addProperty("success", "#FF00FF");
         Color repaired = Theme.parse(definition.toString()).color("test", "success");
         float hue = Color.RGBtoHSB(repaired.getRed(), repaired.getGreen(), repaired.getBlue(), null)[0] * 360;

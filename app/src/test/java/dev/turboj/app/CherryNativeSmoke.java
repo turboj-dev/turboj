@@ -47,16 +47,22 @@ public final class CherryNativeSmoke {
                     && frame.editor().lineIntelligence().testingActive(),"Cherry configuration and source detected");
             edt(() -> { frame.editor().requestFocusInWindow(); return null; });
             waitFor(() -> frame.editor().isFocusOwner(),"editor focus");
-            palette("run.context");
-            waitFor(() -> completed(),"normal Run starts and completes real Cherry workflow");
+            palette("tests.all");
+            waitFor(() -> completed(),"Run All Tests starts and completes real Cherry workflow");
             Run passing = edt(() -> frame.tests().cherry().last());
             check(passing.state() == RunState.COMPLETED && passing.tests().size() == 2
                     && passing.tests().stream().allMatch(t -> t.status() == TestStatus.PASSED),"two genuine JUnit tests pass");
             waitFor(() -> frame.editor().lineIntelligence().lines().values().stream().anyMatch(l -> l.coverage().state() == CoverageState.PARTIAL),"actual partial counters reach editor snapshot");
             check(edt(() -> frame.editor().lineIntelligence().lines().values().stream().allMatch(l -> l.tests().isEmpty())),"aggregate coverage invents no production-line test association");
             check(edt(() -> frame.editor().lineIntelligence().lines().values().stream().filter(l -> l.coverage().availability() == Availability.AVAILABLE)
-                    .allMatch(l -> l.coverage().freshness() == Freshness.UNKNOWN)),"unverified executed-bytecode identity remains explicitly unknown");
+                    .allMatch(l -> l.coverage().freshness() == Freshness.CURRENT && l.coverage().proof() != null)),"compiler/class/process provenance certifies current aggregate coverage");
             check(passing.tests().stream().allMatch(t -> t.associations().stream().anyMatch(a -> a.kind() == Attribution.TEST_DECLARATION)),"real JUnit identities resolve to exact hashed test declarations");
+            Snapshot coverageBeforeToggle = edt(() -> frame.editor().lineIntelligence());
+            palette("view.coverageBackgrounds");
+            check(edt(() -> !frame.editor().isShowCoverageBackgrounds() && frame.editor().lineIntelligence() == coverageBeforeToggle),
+                    "CommandJ hides coverage backgrounds without dropping measured evidence");
+            palette("view.coverageBackgrounds");
+            check(edt(() -> frame.editor().isShowCoverageBackgrounds()),"CommandJ restores coverage backgrounds");
             inspectKeyboard(); screenshot(output.resolve("coverage-inspection.png")); key(KeyEvent.VK_ESCAPE,0);
             waitFor(() -> frame.editor().isFocusOwner(),"Escape restores source focus");
             int change = original.indexOf(" - ") + 1;
@@ -65,8 +71,8 @@ public final class CherryNativeSmoke {
                     .noneMatch(l -> l.coverage().availability() == Availability.AVAILABLE),"unsaved change withholds old line coverage");
             check(Files.readString(source).equals(original),"unsaved edit does not rewrite disk");
             palette("save"); waitFor(() -> Files.readString(source).contains("cents + cents"),"save modified source");
-            String oldRun = passing.id(); palette("run.context");
-            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(oldRun),"failing real run completes");
+            String oldRun = passing.id();
+            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(oldRun),"save alone starts and completes failing real Cherry run");
             Run failed = edt(() -> frame.tests().cherry().last());
             check(failed.state() == RunState.FAILED && failed.tests().stream().filter(t -> t.status() == TestStatus.FAILED).count() == 1,
                     "changed calculation yields exactly one real assertion failure");
@@ -79,7 +85,7 @@ public final class CherryNativeSmoke {
             waitFor(() -> frame.editor().getText().equals(original),"deferred palette Undo applies");
             check(edt(() -> frame.editor().getText().equals(original)),"keyboard Undo restores the original source after a failed run");
             palette("save"); waitFor(() -> Files.readString(source).equals(original),"restore source");
-            palette("cherry.run"); waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(failed.id()),"explicit Cherry rerun completes");
+            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(failed.id()),"corrected save alone completes Cherry rerun");
             check(edt(() -> frame.tests().cherry().last().state() == RunState.COMPLETED),"corrected source returns to two passing tests");
             waitFor(() -> {
                 Snapshot visible = frame.editor().lineIntelligence();
@@ -89,6 +95,11 @@ public final class CherryNativeSmoke {
             },"final source and measured counters are installed in the native gutter");
             check(edt(() -> frame.editor().lineIntelligence().lines().values().stream().noneMatch(Line::added)),"Git HEAD-to-buffer returns unchanged after correction");
             mouseLanes(); screenshot(output.resolve("editor.png"));
+            String finalRun = edt(() -> frame.tests().cherry().last().id());
+            palette("save");
+            Thread.sleep(900);
+            check(edt(() -> !frame.tests().cherry().busy() && frame.tests().cherry().last().id().equals(finalRun)),
+                    "saving unchanged content does not launch duplicate Cherry suites");
             report.append("Final source SHA256: ").append(dev.turboj.testing.intelligence.LineIntelligence.sha256(Files.readString(source))).append('\n');
             report.append("PASS. Actual Swing events, fixture setup/caret placement programmatic; no physical keyboard/layout claim.\n");
         } catch (Throwable failure) {

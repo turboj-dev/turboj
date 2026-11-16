@@ -1,6 +1,6 @@
 # TurboJ — stato del progetto e piano unico di sviluppo
 
-**Aggiornamento: 14 novembre 2026. Baseline: `fc4bdac` + modifiche locali.**
+**Aggiornamento: 15 novembre 2026. Baseline: `1a38a91` + modifiche locali KEY-01/CH-02.**
 
 Questo è il **canovaccio operativo unico**: sommario, stato effettivo, decisioni, attività aggregate, dipendenze e criteri di accettazione. Sostituisce la precedente lista breve e consolida il lavoro disperso nei documenti del progetto. Le specifiche e le evidenze originali restano nei rispettivi percorsi: non vengono eliminate né trasformate retroattivamente in verifiche della versione attuale.
 
@@ -31,13 +31,13 @@ L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro su
 | First launch e template | Percorso Java/Maven fino a JUnit verde registrato; template successivamente evoluti | Nuova accettazione con template e Run attuali |
 | Output, Tests, Explorer | Console verbatim, Tests separato, `:!`, ridimensionamento, font condiviso e operazioni file | Validare modifiche locali Run/Run File/AutoRun e focus |
 | MavenJ / TurboTest / RefactorJ | Integrazioni operative, con limiti espliciti | Qualificazione aggiornata e percorsi alternativi per casi non supportati |
-| Cherry Test | Slice reale: processo, risultati strutturati, Git, tre corsie, contatori e inspector | Provenienza del codice eseguito, selettori, aggregazione e workflow completo |
+| Cherry Test | Slice reale: processo, risultati strutturati, Git, tre corsie, contatori, inspector e provenienza opt-in javac/JaCoCo | Qualificare altri progetti/provider, selettori, aggregazione e workflow completo |
 | TurboAI | Provider, runtime locale gestito, ghost text e filtri contestuali | Qualificare `.app`, download GUI, llama.cpp e provider live |
 | Formattazione | Default IntelliJ-style su JDT; anche preset JDT e google-java-format | Allineare documentazione; formatter proprietario sospeso |
 | Sito e hero | Cinque capitoli, evidenze, curl nell'Output nativo, controlli compatti, loop e fix tema | Verificare build/deploy e scegliere quali cambi nativi successivi rappresentare |
 | Distribuzione/ecosistema | Monorepo con moduli riutilizzabili e artefatti locali | Coordinare versioni, repository Cherry, packaging e pubblicazioni |
 
-**Ripartenza immediata:** stabilizzare modifiche locali e verificare Cmd+1/Monokai, routing Run e migrazione delle personalizzazioni. **Priorità strutturale:** completare la provenienza Cherry prima di chiamare la coverage «corrente». Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
+**Ripartenza immediata:** KEY-01 è verificata; proseguire con la qualificazione nativa e sui progetti reali del percorso CH-02, preservando le verifiche aperte Cmd+1/Monokai e routing Run. **Priorità strutturale:** estendere la provenienza Cherry oltre la slice javac/JaCoCo. «Coverage corrente» è ammessa solo dove la catena di identità è verificata, non globalmente per ogni provider. Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
 
 Il consolidamento iniziale è stato un audit documentale e del codice, senza riesecuzione di build, test o controlli live. Le verifiche successive sono registrate separatamente in §7; non ricertificano automaticamente le evidenze di ottobre.
 
@@ -120,8 +120,8 @@ La generazione Java (constructor/accessor, equals/hashCode/toString, implement/o
 | --- | --- | --- |
 | Git | HEAD→buffer con staged/unstaged/unsaved, nuovi file, rename noto, worktree e ancore cancellazione | Altre baseline solo API; move non riconosciuto trattato come nuovo file |
 | Test | Risultati, runtime/fasi distinti, dichiarazioni risolte dove dimostrabili | Nessuna failure di package attribuita arbitrariamente alla produzione |
-| Coverage | Contatori JaCoCo `ci/mi/cb/mb`, LCOV binario, disabled/missing/incomplete distinti | Identità sorgente compilata/class ID/processo mancante: freshness reale `UNKNOWN` |
-| UI | Corsie indipendenti, hit-test, tastiera, geometria stabile, palette semantica | Colori di stato corrente neutrali finché manca provenienza; test sintetici non la dimostrano |
+| Coverage | Contatori JaCoCo `ci/mi/cb/mb`, LCOV binario, disabled/missing/incomplete distinti; capture opt-in javac/classi/processo | CURRENT disponibile solo sul percorso verificato; altri provider, output riutilizzati e capture assenti restano UNKNOWN |
+| UI | Corsie indipendenti, hit-test, tastiera, geometria stabile, palette semantica; inspector della provenienza | Colori correnti solo per evidence valida; nessuna associazione test-produzione inventata |
 | Esecuzione | Discovery, processo isolato, progressione per fase, cancel, storico con receipt/hash/exit code | Rerun singolo/falliti esatto, eventi per test e workflow coverage corrente incompleti |
 
 Nei progetti configurati, Run affianca Cherry all’esecuzione normale senza cambiare le garanzie Fast/Isolated. Cherry valida i file salvati: rifiutare Save non certifica il buffer modificato. La CLI conserva orchestrazione e report standalone.
@@ -222,12 +222,12 @@ AI, documentazione e test librerie possono procedere in parallelo dove indipende
 
 Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
 
-**Registro al 14 novembre: 112 attività aggregate, di cui 111 aperte e 1 chiusa**, non 112 difetti dimostrati. Le attività aperte comprendono 49 qualificazioni da eseguire, 29 attività parziali, 12 da fare, 18 decisioni, 2 requisiti essenziali incompleti e 1 attività sospesa.
+**Registro al 16 novembre: 113 attività aggregate, di cui 111 aperte e 2 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 48 qualificazioni da eseguire, 30 attività parziali, 13 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
 
 | Priorità | Attività aperte | Lettura |
 | --- | --- | --- |
-| P0 | 9 | Baseline, regressioni segnalate e correttezza semantica |
-| P1 | 56 | Consolidamento, implementazione e qualificazione prossimi |
+| P0 | 8 | Baseline, regressioni segnalate e correttezza semantica |
+| P1 | 57 | Consolidamento, implementazione e qualificazione prossimi |
 | P2 | 38 | Miglioramenti e decisioni successive |
 | P3 | 8 | Evoluzioni da decidere o attività sospese |
 
@@ -249,7 +249,7 @@ Fonti: [design](docs/keyboard-first-design.md), [audit](docs/keyboard-accessibil
 
 | ID | P | Stato | Attività e criterio di chiusura |
 | --- | --- | --- | --- |
-| KEY-01 | P0 | DA VERIFICARE | Qualificare Classic→TurboJ e custom override. `KeymapJson` ignora profili ritirati: testare preferenze legacy, copie personalizzate, selezione, rimozioni e conflitti; conservare dati/diagnostica prima di dichiarare migrazione sicura. |
+| KEY-01 | P0 | CHIUSA | 15 novembre: Classic salvato conservato come profilo utente, senza quinto default; selezione, binding personalizzati, unbinding espliciti, contesti/chord e profili figli preservati. Fallback TurboJ solo senza profilo legacy salvato; diagnostica di migrazione e import atomico. Suite keymap PASS, inclusi round-trip/cambio profilo e duplicati respinti; install completo 841 test PASS. Inclusa nella consegna del 16 novembre. |
 | KEY-02 | P1 | DECISIONE | Esplicitare TurboJ-default/ritiro Classic rispetto al requisito iniziale. Documentare compatibilità e scelta profilo, senza sovrascrivere preferenze o introdurre silenziosamente un quinto profilo. |
 | KEY-03 | P1 | PARZIALE | Rigenerare inventario/reference/cheatsheet/menu/export sito dal registro finale, inclusi `run.context` e AI per profilo. Manifest/hash coerenti, nessun conteggio storico presentato come attuale. |
 | KEY-04 | P1 | DA VERIFICARE | Audit tastiera completo: menu/dialoghi, Explorer/Maven, RefactorJ, Tests, console/JShell, temi/settings/file chooser/notifiche. Ogni azione ha route e focus/Escape prevedibili. |
@@ -301,6 +301,7 @@ Fonti: [Java](docs/java-intelligence.md), [limiti](docs/limitations.md), [Refact
 | JAVA-03 | P3 | DECISIONE | Indice persistente, package completion e parsing realmente incrementale: recovery AST completo off-EDT e cache non equivalgono a queste capacità. |
 | JAVA-04 | P2 | PARZIALE | Javadoc/inheritDoc, sorgenti dipendenze e link/documentazione; distinguere quick documentation sicura da renderer HTML completo dei JAR. |
 | JAVA-05 | P1 | DA VERIFICARE | Qualificare source generation, Surround With e Complete Statement: contesti validi, duplicati/overload, membri final/static, compilazione del risultato e undo; rifiuti dei casi non supportati espliciti. |
+| JAVA-06 | P1 | DA FARE | **Find Usages… e navigazione metodo ↔ test.** Esistono già `navigation.findReferences` (backend REFERENCES) e l’alias `navigation.findUsages`: verificarne il comportamento reale e completare un flusso visibile con chiamanti, file/riga e navigazione tastiera. Risolvere semanticamente gli usi del metodo selezionato e identificare quelli racchiusi in metodi test (`@Test`, e annotazioni test riconosciute dal framework), evitando omonimi/overload e falsi positivi testuali. In source↔test mantenere il counterpart convenzionale univoco come percorso rapido; quando serve una scelta offrire “Test predefinito” e metodi di test alternativi con relazione d’uso verificata, aprendo il punto esatto e preservando history/caret. Gestire plain/Maven, moduli/package, test ereditati e buffer unsaved; distinguere riferimenti statici da esecuzione/coverage dinamica. Accettazione: più test in classi diverse chiamano lo stesso metodo, scelta esplicita delle alternative, default diretto, nessun match e ambiguità spiegati; test JDT + walkthrough nativo keyboard. Nessuna implementazione semantica aggiuntiva dichiarata nel fix del chooser. |
 | REF-01 | P1 | DA VERIFICARE | Transazioni con ACL/ownership, case-only rename, directory concorrenti, network FS e recovery interrotto. Conservare rifiuti/RECOVERY_REQUIRED, nessuna promessa atomicità globale. |
 | REF-02 | P2 | DA VERIFICARE | IntelliJ/VS Code/LSP/MCP su versioni host dichiarate, undo e resource operations. ZIP/VSIX/protocol test non equivalgono a compatibilità host universale. |
 | REF-03 | P2 | PARZIALE | Ridurre allocazioni semantiche non cached; misurare worker/cancel/code. Cache-hit da soli non descrivono il costo reale RefactorJ. |
@@ -337,10 +338,10 @@ Fonti: [architettura](docs/architecture/cherry-test-turboj-integration.md), [fix
 | ID | P | Stato | Attività e criterio di chiusura |
 | --- | --- | --- | --- |
 | CH-01 | P0 | PARZIALE | Commit/versioni compatibili Cherry Java/Rust e TurboJ, CLI schema 1 distribuibile. Checkout puliti riproducono la slice senza patch nascoste; dipende da GOV-01/02. |
-| CH-02 | P0 | INCOMPLETA | Manifest source/compiler, class ID JaCoCo, strumentazione/sessione/processo. Bytecode mismatch esplicito; coverage corrente solo con identità provata, anche dopo undo/rebuild. |
+| CH-02 | P0 | PARZIALE | 15 novembre: percorso opt-in javac/JaCoCo implementato: generazione e input compiler, output fresh, SHA classi, ID/probe `.exec`, PID/sessioni; contatori ricalcolati e confrontati. TurboJ abilita CURRENT solo con fonte/classi/completamento verificati; mismatch, cancel, receipt assente e undo/rebuild coperti da regressioni. Restano qualificazione mini/shop-java/JUG, altri compiler/provider e compilazione incrementale; senza capture i dati restano neutrali. Vedi §7 e architettura. |
 | CH-03 | P1 | PARZIALE | Collezioni coverage separate consultabili e merge provider/probe per processi sovrapposti/`.exec` multipli. Nessuna somma ambigua; partial deriva da contatori reali. |
 | CH-04 | P1 | PARZIALE | Rerun esatto singolo/falliti per adapter, runtime/invocation preservati; fallback suite esplicito dove selettori assenti. |
-| CH-05 | P1 | PARZIALE | Inventario completo, eventi per-test start/pending e aggregazione cross-run; cancel/runner failure/shard mancanti/late events mai promossi a successo completo. |
+| CH-05 | P1 | PARZIALE | Run All Tests include Cherry; ogni Save con contenuto cambiato accoda tutte le fasi configurate (unit/integration/functional/UI, senza filtro), coalescing e cancel verificati. Restano inventario completo, eventi per-test start/pending e aggregazione cross-run; cancel/runner failure/shard mancanti/late events mai promossi a successo completo. |
 | CH-06 | P1 | PARZIALE | Contratti ereditati con classpath/modulo; distinguere dichiarazione, stack/assertion, target esplicito e relazione dinamica. Euristiche restano candidati, non prova. |
 | CH-07 | P1 | PARZIALE | Multi-repository fuori root, omonimi e runtime Spring/Quarkus separati con identità stabili, non mappe filename/linea globali. |
 | CH-08 | P1 | DA VERIFICARE | Mini/shop/shop-java completi dove disponibili: Java/Kotlin/Rust, server/browser/agent/exec multipli, raccolta incompleta e failure infrastruttura. Suite non eseguibili e cause esplicite. |
@@ -353,7 +354,7 @@ Fonti: [architettura](docs/architecture/cherry-test-turboj-integration.md), [fix
 | CH-15 | P2 | DECISIONE | Eventuale import legacy oltre JSONL storico: unknown/incomplete dove mancano prove, mai status da HTML/ANSI. |
 | CH-16 | P1 | DA VERIFICARE | Grandi report/moduli/repository, memoria/update/scroll/input-to-paint e vera baseline pre-integrazione, oltre ai benchmark same-build. |
 
-Task2 non è completo finché milestone 4–7 restano aperte. CH-02/10 sono requisiti mancanti, non soltanto test da rilanciare.
+Task2 non è completo finché milestone 4–7 restano aperte. CH-02 ora fornisce una slice javac verificabile, ma richiede altre integrazioni/qualificazioni; CH-10 resta un requisito mancante, non soltanto un test da rilanciare.
 
 ### 6.8 TurboAI
 
@@ -437,6 +438,50 @@ Il rename `javafmt`→`formatj` è **FMT-03, SOSPESA**, subordinato alla famigli
 ### Controlli svolti per questo consolidamento
 
 Ispezionati stato Git, cronologia, documenti e punti di codice rilevanti; effettuata revisione separata dei perimetri nativo, AI/Cherry e sito/ecosistema. Nel consolidamento iniziale: controllati i 110 ID allora presenti, riferimenti, collegamenti locali e censimento dei 150 documenti di supporto; `git diff --check` senza errori. Quell’incarico ha modificato soltanto `TODO.md`, preservando i cambi preesistenti. Questi controlli documentali non sono build o test dell'applicazione.
+
+### Verifica KEY-01/CH-02 — 15 novembre 2026
+
+- **KEY-01 chiusa:** individuata e corretta la perdita dei profili Classic salvati. Sono profili utente conservati, non un quinto default: binding, rimozioni esplicite, chord/contesti, selezione e figli ereditati sopravvivono al round-trip. Import duplicati respinto senza modificare lo stato; diagnostica della migrazione disponibile.
+- **CH-02 parziale ma nativa:** nuovo modulo Cherry `java/cherry-test-provenance`, plugin javac e agente di processo opt-in. Output inizialmente vuoto, hash dell'input/compiler/classi, ID JaCoCo, probe e contatori ricalcolati, PID/sessioni, receipt di shutdown ed effettiva uscita dei processi. TurboJ verifica identità/receipt e conserva neutralità per risultati pending/incomplete, mismatch e provider senza capture. La coverage aggregata può essere corrente anche con un test fallito; nessuna attribuzione rossa inventata alla produzione.
+- **TurboJ finale:** `./mvnw install` → BUILD SUCCESS, **841 test in 122 suite**, zero failure/error/skip, 39 progetti reactor. Durata Maven 3:04. Le verifiche mirate del contratto/lifecycle e dei keymap sono incluse nel totale; non sommarle.
+- **Cherry reale:** dalla root TurboJ, `./mvnw -q -f ../cherry-test/java/pom.xml -pl cherry-test-cli -am install` → PASS, **308 test in 47 suite** dei moduli selezionati common/core/provenance/CLI, inclusi **8 test** che lanciano javac e JVM JaCoCo reali. Non è una verifica del reactor Rust o dei moduli Java esclusi.
+- **Nativo finale:** `CherryNativeSmoke` con il JAR reale, Maven nel PATH e fixture isolata → PASS. Due test verdi, modifica salvata con un solo fallimento, Undo/Save/rerun con due verdi. Provenienza CURRENT nell'editor, inspector via tastiera, Escape/focus e tre hit region indipendenti verificati. Sono eventi Swing reali con setup/caret programmatici, non una prova di tastiera fisica/layout macOS.
+- **Controlli falliti conservati:** primo controllo CLI senza `mvn` nel PATH; primo smoke nativo con cache Maven ereditata dalla root TurboJ. La fixture ora ha una propria `.mvn/maven.config`, quindi non eredita accidentalmente la configurazione del repository contenitore. Nessuno dei due controlli è contato come PASS.
+- **Evidenze:** [dataset e hash](docs/evidence/cherry-native/provenance-2026-11-15/validation.json), [report nativo](docs/evidence/cherry-native/provenance-2026-11-15/native-report.txt), [inspector](docs/evidence/cherry-native/provenance-2026-11-15/coverage-inspection.png), [editor](docs/evidence/cherry-native/provenance-2026-11-15/editor.png). I tre run conservano source/class/session identity e contatori effettivi; i riferimenti ai dati grezzi in `app/target` sono locali e riproducibili con la fixture, non archiviati qui.
+- **Artefatto TurboJ finale:** `app/target/turboj-app.jar`, SHA-256 `6b05143e2b2a77e2d1cff107489851cd5aa02617e1b174d162d6129b4ca962d8`.
+- **Limiti aperti:** hook espliciti e class output fresco obbligatori; ECJ/Kotlin/Rust, build incrementali, classi prive di record di esecuzione e qualificazione mini/shop/shop-java/JUG non certificati. Nessuna attribuzione dinamica per-test. Non ci sono nuovi claim prestazionali. I repository mantengono le modifiche locali preesistenti; queste modifiche non sono ancora committate/pubblicate.
+
+### Verifica successiva — Cherry completo al salvataggio, 15 novembre 2026
+
+- **Comportamento:** `Run All Tests` conserva TurboTest e accoda anche Cherry se configurato. Ogni Save riuscito che cambia il fingerprint su disco accoda tutte le fasi configurate attraverso la CLI senza selettori; nessun toggle Auto Test on Save richiesto per Cherry. La configurazione e gli adapter restano responsabili delle fasi e delle dipendenze; non si inventano test mancanti e non si abilita la mutation separatamente opt-in.
+- **Lifecycle:** debounce 350 ms, una sola esecuzione Cherry attiva e un seguito coalescente; attesa compilazione/test nativi e import Maven. Cancel/Stop Tests, cambio progetto e chiusura rimuovono il seguito. I risultati precedenti a un Save restano stale anche se arriva una risposta tardiva. Nessuna esecuzione per Save invariato, write fallita o progetto senza configurazione; gate Maven trust preservato.
+- **Regressioni mirate:** `./mvnw -q -pl app -am package -Dtest=CherrySaveWorkflowTest,LineIntelligenceControllerTest,CherryTestProcessLifecycleTest -Dsurefire.failIfNoSpecifiedTests=false` → PASS, 24 test. Sette nuovi controlli per coalescing, seguito durante run, attesa compilazione, cancellazione, trust/config assente, cambio progetto e chiusura. Le quattro fasi sono controllate nel trasporto con processi sintetici.
+- **Nativo reale:** `CherryNativeSmoke` → PASS. Run All Tests: 2/2 JUnit; modifica + solo Save: 1/2; Undo + solo Save: 2/2 e coverage corrente nell'editor. Save invariato non avvia un quarto run. [Report](docs/evidence/cherry-native/save-workflow-2026-11-15/native-report.txt), [run e hash JUnit](docs/evidence/cherry-native/save-workflow-2026-11-15/validation.json). Non sono state rieseguite le suite browser/service dei progetti mini/shop/JUG.
+- **Controllo ambientale:** primo test Swing nel sandbox terminato con JVM exit 134; lo stesso comando fuori sandbox passa. Non è contato come test superato.
+- **Build finale aggiornato:** `./mvnw install` → BUILD SUCCESS, **848 test in 123 suite**, zero failure/error/skip; 3:18. Include i 24 controlli mirati, da non sommare. SHA-256 `app/target/turboj-app.jar`: `922270b9d7893ce518eb826f2814c34655ef493dc469ff7bbbc4bb0a7ddd770b`. Questo artefatto sostituisce quello della verifica CH-02 precedente.
+
+### Verifica successiva — coverage visiva nativa, 16 novembre 2026
+
+- **Implementato:** tre corsie Git/Test/Coverage conservate; righe con coverage corrente azzurre o gialle; partial con simbolo `◧`, senza sottolineatura dopo la revisione visiva. Nessun colore di test derivato dalla coverage. Unknown/stale restano neutrali; selezione ed enfasi si disegnano sopra la tinta. Le righe AI contenenti proposte rimangono neutre; le successive righe sorgente mantengono il mapping.
+- **Simboli:** font dell'editor, Unicode `✓ × ■ □ ◧` e fallback ASCII `v x C U P` quando il glifo manca o eccede la cella; `+` Git, notch di cancellazione al confine, `?` unknown e `~` stale. Legenda testuale nell'inspector Coverage.
+- **Ritocco successivo:** eliminato il punto segnaposto nella corsia Tests quando esiste coverage ma nessun test associato. Geometria e inspector restano disponibili; i veri stati dei test conservano i simboli. Package del launcher ricostruito con `./mvnw -q -pl cli -am package -Dtest=LineIntelligenceEditorTest,LineIntelligenceThemeTest -Dsurefire.failIfNoSpecifiedTests=false -Djava.awt.headless=true`: PASS, 10 controlli rendering/temi, inclusa corsia vuota verificata a 1×/2×. Questo ritocco è successivo agli screenshot e all'hash del build completo sotto riportati.
+- **Scelta finale confermata:** tinte discrete e simboli, nessuna sottolineatura coverage. Rimossa anche l'ipotesi di sottolineatura limitata al testo; partial resta distinguibile da `◧`. Ripetuto lo stesso package mirato: PASS, 10 controlli, con verifica raster dell'assenza di underline a 1×/2×. Preview attuale in `app/target/coverage-quiet-preview/`; gli screenshot archiviati del primo intervento restano storici.
+- **Opzione e palette successive:** View → Show Coverage Backgrounds (`view.coverageBackgrounds`, CommandJ) nasconde tutti gli sfondi mantenendo simboli, geometria ed evidenze; preferenza persistente `showCoverageBackgrounds`, default true. Palette azzurro/ciano e giallo/ambra distinte per tutti i 103 temi, derivate da hue semantico e luminanza del tema. Inchiostri sintattici corretti e cached solo sulle righe colorate: contrasto almeno 4.5:1 dove già raggiunto, altrimenti non inferiore al tema originale. Override opzionali `coverage.coveredBackground`/`coverage.uncoveredBackground`.
+- **Verifica opzione/palette:** package CLI con `-Dtest=LineIntelligenceEditorTest,LineIntelligenceThemeTest,CommandSettingsTest,MenuLayoutTest -Dsurefire.failIfNoSpecifiedTests=false -Djava.awt.headless=true` → PASS, 16 test; persistenza, menu, toggle, tutti i temi e selezione. `CherryNativeSmoke` → PASS con toggle CommandJ su coverage reale e pass→fail→pass. Non rieseguito l'intero reactor per questo ritocco. [Manifest e hash](docs/evidence/cherry-native/coverage-theme-options-2026-11-16/validation.json), [103 palette risolte](docs/evidence/cherry-native/coverage-theme-options-2026-11-16/theme-palettes.json), [galleria pagina 1 di 5](docs/evidence/cherry-native/coverage-theme-options-2026-11-16/themes-1.png). Tutte le cinque pagine ispezionate; i campioni sono sintetici e dichiarati.
+- **Layout diviso sinistra/destra:** Git e Test rimangono prima dei numeri di riga; Coverage si sposta al bordo destro del viewport, con gli stessi simboli e semantica. Testo, selezione e tinte non invadono la cella; hit-test e tooltip seguono resize/scroll. Package CLI e 17 test mirati PASS (103 temi, zoom, HiDPI, resize, selezione); CherryNativeSmoke reale PASS. [Evidenze e preview](docs/evidence/cherry-native/split-gutters-2026-11-16/validation.json). Nessun nuovo collegamento test/riga inferito.
+- **Delimitatori coverage:** righe composte solo da `{`/`}` (ignorando whitespace/commenti) senza sfondo né simbolo coverage. Contatori raw preservati e spiegazione in inspector; Git/Test indipendenti, statement e text block invariati. `javap` conferma il return implicito sulla graffa finale di main. Package CLI + 19 test mirati PASS; due smoke nativi interrotti da `Focus lost` (primo arrivato pass→fail→pass), non dichiarati PASS completi. [Evidenze](docs/evidence/cherry-native/brace-coverage-2026-11-16/validation.json).
+- **Source↔Test e neutralità coverage:** counterpart univoco `Class.java`/`ClassTest.java` aperto direttamente; per ambiguità resta il chooser. Corretto il focus iniziale JOptionPane che finiva su `x`: Enter ora conferma la selezione, Escape annulla. Rimossa la dot `NOT_APPLICABLE` a destra; inspector e indicatori unknown/stale invariati. Package CLI + 29 test mirati PASS; `SourceTestNavigationAcceptance` nativo PASS per entrambe le direzioni e chooser Enter/Escape. [Evidenze](docs/evidence/source-test-navigation-2026-11-16/validation.json). Find Usages/test alternativi semantici pianificati in JAVA-06, non implementati qui.
+- **Placeholder sui test:** oltre alla dot NOT_APPLICABLE, nascosto `?` sulla dichiarazione di un metodo test identificata da associazione semantica esatta quando non esiste coverage misurata. Restano test pass/fail a sinistra, inspector con motivo, unknown sul codice di produzione, stale e misure autentiche sui test. Regressione distingue dichiarazione vera, relazione alla riga errata e coverage misurata.
+- **Temi (prima iterazione, superata dalla palette successiva):** tinta derivata dai ruoli semantici, cache per tema, preservazione contrasto dei token. In questa prima iterazione la tinta poteva rimanere neutra nei temi con contrasto insufficiente; la palette successiva sopra descritta risolve sfondi distinti per tutti i temi. Nessuna modifica ai JSON dei 103 temi o al CSS del report Cherry.
+- **Verifica mirata:** `./mvnw -q -pl app -am package -Dtest=LineIntelligenceEditorTest,LineIntelligenceThemeTest -Dsurefire.failIfNoSpecifiedTests=false -Djava.awt.headless=true` → PASS, 10 test; 103 temi, zoom campionati 10/24/48, scale raster 1×/2×, selezione, stale, indipendenza test/coverage e AI. Preview Monokai/light/fallback ASCII ispezionate visivamente; sono fixture sintetiche dichiarate.
+- **Nativo reale:** `CherryNativeSmoke` → PASS con JUnit/JaCoCo: pass→Save/fail→Undo/Save/pass, coverage corrente, tre hit region, inspector e focus. [Report](docs/evidence/cherry-native/coverage-visual-2026-11-16/native-report.txt), [manifest](docs/evidence/cherry-native/coverage-visual-2026-11-16/validation.json), [editor reale](docs/evidence/cherry-native/coverage-visual-2026-11-16/native-editor.png), [preview Monokai sintetica](docs/evidence/cherry-native/coverage-visual-2026-11-16/vscode-monokai.png).
+- **Build precedente ai successivi ritocchi:** `./mvnw install` → BUILD SUCCESS, **850 test in 123 suite**, zero failure/error/skip, 3:48. Include i 10 controlli rendering, da non sommare. SHA-256 `app/target/turboj-app.jar`: `b6a16cf116f986f87a37c438c7e38033a8a47adce3fae61728e33a618adad949`. Launcher locale `./tj` aggiornato; pacchetti `.app` già distribuiti non ricostruiti da questo comando.
+
+### Consegna consolidata — 16 novembre 2026
+
+- `./mvnw install` completo → **BUILD SUCCESS**, **858 test in 123 suite**, zero failure/error/skip; 03:45 min. Include la soppressione finale di `?` sulle dichiarazioni test prive di misure. [Manifest finale](docs/evidence/source-test-navigation-2026-11-16/final-install.json).
+- Il primo tentativo in sandbox è terminato con abort del JVM Swing; il rerun completo fuori sandbox è passato. Il walkthrough nativo source↔test/Enter/Escape resta documentato separatamente; non è un test fisico di tutti i layout tastiera.
+- Consegna limitata al repository TurboJ. Esempi manuali e materiali locali non pertinenti preservati fuori dal commit; le modifiche nel checkout separato Cherry Test restano da consegnare (CH-01/GOV).
 
 ### Verifica successiva — correzione install, 14 novembre 2026
 

@@ -234,6 +234,7 @@ public final class TurboFrame extends JFrame {
         super("TurboJ");
         this.settings = settings;
         editor.setShowPressedShortcuts(settings.showPressedShortcuts);
+        editor.setShowCoverageBackgrounds(settings.showCoverageBackgrounds);
         this.themeCatalog =
                 new ThemeCatalog(Settings.directory().resolve("themes"), externalThemePath());
         this.keymap = keymap;
@@ -2378,8 +2379,10 @@ public final class TurboFrame extends JFrame {
                 () -> startTests(TurboTestController.Mode.METHOD, false));
         command("tests.class", "Run Test Class", () -> startTests(TurboTestController.Mode.CLASS,
                 false));
-        command("tests.all", "Run All Tests", () -> startTests(TurboTestController.Mode.ALL,
-                false));
+        command("tests.all", "Run All Tests", () -> {
+            startTests(TurboTestController.Mode.ALL, false);
+            scheduleCherryAll(file, false);
+        });
         command("tests.failed", "Run Failed Tests",
                 () -> startTests(TurboTestController.Mode.FAILED, false));
         command("tests.stop", "Stop Tests", this::stopTests);
@@ -2390,7 +2393,8 @@ public final class TurboFrame extends JFrame {
                 this::runCherry, context -> lineIntelligence != null && lineIntelligence.project() != null
                         ? Availability.available() : Availability.disabled("No Cherry Test configuration detected"));
         registerCommand("cherry.cancel", "Cherry Test: Cancel Execution", "Testing Intelligence",
-                () -> tests.cherry().cancel(), context -> tests != null && tests.cherry().busy()
+                () -> lineIntelligence.cancel(), context -> lineIntelligence != null
+                        && (tests.cherry().busy() || lineIntelligence.queued())
                         ? Availability.available() : Availability.disabled("Cherry Test is not running"));
         registerCommand("cherry.results", "Cherry Test: Native Results…", "Testing Intelligence",
                 this::showCherryResults, context -> lineIntelligence != null && lineIntelligence.run() != null
@@ -2595,6 +2599,17 @@ public final class TurboFrame extends JFrame {
             formatting.format(true);
         });
         command("view.focusEditor", "Focus Editor", () -> editor.requestFocusInWindow());
+        command("view.coverageBackgrounds", "Show Coverage Backgrounds", () -> {
+            settings.showCoverageBackgrounds = !settings.showCoverageBackgrounds;
+            editor.setShowCoverageBackgrounds(settings.showCoverageBackgrounds);
+            commands.get("view.coverageBackgrounds").putValue(Action.SELECTED_KEY, settings.showCoverageBackgrounds);
+            String snapshot = settings.snapshotJson();
+            background.execute(() -> {
+                try { Settings.saveSnapshot(snapshot); }
+                catch (java.io.IOException failure) { errorLater(failure); }
+            });
+        });
+        commands.get("view.coverageBackgrounds").putValue(Action.SELECTED_KEY, settings.showCoverageBackgrounds);
         command("view.focusExplorer", "Focus Project Explorer", maven::focusExplorer);
         command("view.focusConsole", "Focus Console", this::focusConsole);
         command("view.resizeOutput", "Resize Output", () -> {
@@ -2896,6 +2911,7 @@ public final class TurboFrame extends JFrame {
                 .whenComplete((paths, failure) -> SwingUtilities.invokeLater(() -> {
                     if (closing || !bufferKey.equals(expectedFile) || editor.version() != expectedVersion) return;
                     if (failure != null) flash("Test/source navigation: " + message(failure), StatusBar.Level.ERROR);
+                    else if (paths.size() == 1) { rememberLocation(); openPath(paths.getFirst()); }
                     else chooseFile("Source / Test", paths);
                 }));
     }
@@ -4242,6 +4258,7 @@ public final class TurboFrame extends JFrame {
                                 refreshTitle();
                             }
                             flash("Saved " + target.getFileName(), StatusBar.Level.NORMAL);
+                            if (!java.util.Arrays.equals(expected, written)) scheduleCherryAll(target, true);
                             if (active
                                     && bufferIdentity.get() == identity
                                     && editor.version() == savedVersion) {
@@ -4452,6 +4469,7 @@ public final class TurboFrame extends JFrame {
         queuedSaveAutomation = withoutSaveAction(queuedSaveAutomation, false);
         SaveAutomation remainingRun = withoutSaveAction(runningSaveAutomation, false);
         runningSaveAutomation = null;
+        if (lineIntelligence != null) lineIntelligence.cancel();
         tests.stop();
         buildStatus = "TESTS STOPPED";
         refreshTitle();
@@ -4736,6 +4754,17 @@ public final class TurboFrame extends JFrame {
         lineIntelligence.start(settings.cherryTestExecutable, List.of());
     }
 
+    private void scheduleCherryAll(Path source, boolean saved) {
+        if (closing || lineIntelligence == null || source == null) return;
+        java.util.function.BooleanSupplier ready = () -> !saving && !formattingSave
+                && !pendingTestSnapshot && !tests.busy() && !maven.busy() && !refactoring.busy()
+                && queuedSaveAutomation == null && runningSaveAutomation == null;
+        java.util.function.BooleanSupplier allowed = () -> !closing && (maven.importRequest() == null
+                || maven.workspace() != null && maven.workspace().resolved() && maven.trusted());
+        if (saved) lineIntelligence.saved(source, settings.cherryTestExecutable, ready, allowed);
+        else lineIntelligence.scheduleAll(source, settings.cherryTestExecutable, ready, allowed);
+    }
+
     private void cherryResult(LineIntelligence.Run result) {
         if (closing) return;
         flash(result.message(), StatusBar.Level.NORMAL);
@@ -4748,7 +4777,7 @@ public final class TurboFrame extends JFrame {
                 location -> openTestLocation(location.file(), location.line(), null),
                 result -> { if (Objects.equals(result.root(), lineIntelligence.project())) runCherry();
                     else flash("The displayed Cherry run belongs to another project.", StatusBar.Level.NORMAL); },
-                result -> { if (Objects.equals(result.root(), lineIntelligence.project())) tests.cherry().cancel(); },
+                result -> { if (Objects.equals(result.root(), lineIntelligence.project())) lineIntelligence.cancel(); },
                 this::openCherryReport);
     }
 

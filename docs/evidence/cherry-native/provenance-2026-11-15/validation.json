@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-15",
+  "turboJBaseline": "1a38a91",
+  "cherryBaseline": "0dc649cb",
+  "workingTreeChanges": true,
+  "method": "Actual Swing key dispatch, programmatic fixture setup/caret placement; no physical-keyboard/layout claim.",
+  "environment": {
+    "jdk": "25.0.4.1",
+    "os": "Mac OS X 26.5.1"
+  },
+  "artifacts": {
+    "turboJJarSHA256": "6b05143e2b2a77e2d1cff107489851cd5aa02617e1b174d162d6129b4ca962d8",
+    "cherryJarSHA256": "64df0d2b039d58e2b52fa02bcf71fee5c2a8e73d6f8b9bc39648b177c5ea7f99",
+    "captureJarSHA256": "33a679b3458ab71f3e5d0fdf5eea632296e1a64da539474c2aeab813ac9b0c4d"
+  },
+  "validation": {
+    "turboJ": {
+      "command": "./mvnw install",
+      "suites": 122,
+      "tests": 841,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "cherry": {
+      "command": "./mvnw -f ../cherry-test/java/pom.xml -pl cherry-test-cli -am install",
+      "suites": 47,
+      "tests": 308,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native": "PASS: pass \u2192 change/save \u2192 one failure \u2192 Undo/save \u2192 pass; proven coverage and independent lane inspection"
+  },
+  "screenshots": {
+    "editor.png": "331bef54f9f149715d83384ac2ee0f5f57d0e8a5eeb1b9e0601bd48a560ad47f",
+    "coverage-inspection.png": "71e71625ad3367c746d3a1f710f0bd7187ce1262dccff3ee4620ad57cd5013cd",
+    "test-failure.png": "114f4a98b6074afade832988029b3c792a7c99e20ec02a196ad11205fc6112b4"
+  },
+  "runs": [
+    {
+      "id": "20261115-170621-1e1aa0",
+      "tests": [
+        {
+          "name": "demo.PriceTest::appliesDiscount",
+          "status": "passed"
+        },
+        {
+          "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+          "status": "passed"
+        }
+      ],
+      "sources": [
+        {
+          "path": "src/main/java/demo/Price.java",
+          "provenance": {
+            "schemaVersion": 1,
+            "status": "verified",
+            "classFiles": [
+              {
+                "path": "target/cherry-test/runs/20261115-170621-1e1aa0/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+                "sha256": "28fa24931473d88595285d6fe40149443206f5b31a1c5e105a0320e4dd52c157"
+              }
+            ],
+            "sourceHash": "215b932e62b0da4906d9e80834562087b5d52c6f042c778d445ddf2653e244e2",
+            "collectionId": "098b4e86-bf76-4fbe-ad87-c47ca19d9161",
+            "classIdentity": "72b2d5e2e0aea66c23db2c7c378770687a03dad61f488c14bc1df9d0e48b66a0",
+            "compilationId": "b4d958e1-d12c-404b-8f92-2e55615b8e2c",
+            "compilerIdentity": "Amazon.com Inc. / javac 25.0.4.1",
+            "processId": "9266@2026-11-15T17:06:22.696Z",
+            "sessionId": "cherry:098b4e86-bf76-4fbe-ad87-c47ca19d9161:efaba667-9fe4-4c78-b98b-749a418c4fd8",
+            "executionHashes": "ab3c44982a15b05ae7c855b4a80baaca00126de4488309979bbe3c79c50530bb",
+            "reason": "Compiler input/output and JaCoCo class IDs, counters and process sessions match"
+          },
+          "lines": [
+            {
+              "line": 7,
+              "ci": 5,
+              "mi": 0,
+              "cb": 2,
+              "mb": 2
+            },
+            {
+              "line": 8,
+              "ci": 0,
+              "mi": 5,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 10,
+              "ci": 8,
+              "mi": 0,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 14,
+              "ci": 0,
+              "mi": 2,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 18,
+              "ci": 0,
+              "mi": 5,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 19,
+              "ci": 0,
+              "mi": 1,
+              "cb": 0,
+              "mb": 0
+            }
+          ]
+        }
+      ],
+      "rawArtifact": "app/target/cherry-native-smoke/project-11463746540408040882/target/cherry-test/runs/20261115-170621-1e1aa0/reports/adapters/demo/native-ide/unit/0.lcov.native.json",
+      "rawArtifactSHA256": "59099e81e640087deef5e5f1b5142801d73663a611d014bada02af63a63e7c11",
+      "processCaptures": 1,
+      "shutdownReceipts": 1
+    },
+    {
+      "id": "20261115-170624-b1afe0",
+      "tests": [
+        {
+          "name": "demo.PriceTest::appliesDiscount",
+          "status": "failed"
+        },
+        {
+          "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+          "status": "passed"
+        }
+      ],
+      "sources": [
+        {
+          "path": "src/main/java/demo/Price.java",
+          "provenance": {
+            "schemaVersion": 1,
+            "status": "verified",
+            "classFiles": [
+              {
+                "path": "target/cherry-test/runs/20261115-170624-b1afe0/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+                "sha256": "f6fc3e4d6088756e1a0242fa59ace8b683b43f8811e30b9be269459e4d672746"
+              }
+            ],
+            "sourceHash": "6decf4274cfd09f94d8a3e7612b73844ee11ab5e931a787d3c2f43a2feea433c",
+            "collectionId": "d5d850f8-0451-480c-8309-9a2df4976686",
+            "classIdentity": "2f4d6f307e0b8c2595ed4a9384a84f5298e83678d0d4516d19e4ce6e50f404ea",
+            "compilationId": "f0a5bb90-1727-427b-b224-9a161b152cb7",
+            "compilerIdentity": "Amazon.com Inc. / javac 25.0.4.1",
+            "processId": "9327@2026-11-15T17:06:25.590Z",
+            "sessionId": "cherry:d5d850f8-0451-480c-8309-9a2df4976686:1ece1412-2880-4f47-9689-7acff7355826",
+            "executionHashes": "87b81bf6bee8a1437abdee391afb0e99239b3e2e9e68bfdfe66a116e1a7f8ac4",
+            "reason": "Compiler input/output and JaCoCo class IDs, counters and process sessions match"
+          },
+          "lines": [
+            {
+              "line": 7,
+              "ci": 5,
+              "mi": 0,
+              "cb": 2,
+              "mb": 2
+            },
+            {
+              "line": 8,
+              "ci": 0,
+              "mi": 5,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 10,
+              "ci": 8,
+              "mi": 0,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 14,
+              "ci": 0,
+              "mi": 2,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 18,
+              "ci": 0,
+              "mi": 5,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 19,
+              "ci": 0,
+              "mi": 1,
+              "cb": 0,
+              "mb": 0
+            }
+          ]
+        }
+      ],
+      "rawArtifact": "app/target/cherry-native-smoke/project-11463746540408040882/target/cherry-test/runs/20261115-170624-b1afe0/reports/adapters/demo/native-ide/unit/0.lcov.native.json",
+      "rawArtifactSHA256": "729058685a0e7cde48ac1395bf0545e752a78d058e1da39cab1ac82ffd695473",
+      "processCaptures": 1,
+      "shutdownReceipts": 1
+    },
+    {
+      "id": "20261115-170626-64cab8",
+      "tests": [
+        {
+          "name": "demo.PriceTest::appliesDiscount",
+          "status": "passed"
+        },
+        {
+          "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+          "status": "passed"
+        }
+      ],
+      "sources": [
+        {
+          "path": "src/main/java/demo/Price.java",
+          "provenance": {
+            "schemaVersion": 1,
+            "status": "verified",
+            "classFiles": [
+              {
+                "path": "target/cherry-test/runs/20261115-170626-64cab8/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+                "sha256": "28fa24931473d88595285d6fe40149443206f5b31a1c5e105a0320e4dd52c157"
+              }
+            ],
+            "sourceHash": "215b932e62b0da4906d9e80834562087b5d52c6f042c778d445ddf2653e244e2",
+            "collectionId": "53ec7dde-cb42-4fb8-b301-b33e0a19eafd",
+            "classIdentity": "72b2d5e2e0aea66c23db2c7c378770687a03dad61f488c14bc1df9d0e48b66a0",
+            "compilationId": "36cf7a71-061b-4d00-89f1-f02e188a8218",
+            "compilerIdentity": "Amazon.com Inc. / javac 25.0.4.1",
+            "processId": "9383@2026-11-15T17:06:27.987Z",
+            "sessionId": "cherry:53ec7dde-cb42-4fb8-b301-b33e0a19eafd:6e25e9ce-b441-4f15-9730-7c7888b5dcf0",
+            "executionHashes": "6f6e465a7094c0b91299b10034565d5bf0be3304ba76904cf4e06e6e1aa153cc",
+            "reason": "Compiler input/output and JaCoCo class IDs, counters and process sessions match"
+          },
+          "lines": [
+            {
+              "line": 7,
+              "ci": 5,
+              "mi": 0,
+              "cb": 2,
+              "mb": 2
+            },
+            {
+              "line": 8,
+              "ci": 0,
+              "mi": 5,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 10,
+              "ci": 8,
+              "mi": 0,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 14,
+              "ci": 0,
+              "mi": 2,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 18,
+              "ci": 0,
+              "mi": 5,
+              "cb": 0,
+              "mb": 0
+            },
+            {
+              "line": 19,
+              "ci": 0,
+              "mi": 1,
+              "cb": 0,
+              "mb": 0
+            }
+          ]
+        }
+      ],
+      "rawArtifact": "app/target/cherry-native-smoke/project-11463746540408040882/target/cherry-test/runs/20261115-170626-64cab8/reports/adapters/demo/native-ide/unit/0.lcov.native.json",
+      "rawArtifactSHA256": "a25233d5e10561635d03b8f0a110051b850206e8df1beace0c5c1bb8f6bf0ef4",
+      "processCaptures": 1,
+      "shutdownReceipts": 1
+    }
+  ],
+  "controls": [
+    {
+      "result": "FAIL",
+      "reason": "First command-line control had no Maven on PATH; rerun with the wrapper distribution on PATH."
+    },
+    {
+      "result": "FAIL",
+      "reason": "First native fixture inherited an ancestor Maven repository setting and could not resolve the capture module. Fixed by making the copied fixture an independent Maven root."
+    }
+  ],
+  "limitations": [
+    "Opt-in javac/JaCoCo and fresh class output only; unsupported compilers/providers remain unknown.",
+    "No per-test production-line attribution.",
+    "Mini/shop/shop-java/JUG service matrix not rerun for this change.",
+    "Raw build artifacts stay local under app/target; archived screenshots, normalized metadata and native report are retained here."
+  ]
+}

@@ -44,16 +44,55 @@ class ProfileSwitchTest {
         }
     }
 
-    @Test void savedTurboJClassicSelectionMovesToTurboJMacosAndItsStoredCopyIsDropped() {
-        String saved = "{\"schemaVersion\":1,\"selected\":\"turboj-classic\",\"profiles\":[{\"id\":\"turboj-classic\",\"name\":\"TurboJ Classic\","
-                + "\"bindings\":{\"run\":[{\"keys\":\"CTRL+F9\",\"required\":[],\"forbidden\":[]}]}},"
-                + "{\"id\":\"mine\",\"name\":\"Mine\",\"parent\":\"turboj-classic\",\"bindings\":{}}]}";
+    @Test void retiredProfilePreservesSelectionCustomBindingsUnbindingsAndChildrenAcrossReload() {
+        String saved = """
+                {"schemaVersion":1,"selected":"turboj-classic","profiles":[
+                  {"id":"mine","name":"Mine","parent":"turboj-classic","bindings":{}},
+                  {"id":"turboj-classic","name":"TurboJ Classic","bindings":{
+                    "run":[{"keys":"CTRL+ALT+F9","required":["editor"],"forbidden":["popup"]}],
+                    "save":[],"custom.action":[{"keys":"CTRL+K, CTRL+U"}]}}
+                ]}
+                """;
         var maps = new KeymapManager();
         KeymapJson.read(maps, saved);
+        assertEquals("turboj-classic", maps.selectedId());
+        assertFalse(maps.selected().bundled(), "legacy values are preserved as a user profile, not a fifth bundled default");
+        assertEquals(4, BundledKeymaps.profiles().size());
+        assertTrue(maps.bindings("save").isEmpty());
+        assertTrue(maps.selected().overrides().containsKey("save"));
+        assertEquals(KeySequence.parse("CTRL+ALT+F9"), maps.bindings("run").getFirst().sequence());
+        assertEquals(new BindingContext(java.util.Set.of("editor"), java.util.Set.of("popup")), maps.bindings("run").getFirst().context());
+        assertFalse(maps.migrationNotices().isEmpty());
+        var expected = maps.bindings();
+        maps.select("mine");
+        assertEquals(expected, maps.bindings());
+        assertEquals("turboj-classic", maps.selected().parentId());
+        var restored = new KeymapManager();
+        KeymapJson.read(restored, KeymapJson.write(maps));
+        assertEquals("mine", restored.selectedId());
+        assertEquals(expected, restored.bindings());
+        restored.select("turboj-macos");
+        assertEquals(KeySequence.parse("META+R"), restored.bindings("run").getFirst().sequence());
+        restored.select("turboj-classic");
+        assertEquals(expected, restored.bindings());
+    }
+
+    @Test void missingRetiredProfileFallsBackButDuplicateSavedIdentityIsRejectedAtomically() {
+        var maps = new KeymapManager();
+        KeymapJson.read(maps, """
+                {"schemaVersion":1,"selected":"turboj-classic","profiles":[
+                  {"id":"mine","name":"Mine","parent":"turboj-classic","bindings":{}}]}
+                """);
         assertEquals("turboj-macos", maps.selectedId());
-        assertTrue(maps.profiles().stream().noneMatch(profile -> profile.id().equals("turboj-classic")));
-        assertEquals("turboj-macos", maps.profiles().stream().filter(profile -> profile.id().equals("mine")).findFirst().orElseThrow().parentId());
-        assertEquals(KeySequence.parse("META+R"), maps.bindings("run").getFirst().sequence());
+        maps.select("mine");
+        assertEquals("turboj-macos", maps.selected().parentId());
+        String before = KeymapJson.write(maps);
+        assertThrows(IllegalArgumentException.class, () -> KeymapJson.read(maps, """
+                {"schemaVersion":1,"selected":"turboj-classic","profiles":[
+                  {"id":"turboj-classic","name":"First","bindings":{}},
+                  {"id":"turboj-classic","name":"Duplicate","bindings":{}}]}
+                """));
+        assertEquals(before, KeymapJson.write(maps));
     }
 
     @Test void returningToInheritedUserProfilePreservesOverridesAndNotifiesWithResolvedState() throws Exception {

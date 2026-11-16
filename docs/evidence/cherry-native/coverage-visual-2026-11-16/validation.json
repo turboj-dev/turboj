@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "previewMethod": "Actual EditorComponent raster rendering; explicitly synthetic states, not execution evidence.",
+  "nativeMethod": "CherryNativeSmoke with real Swing commands and real JUnit/JaCoCo runs; setup/caret placement programmatic.",
+  "renderingChecks": {
+    "status": "PASS",
+    "tests": 10,
+    "themes": 103,
+    "sampledFontSizes": [
+      10,
+      24,
+      48
+    ],
+    "rasterScaleFactors": [
+      1,
+      2
+    ]
+  },
+  "nativeStatus": "PASS",
+  "limitations": [
+    "No physical keyboard or arbitrary font-family certification.",
+    "Tints may be omitted for contrast-constrained palettes.",
+    "No large browser/service-suite revalidation."
+  ],
+  "files": {
+    "ascii-fallback.png": "e6134f251ec471157de7b0c2d65697ff04faa7f56ba90816ec43434c2506dd58",
+    "light.png": "cf5480a6204c76f2a2f41e3bbb37ff4637dd439ba01cabdd1e8b38f6dc63042f",
+    "native-editor.png": "12904ffcaa8082f160a3a5aefb3c6d9bd814fc8cda0a9f6c34c67fd1e481da5d",
+    "native-report.txt": "f80a49d32b92130b5c825ec4766f31efccdf49d2d1754e559b8e5ae45a14e1ec",
+    "vscode-monokai.png": "0a3e62681afba581d8d995c42f4ccaa1348939febf7c6b98765bf080b3e6b771"
+  },
+  "finalBuild": {
+    "command": "./mvnw install",
+    "status": "PASS",
+    "tests": 850,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": 123,
+    "elapsed": "03:48 min",
+    "appJarSha256": "b6a16cf116f986f87a37c438c7e38033a8a47adce3fae61728e33a618adad949"
+  }
+}

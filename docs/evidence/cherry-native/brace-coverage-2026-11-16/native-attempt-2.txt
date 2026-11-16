@@ -1,0 +1,25 @@
+Started: 2026-11-16T04:38:39.668862Z
+JDK: 25.0.4.1
+OS: Mac OS X 26.5.1
+Project: isolated generated Cherry fixture
+CLI: cherry-test-cli/target/cherry-test-java.jar
+PASS palette selected tests.all
+PASS two genuine JUnit tests pass
+PASS aggregate coverage invents no production-line test association
+PASS compiler/class/process provenance certifies current aggregate coverage
+PASS real JUnit identities resolve to exact hashed test declarations
+Driver reactivated native window before view.coverageBackgrounds (host focus was outside TurboJ).
+PASS palette selected view.coverageBackgrounds
+PASS CommandJ hides coverage backgrounds without dropping measured evidence
+PASS palette selected view.coverageBackgrounds
+PASS CommandJ restores coverage backgrounds
+PASS palette selected editor.inspectLineIntelligence
+PASS keyboard inspection preserves caret
+PASS unsaved edit does not rewrite disk
+PASS palette selected save
+PASS changed calculation yields exactly one real assertion failure
+PASS failed suite does not mark uncovered production code red
+Driver reactivated native window before cherry.results (host focus was outside TurboJ).
+PASS palette selected cherry.results
+FAIL java.util.concurrent.ExecutionException: java.lang.AssertionError: Focus lost
+Console:

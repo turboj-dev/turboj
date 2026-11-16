@@ -25,6 +25,7 @@ public final class Settings {
     public boolean autoRunOnSave = false;
     public boolean autoTestOnSave = false;
     public String cherryTestExecutable = "";
+    public boolean showCoverageBackgrounds = true;
     public boolean showPressedShortcuts = false;
     /** Shortcuts written the macOS way (⌃⌥⇧⌘O) rather than in words (Ctrl+Option+Shift+Cmd+O). */
     public boolean shortcutSymbols = System.getProperty("os.name", "").toLowerCase(java.util.Locale.ROOT).contains("mac");

@@ -176,7 +176,9 @@ public record Theme(
                         colors.put(section + "." + field, Color.decode(value));
                     }
                 });
-        for (String role : LINE_ROLES.keySet()) {
+        var optionalRoles = new java.util.LinkedHashSet<>(LINE_ROLES.keySet());
+        optionalRoles.addAll(java.util.List.of("coverage.coveredBackground","coverage.uncoveredBackground"));
+        for (String role : optionalRoles) {
             String[] path = role.split("\\.");
             if (!object.has(path[0])) continue;
             JsonObject group = object.getAsJsonObject(path[0]);

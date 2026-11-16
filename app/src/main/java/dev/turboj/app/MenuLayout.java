@@ -118,7 +118,7 @@ final class MenuLayout {
                         c("view.focusTestResults"), c("view.focusJShell"), c("view.focusNextPanel"), c("view.focusPreviousPanel"),
                         SEPARATOR,
                         c("zoom"), c("view.maximizeEditor"), c("view.restoreLayout"), c("view.resizeOutput"), c("fullscreen"), SEPARATOR,
-                        c("fontUp"), c("fontDown"), check("showPressedShortcuts"), check("settings.shortcutSymbols"))),
+                        c("fontUp"), c("fontDown"), check("view.coverageBackgrounds"), check("showPressedShortcuts"), check("settings.shortcutSymbols"))),
                 new Menu("Help", "Help", 'H', List.of(
                         c("palette"), c("help"), c("help.cheatSheet"))));
     }

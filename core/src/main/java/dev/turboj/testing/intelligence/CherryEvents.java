@@ -147,6 +147,11 @@ public final class CherryEvents {
         for (JsonElement entry : array(artifact,"files")) {
             JsonObject file = entry.getAsJsonObject(); Path source = localPath(string(file,"source"));
             if (source == null) continue;
+            JsonElement encodedProof = file.get("provenance");
+            if (encodedProof != null && !encodedProof.isJsonObject()) throw new IOException("Malformed coverage provenance object");
+            JsonObject evidence = encodedProof == null ? new JsonObject() : encodedProof.getAsJsonObject();
+            CoverageProof proof = string(evidence,"status").equals("verified") ? CoverageProof.read(evidence,root) : null;
+            boolean mismatch = string(evidence,"status").equals("mismatch") || proof != null && !proof.matchesClasses(root);
             for (JsonElement element : array(file,"lines")) {
                 JsonObject counters = element.getAsJsonObject();
                 int line = Math.toIntExact(number(counters,"line",0)); if (line < 1) continue;
@@ -154,14 +159,21 @@ public final class CherryEvents {
                         cb = number(counters,"cb",-1), mb = number(counters,"mb",-1);
                 Coverage value;
                 if (incomplete) value = Coverage.unknown(Availability.INCOMPLETE,"Collection did not complete");
+                else if (mismatch) value = Coverage.unknown(Availability.BYTECODE_MISMATCH,
+                        "Compiler/execution evidence mismatch: " + string(evidence,"reason"));
                 else if (ci < 0 || mi < 0) value = Coverage.unknown(Availability.UNKNOWN,"Instruction counters not supplied by provider");
                 else {
                     CoverageState state = ci + mi == 0 ? CoverageState.NOT_APPLICABLE : ci == 0 ? CoverageState.UNCOVERED
                             : mi > 0 || mb > 0 ? CoverageState.PARTIAL : CoverageState.COVERED;
-                    value = new Coverage(state,Freshness.UNKNOWN,Availability.AVAILABLE,
+                    Freshness freshness = proof == null ? Freshness.UNKNOWN
+                            : proof.sourceHash().equals(before.get(source)) ? Freshness.CURRENT : Freshness.STALE;
+                    value = new Coverage(state,freshness,Availability.AVAILABLE,
                             cb >= 0 && mb >= 0 ? Precision.INSTRUCTIONS_AND_BRANCHES : Precision.INSTRUCTIONS,
-                            ci,mi,cb,mb,"JaCoCo",scope,runId,"",before.getOrDefault(source,""),"",
-                            "Actual aggregate counters; executed class/source identity is not available in JaCoCo XML");
+                            ci,mi,cb,mb,"JaCoCo",scope,runId,proof == null ? "" : proof.processId(),
+                            proof == null ? before.getOrDefault(source,"") : proof.sourceHash(),proof == null ? "" : proof.classIdentity(),
+                            proof == null ? "Actual aggregate counters; compiler/process provenance is unavailable. " + string(evidence,"reason")
+                                    : "Verified javac generation " + proof.compilationId() + "; " + proof.compilerIdentity()
+                                      + "; JaCoCo sessions " + proof.sessionId() + "; aggregate coverage, not per-test attribution",proof);
                 }
                 destination.computeIfAbsent(source,key -> new LinkedHashMap<>()).merge(line,value,(existing, precise) ->
                         existing.precision() == Precision.BINARY_LINE ? precise : merge(existing,precise));
@@ -199,7 +211,9 @@ public final class CherryEvents {
         Map<Path,Map<Integer,Coverage>> coverage = new LinkedHashMap<>();
         phaseCoverage.values().forEach(files -> files.forEach((file,lines) -> lines.forEach((line,value) -> {
             Coverage result = value;
-            if (terminal && (!after.containsKey(file) || !Objects.equals(before.get(file),after.get(file))))
+            if (value.freshness() == Freshness.CURRENT && state != RunState.COMPLETED && state != RunState.FAILED)
+                result = value.withFreshness(Freshness.UNKNOWN);
+            if (terminal && (!after.containsKey(file) || !Objects.equals(value.sourceHash(),after.get(file))))
                 result = value.withFreshness(Freshness.STALE);
             coverage.computeIfAbsent(file,key -> new LinkedHashMap<>()).merge(line,result,CherryEvents::merge);
         })));
@@ -222,6 +236,7 @@ public final class CherryEvents {
     public boolean terminal() { return terminal; }
     public String compiledIdentity() { return compiledIdentity; }
     public Run interrupted(boolean cancelled,String reason) {
+        state = cancelled ? RunState.CANCELLED : RunState.INCOMPLETE;
         Run run = snapshot(); terminal = true;
         return new Run(run.id(),root,cancelled ? RunState.CANCELLED : RunState.INCOMPLETE,run.tests(),
                 run.coverage(),run.sourceHashes(),reason,run.htmlReport(),sequence,run.coverageAvailability());

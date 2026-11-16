@@ -24,6 +24,24 @@ public final class LineIntelligenceDialogs {
             Lane lane = Lane.values()[Math.max(0,sections.getSelectedIndex())];
             String description = editor.lineIntelligenceDescription(target.line(),lane);
             Snapshot snapshot = editor.lineIntelligence();
+            if (snapshot != null && lane == Lane.COVERAGE) {
+                Coverage coverage = snapshot.line(target.line()).coverage();
+                var proof = coverage.proof();
+                description += "\n\n" + coverage.reason()
+                        + "\n\nCoverage legend: ■ covered (C), □ uncovered (U), ◧ partial (P)."
+                        + "\nASCII letters are used when a symbol cannot fit the editor font."
+                        + "\nBlue row: covered or partial (◧); yellow row: uncovered. No coverage underline."
+                        + "\nCoverage backgrounds: " + (editor.isShowCoverageBackgrounds() ? "shown" : "hidden")
+                        + " (View → Show Coverage Backgrounds)."
+                        + "\n? unknown/unverified, ~ stale. Not-applicable coverage has no symbol. Neutral rows make no coverage claim."
+                        + "\nCoverage does not establish that a test passed.";
+                if (proof != null) description += "\nCompiler: " + proof.compilerIdentity()
+                        + "\nCompilation: " + proof.compilationId() + "\nSource SHA-256: " + proof.sourceHash()
+                        + "\nClass identity: " + proof.classIdentity() + "\nInstrumented process: " + proof.processId()
+                        + "\nJaCoCo session: " + proof.sessionId() + "\nCollection: " + proof.collectionId()
+                        + "\nCaptured class files: " + proof.classFiles().size()
+                        + "\nAggregate execution evidence; no per-test production-line attribution.";
+            }
             if (snapshot != null && lane == Lane.GIT && target.deletionAnchor() != null) {
                 description += "\nDeletion boundary " + target.deletionAnchor() + " (not current source):\n";
                 for (Deletion deletion : snapshot.deletions()) if (deletion.anchorLine() == target.deletionAnchor())
