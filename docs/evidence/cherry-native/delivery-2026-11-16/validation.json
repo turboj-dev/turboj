@@ -1,0 +1,103 @@
+{
+  "cache": "Cherry built in m2-isolated with com/cherrytest, dev/turboj, dev/javafmt absent; final TurboJ m2-final seeded from that cache excluding dev/turboj and dev/javafmt again. Only clean published-source Cherry artifacts carried forward.",
+  "os": "macOS-26.5.1-arm64-arm-64bit",
+  "repositories": {
+    "turboj": {
+      "commit": "1414347dd000c5f66595496b5e1f7e7a74bc6921",
+      "statusBeforeBuild": "",
+      "remote": "https://github.com/turboj-dev/turboj.git",
+      "initialCommit": "be9723cb95c8e9dc69621c818974e5c3ccd22598"
+    },
+    "cherry-test": {
+      "commit": "302325e8e003b155a97367d0b91623650db46330",
+      "statusBeforeBuild": "",
+      "remote": "https://github.com/lmrrcc/cherry-test.git"
+    }
+  },
+  "excludedGroups": [
+    "com/cherrytest",
+    "dev/turboj",
+    "dev/javafmt"
+  ],
+  "initialAttempt": "TurboJ failed three Maven acceptance tests due to hardcoded .cache/m2; fixed in b90d5db. Initial cache also retained dev/javafmt; final clean builds exclude all project groups.",
+  "attempts": [
+    {
+      "log": "turboj-clean-install.log",
+      "result": "FAIL",
+      "reason": "3 tests hardcoded .cache/m2; cache also still contained dev/javafmt; fixed in b90d5db"
+    },
+    {
+      "log": "turboj-isolated-install.log",
+      "result": "FAIL",
+      "reason": "2 Maven acceptance tests wrote root target reports without creating the directory; fixed in 1414347"
+    }
+  ],
+  "environment": {
+    "java": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode, sharing)",
+    "rust": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "cargo": "cargo 1.96.0 (30a34c682 2026-05-25)",
+    "maven": {
+      "turboj": "3.9.11",
+      "cherry": "3.9.16",
+      "fixture": "3.9.16"
+    }
+  },
+  "tests": {
+    "turboj": {
+      "tests": 858,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 123,
+      "result": "PASS"
+    },
+    "cherry": {
+      "tests": 308,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": 47,
+      "result": "PASS"
+    },
+    "rust": {
+      "tests": 241,
+      "result": "PASS"
+    }
+  },
+  "builds": {
+    "turboj": {
+      "result": "PASS",
+      "command": "./mvnw -Dmaven.repo.local=<delivery>/m2-final clean install",
+      "duration": "03:13 min"
+    },
+    "cherry": {
+      "result": "PASS",
+      "command": "./mvnw -Dmaven.repo.local=<delivery>/m2-isolated -pl cherry-test-cli -am clean install",
+      "duration": "25.071 s"
+    }
+  },
+  "artifacts": {
+    "turboj/app/target/turboj-app.jar": {
+      "sha256": "e0d69c7f2211aeebc70f45db192c482060e18c58bf4de2a111e872edf7c19b70",
+      "bytes": 60976133
+    },
+    "cherry-test/java/cherry-test-cli/target/cherry-test-java.jar": {
+      "sha256": "64df0d2b039d58e2b52fa02bcf71fee5c2a8e73d6f8b9bc39648b177c5ea7f99",
+      "bytes": 29467046
+    },
+    "cherry-test/java/cherry-test-provenance/target/cherry-test-provenance-0.3.16.jar": {
+      "sha256": "33a679b3458ab71f3e5d0fdf5eea632296e1a64da539474c2aeab813ac9b0c4d",
+      "bytes": 11515
+    }
+  },
+  "native": {
+    "result": "PASS",
+    "command": "MAVEN_OPTS=-Dmaven.repo.local=<delivery>/m2-final java -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.CherryNativeSmoke <delivery>/cherry-test/java/cherry-test-cli/target/cherry-test-java.jar",
+    "checks": 26,
+    "physicalKeyboardVerified": false
+  },
+  "cleanCheckoutsAfterBuild": {
+    "turboj": "",
+    "cherry-test": ""
+  }
+}

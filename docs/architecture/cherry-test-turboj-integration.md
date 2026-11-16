@@ -2,6 +2,13 @@
 
 Status: **implemented and tested vertical slice; Task 2 is not complete**. Baselines inspected: TurboJ `bb59258`, Cherry Test `0dc649cb`, JUG `b1f1ad8`. Existing example edits and JUG working-tree changes were preserved.
 
+Published source pair (16 November): TurboJ `1414347` and Cherry Test
+`302325e8`. Cherry's tracked remote is `https://github.com/lmrrcc/cherry-test`,
+not the legacy `test-it` remote. See [CH-01 delivery and clean-checkout instructions](../evidence/cherry-native/delivery-2026-11-16/README.md).
+The CLI and provenance artifact still identify themselves as `0.3.16`; pin the
+commit when reproducing this integration. No binary release or Maven Central
+publication is implied.
+
 ## Ownership and execution
 
 Cherry Test remains the orchestrator. Its Java CLI optionally emits schema-v1 JSONL when `CHERRY_TEST_IDE_EVENTS` is set. Ordinary CLI and HTML reporting remain available. TurboJ does not parse ANSI output or HTML colors as results and adds no test-framework dependency to the editor.
@@ -77,14 +84,21 @@ Limitations remain explicit: no ECJ/Kotlin/Rust provenance producer, no per-test
 Reproduce the supported path:
 
 ```sh
-# From TurboJ: install the real sibling CLI and capture artifact first.
-./mvnw -f ../cherry-test/java/pom.xml -pl cherry-test-cli -am install
+# From TurboJ: install the sibling CLI/capture artifact into the repository
+# used by the fixture's Maven adapter (normally ~/.m2/repository).
+(cd ../cherry-test/java && ./mvnw -pl cherry-test-cli -am install)
 ./mvnw install
 # Maven must be on PATH for the adapter; the native smoke copies its own fixture.
 java -cp app/target/test-classes:app/target/turboj-app.jar \
   dev.turboj.app.CherryNativeSmoke \
   ../cherry-test/java/cherry-test-cli/target/cherry-test-java.jar
 ```
+
+For an isolated cache, pass `-Dmaven.repo.local` to both builds and propagate
+the same absolute path through `MAVEN_OPTS` when launching the smoke. TurboJ's
+root wrapper configuration otherwise uses `.cache/m2`, whereas the fixture's
+independent Maven invocation normally uses `~/.m2/repository`. Installing the
+agent into one and launching against the other is not a valid reproduction.
 
 `CoverageEvidenceTest` launches real javac and instrumented JVM processes, checks partial/uncovered counters and nested classes, and exercises changed source/bytecode, old/mixed execution generations, mismatched counters, missing compiler/process/exec evidence and foreign sessions. TurboJ regression tests cover ingestion, source staleness, lifecycle/receipt downgrades, undo and class-file replacement. Validation outcomes for this change are recorded in the master `TODO.md` and [15 November evidence](../evidence/cherry-native/provenance-2026-11-15/validation.json): final TurboJ install 841 tests, selected Cherry reactor 308 tests, including eight real compiler/agent controls, and native pass → fail → undo → pass all passed. The earlier evidence below remains historical.
 

@@ -1,6 +1,6 @@
 # TurboJ — stato del progetto e piano unico di sviluppo
 
-**Aggiornamento: 15 novembre 2026. Baseline: `1a38a91` + modifiche locali KEY-01/CH-02.**
+**Aggiornamento: 16 novembre 2026. Baseline pubblicata: TurboJ `1414347`, Cherry Test `302325e8`.**
 
 Questo è il **canovaccio operativo unico**: sommario, stato effettivo, decisioni, attività aggregate, dipendenze e criteri di accettazione. Sostituisce la precedente lista breve e consolida il lavoro disperso nei documenti del progetto. Le specifiche e le evidenze originali restano nei rispettivi percorsi: non vengono eliminate né trasformate retroattivamente in verifiche della versione attuale.
 
@@ -37,7 +37,7 @@ L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro su
 | Sito e hero | Cinque capitoli, evidenze, curl nell'Output nativo, controlli compatti, loop e fix tema | Verificare build/deploy e scegliere quali cambi nativi successivi rappresentare |
 | Distribuzione/ecosistema | Monorepo con moduli riutilizzabili e artefatti locali | Coordinare versioni, repository Cherry, packaging e pubblicazioni |
 
-**Ripartenza immediata:** KEY-01 è verificata; proseguire con la qualificazione nativa e sui progetti reali del percorso CH-02, preservando le verifiche aperte Cmd+1/Monokai e routing Run. **Priorità strutturale:** estendere la provenienza Cherry oltre la slice javac/JaCoCo. «Coverage corrente» è ammessa solo dove la catena di identità è verificata, non globalmente per ogni provider. Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
+**Ripartenza immediata:** CH-01 è chiusa con checkout puliti; prossimo sviluppo JAVA-06 Find Usages/navigazione test; quindi CH-02/08/09 sui progetti reali e QFX-04 workflow tastiera plain/Maven. KEY-01 è verificata; preservare le verifiche aperte Cmd+1/Monokai e routing Run. **Priorità strutturale:** estendere la provenienza Cherry oltre la slice javac/JaCoCo. «Coverage corrente» è ammessa solo dove la catena di identità è verificata, non globalmente per ogni provider. Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
 
 Il consolidamento iniziale è stato un audit documentale e del codice, senza riesecuzione di build, test o controlli live. Le verifiche successive sono registrate separatamente in §7; non ricertificano automaticamente le evidenze di ottobre.
 
@@ -47,10 +47,10 @@ Il consolidamento iniziale è stato un audit documentale e del codice, senza rie
 
 | Elemento | Stato rilevato | Interpretazione |
 | --- | --- | --- |
-| TurboJ HEAD | `fc4bdac`, 26 ottobre 2026 | Explorer, titoli tab Output e risultati test; non include il working tree |
+| TurboJ HEAD di codice verificato | `1414347`, 16 novembre 2026 | Include la consegna `be9723cb` e i fix dei test Maven per repository isolato/report in checkout pulito; non include esempi personali |
 | Maven root | `0.1.0-SNAPSHOT`, JDK 25 | Distinto dal numero del pacchetto macOS |
 | Packaging macOS | Script ancora con app-version `1.0.10` | Da riconciliare con prossima consegna; HEAD non è automaticamente distribuito |
-| Cherry sibling | HEAD `0dc649cb`, integrazione Java/Rust modificata localmente | Il solo checkout dello SHA non riproduce tutte le capacità usate da TurboJ |
+| Cherry sibling | `302325e8`, pubblicato su `lmrrcc/cherry-test` | CLI schema 1, provenienza compiler/processo e report Java/Rust versionati; versione Maven 0.3.16, riproduzione vincolata allo SHA |
 | JUG Lugano | `b1f1ad8` baseline dell'indagine precedente | Non certifica il suo working tree corrente |
 | Sito | Ultimo deploy documentato: sorgente `294984a`, 25 ottobre; registrazione `bb59258` | Produzione non verificata oggi; push e deploy sono distinti |
 | JAR locale | `app/target/turboj-app.jar`, ricostruito il 14 novembre con `./mvnw install` | Build PASS sul working tree; hash e risultati in §7. Il pacchetto `.app` precedente non viene aggiornato da questo comando |
@@ -58,7 +58,7 @@ Il consolidamento iniziale è stato un audit documentale e del codice, senza rie
 
 Passaggi storici: `802f496` keyboard-first; `997057b` hero; `2ca283f` layout; `32ee964` workflow Eclipse; `61208bc` comando Output/curl; `294984a` flash tema; `db1d4ed` Cherry; `a26e6b7` keymap TurboJ/formatter; `b8f5978` template; `23425cf` TurboAI; `76db7c4` Output/Tests; `fc4bdac` Explorer/risultati.
 
-### Lavoro locale preesistente da preservare
+### Inventario storico del lavoro locale preesistente
 
 Prima di aggiornare questo file: **18 file modificati e 8 non tracciati**. Non sono cambi prodotti dall'audit né automaticamente pronti per un commit unico.
 
@@ -72,7 +72,7 @@ Prima di aggiornare questo file: **18 file modificati e 8 non tracciati**. Non s
 | Nuove evidenze | Cinque `benchmarks/results/gui-smoke-2026-10-26T*.md`; `docs/evidence/cherry-native/real-executions.json` | Verificare sorgente/build e conservare artefatti grezzi |
 | Nuovo esempio | `examples/HelloWorld.java` | Confermare ruolo e destinazione |
 
-Nel sibling Cherry sono locali le modifiche CLI Java, `NativeEvents`, test/fixture, `docs/native-ide-events.md` e report Rust. Il riepilogo locale `real-executions.json` rimanda a otto directory `rawEvidence` in `/private/tmp`: al controllo del 14 novembre non sono più presenti. Metadati e hash non sostituiscono gli output grezzi perduti; il file non va pubblicato invariato come prova riproducibile. GOV-01/02 e CH-01 coprono recupero, nuova acquisizione o dichiarazione esplicita del limite.
+Le modifiche CLI Java, `NativeEvents`, test/fixture, `docs/native-ide-events.md`, provenienza e report Rust sono state consegnate nel sibling Cherry con `302325e8` il 16 novembre. Il riepilogo locale `real-executions.json` rimanda a otto directory `rawEvidence` in `/private/tmp`: al controllo del 14 novembre non sono più presenti. Metadati e hash non sostituiscono gli output grezzi perduti; il file non va pubblicato invariato come prova riproducibile. GOV-01/02 coprono recupero o dichiarazione esplicita del limite delle vecchie acquisizioni; la nuova prova CH-01 conserva separatamente gli artefatti della propria sessione.
 
 ## 3. Architettura e capacità disponibili
 
@@ -203,7 +203,7 @@ Fonti: [keyboard-performance](docs/keyboard-performance.md), [Cherry benchmark](
 
 ## 5. Sequenza di lavoro consigliata
 
-Priorità proposte dalle dipendenze tecniche e dai difetti segnalati, non nuove autorizzazioni di deploy.
+Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
 
 | Traguardo | Attività | Uscita verificabile |
 | --- | --- | --- |
@@ -222,11 +222,11 @@ AI, documentazione e test librerie possono procedere in parallelo dove indipende
 
 Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
 
-**Registro al 16 novembre: 113 attività aggregate, di cui 111 aperte e 2 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 48 qualificazioni da eseguire, 30 attività parziali, 13 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
+**Registro al 16 novembre: 113 attività aggregate, di cui 110 aperte e 3 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 48 qualificazioni da eseguire, 29 attività parziali, 13 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
 
 | Priorità | Attività aperte | Lettura |
 | --- | --- | --- |
-| P0 | 8 | Baseline, regressioni segnalate e correttezza semantica |
+| P0 | 7 | Baseline, regressioni segnalate e correttezza semantica |
 | P1 | 57 | Consolidamento, implementazione e qualificazione prossimi |
 | P2 | 38 | Miglioramenti e decisioni successive |
 | P3 | 8 | Evoluzioni da decidere o attività sospese |
@@ -337,7 +337,7 @@ Fonti: [architettura](docs/architecture/cherry-test-turboj-integration.md), [fix
 
 | ID | P | Stato | Attività e criterio di chiusura |
 | --- | --- | --- | --- |
-| CH-01 | P0 | PARZIALE | Commit/versioni compatibili Cherry Java/Rust e TurboJ, CLI schema 1 distribuibile. Checkout puliti riproducono la slice senza patch nascoste; dipende da GOV-01/02. |
+| CH-01 | P0 | CHIUSA | 16 novembre: Cherry `302325e8` consegnato su `lmrrcc/cherry-test`, TurboJ `1414347` su `turboj-dev/turboj`. Checkout scaricati da GitHub, cache senza artefatti TurboJ/formatter preinstallati e Cherry ricostruito da sorgenti pubblicati: install TurboJ 858 test, reactor CLI Cherry 308, Rust 241, smoke nativo pass→Save/fail→Undo/Save/pass PASS. Corretti due presupposti dei test Maven (repository fisso e directory report assente). [Riproduzione e prove](docs/evidence/cherry-native/delivery-2026-11-16/README.md). Consegna sorgenti compatibili, non pubblicazione Maven Central/binari; la release 0.3.16 va identificata anche con lo SHA. GOV e CH-02/08/09 restano aperti per gli altri ambiti. |
 | CH-02 | P0 | PARZIALE | 15 novembre: percorso opt-in javac/JaCoCo implementato: generazione e input compiler, output fresh, SHA classi, ID/probe `.exec`, PID/sessioni; contatori ricalcolati e confrontati. TurboJ abilita CURRENT solo con fonte/classi/completamento verificati; mismatch, cancel, receipt assente e undo/rebuild coperti da regressioni. Restano qualificazione mini/shop-java/JUG, altri compiler/provider e compilazione incrementale; senza capture i dati restano neutrali. Vedi §7 e architettura. |
 | CH-03 | P1 | PARZIALE | Collezioni coverage separate consultabili e merge provider/probe per processi sovrapposti/`.exec` multipli. Nessuna somma ambigua; partial deriva da contatori reali. |
 | CH-04 | P1 | PARZIALE | Rerun esatto singolo/falliti per adapter, runtime/invocation preservati; fallback suite esplicito dove selettori assenti. |
@@ -481,7 +481,16 @@ Ispezionati stato Git, cronologia, documenti e punti di codice rilevanti; effett
 
 - `./mvnw install` completo → **BUILD SUCCESS**, **858 test in 123 suite**, zero failure/error/skip; 03:45 min. Include la soppressione finale di `?` sulle dichiarazioni test prive di misure. [Manifest finale](docs/evidence/source-test-navigation-2026-11-16/final-install.json).
 - Il primo tentativo in sandbox è terminato con abort del JVM Swing; il rerun completo fuori sandbox è passato. Il walkthrough nativo source↔test/Enter/Escape resta documentato separatamente; non è un test fisico di tutti i layout tastiera.
-- Consegna limitata al repository TurboJ. Esempi manuali e materiali locali non pertinenti preservati fuori dal commit; le modifiche nel checkout separato Cherry Test restano da consegnare (CH-01/GOV).
+- La prima consegna `be9723cb` era limitata a TurboJ. Esempi manuali e materiali locali non pertinenti preservati fuori dal commit. La successiva consegna Cherry `302325e8` è registrata separatamente sotto CH-01.
+
+### CH-01 — consegna Cherry e riproduzione pulita, 16 novembre 2026
+
+- Cherry `302325e8`: revisione e push del protocollo opzionale JSONL, contatori JaCoCo completi, catena compiler/classi/processi e separazione failure/coverage nei report Java/Rust. Checkout sibling pulito dopo il commit.
+- TurboJ `b90d5db` e `1414347`: i checkout puliti hanno rivelato due difetti degli harness Maven, prima nascosti dalla cache e dalla directory `target/` locali. Repository configurato rispettato e directory dei report creata esplicitamente. Nessun cambiamento del comportamento applicativo in questi fix.
+- Build finali da sorgenti scaricati da GitHub: TurboJ `clean install` **858 test / 123 suite PASS**, Cherry CLI e dipendenze `clean install` **308 test / 47 suite PASS**, Rust CLI/core `--locked` **241 PASS**. Zero failure/error/skip nelle suite Java finali. Cache terze parti calda; artefatti progetto esclusi, poi costruiti dai commit pubblicati.
+- `CherryNativeSmoke` sui nuovi JAR: **PASS**, 26 asserzioni; coverage corrente con prova, nessuna associazione produzione inventata, invalidazione unsaved, Save con un fallimento, Undo/Save con due test verdi, tre regioni gutter e focus. Nessuna certificazione dei layout tastiera fisici.
+- [Report e comandi riproducibili](docs/evidence/cherry-native/delivery-2026-11-16/README.md), [manifest](docs/evidence/cherry-native/delivery-2026-11-16/validation.json), [artefatti grezzi](docs/evidence/cherry-native/delivery-2026-11-16/native-evidence.tar.gz). Conservati anche entrambi i build falliti; le vecchie acquisizioni senza output grezzo restano storiche, non ricertificate.
+- Nessuna pubblicazione sito, pacchetto macOS o Maven Central. Prossimo sviluppo **JAVA-06**, poi qualificazione **CH-02/08/09**, infine **QFX-04** come concordato.
 
 ### Verifica successiva — correzione install, 14 novembre 2026
 
@@ -746,6 +755,6 @@ Esclusi dall'elenco per-file: output build/cache, copie pubbliche generate del s
 - [docs/keyboard-reference-sources.json](docs/keyboard-reference-sources.json), [docs/runtime-dependencies.tsv](docs/runtime-dependencies.tsv): provenienza degli export e dipendenze; non sostituiscono le verifiche della build corrente.
 - [app/src/main/java/dev/turboj/app/TurboFrame.java](app/src/main/java/dev/turboj/app/TurboFrame.java), [MenuLayout](app/src/main/java/dev/turboj/app/MenuLayout.java), [BundledKeymaps](commandj/commandj-keymap/src/main/java/dev/turboj/commandj/keymap/BundledKeymaps.java): fonte corrente per integrazione, menu e profili, incluse le modifiche della consegna del 14 novembre.
 - [core/src/main/java/dev/turboj/testing/intelligence](core/src/main/java/dev/turboj/testing/intelligence/), [app/src/main/java/dev/turboj/testing](app/src/main/java/dev/turboj/testing/), [LineGutter](app/src/main/java/dev/turboj/ui/intelligence/LineGutter.java): modello, lifecycle, Git e presentazione Cherry.
-- Repository sibling Cherry Test: `../cherry-test/docs/native-ide-events.md`, CLI Java e report Java/Rust modificati. Collegamento di workspace, non dipendenza inclusa in questo repository; il suo stato richiede CH-01.
+- Repository sibling Cherry Test: `../cherry-test/docs/native-ide-events.md`, CLI Java e report Java/Rust consegnati in `302325e8`. Collegamento di workspace, non dipendenza inclusa in questo repository; riproduzione CH-01 vincolata ai commit.
 - JUG Lugano: configurazioni e launcher del repository esterno usato dall'indagine, con revisioni/esecuzioni registrate nelle evidenze Cherry. La matrice completa resta CH-09.
 <!-- SOURCE_INDEX:END -->

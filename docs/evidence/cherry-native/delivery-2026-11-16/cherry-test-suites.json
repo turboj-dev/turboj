@@ -1,0 +1,331 @@
+[
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.gitdiff.GitDiffTest.xml",
+    "tests": 22,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.rustcompat.RustTextTest.xml",
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.rustcompat.RustOrderingTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.rustcompat.RustFloatFormatTest.xml",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.reportshell.ReportShellTest.xml",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.rustcompat.SerdeJsonWriterTest.xml",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-common/target/surefire-reports/TEST-com.cherrytest.common.ignore.PathIgnoreTest.xml",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/failsafe-reports/TEST-com.cherrytest.cli.contract.AdapterContractIT.xml",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.InitTest.xml",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.ChangedFilesTest.xml",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.CommandLineTest.xml",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.ReportOutputTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.adapters.CoverageEvidenceTest.xml",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.coverage.CoverageIgnoreTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.PreflightTest.xml",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.adapters.LcovTest.xml",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.TestViewTest.xml",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.CodeFrameTest.xml",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.ScaffoldTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.CoverageCellTest.xml",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.FilterTest.xml",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.NodeRuntimeTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.ThemeTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.adapters.ProcessRunnerTest.xml",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.ReportModelTest.xml",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.RunnerTest.xml",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.adapters.FormatsTest.xml",
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.RunDirTest.xml",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.NodeDiscoverTest.xml",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.VitestReportTest.xml",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.DiffViewTest.xml",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.AdapterViewTest.xml",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.MainTest.xml",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.NativeEventsTest.xml",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.UpdateTest.xml",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.TestKindTest.xml",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.HighlightTest.xml",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.HtmlReportTest.xml",
+    "tests": 32,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.coverage.CoverageTest.xml",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.report.TerminalReportTest.xml",
+    "tests": 20,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.adapters.AdaptersTest.xml",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-cli/target/surefire-reports/TEST-com.cherrytest.cli.crap.CrapTest.xml",
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-core/target/surefire-reports/TEST-com.cherrytest.core.TestIdTest.xml",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-core/target/surefire-reports/TEST-com.cherrytest.core.AuthTest.xml",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-core/target/surefire-reports/TEST-com.cherrytest.core.RepoRootTest.xml",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-core/target/surefire-reports/TEST-com.cherrytest.core.ScopeTest.xml",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "path": "cherry-test-core/target/surefire-reports/TEST-com.cherrytest.core.TestItConfigTest.xml",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+]
