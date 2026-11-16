@@ -175,11 +175,11 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `moveLineUp` | Edit | Option+Shift+UP | Option+UP | Option+UP | Option+UP | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `navigation.callHierarchy` | Java Structure | Unassigned | Unassigned | Unassigned | Option+Shift+Cmd+H | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
 | `navigation.calledMethods` | Java Structure | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
-| `navigation.findReferences` | Java Structure | Option+F7 | Shift+Cmd+G | Shift+F12 | Shift+Cmd+D | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
+| `navigation.findReferences` | Java Structure | Option+F7 | Shift+Cmd+G | Shift+F12 | Shift+Cmd+D | Implemented; available | UsageNavigationIT / UsagesNavigationAcceptance; see find-usages.md |
 | `navigation.goToFile` | Navigation | Shift+Cmd+O | Shift+Cmd+R | Cmd+P | Shift+Cmd+P | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `navigation.goToImplementation` | Java Structure | Option+Cmd+B | Unassigned | Unassigned | Cmd+I | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
 | `navigation.goToSymbol` | Navigation | Option+Cmd+O | Cmd+O | Shift+Cmd+O | Shift+Cmd+O | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
-| `navigation.goToTest` | Navigation | Unassigned | Unassigned | Unassigned | Shift+Cmd+T | Implemented; Open a saved Java source file | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `navigation.goToTest` | Navigation | Unassigned | Unassigned | Unassigned | Shift+Cmd+T | Implemented; Open a saved Java source file | UsageNavigationIT / UsagesNavigationAcceptance; see find-usages.md |
 | `navigation.goToType` | Navigation | Cmd+O | Shift+Cmd+T | Cmd+T | Cmd+T | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `navigation.matchingBrace` | Java Structure | Ctrl+M | Unassigned | Shift+Cmd+BACK_SLASH | Shift+Cmd+BACK_SLASH | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
 | `navigation.mavenModule` | Navigation | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Open a Maven project first | KeyboardWorkflowSmoke + existing controller suites; see audit |
@@ -196,6 +196,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `navigation.projectDependency` | Navigation | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Open a Maven project first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `navigation.recentFiles` | Navigation | Cmd+E | Unassigned | Unassigned | Cmd+E | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `navigation.recentLocations` | Navigation | Unassigned | Unassigned | Unassigned | Shift+Cmd+E | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `navigation.relatedTests` | Java Structure | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | UsageNavigationIT / UsagesNavigationAcceptance; see find-usages.md |
 | `navigation.searchEverywhere` | Navigation | Unassigned | Unassigned | Unassigned | Cmd+P / F3 | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `navigation.testFailure` | Navigation | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; Run tests first | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `navigation.typeHierarchy` | Java Structure | Unassigned | F4 | Unassigned | Shift+Cmd+H | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
@@ -296,6 +297,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `theme.more` | Appearance | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `undo` | Edit | Cmd+Z | Cmd+Z | Cmd+Z | Cmd+Z | Implemented; Nothing to undo | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `unindent` | Edit | Shift+TAB | Shift+TAB | Shift+TAB | Shift+TAB | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
+| `view.coverageBackgrounds` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.focusConsole` | Panels | Cmd+4 | Unassigned | Shift+Cmd+U | Shift+Cmd+C | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.focusDiagnostics` | Panels | Unassigned | Unassigned | Shift+Cmd+M | Shift+Cmd+M | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `view.focusEditor` | Panels | Unassigned | Unassigned | Unassigned | Unassigned | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |

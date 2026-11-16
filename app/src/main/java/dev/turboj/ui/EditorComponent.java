@@ -57,6 +57,7 @@ public final class EditorComponent extends JComponent
     private int caret, anchor, topLine, leftColumn, preferredColumn = -1;
     private int cellWidth = 10, cellHeight = 20, ascent = 15, gutterWidth = 60, tabWidth = 4;
     private FontMetrics fontMetrics;
+    private Theme theme;
     private final LineGutter lineGutter = new LineGutter();
     public record LineInspection(int line, Lane lane, Integer deletionAnchor) {}
     private Consumer<LineInspection> onInspectLine = ignored -> {};
@@ -832,6 +833,8 @@ public final class EditorComponent extends JComponent
     }
 
     public void setTheme(Theme theme) {
+        Theme previous = this.theme;
+        this.theme = theme;
         pressedShortcut.setTheme(theme);
         setPalette(
                 theme.background(),
@@ -852,8 +855,11 @@ public final class EditorComponent extends JComponent
         identifier = theme.color("syntax", "identifier");
         operator = theme.color("syntax", "operator");
         lineGutter.setTheme(theme);
+        firePropertyChange("theme", previous, theme);
         repaint();
     }
+
+    public Theme theme() { return theme; }
 
     public void setShowCoverageBackgrounds(boolean visible) {
         lineGutter.setShowBackgrounds(visible);
@@ -872,10 +878,14 @@ public final class EditorComponent extends JComponent
     }
 
     public void setTabWidth(int width) {
+        int previous = tabWidth;
         tabWidth = Math.clamp(width, 1, 16);
+        firePropertyChange("tabWidth", previous, tabWidth);
         lineColumns.replaceAll(ignored -> null);
         repaint();
     }
+
+    public int tabWidth() { return tabWidth; }
 
     public void setAutoClose(boolean enabled) {
         autoClose = enabled;

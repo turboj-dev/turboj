@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "date": "2026-11-16",
+  "changes": "Resizable left usage navigation/right actual EditorComponent; full captured source, selected exact reference, Java syntax and line numbers, synchronized theme/font/tabs, read-only detached document, Tab traversal and Enter open.",
+  "commands": [
+    "./mvnw -pl cli -am package -Dtest=SourceUsagePreviewTest,MenuLayoutTest,LineIntelligenceEditorTest -Dsurefire.failIfNoSpecifiedTests=false",
+    "java -Dturboj.acceptance.screenshot=/private/tmp/turboj-find-usages-split-final.png -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.UsagesNavigationAcceptance",
+    "java -cp app/target/test-classes:app/target/turboj-app.jar dev.turboj.app.KeyboardRegistryAudit docs"
+  ],
+  "suites": {
+    "dev.turboj.intelligence.SourceUsagePreviewTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.turboj.app.MenuLayoutTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.turboj.ui.LineIntelligenceEditorTest": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "native": "PASS plain and imported Maven, preview content and selection follow arrows/filter, active Monokai theme/font, typing/deletion cannot alter preview or main buffer, Tab leaves preview, Enter/Escape/history/staleness preserved. Screenshot inspected.",
+  "screenshot": "split-view-monokai.png",
+  "screenshotSha256": "2e24eb593b7414552d206b1f9a7f0fcdf6ecb00128b8386670540499251feff1",
+  "logs": {
+    "split-build.log.gz": "aba01f09fdd6890279e4b7436422250b46e2a4a73ee45869be8dddaca54714a7",
+    "split-native.log.gz": "93279a42b5ed9d59da06678d54d0935b501a143fd1909bb9f9121472964d59be",
+    "split-final-build.log.gz": "8bbdb95433b49ebe3cde97da11a5497801fb80625173df93ce18a08643cabbb4",
+    "split-final-native.log.gz": "0b0336ef38f73638f0c0f4693c531b418ffd00db4cb06c221a17f3cc3942b939"
+  },
+  "sha256": {
+    "app/src/main/java/dev/turboj/ui/EditorComponent.java": "eba0e55b6c654b447b568e0ee02eb66cb87443246c387d100eca6dc4500d92fe",
+    "app/src/main/java/dev/turboj/intelligence/KeyboardJavaController.java": "5be3c08bc54342d7fb5e82073d5f406cf9fbbd464c6d4abb251c36013bd96da8",
+    "app/src/main/java/dev/turboj/intelligence/SourceUsagePreview.java": "fefda620b00c23cdd75e5ee047f7cc25e4ee3b6989067bc9b4beee23d744c224",
+    "app/src/test/java/dev/turboj/intelligence/SourceUsagePreviewTest.java": "90f6c1c99f7230c6c24d51c689cb5127762238e54184d61f874a6397bc5e634f",
+    "app/src/test/java/dev/turboj/app/UsagesNavigationAcceptance.java": "d6e048e580379a5eabd7d82afe7adf9a87ad54ff77ce973e468858b850fe19f2",
+    "app/target/turboj-app.jar": "fbd68f804c778087ab9f4f29ae1a912757f668a195a191c3acf16bc0d6ef4d20",
+    "cli/target/turboj-cli.jar": "669c930d3aa5e86b67a33c8b24af20d60063e5a195f43dccfc557148c0aa04d0"
+  },
+  "limitations": [
+    "No full reactor rerun for this UI change; previous 866-test run predates it.",
+    "Native driver injects Swing keys; not physical keyboard-layout certification.",
+    "No performance benchmark or packaged .app build.",
+    "Changes remain local and uncommitted; earlier manifests retain earlier build hashes."
+  ]
+}

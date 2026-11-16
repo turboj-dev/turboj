@@ -137,9 +137,10 @@ Generated from the executable registry. Availability reflects the captured conte
 | ai.test | Test Completion | Java Intelligence | Unassigned | Any | Available | ai test |
 | navigation.callHierarchy | Call Hierarchy | Java Structure | Option+Shift+Cmd+H | Any | Available | navigation callHierarchy |
 | navigation.calledMethods | Called Methods | Java Structure | Unassigned | Any | Available | navigation calledMethods |
+| navigation.relatedTests | Choose Related Tests / Source… | Java Structure | Unassigned | Any | Available | navigation relatedTests |
 | java.completeStatement | Complete Statement… | Java Structure | Shift+Cmd+ENTER | editor; binding requires [editor] | Available | java completeStatement |
 | editor.expandSelection | Expand Selection | Java Structure | Ctrl+Shift+RIGHT | editor; binding requires [editor] | Available | editor expandSelection |
-| navigation.findReferences | Find References | Java Structure | Shift+Cmd+D | Any | Available | navigation findReferences, navigation.findUsages, references |
+| navigation.findReferences | Find Usages… | Java Structure | Shift+Cmd+D | Any | Available | navigation findReferences, navigation.findUsages, references |
 | java.generateConstructor | Generate Constructor… | Java Structure | Unassigned | editor | Available | java generateConstructor |
 | java.generateEquals | Generate Equals… | Java Structure | Unassigned | editor | Available | java generateEquals |
 | java.generateGetterSetter | Generate Getter Setter… | Java Structure | Unassigned | editor | Available | java generateGetterSetter |
@@ -224,6 +225,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | explorer.open | Open Selected Explorer Item | Panels | Unassigned | explorer | Requires explorer | explorer open |
 | view.resizeOutput | Resize Output | Panels | Unassigned | Any | Available | view resizeOutput |
 | view.restoreLayout | Restore Previous Layout | Panels | Unassigned | Any | The editor is not maximized | view restoreLayout |
+| view.coverageBackgrounds | Show Coverage Backgrounds | Panels | Unassigned | Any | Available | view coverageBackgrounds |
 | view.toggleConsole | Toggle Console | Panels | Shift+Cmd+Y | Any | Available | view toggleConsole |
 | view.toggleExplorer | Toggle Explorer | Panels | Cmd+0 | Any | Open a project first | view toggleExplorer |
 | view.toggleTestPanel | Toggle Test Results | Panels | Unassigned | Any | Run tests first | view toggleTestPanel |

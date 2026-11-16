@@ -62,7 +62,7 @@ final class MenuLayout {
                         c("navigation.searchEverywhere"), c("navigation.goToType"), c("navigation.goToFile"), c("navigation.goToSymbol"),
                         SEPARATOR,
                         c("declaration"), c("navigation.goToImplementation"), c("navigation.findReferences"),
-                        c("navigation.typeHierarchy"), c("navigation.callHierarchy"), c("navigation.goToTest"), c("navigation.testFailure"),
+                        c("navigation.typeHierarchy"), c("navigation.callHierarchy"), c("navigation.goToTest"), c("navigation.relatedTests"), c("navigation.testFailure"),
                         SEPARATOR,
                         c("back"), c("forward"), c("navigation.previousEditLocation"), c("navigation.recentFiles"),
                         c("navigation.recentLocations"), SEPARATOR,

@@ -1,0 +1,68 @@
+PASS source opens
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-8828534242422878313/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+PASS default test direct despite same filename in another package
+PASS unique package counterpart needs no chooser
+PASS default source direct
+PASS alias opens Find Usages
+PASS two actual JDT usages
+PASS filter identifies alternative
+PASS results focus
+PASS Enter opens usage
+PASS caret at actual call
+PASS history returns to source
+PASS history restores caret
+PASS alternatives chooser opens
+PASS results focus
+PASS verified alternative opens
+PASS test without counterpart offers production target
+PASS results focus
+PASS reverse usage opens declaration
+PASS chooser reopens
+PASS results focus
+PASS Escape restores focus
+PASS Escape preserves caret
+PASS stale-result control opens
+PASS results focus
+PASS stale chooser closes
+PASS changed source rejects stale navigation
+PASS unsaved control preserves disk
+PASS mode=plain fixture=/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-java06-7237886306584432832
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS Maven import completes
+PASS real Maven dependencies resolved
+PASS source opens
+PASS default test direct despite same filename in another package
+PASS unique package counterpart needs no chooser
+PASS default source direct
+PASS alias opens Find Usages
+PASS two actual JDT usages
+PASS filter identifies alternative
+Driver reactivates native window (host focus was outside TurboJ)
+PASS results focus
+PASS Enter opens usage
+PASS caret at actual call
+PASS history returns to source
+PASS history restores caret
+PASS alternatives chooser opens
+PASS results focus
+PASS verified alternative opens
+PASS test without counterpart offers production target
+PASS results focus
+PASS reverse usage opens declaration
+PASS chooser reopens
+PASS results focus
+PASS Escape restores focus
+PASS Escape preserves caret
+PASS stale-result control opens
+PASS results focus
+PASS stale chooser closes
+PASS changed source rejects stale navigation
+PASS unsaved control preserves disk
+PASS mode=Maven fixture=/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-java06-15722140761069909736
+PASS plain/Maven Find Usages and test navigation; no physical keyboard-layout claim.

@@ -21,6 +21,7 @@ class MenuLayoutTest {
         assertFalse(ids.contains("refactor.create-method") || ids.contains("refactor.add-import"), "problem-driven fixes are Quick Fix only");
         assertTrue(ids.containsAll(List.of("run", "make", "compile", "tests.current", "tests.all")), "Run holds the whole loop");
         assertTrue(ids.containsAll(List.of("java.generateToString", "settings.general", "view.toggleExplorer", "keymap.profile.turboj-macos")));
+        assertTrue(ids.containsAll(List.of("navigation.findReferences", "navigation.goToTest", "navigation.relatedTests")));
         assertTrue(MenuLayout.commandIds(List.of(menus.stream().filter(menu -> menu.title().equals("View")).findFirst().orElseThrow()))
                 .contains("view.coverageBackgrounds"));
     }

@@ -14,6 +14,7 @@ final class JdtKeyboardNavigation {
     List<Target> navigate(int offset, Navigation kind, String query) {
         var workspace = editing.workspace; var context = editing.context;
         var result = new ArrayList<Target>();
+        if (kind == Navigation.RELATED_TESTS) return new JdtTestNavigation(editing).related(offset);
         if (kind == Navigation.SYMBOLS || kind == Navigation.TYPES) {
             for (var symbol : workspace.symbols(Objects.requireNonNullElse(query, ""), Cancellation.NONE)) {
                 if (kind == Navigation.TYPES && !Set.of("class", "interface", "enum", "annotation", "record", "type").contains(symbol.kind().toLowerCase(Locale.ROOT))) continue;
@@ -35,7 +36,10 @@ final class JdtKeyboardNavigation {
             var symbol = workspace.resolve(new Model.Location(context.file(), offset), Cancellation.NONE);
             if (symbol == null && offset > 0) symbol = workspace.resolve(new Model.Location(context.file(), offset - 1), Cancellation.NONE);
             if (symbol == null) return List.of();
-            if (kind == Navigation.REFERENCES) for (var loc : workspace.references(symbol.id(), Cancellation.NONE)) result.add(new Target(loc.file(), loc.start(), loc.end(), symbol.name() + " — " + loc.file().getFileName()));
+            if (kind == Navigation.REFERENCES) for (var loc : workspace.references(symbol.id(), Cancellation.NONE)) {
+                var node = NodeFinder.perform(workspace.ast(loc.file()), loc.start(), loc.end()-loc.start());
+                result.add(new Target(loc.file(), loc.start(), loc.end(), JdtTestNavigation.ownerLabel(node) + " → " + symbol.signature()));
+            }
             else {
                 var hierarchy = workspace.hierarchy(symbol.id(), Cancellation.NONE);
                 if (hierarchy != null) {

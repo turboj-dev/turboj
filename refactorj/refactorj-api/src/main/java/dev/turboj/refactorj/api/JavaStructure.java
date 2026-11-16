@@ -15,7 +15,7 @@ public final class JavaStructure {
         COMPLETE_STATEMENT, JAVADOC
     }
     public enum Navigation { SYMBOLS, TYPES, IMPLEMENTATIONS, REFERENCES, TYPE_HIERARCHY,
-        CALLERS, CALLEES, NEXT_METHOD, PREVIOUS_METHOD, MATCHING_BRACE }
+        CALLERS, CALLEES, NEXT_METHOD, PREVIOUS_METHOD, MATCHING_BRACE, RELATED_TESTS }
     public record Range(int start, int end) {
         public Range { if (start < 0 || end < start) throw new IllegalArgumentException("Invalid range"); }
     }
@@ -25,5 +25,8 @@ public final class JavaStructure {
         public boolean applicable() { return !edits.isEmpty(); }
         public static EditResult unavailable(String reason) { return new EditResult(List.of(), 0, 0, List.of(), reason); }
     }
-    public record Target(Path file, int start, int end, String label) {}
+    public enum TargetKind { SOURCE, DEFAULT_COUNTERPART, TEST_USAGE, PRODUCTION_USAGE }
+    public record Target(Path file, int start, int end, String label, TargetKind kind) {
+        public Target(Path file, int start, int end, String label) { this(file, start, end, label, TargetKind.SOURCE); }
+    }
 }

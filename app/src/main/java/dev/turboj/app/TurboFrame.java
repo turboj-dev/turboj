@@ -1720,7 +1720,9 @@ public final class TurboFrame extends JFrame {
 
     /** Runs a registered command as its menu item would. */
     public void runCommand(String id) {
-        commands.get(id).actionPerformed(null);
+        var action = commands.get(commandRegistry.canonicalId(id));
+        if (action == null) throw new IllegalArgumentException("Unknown command: " + id);
+        action.actionPerformed(null);
     }
 
     public KeymapManager commandKeymaps() {
@@ -2524,7 +2526,7 @@ public final class TurboFrame extends JFrame {
                 Map.entry("previousMethod", dev.turboj.refactorj.api.JavaStructure.Navigation.PREVIOUS_METHOD),
                 Map.entry("matchingBrace", dev.turboj.refactorj.api.JavaStructure.Navigation.MATCHING_BRACE));
         for (var entry : navigation.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList())
-            javaKeyboardCommand("navigation." + entry.getKey(), humanize(entry.getKey()), false, () -> keyboardJava.navigate(entry.getValue()));
+            javaKeyboardCommand("navigation." + entry.getKey(), entry.getKey().equals("findReferences") ? "Find Usages…" : humanize(entry.getKey()), false, () -> keyboardJava.navigate(entry.getValue()));
         commandRegistry.alias("navigation.findUsages", "navigation.findReferences");
         commandRegistry.alias("editor.moveBlockUp", "editor.moveCodeBlockUp");
         commandRegistry.alias("editor.moveBlockDown", "editor.moveCodeBlockDown");
@@ -2667,6 +2669,7 @@ public final class TurboFrame extends JFrame {
         command("navigation.goToSymbol", "Go to Symbol…", () -> searchProject(ProjectSearchDialog.Tab.METHODS));
         command("navigation.searchEverywhere", "Search Everywhere…", () -> searchProject(ProjectSearchDialog.Tab.ALL));
         command("navigation.goToTest", "Navigate Between Source and Test", this::navigateRelatedTest);
+        javaKeyboardCommand("navigation.relatedTests", "Choose Related Tests / Source…", false, () -> keyboardJava.relatedTests(true));
         command("navigation.testFailure", "Go to Test Failure", () -> nextTestFailure(1));
         command("tests.nextFailure", "Next Failed Test", () -> nextTestFailure(1));
         command("tests.previousFailure", "Previous Failed Test", () -> nextTestFailure(-1));
@@ -2900,20 +2903,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private void navigateRelatedTest() {
-        if (file == null) return;
-        Path expectedFile = bufferKey;
-        long expectedVersion = editor.version();
-        String name = file.getFileName().toString();
-        String other = name.endsWith("Test.java") ? name.substring(0, name.length() - 9) + ".java" : name.replace(".java", "Test.java");
-        intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> service.sharedRefactorJ(context)
-                .workspace().snapshot().sources().stream()
-                .map(Model.SourceSnapshot::file).filter(path -> path.getFileName().toString().equals(other)).toList())
-                .whenComplete((paths, failure) -> SwingUtilities.invokeLater(() -> {
-                    if (closing || !bufferKey.equals(expectedFile) || editor.version() != expectedVersion) return;
-                    if (failure != null) flash("Test/source navigation: " + message(failure), StatusBar.Level.ERROR);
-                    else if (paths.size() == 1) { rememberLocation(); openPath(paths.getFirst()); }
-                    else chooseFile("Source / Test", paths);
-                }));
+        if (file != null) keyboardJava.relatedTests(false);
     }
 
     private void showRunConfiguration() {

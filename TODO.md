@@ -1,6 +1,6 @@
 # TurboJ — stato del progetto e piano unico di sviluppo
 
-**Aggiornamento: 16 novembre 2026. Baseline pubblicata: TurboJ `1414347`, Cherry Test `302325e8`.**
+**Aggiornamento: 16 novembre 2026. Baseline pubblicata: TurboJ `56d702f`, Cherry Test `302325e8`. JAVA-06 implementata e verificata; consegna sorgenti del 16 novembre descritta in §7.**
 
 Questo è il **canovaccio operativo unico**: sommario, stato effettivo, decisioni, attività aggregate, dipendenze e criteri di accettazione. Sostituisce la precedente lista breve e consolida il lavoro disperso nei documenti del progetto. Le specifiche e le evidenze originali restano nei rispettivi percorsi: non vengono eliminate né trasformate retroattivamente in verifiche della versione attuale.
 
@@ -37,7 +37,7 @@ L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro su
 | Sito e hero | Cinque capitoli, evidenze, curl nell'Output nativo, controlli compatti, loop e fix tema | Verificare build/deploy e scegliere quali cambi nativi successivi rappresentare |
 | Distribuzione/ecosistema | Monorepo con moduli riutilizzabili e artefatti locali | Coordinare versioni, repository Cherry, packaging e pubblicazioni |
 
-**Ripartenza immediata:** CH-01 è chiusa con checkout puliti; prossimo sviluppo JAVA-06 Find Usages/navigazione test; quindi CH-02/08/09 sui progetti reali e QFX-04 workflow tastiera plain/Maven. KEY-01 è verificata; preservare le verifiche aperte Cmd+1/Monokai e routing Run. **Priorità strutturale:** estendere la provenienza Cherry oltre la slice javac/JaCoCo. «Coverage corrente» è ammessa solo dove la catena di identità è verificata, non globalmente per ogni provider. Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
+**Ripartenza immediata:** CH-01 è chiusa con checkout puliti; JAVA-06 Find Usages/navigazione test è implementata e verificata localmente. Prossime attività: CH-02/08/09 sui progetti reali, quindi QFX-04 workflow tastiera plain/Maven. KEY-01 è verificata; preservare le verifiche aperte Cmd+1/Monokai e routing Run. **Priorità strutturale:** estendere la provenienza Cherry oltre la slice javac/JaCoCo. «Coverage corrente» è ammessa solo dove la catena di identità è verificata, non globalmente per ogni provider. Tre corsie colorabili non dimostrano tre fatti verificati per ogni riga.
 
 Il consolidamento iniziale è stato un audit documentale e del codice, senza riesecuzione di build, test o controlli live. Le verifiche successive sono registrate separatamente in §7; non ricertificano automaticamente le evidenze di ottobre.
 
@@ -47,13 +47,13 @@ Il consolidamento iniziale è stato un audit documentale e del codice, senza rie
 
 | Elemento | Stato rilevato | Interpretazione |
 | --- | --- | --- |
-| TurboJ HEAD di codice verificato | `1414347`, 16 novembre 2026 | Include la consegna `be9723cb` e i fix dei test Maven per repository isolato/report in checkout pulito; non include esempi personali |
+| TurboJ baseline pubblicata | `56d702f`, 16 novembre 2026 | Codice CH-01 e relative evidenze; JAVA-06 aggiunta nel working tree e verificata separatamente in §7, non ancora pubblicata |
 | Maven root | `0.1.0-SNAPSHOT`, JDK 25 | Distinto dal numero del pacchetto macOS |
 | Packaging macOS | Script ancora con app-version `1.0.10` | Da riconciliare con prossima consegna; HEAD non è automaticamente distribuito |
 | Cherry sibling | `302325e8`, pubblicato su `lmrrcc/cherry-test` | CLI schema 1, provenienza compiler/processo e report Java/Rust versionati; versione Maven 0.3.16, riproduzione vincolata allo SHA |
 | JUG Lugano | `b1f1ad8` baseline dell'indagine precedente | Non certifica il suo working tree corrente |
 | Sito | Ultimo deploy documentato: sorgente `294984a`, 25 ottobre; registrazione `bb59258` | Produzione non verificata oggi; push e deploy sono distinti |
-| JAR locale | `app/target/turboj-app.jar`, ricostruito il 14 novembre con `./mvnw install` | Build PASS sul working tree; hash e risultati in §7. Il pacchetto `.app` precedente non viene aggiornato da questo comando |
+| JAR locale | `app/target/turboj-app.jar`, ricostruito il 16 novembre con `./mvnw install` | Include JAVA-06; 866 test PASS, hash e risultati in §7. Il pacchetto `.app` precedente non viene aggiornato da questo comando |
 | Pacchetto Quick Fix | `target/quick-fix-monokai/TurboJ.app`, JAR del 25 ottobre | Precede cambi successivi: non basta per chiudere una regressione attuale |
 
 Passaggi storici: `802f496` keyboard-first; `997057b` hero; `2ca283f` layout; `32ee964` workflow Eclipse; `61208bc` comando Output/curl; `294984a` flash tema; `db1d4ed` Cherry; `a26e6b7` keymap TurboJ/formatter; `b8f5978` template; `23425cf` TurboAI; `76db7c4` Output/Tests; `fc4bdac` Explorer/risultati.
@@ -203,7 +203,7 @@ Fonti: [keyboard-performance](docs/keyboard-performance.md), [Cherry benchmark](
 
 ## 5. Sequenza di lavoro consigliata
 
-Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
+Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. CH-01 e JAVA-06 completate (JAVA-06 locale); CH-02/08/09 e QFX-04 restano in coda. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
 
 | Traguardo | Attività | Uscita verificabile |
 | --- | --- | --- |
@@ -222,12 +222,12 @@ AI, documentazione e test librerie possono procedere in parallelo dove indipende
 
 Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
 
-**Registro al 16 novembre: 113 attività aggregate, di cui 110 aperte e 3 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 48 qualificazioni da eseguire, 29 attività parziali, 13 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
+**Registro al 16 novembre: 113 attività aggregate, di cui 109 aperte e 4 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 48 qualificazioni da eseguire, 29 attività parziali, 12 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
 
 | Priorità | Attività aperte | Lettura |
 | --- | --- | --- |
 | P0 | 7 | Baseline, regressioni segnalate e correttezza semantica |
-| P1 | 57 | Consolidamento, implementazione e qualificazione prossimi |
+| P1 | 56 | Consolidamento, implementazione e qualificazione prossimi |
 | P2 | 38 | Miglioramenti e decisioni successive |
 | P3 | 8 | Evoluzioni da decidere o attività sospese |
 
@@ -301,7 +301,7 @@ Fonti: [Java](docs/java-intelligence.md), [limiti](docs/limitations.md), [Refact
 | JAVA-03 | P3 | DECISIONE | Indice persistente, package completion e parsing realmente incrementale: recovery AST completo off-EDT e cache non equivalgono a queste capacità. |
 | JAVA-04 | P2 | PARZIALE | Javadoc/inheritDoc, sorgenti dipendenze e link/documentazione; distinguere quick documentation sicura da renderer HTML completo dei JAR. |
 | JAVA-05 | P1 | DA VERIFICARE | Qualificare source generation, Surround With e Complete Statement: contesti validi, duplicati/overload, membri final/static, compilazione del risultato e undo; rifiuti dei casi non supportati espliciti. |
-| JAVA-06 | P1 | DA FARE | **Find Usages… e navigazione metodo ↔ test.** Esistono già `navigation.findReferences` (backend REFERENCES) e l’alias `navigation.findUsages`: verificarne il comportamento reale e completare un flusso visibile con chiamanti, file/riga e navigazione tastiera. Risolvere semanticamente gli usi del metodo selezionato e identificare quelli racchiusi in metodi test (`@Test`, e annotazioni test riconosciute dal framework), evitando omonimi/overload e falsi positivi testuali. In source↔test mantenere il counterpart convenzionale univoco come percorso rapido; quando serve una scelta offrire “Test predefinito” e metodi di test alternativi con relazione d’uso verificata, aprendo il punto esatto e preservando history/caret. Gestire plain/Maven, moduli/package, test ereditati e buffer unsaved; distinguere riferimenti statici da esecuzione/coverage dinamica. Accettazione: più test in classi diverse chiamano lo stesso metodo, scelta esplicita delle alternative, default diretto, nessun match e ambiguità spiegati; test JDT + walkthrough nativo keyboard. Nessuna implementazione semantica aggiuntiva dichiarata nel fix del chooser. |
+| JAVA-06 | P1 | CHIUSA | **16 novembre, implementata e verificata; inclusa nella consegna JAVA-06.** Find Usages con chiamante/file/riga, filtro, preview e Enter/Escape; alias e binding conservati. Default ClassTest/Class diretto solo con package/modulo coerenti; chooser esplicito con usi statici verificati dentro test JUnit risolti e navigazione inversa alle dichiarazioni usate. Overload, contratti ereditati, moduli, unsaved, Unicode/CRLF e risposte obsolete verificati. Nessuna attribuzione dinamica Cherry inferita. Otto test JDT, reactor 866 test/124 suite e acceptance nativa plain/Maven PASS. Reflection/binari/classpath irrisolti possono lasciare risultati incompleti; nessuna analisi transitiva via helper. [Contratto](docs/find-usages.md), [evidenze](docs/evidence/find-usages-2026-11-16/README.md). |
 | REF-01 | P1 | DA VERIFICARE | Transazioni con ACL/ownership, case-only rename, directory concorrenti, network FS e recovery interrotto. Conservare rifiuti/RECOVERY_REQUIRED, nessuna promessa atomicità globale. |
 | REF-02 | P2 | DA VERIFICARE | IntelliJ/VS Code/LSP/MCP su versioni host dichiarate, undo e resource operations. ZIP/VSIX/protocol test non equivalgono a compatibilità host universale. |
 | REF-03 | P2 | PARZIALE | Ridurre allocazioni semantiche non cached; misurare worker/cancel/code. Cache-hit da soli non descrivono il costo reale RefactorJ. |
@@ -491,6 +491,18 @@ Ispezionati stato Git, cronologia, documenti e punti di codice rilevanti; effett
 - `CherryNativeSmoke` sui nuovi JAR: **PASS**, 26 asserzioni; coverage corrente con prova, nessuna associazione produzione inventata, invalidazione unsaved, Save con un fallimento, Undo/Save con due test verdi, tre regioni gutter e focus. Nessuna certificazione dei layout tastiera fisici.
 - [Report e comandi riproducibili](docs/evidence/cherry-native/delivery-2026-11-16/README.md), [manifest](docs/evidence/cherry-native/delivery-2026-11-16/validation.json), [artefatti grezzi](docs/evidence/cherry-native/delivery-2026-11-16/native-evidence.tar.gz). Conservati anche entrambi i build falliti; le vecchie acquisizioni senza output grezzo restano storiche, non ricertificate.
 - Nessuna pubblicazione sito, pacchetto macOS o Maven Central. Prossimo sviluppo **JAVA-06**, poi qualificazione **CH-02/08/09**, infine **QFX-04** come concordato.
+
+### JAVA-06 — Find Usages e test alternativi, 16 novembre 2026
+
+- **Implementata e verificata**, baseline `56d702f` più modifiche della consegna JAVA-06. Il commit comprende Find Usages, test alternativi, fix frecce e split view; nessun deploy sito o pacchetto macOS. Esempi personali e altri file preesistenti preservati.
+- `navigation.findReferences` diventa **Find Usages…**, con alias `navigation.findUsages` preservato. **Choose Related Tests / Source…** offre default e chiamanti test verificati, senza cambiare i binding dei quattro profili. Default diretto per package/modulo corretto; Enter apre il riferimento esatto; Escape/history conservano contesto.
+- JDT identifica overload, annotazioni JUnit risolte/composite e contratti ereditati. Buffer unsaved partecipano; risultati obsoleti respinti anche dopo l’apertura del chooser. Javadoc e inizializzatori di tipi annidati non diventano usi dentro test. Relazione statica distinta da test eseguito o coverage.
+- `./mvnw install` finale: **866 test / 124 suite PASS**, zero failure/error/skip, 03:33; include otto `UsageNavigationIT`. Precedente `clean install` PASS prima dell’ottavo controllo. Nessun conteggio del report storico in `examples/maven/target`.
+- `UsagesNavigationAcceptance`: **PASS plain e Maven importato**, navigazione diretta, filtro, alternative, inversa, offset/history, Enter/Escape e invalidazione. Fixture/comandi/caret programmatici, eventi Swing reali, riattivazione foreground esplicita quando necessaria; non walkthrough umano né QFX-04.
+- Registro rigenerato: **307 comandi, 29 alias, zero binding senza callback**. Include il toggle coverage già implementato ma assente dalla reference precedente. Nessuna misura prestazionale nuova.
+- **Follow-up frecce nel chooser:** riprodotto il difetto con focus nel filtro (il primo harness forzava il focus sulla lista). Up/Down ora navigano i risultati anche dal filtro, senza perdere il focus di digitazione; limiti e risultati vuoti gestiti. Build app/MenuLayoutTest e acceptance nativa plain/Maven PASS; Enter dal filtro ed Escape verificati. [Prova prima/dopo](docs/evidence/find-usages-2026-11-16/arrows.json). Il reactor completo sopra precede questo fix mirato.
+- **Split view nativa:** navigazione usi a sinistra, vero EditorComponent read-only a destra, sorgente completo con evidenziazione Java/numeri di riga/selezione esatta, separatore ridimensionabile e tema/font/tab coerenti. Preview isolata dal buffer modificabile; Enter apre, Escape ritorna, Tab non intrappola. 17 test mirati e acceptance plain/Maven PASS; launcher locale aggiornato. [Prove e screenshot](docs/evidence/find-usages-2026-11-16/split-view.json). Reactor completo non rieseguito per questo cambiamento UI.
+- [Contratto e riproduzione](docs/find-usages.md), [log, controlli falliti conservati e hash](docs/evidence/find-usages-2026-11-16/README.md). Prossime attività: **CH-02/08/09**, poi **QFX-04**.
 
 ### Verifica successiva — correzione install, 14 novembre 2026
 

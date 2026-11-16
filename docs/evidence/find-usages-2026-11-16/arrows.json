@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "date": "2026-11-16",
+  "reproduction": "Old build passes list arrows, fails filter field Down selects next usage; see before log.",
+  "fix": "Initial filter focus; Up/Down select and reveal adjacent results while retaining typing focus. Native list bindings unchanged.",
+  "validation": [
+    "App package with MenuLayoutTest PASS",
+    "Native plain and Maven PASS: Up/Down from list and filter; first/last boundaries; empty filter results; Enter from filter; existing navigation/history/Escape/stale-result checks",
+    "CLI launcher package -DskipTests PASS; not a second test run",
+    "Full reactor was not rerun for this localized fix; previous 866-test run predates it."
+  ],
+  "menuTests": {
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "sha256": {
+    "app/src/main/java/dev/turboj/intelligence/KeyboardJavaController.java": "6b2777b53ff6ca2e7585d1928e5009acffa8706a7df669baca8ddf8eab37ed29",
+    "app/src/test/java/dev/turboj/app/UsagesNavigationAcceptance.java": "2aac33e41932c65f34a677b623b28339ebbef9a6d60a7c74b584f2adb6b36620",
+    "app/target/turboj-app.jar": "ab19f07f9fcf744f47240a9b7cc2e4340b9596dbe223dbf489434a355e1998f1",
+    "cli/target/turboj-cli.jar": "13d371e7c6ca033dee567174eae9cef87b5801ffe7ed7a455efe5b6c69120c39"
+  },
+  "logs": {
+    "arrows-before.log.gz": "fc81b058b9dfe494aa9c2d0ce0f58f37905da94b491912977a2caa370f2a3f9f",
+    "arrows-after.log.gz": "13f7d760f303dcc56e0018c2bd0b0241511eeb75ad8fef675eccbdfbb34584a1",
+    "arrows-build.log.gz": "b26aa6e256e69e35f2db3afbec3e0bb4a6f8d60b6549324557eb0edc3f52566d",
+    "arrows-launcher.log.gz": "224a1c58899659f1b9cae82d511c6f19edb6981a326414a444e92297fc0f71d0"
+  },
+  "limitations": "Injected Swing keys and programmatic fixture/command dispatch, not a human physical keyboard walkthrough. Previous validation.json identifies the earlier build; this manifest supersedes its hashes for the arrow fix."
+}
