@@ -1,0 +1,37 @@
+PASS source opens
+PASS default test direct despite same filename in another package
+PASS unique package counterpart needs no chooser
+PASS default source direct
+PASS alias opens Find Usages
+PASS two actual JDT usages
+PASS horizontal usage/editor split
+PASS preview shows full source and exact selected usage
+PASS preview follows active theme/font
+Driver reactivates native window (host focus was outside TurboJ)
+PASS results focus
+PASS result list Down selects next usage
+PASS preview shows full source and exact selected usage
+PASS result list Down stays at last usage
+PASS result list Up selects previous usage
+PASS preview shows full source and exact selected usage
+PASS result list Up stays at first usage
+PASS filter focus
+PASS filter field Down selects next usage
+PASS preview shows full source and exact selected usage
+PASS filter field Down stays at last usage
+PASS filter field Up selects previous usage
+PASS preview shows full source and exact selected usage
+PASS filter field Up stays at first usage
+PASS arrows preserve filter focus
+PASS arrows with empty filter results are safe
+PASS filter identifies alternative
+PASS preview shows full source and exact selected usage
+PASS preview focus
+PASS preview typing cannot edit source or switch main buffer
+PASS Tab leaves preview without trapping focus
+PASS filter focus
+Exception in thread "main" java.lang.AssertionError: Enter opens usage status=12:33:27  Opened default counterpart. Choose Related Tests / Source… lists verified alternatives.
+12:33:27  Opened default counterpart. Choose Related Tests / Source… lists verified alternatives.
+	at dev.turboj.app.UsagesNavigationAcceptance.await(UsagesNavigationAcceptance.java:128)
+	at dev.turboj.app.UsagesNavigationAcceptance.exercise(UsagesNavigationAcceptance.java:74)
+	at dev.turboj.app.UsagesNavigationAcceptance.main(UsagesNavigationAcceptance.java:22)

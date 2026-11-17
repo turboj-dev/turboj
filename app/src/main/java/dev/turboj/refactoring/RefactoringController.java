@@ -139,7 +139,15 @@ public final class RefactoringController implements AutoCloseable {
         long issued = ++epoch;
         var future = intelligence.submitSemantic(snapshots.get(), (service, context) -> {
             var engine = service.sharedRefactorJ(context);
-            var resolved = engine.workspace().resolve(at, () -> closed || issued != epoch);
+            // Only these forms need a resolved declaration for names/signatures or member selection.
+            // Syntax/diagnostic actions (e.g. Remove Import on the package qualifier) are valid
+            // without one; resolving eagerly can reject them as an ambiguous Java symbol.
+            var resolved = switch (operation) {
+                case RENAME, EXTRACT_FIELD, CHANGE_SIGNATURE, EXTRACT_INTERFACE,
+                        ENCAPSULATE_FIELD, PULL_UP, PUSH_DOWN ->
+                    engine.workspace().resolve(at, () -> closed || issued != epoch);
+                default -> null;
+            };
             List<Symbol> members = Set.of(Operation.EXTRACT_INTERFACE, Operation.PULL_UP,
                     Operation.PUSH_DOWN).contains(operation) ? engine.workspace().symbols("",
                     () -> closed || issued != epoch).stream().filter(member -> member.declaration()

@@ -1,0 +1,13 @@
+command	assertion
+tests.current	actual JUnit selection/results: 1 passed, 0 failed
+tests.class	actual JUnit selection/results: 1 passed, 1 failed
+tests.failed	actual JUnit selection/results: 0 passed, 1 failed
+tests.all	actual JUnit selection/results: 1 passed, 1 failed
+run.context	actual JUnit selection/results: 1 passed, 1 failed
+tests.nextFailure	opens actual assertion failure source location
+tests.previousFailure	opens actual assertion failure source location
+navigation.testFailure	opens actual assertion failure source location
+compileProject	actual project compilation completes without rerunning JUnit
+make	actual project compilation completes without rerunning JUnit
+tests.results	native Tests panel displays actual last report
+tests.stop	cancels worker after real test writes readiness marker

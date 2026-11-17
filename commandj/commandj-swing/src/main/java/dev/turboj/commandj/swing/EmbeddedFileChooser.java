@@ -100,6 +100,10 @@ public final class EmbeddedFileChooser extends JFileChooser {
             }
             status.setText("Reading directory…");
             approve.setEnabled(false);
+            // Until the asynchronous listing commits current[0], folder actions would
+            // still operate on the previous directory despite the newly entered path.
+            folder.setEnabled(false);
+            up.setEnabled(false);
             var filter = getFileFilter();
             boolean hide = isFileHidingEnabled();
             new SwingWorker<List<Entry>, Void> () {
@@ -129,6 +133,8 @@ public final class EmbeddedFileChooser extends JFileChooser {
                         status.setText(entries.size() + " entries" + (filter == null ? "" : " · "
                                 + filter.getDescription()));
                         approve.setEnabled(true);
+                        folder.setEnabled(true);
+                        up.setEnabled(true);
                     } catch (Exception error) {
                         status.setText("Cannot read directory: " + target);
                     }

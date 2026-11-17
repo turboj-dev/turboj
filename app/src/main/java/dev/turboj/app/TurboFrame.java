@@ -1304,7 +1304,14 @@ public final class TurboFrame extends JFrame {
             // A confirmation that waited for a linked rename continues on the refreshed template.
             if (session.confirming) { session.confirming = false; editor.confirmTemplate(); }
         }
-        editor.clearInlineCompletion(); editor.requestFocusInWindow();
+        editor.clearInlineCompletion();
+        // Workspace publication and its completion observers can restore the originating
+        // Explorer focus. Finish navigation after those queued callbacks, and only while
+        // this generated document remains current and no subsequent dialog owns input.
+        SwingUtilities.invokeLater(() -> {
+            if (!closing && target.file().equals(bufferKey) && !OverlayHost.active(TurboFrame.this))
+                editor.requestFocusInWindow();
+        });
     }
 
     private static final String TEMPLATE_KEYS = "Tab: next · Shift+Tab: previous · Enter: confirm · Esc: cancel";
@@ -1687,7 +1694,9 @@ public final class TurboFrame extends JFrame {
             action.accept(context);
             return CompletableFuture.completedFuture(CommandResult.success());
         }).withAliases(commandAliases(id)).requiring(commandContexts(id)).when(context -> context.has("overlay")
-                ? Availability.disabled("Close the active dialog first") : availability.apply(context)));
+                ? Availability.disabled("Close the active dialog first")
+                : context.has("input-method") ? Availability.disabled("Finish text composition first")
+                : availability.apply(context)));
         var result = new CommandAction(commandRegistry, id, this::commandContext,
                 this::commandFinished);
         commands.put(id, result);
@@ -3397,24 +3406,32 @@ public final class TurboFrame extends JFrame {
         else editor.requestFocusInWindow();
     }
 
+    private long statementEvaluationRequest;
+
     private void evaluateStatement() {
-        var syntax = compiler.latestSyntax();
-        if (syntax == null || syntax.version() != editor.version()) {
-            showError(
-                    "Statement analysis is pending. Try again after checking completes, or select"
-                            + " code to evaluate.");
-            return;
-        }
-        var range = syntax.statementAt(editor.caretOffset());
-        if (range == null) {
-            showError(
-                    "No complete statement at the caret. Select a Java expression or statement"
-                            + " explicitly.");
-            return;
-        }
-        String code = editor.snapshot().subSequence(range.start(), range.end()).toString();
-        showRepl(true);
-        repl.evaluate(code);
+        // Explicit compilation supersedes the continuous parser, so its last syntax result
+        // need not describe this buffer. Ask the shared semantic service for the current
+        // statement instead of leaving the command permanently in "analysis pending".
+        var snapshot = intelligenceSnapshot();
+        var document = editor.document();
+        int caret = editor.caretOffset();
+        long identity = bufferIdentity.get();
+        long ticket = ++statementEvaluationRequest;
+        intelligence.submitSemantic(snapshot, (service, context) -> service.selectStructure(context,
+                caret, caret, dev.turboj.refactorj.api.JavaStructure.Selection.STATEMENT))
+                .whenComplete((range, failure) -> SwingUtilities.invokeLater(() -> {
+                    if (closing || ticket != statementEvaluationRequest || identity != bufferIdentity.get()
+                            || OverlayHost.active(TurboFrame.this) || editor.hasInputComposition() || editor.document() != document
+                            || editor.version() != snapshot.source().version() || editor.caretOffset() != caret) return;
+                    if (failure != null) { showError(message(failure)); return; }
+                    if (range == null) {
+                        showError("No complete statement at the caret. Select a Java expression or statement explicitly.");
+                        return;
+                    }
+                    String code = snapshot.source().subSequence(range.start(), range.end()).toString();
+                    showRepl(true);
+                    repl.evaluate(code);
+                }));
     }
 
     private void refreshTitle() {
@@ -5062,6 +5079,22 @@ public final class TurboFrame extends JFrame {
                 return new NativeWorkspaceCommitter.Publication(capture(), token);
             }
             var changeSet = dev.turboj.refactorj.transactions.ChangeSet.prepare(plan);
+            // Preserve both states of previously closed Java files in the same buffer history.
+            // Otherwise Undo removes their newly materialized buffers, and simply opening one
+            // again creates a different document identity which makes workspace Redo unavailable.
+            // Disk publication already succeeded; seed from the validated before snapshot and
+            // mark the resulting buffer saved below, without reading files on the EDT.
+            Set<Path> materialized = new HashSet<>();
+            for (var transition : changeSet.transitions()) {
+                if (transition.before() == null || buffers.containsKey(transition.path())
+                        || !transition.path().getFileName().toString().endsWith(".java")) continue;
+                String text = transition.before().text();
+                var document = new dev.turboj.editor.document.PieceTable(text);
+                buffers.put(transition.path(), new Buffer(transition.path(),
+                        new EditorComponent.EditorState(document, new EditorComponent.Location(0, 0, 0, 0), false),
+                        SafeFiles.utf8Fingerprint(text), document.version()));
+                materialized.add(transition.path());
+            }
             Map<Path, Buffer> before = new LinkedHashMap<> ();
 
             for (var transition : changeSet.transitions()) {
@@ -5097,7 +5130,8 @@ public final class TurboFrame extends JFrame {
                     if (editor.version() != oldVersion)
                         transactions.put(editor.document(), editor.document()
                                 .peekUndoTransactionId());
-                    boolean savedConfiguration = NativeWorkspaceCommitter.savesConfiguration(plan, expected.buffers().get(fileEdit.file()));
+                    boolean savedConfiguration = materialized.contains(fileEdit.file())
+                            || NativeWorkspaceCommitter.savesConfiguration(plan, expected.buffers().get(fileEdit.file()));
                     buffers.put(fileEdit.file(), new Buffer(buffer.file(), editor.captureState(),
                             savedConfiguration ? SafeFiles.utf8Fingerprint(editor.getText()) : buffer.fingerprint(),
                             savedConfiguration ? editor.version() : buffer.savedVersion()));

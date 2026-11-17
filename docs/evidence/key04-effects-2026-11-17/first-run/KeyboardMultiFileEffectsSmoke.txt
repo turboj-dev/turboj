@@ -1,0 +1,5 @@
+PASS refactor.pull-up: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+Exception in thread "main" java.lang.AssertionError: undo later edit restores workspace Redo eligibility
+	at dev.turboj.app.KeyboardActionEffectsSmoke.check(KeyboardActionEffectsSmoke.java:141)
+	at dev.turboj.app.KeyboardMultiFileEffectsSmoke.exercise(KeyboardMultiFileEffectsSmoke.java:51)
+	at dev.turboj.app.KeyboardMultiFileEffectsSmoke.main(KeyboardMultiFileEffectsSmoke.java:27)

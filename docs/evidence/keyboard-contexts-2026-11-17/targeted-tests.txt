@@ -1,0 +1,589 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/Users/luca/Workspace/turboj/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] javafmt                                                            [pom]
+[INFO] javafmt-parser                                                     [jar]
+[INFO] javafmt-core                                                       [jar]
+[INFO] CommandJ                                                           [pom]
+[INFO] commandj-core                                                      [jar]
+[INFO] commandj-keymap                                                    [jar]
+[INFO] commandj-palette                                                   [jar]
+[INFO] commandj-swing                                                     [jar]
+[INFO] RefactorJ                                                          [pom]
+[INFO] refactorj-api                                                      [jar]
+[INFO] refactorj-jdt                                                      [jar]
+[INFO] refactorj-transactions                                             [jar]
+[INFO] refactorj-runtime                                                  [jar]
+[INFO] refactorj-formatj                                                  [jar]
+[INFO] TurboTest                                                          [jar]
+[INFO] MavenJ                                                             [pom]
+[INFO] mavenj-api                                                         [jar]
+[INFO] mavenj-core                                                        [jar]
+[INFO] mavenj-workspace                                                   [jar]
+[INFO] TurboAI                                                            [pom]
+[INFO] turbo-ai-core                                                      [jar]
+[INFO] turbo-ai-java                                                      [jar]
+[INFO] TurboJ                                                             [pom]
+[INFO] turboj-core                                                        [jar]
+[INFO] turboj-worker                                                      [jar]
+[INFO] turboj-app                                                         [jar]
+[INFO] 
+[INFO] ------------------------< dev.javafmt:javafmt >-------------------------
+[INFO] Building javafmt 0.1.0                                            [1/26]
+[INFO]   from javafmt/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ---------------------< dev.javafmt:javafmt-parser >---------------------
+[INFO] Building javafmt-parser 0.1.0                                     [2/26]
+[INFO]   from javafmt/javafmt-parser/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-parser ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-parser ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-parser ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/javafmt/javafmt-parser/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-parser ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-parser ---
+[INFO] 
+[INFO] ----------------------< dev.javafmt:javafmt-core >----------------------
+[INFO] Building javafmt-core 0.1.0                                       [3/26]
+[INFO]   from javafmt/javafmt-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-core ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-core ---
+[INFO] 
+[INFO] --------------------< dev.turboj.commandj:commandj >--------------------
+[INFO] Building CommandJ 0.1.0                                           [4/26]
+[INFO]   from commandj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-core >------------------
+[INFO] Building commandj-core 0.1.0                                      [5/26]
+[INFO]   from commandj/commandj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-core ---
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-keymap >-----------------
+[INFO] Building commandj-keymap 0.1.0                                    [6/26]
+[INFO]   from commandj/commandj-keymap/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-keymap ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-keymap ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-keymap/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-keymap ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.commandj.keymap.KeymapTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in dev.turboj.commandj.keymap.KeymapTest
+[INFO] Running dev.turboj.commandj.keymap.KeyboardAuditTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.063 s -- in dev.turboj.commandj.keymap.KeyboardAuditTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-palette >----------------
+[INFO] Building commandj-palette 0.1.0                                   [7/26]
+[INFO]   from commandj/commandj-palette/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-palette ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-palette ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-palette/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-palette ---
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-swing >-----------------
+[INFO] Building commandj-swing 0.1.0                                     [8/26]
+[INFO]   from commandj/commandj-swing/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-swing ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-swing ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-swing ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-swing/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-swing ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-swing ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.commandj.swing.OverlayHostTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.365 s -- in dev.turboj.commandj.swing.OverlayHostTest
+[INFO] Running dev.turboj.commandj.swing.PaletteDispatchTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in dev.turboj.commandj.swing.PaletteDispatchTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] -------------------< dev.turboj.refactorj:refactorj >-------------------
+[INFO] Building RefactorJ 0.1.0                                          [9/26]
+[INFO]   from refactorj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-api >-----------------
+[INFO] Building refactorj-api 0.1.0                                     [10/26]
+[INFO]   from refactorj/refactorj-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-api ---
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-jdt >-----------------
+[INFO] Building refactorj-jdt 0.1.0                                     [11/26]
+[INFO]   from refactorj/refactorj-jdt/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-jdt ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-jdt ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-jdt ---
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-jdt ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-jdt/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-jdt ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-jdt ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ------------< dev.turboj.refactorj:refactorj-transactions >-------------
+[INFO] Building refactorj-transactions 0.1.0                            [12/26]
+[INFO]   from refactorj/refactorj-transactions/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-transactions ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-transactions/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-transactions ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-transactions ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-transactions/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-transactions ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-transactions ---
+[INFO] 
+[INFO] ---------------< dev.turboj.refactorj:refactorj-runtime >---------------
+[INFO] Building refactorj-runtime 0.1.0                                 [13/26]
+[INFO]   from refactorj/refactorj-runtime/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-runtime ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-runtime/src/main/resources
+[INFO] 
+[INFO] --- dependency:3.8.1:copy-dependencies (embed-intact-semantic-bundles) @ refactorj-runtime ---
+[INFO] dev.turboj.refactorj:refactorj-jdt:jar:0.1.0 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.core.manipulation:jar:1.23.200 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.runtime:jar:3.34.100 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.common:jar:3.20.300 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.jobs:jar:3.15.700 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.registry:jar:3.12.600 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.preferences:jar:3.12.100 already exists in destination.
+[INFO] org.osgi:org.osgi.service.prefs:jar:1.1.2 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.contenttype:jar:3.9.800 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.app:jar:1.7.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.resources:jar:3.23.100 already exists in destination.
+[INFO] net.java.dev.jna:jna:jar:5.18.1 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.ltk.core.refactoring:jar:3.15.100 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.commands:jar:3.12.500 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.core:jar:3.44.0 already exists in destination.
+[INFO] org.eclipse.jdt:ecj:jar:3.44.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.expressions:jar:3.9.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.text:jar:3.14.500 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.launching:jar:3.24.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.variables:jar:3.6.700 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.debug.core:jar:3.23.200 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.launching.macosx:jar:3.6.300 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.debug:jar:3.25.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.filesystem:jar:1.11.400 already exists in destination.
+[INFO] net.java.dev.jna:jna-platform:jar:5.18.1 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.filebuffers:jar:3.8.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.search.core:jar:3.16.600 already exists in destination.
+[INFO] org.commonmark:commonmark:jar:0.27.0 already exists in destination.
+[INFO] org.commonmark:commonmark-ext-gfm-tables:jar:0.27.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.osgi:jar:3.24.0 already exists in destination.
+[INFO] org.apache.felix:org.apache.felix.scr:jar:2.2.18 already exists in destination.
+[INFO] org.codehaus.mojo:animal-sniffer-annotations:jar:1.9 already exists in destination.
+[INFO] org.osgi:org.osgi.service.component:jar:1.5.1 already exists in destination.
+[INFO] org.osgi:osgi.annotation:jar:8.0.1 already exists in destination.
+[INFO] org.osgi:org.osgi.namespace.extender:jar:1.0.1 already exists in destination.
+[INFO] org.osgi:org.osgi.util.promise:jar:1.3.0 already exists in destination.
+[INFO] org.osgi:org.osgi.util.function:jar:1.2.0 already exists in destination.
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-runtime ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-runtime ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-runtime ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-runtime ---
+[INFO] 
+[INFO] ---------------< dev.turboj.refactorj:refactorj-formatj >---------------
+[INFO] Building refactorj-formatj 0.1.0                                 [14/26]
+[INFO]   from refactorj/refactorj-formatj/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-formatj ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-formatj/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-formatj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-formatj ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-formatj/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-formatj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-formatj ---
+[INFO] 
+[INFO] ----------------< dev.turboj.turbotest:turbotest-core >-----------------
+[INFO] Building TurboTest 0.1.0                                         [15/26]
+[INFO]   from turbotest/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbotest-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbotest/src/main/resources
+[INFO] 
+[INFO] --- dependency:3.8.1:copy-dependencies (embed-junit-runtime) @ turbotest-core ---
+[INFO] org.junit.jupiter:junit-jupiter-params:jar:5.13.4 already exists in destination.
+[INFO] org.apiguardian:apiguardian-api:jar:1.1.2 already exists in destination.
+[INFO] org.junit.platform:junit-platform-launcher:jar:1.13.4 already exists in destination.
+[INFO] org.junit.platform:junit-platform-engine:jar:1.13.4 already exists in destination.
+[INFO] org.junit.jupiter:junit-jupiter-engine:jar:5.13.4 already exists in destination.
+[INFO] org.junit.jupiter:junit-jupiter-api:jar:5.13.4 already exists in destination.
+[INFO] org.opentest4j:opentest4j:jar:1.3.0 already exists in destination.
+[INFO] org.junit.platform:junit-platform-commons:jar:1.13.4 already exists in destination.
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbotest-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbotest-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbotest/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbotest-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbotest-core ---
+[INFO] 
+[INFO] ----------------------< dev.turboj.mavenj:mavenj >----------------------
+[INFO] Building MavenJ 0.1.0                                            [16/26]
+[INFO]   from mavenj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --------------------< dev.turboj.mavenj:mavenj-api >--------------------
+[INFO] Building mavenj-api 0.1.0                                        [17/26]
+[INFO]   from mavenj/mavenj-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-api ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-api ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] -------------------< dev.turboj.mavenj:mavenj-core >--------------------
+[INFO] Building mavenj-core 0.1.0                                       [18/26]
+[INFO]   from mavenj/mavenj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-core ---
+[INFO] 
+[INFO] -----------------< dev.turboj.mavenj:mavenj-workspace >-----------------
+[INFO] Building mavenj-workspace 0.1.0                                  [19/26]
+[INFO]   from mavenj/mavenj-workspace/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-workspace ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-workspace/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-workspace ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-workspace ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-workspace/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-workspace ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-workspace ---
+[INFO] 
+[INFO] -----------------------< dev.turboj.ai:turbo-ai >-----------------------
+[INFO] Building TurboAI 0.1.0                                           [20/26]
+[INFO]   from turbo-ai/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --------------------< dev.turboj.ai:turbo-ai-core >---------------------
+[INFO] Building turbo-ai-core 0.1.0                                     [21/26]
+[INFO]   from turbo-ai/turbo-ai-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbo-ai-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbo-ai-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbo-ai-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbo-ai-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbo-ai-core ---
+[INFO] 
+[INFO] --------------------< dev.turboj.ai:turbo-ai-java >---------------------
+[INFO] Building turbo-ai-java 0.1.0                                     [22/26]
+[INFO]   from turbo-ai/turbo-ai-java/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbo-ai-java ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-java/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbo-ai-java ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbo-ai-java ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-java/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbo-ai-java ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbo-ai-java ---
+[INFO] 
+[INFO] -------------------------< dev.turboj:turboj >--------------------------
+[INFO] Building TurboJ 0.1.0-SNAPSHOT                                   [23/26]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-core >-----------------------
+[INFO] Building turboj-core 0.1.0-SNAPSHOT                              [24/26]
+[INFO]   from core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-core ---
+[INFO] 
+[INFO] ----------------------< dev.turboj:turboj-worker >----------------------
+[INFO] Building turboj-worker 0.1.0-SNAPSHOT                            [25/26]
+[INFO]   from worker/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-worker ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/worker/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-worker ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-worker ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/worker/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-worker ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-worker ---
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-app >------------------------
+[INFO] Building turboj-app 0.1.0-SNAPSHOT                               [26/26]
+[INFO]   from app/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-app ---
+[INFO] Copying 344 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-app ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-app ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/app/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-app ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-app ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.ui.EditorAICompletionTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.369 s -- in dev.turboj.ui.EditorAICompletionTest
+[INFO] Running dev.turboj.ui.EditorTemplateTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.102 s -- in dev.turboj.ui.EditorTemplateTest
+[INFO] Running dev.turboj.ui.ReplKeyboardTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in dev.turboj.ui.ReplKeyboardTest
+[INFO] Running dev.turboj.app.CommandSettingsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in dev.turboj.app.CommandSettingsTest
+[INFO] Running dev.turboj.app.KeyboardDefaultsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.253 s -- in dev.turboj.app.KeyboardDefaultsTest
+[INFO] Running dev.turboj.intelligence.CompletionCoordinatorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in dev.turboj.intelligence.CompletionCoordinatorTest
+[INFO] Running dev.turboj.ai.AICompletionControllerTest
+Synthetic blocked-provider fixture; editing and offscreen Java2D paint only, not model latency.
+1,000 lines: n=100 edit+paint p50 0.35 ms p95 1.15 ms max 3.67 ms
+10,000 lines: n=100 edit+paint p50 0.14 ms p95 0.19 ms max 1.61 ms
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.617 s -- in dev.turboj.ai.AICompletionControllerTest
+[INFO] Running dev.turboj.console.OutputCommandGestureTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in dev.turboj.console.OutputCommandGestureTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 47, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] javafmt 0.1.0 ...................................... SUCCESS [  0.001 s]
+[INFO] javafmt-parser 0.1.0 ............................... SUCCESS [  0.223 s]
+[INFO] javafmt-core 0.1.0 ................................. SUCCESS [  0.013 s]
+[INFO] CommandJ 0.1.0 ..................................... SUCCESS [  0.000 s]
+[INFO] commandj-core 0.1.0 ................................ SUCCESS [  0.008 s]
+[INFO] commandj-keymap 0.1.0 .............................. SUCCESS [  0.441 s]
+[INFO] commandj-palette 0.1.0 ............................. SUCCESS [  0.009 s]
+[INFO] commandj-swing 0.1.0 ............................... SUCCESS [  0.570 s]
+[INFO] RefactorJ 0.1.0 .................................... SUCCESS [  0.001 s]
+[INFO] refactorj-api 0.1.0 ................................ SUCCESS [  0.016 s]
+[INFO] refactorj-jdt 0.1.0 ................................ SUCCESS [  0.130 s]
+[INFO] refactorj-transactions 0.1.0 ....................... SUCCESS [  0.010 s]
+[INFO] refactorj-runtime 0.1.0 ............................ SUCCESS [  0.230 s]
+[INFO] refactorj-formatj 0.1.0 ............................ SUCCESS [  0.012 s]
+[INFO] TurboTest 0.1.0 .................................... SUCCESS [  0.009 s]
+[INFO] MavenJ 0.1.0 ....................................... SUCCESS [  0.000 s]
+[INFO] mavenj-api 0.1.0 ................................... SUCCESS [  0.005 s]
+[INFO] mavenj-core 0.1.0 .................................. SUCCESS [  0.068 s]
+[INFO] mavenj-workspace 0.1.0 ............................. SUCCESS [  0.009 s]
+[INFO] TurboAI 0.1.0 ...................................... SUCCESS [  0.000 s]
+[INFO] turbo-ai-core 0.1.0 ................................ SUCCESS [  0.007 s]
+[INFO] turbo-ai-java 0.1.0 ................................ SUCCESS [  0.009 s]
+[INFO] TurboJ 0.1.0-SNAPSHOT .............................. SUCCESS [  0.000 s]
+[INFO] turboj-core 0.1.0-SNAPSHOT ......................... SUCCESS [  0.021 s]
+[INFO] turboj-worker 0.1.0-SNAPSHOT ....................... SUCCESS [  0.011 s]
+[INFO] turboj-app 0.1.0-SNAPSHOT .......................... SUCCESS [  3.075 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.954 s
+[INFO] Finished at: 2026-11-17T10:10:31+01:00
+[INFO] ------------------------------------------------------------------------

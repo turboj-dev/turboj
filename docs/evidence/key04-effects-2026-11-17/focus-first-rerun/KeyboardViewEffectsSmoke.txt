@@ -1,0 +1,23 @@
+PASS view.focusConsole: visible Output owns keyboard focus
+PASS focus: cycles editor/console actual focus
+PASS view.resizeOutput: Up changes actual divider geometry; Escape returns to editor
+PASS zoom: output visibility toggles and restores
+PASS view.toggleConsole: output visibility toggles and restores
+PASS view.focusExplorer: project tree owns keyboard focus
+PASS view.toggleExplorer: Explorer visibility toggles and restores
+PASS view.maximizeEditor: both panels hidden
+PASS view.restoreLayout: both prior panel states restored
+PASS view.focusEditor: editor owns focus
+PASS view.focusNextPanel: focus moves to visible Explorer
+PASS view.focusPreviousPanel: focus returns to editor
+PASS view.focusTestResults: Tests selected
+PASS view.toggleTestPanel: Tests visibility toggles and restores
+PASS escape: tool-panel Escape returns to source
+PASS keymap.assignMissing: already bound profile remains complete without conflict dialog
+PASS metrics: actual local metrics displayed; Escape closes
+PASS navigation.nextError: moves through actual compiler diagnostics
+PASS navigation.previousError: returns to previous actual diagnostic
+PASS error: moves from end of source to first compiler-error line
+PASS view.focusDiagnostics: Enter navigates selected real diagnostic and restores editor focus
+PASS navigation.nextWarning: no-warning state is explicit and preserves source
+PASS navigation.previousWarning: no-warning state is explicit and preserves source

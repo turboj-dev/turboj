@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "baseCommit": "df53ac8a487ffa8d6918650f7fc73cb513b44421",
+  "artifact": "app/target/turboj-app.jar",
+  "artifactSha256": "f060b51e66d93867412a478b522c04ad2b34a03f4f703b90e11a8a6a7c5998cc",
+  "os": "macOS 26.5.1 (25F80)",
+  "architecture": "arm64",
+  "runtime": "Corretto 25.0.4.1",
+  "mode": "Native Swing key/focus events; fixture setup programmatic; no mouse; not OS Robot or human walkthrough",
+  "fullInstall": {
+    "tests": 880,
+    "suites": 128,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "targetedTests": 78,
+  "referenceExportTests": 6,
+  "nativeAssertions": {
+    "profiles": 120,
+    "panels": 31,
+    "workflows": 59
+  },
+  "sources": {
+    "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/CommandKeyDispatcher.java": "956695bf95bd82ae4a90dc98edb48296a0e38f1e82104681c1ee106a235c3fe2",
+    "app/src/test/java/dev/turboj/app/CommandRolloverSmoke.java": "5ffdaaf77e5ab1f72303453286d638c57d522dc527ba962987556ae599274845",
+    "app/src/test/java/dev/turboj/app/KeyboardPanelSmoke.java": "44bb2062fa0f85dafebce09bdebfe4a8d8cfbe30be00e20067261126681fd9ae",
+    "app/src/test/java/dev/turboj/app/KeyboardProfileSmoke.java": "7d6adfd18bd07269278e66c5bf3aed3bf49488afce3fa1e29fe79de134a3522a",
+    "app/src/test/java/dev/turboj/app/KeyboardWorkflowSmoke.java": "0b805a158d5f61d7fd139bafe2a1c55e6fb4421a32213380da7f8c9d5a2db4dd",
+    "app/src/test/java/dev/turboj/app/InlineTemplateSmoke.java": "d3f63ff2cff43e8d1461b6e0a6eb701a219d64e0849c9b24346ae113d69d7e7a"
+  },
+  "evidence": {
+    "README.md": "b06845674bc13c73e9c055112b6547b61a41eca5fb31c25b4eec6accdb21af97",
+    "install.txt": "6d9343b1be2638f474b88f38faea35314bdea71ae5181e00c88e2797fa1eb148",
+    "panels.txt": "e63464ea8185b33c07e8f8363b96d2604f0fa3b9e210135ae4bc7063fa46d7fd",
+    "profiles.txt": "a2aa702647ddaf3f8df10d5cc736901d669682f23cbc5d91e8f6b02c5f8bc24e",
+    "registry.txt": "e7b55a0742b94378f1f6ed51de438aca62c1947577b1fef4ea9bb9ca956086de",
+    "rollover-after.txt": "c3fe1b11cb8d083fea50b3ad4f10c784cb5fefbf54dd1c70a21a1b096ce19f20",
+    "rollover-before.txt": "e73382121cefe1e196b4720c0b00ad4a98f9bc1ecbce328dfd08a6c60257bab3",
+    "targeted-tests.txt": "ae6daf5acf99a2174c19408128697ba444362676eba1efe3d34e44d663d3282f",
+    "templates.txt": "c32c20721ff79312497c08ec90d7607df8a272e208333bcb11426003e2cca983",
+    "workflow-alias-root.txt": "57cb387c6082554179feb4fbecd805ab6f75b6542ed70a204e5cb95aa18e4f50",
+    "workflow-old-chooser.txt": "203d427026091c7a216f2c35cb7af1a79347e9fa8032a99b5fa2fdaae2de8c66",
+    "workflow-old-results.txt": "132e02b919fec9b425bdd46d7ded63b23a7e637353224e37d2ef42fa8d4619bd",
+    "workflows.txt": "6b33d3422a9f94fea3525ce5e1708aa3ad151c740d80bf1c93d8b1e0e974e0a8"
+  }
+}

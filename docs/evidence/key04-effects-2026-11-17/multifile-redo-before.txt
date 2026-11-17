@@ -1,0 +1,17 @@
+PASS refactor.pull-up: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+Exception in thread "main" java.lang.AssertionError: refactor.push-down full workspace redo: expected={A.java=class A { }, B.java=class B extends A {
+
+    int value() {
+        return 1;
+    }
+}} actual={A.java=class A { int value(){return 1;} }, B.java=class B extends A {}} status=11:47:46  Refactoring undone
+11:47:46  Refactoring applied
+11:47:44  Preparing push-down…
+11:47:44  ⌃⌘K R …  (Escape cancels; 10 seconds per key)
+11:47:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:47:43  ⌃⌘K R …  (Escape cancels; 10 seconds per key)
+11:47:43  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:47:43  Opened Java project refactor.push-down (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-multifile-effects-4012068170047863315/refactor.push-down).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.check(KeyboardActionEffectsSmoke.java:137)
+	at dev.turboj.app.KeyboardMultiFileEffectsSmoke.exercise(KeyboardMultiFileEffectsSmoke.java:47)
+	at dev.turboj.app.KeyboardMultiFileEffectsSmoke.main(KeyboardMultiFileEffectsSmoke.java:27)

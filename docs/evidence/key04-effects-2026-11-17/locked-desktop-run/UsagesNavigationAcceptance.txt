@@ -1,0 +1,79 @@
+Driver restores owned application's foreground; component focus is not assigned
+PASS source opens
+PASS default test direct despite same filename in another package
+PASS unique package counterpart needs no chooser
+PASS default source direct
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+PASS alias opens Find Usages
+PASS two actual JDT usages
+PASS horizontal usage/editor split
+PASS preview shows full source and exact selected usage
+PASS preview follows active theme/font
+Driver reactivates native window (host focus was outside TurboJ)
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Exception in thread "main" java.lang.AssertionError: results focus status=13:43:06  Opened default counterpart. Choose Related Tests / Source… lists verified alternatives.
+13:43:06  Opened default counterpart. Choose Related Tests / Source… lists verified alternatives.
+	at dev.turboj.app.UsagesNavigationAcceptance.await(UsagesNavigationAcceptance.java:128)
+	at dev.turboj.app.UsagesNavigationAcceptance.focus(UsagesNavigationAcceptance.java:124)
+	at dev.turboj.app.UsagesNavigationAcceptance.exercise(UsagesNavigationAcceptance.java:53)
+	at dev.turboj.app.UsagesNavigationAcceptance.main(UsagesNavigationAcceptance.java:22)

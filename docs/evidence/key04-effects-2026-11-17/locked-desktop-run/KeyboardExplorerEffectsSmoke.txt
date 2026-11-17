@@ -1,0 +1,88 @@
+Driver reactivates fixture window while waiting: project
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Driver reactivates fixture window while waiting: fixture window active
+Exception in thread "main" java.lang.AssertionError: fixture window active; focus=null; active=false; overlay=false; source=public class C {}
+; status=13:33:42  Opened Java project project (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-explorer-effects-5028814979257546706/project).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.activateFixture(KeyboardActionEffectsSmoke.java:139)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.key(KeyboardActionEffectsSmoke.java:137)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.action(KeyboardActionEffectsSmoke.java:132)
+	at dev.turboj.app.KeyboardExplorerEffectsSmoke.main(KeyboardExplorerEffectsSmoke.java:27)

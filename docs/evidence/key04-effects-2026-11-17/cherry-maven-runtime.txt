@@ -1,0 +1,2 @@
+/Users/luca/Workspace/turboj/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/bin/mvn
+Offline; existing user Maven cache contains the pinned fixture dependencies and provenance hook.

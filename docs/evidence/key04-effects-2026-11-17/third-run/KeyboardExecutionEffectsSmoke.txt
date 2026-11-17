@@ -1,0 +1,29 @@
+PASS run: real Java stdout from current source and completed process
+PASS isolated: real Java stdout from current source and completed process
+PASS run.context: real Java stdout from current source and completed process
+PASS smart.action: real Java stdout from current source and completed process
+PASS stop: stops running owned Java program after actual readiness output
+PASS eof: closes worker stdin; blocked Scanner proceeds and main finishes
+PASS clear: actual console document emptied
+PASS console.commandLine: keyboard command row launches real owned printf process
+PASS console.cancelCommand: actual owned shell command cancelled
+PASS evaluateSelection: actual JShell evaluates selected expression to 42
+PASS compile: real compiler accepts current Java source
+PASS evaluateStatement: one invocation after explicit compile evaluates current declaration through actual JShell
+PASS replReset: new JShell session no longer resolves prior variable
+PASS output: selects program output instead of JShell
+PASS repl: selects actual JShell panel
+PASS format.document: real aosp formatter modifies source; javac; one Undo
+PASS format.document: real classic80 formatter modifies source; javac; one Undo
+PASS format.document: real wide120 formatter modifies source; javac; one Undo
+PASS format.document: real google formatter modifies source; javac; one Undo
+PASS format.document: real eclipse formatter modifies source; javac; one Undo
+PASS format.document: real intellij formatter modifies source; javac; one Undo
+PASS format.document: real aws formatter modifies source; javac; one Undo
+PASS format.document: real javafmt formatter modifies source; javac; one Undo
+PASS format.selection: real selected-range formatting; javac; one Undo
+PASS editor.autoIndentLines: real selected-range formatting; javac; one Undo
+PASS settings.general: keyboard spinner and checkbox changes applied
+PASS theme.load: real JSON chooser selection changes theme preference
+PASS cherry.configure: keyboard input changes isolated CLI configuration without execution
+PASS fullscreen: enters/exits actual native fullscreen; original mode restored

@@ -1,0 +1,86 @@
+PASS editor.copyLineUp: exact source; one Undo; Redo
+PASS editor.copyLineDown: exact source; one Undo; Redo
+PASS editor.insertLineAbove: exact source; one Undo; Redo
+PASS editor.insertLineBelow: exact source; one Undo; Redo
+PASS editor.splitLine: exact source; one Undo; Redo
+PASS editor.joinLines: exact source; one Undo; Redo
+PASS editor.trimTrailingWhitespace: exact source; one Undo; Redo
+PASS editor.convertTabsToSpaces: exact source; one Undo; Redo
+PASS editor.convertSpacesToTabs: exact source; one Undo; Redo
+PASS editor.deletePreviousWord: exact source; one Undo; Redo
+PASS editor.deleteNextWord: exact source; one Undo; Redo
+PASS editor.deleteToLineStart: exact source; one Undo; Redo
+PASS editor.deleteToLineEnd: exact source; one Undo; Redo
+PASS editor.toggleBlockComment: exact source; one Undo; Redo
+PASS editor.upperCase: exact source; one Undo; Redo
+PASS editor.lowerCase: exact source; one Undo; Redo
+PASS editor.sortSelectedLines: exact source; one Undo; Redo
+PASS editor.reverseSelectedLines: exact source; one Undo; Redo
+PASS editor.transposeCharacters: exact source; one Undo; Redo
+PASS moveLineUp: exact source; one Undo; Redo
+PASS moveLineDown: exact source; one Undo; Redo
+PASS comment: exact source; one Undo; Redo
+PASS indent: exact source; one Undo; Redo
+PASS unindent: exact source; one Undo; Redo
+PASS editor.smartHome: indent then physical start
+PASS editor.smartEnd: text then physical end
+PASS editor.selectCurrentWord: exact word selection
+PASS editor.selectCurrentLine: complete line selection
+PASS editor.changeCase: choice Enter changes actual source
+PASS editor.toggleColumnSelection: two real row selections
+PASS format.onSave: setting changes and restores through actual callback
+PASS run.onSave: setting changes and restores through actual callback
+PASS tests.onSave: setting changes and restores through actual callback
+PASS tests.auto: setting changes and restores through actual callback
+PASS run.clearOutputBefore: setting changes and restores through actual callback
+PASS view.coverageBackgrounds: setting changes and restores through actual callback
+PASS showPressedShortcuts: setting changes and restores through actual callback
+PASS settings.shortcutSymbols: setting changes and restores through actual callback
+PASS format.style.aosp: active formatter setting matches selection
+PASS format.style.classic80: active formatter setting matches selection
+PASS format.style.wide120: active formatter setting matches selection
+PASS format.style.google: active formatter setting matches selection
+PASS format.style.eclipse: active formatter setting matches selection
+PASS format.style.intellij: active formatter setting matches selection
+PASS format.style.aws: active formatter setting matches selection
+PASS format.style.javafmt: active formatter setting matches selection
+PASS theme.classic: active theme changes
+PASS theme.dark: active theme changes
+PASS theme.light: active theme changes
+PASS fontUp: actual editor font increased
+PASS fontDown: actual editor font restored
+PASS keymap.profile.intellij-macos: active profile changes
+PASS keymap.profile.eclipse-macos: active profile changes
+PASS keymap.profile.vscode-macos: active profile changes
+PASS keymap.profile.turboj-macos: active profile changes
+PASS java.generateHashCode: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateToString: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateGetters: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateEquals: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateConstructor: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateJavadoc: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateSetters: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.generateGetterSetter: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.implementMethods: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.overrideMethods: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.surroundIf: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.surroundTryFinally: preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+PASS java.completeStatement: invalid caret rejected; semicolon inserted at valid caret; javac succeeds
+PASS editor.moveStatementUp: whole methods swap; javac; one Undo
+PASS editor.moveCodeBlockUp: whole methods swap; javac; one Undo
+PASS editor.moveStatementDown: whole methods swap; javac; one Undo
+PASS editor.moveCodeBlockDown: whole methods swap; javac; one Undo
+PASS editor.moveElementLeft: literal elements swap; javac; one Undo
+PASS editor.moveElementRight: literal elements swap; javac; one Undo
+PASS editor.selectCurrentStatement: AST selection contains expected Java construct
+PASS editor.shrinkSelection: restores prior source caret
+PASS editor.selectCurrentMethod: AST selection contains expected Java construct
+PASS editor.shrinkSelection: restores prior source caret
+PASS editor.selectEnclosingType: AST selection contains expected Java construct
+PASS editor.shrinkSelection: restores prior source caret
+PASS editor.selectMatchingBrackets: AST selection contains expected Java construct
+PASS editor.shrinkSelection: restores prior source caret
+PASS editor.expandSelection: AST selection contains expected Java construct
+PASS editor.shrinkSelection: restores prior source caret
+PASS editor.selectCurrentBlock: AST selection contains expected Java construct
+PASS editor.shrinkSelection: restores prior source caret

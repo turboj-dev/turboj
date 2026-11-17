@@ -117,14 +117,14 @@ public final class UsagesNavigationAcceptance {
             if(!frame.isActive()) {
                 System.out.println("Driver reactivates native window (host focus was outside TurboJ)");
                 if(Desktop.isDesktopSupported()&&Desktop.getDesktop().isSupported(Desktop.Action.APP_REQUEST_FOREGROUND))Desktop.getDesktop().requestForeground(true);
-                frame.toFront();frame.requestFocus();
+                frame.toFront();
             }
             return null;
         });
         await(() -> {if(!results().isFocusOwner())results().requestFocusInWindow();return results().isFocusOwner();},"results focus");
     }
-    private static void key(int key)throws Exception{edt(() -> {var manager=KeyboardFocusManager.getCurrentKeyboardFocusManager();var focus=manager.getFocusOwner();if(focus==null)throw new AssertionError("No focus");manager.dispatchEvent(new KeyEvent(focus,KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,key,KeyEvent.CHAR_UNDEFINED));manager.dispatchEvent(new KeyEvent(focus,KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,key,KeyEvent.CHAR_UNDEFINED));return null;});}
+    private static void key(int key)throws Exception{NativeWindowTestSupport.beforeKey(frame);edt(() -> {var manager=KeyboardFocusManager.getCurrentKeyboardFocusManager();var focus=manager.getFocusOwner();if(focus==null)throw new AssertionError("No focus");manager.dispatchEvent(new KeyEvent(focus,KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,key,KeyEvent.CHAR_UNDEFINED));manager.dispatchEvent(new KeyEvent(focus,KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,key,KeyEvent.CHAR_UNDEFINED));return null;});}
     private static void check(boolean value,String label){if(!value)throw new AssertionError(label);System.out.println("PASS "+label);}
-    private static void await(Callable<Boolean> condition,String label)throws Exception{long end=System.nanoTime()+TimeUnit.SECONDS.toNanos(60);while(System.nanoTime()<end){if(edt(condition)){System.out.println("PASS "+label);return;}Thread.sleep(25);}throw new AssertionError(label+" status="+edt(() -> frame.statusMessages()));}
+    private static void await(Callable<Boolean> condition,String label)throws Exception{long end=System.nanoTime()+TimeUnit.SECONDS.toNanos(60);while(System.nanoTime()<end){if(edt(condition)){System.out.println("PASS "+label);return;}edt(()->{NativeWindowTestSupport.recover(frame);return null;});Thread.sleep(25);}throw new AssertionError(label+" status="+edt(() -> frame.statusMessages()));}
     private static <T>T edt(Callable<T> task)throws Exception{var future=new FutureTask<T>(task);SwingUtilities.invokeAndWait(future);return future.get();}
 }

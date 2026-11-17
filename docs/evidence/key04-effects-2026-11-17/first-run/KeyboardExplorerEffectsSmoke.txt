@@ -1,0 +1,11 @@
+PASS explorer.expand: selected folder expands
+PASS explorer.collapse: selected folder collapses
+PASS explorer.contextMenu: keyboard opens actual item menu; Escape restores tree
+PASS explorer.newFile: existing file rejected without overwrite
+PASS explorer.newFolder: directory created at selected location
+PASS explorer.newFile: creates empty file and opens exact path
+PASS refactor.rename: Explorer plain-file rename updates actual disk path
+PASS undo: Explorer rename restored by workspace undo
+PASS explorer.delete: Escape preserves file; OK deletes; Undo restores
+PASS explorer.newPackage: qualified package creates corresponding directories
+PASS explorer.open: selected source opens and owns focus

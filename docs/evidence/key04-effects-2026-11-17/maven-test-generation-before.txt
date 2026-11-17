@@ -1,0 +1,69 @@
+Current file: /private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-first-launch-7236829171992259850/workspace/first-launch-maven/src/test/java/tutorial/CalculatorTest.java
+Focus: EditorComponent[;Java source editor]
+Location: Location[caret=193, anchor=165, topLine=0, leftColumn=0]
+Compilation: CompilationResult[version=1, success=true, diagnostics=[], bytecode={example.firstlaunchmaven.FirstLaunchMaven=[B@4a3e9c2e, tutorial.Calculator=[B@350bd82d, tutorial.HelloWorld=[B@1b7f6a9, tutorial.CalculatorTest=[B@1171d306}, durationNanos=1110667, cacheHit=true, mainClass=null]
+Test report: Report[sourceVersion=16, durationNanos=59808083, tests=[Test[id=[engine:junit-jupiter]/[class:tutorial.CalculatorTest]/[method:testCalculatorAddition()], name=testCalculatorAddition(), className=tutorial.CalculatorTest, methodName=testCalculatorAddition, status=PASSED, durationNanos=3033541, failure=, trace=]], engineFailures=[]]
+Proposals: []
+Build status: TURBOJ NATIVE · BUILD OK | 1.11 ms
+Status history:
+12:46:18  Test CalculatorTest · first-launch-maven · Java 25 failed · TurboTest: Compilation was superseded before execution
+12:46:18  Saved HelloWorld.java
+12:46:18  MAVEN PROJECT — first-launch-maven | Modules 1 | Java 25 | Dependencies Resolved | TurboJ Native | Offline
+12:46:17  Refactoring applied
+12:46:16  Finding Java fixes and assists…
+12:46:16  Refactoring applied
+12:46:15  Finding Java fixes and assists…
+12:46:14  Finding Java fixes and assists…
+12:46:13  Requires editor
+12:46:13  Finding Java fixes and assists…
+12:46:11  Finding Java fixes and assists…
+12:46:08  Run HelloWorld.java done · exit 0 · 153 ms (15 ms running)
+12:46:07  Compile HelloWorld.java done · 13 ms
+12:46:07  Refactoring applied
+12:46:06  MAVEN PROJECT — first-launch-maven | Modules 1 | Java 25 | Dependencies Resolved | TurboJ Native | Offline
+12:46:06  Created Maven project first-launch-maven with FirstLaunchMaven.java.
+12:46:02  Run previous JUnit launch: tutorial.CalculatorTest
+12:46:02  Saved Calculator.java
+12:46:01  Close the active dialog first
+12:46:01  Close the active dialog first
+12:46:01  Close the active dialog first
+12:45:55  Run previous JUnit launch: tutorial.CalculatorTest
+12:45:54  Requires editor
+12:45:54  Saved Calculator.java
+12:45:50  Run previous JUnit launch: tutorial.CalculatorTest
+12:45:50  Requires editor
+12:45:49  Saved Calculator.java
+12:45:45  Run previous JUnit launch: tutorial.CalculatorTest
+12:45:45  Requires editor
+12:45:45  Saved Calculator.java
+12:45:41  Run previous JUnit launch: tutorial.CalculatorTest
+12:45:41  Requires editor
+12:45:40  Saved Calculator.java
+12:45:37  Run previous JUnit launch: tutorial.CalculatorTest
+12:45:36  Saved CalculatorTest.java
+12:45:36  Saved Calculator.java
+12:45:36  Refactoring redone
+12:45:36  Refactoring undone
+12:45:36  Refactoring applied
+12:45:34  Refactoring applied
+12:45:34  Refactoring applied
+12:45:33  Refactoring applied
+12:45:33  Finding Java fixes and assists…
+12:45:30  Test CalculatorTest · first-launch-java · Java 25 failed · 1 error · src/test/java/tutorial/CalculatorTest.java:[6,42]: cannot find symbol
+  symbol:   method add(int,int)
+  location: class tutorial.Calculator
+12:45:30  Saved CalculatorTest.java
+12:45:26  Saved HelloWorld.java
+12:45:26  Refactoring applied
+12:45:25  Finding Java fixes and assists…
+12:45:25  Refactoring applied
+12:45:24  Finding Java fixes and assists…
+Menu path: []
+Maven root: /private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-first-launch-7236829171992259850/workspace/first-launch-maven
+Maven generation: 2
+Maven resolved: true
+Maven offline: true
+Maven module: example:first-launch-maven:1.0-SNAPSHOT
+Main roots: [/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-first-launch-7236829171992259850/workspace/first-launch-maven/src/main/java]
+Test roots: [/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-first-launch-7236829171992259850/workspace/first-launch-maven/src/test/java]
+Dependencies: [Coordinates[groupId=org.junit.jupiter, artifactId=junit-jupiter, version=5.13.4, type=jar, classifier=] [test], Coordinates[groupId=org.junit.jupiter, artifactId=junit-jupiter-api, version=5.13.4, type=jar, classifier=] [test], Coordinates[groupId=org.opentest4j, artifactId=opentest4j, version=1.3.0, type=jar, classifier=] [test], Coordinates[groupId=org.junit.platform, artifactId=junit-platform-commons, version=1.13.4, type=jar, classifier=] [test], Coordinates[groupId=org.apiguardian, artifactId=apiguardian-api, version=1.1.2, type=jar, classifier=] [test], Coordinates[groupId=org.junit.jupiter, artifactId=junit-jupiter-params, version=5.13.4, type=jar, classifier=] [test], Coordinates[groupId=org.junit.jupiter, artifactId=junit-jupiter-engine, version=5.13.4, type=jar, classifier=] [test], Coordinates[groupId=org.junit.platform, artifactId=junit-platform-engine, version=1.13.4, type=jar, classifier=] [test]]

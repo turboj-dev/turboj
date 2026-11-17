@@ -1,0 +1,20 @@
+PASS clean profile starts at workspace selection
+PASS workspace default is ~/Workspace
+PASS Command available: keymap.profile.eclipse-macos
+PASS Eclipse profile selected through CommandJ palette
+PASS Command available: theme.more
+PASS java: project does not exist before keyboard wizard
+PASS F10 → File → New is keyboard accessible
+PASS File → New → New Java Project… selected with arrow keys
+PASS java: location follows chosen workspace/project name
+PASS Command available: file.newJavaClass
+PASS java: conventional Java main stub selected
+PASS java: real HelloWorld.java created by keyboard wizard
+PASS java: generated main signature is valid
+PASS Command available: compile
+PASS java: generated main compiled and ran through native application
+PASS Find selects exact source: Calculator
+Exception in thread "main" java.lang.AssertionError: java: Escape cancels pending Cmd+1; no popup or source change during subsequent two-second observation
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.check(FirstLaunchKeyboardSmoke.java:659)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.flow(FirstLaunchKeyboardSmoke.java:175)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.main(FirstLaunchKeyboardSmoke.java:88)

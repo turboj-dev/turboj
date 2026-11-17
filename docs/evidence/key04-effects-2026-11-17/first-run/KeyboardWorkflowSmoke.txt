@@ -1,0 +1,3 @@
+Exception in thread "main" java.lang.AssertionError: Timed out: initial source focus
+	at dev.turboj.app.KeyboardWorkflowSmoke.waitFor(KeyboardWorkflowSmoke.java:389)
+	at dev.turboj.app.KeyboardWorkflowSmoke.main(KeyboardWorkflowSmoke.java:67)

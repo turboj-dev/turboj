@@ -1,0 +1,25 @@
+PASS find: selected actual query match
+PASS findNext: moves to other occurrence
+PASS findPrevious: returns to first occurrence
+PASS replace: keyboard Replace All; exact source; one Undo
+PASS goto: Enter moves to requested line start
+PASS navigation.nextMethod: caret at second declaration
+PASS navigation.previousMethod: caret at first declaration
+PASS navigation.callHierarchy: navigates to resolved call site
+PASS navigation.calledMethods: navigates to actual call in selected method
+PASS declaration: resolved call navigates to declaration
+PASS back: restores call-site caret
+PASS forward: restores declaration caret
+PASS navigation.matchingBrace: caret at matching class brace
+PASS navigation.goToImplementation: opens concrete subclass at its declaration
+PASS navigation.typeHierarchy: resolved base/subclass entries; Escape preserves source
+PASS navigation.goToFile: query finds real project item; Enter opens correct source
+PASS navigation.goToType: query finds real project item; Enter opens correct source
+PASS navigation.goToSymbol: query finds real project item; Enter opens correct source
+PASS navigation.searchEverywhere: query finds real project item; Enter opens correct source
+PASS navigation.previousEditorTab: cycles to previous open source
+PASS navigation.nextEditorTab: cycles to next open source
+PASS navigation.recentLocations: Enter restores preceding C.java visit
+PASS navigation.recentFiles: Enter opens actual first recent source
+PASS navigation.previousEditLocation: returns to previous edited document
+PASS navigation.nextEditLocation: returns to newer edited document

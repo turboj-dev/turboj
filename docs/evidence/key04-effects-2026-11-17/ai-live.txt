@@ -1,0 +1,48 @@
+PASS external runtime remains externally owned
+PASS intellij-macos: model output is ghost text only
+PASS intellij-macos: Tab accepts exactly the live proposal without extra indentation
+PASS intellij-macos: one Undo restores exact source
+PASS intellij-macos: Escape dismisses live AI without source edits
+PASS intellij-macos: explicit JDT popup keeps precedence over AI request
+PASS intellij-macos: Tab applies the JDT proposal with live AI enabled
+PASS intellij-macos: template owns Tab; AI cannot replace selected placeholder
+PASS intellij-macos: Shift+Tab reverses template navigation
+PASS intellij-macos: dialog Tab stays local while a live request is in flight or cancelled
+PASS intellij-macos: no stale ghost returns after closing the dialog
+PASS eclipse-macos: model output is ghost text only
+PASS eclipse-macos: Tab accepts exactly the live proposal without extra indentation
+PASS eclipse-macos: one Undo restores exact source
+PASS eclipse-macos: Escape dismisses live AI without source edits
+PASS eclipse-macos: explicit JDT popup keeps precedence over AI request
+PASS eclipse-macos: Tab applies the JDT proposal with live AI enabled
+PASS eclipse-macos: template owns Tab; AI cannot replace selected placeholder
+PASS eclipse-macos: Shift+Tab reverses template navigation
+PASS eclipse-macos: dialog Tab stays local while a live request is in flight or cancelled
+PASS eclipse-macos: no stale ghost returns after closing the dialog
+PASS vscode-macos: model output is ghost text only
+PASS vscode-macos: Tab accepts exactly the live proposal without extra indentation
+PASS vscode-macos: one Undo restores exact source
+PASS vscode-macos: Escape dismisses live AI without source edits
+PASS vscode-macos: explicit JDT popup keeps precedence over AI request
+PASS vscode-macos: Tab applies the JDT proposal with live AI enabled
+PASS vscode-macos: template owns Tab; AI cannot replace selected placeholder
+PASS vscode-macos: Shift+Tab reverses template navigation
+PASS vscode-macos: dialog Tab stays local while a live request is in flight or cancelled
+PASS vscode-macos: no stale ghost returns after closing the dialog
+PASS turboj-macos: model output is ghost text only
+PASS turboj-macos: Tab accepts exactly the live proposal without extra indentation
+PASS turboj-macos: one Undo restores exact source
+PASS turboj-macos: Escape dismisses live AI without source edits
+PASS turboj-macos: explicit JDT popup keeps precedence over AI request
+PASS turboj-macos: Tab applies the JDT proposal with live AI enabled
+PASS turboj-macos: template owns Tab; AI cannot replace selected placeholder
+PASS turboj-macos: Shift+Tab reverses template navigation
+PASS turboj-macos: dialog Tab stays local while a live request is in flight or cancelled
+PASS turboj-macos: no stale ghost returns after closing the dialog
+PASS ai.request → completion.acceptWord: accepts a nonempty prefix of actual model output and preserves surrounding source
+PASS completion.acceptWord: one Undo restores source
+PASS ai.larger → completion.acceptLine: accepts a nonempty prefix of actual model output and preserves surrounding source
+PASS completion.acceptLine: one Undo restores source
+PASS ai.retry reconnects to externally owned runtime without taking ownership
+PASS ai.test validates an actual local response using its synthetic snippet without editing source
+PASS ai.download cancellation leaves installed model and external runtime ready; no download authorized

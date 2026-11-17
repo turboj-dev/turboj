@@ -1,0 +1,22 @@
+PASS held shortcut invokes exactly once
+PASS new printable key survives held shortcut rollover; actual=x
+PASS invalid chord suffix is consumed, never inserted into source
+PASS typed event belonging to the handled command remains suppressed
+Exception in thread "main" java.util.concurrent.ExecutionException: java.lang.AssertionError: shortcut suffix cannot leak into the dialog it opens; actual=d
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:124)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:193)
+	at dev.turboj.app.CommandRolloverSmoke.edt(CommandRolloverSmoke.java:120)
+	at dev.turboj.app.CommandRolloverSmoke.main(CommandRolloverSmoke.java:85)
+Caused by: java.lang.AssertionError: shortcut suffix cannot leak into the dialog it opens; actual=d
+	at dev.turboj.app.CommandRolloverSmoke.check(CommandRolloverSmoke.java:113)
+	at dev.turboj.app.CommandRolloverSmoke.lambda$main$8(CommandRolloverSmoke.java:88)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)

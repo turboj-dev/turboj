@@ -1,0 +1,2 @@
+Exception in thread "main" java.lang.AssertionError: Editor did not receive focus
+	at dev.turboj.app.CommandRolloverSmoke.main(CommandRolloverSmoke.java:43)

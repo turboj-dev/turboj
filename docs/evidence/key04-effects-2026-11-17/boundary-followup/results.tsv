@@ -1,0 +1,7 @@
+check	exit_status	scope
+KeyboardMavenBoundarySmoke	0	actual attachments, external parent, custom processor
+KeyboardNestedDialogSmoke	0	successful nested import/remove/reset/overwrite
+KeyboardBranchEffectsSmoke	0	prior branch regressions
+KeyboardAIBoundarySmoke	0	local settings, cached real pull, three HTTPS protocol fixtures, actual Keychain cleanup
+KeyboardCherryEffectsSmoke --browser	0	real JUnit, browser URL and cancellation
+./mvnw install -pl app	0	321 tests, zero failures/errors/skips

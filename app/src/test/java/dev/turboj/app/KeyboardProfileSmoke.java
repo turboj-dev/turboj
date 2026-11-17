@@ -52,6 +52,7 @@ public final class KeyboardProfileSmoke {
                 selectedMarker(profile);
                 commandD(profile);
                 bottomPanelShortcuts(profile);
+                dialogBoundary(profile);
             }
             menuSwitch("vscode-macos");
             comboSwitch("eclipse-macos");
@@ -158,6 +159,38 @@ public final class KeyboardProfileSmoke {
             check(true, profile + ": palette, panel cycle and editor chord work from " + command);
         }
     }
+    private static void dialogBoundary(String profile) throws Exception {
+        // Defer the final typed event until the real keymap dialog owns focus.
+        // Real AWT delivery can interleave focus changes between pressed and typed.
+        var original = edt(() -> frame.commandKeymaps().commandBindings(frame.commandRegistry(), "keymap"));
+        // Isolated custom binding exercises the same modal boundary in every profile.
+        edt(() -> { frame.commandKeymaps().replaceBindings("keymap", List.of(KeyBinding.of("F14, K"))); return null; });
+        var strokes = KeySequence.parse("F14, K").strokes();
+        for (int i = 0; i < strokes.size() - 1; i++) stroke(strokes.get(i));
+        var last = strokes.getLast();
+        char letter = last.key().toLowerCase(java.util.Locale.ROOT).charAt(0);
+        int code = KeyEvent.getExtendedKeyCodeForChar(letter);
+        edt(() -> { dispatch(KeyEvent.KEY_PRESSED, code, letter, 0); return null; });
+        waitFor(() -> keymap() != null && focus() instanceof javax.swing.text.JTextComponent, "keymap input focus");
+        var field = edt(() -> (javax.swing.text.JTextComponent) focus());
+        edt(() -> { dispatch(KeyEvent.KEY_TYPED, KeyEvent.VK_UNDEFINED, letter, 0);
+            dispatch(KeyEvent.KEY_RELEASED, code, letter, 0); return null; });
+        check(edt(field::getText).isEmpty(), profile + ": shortcut suffix does not leak into Keymap search");
+        String source = edt(() -> frame.editor().getText());
+        key(KeyEvent.VK_D, KeyEvent.META_DOWN_MASK);
+        check(edt(() -> frame.editor().getText()).equals(source), profile + ": modal context blocks background editor command");
+        type("save");
+        check(edt(field::getText).equals("save"), profile + ": dialog receives ordinary typing after chord");
+        key(KeyEvent.VK_TAB, 0);
+        waitFor(() -> focus() != field, "Tab leaves dialog search");
+        key(KeyEvent.VK_TAB, KeyEvent.SHIFT_DOWN_MASK);
+        waitFor(() -> focus() == field, "Shift+Tab returns to dialog search");
+        key(KeyEvent.VK_ESCAPE, 0);
+        waitFor(() -> keymap() == null && frame.editor().isFocusOwner(), "Escape restores editor after keymap dialog");
+        check(true, profile + ": Tab/Shift+Tab/Escape preserve dialog focus and restore editor");
+        edt(() -> { frame.commandKeymaps().replaceBindings("keymap", original); return null; });
+    }
+
     private static void selectedMarker(String expected) throws Exception {
         int count = edt(() -> {
             int selected = 0;

@@ -1,0 +1,10 @@
+PASS complete: real JDT proposals for String receiver
+PASS completion.next: selected JDT proposal advances
+PASS completion.previous: selected JDT proposal returns
+PASS completion.accept: selected JDT proposal changes actual source
+Exception in thread "main" java.lang.AssertionError: JDT choices; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class C { void f(){String s = "abc"; s.} }; status=12:30:14  No assignment-compatible proposals in a resolved expected-type context.
+12:30:14  ⌃⌘K C …  (Escape cancels; 10 seconds per key)
+12:30:14  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardIntelligenceEffectsSmoke.completion(KeyboardIntelligenceEffectsSmoke.java:28)
+	at dev.turboj.app.KeyboardIntelligenceEffectsSmoke.main(KeyboardIntelligenceEffectsSmoke.java:22)

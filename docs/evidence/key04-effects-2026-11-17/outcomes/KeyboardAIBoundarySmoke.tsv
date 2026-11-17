@@ -1,0 +1,7 @@
+command	assertion
+ai.local	real command opens Local form; Apply persists selected model; existing Ollama becomes READY without taking process ownership
+ai.download	keyboard confirms actual Ollama /api/pull for already installed model; observes DOWNLOADING_MODEL then READY; cached blobs, no new model or owned server
+ai.cloud	keyboard OPENAI configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+ai.cloud	keyboard ANTHROPIC configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+ai.cloud	keyboard XAI configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+ai.test	three cloud TLS/auth/stream protocols use explicit fixtures; HTTP 401 triggers real local fallback with route shown; single-provider settings probe exposes 401 without false success

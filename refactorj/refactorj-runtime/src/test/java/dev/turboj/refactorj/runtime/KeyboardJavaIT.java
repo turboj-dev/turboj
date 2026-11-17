@@ -215,6 +215,32 @@ class KeyboardJavaIT {
             assertFalse(result.proposals().stream().anyMatch(c -> c.text().equals("content")), result.toString());
         }
     }
+    @Test void implementationNavigationFindsConcreteSubtypeInAnotherCompilationUnit() throws Exception {
+        Path c = root.resolve("C.java"), d = root.resolve("D.java");
+        String base = "public class C {}", derived = "class D extends C {}";
+        var sources = List.of(new SourceSnapshot(c, base, 1, true), new SourceSnapshot(d, derived, 1, false));
+        try (var engine = runtime.openWorkspace(new WorkspaceSnapshot(root, 1, sources, List.of(root), List.of()))) {
+            var api = ((JavaIntelligenceProvider) engine).intelligence();
+            var context = new JavaIntelligence.Context(c, base, 1, Map.of(c, base, d, derived), List.of(root), List.of(), 1);
+            var targets = api.navigationTargets(context, base.indexOf("C {"), Navigation.IMPLEMENTATIONS, "");
+            assertEquals(List.of(d), targets.stream().map(Target::file).toList(), targets.toString());
+            assertEquals(derived.indexOf("D extends"), targets.getFirst().start());
+        }
+    }
+    @Test void implementationNavigationChecksCrossUnitOverridesWithoutConfusingOverloads() throws Exception {
+        Path i = root.resolve("I.java"), d = root.resolve("D.java");
+        String contract = "interface I { int value(int n); }";
+        String implementation = "class D implements I { public int value(int n){return n;} public int value(String s){return 0;} }";
+        var sources = List.of(new SourceSnapshot(i, contract, 1, true), new SourceSnapshot(d, implementation, 1, false));
+        try (var engine = runtime.openWorkspace(new WorkspaceSnapshot(root, 1, sources, List.of(root), List.of()))) {
+            var api = ((JavaIntelligenceProvider) engine).intelligence();
+            var context = new JavaIntelligence.Context(i, contract, 1, Map.of(i, contract, d, implementation), List.of(root), List.of(), 1);
+            var targets = api.navigationTargets(context, contract.indexOf("value"), Navigation.IMPLEMENTATIONS, "");
+            assertEquals(1, targets.size(), targets.toString());
+            assertEquals(d, targets.getFirst().file());
+            assertEquals(implementation.indexOf("value(int"), targets.getFirst().start());
+        }
+    }
     @Test void recordsSharedModelKeyboardPreparationMeasurements() throws Exception {
         String source = "class C { int first(){ return 21; } int second(){ return first()*2; } }";
         long cold = System.nanoTime();

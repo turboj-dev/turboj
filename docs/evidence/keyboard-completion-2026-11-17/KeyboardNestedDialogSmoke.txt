@@ -1,0 +1,10 @@
+PASS Duplicate profile: Enter creates and selects a real custom profile
+PASS Cancel nested input leaves profiles unchanged
+PASS Reset, remove and recorder cancel back to parent with focus
+PASS Keymap → file chooser → New folder: keyboard creates real directory
+PASS Export contains actual custom profile
+PASS Cancel overwrite preserves exported file and restores chooser/parent
+PASS Invalid import error dismisses without damaging keymaps
+PASS Diagnostic Tab remains inside third-level dialog
+PASS Nested reference exports actual active profile
+PASS Closing all levels restores source without leaking shortcut/typing

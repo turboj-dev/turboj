@@ -1,0 +1,13 @@
+command	assertion
+openFolder	keyboard chooser opens actual plain project
+project.open	keyboard chooser opens actual plain project
+open	keyboard file chooser opens both expected source paths
+file.saveAll	two dirty buffers saved to their exact files
+project.explorer	actual Explorer visibility changes and restores
+editor.selectNextOccurrence	two matching identifier selections
+editor.selectAllOccurrences	three matching identifier selections
+editor.removeSecondaryCarets	secondary selections removed
+editor.addCaretAbove	adds upper-row caret for actual simultaneous editing
+view.focusJShell	actual JShell input owns focus
+console.copy	selected console text reaches system clipboard
+help.cheatSheet	actual generation/open callback completes; exported HTML includes every registered command

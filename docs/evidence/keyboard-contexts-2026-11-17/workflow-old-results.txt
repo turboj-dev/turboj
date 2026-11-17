@@ -1,0 +1,17 @@
+PASS command available: project.open
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS A: keyboard import resolves cached Maven/JUnit offline
+PASS command available: open
+PASS Find selects exact source: KEYBOARD_RESULT=
+PASS command available: run
+PASS A: project → file → edit → save → trust → native Run uses only keys
+PASS A: native Run does not invoke Maven lifecycle
+PASS command available: tests.all
+PASS C: two real JUnit tests pass
+Exception in thread "main" java.lang.AssertionError: Timed out: JUnit results
+	at dev.turboj.app.KeyboardWorkflowSmoke.waitFor(KeyboardWorkflowSmoke.java:364)
+	at dev.turboj.app.KeyboardWorkflowSmoke.closeResults(KeyboardWorkflowSmoke.java:322)
+	at dev.turboj.app.KeyboardWorkflowSmoke.workflowC(KeyboardWorkflowSmoke.java:111)
+	at dev.turboj.app.KeyboardWorkflowSmoke.main(KeyboardWorkflowSmoke.java:68)

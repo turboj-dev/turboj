@@ -1,0 +1,17 @@
+Driver restores owned application's foreground; component focus is not assigned
+PASS Duplicate profile: Enter creates and selects a real custom profile
+PASS Cancel nested input leaves profiles unchanged
+PASS Reset, remove and recorder cancel back to parent with focus
+PASS Keymap → file chooser → New folder: keyboard creates real directory
+PASS Export contains actual custom profile
+PASS Cancel overwrite preserves exported file and restores chooser/parent
+PASS Invalid import error dismisses without damaging keymaps
+PASS Keyboard selects actual Save command
+PASS Remove Enter removes exactly one selected binding
+PASS Reset command restores actual defaults
+PASS Reset profile confirmation restores actual defaults
+PASS Valid import restores exported profile without duplicates
+PASS Both overwrite confirmations replace actual file with current keymap JSON
+PASS Diagnostic Tab remains inside third-level dialog
+PASS Nested reference exports actual active profile
+PASS Closing all levels restores source without leaking shortcut/typing

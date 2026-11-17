@@ -12,8 +12,10 @@ profile inheritance and JSON persistence. Overrides replace a command's complete
 an empty list explicitly unbinds it. Conflicts include identical strokes and ambiguous chord
 prefixes in overlapping contexts. Changes refuse conflicts unless the caller explicitly names
 which conflicting bindings may be removed. Import is validated before replacing state.
-The resolver never consumes an unregistered or disabled command. Pending chords expire after
-1.5 seconds, cancel on Escape and reset on profile changes.
+Unregistered commands are inert. Disabled single-key commands fall through to widget navigation;
+registered multi-key sequences remain reserved so dispatch can explain why an action is unavailable.
+Pending chords allow ten seconds between keys, consume invalid/expired suffixes, cancel on Escape
+and reset on profile or focus changes.
 
 `palette` builds a local normalized search index when registry revision changes. It ranks exact,
 prefix, substring and subsequence matches across title, ID, category and aliases, then applies
@@ -24,6 +26,12 @@ and locale-independent. No external index or inference exists.
 surfaces and a shortcut recorder. Key events in other windows remain available
 to their controls. The bridge rejects dead-key/AltGraph/undefined events to avoid interfering with
 input methods. It uses logical AWT key codes rather than claiming physical layout independence.
+
+TurboJ also rejects commands in its `input-method` availability context. Deferring
+in the dispatcher alone is insufficient: a Swing menu accelerator can still invoke
+the same Action after an unconsumed key press. The execution-boundary guard covers
+that route without consuming keys owned by an IME. Native matrix tests include this
+accelerator bypass as well as modal isolation.
 
 The host owns command semantics, source versions, undo operations and view state. CommandJ's
 optional undo label is metadata, not a generic source editor undo implementation. Registering a
@@ -41,7 +49,10 @@ live. Nested overlays block their parent's controls, Escape closes only the top 
 and closing restores the previous focus. Bounds are clamped when the host resizes.
 
 A host application must suspend global command routing while `OverlayHost.active(owner)` is
-true; `CommandKeyDispatcher` does this automatically. Applications can observe the root-pane
+true; `CommandKeyDispatcher` does this automatically. A handled shortcut's pending typed event
+is still consumed if that shortcut opens a surface or moves focus in the same active window.
+The guard is installed before callbacks enter a modal secondary loop, and is never re-armed
+when that loop returns. A new key press belongs to the new context, so dialog typing remains local. Applications can observe the root-pane
 property `commandj.overlay.active` to dismiss transient documentation/completion previews.
 The library does not import application themes: `setTheme(AsciiPalette)` supplies the host's
 editor background, foreground, selection, muted text, border and monospaced font. Foreground

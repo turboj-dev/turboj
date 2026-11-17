@@ -1,0 +1,2005 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/Users/luca/Workspace/turboj/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] javafmt                                                            [pom]
+[INFO] javafmt-parser                                                     [jar]
+[INFO] javafmt-core                                                       [jar]
+[INFO] javafmt-cli                                                        [jar]
+[INFO] javafmt-benchmarks                                                 [jar]
+[INFO] CommandJ                                                           [pom]
+[INFO] commandj-core                                                      [jar]
+[INFO] commandj-keymap                                                    [jar]
+[INFO] commandj-palette                                                   [jar]
+[INFO] commandj-swing                                                     [jar]
+[INFO] commandj-benchmarks                                                [jar]
+[INFO] RefactorJ                                                          [pom]
+[INFO] refactorj-api                                                      [jar]
+[INFO] refactorj-jdt                                                      [jar]
+[INFO] refactorj-transactions                                             [jar]
+[INFO] refactorj-runtime                                                  [jar]
+[INFO] refactorj-cli                                                      [jar]
+[INFO] refactorj-lsp                                                      [jar]
+[INFO] refactorj-mcp                                                      [jar]
+[INFO] refactorj-benchmarks                                               [jar]
+[INFO] refactorj-formatj                                                  [jar]
+[INFO] TurboTest                                                          [jar]
+[INFO] MavenJ                                                             [pom]
+[INFO] mavenj-api                                                         [jar]
+[INFO] mavenj-core                                                        [jar]
+[INFO] mavenj-workspace                                                   [jar]
+[INFO] mavenj-cli                                                         [jar]
+[INFO] mavenj-mcp                                                         [jar]
+[INFO] mavenj-benchmarks                                                  [jar]
+[INFO] TurboAI                                                            [pom]
+[INFO] turbo-ai-core                                                      [jar]
+[INFO] turbo-ai-java                                                      [jar]
+[INFO] turbo-ai-cli                                                       [jar]
+[INFO] TurboJ                                                             [pom]
+[INFO] turboj-core                                                        [jar]
+[INFO] turboj-worker                                                      [jar]
+[INFO] turboj-app                                                         [jar]
+[INFO] turboj-cli                                                         [jar]
+[INFO] turboj-benchmarks                                                  [jar]
+[INFO] 
+[INFO] ------------------------< dev.javafmt:javafmt >-------------------------
+[INFO] Building javafmt 0.1.0                                            [1/39]
+[INFO]   from javafmt/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ javafmt ---
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt/0.1.0/javafmt-0.1.0.pom
+[INFO] 
+[INFO] ---------------------< dev.javafmt:javafmt-parser >---------------------
+[INFO] Building javafmt-parser 0.1.0                                     [2/39]
+[INFO]   from javafmt/javafmt-parser/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-parser ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-parser ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-parser ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/javafmt/javafmt-parser/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-parser ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-parser ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.javafmt.parser.JdtJavaParserTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.295 s -- in dev.javafmt.parser.JdtJavaParserTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-parser ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ javafmt-parser ---
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-parser/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-parser/0.1.0/javafmt-parser-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-parser/target/javafmt-parser-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-parser/0.1.0/javafmt-parser-0.1.0.jar
+[INFO] 
+[INFO] ----------------------< dev.javafmt:javafmt-core >----------------------
+[INFO] Building javafmt-core 0.1.0                                       [3/39]
+[INFO]   from javafmt/javafmt-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-core ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.javafmt.core.JavaFormatterTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.632 s -- in dev.javafmt.core.JavaFormatterTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-core ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ javafmt-core ---
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-core/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-core/0.1.0/javafmt-core-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-core/target/javafmt-core-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-core/0.1.0/javafmt-core-0.1.0.jar
+[INFO] 
+[INFO] ----------------------< dev.javafmt:javafmt-cli >-----------------------
+[INFO] Building javafmt-cli 0.1.0                                        [4/39]
+[INFO]   from javafmt/javafmt-cli/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-cli ---
+[INFO] Copying 54 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/javafmt/javafmt-cli/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-cli ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.javafmt.cli.CliTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.263 s -- in dev.javafmt.cli.CliTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-cli ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ javafmt-cli ---
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, javafmt-cli-0.1.0.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar define 2 overlapping resources: 
+[WARNING]   - .api_description
+[WARNING]   - about.html
+[WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/javafmt-LICENSE.txt
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ javafmt-cli ---
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-cli/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-cli/0.1.0/javafmt-cli-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-cli/target/javafmt-cli-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-cli/0.1.0/javafmt-cli-0.1.0.jar
+[INFO] 
+[INFO] -------------------< dev.javafmt:javafmt-benchmarks >-------------------
+[INFO] Building javafmt-benchmarks 0.1.0                                 [5/39]
+[INFO]   from javafmt/javafmt-benchmarks/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/javafmt/javafmt-benchmarks/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-benchmarks ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/javafmt/javafmt-benchmarks/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-benchmarks ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ javafmt-benchmarks ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-benchmarks ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ javafmt-benchmarks ---
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] commons-math3-3.6.1.jar, ecj-3.44.0.jar, javafmt-benchmarks-0.1.0.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jmh-core-1.37.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jopt-simple-5.0.4.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar define 2 overlapping resources: 
+[WARNING]   - .api_description
+[WARNING]   - about.html
+[WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/javafmt-LICENSE.txt
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ javafmt-benchmarks ---
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-benchmarks/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-benchmarks/0.1.0/javafmt-benchmarks-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/javafmt/javafmt-benchmarks/target/javafmt-benchmarks-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/javafmt/javafmt-benchmarks/0.1.0/javafmt-benchmarks-0.1.0.jar
+[INFO] 
+[INFO] --------------------< dev.turboj.commandj:commandj >--------------------
+[INFO] Building CommandJ 0.1.0                                           [6/39]
+[INFO]   from commandj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj ---
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj/0.1.0/commandj-0.1.0.pom
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-core >------------------
+[INFO] Building commandj-core 0.1.0                                      [7/39]
+[INFO]   from commandj/commandj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-core ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.commandj.core.CommandRegistryTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in dev.turboj.commandj.core.CommandRegistryTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-core ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-core ---
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-core/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-core/0.1.0/commandj-core-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-core/target/commandj-core-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-core/0.1.0/commandj-core-0.1.0.jar
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-keymap >-----------------
+[INFO] Building commandj-keymap 0.1.0                                    [8/39]
+[INFO]   from commandj/commandj-keymap/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-keymap ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-keymap ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-keymap/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-keymap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-keymap ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.commandj.keymap.ProfileSwitchTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.126 s -- in dev.turboj.commandj.keymap.ProfileSwitchTest
+[INFO] Running dev.turboj.commandj.keymap.CompleteDefaultsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s -- in dev.turboj.commandj.keymap.CompleteDefaultsTest
+[INFO] Running dev.turboj.commandj.keymap.KeymapTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in dev.turboj.commandj.keymap.KeymapTest
+[INFO] Running dev.turboj.commandj.keymap.KeyboardAuditTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in dev.turboj.commandj.keymap.KeyboardAuditTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-keymap ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-keymap ---
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-keymap/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-keymap/0.1.0/commandj-keymap-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-keymap/target/commandj-keymap-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-keymap/0.1.0/commandj-keymap-0.1.0.jar
+[INFO] 
+[INFO] ----------------< dev.turboj.commandj:commandj-palette >----------------
+[INFO] Building commandj-palette 0.1.0                                   [9/39]
+[INFO]   from commandj/commandj-palette/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-palette ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-palette ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-palette/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-palette ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-palette ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.commandj.palette.CommandSearchTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in dev.turboj.commandj.palette.CommandSearchTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-palette ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-palette ---
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-palette/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-palette/0.1.0/commandj-palette-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-palette/target/commandj-palette-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-palette/0.1.0/commandj-palette-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.commandj:commandj-swing >-----------------
+[INFO] Building commandj-swing 0.1.0                                    [10/39]
+[INFO]   from commandj/commandj-swing/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-swing ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-swing ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-swing ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-swing/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-swing ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-swing ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.commandj.swing.AsciiTextNavigationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.354 s -- in dev.turboj.commandj.swing.AsciiTextNavigationTest
+[INFO] Running dev.turboj.commandj.swing.OverlayHostTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in dev.turboj.commandj.swing.OverlayHostTest
+[INFO] Running dev.turboj.commandj.swing.AsciiComboKeyboardTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in dev.turboj.commandj.swing.AsciiComboKeyboardTest
+[INFO] Running dev.turboj.commandj.swing.AsciiTreeKeyboardTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in dev.turboj.commandj.swing.AsciiTreeKeyboardTest
+[INFO] Running dev.turboj.commandj.swing.SwingBridgeTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in dev.turboj.commandj.swing.SwingBridgeTest
+[INFO] Running dev.turboj.commandj.swing.AsciiSurfaceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.164 s -- in dev.turboj.commandj.swing.AsciiSurfaceTest
+[INFO] Running dev.turboj.commandj.swing.PaletteDispatchTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in dev.turboj.commandj.swing.PaletteDispatchTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-swing ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-swing ---
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-swing/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-swing/0.1.0/commandj-swing-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-swing/target/commandj-swing-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-swing/0.1.0/commandj-swing-0.1.0.jar
+[INFO] 
+[INFO] --------------< dev.turboj.commandj:commandj-benchmarks >---------------
+[INFO] Building commandj-benchmarks 0.1.0                               [11/39]
+[INFO]   from commandj/commandj-benchmarks/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ commandj-benchmarks ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-benchmarks ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/commandj/commandj-benchmarks/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-benchmarks ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ commandj-benchmarks ---
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ commandj-benchmarks ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ commandj-benchmarks ---
+[WARNING] commandj-benchmarks-0.1.0.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/commandj-LICENSE.txt
+[WARNING] commandj-benchmarks-0.1.0.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commons-math3-3.6.1.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, jmh-core-1.37.jar, jopt-simple-5.0.4.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ commandj-benchmarks ---
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-benchmarks/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-benchmarks/0.1.0/commandj-benchmarks-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/commandj/commandj-benchmarks/0.1.0/commandj-benchmarks-0.1.0.jar
+[INFO] 
+[INFO] -------------------< dev.turboj.refactorj:refactorj >-------------------
+[INFO] Building RefactorJ 0.1.0                                         [12/39]
+[INFO]   from refactorj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj/0.1.0/refactorj-0.1.0.pom
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-api >-----------------
+[INFO] Building refactorj-api 0.1.0                                     [13/39]
+[INFO]   from refactorj/refactorj-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.api.EditComposerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in dev.turboj.refactorj.api.EditComposerTest
+[INFO] Running dev.turboj.refactorj.api.SourceInventoryTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in dev.turboj.refactorj.api.SourceInventoryTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-api ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-api ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-api/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-api/0.1.0/refactorj-api-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-api/target/refactorj-api-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-api/0.1.0/refactorj-api-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-jdt >-----------------
+[INFO] Building refactorj-jdt 0.1.0                                     [14/39]
+[INFO]   from refactorj/refactorj-jdt/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-jdt ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-jdt ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-jdt ---
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-jdt ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-jdt/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-jdt ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-jdt ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-jdt ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-jdt/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-jdt/0.1.0/refactorj-jdt-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-jdt/target/refactorj-jdt-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-jdt/0.1.0/refactorj-jdt-0.1.0.jar
+[INFO] 
+[INFO] ------------< dev.turboj.refactorj:refactorj-transactions >-------------
+[INFO] Building refactorj-transactions 0.1.0                            [15/39]
+[INFO]   from refactorj/refactorj-transactions/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-transactions ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-transactions/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-transactions ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-transactions ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-transactions/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-transactions ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-transactions ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.transactions.WorkspaceTransactionsTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.308 s -- in dev.turboj.refactorj.transactions.WorkspaceTransactionsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-transactions ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-transactions ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-transactions/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-transactions/0.1.0/refactorj-transactions-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-transactions/target/refactorj-transactions-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-transactions/0.1.0/refactorj-transactions-0.1.0.jar
+[INFO] 
+[INFO] ---------------< dev.turboj.refactorj:refactorj-runtime >---------------
+[INFO] Building refactorj-runtime 0.1.0                                 [16/39]
+[INFO]   from refactorj/refactorj-runtime/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-runtime ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-runtime/src/main/resources
+[INFO] 
+[INFO] --- dependency:3.8.1:copy-dependencies (embed-intact-semantic-bundles) @ refactorj-runtime ---
+[INFO] dev.turboj.refactorj:refactorj-jdt:jar:0.1.0 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.core.manipulation:jar:1.23.200 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.runtime:jar:3.34.100 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.common:jar:3.20.300 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.jobs:jar:3.15.700 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.registry:jar:3.12.600 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.preferences:jar:3.12.100 already exists in destination.
+[INFO] org.osgi:org.osgi.service.prefs:jar:1.1.2 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.contenttype:jar:3.9.800 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.equinox.app:jar:1.7.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.resources:jar:3.23.100 already exists in destination.
+[INFO] net.java.dev.jna:jna:jar:5.18.1 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.ltk.core.refactoring:jar:3.15.100 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.commands:jar:3.12.500 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.core:jar:3.44.0 already exists in destination.
+[INFO] org.eclipse.jdt:ecj:jar:3.44.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.expressions:jar:3.9.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.text:jar:3.14.500 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.launching:jar:3.24.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.variables:jar:3.6.700 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.debug.core:jar:3.23.200 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.launching.macosx:jar:3.6.300 already exists in destination.
+[INFO] org.eclipse.jdt:org.eclipse.jdt.debug:jar:3.25.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.filesystem:jar:1.11.400 already exists in destination.
+[INFO] net.java.dev.jna:jna-platform:jar:5.18.1 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.core.filebuffers:jar:3.8.500 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.search.core:jar:3.16.600 already exists in destination.
+[INFO] org.commonmark:commonmark:jar:0.27.0 already exists in destination.
+[INFO] org.commonmark:commonmark-ext-gfm-tables:jar:0.27.0 already exists in destination.
+[INFO] org.eclipse.platform:org.eclipse.osgi:jar:3.24.0 already exists in destination.
+[INFO] org.apache.felix:org.apache.felix.scr:jar:2.2.18 already exists in destination.
+[INFO] org.codehaus.mojo:animal-sniffer-annotations:jar:1.9 already exists in destination.
+[INFO] org.osgi:org.osgi.service.component:jar:1.5.1 already exists in destination.
+[INFO] org.osgi:osgi.annotation:jar:8.0.1 already exists in destination.
+[INFO] org.osgi:org.osgi.namespace.extender:jar:1.0.1 already exists in destination.
+[INFO] org.osgi:org.osgi.util.promise:jar:1.3.0 already exists in destination.
+[INFO] org.osgi:org.osgi.util.function:jar:1.2.0 already exists in destination.
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-runtime ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-runtime ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-runtime ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-runtime ---
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-runtime ---
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-runtime ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.runtime.ModernizationIT
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-999505916645347352/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.116 s -- in dev.turboj.refactorj.runtime.ModernizationIT
+[INFO] Running dev.turboj.refactorj.runtime.ExtendedClassicIT
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 23.13 s -- in dev.turboj.refactorj.runtime.ExtendedClassicIT
+[INFO] Running dev.turboj.refactorj.runtime.KeyboardJavaIT
+[INFO] Tests run: 32, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.985 s -- in dev.turboj.refactorj.runtime.KeyboardJavaIT
+[INFO] Running dev.turboj.refactorj.runtime.ClassicIT
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.45 s -- in dev.turboj.refactorj.runtime.ClassicIT
+[INFO] Running dev.turboj.refactorj.runtime.SymbolIdentityIT
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.454 s -- in dev.turboj.refactorj.runtime.SymbolIdentityIT
+[INFO] Running dev.turboj.refactorj.runtime.QuickActionsIT
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.77 s -- in dev.turboj.refactorj.runtime.QuickActionsIT
+[INFO] Running dev.turboj.refactorj.runtime.RuntimeLifecycleIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.411 s -- in dev.turboj.refactorj.runtime.RuntimeLifecycleIT
+[INFO] Running dev.turboj.refactorj.runtime.UsageNavigationIT
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.01 s -- in dev.turboj.refactorj.runtime.UsageNavigationIT
+[INFO] Running dev.turboj.refactorj.runtime.SemanticPropertiesIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.580 s -- in dev.turboj.refactorj.runtime.SemanticPropertiesIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 147, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ refactorj-runtime ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-runtime ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-runtime/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-runtime/0.1.0/refactorj-runtime-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-runtime/target/refactorj-runtime-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-runtime/0.1.0/refactorj-runtime-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-cli >-----------------
+[INFO] Building refactorj-cli 0.1.0                                     [17/39]
+[INFO]   from refactorj/refactorj-cli/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-cli/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-cli/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-cli ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.cli.ProtocolTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 s -- in dev.turboj.refactorj.cli.ProtocolTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-cli ---
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-cli ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.cli.RefactorIntegrationIT
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-11119587628523916211/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.134 s -- in dev.turboj.refactorj.cli.RefactorIntegrationIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ refactorj-cli ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-cli ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-cli/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-cli/0.1.0/refactorj-cli-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-cli/target/refactorj-cli-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-cli/0.1.0/refactorj-cli-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-lsp >-----------------
+[INFO] Building refactorj-lsp 0.1.0                                     [18/39]
+[INFO]   from refactorj/refactorj-lsp/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-lsp ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-lsp/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-lsp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-lsp ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-lsp/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-lsp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-lsp ---
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-lsp ---
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-lsp ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.lsp.LspIntegrationIT
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-15626572473216275297/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.771 s -- in dev.turboj.refactorj.lsp.LspIntegrationIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ refactorj-lsp ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-lsp ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-lsp/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-lsp/0.1.0/refactorj-lsp-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-lsp/target/refactorj-lsp-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-lsp/0.1.0/refactorj-lsp-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.refactorj:refactorj-mcp >-----------------
+[INFO] Building refactorj-mcp 0.1.0                                     [19/39]
+[INFO]   from refactorj/refactorj-mcp/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-mcp ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-mcp/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-mcp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-mcp ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-mcp/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-mcp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-mcp ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.mcp.McpProtocolTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in dev.turboj.refactorj.mcp.McpProtocolTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-mcp ---
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-mcp ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.mcp.McpIntegrationIT
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-12770420637292145297/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.457 s -- in dev.turboj.refactorj.mcp.McpIntegrationIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ refactorj-mcp ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-mcp ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-mcp/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-mcp/0.1.0/refactorj-mcp-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-mcp/target/refactorj-mcp-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-mcp/0.1.0/refactorj-mcp-0.1.0.jar
+[INFO] 
+[INFO] -------------< dev.turboj.refactorj:refactorj-benchmarks >--------------
+[INFO] Building refactorj-benchmarks 0.1.0                              [20/39]
+[INFO]   from refactorj/refactorj-benchmarks/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-benchmarks/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-benchmarks ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-benchmarks/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-benchmarks ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-benchmarks ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-benchmarks ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ refactorj-benchmarks ---
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - about.html
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.launching-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/p2.inf
+[WARNING] animal-sniffer-annotations-1.9.jar, commonmark-0.27.0.jar, commonmark-ext-gfm-tables-0.27.0.jar, commons-math3-3.6.1.jar, ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, jmh-core-1.37.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jopt-simple-5.0.4.jar, org.apache.felix.scr-2.2.18.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, refactorj-api-0.1.0.jar, refactorj-benchmarks-0.1.0.jar, refactorj-jdt-0.1.0.jar, refactorj-runtime-0.1.0.jar, refactorj-transactions-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] commonmark-0.27.0.jar, commonmark-ext-gfm-tables-0.27.0.jar, commons-math3-3.6.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - .api_description
+[WARNING] jmh-core-1.37.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - LICENSE
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-benchmarks ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-benchmarks/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-benchmarks/0.1.0/refactorj-benchmarks-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-benchmarks/target/refactorj-benchmarks-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-benchmarks/0.1.0/refactorj-benchmarks-0.1.0.jar
+[INFO] 
+[INFO] ---------------< dev.turboj.refactorj:refactorj-formatj >---------------
+[INFO] Building refactorj-formatj 0.1.0                                 [21/39]
+[INFO]   from refactorj/refactorj-formatj/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-formatj ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-formatj/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-formatj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-formatj ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/refactorj/refactorj-formatj/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-formatj ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ refactorj-formatj ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.225 s -- in dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-formatj ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ refactorj-formatj ---
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-formatj/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-formatj/0.1.0/refactorj-formatj-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/refactorj/refactorj-formatj/target/refactorj-formatj-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/refactorj/refactorj-formatj/0.1.0/refactorj-formatj-0.1.0.jar
+[INFO] 
+[INFO] ----------------< dev.turboj.turbotest:turbotest-core >-----------------
+[INFO] Building TurboTest 0.1.0                                         [22/39]
+[INFO]   from turbotest/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbotest-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbotest/src/main/resources
+[INFO] 
+[INFO] --- dependency:3.8.1:copy-dependencies (embed-junit-runtime) @ turbotest-core ---
+[INFO] org.junit.jupiter:junit-jupiter-params:jar:5.13.4 already exists in destination.
+[INFO] org.apiguardian:apiguardian-api:jar:1.1.2 already exists in destination.
+[INFO] org.junit.platform:junit-platform-launcher:jar:1.13.4 already exists in destination.
+[INFO] org.junit.platform:junit-platform-engine:jar:1.13.4 already exists in destination.
+[INFO] org.junit.jupiter:junit-jupiter-engine:jar:5.13.4 already exists in destination.
+[INFO] org.junit.jupiter:junit-jupiter-api:jar:5.13.4 already exists in destination.
+[INFO] org.opentest4j:opentest4j:jar:1.3.0 already exists in destination.
+[INFO] org.junit.platform:junit-platform-commons:jar:1.13.4 already exists in destination.
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbotest-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbotest-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbotest/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbotest-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbotest-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.turbotest.TestEngineTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in dev.turboj.turbotest.TestEngineTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turbotest-core ---
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ turbotest-core ---
+[INFO] Installing /Users/luca/Workspace/turboj/turbotest/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turbotest/turbotest-core/0.1.0/turbotest-core-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/turbotest/target/turbotest-core-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turbotest/turbotest-core/0.1.0/turbotest-core-0.1.0.jar
+[INFO] 
+[INFO] ----------------------< dev.turboj.mavenj:mavenj >----------------------
+[INFO] Building MavenJ 0.1.0                                            [23/39]
+[INFO]   from mavenj/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj/0.1.0/mavenj-0.1.0.pom
+[INFO] 
+[INFO] --------------------< dev.turboj.mavenj:mavenj-api >--------------------
+[INFO] Building mavenj-api 0.1.0                                        [24/39]
+[INFO]   from mavenj/mavenj-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-api ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-api ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-api ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-api ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj-api ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-api/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-api/0.1.0/mavenj-api-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-api/target/mavenj-api-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-api/0.1.0/mavenj-api-0.1.0.jar
+[INFO] 
+[INFO] -------------------< dev.turboj.mavenj:mavenj-core >--------------------
+[INFO] Building mavenj-core 0.1.0                                       [25/39]
+[INFO]   from mavenj/mavenj-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.mavenj.core.DefaultMavenJTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.525 s -- in dev.turboj.mavenj.core.DefaultMavenJTest
+[INFO] Running dev.turboj.mavenj.core.RepositoryPolicyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.194 s -- in dev.turboj.mavenj.core.RepositoryPolicyTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-core ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj-core ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-core/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-core/0.1.0/mavenj-core-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-core/target/mavenj-core-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-core/0.1.0/mavenj-core-0.1.0.jar
+[INFO] 
+[INFO] -----------------< dev.turboj.mavenj:mavenj-workspace >-----------------
+[INFO] Building mavenj-workspace 0.1.0                                  [26/39]
+[INFO]   from mavenj/mavenj-workspace/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-workspace ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-workspace/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-workspace ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-workspace ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-workspace/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-workspace ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-workspace ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.mavenj.workspace.PomEditsTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.096 s -- in dev.turboj.mavenj.workspace.PomEditsTest
+[INFO] Running dev.turboj.mavenj.workspace.PomFilesTest
+Nov 17, 2026 10:43:12 AM org.junit.jupiter.engine.extension.TempDirectory$CloseablePath$1 warnAboutLinkWithTargetOutsideTempDir
+WARNING: Deleting symbolic link from location inside of temp dir (/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/junit-5188817662446509178/inside/pom.xml) to location outside of temp dir (/private/etc/hosts) but not the target file/directory
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 s -- in dev.turboj.mavenj.workspace.PomFilesTest
+[INFO] Running dev.turboj.mavenj.workspace.MavenLifecycleTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.159 s -- in dev.turboj.mavenj.workspace.MavenLifecycleTest
+[INFO] Running dev.turboj.mavenj.workspace.ToolchainsTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in dev.turboj.mavenj.workspace.ToolchainsTest
+[INFO] Running dev.turboj.mavenj.workspace.MetadataWatcherTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.489 s -- in dev.turboj.mavenj.workspace.MetadataWatcherTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-workspace ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj-workspace ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-workspace/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-workspace/0.1.0/mavenj-workspace-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-workspace/target/mavenj-workspace-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-workspace/0.1.0/mavenj-workspace-0.1.0.jar
+[INFO] 
+[INFO] --------------------< dev.turboj.mavenj:mavenj-cli >--------------------
+[INFO] Building mavenj-cli 0.1.0                                        [27/39]
+[INFO]   from mavenj/mavenj-cli/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-cli/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-cli/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-cli ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.mavenj.cli.MainTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.183 s -- in dev.turboj.mavenj.cli.MainTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-cli ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ mavenj-cli ---
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] commons-codec-1.22.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] aopalliance-1.0.jar, asm-9.10.1.jar, commons-codec-1.22.1.jar, error_prone_annotations-2.41.0.jar, failureaccess-1.0.3.jar, gson-2.13.2.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jcl-over-slf4j-2.0.19.jar, jspecify-1.0.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-cli-0.1.0.jar, mavenj-core-0.1.0.jar, mavenj-workspace-0.1.0.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Attaching shaded artifact.
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj-cli ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-cli/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-cli/0.1.0/mavenj-cli-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-cli/target/mavenj-cli-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-cli/0.1.0/mavenj-cli-0.1.0.jar
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-cli/target/mavenj-cli-0.1.0-all.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-cli/0.1.0/mavenj-cli-0.1.0-all.jar
+[INFO] 
+[INFO] --------------------< dev.turboj.mavenj:mavenj-mcp >--------------------
+[INFO] Building mavenj-mcp 0.1.0                                        [28/39]
+[INFO]   from mavenj/mavenj-mcp/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-mcp ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-mcp/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-mcp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-mcp ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-mcp/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-mcp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-mcp ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.mavenj.mcp.McpServerTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.205 s -- in dev.turboj.mavenj.mcp.McpServerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-mcp ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ mavenj-mcp ---
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] commons-codec-1.22.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] aopalliance-1.0.jar, asm-9.10.1.jar, commons-codec-1.22.1.jar, error_prone_annotations-2.41.0.jar, failureaccess-1.0.3.jar, gson-2.13.2.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jcl-over-slf4j-2.0.19.jar, jspecify-1.0.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-cli-0.1.0.jar, mavenj-core-0.1.0.jar, mavenj-mcp-0.1.0.jar, mavenj-workspace-0.1.0.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Attaching shaded artifact.
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj-mcp ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-mcp/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-mcp/0.1.0/mavenj-mcp-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-mcp/target/mavenj-mcp-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-mcp/0.1.0/mavenj-mcp-0.1.0.jar
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-mcp/target/mavenj-mcp-0.1.0-all.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-mcp/0.1.0/mavenj-mcp-0.1.0-all.jar
+[INFO] 
+[INFO] ----------------< dev.turboj.mavenj:mavenj-benchmarks >-----------------
+[INFO] Building mavenj-benchmarks 0.1.0                                 [29/39]
+[INFO]   from mavenj/mavenj-benchmarks/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-benchmarks/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-benchmarks ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/mavenj/mavenj-benchmarks/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-benchmarks ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ mavenj-benchmarks ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-benchmarks ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ mavenj-benchmarks ---
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] commons-codec-1.22.1.jar, commons-math3-3.6.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] commons-codec-1.22.1.jar, error_prone_annotations-2.48.0.jar, failureaccess-1.0.3.jar, gson-2.14.0.jar, jcl-over-slf4j-2.0.19.jar, plexus-interpolation-1.30.0.jar, slf4j-api-2.0.19.jar define 1 overlapping classes: 
+[WARNING]   - META-INF.versions.9.module-info
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] aopalliance-1.0.jar, asm-9.10.1.jar, commons-codec-1.22.1.jar, commons-math3-3.6.1.jar, error_prone_annotations-2.48.0.jar, failureaccess-1.0.3.jar, gson-2.14.0.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jcl-over-slf4j-2.0.19.jar, jmh-core-1.37.jar, jopt-simple-5.0.4.jar, jspecify-1.0.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-benchmarks-0.1.0.jar, mavenj-core-0.1.0.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] commons-codec-1.22.1.jar, commons-math3-3.6.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE.txt
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Attaching shaded artifact.
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ mavenj-benchmarks ---
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-benchmarks/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-benchmarks/0.1.0/mavenj-benchmarks-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-benchmarks/target/mavenj-benchmarks-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-benchmarks/0.1.0/mavenj-benchmarks-0.1.0.jar
+[INFO] Installing /Users/luca/Workspace/turboj/mavenj/mavenj-benchmarks/target/mavenj-benchmarks-0.1.0-all.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/mavenj/mavenj-benchmarks/0.1.0/mavenj-benchmarks-0.1.0-all.jar
+[INFO] 
+[INFO] -----------------------< dev.turboj.ai:turbo-ai >-----------------------
+[INFO] Building TurboAI 0.1.0                                           [30/39]
+[INFO]   from turbo-ai/pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turbo-ai ---
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai/0.1.0/turbo-ai-0.1.0.pom
+[INFO] 
+[INFO] --------------------< dev.turboj.ai:turbo-ai-core >---------------------
+[INFO] Building turbo-ai-core 0.1.0                                     [31/39]
+[INFO]   from turbo-ai/turbo-ai-core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbo-ai-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbo-ai-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbo-ai-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbo-ai-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbo-ai-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.ai.AIProviderTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.223 s -- in dev.turboj.ai.AIProviderTest
+[INFO] Running dev.turboj.ai.CompletionValidationTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in dev.turboj.ai.CompletionValidationTest
+[INFO] Running dev.turboj.ai.AIProtocolTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in dev.turboj.ai.AIProtocolTest
+[INFO] Running dev.turboj.ai.local.LocalModelManagerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.648 s -- in dev.turboj.ai.local.LocalModelManagerTest
+[INFO] Running dev.turboj.ai.FallbackChainTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in dev.turboj.ai.FallbackChainTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 54, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turbo-ai-core ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turbo-ai-core ---
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-core/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-core/0.1.0/turbo-ai-core-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-core/target/turbo-ai-core-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-core/0.1.0/turbo-ai-core-0.1.0.jar
+[INFO] 
+[INFO] --------------------< dev.turboj.ai:turbo-ai-java >---------------------
+[INFO] Building turbo-ai-java 0.1.0                                     [32/39]
+[INFO]   from turbo-ai/turbo-ai-java/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbo-ai-java ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-java/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbo-ai-java ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbo-ai-java ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-java/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbo-ai-java ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbo-ai-java ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.ai.java.JavaSuggestionFilterTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.262 s -- in dev.turboj.ai.java.JavaSuggestionFilterTest
+[INFO] Running dev.turboj.ai.java.CompletionContextTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.093 s -- in dev.turboj.ai.java.CompletionContextTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turbo-ai-java ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turbo-ai-java ---
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-java/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-java/0.1.0/turbo-ai-java-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-java/target/turbo-ai-java-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-java/0.1.0/turbo-ai-java-0.1.0.jar
+[INFO] 
+[INFO] ---------------------< dev.turboj.ai:turbo-ai-cli >---------------------
+[INFO] Building turbo-ai-cli 0.1.0                                      [33/39]
+[INFO]   from turbo-ai/turbo-ai-cli/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turbo-ai-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-cli/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turbo-ai-cli ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turbo-ai-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-cli/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbo-ai-cli ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turbo-ai-cli ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turbo-ai-cli ---
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ turbo-ai-cli ---
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar define 2 overlapping resources: 
+[WARNING]   - .api_description
+[WARNING]   - about.html
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar, turbo-ai-cli-0.1.0.jar, turbo-ai-core-0.1.0.jar, turbo-ai-java-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Attaching shaded artifact.
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turbo-ai-cli ---
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-cli/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-cli/0.1.0/turbo-ai-cli-0.1.0.pom
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-cli/target/turbo-ai-cli-0.1.0.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-cli/0.1.0/turbo-ai-cli-0.1.0.jar
+[INFO] Installing /Users/luca/Workspace/turboj/turbo-ai/turbo-ai-cli/target/turbo-ai-cli-0.1.0-all.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/ai/turbo-ai-cli/0.1.0/turbo-ai-cli-0.1.0-all.jar
+[INFO] 
+[INFO] -------------------------< dev.turboj:turboj >--------------------------
+[INFO] Building TurboJ 0.1.0-SNAPSHOT                                   [34/39]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turboj ---
+[INFO] Installing /Users/luca/Workspace/turboj/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj/0.1.0-SNAPSHOT/turboj-0.1.0-SNAPSHOT.pom
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-core >-----------------------
+[INFO] Building turboj-core 0.1.0-SNAPSHOT                              [35/39]
+[INFO]   from core/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/core/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-core ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/core/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-core ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-core ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.intelligence.SharedSemanticWorkspaceTest
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-15940873832814766358/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.143 s -- in dev.turboj.intelligence.SharedSemanticWorkspaceTest
+[INFO] Running dev.turboj.intelligence.JavaIntelligenceTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.07 s -- in dev.turboj.intelligence.JavaIntelligenceTest
+[INFO] Running dev.turboj.repl.JavaReplTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.109 s -- in dev.turboj.repl.JavaReplTest
+[INFO] Running dev.turboj.language.JdtSyntaxAnalyzerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.149 s -- in dev.turboj.language.JdtSyntaxAnalyzerTest
+[INFO] Running dev.turboj.project.MavenCompilationWorkspaceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.311 s -- in dev.turboj.project.MavenCompilationWorkspaceTest
+[INFO] Running dev.turboj.testing.intelligence.GitBufferDiffTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.267 s -- in dev.turboj.testing.intelligence.GitBufferDiffTest
+[INFO] Running dev.turboj.testing.intelligence.TestSourceResolverTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in dev.turboj.testing.intelligence.TestSourceResolverTest
+[INFO] Running dev.turboj.testing.intelligence.CherryEventsTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in dev.turboj.testing.intelligence.CherryEventsTest
+[INFO] Running dev.turboj.compiler.ContinuousCompilerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in dev.turboj.compiler.ContinuousCompilerTest
+[INFO] Running dev.turboj.compiler.WorkspaceCompilationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in dev.turboj.compiler.WorkspaceCompilationTest
+[INFO] Running dev.turboj.compiler.JavacCompilerBackendTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.072 s -- in dev.turboj.compiler.JavacCompilerBackendTest
+[INFO] Running dev.turboj.editor.PieceTableCoalesceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in dev.turboj.editor.PieceTableCoalesceTest
+[INFO] Running dev.turboj.editor.JavaLexerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in dev.turboj.editor.JavaLexerTest
+[INFO] Running dev.turboj.editor.PieceTableTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in dev.turboj.editor.PieceTableTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 122, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-core ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turboj-core ---
+[INFO] Installing /Users/luca/Workspace/turboj/core/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-core/0.1.0-SNAPSHOT/turboj-core-0.1.0-SNAPSHOT.pom
+[INFO] Installing /Users/luca/Workspace/turboj/core/target/turboj-core-0.1.0-SNAPSHOT.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-core/0.1.0-SNAPSHOT/turboj-core-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------------< dev.turboj:turboj-worker >----------------------
+[INFO] Building turboj-worker 0.1.0-SNAPSHOT                            [36/39]
+[INFO]   from worker/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-worker ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/worker/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-worker ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-worker ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/worker/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-worker ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-worker ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.execution.WorkerClientTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.702 s -- in dev.turboj.execution.WorkerClientTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-worker ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turboj-worker ---
+[INFO] Installing /Users/luca/Workspace/turboj/worker/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-worker/0.1.0-SNAPSHOT/turboj-worker-0.1.0-SNAPSHOT.pom
+[INFO] Installing /Users/luca/Workspace/turboj/worker/target/turboj-worker-0.1.0-SNAPSHOT.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-worker/0.1.0-SNAPSHOT/turboj-worker-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-app >------------------------
+[INFO] Building turboj-app 0.1.0-SNAPSHOT                               [37/39]
+[INFO]   from app/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-app ---
+[INFO] Copying 344 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-app ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 67 source files with javac [debug release 25] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-app ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/app/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-app ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 126 source files with javac [debug release 25] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-app ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.ui.EditorCommandTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.448 s -- in dev.turboj.ui.EditorCommandTest
+[INFO] Running dev.turboj.ui.EditorAccessibilityTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 s -- in dev.turboj.ui.EditorAccessibilityTest
+[INFO] Running dev.turboj.ui.EditorFormattingTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in dev.turboj.ui.EditorFormattingTest
+[INFO] Running dev.turboj.ui.AsciiMenuBarTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in dev.turboj.ui.AsciiMenuBarTest
+[INFO] Running dev.turboj.ui.EditorCoalesceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in dev.turboj.ui.EditorCoalesceTest
+[INFO] Running dev.turboj.ui.KeyboardEditingTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.183 s -- in dev.turboj.ui.KeyboardEditingTest
+[INFO] Running dev.turboj.ui.EditorComponentTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in dev.turboj.ui.EditorComponentTest
+[INFO] Running dev.turboj.ui.MenuStylerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.171 s -- in dev.turboj.ui.MenuStylerTest
+[INFO] Running dev.turboj.ui.InFramePopupFactoryTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in dev.turboj.ui.InFramePopupFactoryTest
+[INFO] Running dev.turboj.ui.ConsolePaneTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.101 s -- in dev.turboj.ui.ConsolePaneTest
+[INFO] Running dev.turboj.ui.AsciiChromeTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.280 s -- in dev.turboj.ui.AsciiChromeTest
+[INFO] Running dev.turboj.ui.XmlEditingTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in dev.turboj.ui.XmlEditingTest
+[INFO] Running dev.turboj.ui.QuickFixPaletteTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.104 s -- in dev.turboj.ui.QuickFixPaletteTest
+[INFO] Running dev.turboj.ui.EditorIntelligenceTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in dev.turboj.ui.EditorIntelligenceTest
+[INFO] Running dev.turboj.ui.LineIntelligenceEditorTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.415 s -- in dev.turboj.ui.LineIntelligenceEditorTest
+[INFO] Running dev.turboj.ui.EditorAICompletionTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in dev.turboj.ui.EditorAICompletionTest
+[INFO] Running dev.turboj.ui.EditorTemplateTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.110 s -- in dev.turboj.ui.EditorTemplateTest
+[INFO] Running dev.turboj.ui.themes.ThemeCatalogTest
+Theme catalog: 1000 local fixtures indexed, paged, filtered and LRU checked in 95.33 ms
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.337 s -- in dev.turboj.ui.themes.ThemeCatalogTest
+[INFO] Running dev.turboj.ui.themes.ThemeWheelPlanTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s -- in dev.turboj.ui.themes.ThemeWheelPlanTest
+[INFO] Running dev.turboj.ui.themes.LineIntelligenceThemeTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.113 s -- in dev.turboj.ui.themes.LineIntelligenceThemeTest
+[INFO] Running dev.turboj.ui.themes.ThemeContractTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in dev.turboj.ui.themes.ThemeContractTest
+[INFO] Running dev.turboj.ui.PressedShortcutDisplayTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.222 s -- in dev.turboj.ui.PressedShortcutDisplayTest
+[INFO] Running dev.turboj.ui.ReplKeyboardTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in dev.turboj.ui.ReplKeyboardTest
+[INFO] Running dev.turboj.ui.StatusBarTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in dev.turboj.ui.StatusBarTest
+[INFO] Running dev.turboj.app.WorkspaceStatusTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in dev.turboj.app.WorkspaceStatusTest
+[INFO] Running dev.turboj.app.FilesAndThemesTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in dev.turboj.app.FilesAndThemesTest
+[INFO] Running dev.turboj.app.MenuLayoutTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in dev.turboj.app.MenuLayoutTest
+[INFO] Running dev.turboj.app.CommandSettingsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in dev.turboj.app.CommandSettingsTest
+[INFO] Running dev.turboj.app.KeyboardDefaultsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.232 s -- in dev.turboj.app.KeyboardDefaultsTest
+[INFO] Running dev.turboj.intelligence.SourceUsagePreviewTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in dev.turboj.intelligence.SourceUsagePreviewTest
+[INFO] Running dev.turboj.intelligence.ProjectContextTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.175 s -- in dev.turboj.intelligence.ProjectContextTest
+[INFO] Running dev.turboj.intelligence.SignatureMarkupTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in dev.turboj.intelligence.SignatureMarkupTest
+[INFO] Running dev.turboj.intelligence.CompletionCoordinatorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in dev.turboj.intelligence.CompletionCoordinatorTest
+[INFO] Running dev.turboj.intelligence.NavigationHistoryTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in dev.turboj.intelligence.NavigationHistoryTest
+[INFO] Running dev.turboj.project.ProjectSearchTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in dev.turboj.project.ProjectSearchTest
+[INFO] Running dev.turboj.project.MavenRunTargetsTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.246 s -- in dev.turboj.project.MavenRunTargetsTest
+[INFO] Running dev.turboj.project.PlainProjectCompilerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s -- in dev.turboj.project.PlainProjectCompilerTest
+[INFO] Running dev.turboj.project.SourceEncodingTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in dev.turboj.project.SourceEncodingTest
+[INFO] Running dev.turboj.project.MavenProjectControllerTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.118 s -- in dev.turboj.project.MavenProjectControllerTest
+[INFO] Running dev.turboj.project.ProjectFilesTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in dev.turboj.project.ProjectFilesTest
+[INFO] Running dev.turboj.project.FirstLaunchProjectsTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.134 s -- in dev.turboj.project.FirstLaunchProjectsTest
+[INFO] Running dev.turboj.testing.CherryExecutionReceiptTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in dev.turboj.testing.CherryExecutionReceiptTest
+[INFO] Running dev.turboj.testing.MavenAutoTestControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.433 s -- in dev.turboj.testing.MavenAutoTestControllerTest
+[INFO] Running dev.turboj.testing.LineIntelligenceControllerTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.007 s -- in dev.turboj.testing.LineIntelligenceControllerTest
+[INFO] Running dev.turboj.testing.TestOutputTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in dev.turboj.testing.TestOutputTest
+[INFO] Running dev.turboj.testing.CherrySaveWorkflowTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.035 s -- in dev.turboj.testing.CherrySaveWorkflowTest
+[INFO] Running dev.turboj.testing.CherryTestProcessLifecycleTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.407 s -- in dev.turboj.testing.CherryTestProcessLifecycleTest
+[INFO] Running dev.turboj.testing.TurboTestControllerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.438 s -- in dev.turboj.testing.TurboTestControllerTest
+[INFO] Running dev.turboj.testing.MissingJUnitTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in dev.turboj.testing.MissingJUnitTest
+[INFO] Running dev.turboj.testing.MavenNativeAcceptanceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.807 s -- in dev.turboj.testing.MavenNativeAcceptanceTest
+[INFO] Running dev.turboj.ai.CredentialStoreTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in dev.turboj.ai.CredentialStoreTest
+[INFO] Running dev.turboj.ai.AISettingsPolicyTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in dev.turboj.ai.AISettingsPolicyTest
+[INFO] Running dev.turboj.ai.AICompletionControllerTest
+Synthetic blocked-provider fixture; editing and offscreen Java2D paint only, not model latency.
+1,000 lines: n=100 edit+paint p50 0.27 ms p95 0.46 ms max 1.48 ms
+10,000 lines: n=100 edit+paint p50 0.15 ms p95 0.23 ms max 1.87 ms
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.385 s -- in dev.turboj.ai.AICompletionControllerTest
+[INFO] Running dev.turboj.formatting.OtherEnginesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in dev.turboj.formatting.OtherEnginesTest
+[INFO] Running dev.turboj.formatting.StandardFormattersTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.084 s -- in dev.turboj.formatting.StandardFormattersTest
+[INFO] Running dev.turboj.formatting.FormattingControllerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in dev.turboj.formatting.FormattingControllerTest
+[INFO] Running dev.turboj.refactoring.NativeWorkspaceCommitterTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.246 s -- in dev.turboj.refactoring.NativeWorkspaceCommitterTest
+[INFO] Running dev.turboj.help.CheatSheetTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in dev.turboj.help.CheatSheetTest
+[INFO] Running dev.turboj.console.OutputCommandControllerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.250 s -- in dev.turboj.console.OutputCommandControllerTest
+[INFO] Running dev.turboj.console.OutputCommandRunnerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.533 s -- in dev.turboj.console.OutputCommandRunnerTest
+[INFO] Running dev.turboj.console.OutputCommandGestureTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in dev.turboj.console.OutputCommandGestureTest
+[INFO] Running dev.turboj.console.OutputLogTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in dev.turboj.console.OutputLogTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 319, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-app ---
+[INFO] Building jar: /Users/luca/Workspace/turboj/app/target/turboj-app-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ turboj-app ---
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] commonmark-0.29.0.jar, commonmark-ext-gfm-tables-0.29.0.jar, commons-codec-1.22.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/LICENSE-notice.md
+[WARNING]   - META-INF/LICENSE.md
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/javafmt-LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - about.html
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/commandj-LICENSE.txt
+[WARNING] org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.launching-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/p2.inf
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] apiguardian-api-1.1.2.jar, failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - .api_description
+[WARNING] animal-sniffer-annotations-1.9.jar, aopalliance-1.0.jar, apiguardian-api-1.1.2.jar, asm-9.10.1.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar, commonmark-0.29.0.jar, commonmark-ext-gfm-tables-0.29.0.jar, commons-codec-1.22.1.jar, ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, failureaccess-1.0.3.jar, google-java-format-1.37.0.jar, gson-2.13.2.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, j2objc-annotations-3.1.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jcl-over-slf4j-2.0.19.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jspecify-1.0.1.jar, junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar, listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-core-0.1.0.jar, mavenj-workspace-0.1.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, refactorj-api-0.1.0.jar, refactorj-formatj-0.1.0.jar, refactorj-jdt-0.1.0.jar, refactorj-runtime-0.1.0.jar, refactorj-transactions-0.1.0.jar, slf4j-api-2.0.19.jar, turbo-ai-core-0.1.0.jar, turbo-ai-java-0.1.0.jar, turboj-app-0.1.0-SNAPSHOT.jar, turboj-core-0.1.0-SNAPSHOT.jar, turboj-worker-0.1.0-SNAPSHOT.jar, turbotest-core-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turboj-app ---
+[INFO] Installing /Users/luca/Workspace/turboj/app/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-app/0.1.0-SNAPSHOT/turboj-app-0.1.0-SNAPSHOT.pom
+[INFO] Installing /Users/luca/Workspace/turboj/app/target/turboj-app-0.1.0-SNAPSHOT.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-app/0.1.0-SNAPSHOT/turboj-app-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-cli >------------------------
+[INFO] Building turboj-cli 0.1.0-SNAPSHOT                               [38/39]
+[INFO]   from cli/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/cli/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-cli ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug release 25] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-cli ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/cli/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-cli ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-cli ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.cli.TjTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.997 s -- in dev.turboj.cli.TjTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-cli ---
+[INFO] Building jar: /Users/luca/Workspace/turboj/cli/target/turboj-cli-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ turboj-cli ---
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] commonmark-0.29.0.jar, commonmark-ext-gfm-tables-0.29.0.jar, commons-codec-1.22.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/LICENSE-notice.md
+[WARNING]   - META-INF/LICENSE.md
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/javafmt-LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - about.html
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/commandj-LICENSE.txt
+[WARNING] org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.launching-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/p2.inf
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] apiguardian-api-1.1.2.jar, failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - .api_description
+[WARNING] animal-sniffer-annotations-1.9.jar, aopalliance-1.0.jar, apiguardian-api-1.1.2.jar, asm-9.10.1.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar, commonmark-0.29.0.jar, commonmark-ext-gfm-tables-0.29.0.jar, commons-codec-1.22.1.jar, ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, failureaccess-1.0.3.jar, google-java-format-1.37.0.jar, gson-2.13.2.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, j2objc-annotations-3.1.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jcl-over-slf4j-2.0.19.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jspecify-1.0.1.jar, junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar, listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-core-0.1.0.jar, mavenj-workspace-0.1.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, refactorj-api-0.1.0.jar, refactorj-formatj-0.1.0.jar, refactorj-jdt-0.1.0.jar, refactorj-runtime-0.1.0.jar, refactorj-transactions-0.1.0.jar, slf4j-api-2.0.19.jar, turbo-ai-core-0.1.0.jar, turbo-ai-java-0.1.0.jar, turboj-app-0.1.0-SNAPSHOT.jar, turboj-cli-0.1.0-SNAPSHOT.jar, turboj-core-0.1.0-SNAPSHOT.jar, turboj-worker-0.1.0-SNAPSHOT.jar, turbotest-core-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turboj-cli ---
+[INFO] Installing /Users/luca/Workspace/turboj/cli/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-cli/0.1.0-SNAPSHOT/turboj-cli-0.1.0-SNAPSHOT.pom
+[INFO] Installing /Users/luca/Workspace/turboj/cli/target/turboj-cli-0.1.0-SNAPSHOT.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-cli/0.1.0-SNAPSHOT/turboj-cli-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --------------------< dev.turboj:turboj-benchmarks >--------------------
+[INFO] Building turboj-benchmarks 0.1.0-SNAPSHOT                        [39/39]
+[INFO]   from benchmarks/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/benchmarks/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-benchmarks ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug release 25] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-benchmarks ---
+[INFO] skip non existing resourceDirectory /Users/luca/Workspace/turboj/benchmarks/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-benchmarks ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-benchmarks ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ turboj-benchmarks ---
+[INFO] Building jar: /Users/luca/Workspace/turboj/benchmarks/target/turboj-benchmarks-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- shade:3.6.1:shade (default) @ turboj-benchmarks ---
+[WARNING] org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar define 1 overlapping resource: 
+[WARNING]   - overview.html
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/eclipse.inf
+[WARNING] junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/LICENSE-notice.md
+[WARNING]   - META-INF/LICENSE.md
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] animal-sniffer-annotations-1.9.jar, aopalliance-1.0.jar, apiguardian-api-1.1.2.jar, asm-9.10.1.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar, commonmark-0.29.0.jar, commonmark-ext-gfm-tables-0.29.0.jar, commons-codec-1.22.1.jar, commons-math3-3.6.1.jar, ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, failureaccess-1.0.3.jar, google-java-format-1.37.0.jar, gson-2.13.2.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, j2objc-annotations-3.1.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jcl-over-slf4j-2.0.19.jar, jmh-core-1.37.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jopt-simple-5.0.4.jar, jspecify-1.0.1.jar, junit-jupiter-api-5.13.4.jar, junit-jupiter-engine-5.13.4.jar, junit-jupiter-params-5.13.4.jar, junit-platform-commons-1.13.4.jar, junit-platform-engine-1.13.4.jar, junit-platform-launcher-1.13.4.jar, listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, mavenj-api-0.1.0.jar, mavenj-core-0.1.0.jar, mavenj-workspace-0.1.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.sisu.inject-1.1.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-cipher-2.0.jar, plexus-classworlds-2.12.1.jar, plexus-component-annotations-2.2.0.jar, plexus-interpolation-1.30.0.jar, plexus-sec-dispatcher-2.0.jar, plexus-utils-3.6.2.jar, refactorj-api-0.1.0.jar, refactorj-formatj-0.1.0.jar, refactorj-jdt-0.1.0.jar, refactorj-runtime-0.1.0.jar, refactorj-transactions-0.1.0.jar, slf4j-api-2.0.19.jar, turbo-ai-core-0.1.0.jar, turbo-ai-java-0.1.0.jar, turboj-app-0.1.0-SNAPSHOT.jar, turboj-benchmarks-0.1.0-SNAPSHOT.jar, turboj-core-0.1.0-SNAPSHOT.jar, turboj-worker-0.1.0-SNAPSHOT.jar, turbotest-core-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - about_files/LICENSE-2.0.txt
+[WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/javafmt-LICENSE.txt
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - about.html
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - .options
+[WARNING] commons-codec-1.22.1.jar, commons-math3-3.6.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE.txt
+[WARNING] maven-core-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-settings-builder-3.10.0.jar, org.eclipse.sisu.plexus-1.1.0.jar, plexus-cipher-2.0.jar, plexus-sec-dispatcher-2.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/sisu/javax.inject.Named
+[WARNING] guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commandj-swing-0.1.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/commandj-LICENSE.txt
+[WARNING] org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.launching-3.24.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/p2.inf
+[WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/AL2.0
+[WARNING]   - META-INF/LGPL2.1
+[WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - plugin.properties
+[WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar define 1 overlapping resource: 
+[WARNING]   - plugin.xml
+[WARNING] apiguardian-api-1.1.2.jar, failureaccess-1.0.3.jar, guava-33.7.1-jre.jar, guice-5.1.0-classes.jar, httpclient-4.5.14.jar, httpcore-4.4.16.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, maven-artifact-3.10.0.jar, maven-builder-support-3.10.0.jar, maven-core-3.10.0.jar, maven-model-3.10.0.jar, maven-model-builder-3.10.0.jar, maven-plugin-api-3.10.0.jar, maven-repository-metadata-3.10.0.jar, maven-resolver-api-2.0.24.jar, maven-resolver-connector-basic-2.0.24.jar, maven-resolver-impl-2.0.24.jar, maven-resolver-named-locks-2.0.24.jar, maven-resolver-provider-3.10.0.jar, maven-resolver-spi-2.0.24.jar, maven-resolver-transport-apache-2.0.24.jar, maven-resolver-transport-file-2.0.24.jar, maven-resolver-util-2.0.24.jar, maven-settings-3.10.0.jar, maven-settings-builder-3.10.0.jar, opentest4j-1.3.0.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, plexus-utils-3.6.2.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+[WARNING]   - .api_description
+[WARNING] jmh-core-1.37.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+[WARNING]   - LICENSE
+[WARNING] commonmark-0.29.0.jar, commonmark-ext-gfm-tables-0.29.0.jar, commons-codec-1.22.1.jar, commons-math3-3.6.1.jar, jcl-over-slf4j-2.0.19.jar, slf4j-api-2.0.19.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE.txt
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ turboj-benchmarks ---
+[INFO] Installing /Users/luca/Workspace/turboj/benchmarks/pom.xml to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-benchmarks/0.1.0-SNAPSHOT/turboj-benchmarks-0.1.0-SNAPSHOT.pom
+[INFO] Installing /Users/luca/Workspace/turboj/benchmarks/target/turboj-benchmarks-0.1.0-SNAPSHOT.jar to /Users/luca/Workspace/turboj/.cache/m2/dev/turboj/turboj-benchmarks/0.1.0-SNAPSHOT/turboj-benchmarks-0.1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] javafmt 0.1.0 ...................................... SUCCESS [  0.056 s]
+[INFO] javafmt-parser 0.1.0 ............................... SUCCESS [  0.821 s]
+[INFO] javafmt-core 0.1.0 ................................. SUCCESS [  1.838 s]
+[INFO] javafmt-cli 0.1.0 .................................. SUCCESS [  1.365 s]
+[INFO] javafmt-benchmarks 0.1.0 ........................... SUCCESS [  0.935 s]
+[INFO] CommandJ 0.1.0 ..................................... SUCCESS [  0.001 s]
+[INFO] commandj-core 0.1.0 ................................ SUCCESS [  0.220 s]
+[INFO] commandj-keymap 0.1.0 .............................. SUCCESS [  0.482 s]
+[INFO] commandj-palette 0.1.0 ............................. SUCCESS [  0.200 s]
+[INFO] commandj-swing 0.1.0 ............................... SUCCESS [  0.807 s]
+[INFO] commandj-benchmarks 0.1.0 .......................... SUCCESS [  0.181 s]
+[INFO] RefactorJ 0.1.0 .................................... SUCCESS [  0.002 s]
+[INFO] refactorj-api 0.1.0 ................................ SUCCESS [  0.244 s]
+[INFO] refactorj-jdt 0.1.0 ................................ SUCCESS [  0.022 s]
+[INFO] refactorj-transactions 0.1.0 ....................... SUCCESS [  0.493 s]
+[INFO] refactorj-runtime 0.1.0 ............................ SUCCESS [01:53 min]
+[INFO] refactorj-cli 0.1.0 ................................ SUCCESS [  9.634 s]
+[INFO] refactorj-lsp 0.1.0 ................................ SUCCESS [  1.974 s]
+[INFO] refactorj-mcp 0.1.0 ................................ SUCCESS [  5.867 s]
+[INFO] refactorj-benchmarks 0.1.0 ......................... SUCCESS [  1.862 s]
+[INFO] refactorj-formatj 0.1.0 ............................ SUCCESS [  0.417 s]
+[INFO] TurboTest 0.1.0 .................................... SUCCESS [  0.263 s]
+[INFO] MavenJ 0.1.0 ....................................... SUCCESS [  0.002 s]
+[INFO] mavenj-api 0.1.0 ................................... SUCCESS [  0.006 s]
+[INFO] mavenj-core 0.1.0 .................................. SUCCESS [  1.003 s]
+[INFO] mavenj-workspace 0.1.0 ............................. SUCCESS [  2.117 s]
+[INFO] mavenj-cli 0.1.0 ................................... SUCCESS [  0.881 s]
+[INFO] mavenj-mcp 0.1.0 ................................... SUCCESS [  0.885 s]
+[INFO] mavenj-benchmarks 0.1.0 ............................ SUCCESS [  0.605 s]
+[INFO] TurboAI 0.1.0 ...................................... SUCCESS [  0.002 s]
+[INFO] turbo-ai-core 0.1.0 ................................ SUCCESS [  4.482 s]
+[INFO] turbo-ai-java 0.1.0 ................................ SUCCESS [  0.544 s]
+[INFO] turbo-ai-cli 0.1.0 ................................. SUCCESS [  0.857 s]
+[INFO] TurboJ 0.1.0-SNAPSHOT .............................. SUCCESS [  0.004 s]
+[INFO] turboj-core 0.1.0-SNAPSHOT ......................... SUCCESS [ 37.771 s]
+[INFO] turboj-worker 0.1.0-SNAPSHOT ....................... SUCCESS [  4.906 s]
+[INFO] turboj-app 0.1.0-SNAPSHOT .......................... SUCCESS [ 32.819 s]
+[INFO] turboj-cli 0.1.0-SNAPSHOT .......................... SUCCESS [  3.573 s]
+[INFO] turboj-benchmarks 0.1.0-SNAPSHOT ................... SUCCESS [  2.505 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  03:54 min
+[INFO] Finished at: 2026-11-17T10:44:44+01:00
+[INFO] ------------------------------------------------------------------------

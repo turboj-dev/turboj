@@ -1,0 +1,7 @@
+command	assertion
+cherry.execution	keyboard selects and stores local mode for the actual project
+cherry.run	real configured Maven/JUnit/JaCoCo workflow: two passing tests
+editor.inspectLineIntelligence	real Cherry data; Git, Tests and Coverage details remain separate; Escape restores source
+cherry.results	real current execution opens native result tree; Escape restores source
+cherry.report	actual foreground browser document URL matches generated report through OS address bar or native accessibility; owned tab close requested; clipboard restored
+cherry.cancel	cancels actual running CLI execution; result is CANCELLED, never success

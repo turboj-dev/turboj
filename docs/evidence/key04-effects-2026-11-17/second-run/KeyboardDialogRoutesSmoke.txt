@@ -1,0 +1,22 @@
+PASS workspace.select → Select Workspace; 7 Tab targets; Shift+Tab; Escape restores source
+PASS file.newJavaProject → New Java Project; 7 Tab targets; Shift+Tab; Escape restores source
+PASS file.newMavenProject → New Maven Project; 9 Tab targets; Shift+Tab; Escape restores source
+PASS open → Open — a file, or a project folder; 8 Tab targets; Shift+Tab; Escape restores source
+PASS openFolder → Open Project — Enter opens the folder · → browses into it; 7 Tab targets; Shift+Tab; Escape restores source
+PASS project.open → Open Project — Enter opens the folder · → browses into it; 7 Tab targets; Shift+Tab; Escape restores source
+PASS saveAs → Save file; 7 Tab targets; Shift+Tab; Escape restores source
+PASS find → Input; 4 Tab targets; Shift+Tab; Escape restores source
+PASS replace → Find and Replace; 10 Tab targets; Shift+Tab; Escape restores source
+PASS goto → Input; 4 Tab targets; Shift+Tab; Escape restores source
+PASS help → Shortcut Reference; 9 Tab targets; Shift+Tab; Escape restores source
+PASS keymap → Keymap; 16 Tab targets; Shift+Tab; Escape restores source
+PASS theme.more → More themes; 15 Tab targets; Shift+Tab; Escape restores source
+PASS ai.settings → AI Completion; 19 Tab targets; Shift+Tab; Escape restores source
+PASS run.configuration → Run Configuration; 7 Tab targets; Shift+Tab; Escape restores source
+PASS settings.general → General Settings; 10 Tab targets; Shift+Tab; Escape restores source
+PASS view.focusDiagnostics → Compiler Diagnostics; 2 Tab targets; Shift+Tab; Escape restores source
+PASS cherry.configure → Input; 4 Tab targets; Shift+Tab; Escape restores source
+PASS navigation.goToFile → Search project; 1 Tab targets; Shift+Tab; Escape restores source
+PASS navigation.goToType → Search project; 1 Tab targets; Shift+Tab; Escape restores source
+PASS navigation.goToSymbol → Search project; 1 Tab targets; Shift+Tab; Escape restores source
+PASS navigation.searchEverywhere → Search project; 1 Tab targets; Shift+Tab; Escape restores source

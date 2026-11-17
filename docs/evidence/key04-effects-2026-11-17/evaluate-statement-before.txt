@@ -1,0 +1,64 @@
+PASS run: real Java stdout from current source and completed process
+PASS isolated: real Java stdout from current source and completed process
+PASS run.context: real Java stdout from current source and completed process
+PASS smart.action: real Java stdout from current source and completed process
+PASS stop: stops running owned Java program after actual readiness output
+PASS eof: closes worker stdin; blocked Scanner proceeds and main finishes
+PASS clear: actual console document emptied
+PASS console.commandLine: keyboard command row launches real owned printf process
+PASS console.cancelCommand: actual owned shell command cancelled
+PASS evaluateSelection: actual JShell evaluates selected expression to 42
+PASS compile: real compiler accepts current Java source
+Exception in thread "main" java.lang.AssertionError: statement result; source=public class C { void f(){int keyboardValue = 7;} }; status=12:03:28  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:28  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:28  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:28  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:28  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:28  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:28  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:28  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:27  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:27  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:27  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:26  Statement analysis is pending. Try again after checking completes, or select code to evaluate.
+12:03:26  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:26  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:26  Compile C.java done · 18 ms
+12:03:26  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:03:26  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:03:26  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+12:03:26  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:142)
+	at dev.turboj.app.KeyboardExecutionEffectsSmoke.repl(KeyboardExecutionEffectsSmoke.java:44)
+	at dev.turboj.app.KeyboardExecutionEffectsSmoke.main(KeyboardExecutionEffectsSmoke.java:22)

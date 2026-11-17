@@ -1,0 +1,3 @@
+Exception in thread "main" java.lang.AssertionError: Timeout; focus=null
+	at dev.turboj.app.KeyboardEditingSmoke.waitFor(KeyboardEditingSmoke.java:193)
+	at dev.turboj.app.KeyboardEditingSmoke.main(KeyboardEditingSmoke.java:42)

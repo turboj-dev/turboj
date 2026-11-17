@@ -1,0 +1,6 @@
+command	assertion
+refactor.pull-up	keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+refactor.push-down	keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+refactor.extract-interface	keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+refactor.introduce-interface	keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+refactor.move	keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo

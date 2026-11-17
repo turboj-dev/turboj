@@ -172,6 +172,7 @@ public final class FirstLaunchKeyboardSmoke {
         report.append("Inspection state at Escape: ").append(inspectionPending ? "pending" : "popup already visible").append('\n');
         key(KeyEvent.VK_ESCAPE, 0);
         Thread.sleep(2000);
+        NativeWindowTestSupport.beforeKey(frame); // Restore only the app if the host took focus during the observation.
         check(edt(() -> quickList() == null && frame.editor().isFocusOwner()
                 && frame.editor().getText().equals(beforeInspection)
                 && frame.editor().captureLocation().caret() == originalSelection.caret()
@@ -310,6 +311,15 @@ public final class FirstLaunchKeyboardSmoke {
         check(edt(() -> calculator.equals(frame.currentFile())), chapter + ": Eclipse Run reruns the prior JUnit launch while Calculator implementation stays active");
         snapshot(chapter + "-green");
         closeResults();
+        if (maven) {
+            action("view.focusEditor");
+            var beforeProcessing = edt(() -> frame.currentResult());
+            action("project.processors");
+            waitFor("explicit annotation-source compilation", () -> frame.currentResult() != null
+                    && frame.currentResult() != beforeProcessing && frame.currentResult().success()
+                    && frame.statusMessages().contains("Generate Sources"));
+            check(true, chapter + ": project.processors explicitly compiles current Maven sources; fixture configures no custom processor");
+        }
         bottomPanels(chapter, calculator);
         check(Files.isRegularFile(hello) && Files.isRegularFile(calculator) && Files.isRegularFile(test), chapter + ": all three Java files exist after UI-only creation");
     }
@@ -554,12 +564,7 @@ public final class FirstLaunchKeyboardSmoke {
         // macOS can activate the terminal/approval UI between automation calls. Restore
         // only the application, never a component: its own focus policy must restore
         // the dialog/panel/editor. Internal focus assertions remain authoritative.
-        if (!edt(() -> frame.isActive())) {
-            report.append("Application foreground recovery before ").append(KeyEvent.getKeyText(code)).append('\n');
-            edt(() -> { frame.toFront(); Desktop.getDesktop().requestForeground(true); return null; });
-        }
-        long focusDeadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
-        while (!edt(() -> frame.isActive() && focus() != null) && System.nanoTime() < focusDeadline) Thread.sleep(20);
+        NativeWindowTestSupport.beforeKey(frame);
         String before = edt(() -> describe(focus()));
         if (!edt(() -> frame.isActive() && focus() != null && SwingUtilities.isDescendingFrom(focus(), frame)))
             throw new AssertionError("Native application lost keyboard focus; no key sent: " + before);

@@ -1,0 +1,5 @@
+PASS cherry.execution: keyboard selects and stores local mode for the actual project
+PASS cherry.run: real configured Maven/JUnit/JaCoCo workflow: two passing tests
+PASS editor.inspectLineIntelligence: real Cherry data; Git, Tests and Coverage details remain separate; Escape restores source
+PASS cherry.results: real current execution opens native result tree; Escape restores source
+PASS cherry.cancel: cancels actual running CLI execution; result is CANCELLED, never success

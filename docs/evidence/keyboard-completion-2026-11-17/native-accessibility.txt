@@ -1,0 +1,13 @@
+Candidate	AXTextField		
+Candidate	AXStaticText		
+Candidate	AXStaticText		
+Candidate	AXStaticText		 No Maven project 
+Candidate	AXTextField		class AccessibilityFixture { String text = "日本😀"; }
+
+Role	AXTextField
+Title	
+Value	class AccessibilityFixture { String text = "日本😀"; }
+
+Selected	AccessibilityFixture
+Visited	35
+PASS actual macOS AX text element exposes source and selected identifier; VoiceOver speech not tested

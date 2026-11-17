@@ -1,0 +1,13 @@
+{
+  "os": "macOS-26.5.1-arm64-arm-64bit",
+  "architecture": "arm64",
+  "artifactSHA256": "34be54b06a7409bd5baea25fa2bb4ba54817f09abce83028efb42b32058e4e7b",
+  "cherryCliSHA256": "7435fd1c265593e758e96a7d111a3844f248a2b26331abb1ab1c0effc179b6d8",
+  "localAi": {
+    "endpoint": "http://127.0.0.1:11434",
+    "model": "qwen2.5-coder:1.5b-base",
+    "ownership": "external"
+  },
+  "nativeSuites": "final-run/results.tsv",
+  "physicalKeyboard": "not tested; deferred by user"
+}

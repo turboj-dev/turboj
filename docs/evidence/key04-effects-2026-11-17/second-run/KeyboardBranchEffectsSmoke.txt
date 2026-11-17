@@ -1,0 +1,30 @@
+PASS workspace.select: Browse child Escape; invalid path stays in form; valid Launch changes workspace
+PASS file.newJavaProject: invalid project form retains input; Escape leaves no project
+PASS file.close: Escape at unsaved confirmation preserves dirty source and window
+PASS quit: Escape at unsaved confirmation preserves dirty source and window
+PASS file.close: Yes writes exact dirty source before closing
+PASS file.reopenClosed: restores closed source/path
+PASS file.close: No closes without disk write
+PASS save: saves reopened dirty buffer
+PASS saveAs: overwrite Escape returns chooser; cancel preserves target
+PASS saveAs: both overwrite confirmations apply; disk and active path updated
+PASS ai.settings: cloud confirmation Escape leaves settings open, no save or credential access
+PASS ai.settings: keyboard confirms cloud configuration; in-memory credentials; no provider request
+PASS ai.settings: endpoint edit revokes consent; Cancel preserves applied configuration
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS maven.build.custom: goal input → trust Escape; no wrapper invocation
+PASS maven.build.validate: trust accepted, build cancelled without process
+PASS maven.build.validate: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.compile: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.test: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.package: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.verify: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.install: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.dependency:tree: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.help:effective-pom: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.clean: keyboard confirmation → real offline Maven POM-project goal succeeds
+PASS maven.build.custom: custom goal input and confirmation execute real Maven validate
+PASS maven.stop: stops actual owned wrapper while it waits before Maven invocation
+PASS quit: clean quit closes native frame

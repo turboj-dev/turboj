@@ -1,0 +1,32 @@
+17:08:17  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:17  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:17  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:17  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:17  Test completion: 'a * b;' in 153 ms (first text after 112 ms) from local:qwen2.5-coder:0.5b-base.
+17:08:17  Testing AI completion with a synthetic snippet…
+17:08:17  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:17  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:17  Test completion: 'a * b;' in 19 ms (first text after 19 ms) from cloud:xai/fixture-model.
+17:08:17  Testing AI completion with a synthetic snippet…
+17:08:17  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:17  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:16  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:16  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:16  Test completion: 'a * b;' in 10 ms (first text after 10 ms) from cloud:anthropic/fixture-model.
+17:08:16  Testing AI completion with a synthetic snippet…
+17:08:16  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:16  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:15  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:15  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:15  Test completion: 'a * b;' in 136 ms (first text after 136 ms) from cloud:openai/fixture-model.
+17:08:15  Testing AI completion with a synthetic snippet…
+17:08:15  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:15  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:14  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:14  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:14  Local AI ready: qwen2.5-coder:0.5b-base on Ollama 0.40.10 in 21 ms
+17:08:13  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:13  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:08:13  Local AI ready: qwen2.5-coder:0.5b-base on Ollama 0.40.10 in 44 ms
+17:08:12  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:08:12  ⌃⌘K …  (Escape cancels; 10 seconds per key)

@@ -1,0 +1,9 @@
+PASS cherry.execution: keyboard selects and stores local mode for the actual project
+Driver reactivates fixture window while waiting: real Cherry completed
+PASS cherry.run: real configured Maven/JUnit/JaCoCo workflow: two passing tests
+PASS editor.inspectLineIntelligence: real Cherry data; Git, Tests and Coverage details remain separate; Escape restores source
+PASS cherry.results: real current execution opens native result tree; Escape restores source
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS cherry.report: actual foreground browser document URL matches generated report through OS address bar or native accessibility; owned tab close requested; clipboard restored
+PASS cherry.cancel: cancels actual running CLI execution; result is CANCELLED, never success

@@ -1,0 +1,24 @@
+command	assertion
+view.focusConsole	visible Output owns keyboard focus
+focus	cycles editor/console actual focus
+view.resizeOutput	Up changes actual divider geometry; Escape returns to editor
+zoom	output visibility toggles and restores
+view.toggleConsole	output visibility toggles and restores
+view.focusExplorer	project tree owns keyboard focus
+view.toggleExplorer	Explorer visibility toggles and restores
+view.maximizeEditor	both panels hidden
+view.restoreLayout	both prior panel states restored
+view.focusEditor	editor owns focus
+view.focusNextPanel	focus moves to visible Explorer
+view.focusPreviousPanel	focus returns to editor
+view.focusTestResults	Tests selected
+view.toggleTestPanel	Tests visibility toggles and restores
+escape	tool-panel Escape returns to source
+keymap.assignMissing	already bound profile remains complete without conflict dialog
+metrics	actual local metrics displayed; Escape closes
+navigation.nextError	moves through actual compiler diagnostics
+navigation.previousError	returns to previous actual diagnostic
+error	moves from end of source to first compiler-error line
+view.focusDiagnostics	Enter navigates selected real diagnostic and restores editor focus
+navigation.nextWarning	no-warning state is explicit and preserves source
+navigation.previousWarning	no-warning state is explicit and preserves source

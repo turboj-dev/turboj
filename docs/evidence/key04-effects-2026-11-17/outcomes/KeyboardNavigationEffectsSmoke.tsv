@@ -1,0 +1,26 @@
+command	assertion
+find	selected actual query match
+findNext	moves to other occurrence
+findPrevious	returns to first occurrence
+replace	keyboard Replace All; exact source; one Undo
+goto	Enter moves to requested line start
+navigation.nextMethod	caret at second declaration
+navigation.previousMethod	caret at first declaration
+navigation.callHierarchy	navigates to resolved call site
+navigation.calledMethods	navigates to actual call in selected method
+declaration	resolved call navigates to declaration
+back	restores call-site caret
+forward	restores declaration caret
+navigation.matchingBrace	caret at matching class brace
+navigation.goToImplementation	opens concrete subclass at its declaration
+navigation.typeHierarchy	resolved base/subclass entries; Escape preserves source
+navigation.goToFile	query finds real project item; Enter opens correct source
+navigation.goToType	query finds real project item; Enter opens correct source
+navigation.goToSymbol	query finds real project item; Enter opens correct source
+navigation.searchEverywhere	query finds real project item; Enter opens correct source
+navigation.previousEditorTab	cycles to previous open source
+navigation.nextEditorTab	cycles to next open source
+navigation.recentLocations	Enter restores preceding C.java visit
+navigation.recentFiles	Enter opens actual first recent source
+navigation.previousEditLocation	returns to previous edited document
+navigation.nextEditLocation	returns to newer edited document

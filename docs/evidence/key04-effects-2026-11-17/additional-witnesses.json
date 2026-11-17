@@ -1,0 +1,120 @@
+[
+  {
+    "commands": [
+      "cut",
+      "copy",
+      "paste",
+      "deleteLine",
+      "duplicateLine",
+      "editor.addCaretBelow",
+      "selectAll"
+    ],
+    "report": "reports/KeyboardEditingSmoke.txt",
+    "required_text": "PASS complete: 94 assertions",
+    "scope": "Four profiles: exact editing/clipboard/multicaret results and Undo; native key events, fixture source setup programmatic."
+  },
+  {
+    "commands": [
+      "undo",
+      "redo"
+    ],
+    "report": "outcomes/KeyboardMultiFileEffectsSmoke.tsv",
+    "required_text": "Undo/Redo",
+    "scope": "Actual cross-file undo/redo, source-map equality, javac and intervening-edit branch invalidation."
+  },
+  {
+    "commands": [
+      "help",
+      "keymap",
+      "palette",
+      "run.configuration",
+      "theme.more"
+    ],
+    "report": "reports/KeyboardWorkflowSmoke.txt",
+    "required_text": "PASS all A\u2013F and H workflow assertions.",
+    "scope": "Native keyboard workflow: generated reference, custom-keymap persistence/conflict resolution, palette execution, actual arguments/Scanner input and theme selection."
+  },
+  {
+    "commands": [
+      "file.newJavaClass",
+      "file.newMavenProject",
+      "refactor.context-actions"
+    ],
+    "report": "reports/FirstLaunchKeyboardSmoke.txt",
+    "required_text": "PASS Java and Maven first-launch-to-green workflows.",
+    "scope": "Keyboard menus/Cmd+1: project/main/class/test/method generation, editable templates, save/compile/JUnit, actual plain and Maven files."
+  },
+  {
+    "commands": [
+      "project.processors"
+    ],
+    "report": "reports/FirstLaunchKeyboardSmoke.txt",
+    "required_text": "project.processors explicitly compiles current Maven sources",
+    "scope": "Earlier explicit native compilation without custom processors; the boundary follow-up below separately verifies a real generator."
+  },
+  {
+    "commands": [
+      "navigation.findReferences",
+      "navigation.goToTest",
+      "navigation.relatedTests"
+    ],
+    "report": "final-run/UsagesNavigationAcceptance.txt",
+    "required_text": "PASS plain/Maven Find Usages and test navigation",
+    "scope": "Real JDT references and test counterparts/alternatives in plain/Maven projects; programmatic CommandJ invocation (including Find Usages alias), actual chooser keyboard navigation and source preview."
+  },
+  {
+    "commands": [
+      "ai.another",
+      "ai.request",
+      "ai.larger",
+      "completion.acceptWord",
+      "completion.acceptLine",
+      "ai.retry",
+      "ai.test"
+    ],
+    "report": "reports/AILivePrecedenceSmoke.txt",
+    "required_text": "ai.test validates an actual local response",
+    "scope": "Real externally owned Ollama: full and partial acceptance/Undo, four-profile precedence, reconnect and actual synthetic completion probe. No cloud inference claim."
+  },
+  {
+    "commands": [
+      "ai.local",
+      "ai.cloud",
+      "ai.download"
+    ],
+    "report": "boundary-followup/ai.txt",
+    "required_text": "PASS ai.test: three cloud TLS/auth/stream protocols",
+    "successful_effect": true,
+    "scope": "Positive native settings/persistence, actual Keychain round trip with disposable credentials; cached real Ollama pull; all three cloud transports use explicit loopback HTTPS fixtures, not live vendors. Cleanup verified."
+  },
+  {
+    "commands": [
+      "project.sources",
+      "project.javadoc",
+      "project.parentPom",
+      "project.processors"
+    ],
+    "report": "boundary-followup/maven.txt",
+    "required_text": "PASS project.processors: trust cancel then approve",
+    "successful_effect": true,
+    "scope": "Real isolated attachment transfer and exact bytes; external parent POM; actual custom annotation processor, native compile and generated-class main output."
+  },
+  {
+    "commands": [
+      "cherry.report"
+    ],
+    "report": "boundary-followup/cherry-browser.txt",
+    "required_text": "PASS cherry.report: actual foreground browser document URL matches generated report",
+    "successful_effect": true,
+    "scope": "Production callback opens generated report in default browser; OS address bar matches exact file URI. Report hash retained; owned tab close requested."
+  },
+  {
+    "commands": [
+      "keymap"
+    ],
+    "report": "boundary-followup/nested-report.txt",
+    "required_text": "Both overwrite confirmations replace actual file with current keymap JSON",
+    "successful_effect": true,
+    "scope": "Additional successful nested branches: remove binding, reset command, confirm profile reset, valid import without duplication, both overwrite confirmations, parent/source focus restoration."
+  }
+]

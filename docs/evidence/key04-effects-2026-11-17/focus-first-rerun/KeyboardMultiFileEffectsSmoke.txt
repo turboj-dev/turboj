@@ -1,0 +1,10 @@
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+PASS refactor.pull-up: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS refactor.push-down: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.extract-interface: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.introduce-interface: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.move: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo

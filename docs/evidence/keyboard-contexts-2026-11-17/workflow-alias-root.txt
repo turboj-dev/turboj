@@ -1,0 +1,29 @@
+PASS command available: project.open
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS A: keyboard import resolves cached Maven/JUnit offline
+PASS command available: open
+PASS Find selects exact source: KEYBOARD_RESULT=
+PASS command available: run
+PASS A: project → file → edit → save → trust → native Run uses only keys
+PASS A: native Run does not invoke Maven lifecycle
+PASS command available: tests.all
+PASS C: two real JUnit tests pass
+PASS command available: view.focusTestResults
+PASS command available: tests.onSave
+PASS C: Auto Test on Save enabled with keyboard
+PASS Find selects exact source: 20 + 22
+PASS command available: navigation.testFailure
+PASS C: failing Auto Test result navigates to test source
+PASS command available: open
+PASS Find selects exact source: 20 + 21
+PASS C: edit/save automatically compiles and reruns the latest corrected source
+PASS command available: tests.onSave
+PASS Find selects exact source: 20 + 22
+PASS command available: refactor.extract-variable
+PASS B: keyboard opens real RefactorJ change preview
+Exception in thread "main" java.lang.AssertionError: Timed out: Extract Variable apply
+	at dev.turboj.app.KeyboardWorkflowSmoke.waitFor(KeyboardWorkflowSmoke.java:370)
+	at dev.turboj.app.KeyboardWorkflowSmoke.workflowB(KeyboardWorkflowSmoke.java:143)
+	at dev.turboj.app.KeyboardWorkflowSmoke.main(KeyboardWorkflowSmoke.java:69)

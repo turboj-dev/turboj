@@ -1,0 +1,81 @@
+PASS explorer.expand: selected folder expands
+PASS explorer.collapse: selected folder collapses
+PASS explorer.contextMenu: keyboard opens actual item menu; Escape restores tree
+PASS explorer.newFile: existing file rejected without overwrite
+PASS explorer.newFolder: directory created at selected location
+PASS explorer.newFile: creates empty file and opens exact path
+PASS refactor.rename: Explorer plain-file rename updates actual disk path
+PASS undo: Explorer rename restored by workspace undo
+PASS explorer.delete: Escape preserves file; OK deletes; Undo restores
+PASS explorer.newPackage: qualified package creates corresponding directories
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Driver reactivates fixture window while waiting: Explorer Java class generated
+Exception in thread "main" java.lang.AssertionError: Explorer Java class generated; focus=javax.swing.JTree[,0,0,223x388,alignmentX=0.0,alignmentY=0.0,border=,flags=360,maximumSize=,minimumSize=,preferredSize=,editable=false,invokesStopCellEditing=false,largeModel=false,rootVisible=true,rowHeight=19,scrollsOnExpand=false,showsRootHandles=true,toggleClickCount=2,visibleRowCount=20]; active=true; overlay=false; source=package sample.tools;
+
+public class CreatedClass {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+; status=16:05:11  Refactoring applied
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  Created package sample.tools
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  Refactoring undone
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  Refactoring applied
+16:05:11  Deleted new.txt · ⌘Z undoes
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  Refactoring undone
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  Refactoring applied
+16:05:11  Renamed new.txt to renamed.txt · ⌘Z undoes
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  Created folder created
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  existing.txt already exists
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:05:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:05:11  Opened Java project project (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-explorer-effects-13930487973311452078/project).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardExplorerEffectsSmoke.main(KeyboardExplorerEffectsSmoke.java:48)

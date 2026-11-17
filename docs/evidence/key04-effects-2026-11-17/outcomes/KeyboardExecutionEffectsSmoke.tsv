@@ -1,0 +1,30 @@
+command	assertion
+run	real Java stdout from current source and completed process
+isolated	real Java stdout from current source and completed process
+run.context	real Java stdout from current source and completed process
+smart.action	real Java stdout from current source and completed process
+stop	stops running owned Java program after actual readiness output
+eof	closes worker stdin; blocked Scanner proceeds and main finishes
+clear	actual console document emptied
+console.commandLine	keyboard command row launches real owned printf process
+console.cancelCommand	actual owned shell command cancelled
+evaluateSelection	actual JShell evaluates selected expression to 42
+compile	real compiler accepts current Java source
+evaluateStatement	one invocation after explicit compile evaluates current declaration through actual JShell
+replReset	new JShell session no longer resolves prior variable
+output	selects program output instead of JShell
+repl	selects actual JShell panel
+format.document	real aosp formatter modifies source; javac; one Undo
+format.document	real classic80 formatter modifies source; javac; one Undo
+format.document	real wide120 formatter modifies source; javac; one Undo
+format.document	real google formatter modifies source; javac; one Undo
+format.document	real eclipse formatter modifies source; javac; one Undo
+format.document	real intellij formatter modifies source; javac; one Undo
+format.document	real aws formatter modifies source; javac; one Undo
+format.document	real javafmt formatter modifies source; javac; one Undo
+format.selection	real selected-range formatting; javac; one Undo
+editor.autoIndentLines	real selected-range formatting; javac; one Undo
+settings.general	keyboard spinner and checkbox changes applied
+theme.load	real JSON chooser selection changes theme preference
+cherry.configure	keyboard input changes isolated CLI configuration without execution
+fullscreen	enters/exits actual native fullscreen; original mode restored

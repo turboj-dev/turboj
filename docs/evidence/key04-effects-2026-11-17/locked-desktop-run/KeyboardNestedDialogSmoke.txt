@@ -1,0 +1,18 @@
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Exception in thread "main" java.lang.AssertionError: source focus
+	at dev.turboj.app.KeyboardNestedDialogSmoke.await(KeyboardNestedDialogSmoke.java:82)
+	at dev.turboj.app.KeyboardNestedDialogSmoke.main(KeyboardNestedDialogSmoke.java:26)

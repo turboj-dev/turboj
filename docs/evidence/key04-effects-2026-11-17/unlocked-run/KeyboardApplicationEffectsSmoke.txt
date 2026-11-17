@@ -1,0 +1,12 @@
+PASS openFolder: keyboard chooser opens actual plain project
+PASS project.open: keyboard chooser opens actual plain project
+PASS open: keyboard file chooser opens both expected source paths
+PASS file.saveAll: two dirty buffers saved to their exact files
+PASS project.explorer: actual Explorer visibility changes and restores
+PASS editor.selectNextOccurrence: two matching identifier selections
+PASS editor.selectAllOccurrences: three matching identifier selections
+PASS editor.removeSecondaryCarets: secondary selections removed
+PASS editor.addCaretAbove: adds upper-row caret for actual simultaneous editing
+PASS view.focusJShell: actual JShell input owns focus
+PASS console.copy: selected console text reaches system clipboard
+PASS help.cheatSheet: actual generation/open callback completes; exported HTML includes every registered command

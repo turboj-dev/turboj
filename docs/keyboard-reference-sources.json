@@ -1,13 +1,5 @@
 {
-  "generatedfiles": {
-    "docs/keyboard-command-inventory.md": "7897eb77f55f8642875dd21d1b87a3e921fb4a0ea78ced6b658141fd770f14db",
-    "docs/keyboard-conflicts.md": "80c26727cc397a009d12c7b727402acc44112eca82b1c4de7a46ed543d9e05f1",
-    "docs/keyboard-shortcut-reference.md": "e4c177cf4f7f3a7358f62733a53f51f7e53a3bcc361198050d090f56c60a2af0"
-  },
-  "schema": 1,
-  "commands": 309,
-  "generatedAt": "2026-11-17T07:01:23.565180Z",
-  "artifactSha256": "c62557b3833e6a56fbae41e22d6e3ca41ce83f6009726d5102c29fd77fbff37e",
+  "aliases": 29,
   "files": {
     "app/src/main/java/dev/turboj/ai/AICompletionController.java": "78ec6688284820d901a53b1ce033221e11e27791ff8e0c367a016cf799b52a04",
     "app/src/main/java/dev/turboj/ai/AISettingsDialog.java": "197c21518d0bdc7884acdea5ed477ab2e7b4fcfe6d15825733696140432916f4",
@@ -15,7 +7,7 @@
     "app/src/main/java/dev/turboj/ai/MacKeychainCredentialStore.java": "b20717eab42703853ca0536b53ad8b956d8f9301cd6b49a164a8740aff42feef",
     "app/src/main/java/dev/turboj/app/KeyboardDefaults.java": "a50429ca88da9685c11503a0b16e34dd0ebef42b733d4946514fc73570fc5264",
     "app/src/main/java/dev/turboj/app/MenuLayout.java": "10a40433dffbea77bcb3ee101f2c77a0a26aa8dad0e7a357fdd8dfb7e5c16261",
-    "app/src/main/java/dev/turboj/app/TurboFrame.java": "96fc93143ac9562a898a4420bc9f13edc8bd38f22ab6fcbb2e618acca46e6cda",
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "1175270ff84ec697dda2add7ddc23a45d75c5f067c51cc2eb34ea2ef3b40e5ce",
     "app/src/main/java/dev/turboj/app/TurboJ.java": "5c501cae3b519e650f8202dcf1b1e65c59ff879a6536afcffc8065eec3a4443c",
     "app/src/main/java/dev/turboj/config/SafeFiles.java": "d365a28d3fa273b88ea289d0b10d53a4720e95a64c5415efa4e6c25ccaaf987b",
     "app/src/main/java/dev/turboj/config/Settings.java": "7194c68c22ee235704163b074cfcf0e67d2a1ccd13c4e7ca78e8d1ccea94e565",
@@ -46,20 +38,21 @@
     "app/src/main/java/dev/turboj/project/ProjectSearch.java": "6a9917f8def6f8b7d359b71b9be34cf73d2a70f695bac38404744ebd97664a6e",
     "app/src/main/java/dev/turboj/project/SourceEncoding.java": "98863c1486a06513206e177bf210ab8ce05703acd883363c3dd9217543a0d47a",
     "app/src/main/java/dev/turboj/refactoring/NativeWorkspaceCommitter.java": "6489d97d9058d88bcda55b5202b8cc1136980e647c1ddcda384c5885d651da6c",
-    "app/src/main/java/dev/turboj/refactoring/RefactoringController.java": "728c10e3dc248fb96bdcbf2356e4dcd2710e5507a44fbfe5196dc768b5c2f6e1",
+    "app/src/main/java/dev/turboj/refactoring/RefactoringController.java": "2dd17c207fd7c2dc4aa052b9c6403017a59fc1b5c3463c1a6909c88dda0d3e4f",
     "app/src/main/java/dev/turboj/refactoring/RefactoringForms.java": "32d4a84b7091035d9810728586f623348cc4e4e8bb2ff94001c23a1a443a64be",
     "app/src/main/java/dev/turboj/testing/CherryExecutionReceipt.java": "8079869a5246b0421af9e3b3f80cd45be9b3b0ec95585ff41cc5d7cc3d138eea",
     "app/src/main/java/dev/turboj/testing/CherryTestProcess.java": "a6d5f897ef2ff1ced4576b33f00f359102ca74f4c3621c3ea6710cb7227d6f75",
     "app/src/main/java/dev/turboj/testing/LineIntelligenceController.java": "55b7ce9e2e33cece5552ac9e1b482a43d1d35e3385061c9b7a3a2dd5a9df7ae9",
     "app/src/main/java/dev/turboj/testing/LineIntelligenceDialogs.java": "734fdc261e1bbeb89f6e8c6e7176c7436a6ecb46f38e6ae840286182866b2a8a",
+    "app/src/main/java/dev/turboj/testing/MavenTestCompilation.java": "b2581ad898c43743cbf9284af881f4e207767fbccd5c02e4f43525bfcd547a4a",
     "app/src/main/java/dev/turboj/testing/MissingJUnit.java": "8b8cd4e2d296466196a6836a0262df795090c94e38f1bf5cba8511fcbb253f4e",
     "app/src/main/java/dev/turboj/testing/TestOutput.java": "0884de1bbd5f96740b7310003ca3c3836c5a24e96455d99f14b00ae53c58f8eb",
     "app/src/main/java/dev/turboj/testing/TestResultsPane.java": "ffead51ee5f202f66725c37273259796ce0987a9ea1baeb4b58197ea795fa041",
-    "app/src/main/java/dev/turboj/testing/TurboTestController.java": "48fb4dfc7221805dae659d3bbf3c193581ee559524a8bcff463c57532b443922",
+    "app/src/main/java/dev/turboj/testing/TurboTestController.java": "2cb105f73efa3c29463a4b07964aa8f2a3ea2be445e32aee9b15a93dc9ea357a",
     "app/src/main/java/dev/turboj/ui/AsciiChrome.java": "e2bffc17c1db72d9aa66a942866ae386639d59f5e1991796928bf0e98fcbf395",
     "app/src/main/java/dev/turboj/ui/AsciiMenuBar.java": "5440bc137efc6be8bbc107dfe6baef191f1e52f00d87e210f272fb32cd71a950",
     "app/src/main/java/dev/turboj/ui/ConsolePane.java": "d3ae2cd28e5f74ea0e6d91b0a2b303bdd04affddf58172d59bba64b8956a2a1e",
-    "app/src/main/java/dev/turboj/ui/EditorComponent.java": "eba0e55b6c654b447b568e0ee02eb66cb87443246c387d100eca6dc4500d92fe",
+    "app/src/main/java/dev/turboj/ui/EditorComponent.java": "779ef9e7fe011caf81cdf8f6cf24fd0992bc52b51e2d235e43d1ebe14c759c11",
     "app/src/main/java/dev/turboj/ui/FindReplaceDialog.java": "383a7e80a870fcb01d20dd904fab181a272e013c522db91a41da7ac285f5e267",
     "app/src/main/java/dev/turboj/ui/InFramePopupFactory.java": "014e90169e1d83022f2fde1bd9770bbcee16d827b489946bf1464cbc8887c361",
     "app/src/main/java/dev/turboj/ui/MenuStyler.java": "25d442d66ca0cddc1d9f953d06132238a71347d6ea9e5cbfbcc80dc53bf06050",
@@ -101,10 +94,10 @@
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/AsciiPalette.java": "0c980305d7c0f1f4f1873d705ab55cf777a30ae99741328815c0e22ea219164d",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/AsciiStyle.java": "69576e8cf37079604c746730c040652d3058111c39c757d3788127b5c8387d70",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/CommandAction.java": "b23c508d137d4e467267a832d378cc23b77db219827c4633dcb01626e19367bb",
-    "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/CommandKeyDispatcher.java": "1e1a10b70b60b26bb48cc5a098c9deddaf52abb3316d58aaf4a922c3e9e7f436",
+    "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/CommandKeyDispatcher.java": "956695bf95bd82ae4a90dc98edb48296a0e38f1e82104681c1ee106a235c3fe2",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/CommandPaletteDialog.java": "d1f2db37001f81795cc7d9bac1448bd9d9bbc54c984054552882a9566f733e41",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/EmbeddedDialog.java": "bfd4a7e44673b027ff50fe0bbd06d3341c6aca6c870246420fccea4f5f64301d",
-    "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/EmbeddedFileChooser.java": "353b3712e10258142d759696b6291aaafb7546c74d237bf2fa58e3b2c9b7181b",
+    "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/EmbeddedFileChooser.java": "0608e94a82e05102d16204206171a2230034ee747810ac5160ef90b5cf88ec45",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/EmbeddedOptionPane.java": "f38403202768aafcbada6d902ad165d7d6d389af98a5668cafe89129eda4143e",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/KeyGlyphs.java": "c98edce6b1f0bf07567dc7d82d4a33d913212ec44a6c26d6fa2a281db9c0bce3",
     "commandj/commandj-swing/src/main/java/dev/turboj/commandj/swing/KeymapEditorDialog.java": "80a00ba7063fc2fb0c64297e22f2de069a9134a14fcfddf8cf0f305dfb6d3002",
@@ -126,5 +119,13 @@
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/Requests.java": "ab42bc001dcb45cad7e256f5ed298a57f711594e45d58d640885fe340d1ad842",
     "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/SourceInventory.java": "3a0f1e47534a69f15a6cd29259da4e4b48055b7bac437bc11039766911929cba"
   },
-  "aliases": 29
+  "artifactSha256": "34be54b06a7409bd5baea25fa2bb4ba54817f09abce83028efb42b32058e4e7b",
+  "generatedAt": "2026-11-17T15:40:12.030559Z",
+  "commands": 309,
+  "schema": 1,
+  "generatedfiles": {
+    "docs/keyboard-command-inventory.md": "7897eb77f55f8642875dd21d1b87a3e921fb4a0ea78ced6b658141fd770f14db",
+    "docs/keyboard-conflicts.md": "80c26727cc397a009d12c7b727402acc44112eca82b1c4de7a46ed543d9e05f1",
+    "docs/keyboard-shortcut-reference.md": "e4c177cf4f7f3a7358f62733a53f51f7e53a3bcc361198050d090f56c60a2af0"
+  }
 }

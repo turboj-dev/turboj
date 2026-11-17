@@ -1,0 +1,13 @@
+command	assertion
+explorer.expand	selected folder expands
+explorer.collapse	selected folder collapses
+explorer.contextMenu	keyboard opens actual item menu; Escape restores tree
+explorer.newFile	existing file rejected without overwrite
+explorer.newFolder	directory created at selected location
+explorer.newFile	creates empty file and opens exact path
+refactor.rename	Explorer plain-file rename updates actual disk path
+undo	Explorer rename restored by workspace undo
+explorer.delete	Escape preserves file; OK deletes; Undo restores
+explorer.newPackage	qualified package creates corresponding directories
+explorer.newClass	selected source root/package create real compilable Java class and restore editor focus
+explorer.open	selected source opens and owns focus

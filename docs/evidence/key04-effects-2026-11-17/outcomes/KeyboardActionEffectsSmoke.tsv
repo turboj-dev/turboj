@@ -1,0 +1,87 @@
+command	assertion
+editor.copyLineUp	exact source; one Undo; Redo
+editor.copyLineDown	exact source; one Undo; Redo
+editor.insertLineAbove	exact source; one Undo; Redo
+editor.insertLineBelow	exact source; one Undo; Redo
+editor.splitLine	exact source; one Undo; Redo
+editor.joinLines	exact source; one Undo; Redo
+editor.trimTrailingWhitespace	exact source; one Undo; Redo
+editor.convertTabsToSpaces	exact source; one Undo; Redo
+editor.convertSpacesToTabs	exact source; one Undo; Redo
+editor.deletePreviousWord	exact source; one Undo; Redo
+editor.deleteNextWord	exact source; one Undo; Redo
+editor.deleteToLineStart	exact source; one Undo; Redo
+editor.deleteToLineEnd	exact source; one Undo; Redo
+editor.toggleBlockComment	exact source; one Undo; Redo
+editor.upperCase	exact source; one Undo; Redo
+editor.lowerCase	exact source; one Undo; Redo
+editor.sortSelectedLines	exact source; one Undo; Redo
+editor.reverseSelectedLines	exact source; one Undo; Redo
+editor.transposeCharacters	exact source; one Undo; Redo
+moveLineUp	exact source; one Undo; Redo
+moveLineDown	exact source; one Undo; Redo
+comment	exact source; one Undo; Redo
+indent	exact source; one Undo; Redo
+unindent	exact source; one Undo; Redo
+editor.smartHome	indent then physical start
+editor.smartEnd	text then physical end
+editor.selectCurrentWord	exact word selection
+editor.selectCurrentLine	complete line selection
+editor.changeCase	choice Enter changes actual source
+editor.toggleColumnSelection	two real row selections
+format.onSave	setting changes and restores through actual callback
+run.onSave	setting changes and restores through actual callback
+tests.onSave	setting changes and restores through actual callback
+tests.auto	setting changes and restores through actual callback
+run.clearOutputBefore	setting changes and restores through actual callback
+view.coverageBackgrounds	setting changes and restores through actual callback
+showPressedShortcuts	setting changes and restores through actual callback
+settings.shortcutSymbols	setting changes and restores through actual callback
+format.style.aosp	active formatter setting matches selection
+format.style.classic80	active formatter setting matches selection
+format.style.wide120	active formatter setting matches selection
+format.style.google	active formatter setting matches selection
+format.style.eclipse	active formatter setting matches selection
+format.style.intellij	active formatter setting matches selection
+format.style.aws	active formatter setting matches selection
+format.style.javafmt	active formatter setting matches selection
+theme.classic	active theme changes
+theme.dark	active theme changes
+theme.light	active theme changes
+fontUp	actual editor font increased
+fontDown	actual editor font restored
+keymap.profile.intellij-macos	active profile changes
+keymap.profile.eclipse-macos	active profile changes
+keymap.profile.vscode-macos	active profile changes
+keymap.profile.turboj-macos	active profile changes
+java.generateJavadoc	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateConstructor	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateEquals	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateGetters	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateToString	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateHashCode	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateGetterSetter	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.generateSetters	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.implementMethods	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.overrideMethods	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.surroundIf	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.surroundTryFinally	preview; Escape unchanged; Apply expected member; javac; Undo/Redo
+java.completeStatement	invalid caret rejected; semicolon inserted at valid caret; javac succeeds
+editor.moveStatementUp	whole methods swap; javac; one Undo
+editor.moveCodeBlockUp	whole methods swap; javac; one Undo
+editor.moveStatementDown	whole methods swap; javac; one Undo
+editor.moveCodeBlockDown	whole methods swap; javac; one Undo
+editor.moveElementLeft	literal elements swap; javac; one Undo
+editor.moveElementRight	literal elements swap; javac; one Undo
+editor.selectMatchingBrackets	AST selection contains expected Java construct
+editor.shrinkSelection	restores prior source caret
+editor.selectEnclosingType	AST selection contains expected Java construct
+editor.shrinkSelection	restores prior source caret
+editor.selectCurrentMethod	AST selection contains expected Java construct
+editor.shrinkSelection	restores prior source caret
+editor.selectCurrentStatement	AST selection contains expected Java construct
+editor.shrinkSelection	restores prior source caret
+editor.selectCurrentBlock	AST selection contains expected Java construct
+editor.shrinkSelection	restores prior source caret
+editor.expandSelection	AST selection contains expected Java construct
+editor.shrinkSelection	restores prior source caret

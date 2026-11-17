@@ -1,0 +1,47 @@
+PASS tests.current: actual JUnit selection/results: 1 passed, 0 failed
+PASS tests.class: actual JUnit selection/results: 1 passed, 1 failed
+PASS tests.failed: actual JUnit selection/results: 0 passed, 1 failed
+PASS tests.all: actual JUnit selection/results: 1 passed, 1 failed
+PASS run.context: actual JUnit selection/results: 1 passed, 1 failed
+PASS tests.nextFailure: opens actual assertion failure source location
+PASS tests.previousFailure: opens actual assertion failure source location
+PASS navigation.testFailure: opens actual assertion failure source location
+PASS compileProject: actual project compilation completes without rerunning JUnit
+PASS make: actual project compilation completes without rerunning JUnit
+PASS tests.results: native Tests panel displays actual last report
+Exception in thread "main" java.lang.AssertionError: actual slow test starts; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class SampleTest { @org.junit.jupiter.api.Test void slow()throws Exception{java.nio.file.Files.writeString(java.nio.file.Path.of("/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-test-effects-15231723817999220519/test-started"),"started");Thread.sleep(30000);} }; status=12:38:45  Test results belong to an older source version; run again for current results.
+12:38:45  A project operation is already running
+12:38:45  ⌃⌘K T …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K T …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:45  Compile Project project · Java 25 done · Project compiled.
+12:38:45  SampleTest#fails (1 of 1) · AssertionFailedError: KEY04_FAILURE
+12:38:45  ⌃⌘K N …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:45  SampleTest#fails (1 of 1) · AssertionFailedError: KEY04_FAILURE
+12:38:45  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:45  SampleTest#fails (1 of 1) · AssertionFailedError: KEY04_FAILURE
+12:38:45  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K B …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K T …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:38:43  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:38:43  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardTestEffectsSmoke.main(KeyboardTestEffectsSmoke.java:39)

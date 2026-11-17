@@ -112,7 +112,13 @@ public final class TurboTestController implements AutoCloseable {
         projectTask=executor.submit(()->{
             try {
                 if(mavenCompiler==null){mavenCompiler=new MavenCompilationWorkspace();ownsMavenCompiler=true;}
-                var result=mavenCompiler.compile(model,buffers,snapshot.version(),true);
+                try (var prepared = MavenTestCompilation.prepare(mavenCompiler, model, buffers, snapshot.version(),
+                        (module, fingerprint) -> selection.mode() != Mode.COMPILE
+                                && (moduleId == null || moduleId.isBlank() || module.moduleId().equals(moduleId))
+                                && (!automaticRun || !fingerprint.equals(previousFingerprints.get(module.moduleId())))
+                                && (selection.mode() != Mode.FAILED || previousReports.containsKey(module.moduleId())
+                                    && !previousReports.get(module.moduleId()).failedIds().isEmpty()))) {
+                var result=prepared.result;
                 if(!active(request))return;
                 onEdt(()->{if(active(request)&&current.getAsBoolean())host.compilation(result.combined());});
                 if(!result.success()){finishMaven(request,"Tests were not run because native compilation failed.",null,current);return;}
@@ -127,7 +133,7 @@ public final class TurboTestController implements AutoCloseable {
                     if(!active(request))return;
                     if(!compiled.tests()||compiled.compilation().bytecode().isEmpty())continue;
                     if(moduleId!=null&&!moduleId.isBlank()&&!compiled.moduleId().equals(moduleId))continue;
-                    String fingerprint=mavenCompiler.sourceFingerprint(compiled.moduleId(),true);
+                    String fingerprint=prepared.fingerprints.get(compiled.moduleId());
                     if(automaticRun&&fingerprint.equals(previousFingerprints.get(compiled.moduleId())))continue;
                     List<String> moduleFailures=previousReports.containsKey(compiled.moduleId())?previousReports.get(compiled.moduleId()).failedIds():List.of();
                     if(selection.mode()==Mode.FAILED&&moduleFailures.isEmpty())continue;
@@ -139,7 +145,7 @@ public final class TurboTestController implements AutoCloseable {
                     WorkerClient projectWorker=projectWorkers.computeIfAbsent(home,p->new WorkerClient(Duration.ofMinutes(5),4*1024*1024,512,p));
                     var testRequest=new TestEngine.Request(snapshot.version(),classes,selection.mode()==Mode.FAILED?moduleFailures:List.of(),methods);
                     Path directory=Files.createTempDirectory("turboj-maven-tests-");
-                    try(var pinned=mavenCompiler.pinExecution(module.id(),true,model.generation(),snapshot.version())) {
+                    try(var pinned=prepared.executions.get(module.id())) {
                         List<Path> runtime=junit.projectExecutionClasspath(pinned.classpath());
                         if(!pinned.modulePath().isEmpty())throw new IllegalStateException("Named-module JUnit patch-module execution requires an explicit Maven Test build");
                         Path report=directory.resolve("report.json");String encoded=Base64.getEncoder().encodeToString(new Gson().toJson(testRequest).getBytes(StandardCharsets.UTF_8));
@@ -168,7 +174,7 @@ public final class TurboTestController implements AutoCloseable {
                     // In particular, an unrelated edit must not hide an outstanding failure or
                     // disable Run Failed. Reuse only results for identical current inputs.
                     allTests.clear();engineFailures.clear();
-                    for(var module:model.modules())if(Objects.equals(newFingerprints.get(module.id()),mavenCompiler.sourceFingerprint(module.id(),true))&&newReports.containsKey(module.id())){
+                    for(var module:model.modules())if(Objects.equals(newFingerprints.get(module.id()),prepared.fingerprints.get(module.id()))&&newReports.containsKey(module.id())){
                         var value=newReports.get(module.id());allTests.addAll(value.tests());engineFailures.addAll(value.engineFailures());
                     }
                 }
@@ -176,6 +182,7 @@ public final class TurboTestController implements AutoCloseable {
                 allTests.sort(Comparator.comparingInt((TestEngine.Test test)->test.status()==TestEngine.Status.FAILED?0:1).thenComparingLong(TestEngine.Test::durationNanos).thenComparing(TestEngine.Test::id));
                 var report=new TestEngine.Report(snapshot.version(),System.nanoTime()-started,allTests,engineFailures);
                 finishMaven(request,report.tests().size()+" tests: "+report.passed()+" passed, "+report.failed()+" failed"+(engineFailures.isEmpty()?".":"; test setup failed."),report,current);
+            }
             }catch(Throwable error){finishMaven(request,"TurboTest: "+error.getMessage(),null,current);}
         });
     }

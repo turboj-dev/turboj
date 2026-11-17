@@ -1,0 +1,40 @@
+Driver reactivates fixture window while waiting: dialog
+PASS refactor.anonymous-to-lambda: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.lambda-to-method-reference: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.method-reference-to-lambda: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.switch-to-expression: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.type-to-var: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.var-to-type: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Driver reactivates fixture window while waiting: dialog
+Driver reactivates fixture window while waiting: dialog
+Driver reactivates fixture window while waiting: dialog
+PASS organizeImports: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.add-import: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.remove-import: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.implement-methods: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Driver reactivates fixture window while waiting: focus settled before key
+PASS refactor.create-method: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.create-constructor: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.create-field: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.create-local: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.fix-type-mismatch: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.remove-unreachable: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Driver reactivates fixture window while waiting: preview refactor.extract-variable
+PASS refactor.extract-variable: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.extract-constant: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS refactor.extract-field: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.extract-parameter: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS refactor.extract-method: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.inline-variable: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.inline-method: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.encapsulate-field: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS refactor.constructor-to-factory: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.change-signature: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.rename: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.safe-delete: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo

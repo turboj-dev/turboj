@@ -1,0 +1,23 @@
+command	assertion
+complete	real JDT proposals for String receiver
+completion.next	selected JDT proposal advances
+completion.previous	selected JDT proposal returns
+completion.accept	selected JDT proposal changes actual source
+completion.smart	int-compatible count offered/applied; incompatible String content excluded; javac
+completion.dismiss	popup and ghost removed without editing source
+documentation	resolved source method documentation visible
+documentation.focus	keyboard focus reaches selectable documentation text
+completion.parameterInformation	actual invocation signatures resolved
+organizeImports	unused import removed; used import retained; javac
+menu	actual application menu opens via shortcut
+new	actual application menu opens via shortcut
+java.generate	actual application menu opens via shortcut
+refactor.this	real semantic action chooser; Escape preserves source
+refactor.inline	real semantic action chooser; Escape preserves source
+file.newFile	new empty untitled buffer owns typing focus
+ai.disabled	actual configuration disables AI
+ai.test	disabled mode explains why no request is sent
+ai.download	disabled mode refuses download with explanation
+ai.local	mode-specific settings opens; cancellation preserves disabled config
+ai.cloud	mode-specific settings opens; cancellation preserves disabled config
+ai.diagnostics	actual runtime diagnostic text copied to clipboard

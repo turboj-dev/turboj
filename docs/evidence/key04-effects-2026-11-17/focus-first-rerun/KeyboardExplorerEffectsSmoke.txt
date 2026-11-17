@@ -1,0 +1,41 @@
+PASS explorer.expand: selected folder expands
+PASS explorer.collapse: selected folder collapses
+PASS explorer.contextMenu: keyboard opens actual item menu; Escape restores tree
+PASS explorer.newFile: existing file rejected without overwrite
+PASS explorer.newFolder: directory created at selected location
+PASS explorer.newFile: creates empty file and opens exact path
+PASS refactor.rename: Explorer plain-file rename updates actual disk path
+Driver reactivates fixture window while waiting: rename undo
+Driver reactivates fixture window while waiting: rename undo
+Driver reactivates fixture window while waiting: rename undo
+Exception in thread "main" java.lang.AssertionError: rename undo; focus=dev.turboj.ui.EditorComponent[,13,19,794x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=; status=16:11:32  Refactoring applied
+16:11:32  Renamed new.txt to renamed.txt · ⌘Z undoes
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  Created folder created
+16:11:32  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  existing.txt already exists
+16:11:32  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K W …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+16:11:32  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+16:11:32  Opened Java project project (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-explorer-effects-7204834202074464269/project).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardExplorerEffectsSmoke.main(KeyboardExplorerEffectsSmoke.java:39)

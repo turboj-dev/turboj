@@ -45,14 +45,23 @@ import java.util.function.IntConsumer;
 import java.util.function.Predicate;
 
 import javax.accessibility.AccessibleContext;
+import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleRole;
+import javax.accessibility.AccessibleText;
+import javax.accessibility.AccessibleEditableText;
+import javax.accessibility.AccessibleState;
+import javax.accessibility.AccessibleStateSet;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import java.text.BreakIterator;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 /** One painting component, with a UTF-16 piece table and code-point-aware caret motion. */
 public final class EditorComponent extends JComponent
-        implements InputMethodListener, InputMethodRequests {
+        implements InputMethodListener, InputMethodRequests, Accessible {
     private PieceTable document = new PieceTable();
     private int caret, anchor, topLine, leftColumn, preferredColumn = -1;
     private int cellWidth = 10, cellHeight = 20, ascent = 15, gutterWidth = 60, tabWidth = 4;
@@ -316,8 +325,8 @@ public final class EditorComponent extends JComponent
         caret = anchor = topLine = leftColumn = 0;
         secondaryCarets.clear();
         resetVisualState();
-        onChange.run();
-        onCaretChange.run();
+        notifyTextChanged();
+        notifyCaretChanged();
         repaint();
     }
 
@@ -359,7 +368,7 @@ public final class EditorComponent extends JComponent
         int length = document.length();
         setSelectionsInternal(remembered != null && remembered.stream().allMatch(s -> s.end() <= length)
                 ? remembered : List.of(new Selection(caret, anchor)));
-        onChange.run();
+        notifyTextChanged();
     }
 
     public Location captureLocation() {
@@ -375,7 +384,7 @@ public final class EditorComponent extends JComponent
         topLine = Math.clamp(location.topLine(), 0, document.lineCount() - 1);
         leftColumn = Math.max(0, location.leftColumn());
         preferredColumn = -1;
-        onCaretChange.run();
+        notifyCaretChanged();
         repaint();
     }
 
@@ -949,7 +958,7 @@ public final class EditorComponent extends JComponent
         anchor = match;
         caret = match + query.length();
         ensureCaretVisible();
-        onCaretChange.run();
+        notifyCaretChanged();
         repaint();
         return true;
     }
@@ -1000,7 +1009,7 @@ public final class EditorComponent extends JComponent
         clearInlineCompletion();
         clearNavigableRange();
         ensureCaretVisible();
-        onCaretChange.run();
+        notifyCaretChanged();
         repaint();
     }
 
@@ -1066,7 +1075,7 @@ public final class EditorComponent extends JComponent
         remapTemplate(edits);
         setSelectionsInternal(normalized);
         if (transaction == null) {
-            onCaretChange.run();
+            notifyCaretChanged();
             repaint();
             return true;
         }
@@ -1396,7 +1405,7 @@ public final class EditorComponent extends JComponent
     public void removeSecondaryCarets() {
         if (secondaryCarets.isEmpty()) return;
         secondaryCarets.clear();
-        onCaretChange.run();
+        notifyCaretChanged();
         repaint();
     }
 
@@ -1958,6 +1967,12 @@ public final class EditorComponent extends JComponent
 
     @Override
     protected void processKeyEvent(KeyEvent e) {
+        // The input method owns navigation, deletion and candidate confirmation during preedit.
+        // Commands also check this context so a menu accelerator cannot bypass the dispatcher.
+        if (!composition.isEmpty()) {
+            super.processKeyEvent(e);
+            return;
+        }
         if (e.getKeyCode() == KeyEvent.VK_META) {
             commandDown = e.getID() != KeyEvent.KEY_RELEASED;
             if (!commandDown) clearNavigableRange();
@@ -2284,8 +2299,8 @@ public final class EditorComponent extends JComponent
         int previousTop = topLine, previousLeft = leftColumn;
         metrics();
         ensureCaretVisible();
-        onChange.run();
-        onCaretChange.run();
+        notifyTextChanged();
+        notifyCaretChanged();
         if (multiline || previousTop != topLine || previousLeft != leftColumn) repaint();
         else
             repaint(
@@ -2306,7 +2321,7 @@ public final class EditorComponent extends JComponent
         if (!extend) anchor = caret;
         preferredColumn = -1;
         ensureCaretVisible();
-        onCaretChange.run();
+        notifyCaretChanged();
         if (selected || topLine != oldTop || leftColumn != oldLeft) repaint();
         else {
             repaint(0, (oldLine - topLine) * cellHeight, getWidth(), cellHeight);
@@ -3053,7 +3068,119 @@ public final class EditorComponent extends JComponent
         return accessibleContext;
     }
 
-    protected final class AccessibleEditor extends AccessibleJComponent {
+    private int accessibleCaret, accessibleAnchor;
+
+    private void notifyTextChanged() {
+        onChange.run();
+        if (accessibleContext != null)
+            accessibleContext.firePropertyChange(AccessibleContext.ACCESSIBLE_TEXT_PROPERTY, null, caret);
+    }
+
+    private void notifyCaretChanged() {
+        onCaretChange.run();
+        if (accessibleContext != null) {
+            if (accessibleCaret != caret)
+                accessibleContext.firePropertyChange(AccessibleContext.ACCESSIBLE_CARET_PROPERTY, accessibleCaret, caret);
+            if (accessibleCaret != caret || accessibleAnchor != anchor)
+                accessibleContext.firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY, null, null);
+        }
+        accessibleCaret = caret;
+        accessibleAnchor = anchor;
+    }
+
+    /** Source text only: ghost suggestions and IME preedit are never announced as committed code. */
+    protected final class AccessibleEditor extends AccessibleJComponent implements AccessibleEditableText {
+        private PieceTable cachedDocument;
+        private long cachedVersion = -1;
+        private String cachedText;
+
+        @Override public AccessibleText getAccessibleText() { return this; }
+        // The macOS Java accessibility bridge reads AXValue through this interface too.
+        @Override public AccessibleEditableText getAccessibleEditableText() { return this; }
+        @Override public String getTextRange(int start, int end) {
+            return validRange(start, end) ? document.substring(start, end) : null;
+        }
+        @Override public void setTextContents(String text) { replaceText(0, document.length(), text); }
+        @Override public void insertTextAtIndex(int index, String text) { replaceText(index, index, text); }
+        @Override public void delete(int start, int end) { replaceText(start, end, ""); }
+        @Override public void replaceText(int start, int end, String text) {
+            if (readOnly || !composition.isEmpty() || text == null || !validRange(start, end)) return;
+            setSelection(start, end);
+            replaceSelection(text);
+        }
+        @Override public void selectText(int start, int end) {
+            if (composition.isEmpty() && validRange(start, end)) setSelection(start, end);
+        }
+        @Override public void cut(int start, int end) {
+            if (readOnly || !composition.isEmpty() || start == end || !validRange(start, end)) return;
+            setSelection(start, end); EditorComponent.this.cut();
+        }
+        @Override public void paste(int index) {
+            if (readOnly || !composition.isEmpty() || !validRange(index, index)) return;
+            setSelection(index, index); EditorComponent.this.paste();
+        }
+        @Override public void setAttributes(int start, int end, AttributeSet attributes) {
+            // Plain source has no mutable rich-text attributes; syntax colors belong to the lexer.
+        }
+        private boolean validRange(int start, int end) { return start >= 0 && end >= start && end <= document.length(); }
+        @Override public AccessibleStateSet getAccessibleStateSet() {
+            var states = super.getAccessibleStateSet();
+            states.add(AccessibleState.MULTI_LINE);
+            if (!readOnly) states.add(AccessibleState.EDITABLE);
+            return states;
+        }
+        @Override public int getCharCount() { return document.length(); }
+        @Override public int getCaretPosition() { return caret; }
+        @Override public int getSelectionStart() { return Math.min(caret, anchor); }
+        @Override public int getSelectionEnd() { return Math.max(caret, anchor); }
+        @Override public String getSelectedText() { return caret == anchor ? null : document.substring(getSelectionStart(), getSelectionEnd()); }
+        @Override public int getIndexAtPoint(Point point) {
+            if (point == null || point.x < gutterWidth || point.x >= sourceRight() || point.y < 0 || point.y >= getHeight()
+                    || visualTopLine() + point.y / cellHeight >= visualLineCount() || isGhostPoint(point)) return -1;
+            int offset = offsetAt(new Point(point.x - cellWidth / 2, point.y));
+            return offset < document.lineEnd(document.lineAt(offset)) ? offset : -1;
+        }
+        @Override public Rectangle getCharacterBounds(int index) {
+            if (index < 0 || index >= document.length()) return null;
+            int start = index;
+            if (start > 0 && Character.isLowSurrogate(document.charAt(start)) && Character.isHighSurrogate(document.charAt(start - 1))) start--;
+            var bounds = offsetBounds(start);
+            int line = document.lineAt(start);
+            int column = visualColumn(document.lineText(line), start - document.lineStart(line));
+            bounds.width = width(Character.codePointAt(document, start), column) * cellWidth;
+            return bounds;
+        }
+        @Override public AttributeSet getCharacterAttribute(int index) {
+            if (index < 0 || index >= document.length()) return null;
+            var attributes = new SimpleAttributeSet();
+            StyleConstants.setFontFamily(attributes, getFont().getFamily());
+            StyleConstants.setFontSize(attributes, getFont().getSize());
+            StyleConstants.setForeground(attributes, getForeground());
+            StyleConstants.setBackground(attributes, getBackground());
+            return attributes;
+        }
+        @Override public String getAtIndex(int part, int index) { return segment(part, index, 0); }
+        @Override public String getAfterIndex(int part, int index) { return segment(part, index, 1); }
+        @Override public String getBeforeIndex(int part, int index) { return segment(part, index, -1); }
+        private String segment(int part, int index, int direction) {
+            if (index < 0 || index >= document.length()) return null;
+            if (part == AccessibleText.CHARACTER) {
+                int at = index + direction;
+                return at < 0 || at >= document.length() ? null : document.substring(at, at + 1);
+            }
+            if (part != AccessibleText.WORD && part != AccessibleText.SENTENCE) return null;
+            if (cachedDocument != document || cachedVersion != document.version()) {
+                cachedDocument = document; cachedVersion = document.version(); cachedText = document.toString();
+            }
+            BreakIterator iterator = part == AccessibleText.WORD
+                    ? BreakIterator.getWordInstance(getLocale()) : BreakIterator.getSentenceInstance(getLocale());
+            iterator.setText(cachedText);
+            int end = iterator.following(index), start = iterator.previous();
+            if (direction > 0) { start = end; end = iterator.following(start); }
+            else if (direction < 0) { end = start; start = iterator.preceding(end); }
+            return start == BreakIterator.DONE || end == BreakIterator.DONE ? null : cachedText.substring(start, end);
+        }
+
         @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TEXT;

@@ -1,0 +1,12 @@
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS cherry.execution: keyboard selects and stores local mode for the actual project
+Driver reactivates fixture window while waiting: real Cherry completed
+PASS cherry.run: real configured Maven/JUnit/JaCoCo workflow: two passing tests
+PASS editor.inspectLineIntelligence: real Cherry data; Git, Tests and Coverage details remain separate; Escape restores source
+Driver reactivates fixture window while waiting: dialog
+PASS cherry.results: real current execution opens native result tree; Escape restores source
+Exception in thread "main" java.lang.AssertionError: default browser location matches the generated report (OS accessibility permission is required)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.check(KeyboardActionEffectsSmoke.java:141)
+	at dev.turboj.app.KeyboardCherryEffectsSmoke.verifyBrowser(KeyboardCherryEffectsSmoke.java:84)
+	at dev.turboj.app.KeyboardCherryEffectsSmoke.main(KeyboardCherryEffectsSmoke.java:51)

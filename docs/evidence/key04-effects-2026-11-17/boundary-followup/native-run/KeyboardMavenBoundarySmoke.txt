@@ -1,0 +1,7 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS project.sources: keyboard cancel preserves missing attachment; Enter resolves actual sources JAR from isolated file repository, exact bytes verified; workspace reloads
+PASS project.javadoc: keyboard cancel preserves missing attachment; Enter resolves actual javadoc JAR from isolated file repository, exact bytes verified; workspace reloads
+PASS project.parentPom: opens actual external parent from resolved local repository; exact source content verified
+PASS project.processors: trust cancel then approve; actual custom javax.annotation.processing processor generates Generated; native compile/run prints 115 (42+73)

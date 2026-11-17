@@ -1,0 +1,58 @@
+PASS view.focusConsole: visible Output owns keyboard focus
+PASS focus: cycles editor/console actual focus
+PASS view.resizeOutput: Up changes actual divider geometry; Escape returns to editor
+PASS zoom: output visibility toggles and restores
+PASS view.toggleConsole: output visibility toggles and restores
+PASS view.focusExplorer: project tree owns keyboard focus
+PASS view.toggleExplorer: Explorer visibility toggles and restores
+PASS view.maximizeEditor: both panels hidden
+PASS view.restoreLayout: both prior panel states restored
+PASS view.focusEditor: editor owns focus
+PASS view.focusNextPanel: focus moves to visible Explorer
+PASS view.focusPreviousPanel: focus returns to editor
+PASS view.focusTestResults: Tests selected
+PASS view.toggleTestPanel: Tests visibility toggles and restores
+PASS escape: tool-panel Escape returns to source
+PASS keymap.assignMissing: already bound profile remains complete without conflict dialog
+PASS metrics: actual local metrics displayed; Escape closes
+PASS navigation.nextError: moves through actual compiler diagnostics
+PASS navigation.previousError: returns to previous actual diagnostic
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Driver reactivates fixture window while waiting: first error
+Exception in thread "main" java.lang.AssertionError: first error; focus=dev.turboj.ui.EditorComponent[,13,19,794x432,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class C { void f(){missingOne();missingTwo();} }; status=12:39:28  ⌃⌘K B …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  Compile C.java failed · 2 errors · src/main/java/C.java:[1,27] cannot find symbol
+  symbol:   method missingOne()
+  location: class C · 66 ms
+12:39:28  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  All actions have shortcuts in this profile.
+12:39:28  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:39:28  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:39:28  Opened Java project turboj-view-effects-2192338058019973393 (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-view-effects-2192338058019973393).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardViewEffectsSmoke.diagnostics(KeyboardViewEffectsSmoke.java:43)
+	at dev.turboj.app.KeyboardViewEffectsSmoke.main(KeyboardViewEffectsSmoke.java:35)

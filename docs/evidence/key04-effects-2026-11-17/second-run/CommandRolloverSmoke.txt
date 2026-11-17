@@ -1,0 +1,13 @@
+PASS held shortcut invokes exactly once
+PASS new printable key survives held shortcut rollover; actual=x
+PASS invalid chord suffix is consumed, never inserted into source
+PASS typed event belonging to the handled command remains suppressed
+PASS shortcut suffix cannot leak into the dialog it opens; actual=
+PASS fresh dialog typing remains available
+PASS source focus after dialog
+PASS modal input focus
+PASS modal secondary loop suppresses the opening shortcut letter
+PASS modal input owns keys even when the same key is a global command
+PASS Tab reaches next modal field
+PASS Enter confirms and restores source focus
+PASS return from modal loop does not re-arm typed suppression

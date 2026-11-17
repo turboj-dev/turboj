@@ -1,0 +1,108 @@
+PASS source opens
+PASS default test direct despite same filename in another package
+PASS unique package counterpart needs no chooser
+PASS default source direct
+PASS alias opens Find Usages
+PASS two actual JDT usages
+PASS horizontal usage/editor split
+PASS preview shows full source and exact selected usage
+PASS preview follows active theme/font
+PASS results focus
+PASS result list Down selects next usage
+PASS preview shows full source and exact selected usage
+PASS result list Down stays at last usage
+PASS result list Up selects previous usage
+PASS preview shows full source and exact selected usage
+PASS result list Up stays at first usage
+PASS filter focus
+PASS filter field Down selects next usage
+PASS preview shows full source and exact selected usage
+PASS filter field Down stays at last usage
+PASS filter field Up selects previous usage
+PASS preview shows full source and exact selected usage
+PASS filter field Up stays at first usage
+PASS arrows preserve filter focus
+PASS arrows with empty filter results are safe
+PASS filter identifies alternative
+PASS preview shows full source and exact selected usage
+PASS preview focus
+PASS preview typing cannot edit source or switch main buffer
+PASS Tab leaves preview without trapping focus
+PASS filter focus
+PASS Enter opens usage
+PASS caret at actual call
+PASS history returns to source
+PASS history restores caret
+PASS alternatives chooser opens
+PASS results focus
+PASS verified alternative opens
+PASS test without counterpart offers production target
+PASS results focus
+PASS reverse usage opens declaration
+PASS chooser reopens
+PASS results focus
+PASS Escape restores focus
+PASS Escape preserves caret
+PASS stale-result control opens
+PASS results focus
+PASS stale chooser closes
+PASS changed source rejects stale navigation
+PASS unsaved control preserves disk
+PASS mode=plain fixture=/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-java06-10620769431236713250
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS Maven import completes
+PASS real Maven dependencies resolved
+PASS source opens
+PASS default test direct despite same filename in another package
+PASS unique package counterpart needs no chooser
+PASS default source direct
+PASS alias opens Find Usages
+PASS two actual JDT usages
+PASS horizontal usage/editor split
+PASS preview shows full source and exact selected usage
+PASS preview follows active theme/font
+PASS results focus
+PASS result list Down selects next usage
+PASS preview shows full source and exact selected usage
+PASS result list Down stays at last usage
+PASS result list Up selects previous usage
+PASS preview shows full source and exact selected usage
+PASS result list Up stays at first usage
+PASS filter focus
+PASS filter field Down selects next usage
+PASS preview shows full source and exact selected usage
+PASS filter field Down stays at last usage
+PASS filter field Up selects previous usage
+PASS preview shows full source and exact selected usage
+PASS filter field Up stays at first usage
+PASS arrows preserve filter focus
+PASS arrows with empty filter results are safe
+PASS filter identifies alternative
+PASS preview shows full source and exact selected usage
+PASS preview focus
+PASS preview typing cannot edit source or switch main buffer
+PASS Tab leaves preview without trapping focus
+PASS filter focus
+PASS Enter opens usage
+PASS caret at actual call
+PASS history returns to source
+PASS history restores caret
+PASS alternatives chooser opens
+PASS results focus
+PASS verified alternative opens
+PASS test without counterpart offers production target
+PASS results focus
+PASS reverse usage opens declaration
+PASS chooser reopens
+PASS results focus
+PASS Escape restores focus
+PASS Escape preserves caret
+PASS stale-result control opens
+PASS results focus
+PASS stale chooser closes
+PASS changed source rejects stale navigation
+PASS unsaved control preserves disk
+PASS mode=Maven fixture=/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-java06-10190768716287471530
+PASS plain/Maven Find Usages and test navigation; no physical keyboard-layout claim.

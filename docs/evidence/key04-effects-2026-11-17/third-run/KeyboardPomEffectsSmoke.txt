@@ -1,0 +1,22 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS project.pom.add-dependency: keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+PASS project.pom.update-dependency-version: keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+PASS project.pom.remove-dependency: keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+PASS project.pom.add-module: keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+PASS project.pom.add-module: all edits remain unsaved; original disk bytes preserved
+PASS project.structure: real imported model text is readable; Escape closes view
+PASS project.dependencies: real imported model text is readable; Escape closes view
+PASS project.dependencyTree: real imported model text is readable; Escape closes view
+PASS project.effectivePom: real imported model text is readable; Escape closes view
+PASS project.profiles: cancel retains current imported configuration
+PASS project.profiles: Enter persists active and explicitly inactive profile sets and reimports
+PASS project.settings: keyboard edits local repository and offline preference; model reimports
+PASS project.reload: new imported workspace replaces prior snapshot
+PASS maven.refresh: new imported workspace replaces prior snapshot
+PASS project.findFile: query and keyboard choice open actual module POM
+PASS project.findModule: query and keyboard choice open actual module POM
+PASS navigation.mavenModule: query and keyboard choice open actual module POM
+PASS project.parentPom: parentless model reports no parent without changing source
+PASS navigation.projectDependency: focus reaches real dependency tree

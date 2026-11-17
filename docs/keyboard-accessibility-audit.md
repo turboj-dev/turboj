@@ -5,6 +5,108 @@ The four profiles remain distinct. The original October audit counted 263 comman
 and 29 aliases; consult the generated inventory and manifest for the current count.
 Registration alone is not proof of a working keyboard interaction.
 
+## 17 November: remaining automated KEY-04 checks completed
+
+The [boundary follow-up](evidence/key04-effects-2026-11-17/boundary-followup/README.md)
+closes all six branch-only cases and the external-browser gap. The generated ledger
+now records **309 commands with witnessed outcomes, zero branch-only and zero
+unverified commands**. Native tests exercise successful source/Javadoc acquisition,
+external read-only parent POM navigation, a real custom annotation processor,
+Local/Cloud settings persistence, actual cached Ollama pull, all three cloud protocols
+through isolated HTTPS fixtures with real Keychain storage, provider rejection/local
+fallback, and the actual Cherry report URL in the default browser. Further keymap
+remove/reset/import/overwrite branches pass with focus restoration.
+
+The app build passes 321 tests; the follow-up native checks pass on the same production
+JAR hash as the preceding 22-suite run. No additional product fix was necessary.
+**KEY-04 is verified within this automated registered-command and identified-branch
+scope.** This does not certify every possible input or remote infrastructure condition.
+Live paid-provider inference and first-time model installation are not claimed from
+fixtures or cached pulls. KEY-05's physical keyboard/IME/VoiceOver checks stay postponed.
+Earlier sections below preserve the sequence and narrower claims of previous runs.
+
+## 17 November: actual command effects and nested branches
+
+The [outcome audit](evidence/key04-effects-2026-11-17/README.md) now keeps production
+handlers installed and asserts actual source, files, compiler results, execution,
+settings and focus changes. Its generated [309-command ledger](evidence/key04-effects-2026-11-17/command-outcomes.md)
+records **302 witnessed effects, six branch-only checks and one unverified command**.
+A witnessed effect establishes the described case, not every input or dialog branch.
+
+Seven reproduced defects were fixed: import-specific validation, multi-file Redo
+identity, cross-unit implementation navigation, asynchronous JShell statement
+selection, atomic Maven test-generation capture, Explorer-generated source focus,
+and New Folder availability during asynchronous directory loading.
+
+Final checks passed: **850 unit/integration tests in 121 affected-reactor suites,
+22 native suites on the same application JAR, 48 live local-AI assertions, a real
+Cherry/JUnit execution with native inspection and cancellation, and six reference
+export tests**. The earlier full-root install passed 889 tests before the last fixes;
+the final affected-reactor count is not a new full-root run. Build failures caused by
+missing new-harness imports and the locked-desktop run remain in the evidence.
+After the user unlocked the Mac, all 22 final native suites passed.
+
+The six branch-only checks cover AI configuration/download cancellation and missing
+source/Javadoc/parent-POM candidates. Their successful external operations remain
+unqualified. Native custom-processor wizard execution and additional project/provider
+branches also remain. The optional `cherry.report` browser probe saw a supported
+browser foreground but could not verify the report URL; this is **unverified**, not
+proof of a broken command. KEY-04 was therefore partial before the boundary follow-up above. The deferred physical
+keyboard, IME candidate UI and spoken VoiceOver walkthrough remain separate in KEY-05.
+No bindings, PDF layout, website or production deployment changed in this audit.
+
+## 17 November continuation: automated checks, human walkthrough deferred
+
+The user explicitly postponed their physical keyboard/VoiceOver tests. The
+[continuation evidence](evidence/keyboard-completion-2026-11-17/README.md) separates
+native command routing, actual callback workflows, live local AI, Java accessibility
+tests, the macOS AX bridge and read-only keyboard-layout table probes.
+
+The routing matrix exercises 309 command descriptors in four profiles and eight
+contexts (10,168 binding/context cases). It found and reproduced an IME bypass:
+Swing menu accelerators could execute while the dispatcher deferred to preedit.
+The host now blocks command execution during composition too; editor editing and
+navigation defer to the input method. A matrix recorder is not proof that every
+callback effect or every application-specific dialog branch has been executed.
+
+Live Ollama inference verifies AI acceptance/Undo and Escape, JDT and template
+precedence, and modal cancellation in all profiles. Actual nested dialogs exercise
+profile duplication, file/folder creation, JSON/Markdown export, overwrite cancel,
+invalid-import recovery and three-level focus restoration. Common production
+dialog entry points also receive Tab/Shift+Tab/Escape traversal checks.
+
+The editor now implements `Accessible` and supplies `AccessibleText` plus
+`AccessibleEditableText`, source geometry and text/caret/selection notifications.
+The macOS Java bridge requires the editing interface even to expose text ranges.
+Mutations use normal editor undo and honor read-only/composition; syntax attributes
+are not editable. The real macOS probe verifies source (including Japanese and
+emoji) and selected identifier. This JDK reports the source as `AXTextField`;
+VoiceOver speech and line-navigation behavior are not certified by an AXValue read.
+
+KEY-05's physical layouts, Fn/Globe, IME candidate UI and audible VoiceOver remain
+deferred. At this earlier stage KEY-04 was partial for callback/branch effects; KEY-06's
+automated routing and live local-AI scope is verified. No site deployment or new
+shortcut defaults are part of this continuation.
+
+## Context and precedence revalidation — 17 November 2026
+
+The native audit now covers menus, embedded dialogs, file choosers, RefactorJ previews,
+JDT completion, Explorer/context menus, actual JUnit results, console input and JShell.
+See [commands, results and limits](evidence/keyboard-contexts-2026-11-17/README.md).
+
+A reproduced CommandJ defect allowed the final letter of a multi-key shortcut to enter
+its newly opened dialog. Typed-event suppression now survives that focus transition,
+starts before a modal callback enters its secondary event loop, and is not re-armed
+when the dialog closes. Fresh dialog typing remains local. Default bindings are unchanged.
+
+Real-window checks pass in all four profiles, including custom modal chords and
+bottom-panel routing. Additional native workflows exercise Tests Up/Down/Enter,
+RefactorJ Apply/Undo, Scanner input, theme selection and explicit shortcut conflict
+resolution. JDT Tab acceptance and ordinary Tab/Shift+Tab indentation are checked
+separately. These are automated native Swing events with prepared fixtures, not a
+human walkthrough or proof of every callback/input combination. Physical layouts,
+Fn/Globe, IME, VoiceOver and live AI-provider interactions remain unverified here.
+
 ## Complete shortcut assignments — 17 November 2026
 
 All 309 registered commands are bound in all four fresh profiles. Existing profile

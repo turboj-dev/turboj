@@ -1,0 +1,34 @@
+PASS Palette → JShell → typed 1+1 → Enter produces actual 2
+PASS JShell input and Escape preserve source and restore editor
+PASS Console Up moves the actual caret to the previous logical line
+PASS Console Down moves the actual caret to the following logical line
+PASS Console Shift+Up selects output text with the keyboard
+PASS Console caret navigation preserves output/source and Escape returns editor focus
+PASS F10 opens native application menu
+PASS Arrow keys navigate the open menu
+PASS Menu Escape restores source focus without edits
+PASS Completion popup contains real JDK println proposals
+PASS Completion choices are visible and navigable
+PASS Down selects next completion without applying it
+PASS Up returns to previous completion
+PASS Completion dismissal preserves source and editor focus
+PASS Tab accepts real JDT completion and retains source focus
+PASS completion Tab does not also insert indentation
+PASS one Undo restores the source before completion acceptance
+PASS without completion Tab indents source normally
+PASS Shift+Tab reverses ordinary source indentation
+PASS Diagnostic fixture contains enough real errors to require scrolling
+PASS Diagnostics End reveals the final error while preserving Aqua selection semantics
+PASS Diagnostics Home reveals the first error without changing selection
+PASS Diagnostics list exposes current compilation error
+PASS Diagnostics opened from console: Enter navigates to exact source offset and retains editor focus; focus=EditorComponent; caret=38; expected=38
+PASS Diagnostic navigation preserves source text
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS Explorer Left collapses the actual selected expanded root
+PASS Explorer Right expands the actual selected collapsed root
+PASS Explorer Down reaches the actual source file
+PASS Shift+F10 and Down navigate the Explorer context menu
+PASS Explorer Enter opens selected source with editor focus
+PASS Explorer Escape returns source focus after arrow navigation

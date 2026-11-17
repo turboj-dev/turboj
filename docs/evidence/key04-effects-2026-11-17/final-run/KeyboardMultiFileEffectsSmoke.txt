@@ -1,0 +1,5 @@
+PASS refactor.pull-up: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.push-down: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.extract-interface: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.introduce-interface: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+PASS refactor.move: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo

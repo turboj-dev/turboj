@@ -1,0 +1,51 @@
+PASS ai.local: real command opens Local form; Apply persists selected model; existing Ollama becomes READY without taking process ownership
+PASS ai.download: keyboard confirms actual Ollama /api/pull for already installed model; observes DOWNLOADING_MODEL then READY; cached blobs, no new model or owned server
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS ai.cloud: keyboard OPENAI configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+CLEANUP: owned HTTPS fixture stopped; disposable Keychain accounts removed; external Ollama left running
+Exception in thread "main" java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "java.awt.Component.getName()" because "<parameter2>" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:124)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:207)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.edt(KeyboardActionEffectsSmoke.java:160)
+	at dev.turboj.app.KeyboardBranchEffectsSmoke.tab(KeyboardBranchEffectsSmoke.java:117)
+	at dev.turboj.app.KeyboardBranchEffectsSmoke.named(KeyboardBranchEffectsSmoke.java:116)
+	at dev.turboj.app.KeyboardAIBoundarySmoke.main(KeyboardAIBoundarySmoke.java:65)
+Caused by: java.lang.NullPointerException: Cannot invoke "java.awt.Component.getName()" because "<parameter2>" is null
+	at dev.turboj.app.KeyboardBranchEffectsSmoke.lambda$named$0(KeyboardBranchEffectsSmoke.java:116)
+	at dev.turboj.app.KeyboardBranchEffectsSmoke.lambda$tab$0(KeyboardBranchEffectsSmoke.java:117)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:323)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:185)
+	at java.desktop/java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:229)
+	at dev.turboj.commandj.swing.EmbeddedDialog.setVisible(EmbeddedDialog.java:120)
+	at dev.turboj.app.TurboFrame.showAISettings(TurboFrame.java:5434)
+	at dev.turboj.app.TurboFrame.lambda$createCommands$42(TurboFrame.java:2128)
+	at dev.turboj.app.TurboFrame.lambda$registerCommand$0(TurboFrame.java:1684)
+	at dev.turboj.app.TurboFrame.lambda$registerContextCommand$0(TurboFrame.java:1694)
+	at dev.turboj.commandj.core.CommandRegistry.lambda$execute$1(CommandRegistry.java:135)
+	at dev.turboj.commandj.core.CommandRegistry.execute(CommandRegistry.java:157)
+	at dev.turboj.commandj.swing.CommandKeyDispatcher.dispatchKeyEvent(CommandKeyDispatcher.java:99)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1131)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:1011)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:839)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4839)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)

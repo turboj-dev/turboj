@@ -1,0 +1,6 @@
+check	exit_status	scope
+AILivePrecedenceSmoke	0	48 assertions; real local model
+KeyboardCherryEffectsSmoke	0	real configured run, inspection/results and cancellation
+KeyboardCherryEffectsSmoke --browser	1	external browser URL could not be certified by OS keyboard probe
+KeyboardRegistryAudit	0	309 commands, 29 aliases, zero missing callbacks
+keyboard-reference.test.mjs	0	6 passing tests

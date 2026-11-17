@@ -44,7 +44,22 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-        if (lastFocus != focus) { reset(); lastFocus = focus; }
+        if (lastFocus != focus) { resolver.reset(); lastFocus = focus; }
+
+        // A handled press may open an overlay, menu or move focus before its typed
+        // event arrives. Consume that event in our window before applying the new
+        // context's guards. A fresh press always belongs to the new focus owner.
+        if (event.getID() == KeyEvent.KEY_TYPED) {
+            boolean suppress = suppressedTyped;
+            suppressedTyped = false;
+            if (suppress && focus != null && SwingUtilities.getWindowAncestor(focus) == window && window.isActive()) {
+                event.consume();
+                return true;
+            }
+            return false;
+        }
+        if (event.getID() == KeyEvent.KEY_RELEASED || event.getID() == KeyEvent.KEY_PRESSED)
+            suppressedTyped = false;
 
         if (OverlayHost.active(window) || MenuSelectionManager.defaultManager().getSelectedPath().length != 0
                 || focus == null || focus instanceof JPasswordField || SwingUtilities.getWindowAncestor(focus) != window || !window
@@ -52,22 +67,8 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
             reset();
             return false;
         }
-        if (event.getID() == KeyEvent.KEY_RELEASED) {
-            suppressedTyped = false;
-            return false;
-        }
-        if (event.getID() == KeyEvent.KEY_TYPED) {
-            if (suppressedTyped) {
-                suppressedTyped = false;
-                event.consume();
-                return true;
-            }
-            return false;
-        }
         if (event.getID() != KeyEvent.KEY_PRESSED || event.isConsumed())
             return false;
-        // Suppression belongs to this press, not to another key still being held down.
-        suppressedTyped = false;
         var stroke = SwingKeys.fromEvent(event);
 
         if (stroke.isEmpty())
@@ -75,6 +76,12 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
         CommandContext snapshot = context.get();
         if (snapshot.has("input-method")) { reset(); return false; }
         var outcome = resolver.accept(stroke.get(), snapshot, System.nanoTime());
+
+        if (outcome.kind() == ShortcutResolver.Kind.NONE) return false;
+        // Set before callbacks: a modal action can enter a nested AWT event loop.
+        // Do not re-arm after it returns, or the next ordinary character is lost.
+        suppressedTyped = true;
+        event.consume();
 
         switch (outcome.kind()) {
             case NONE -> {
@@ -95,8 +102,6 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
                 });
             }
         }
-        suppressedTyped = true;
-        event.consume();
         return true;
     }
 

@@ -1,0 +1,5 @@
+command	assertion
+project.sources	keyboard cancel preserves missing attachment; Enter resolves actual sources JAR from isolated file repository, exact bytes verified; workspace reloads
+project.javadoc	keyboard cancel preserves missing attachment; Enter resolves actual javadoc JAR from isolated file repository, exact bytes verified; workspace reloads
+project.parentPom	opens actual external parent read-only from resolved local repository; exact source content verified
+project.processors	trust cancel then approve; actual custom javax.annotation.processing processor generates Generated; native compile/run prints 115 (42+73)

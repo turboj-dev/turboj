@@ -1,0 +1,62 @@
+PASS refactor.anonymous-to-lambda: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.lambda-to-method-reference: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.method-reference-to-lambda: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.switch-to-expression: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.type-to-var: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.var-to-type: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS organizeImports: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+PASS refactor.add-import: actual parameter/preview callbacks; expected source; javac; workspace Undo/Redo
+Exception in thread "main" java.lang.AssertionError: dialog; source=import java.util.List; class C {}; status=11:17:46  Ambiguous Java symbol
+11:17:46  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:46  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:46  Refactoring undone
+11:17:46  Refactoring redone
+11:17:46  Refactoring undone
+11:17:46  Refactoring applied
+11:17:46  Preparing add-import…
+11:17:45  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:45  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:45  Refactoring undone
+11:17:45  Refactoring redone
+11:17:45  Refactoring undone
+11:17:45  Refactoring applied
+11:17:45  Preparing organize-imports…
+11:17:45  Refactoring undone
+11:17:45  Refactoring redone
+11:17:45  Refactoring undone
+11:17:45  Refactoring applied
+11:17:45  Preparing var-to-type…
+11:17:45  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:45  Refactoring undone
+11:17:45  Refactoring redone
+11:17:45  Refactoring undone
+11:17:45  Refactoring applied
+11:17:44  Preparing type-to-var…
+11:17:44  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:44  Refactoring undone
+11:17:44  Refactoring redone
+11:17:44  Refactoring undone
+11:17:44  Refactoring applied
+11:17:44  Preparing switch-to-expression…
+11:17:44  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:44  Refactoring undone
+11:17:44  Refactoring redone
+11:17:44  Refactoring undone
+11:17:44  Refactoring applied
+11:17:44  Preparing method-reference-to-lambda…
+11:17:44  ⌃⌘K Q …  (Escape cancels; 10 seconds per key)
+11:17:44  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+11:17:44  Refactoring undone
+11:17:44  Refactoring redone
+11:17:44  Refactoring undone
+11:17:44  Refactoring applied
+11:17:44  Preparing lambda-to-method-reference…
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:139)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.dialog(KeyboardActionEffectsSmoke.java:134)
+	at dev.turboj.app.KeyboardRefactoringEffectsSmoke.exercise(KeyboardRefactoringEffectsSmoke.java:59)
+	at dev.turboj.app.KeyboardRefactoringEffectsSmoke.main(KeyboardRefactoringEffectsSmoke.java:25)

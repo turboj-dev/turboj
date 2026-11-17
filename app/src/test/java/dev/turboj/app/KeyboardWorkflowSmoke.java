@@ -41,7 +41,8 @@ public final class KeyboardWorkflowSmoke {
     public static void main(String[] args) throws Exception {
         output = Path.of("app/target/keyboard-workflow-smoke").toAbsolutePath();
         Files.createDirectories(output);
-        Path session = Files.createTempDirectory("turboj-keyboard-workflows-");
+        // Disk transactions require canonical roots; macOS temp directories can use /var aliases.
+        Path session = Files.createTempDirectory("turboj-keyboard-workflows-").toRealPath();
         Path home = Files.createDirectories(session.resolve("home/.m2")).getParent();
         Path repository = Path.of(".cache/m2").toAbsolutePath();
         Files.writeString(home.resolve(".m2/settings.xml"), "<settings><offline>true</offline><localRepository>"
@@ -60,7 +61,7 @@ public final class KeyboardWorkflowSmoke {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             settings = new Settings();
             var value = new TurboFrame(settings, Map.of());
-            value.setVisible(true); value.toFront(); value.editor().requestFocusInWindow(); return value;
+            value.setVisible(true); value.toFront(); Desktop.getDesktop().requestForeground(true); value.editor().requestFocusInWindow(); return value;
         });
         try {
             waitFor("initial source focus", () -> frame.isActive() && frame.editor().isFocusOwner());
@@ -87,7 +88,7 @@ public final class KeyboardWorkflowSmoke {
 
     private static void workflowA() throws Exception {
         action("project.open");
-        chooseFile(project.resolve("pom.xml"));
+        chooseFile(project);
         waitFor("Maven import", () -> !frame.mavenProjects().busy() && frame.mavenProjects().workspace() != null
                 && frame.mavenProjects().workspace().resolved());
         check(edt(() -> frame.mavenProjects().workspace().offline()), "A: keyboard import resolves cached Maven/JUnit offline");
@@ -116,6 +117,15 @@ public final class KeyboardWorkflowSmoke {
         key(KeyEvent.VK_S, CMD);
         waitFor("Auto Test failure", () -> frame.tests().lastReport() != passing && !frame.tests().busy()
                 && frame.tests().lastReport().failed() == 1);
+        action("view.focusTestResults");
+        for (int i = 0; i < 5 && !edt(() -> frame.testResults().selectedTest() != null
+                && frame.testResults().selectedTest().status() == TestEngine.Status.FAILED); i++) key(KeyEvent.VK_DOWN, 0);
+        check(edt(() -> frame.testResults().selectedTest() != null
+                && frame.testResults().selectedTest().status() == TestEngine.Status.FAILED), "C: Tests arrows select the real failed test");
+        key(KeyEvent.VK_ENTER, 0);
+        waitFor("Tests Enter opens source", () -> frame.currentFile() != null
+                && frame.currentFile().getFileName().toString().equals("KeyboardMainTest.java") && frame.editor().isFocusOwner());
+        check(true, "C: Tests Enter navigates to failure source and gives the editor focus");
         action("navigation.testFailure");
         waitFor("test failure source", () -> frame.currentFile() != null && frame.currentFile().getFileName().toString().equals("KeyboardMainTest.java"));
         check(true, "C: failing Auto Test result navigates to test source");
@@ -175,7 +185,7 @@ public final class KeyboardWorkflowSmoke {
     private static void workflowD() throws Exception {
         // The separate input fixture is created here through New/Paste/Save As, using the keyboard.
         action("view.focusConsole");
-        action("new");
+        action("file.newFile");
         waitFor("New from console focuses source", () -> frame.editor().isFocusOwner());
         check(true, "D: New from console returns typing focus to the source editor");
         String input = """
@@ -227,6 +237,8 @@ public final class KeyboardWorkflowSmoke {
     }
 
     private static void workflowE() throws Exception {
+        var retainedSaveBindings = edt(() -> frame.commandKeymaps().bindings("save").stream()
+                .filter(binding -> !binding.sequence().external().equals("META+S")).toList());
         action("keymap"); waitFor("Keymap Settings", () -> dialog("Keymap") != null);
         focusWhere(c -> name(c).equals("Search commands or shortcuts"), "keymap command search");
         replace("editor.duplicateLine"); key(KeyEvent.VK_DOWN, 0); key(KeyEvent.VK_ENTER, 0);
@@ -238,7 +250,7 @@ public final class KeyboardWorkflowSmoke {
         button("OK");
         waitFor("binding saved", () -> dialog("Resolve shortcut conflict") == null && dialog("Keymap") != null);
         key(KeyEvent.VK_ESCAPE, 0); waitFor("keymap returns editor", () -> frame.editor().isFocusOwner());
-        check(edt(() -> frame.commandKeymaps().bindings("save").isEmpty()), "E: explicit conflict resolution removes only conflicting Save binding");
+        check(edt(() -> frame.commandKeymaps().bindings("save").equals(retainedSaveBindings)), "E: explicit conflict resolution removes only conflicting Save binding");
         String before = edt(() -> frame.editor().getText());
         key(KeyEvent.VK_HOME, CMD); key(KeyEvent.VK_S, CMD);
         waitFor("custom shortcut used", () -> !frame.editor().getText().equals(before));
@@ -251,7 +263,7 @@ public final class KeyboardWorkflowSmoke {
             if (!Files.isRegularFile(path)) return false;
             var restored = new dev.turboj.commandj.keymap.KeymapManager();
             dev.turboj.commandj.keymap.KeymapJson.read(restored,Files.readString(path));
-            return restored.bindings("save").isEmpty() && restored.commandBindings(frame.commandRegistry(),"duplicateLine")
+            return restored.bindings("save").equals(retainedSaveBindings) && restored.commandBindings(frame.commandRegistry(),"duplicateLine")
                     .stream().anyMatch(b -> b.sequence().external().equals("META+S"));
         });
         check(true,"E: persisted settings reload the custom binding and explicit conflict resolution");
@@ -319,7 +331,20 @@ public final class KeyboardWorkflowSmoke {
         waitFor("Find closes", () -> dialog("Input") == null && frame.editor().isFocusOwner());
         check(edt(() -> frame.editor().getSelectedText().equals(text)), "Find selects exact source: " + text);
     }
-    private static void closeResults() throws Exception { waitFor("JUnit results", () -> OverlayHost.dialogs(frame).stream().anyMatch(d -> d.getTitle().startsWith("TurboTest"))); key(KeyEvent.VK_ESCAPE,0); waitFor("results close", () -> !OverlayHost.active(frame)); }
+    private static void closeResults() throws Exception {
+        // Results now live in the bottom Tests panel, not a modal report dialog.
+        action("view.focusTestResults");
+        waitFor("Tests panel focus", () -> frame.testResults().view().isFocusOwner());
+        key(KeyEvent.VK_DOWN, 0);
+        var first = edt(() -> frame.testResults().selectedTest());
+        key(KeyEvent.VK_DOWN, 0);
+        var second = edt(() -> frame.testResults().selectedTest());
+        check(first != null && second != null && !first.id().equals(second.id()), "Tests Down selects the next actual JUnit result");
+        key(KeyEvent.VK_UP, 0);
+        check(edt(() -> frame.testResults().selectedTest().id()).equals(first.id()), "Tests Up returns to the previous actual JUnit result");
+        key(KeyEvent.VK_ESCAPE,0);
+        waitFor("results return to source", () -> !OverlayHost.active(frame) && frame.editor().isFocusOwner());
+    }
     private static void button(String label) throws Exception { focusWhere(c -> c instanceof JButton b && b.getText().equals(label), "button " + label); key(KeyEvent.VK_ENTER,0); }
     private static void focusWhere(Predicate<Component> predicate, String reason) throws Exception {
         for (int i=0; i<55; i++) { if (edt(() -> predicate.test(focus()))) return; key(KeyEvent.VK_TAB,0); }
@@ -329,6 +354,11 @@ public final class KeyboardWorkflowSmoke {
     private static void paste(String text) throws Exception { Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(text),null); key(KeyEvent.VK_V,CMD); }
     private static String clipboard() throws Exception { return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor); }
     private static void key(int code,int mods) throws Exception {
+        if (!edt(() -> frame.isActive())) {
+            report.append("Application foreground recovery before ").append(KeyEvent.getKeyText(code)).append('\n');
+            edt(() -> { frame.toFront(); Desktop.getDesktop().requestForeground(true); return null; });
+        }
+        waitFor("application focus before key", () -> frame.isActive() && focus() != null);
         if (robot != null) {
             if (!edt(() -> frame.isActive() && focus() != null && SwingUtilities.isDescendingFrom(focus(),frame)))
                 throw new AssertionError("TurboJ lost foreground focus; refusing to send OS keys to another application");
@@ -338,13 +368,14 @@ public final class KeyboardWorkflowSmoke {
             robot.keyPress(code); robot.keyRelease(code);
             for(int i=masks.length-1;i>=0;i--) if((mods&masks[i])!=0) robot.keyRelease(codes[i]);
             robot.waitForIdle();
-        } else edt(() -> {
-            Component owner=focus(); if(owner==null)throw new AssertionError("No focus owner for key " + code);
-            var manager=KeyboardFocusManager.getCurrentKeyboardFocusManager(); long now=System.currentTimeMillis();
-            manager.dispatchEvent(new KeyEvent(owner,KeyEvent.KEY_PRESSED,now,mods,code,KeyEvent.CHAR_UNDEFINED));
-            manager.dispatchEvent(new KeyEvent(owner,KeyEvent.KEY_RELEASED,now+1,mods,code,KeyEvent.CHAR_UNDEFINED));
-            return null;
-        });
+        } else {
+            Component owner=edt(KeyboardWorkflowSmoke::focus);
+            var queue=Toolkit.getDefaultToolkit().getSystemEventQueue(); long now=System.currentTimeMillis();
+            // Modal commands enter a secondary event loop; never wait for their dispatch to return.
+            queue.postEvent(new KeyEvent(owner,KeyEvent.KEY_PRESSED,now,mods,code,KeyEvent.CHAR_UNDEFINED));
+            queue.postEvent(new KeyEvent(owner,KeyEvent.KEY_RELEASED,now+1,mods,code,KeyEvent.CHAR_UNDEFINED));
+            edt(() -> null);
+        }
         Thread.sleep(70);
     }
     private static Component focus(){return KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();}
@@ -355,7 +386,7 @@ public final class KeyboardWorkflowSmoke {
     private static Component findComponent(Container c,Predicate<Component> predicate){for(Component child:c.getComponents()){if(predicate.test(child))return child;if(child instanceof Container nested){Component match=findComponent(nested,predicate);if(match!=null)return match;}}return null;}
     private static String contents(Container c){StringBuilder b=new StringBuilder();for(Component child:c.getComponents()){if(child instanceof JTextComponent text)b.append(text.getText()).append('\n');if(child instanceof JLabel label)b.append(label.getText()).append('\n');if(child instanceof Container nested)b.append(contents(nested));}return b.toString();}
     private static void check(boolean valid,String label){if(!valid)throw new AssertionError(label);report.append("PASS ").append(label).append('\n');System.out.println("PASS "+label);}
-    private static void waitFor(String label,Callable<Boolean> ready)throws Exception{long end=System.nanoTime()+TimeUnit.SECONDS.toNanos(90);while(System.nanoTime()<end){if(edt(ready))return;Thread.sleep(50);}throw new AssertionError("Timed out: "+label);}
+    private static void waitFor(String label,Callable<Boolean> ready)throws Exception{long end=System.nanoTime()+TimeUnit.SECONDS.toNanos(90);while(System.nanoTime()<end){if(edt(ready))return;edt(()->{NativeWindowTestSupport.recover(frame);return null;});Thread.sleep(50);}throw new AssertionError("Timed out: "+label);}
     private static <T>T edt(Callable<T> task)throws Exception{if(SwingUtilities.isEventDispatchThread())return task.call();var future=new FutureTask<>(task);SwingUtilities.invokeLater(future);return future.get(100,TimeUnit.SECONDS);}
     private static void screenshot(String file)throws Exception{edt(()->{var image=new java.awt.image.BufferedImage(frame.getWidth(),frame.getHeight(),java.awt.image.BufferedImage.TYPE_INT_RGB);var graphics=image.createGraphics();frame.paint(graphics);graphics.dispose();javax.imageio.ImageIO.write(image,"png",output.resolve(file).toFile());return null;});}
 }

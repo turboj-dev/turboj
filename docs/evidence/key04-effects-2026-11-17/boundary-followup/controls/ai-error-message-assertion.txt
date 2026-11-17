@@ -1,0 +1,37 @@
+Driver reactivates fixture window while waiting: local apply and real runtime ready
+PASS ai.local: real command opens Local form; Apply persists selected model; existing Ollama becomes READY without taking process ownership
+PASS ai.download: keyboard confirms actual Ollama /api/pull for already installed model; observes DOWNLOADING_MODEL then READY; cached blobs, no new model or owned server
+PASS ai.cloud: keyboard OPENAI configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+PASS ai.cloud: keyboard ANTHROPIC configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+PASS ai.cloud: keyboard XAI configuration: invalid HTTP rejected, HTTPS corrected, consent approved, real Keychain credential and preferences saved; actual HTTPS request to deterministic loopback protocol fixture succeeds (not live vendor inference)
+Exception in thread "main" java.lang.AssertionError: provider rejection visible; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=class C {}
+; status=17:04:58  Test completion: 'a * b;' in 340 ms (first text after 312 ms) from local:qwen2.5-coder:0.5b-base.
+17:04:57  Testing AI completion with a synthetic snippet…
+17:04:57  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:57  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:57  Test completion: 'a * b;' in 10 ms (first text after 9 ms) from cloud:xai/fixture-model.
+17:04:57  Testing AI completion with a synthetic snippet…
+17:04:57  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:57  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:56  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:56  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:56  Test completion: 'a * b;' in 11 ms (first text after 11 ms) from cloud:anthropic/fixture-model.
+17:04:56  Testing AI completion with a synthetic snippet…
+17:04:56  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:56  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:55  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:55  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:55  Test completion: 'a * b;' in 83 ms (first text after 83 ms) from cloud:openai/fixture-model.
+17:04:55  Testing AI completion with a synthetic snippet…
+17:04:55  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:55  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:54  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:54  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:54  Local AI ready: qwen2.5-coder:0.5b-base on Ollama 0.40.10 in 22 ms
+17:04:53  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:53  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+17:04:53  Local AI ready: qwen2.5-coder:0.5b-base on Ollama 0.40.10 in 1144 ms
+17:04:52  ⌃⌘K A …  (Escape cancels; 10 seconds per key)
+17:04:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardAIBoundarySmoke.main(KeyboardAIBoundarySmoke.java:78)

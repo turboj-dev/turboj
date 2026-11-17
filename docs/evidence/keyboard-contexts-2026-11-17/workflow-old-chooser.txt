@@ -1,0 +1,6 @@
+PASS command available: project.open
+Exception in thread "main" java.lang.AssertionError: Timed out: file chooser closed
+	at dev.turboj.app.KeyboardWorkflowSmoke.waitFor(KeyboardWorkflowSmoke.java:358)
+	at dev.turboj.app.KeyboardWorkflowSmoke.chooseFile(KeyboardWorkflowSmoke.java:314)
+	at dev.turboj.app.KeyboardWorkflowSmoke.workflowA(KeyboardWorkflowSmoke.java:90)
+	at dev.turboj.app.KeyboardWorkflowSmoke.main(KeyboardWorkflowSmoke.java:67)

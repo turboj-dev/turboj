@@ -1,0 +1,25 @@
+Candidate	AXTextField		
+Candidate	AXStaticText		
+Candidate	AXStaticText		
+Candidate	AXStaticText		 No Maven project 
+Candidate	AXTextField		
+Candidate	AXTextField		
+Candidate	AXStaticText		Input >
+Candidate	AXTextField		
+Candidate	AXStaticText		Enter submits
+Candidate	AXStaticText		:
+Candidate	AXTextField		
+Candidate	AXStaticText		! command · Enter runs · Esc closes
+Candidate	AXStaticText		Status state
+Candidate	AXStaticText		Status tests
+Candidate	AXStaticText		Status message
+Candidate	AXStaticText		Status caret
+Candidate	AXStaticText		Status file
+Candidate	AXStaticText		Status formatter
+Candidate	AXStaticText		Status ai
+Candidate	AXStaticText		Status keymap
+Candidate	AXStaticText		Status project
+Candidate	AXStaticText		UNTITLED.JAVA — TurboJ
+Visited	444
+Exception in thread "main" java.lang.AssertionError: AX probe exit 4
+	at dev.turboj.app.NativeAccessibilitySmoke.main(NativeAccessibilitySmoke.java:27)

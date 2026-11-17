@@ -69,7 +69,13 @@ public final class LtkRefactorJ implements RefactorJ, JavaIntelligenceProvider {
         try{
             cancel.check();Location at=request.location();before.source(at.file());ICompilationUnit unit=workspace.unit(at.file());
             if(at.end()>unit.getSource().length())throw new IllegalArgumentException("Selection is outside the source snapshot");
-            var selected=workspace.resolve(at,cancel);if(selected!=null)symbols.add(selected);
+            // Import actions operate on syntax, not a uniquely resolved declaration. A caret
+            // on a package qualifier can resolve to several JDT package fragments (modules).
+            // Let the import operation establish its own safety conditions instead.
+            var selected=switch(request.operation()){
+                case ORGANIZE_IMPORTS,ADD_IMPORT,REMOVE_IMPORT -> (Symbol)null;
+                default -> workspace.resolve(at,cancel);
+            };if(selected!=null)symbols.add(selected);
             if(selected!=null&&(request.operation()==Operation.RENAME||request.operation()==Operation.MOVE||request.operation()==Operation.CHANGE_SIGNATURE||request.operation()==Operation.CONSTRUCTOR_TO_FACTORY)){
                 IJavaElement declaration=workspace.element(selected.id());
                 if(declaration instanceof IPackageFragment||declaration instanceof IMember member&&(Flags.isPublic(member.getFlags())||Flags.isProtected(member.getFlags())))diagnostics.add(new Diagnostic(Severity.WARNING,"external.consumers","Reflection strings, generated sources and external binary consumers cannot be verified by source refactoring",at));

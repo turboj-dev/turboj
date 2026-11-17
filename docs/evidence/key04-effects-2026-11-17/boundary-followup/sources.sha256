@@ -1,0 +1,8 @@
+688aaac441b7521168c867d3c7e61e0d91ed4046fd19c2b21faeafbfcca220d1  app/src/test/java/dev/turboj/app/KeyboardMavenBoundarySmoke.java
+db834bf066bf4d7d5e96c3afe5b5b3146c6b6f8075a8c7222e6767b0b0cb0e70  app/src/test/java/dev/turboj/app/KeyboardAIBoundarySmoke.java
+c3bcfdc10dd8b04711be6bf468ad643608fcb37df2ea8f7113ef495d891815a7  app/src/test/java/dev/turboj/app/KeyboardCherryEffectsSmoke.java
+36ed51947a1c9825c28a2a0164de78ee6c1b8259e5f222ab4d4a290e0b9309e3  app/src/test/java/dev/turboj/app/KeyboardNestedDialogSmoke.java
+411bdf722672d69ac5c4f0e0be167f875cf24c0db555fc3bb689888eb487697e  app/src/test/java/dev/turboj/app/KeyboardBranchEffectsSmoke.java
+e7320b1b654797df12e9ad6b28b42368d27ef3eb7cc6fe49b6b47cfa5d864fa1  app/src/test/native/browser-report-probe.c
+a14091c4103161a67258d57791730912a98f9954323f96df348d624b10c1b094  scripts/verify-keyboard-effects.sh
+d8f20753c828307bd396a0e4357dccc6be228267e7c7d0e33d20ee4ebae34c80  scripts/generate-keyboard-outcome-ledger.py

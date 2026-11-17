@@ -1,0 +1,13 @@
+PASS view.focusConsole: visible Output owns keyboard focus
+PASS focus: cycles editor/console actual focus
+PASS view.resizeOutput: Up changes actual divider geometry; Escape returns to editor
+PASS zoom: output visibility toggles and restores
+PASS view.toggleConsole: output visibility toggles and restores
+Exception in thread "main" java.lang.AssertionError: explorer focus; focus=javax.swing.JTextPane[,0,0,1034x155,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.basic.BasicBorders$MarginBorder@3da13ec9,flags=296,maximumSize=,minimumSize=,preferredSize=,caretColor=java.awt.Color[r=0,g=0,b=0],disabledTextColor=java.awt.Color[r=67,g=77,b=89],editable=false,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=java.awt.Color[r=0,g=0,b=0],selectionColor=java.awt.Color[r=5,g=170,b=170],kit=javax.swing.text.StyledEditorKit@306bbaaa,typeHandlers={text/plain=javax.swing.text.StyledEditorKit@306bbaaa}]; active=true; overlay=false; source=public class C {}
+; status=12:29:30  Open a project first
+12:29:30  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:29:30  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:29:30  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+12:29:30  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardViewEffectsSmoke.main(KeyboardViewEffectsSmoke.java:26)

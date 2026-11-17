@@ -1,0 +1,131 @@
+PASS clean profile starts at workspace selection
+PASS workspace default is ~/Workspace
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+PASS Command available: keymap.profile.eclipse-macos
+PASS Eclipse profile selected through CommandJ palette
+Driver restores owned application's foreground; component focus is not assigned
+PASS Command available: theme.more
+PASS java: project does not exist before keyboard wizard
+PASS F10 → File → New is keyboard accessible
+PASS File → New → New Java Project… selected with arrow keys
+PASS java: location follows chosen workspace/project name
+PASS Command available: file.newJavaClass
+PASS java: conventional Java main stub selected
+PASS java: real HelloWorld.java created by keyboard wizard
+PASS java: generated main signature is valid
+PASS Command available: compile
+PASS java: generated main compiled and ran through native application
+Driver restores owned application's foreground; component focus is not assigned
+PASS Find selects exact source: Calculator
+PASS java: Escape cancels pending Cmd+1; no popup or source change during subsequent two-second observation
+PASS java: unresolved-type fix inferred from current unsaved source
+PASS java: popup owns Cmd+D; hidden source and filter remain unchanged
+PASS java: popup Shift+Tab returns from explanation to proposals
+Driver restores owned application's foreground; component focus is not assigned
+PASS java: Tab traverses popup controls without indenting hidden source
+PASS java: global palette supersedes contextual popup without stale focus or source changes
+PASS java: second Cmd+1 exposes assist-only proposals without applying a fix
+PASS java: Escape preserves editor selection
+PASS java: missing class name inferred
+PASS java: missing class package inferred
+PASS java: class generated in correct source root/package
+Driver restores owned application's foreground; component focus is not assigned
+PASS Find selects exact source: Calculator
+PASS java: resolved declaration does not offer missing-class fix
+PASS java: test name inferred from class declaration
+PASS java: test package inferred
+PASS java: test uses project test root
+PASS java: generated test intentionally fails, with compilable Jupiter source
+PASS java: one real generated assertion fails after compilation
+PASS java: missing method is compilation failure, not a new failed assertion report
+PASS Find selects exact source: add
+PASS java: method target and int argument types inferred semantically
+PASS java: generated return type is the first linked stop
+PASS java: Shift+Tab returns to the return type
+PASS java: semantic parameter renames preserve the edited expression and update its references
+PASS java: Tab wraps without confirming the template
+PASS java: Enter commits real method implementation and semantic rename
+PASS java: one Undo restores declaration and caller before linked method rename
+PASS java: one Redo restores both files after linked method rename
+PASS java: Eclipse Cmd+Shift+S invokes Save All without a Save As dialog
+PASS java: linked method-name edit updates declaration and original caller across files
+PASS java: one Navigate Back reaches original calling test after linked edits
+PASS java: keyboard generated/implemented method passes the real 42 assertion
+PASS java: Eclipse Run reruns the prior JUnit launch while Calculator implementation stays active
+PASS Command available: view.focusEditor
+PASS Command available: view.focusConsole
+PASS java: Save keeps view.focusConsole focus
+PASS java: palette preserves panel text/draft
+PASS java: editor-only Delete Line cannot edit hidden source
+PASS java: global panel shortcuts work in view.focusConsole
+PASS java: global Run compiles and passes tests from view.focusConsole
+PASS Command available: view.focusEditor
+PASS Command available: view.focusTestResults
+PASS Tests panel actually owns focus
+PASS java: Save keeps view.focusTestResults focus
+PASS java: palette preserves panel text/draft
+PASS java: editor-only Delete Line cannot edit hidden source
+PASS java: global panel shortcuts work in view.focusTestResults
+PASS java: global Run compiles and passes tests from view.focusTestResults
+Driver restores owned application's foreground; component focus is not assigned
+PASS Command available: view.focusEditor
+PASS Command available: view.focusJShell
+PASS java: Save keeps view.focusJShell focus
+PASS java: palette preserves panel text/draft
+PASS java: editor-only Delete Line cannot edit hidden source
+PASS java: global panel shortcuts work in view.focusJShell
+PASS java: global Run compiles and passes tests from view.focusJShell
+PASS Command available: view.focusEditor
+PASS Command available: console.commandLine
+PASS java: Save keeps console.commandLine focus
+PASS java: palette preserves panel text/draft
+PASS java: editor-only Delete Line cannot edit hidden source
+PASS java: global panel shortcuts work in console.commandLine
+PASS java: global Run compiles and passes tests from console.commandLine
+PASS Command available: view.focusJShell
+PASS java: Shift+Tab traverses JShell controls without starting completion
+PASS Command available: view.focusJShell
+PASS java: busy JShell keeps focus for global shortcuts
+PASS java: JShell completion does not steal focus back
+PASS Command available: view.focusConsole
+PASS Command available: settings.general
+PASS java: modal blocks background Save, Run and palette shortcuts
+PASS java: global Eclipse Run works from bottom output
+PASS java: all three Java files exist after UI-only creation
+PASS maven: project does not exist before keyboard wizard
+PASS F10 → File → New is keyboard accessible
+PASS File → New → New Maven Project… selected with arrow keys
+PASS maven: location follows chosen workspace/project name
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS Command available: file.newJavaClass
+PASS maven: conventional Java main stub selected
+PASS maven: real HelloWorld.java created by keyboard wizard
+PASS maven: generated main signature is valid
+PASS Command available: compile
+PASS maven: generated main compiled and ran through native application
+PASS Find selects exact source: Calculator
+PASS maven: Escape cancels pending Cmd+1; no popup or source change during subsequent two-second observation
+PASS maven: unresolved-type fix inferred from current unsaved source
+PASS maven: popup owns Cmd+D; hidden source and filter remain unchanged
+PASS maven: popup Shift+Tab returns from explanation to proposals
+PASS maven: Tab traverses popup controls without indenting hidden source
+PASS maven: global palette supersedes contextual popup without stale focus or source changes
+PASS maven: second Cmd+1 exposes assist-only proposals without applying a fix
+PASS maven: Escape preserves editor selection
+PASS maven: missing class name inferred
+PASS maven: missing class package inferred
+PASS maven: class generated in correct source root/package
+PASS Find selects exact source: Calculator
+PASS maven: resolved declaration does not offer missing-class fix
+PASS maven: test name inferred from class declaration
+PASS maven: test package inferred
+PASS maven: test uses project test root
+PASS maven: generated test intentionally fails, with compilable Jupiter source
+PASS maven: explicit dependency confirmation updates actual pom.xml
+Exception in thread "main" java.lang.AssertionError: Timed out: initial failing JUnit result
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.waitFor(FirstLaunchKeyboardSmoke.java:669)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.flow(FirstLaunchKeyboardSmoke.java:246)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.main(FirstLaunchKeyboardSmoke.java:89)

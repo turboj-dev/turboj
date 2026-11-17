@@ -1,0 +1,28 @@
+Driver reactivates fixture window while waiting: preview
+PASS refactor.pull-up: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+Driver reactivates fixture window while waiting: project
+Driver reactivates fixture window while waiting: dialog
+Driver reactivates fixture window while waiting: dialog
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+PASS refactor.push-down: keyboard parameter cancel/apply; target file/member; javac all files; complete workspace Undo/Redo
+Driver reactivates fixture window while waiting: project
+Driver reactivates fixture window while waiting: dialog
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Driver reactivates fixture window while waiting: preview
+Exception in thread "main" java.lang.AssertionError: preview; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class A { public int value(){return 42;} }; status=12:37:30  Source changed while preparing; no edits applied
+12:37:30  Preparing extract-interface…
+12:37:30  ⌃⌘K X …  (Escape cancels; 10 seconds per key)
+12:37:30  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:37:29  ⌃⌘K X …  (Escape cancels; 10 seconds per key)
+12:37:29  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:37:29  Opened Java project refactor.extract-interface (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-multifile-effects-10930137435574571134/refactor.extract-interface).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardMultiFileEffectsSmoke.exercise(KeyboardMultiFileEffectsSmoke.java:40)
+	at dev.turboj.app.KeyboardMultiFileEffectsSmoke.main(KeyboardMultiFileEffectsSmoke.java:27)

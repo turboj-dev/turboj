@@ -1,0 +1,23 @@
+PASS Palette → JShell → typed 1+1 → Enter produces actual 2
+PASS JShell input and Escape preserve source and restore editor
+Exception in thread "main" java.util.concurrent.ExecutionException: java.lang.AssertionError: Keyboard focus lost
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:124)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:193)
+	at dev.turboj.app.KeyboardPanelSmoke.edt(KeyboardPanelSmoke.java:317)
+	at dev.turboj.app.KeyboardPanelSmoke.type(KeyboardPanelSmoke.java:291)
+	at dev.turboj.app.KeyboardPanelSmoke.palette(KeyboardPanelSmoke.java:264)
+	at dev.turboj.app.KeyboardPanelSmoke.consoleNavigation(KeyboardPanelSmoke.java:97)
+	at dev.turboj.app.KeyboardPanelSmoke.main(KeyboardPanelSmoke.java:46)
+Caused by: java.lang.AssertionError: Keyboard focus lost
+	at dev.turboj.app.KeyboardPanelSmoke.dispatch(KeyboardPanelSmoke.java:304)
+	at dev.turboj.app.KeyboardPanelSmoke.lambda$type$0(KeyboardPanelSmoke.java:294)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)

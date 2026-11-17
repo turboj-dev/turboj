@@ -1,0 +1,6 @@
+PASS Duplicate profile: Enter creates and selects a real custom profile
+PASS Cancel nested input leaves profiles unchanged
+PASS Reset, remove and recorder cancel back to parent with focus
+Exception in thread "main" java.lang.AssertionError: new directory created
+	at dev.turboj.app.KeyboardNestedDialogSmoke.await(KeyboardNestedDialogSmoke.java:82)
+	at dev.turboj.app.KeyboardNestedDialogSmoke.main(KeyboardNestedDialogSmoke.java:40)

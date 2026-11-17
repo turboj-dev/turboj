@@ -1,0 +1,28 @@
+command	assertion
+workspace.select	Browse child Escape; invalid path stays in form; valid Launch changes workspace
+file.newJavaProject	invalid project form retains input; Escape leaves no project
+file.close	Escape at unsaved confirmation preserves dirty source and window
+quit	Escape at unsaved confirmation preserves dirty source and window
+file.close	Yes writes exact dirty source before closing
+file.reopenClosed	restores closed source/path
+file.close	No closes without disk write
+save	saves reopened dirty buffer
+saveAs	overwrite Escape returns chooser; cancel preserves target
+saveAs	both overwrite confirmations apply; disk and active path updated
+ai.settings	cloud confirmation Escape leaves settings open, no save or credential access
+ai.settings	keyboard confirms cloud configuration; in-memory credentials; no provider request
+ai.settings	endpoint edit revokes consent; Cancel preserves applied configuration
+maven.build.custom	goal input → trust Escape; no wrapper invocation
+maven.build.validate	trust accepted, build cancelled without process
+maven.build.validate	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.compile	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.test	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.package	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.verify	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.install	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.dependency:tree	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.help:effective-pom	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.clean	keyboard confirmation → real offline Maven POM-project goal succeeds
+maven.build.custom	custom goal input and confirmation execute real Maven validate
+maven.stop	stops actual owned wrapper while it waits before Maven invocation
+quit	clean quit closes native frame

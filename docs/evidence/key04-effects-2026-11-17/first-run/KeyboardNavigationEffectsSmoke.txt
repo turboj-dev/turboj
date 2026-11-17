@@ -1,0 +1,26 @@
+PASS find: selected actual query match
+PASS findNext: moves to other occurrence
+PASS findPrevious: returns to first occurrence
+PASS replace: keyboard Replace All; exact source; one Undo
+PASS goto: Enter moves to requested line start
+PASS navigation.nextMethod: caret at second declaration
+PASS navigation.previousMethod: caret at first declaration
+PASS navigation.callHierarchy: navigates to resolved call site
+PASS navigation.calledMethods: navigates to actual call in selected method
+PASS declaration: resolved call navigates to declaration
+PASS back: restores call-site caret
+PASS forward: restores declaration caret
+PASS navigation.matchingBrace: caret at matching class brace
+PASS navigation.goToImplementation: opens concrete subclass at its declaration
+PASS navigation.typeHierarchy: resolved base/subclass entries; Escape preserves source
+PASS navigation.goToFile: query finds real project item; Enter opens correct source
+Driver reactivates fixture window while waiting: search opens D
+Driver reactivates fixture window while waiting: search opens D
+Driver reactivates fixture window while waiting: search opens D
+Driver reactivates fixture window while waiting: search opens D
+Driver reactivates fixture window while waiting: search opens D
+Exception in thread "main" java.lang.AssertionError: search opens D; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=class D extends C { int use(){return second();} }; status=12:28:35  ⌃⌘K H …  (Escape cancels; 10 seconds per key)
+12:28:35  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+12:28:34  Opened Java project turboj-navigation-effects-4654805300466278206 (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-navigation-effects-4654805300466278206).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.KeyboardNavigationEffectsSmoke.main(KeyboardNavigationEffectsSmoke.java:38)

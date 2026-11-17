@@ -55,11 +55,11 @@ final class JdtKeyboardNavigation {
                 @Override public boolean visit(EnumDeclaration n) { addType(n, n.resolveBinding()); return true; }
                 @Override public boolean visit(RecordDeclaration n) { addType(n, n.resolveBinding()); return true; }
                 private void addType(AbstractTypeDeclaration n, ITypeBinding type) {
-                    if (binding instanceof ITypeBinding target && type != null && !type.isInterface() && !Modifier.isAbstract(type.getModifiers()) && !type.isEqualTo(target) && type.isSubTypeCompatible(target)) result.add(target(source.file(), n.getName(), n.getName().getIdentifier()));
+                    if (binding instanceof ITypeBinding target && type != null && !type.isRecovered() && !type.isInterface() && !Modifier.isAbstract(type.getModifiers()) && !sameType(type, target) && localSupertype(type, target, new HashSet<>()) != null) result.add(target(source.file(), n.getName(), n.getName().getIdentifier()));
                 }
                 @Override public boolean visit(MethodDeclaration method) {
                     IMethodBinding resolved = method.resolveBinding();
-                    if (binding instanceof IMethodBinding target && resolved != null && method.getBody() != null && (resolved.overrides(target) || resolved.isEqualTo(target))) result.add(target(source.file(), method.getName(), resolved.getDeclaringClass().getName() + "." + method.getName()));
+                    if (binding instanceof IMethodBinding target && resolved != null && !resolved.isRecovered() && method.getBody() != null && implementsMethod(resolved, target)) result.add(target(source.file(), method.getName(), resolved.getDeclaringClass().getName() + "." + method.getName()));
                     return true;
                 }
             });
@@ -87,6 +87,31 @@ final class JdtKeyboardNavigation {
         return result.stream().distinct().sorted(Comparator.comparing((Target t) -> t.file().toString()).thenComparingInt(Target::start)).toList();
     }
     private static Target target(Path file, ASTNode node, String label) { return new Target(file, node.getStartPosition(), end(node), label); }
+    // Cached compilation units have independent binding resolvers. JDT subtype/override
+    // predicates require bindings from one resolver; stable declaration identity can be
+    // compared across units, then override checking uses the candidate's own hierarchy.
+    private static boolean sameType(ITypeBinding a, ITypeBinding b) {
+        if (a == null || b == null || a.isRecovered() || b.isRecovered()) return false;
+        var x = a.getTypeDeclaration(); var y = b.getTypeDeclaration();
+        return x.isEqualTo(y) && (x.getJavaElement() == null || y.getJavaElement() == null
+                || x.getJavaElement().equals(y.getJavaElement()));
+    }
+    private static ITypeBinding localSupertype(ITypeBinding type, ITypeBinding target, Set<String> visited) {
+        if (type == null || type.isRecovered() || !visited.add(type.getKey())) return null;
+        if (sameType(type, target)) return type;
+        var found = localSupertype(type.getSuperclass(), target, visited);
+        if (found != null) return found;
+        for (var parent : type.getInterfaces()) { found = localSupertype(parent, target, visited); if (found != null) return found; }
+        return null;
+    }
+    private static boolean implementsMethod(IMethodBinding candidate, IMethodBinding target) {
+        var localType = localSupertype(candidate.getDeclaringClass(), target.getDeclaringClass(), new HashSet<>());
+        if (localType == null) return false;
+        for (var localMethod : localType.getDeclaredMethods())
+            if (localMethod.getMethodDeclaration().isEqualTo(target.getMethodDeclaration())
+                    && (candidate.isEqualTo(localMethod) || candidate.overrides(localMethod))) return true;
+        return false;
+    }
     private IBinding binding(ASTNode node) {
         for (ASTNode n = node; n != null; n = n.getParent()) {
             if (n instanceof SimpleName name && name.resolveBinding() != null) return name.resolveBinding();

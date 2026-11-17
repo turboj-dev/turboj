@@ -1,0 +1,4 @@
+PASS New settings default to TurboJ macOS
+Exception in thread "main" java.lang.AssertionError: Timeout: initial editor focus; focus=none
+	at dev.turboj.app.KeyboardProfileSmoke.waitFor(KeyboardProfileSmoke.java:360)
+	at dev.turboj.app.KeyboardProfileSmoke.main(KeyboardProfileSmoke.java:39)

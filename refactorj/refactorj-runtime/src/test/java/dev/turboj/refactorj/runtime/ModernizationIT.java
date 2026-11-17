@@ -129,6 +129,16 @@ class ModernizationIT {
         rejected("import java.util.List; class C { List<String> names; }", "java.util.List", RemoveImport::new);
     }
 
+    @Test void removesUnusedImportAtPackageQualifierCaretWithoutResolvingAnAmbiguousPackage() throws Exception {
+        String source = "import java.util.List; class C {}";
+        String output = transform(source, "java.util.List",
+                at -> new RemoveImport(new Location(at.file(), at.start())));
+        assertFalse(output.contains("import"));
+        compile(output);
+        rejected("import java.util.List; class C { List<String> names; }", "java.util.List",
+                at -> new RemoveImport(new Location(at.file(), at.start())));
+    }
+
     @Test void implementsMissingMembers() throws Exception {
         String output = transform("class C implements Runnable { }", "class C", location -> new ImplementMethods(location, List.of()));
         assertTrue(output.contains("void run()"));

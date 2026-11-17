@@ -30,7 +30,7 @@ public final class KeyboardPanelSmoke {
         if (Files.isRegularFile(artifact)) report.append("SHA-256: ").append(java.util.HexFormat.of().formatHex(
                 java.security.MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(artifact)))).append('\n');
         report.append("Runtime: ").append(System.getProperty("java.version"))
-                .append("; actual Swing key dispatch, no mouse events; Classic profile.\n");
+                .append("; actual Swing key dispatch, no mouse events; TurboJ macOS profile.\n");
         System.setProperty("turboj.config", Files.createTempDirectory(output, "settings-").toString());
         System.setProperty("apple.laf.useScreenMenuBar", "false");
         frame = edt(() -> {
@@ -76,7 +76,7 @@ public final class KeyboardPanelSmoke {
         String source = edt(() -> frame.editor().getText());
         key(KeyEvent.VK_F10, 0);
         waitFor(() -> MenuSelectionManager.defaultManager().getSelectedPath().length > 0, "F10 opens menu");
-        check(true, "Classic F10 opens native application menu");
+        check(true, "F10 opens native application menu");
         key(KeyEvent.VK_DOWN, 0);
         MenuElement[] before = edt(() -> MenuSelectionManager.defaultManager().getSelectedPath());
         key(KeyEvent.VK_RIGHT, 0);
@@ -132,6 +132,21 @@ public final class KeyboardPanelSmoke {
         key(KeyEvent.VK_ESCAPE, 0);
         waitFor(() -> !frame.intelligence().alternativesVisible() && frame.editor().isFocusOwner(), "Escape dismisses completion");
         check(source.equals(edt(() -> frame.editor().getText())), "Completion dismissal preserves source and editor focus");
+        palette("complete");
+        waitFor(() -> frame.intelligence().alternativesVisible(), "completion for Tab acceptance");
+        key(KeyEvent.VK_TAB, 0);
+        waitFor(() -> !frame.editor().getText().equals(source), "Tab applies semantic proposal");
+        check(edt(() -> !frame.intelligence().alternativesVisible() && frame.editor().isFocusOwner()),
+                "Tab accepts real JDT completion and retains source focus");
+        check(!edt(() -> frame.editor().getText()).contains("\t"), "completion Tab does not also insert indentation");
+        key(KeyEvent.VK_Z, KeyEvent.META_DOWN_MASK);
+        waitFor(() -> frame.editor().getText().equals(source), "Undo completion");
+        check(true, "one Undo restores the source before completion acceptance");
+        edt(() -> { frame.editor().gotoOffset(0); return null; });
+        key(KeyEvent.VK_TAB, 0);
+        check(!source.equals(edt(() -> frame.editor().getText())), "without completion Tab indents source normally");
+        key(KeyEvent.VK_TAB, KeyEvent.SHIFT_DOWN_MASK);
+        check(source.equals(edt(() -> frame.editor().getText())), "Shift+Tab reverses ordinary source indentation");
     }
 
     private static void diagnostics() throws Exception {
@@ -213,6 +228,24 @@ public final class KeyboardPanelSmoke {
                 .append(edt(tree::getRowCount)).append("; root expanded=").append(edt(() -> tree.isExpanded(0))).append('\n');
         check(collapsed, "Explorer Left collapses the actual selected expanded root");
         check(expanded, "Explorer Right expands the actual selected collapsed root");
+        // Fixture expansion exposes the file; row selection, menu and open use keys.
+        edt(() -> { for (int row = 0; row < tree.getRowCount(); row++) tree.expandRow(row); tree.setSelectionRow(0); return null; });
+        for (int row = 0; row < 30 && !edt(() -> tree.getSelectionPath().getLastPathComponent().toString().equals("Example.java")); row++)
+            key(KeyEvent.VK_DOWN, 0);
+        check(edt(() -> tree.getSelectionPath().getLastPathComponent().toString().equals("Example.java")),
+                "Explorer Down reaches the actual source file");
+        key(KeyEvent.VK_F10, KeyEvent.SHIFT_DOWN_MASK);
+        waitFor(() -> MenuSelectionManager.defaultManager().getSelectedPath().length > 0, "Explorer context menu");
+        key(KeyEvent.VK_DOWN, 0);
+        check(edt(() -> java.util.Arrays.stream(MenuSelectionManager.defaultManager().getSelectedPath())
+                .anyMatch(element -> element instanceof JMenuItem)), "Shift+F10 and Down navigate the Explorer context menu");
+        key(KeyEvent.VK_ESCAPE, 0);
+        waitFor(() -> MenuSelectionManager.defaultManager().getSelectedPath().length == 0 && tree.isFocusOwner(), "context menu restores tree");
+        key(KeyEvent.VK_ENTER, 0);
+        waitFor(() -> project.resolve("src/main/java/Example.java").equals(frame.currentFile()) && frame.editor().isFocusOwner(), "Explorer Enter opens file");
+        check(edt(() -> frame.editor().getText()).equals("class Example {}\n"), "Explorer Enter opens selected source with editor focus");
+        palette("view.focusExplorer");
+        waitFor(tree::isFocusOwner, "Explorer return");
         key(KeyEvent.VK_ESCAPE, 0); waitFor(() -> frame.editor().isFocusOwner(), "Escape from explorer");
         check(true, "Explorer Escape returns source focus after arrow navigation");
     }
@@ -255,6 +288,7 @@ public final class KeyboardPanelSmoke {
         key(KeyEvent.class.getField("VK_" + stroke.key()).getInt(null), modifiers);
     }
     private static void type(String text) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
         for (char character : text.toCharArray()) edt(() -> {
             int code = KeyEvent.getExtendedKeyCodeForChar(character);
             int modifiers = Character.isUpperCase(character) ? KeyEvent.SHIFT_DOWN_MASK : 0;
@@ -264,6 +298,7 @@ public final class KeyboardPanelSmoke {
         });
     }
     private static void key(int code, int modifiers) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> { dispatch(KeyEvent.KEY_PRESSED, code, KeyEvent.CHAR_UNDEFINED, modifiers);
             dispatch(KeyEvent.KEY_RELEASED, code, KeyEvent.CHAR_UNDEFINED, modifiers); return null; });
     }
@@ -277,7 +312,7 @@ public final class KeyboardPanelSmoke {
         checks++; report.append("PASS ").append(label).append('\n'); System.out.println("PASS " + label); }
     private static void waitFor(Callable<Boolean> test, String label) throws Exception {
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(30);
-        while (System.nanoTime() < deadline) { if (edt(test)) return; Thread.sleep(15); }
+        while (System.nanoTime() < deadline) { if (edt(test)) return; edt(() -> {NativeWindowTestSupport.recover(frame);return null;});Thread.sleep(15); }
         throw new AssertionError("Timeout: " + label + "; focus=" + edt(() -> String.valueOf(focus())));
     }
     private static <T> T edt(Callable<T> action) throws Exception {

@@ -1,0 +1,23 @@
+command	assertion
+project.pom.add-dependency	keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+project.pom.update-dependency-version	keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+project.pom.remove-dependency	keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+project.pom.add-module	keyboard parameters; preview cancel/apply; expected valid XML; one Undo/Redo
+project.pom.add-module	all edits remain unsaved; original disk bytes preserved
+project.structure	real imported model text is readable; Escape closes view
+project.dependencies	real imported model text is readable; Escape closes view
+project.dependencyTree	real imported model text is readable; Escape closes view
+project.effectivePom	real imported model text is readable; Escape closes view
+project.profiles	cancel retains current imported configuration
+project.profiles	Enter persists active and explicitly inactive profile sets and reimports
+project.settings	keyboard edits local repository and offline preference; model reimports
+project.reload	new imported workspace replaces prior snapshot
+maven.refresh	new imported workspace replaces prior snapshot
+project.findFile	query and keyboard choice open actual module POM
+project.findModule	query and keyboard choice open actual module POM
+navigation.mavenModule	query and keyboard choice open actual module POM
+project.pomDeclaration	property reference navigates to its actual declaration in the unsaved POM
+project.sources	guard: dependency-free module explains no candidates; artifact download not exercised
+project.javadoc	guard: dependency-free module explains no candidates; artifact download not exercised
+project.parentPom	parentless model reports no parent without changing source
+navigation.projectDependency	focus reaches real dependency tree
