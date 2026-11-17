@@ -1,0 +1,16 @@
+{
+  "baselineCommit": "f9eaa8215f7d84252289154b9c61703bcb24cba7",
+  "note": "Tests exercise uncommitted QFX-08 changes on this baseline, identified by the source hashes.",
+  "os": "macOS 26.5.1 (25F80)",
+  "architecture": "arm64",
+  "java": "Corretto 25.0.4.1+10-LTS",
+  "sources": {
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "96958fc6e22b6008a213df45ae65bbd68eaba991d4ba90511c8169c4072c347e",
+    "app/src/main/java/dev/turboj/refactoring/RefactoringController.java": "39b2869b72db07498fe37beb9e7833ccaf1a62aefe805d859d7ef0fc1c49dcf7",
+    "refactorj/refactorj-api/src/main/java/dev/turboj/refactorj/api/JavaQuickActions.java": "a236af20ba1cb70b20a0b2ca44265410f83b8b6de553ffaf6887ba3844151302",
+    "refactorj/refactorj-jdt/src/main/java/dev/turboj/refactorj/jdt/JdtQuickActions.java": "b26eb0a29e914edacf541158d6c936c625d52c4c3b66ff6c02646e740e179691",
+    "refactorj/refactorj-jdt/src/main/java/dev/turboj/refactorj/jdt/InvocationBindings.java": "955f1f073c5f05d2710e3cb4365985e9b2fff8787b92fb0658e50f0d2ccc0b3d",
+    "refactorj/refactorj-runtime/src/test/java/dev/turboj/refactorj/runtime/QuickActionsIT.java": "dfcb23687c700687daf1172efbe11cd55c9217ac6ab29680e3295f0201971c45"
+  },
+  "appJarSha256": "b93e6bc2444a3083f4e101d68b9d1ecf2d88bb99cdc9fc60c08ffbf7a450ff2d"
+}

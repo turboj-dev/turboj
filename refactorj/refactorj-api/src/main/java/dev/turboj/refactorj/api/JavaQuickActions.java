@@ -35,12 +35,25 @@ public interface JavaQuickActions {
     }
     Inspection inspect(Location location, Cancellation cancellation);
     Prepared prepare(Proposal proposal, Cancellation cancellation);
-    /** Complete a linked method-name or method-parameter-name edit. The current snapshot must
+    /** Validate edited generated source against its post-generation baseline, including callers.
+     * Runs on the semantic worker; it must not publish or save the candidate. */
+    default Validation validateTemplate(WorkspaceSnapshot baseline, Cancellation cancellation) {
+        throw new UnsupportedOperationException("Semantic template validation is unavailable");
+    }
+    default Validation validateTemplate(WorkspaceSnapshot baseline, List<Placeholder> fields, Cancellation cancellation) {
+        return validateTemplate(baseline, cancellation);
+    }
+    /** Describe inline fields in an already validated preview, before it is applied. */
+    default Prepared templateFor(Plan plan, Cancellation cancellation) { return new Prepared(plan, null, List.of()); }
+    /** Complete a linked method, parameter or variable declaration-name edit. The current snapshot must
      * differ from beforeTyping only in the indicated complete declaration identifier. The
      * returned transaction is rebased on current source; successful preparation supplies fresh
-     * method-template ranges. Hosts coalesce preceding local typing with that transaction. */
+     * declaration-template ranges. Hosts coalesce preceding local typing with that transaction. */
     default Prepared renameLinked(WorkspaceSnapshot beforeTyping, Location declaration, String newName, Cancellation cancellation) {
         throw new UnsupportedOperationException("Linked semantic rename is unavailable");
+    }
+    default Prepared changeParameterTypeLinked(WorkspaceSnapshot beforeTyping, Location type, String newType, Cancellation cancellation) {
+        throw new UnsupportedOperationException("Linked parameter type editing is unavailable");
     }
     /** Every occurrence, in its compilation unit, of the local variable or parameter at the location, in source order;
      * empty for any other symbol. Hosts edit them together as one linked field. */

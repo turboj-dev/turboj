@@ -22,6 +22,46 @@ final class InvocationBindings {
             });all.put(source.file(),targets);
         }return all;
     }
+    /** Declaration order is stable for a parameter-type-only Change Signature. */
+    static Map<Path,List<Target>> declarations(LtkWorkspace workspace) {
+        var result = new LinkedHashMap<Path,List<Target>>();
+        for (var source : workspace.snapshot().sources()) {
+            var values = new ArrayList<Target>();
+            workspace.validationAst(source.file()).accept(new ASTVisitor() {
+                @Override public boolean visit(MethodDeclaration method) {
+                    var binding = method.resolveBinding();
+                    values.add(binding == null || binding.isRecovered() ? null : target(binding));
+                    return true;
+                }
+            });
+            result.put(source.file(), values);
+        }
+        return result;
+    }
+    private static Target target(IMethodBinding binding) {
+        var d = binding.getMethodDeclaration();
+        return new Target(d.getDeclaringClass().getErasure().getQualifiedName(), d.getName(),
+                Arrays.stream(d.getParameterTypes()).map(t -> t.getErasure().getQualifiedName()).toList(),
+                d.getReturnType().getErasure().getQualifiedName(), d.isConstructor());
+    }
+    static boolean sameDeclarationsAfterSignatureEdit(Map<Path,List<Target>> oldCalls, Map<Path,List<Target>> newCalls,
+            Map<Path,List<Target>> oldDeclarations, Map<Path,List<Target>> newDeclarations) {
+        var changes = new HashMap<Target,Target>();
+        for (var entry : oldDeclarations.entrySet()) {
+            var before = entry.getValue(); var after = newDeclarations.get(entry.getKey());
+            if (after == null || before.size() != after.size()) return false;
+            for (int i = 0; i < before.size(); i++) if (before.get(i) != null) changes.put(before.get(i), after.get(i));
+        }
+        for (var entry : oldCalls.entrySet()) {
+            var before = entry.getValue(); var after = newCalls.get(entry.getKey());
+            if (after == null || before.size() != after.size()) return false;
+            for (int i = 0; i < before.size(); i++) {
+                var target = before.get(i);
+                if (target != null && !Objects.equals(changes.getOrDefault(target, target), after.get(i))) return false;
+            }
+        }
+        return true;
+    }
     static boolean unchanged(Map<Path,List<Target>> before,Map<Path,List<Target>> after,Set<String> generatedInterfaces){
         for(var entry:before.entrySet()){
             var old=entry.getValue();var now=after.get(entry.getKey());if(now==null||old.size()!=now.size())return false;

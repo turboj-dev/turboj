@@ -1,0 +1,7 @@
+PASS template.ai-precedence: intellij-macos: typed exact abbreviation + visible AI ghost + Tab expands template, correct caret and Undo
+PASS template.ai-precedence: eclipse-macos: typed exact abbreviation + visible AI ghost + Tab expands template, correct caret and Undo
+PASS template.ai-precedence: vscode-macos: typed exact abbreviation + visible AI ghost + Tab expands template, correct caret and Undo
+PASS template.ai-precedence: turboj-macos: typed exact abbreviation + visible AI ghost + Tab expands template, correct caret and Undo
+PASS template.prefix-list: Monokai; actual typing filters applicable definitions; arrows/Enter/Escape; no focus theft or extra newline
+PASS template.ai-fallback: same abbreviation in a comment falls back to AI; unmatched source still accepts AI with Tab
+PASS template.focus: tool panel shortcut closes popup; returning preserves normal focus without stale results

@@ -28,7 +28,7 @@ L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro su
 | --- | --- | --- |
 | Editor e tastiera | Editing di righe, multicaret, selezione strutturale, focus e palette implementati; prove storiche | Certificare build corrente, migrazione keymap e flussi reali macOS |
 | Quick Fix / Quick Assist | Cmd+1 TurboJ/Eclipse e contrasto Monokai ricontrollati; Calculator generato nel workflow Eclipse QFX-04 | Completare casi avanzati e prove host, senza inferire parità Eclipse completa |
-| First launch e template | QFX-03/04/05 verificati: plain/Maven, template generati, completion e nuovo catalogo live template | Restano QFX-08/10 e walkthrough umano KEY-05 |
+| First launch e template | QFX-03/04/05 verificati: plain/Maven, template generati, completion e nuovo catalogo live template | Restano QFX-10 e walkthrough umano KEY-05 |
 | Output, Tests, Explorer | Console verbatim, Tests separato, `:!`, ridimensionamento, font condiviso e operazioni file | Validare modifiche locali Run/Run File/AutoRun e focus |
 | MavenJ / TurboTest / RefactorJ | Integrazioni operative, con limiti espliciti | Qualificazione aggiornata e percorsi alternativi per casi non supportati |
 | Cherry Test | Slice reale: processo, risultati strutturati, Git, tre corsie, contatori, inspector e provenienza opt-in javac/JaCoCo | Qualificare altri progetti/provider, selettori, aggregazione e workflow completo |
@@ -211,7 +211,7 @@ Fonti: [keyboard-performance](docs/keyboard-performance.md), [Cherry benchmark](
 
 ## 5. Sequenza di lavoro consigliata
 
-Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. CH-01 e JAVA-06 consegnate; CH-02/08/09 implementate e qualificate nel perimetro supportato; QFX-04 è ora verificata con il workflow nativo e i controlli dei pannelli inferiori. KEY-04/06 e QFX-03/05 hanno poi passato le verifiche automatizzate; CH-10 è provata sul ciclo JVM. Restano KEY-05 umano, QFX-08 e la parità avanzata live template QFX-10. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
+Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. CH-01 e JAVA-06 consegnate; CH-02/08/09 implementate e qualificate nel perimetro supportato; QFX-04 è ora verificata con il workflow nativo e i controlli dei pannelli inferiori. KEY-04/06 e QFX-03/05 hanno poi passato le verifiche automatizzate; CH-10 è provata sul ciclo JVM. QFX-08 è ora verificata (17 novembre): tipi parametri semantici, compatibilità espressioni e ulteriori template inline. Restano KEY-05 umano e la parità avanzata/dialogo live template QFX-10. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
 
 | Traguardo | Attività | Uscita verificabile |
 | --- | --- | --- |
@@ -230,13 +230,13 @@ AI, documentazione e test librerie possono procedere in parallelo dove indipende
 
 Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
 
-**Registro al 17 novembre: 114 attività aggregate, di cui 100 aperte e 14 chiuse/verificate nel perimetro dichiarato**, non 114 difetti dimostrati. Le attività aperte comprendono 40 qualificazioni da eseguire, 30 attività parziali, 11 da fare, 18 decisioni e 1 attività sospesa.
+**Registro al 17 novembre: 114 attività aggregate, di cui 99 aperte e 15 chiuse/verificate nel perimetro dichiarato**, non 114 difetti dimostrati. Le attività aperte comprendono 40 qualificazioni da eseguire, 29 attività parziali, 11 da fare, 18 decisioni e 1 attività sospesa.
 
 | Priorità | Attività aperte | Lettura |
 | --- | --- | --- |
 | P0 | 6 | Baseline, regressioni segnalate e correttezza semantica |
 | P1 | 48 | Consolidamento, implementazione e qualificazione prossimi |
-| P2 | 38 | Miglioramenti e decisioni successive |
+| P2 | 37 | Miglioramenti e decisioni successive |
 | P3 | 8 | Evoluzioni da decidere o attività sospese |
 
 ### 6.1 Governo e documentazione
@@ -280,14 +280,22 @@ Fonti: [Quick Fix](docs/quick-fix-quick-assist.md), [parità](docs/eclipse-workf
 | --- | --- | --- | --- |
 | QFX-01 | P0 | DA VERIFICARE | Riprodurre `Calculator calculator = new Calculator();` con Cmd+1 TurboJ/Eclipse, caret sul tipo e dopo `;`. Proposta pertinente, Return applica, focus corretto; Monokai, selezione e lista vuota leggibili con contrasto verificato. |
 | QFX-02 | P1 | PARZIALE | Contratto fix/assist univoco: priorità diagnostica, seconda invocazione, filtro e problema più vicino sulla riga. Testare problemi multipli/caret/Escape e documentare la posizione realmente mantenuta. |
-| QFX-03 | P1 | VERIFICATA — perimetro automatizzato | 17 novembre: template generati, caller rename cross-file, campi invalidi, completion JDT con placeholder conservati, Save/Save All/Format, cambio file, Escape e Undo/Redo per transazione. Corretti validazione nomi/tipi e precedenza Enter nella completion. IME fisico resta KEY-05; tipi parametri e compatibilità espressioni restano QFX-08. [Prove](docs/evidence/live-templates-2026-11-17/README.md). |
+| QFX-03 | P1 | VERIFICATA — perimetro automatizzato | 17 novembre: template generati, caller rename cross-file, campi invalidi, completion JDT con placeholder conservati, Save/Save All/Format, cambio file, Escape e Undo/Redo per transazione. Corretti validazione nomi/tipi e precedenza Enter nella completion. IME fisico resta KEY-05; tipi parametri e compatibilità espressioni verificati successivamente in QFX-08. [Prove](docs/evidence/live-templates-2026-11-17/README.md). |
 | QFX-04 | P1 | CHIUSA | **16 novembre:** plain e Maven da workspace a JUnit verde, Monokai/Eclipse, 470 eventi tastiera e 172 asserzioni; Save/Run/Palette/focus da Output, Tests, JShell e command line, modali isolati. Corretti ciclo Tests, accesso Tests vuoto, tasti/focus JShell e perdita dell’espressione durante rename linked. Quattro profili/custom persistiti: 92 asserzioni; install 874 test PASS. [Evidenze e limiti](docs/evidence/qfx04-2026-11-16/README.md). Eventi Swing reali, non certificazione di layout fisici/IME/VoiceOver. |
 | QFX-05 | P2 | VERIFICATA | `System.out.print` → proposte JDT → documentazione della proposta selezionata con owner/signature reali → Escape → `println()` accettato. Corretto resolve della documentazione quando la chiamata non è ancora valida; test distingue overload e invalida binding obsoleti. [Prove](docs/evidence/live-templates-2026-11-17/README.md). |
 | QFX-06 | P2 | PARZIALE | Provider per uncaught exceptions, conversioni aggiuntive e altri costruttori/tipi. Diagnostica/binding reali, risultati validati, contesti insicuri rifiutati; nessuna lista statica. |
 | QFX-07 | P2 | DECISIONE | Parità wizard oltre minimo: Save-and-Launch per-file/remember, superclass/interfaces/module-info/working set, framework/versioni JUnit/lifecycle stub e archetype Maven. Confermare necessità prima di aggiungere UI. |
-| QFX-08 | P2 | PARZIALE | Inline ulteriori: tipi parametri, Extract Variable/Method/Create Field, controllo tipo espressione restituita. Mantenere validazione/preview; oggi compatibilità del corpo lasciata al compilatore. |
+| QFX-08 | P2 | VERIFICATA — perimetro automatizzato | 17 novembre: tipi parametri inline via Change Signature, aggiornamento gerarchia sorgente, verifica caller e rifiuto di overload retargeting; validazione JDT asincrona delle espressioni e dei campi prima di Enter/Save/Format. Extract Variable/Method/Create Field mantengono preview e aprono campi inline con rename semantico, Escape e Undo/Redo per transazione. PASS: 41 test QuickActionsIT, 330 test app e sei suite native, inclusi first-launch plain/Maven e precedenza AI/template. Limiti: gerarchie ambigue/binarie rifiutate, nessuna correzione automatica degli argomenti; verifica umana KEY-05 separata. [Prove e riproduzione](docs/evidence/qfx08-2026-11-17/README.md). |
 | QFX-09 | P2 | DECISIONE | Dependency editing JUnit in POM non UTF-8: preservare encoding e dipendenze; finché non supportato mantenere rifiuto esplicito e percorso alternativo. |
 | QFX-10 | P2 | PARZIALE — motore e catalogo verificati | Live template estensibili: `sout`+Tab con precedenza su ghost AI, lista contestuale filtrata mentre si digita (frecce/Tab/Enter/Escape), 51 definizioni core Java IntelliJ, JSON utente persistente/override/disabilitazione, campi linked e Undo. [Regressione AI/lista](docs/evidence/live-templates-2026-11-17/precedence/README.md). Restano contesti Consumer (`soutc`/`serrc`), IO (`iop`/`ior`), preview `sts`, inferenza semantica delle macro avanzate, import/shorten e formattazione automatica. Macro irrisolte sono campi espliciti; nessuna pretesa di parità completa IntelliJ. [Uso e limiti](docs/live-templates.md). |
+
+**QFX-10 — revisione del dialogo Live Templates (richiesta successiva):**
+
+- [ ] Usare l'editor nativo `EditorComponent` in modalità preview read-only per mostrare l'esempio del template, con syntax highlighting, tema e font/zoom coerenti con l'editor principale.
+- [ ] Aggiungere un campo di ricerca rapido per filtrare il catalogo per nome, abbreviazione e descrizione, con selezione da tastiera e aggiornamento della preview.
+- [ ] Introdurre un form per aggiungere e modificare **nome**, **abbreviazione**, **esempio/corpo del codice** e **configurazione** del template: contesti applicabili, variabili/placeholder, valori predefiniti, espressioni e abilitazione.
+- [ ] Mostrare nella preview l'espansione risultante, i placeholder e la posizione finale del cursore (`$END$`), distinguendo la definizione dall'esempio espanso.
+- [ ] Validare i campi prima del salvataggio, preservare definizioni personalizzate e override dei built-in; rendere ricerca, creazione, modifica, conferma e annullamento interamente accessibili da tastiera. Il JSON resta il formato persistente, senza richiederne la modifica manuale per le operazioni comuni.
 
 ### 6.4 Editor, layout, temi ed Explorer
 

@@ -16,7 +16,11 @@ import dev.turboj.commandj.swing.*;
 
 /** Native, preview-first refactoring on TurboJ's shared Java semantic worker. */
 public final class RefactoringController implements AutoCloseable {
-    public record Prepared(Plan plan, NativeWorkspaceCommitter.Capture capture) {}
+    public record Prepared(Plan plan, NativeWorkspaceCommitter.Capture capture, JavaQuickActions.Prepared template) {
+        public Prepared(Plan plan, NativeWorkspaceCommitter.Capture capture) { this(plan, capture, null); }
+    }
+    private Consumer<JavaQuickActions.Prepared> inlineGenerated = value -> {};
+    public void setInlineGenerated(Consumer<JavaQuickActions.Prepared> value) { inlineGenerated = Objects.requireNonNull(value); }
 
     private record Inspection(List<Descriptor> descriptors, Symbol symbol) {}
 
@@ -77,8 +81,8 @@ public final class RefactoringController implements AutoCloseable {
             Cancellation cancel = () -> closed || issued != epoch || Thread.currentThread()
                     .isInterrupted();
             var engine = service.sharedRefactorJ(context);
-            return new Prepared(new dev.turboj.refactorj.formatj.GeneratedCodeFormatter()
-                    .format(engine.prepare(value, cancel)), capture);
+            Plan plan = new dev.turboj.refactorj.formatj.GeneratedCodeFormatter().format(engine.prepare(value, cancel));
+            return new Prepared(plan, capture, engine.quickActions().templateFor(plan, cancel));
         });
         request = future;
         return future;
@@ -370,9 +374,11 @@ public final class RefactoringController implements AutoCloseable {
         apply.addActionListener(e -> {
             apply.setEnabled(false);
             apply(prepared).whenComplete((result, error) -> SwingUtilities.invokeLater(() -> {
-                if (error == null)
+                if (error == null) {
                     preview.dispose();
-                else
+                    if (prepared.template() != null && !prepared.template().placeholders().isEmpty())
+                        inlineGenerated.accept(prepared.template());
+                } else
                     status.setText(message(error));
             }));
         });

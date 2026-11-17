@@ -99,6 +99,7 @@ final class JdtQuickActions implements JavaQuickActions {
         Plan rename;
         String methodIdentity;
         String focusGroup;
+        boolean variable = false;
         try {
             workspace.synchronize(beforeTyping, cancel);
             ASTNode node = NodeFinder.perform(workspace.ast(declaration.file()), declaration.start(), declaration.end() - declaration.start());
@@ -113,7 +114,9 @@ final class JdtQuickActions implements JavaQuickActions {
                     && method.parameters().contains(parameter)) {
                 methodIdentity = methodIdentity(method);
                 focusGroup = "parameter." + method.parameters().indexOf(parameter);
-            } else throw new IllegalArgumentException("Linked edit must select a method name or a declared method parameter name");
+            } else if (name.getParent() instanceof VariableDeclarationFragment fragment && fragment.getName() == name) {
+                methodIdentity = null; focusGroup = "variableName"; variable = true;
+            } else throw new IllegalArgumentException("Linked edit must select a complete method, parameter or variable declaration name");
             rename = engine.prepare(new Requests.Rename(declaration, newName), cancel);
         } finally { workspace.synchronize(current, Cancellation.NONE); }
         Location focus = new Location(declaration.file(), declaration.start(), declaration.start() + newName.length());
@@ -132,6 +135,13 @@ final class JdtQuickActions implements JavaQuickActions {
             rebased = new Plan(rebased.id(), rebased.operation(), current, rename.affectedSymbols(), edits, List.of(), diagnostics, rebased.status(), rebased.description());
         }
         if (!rebased.valid()) return prepared(rebased, focus);
+        if (variable) {
+            // Compare against the pre-typing source: the new declaration is absent there.
+            Plan description = new Plan(rebased.id(), Operation.CREATE_FIELD, beforeTyping, List.of(), rename.edits(),
+                    List.of(), List.of(), ValidationStatus.VALID, rebased.description());
+            Prepared fields = templateFor(description, cancel);
+            return new Prepared(rebased, fields.focus(), fields.placeholders());
+        }
         var methods = new ArrayList<MethodDeclaration>();
         sourceTree(declaration.file(), resultingSource(rebased, declaration.file())).accept(new ASTVisitor() {
             @Override public boolean visit(MethodDeclaration method) {
@@ -144,6 +154,149 @@ final class JdtQuickActions implements JavaQuickActions {
         Location renamed = template.placeholders().stream().filter(p -> p.group().equals(focusGroup))
                 .map(Placeholder::location).findFirst().orElseThrow();
         return new Prepared(rebased, renamed, template.placeholders());
+    }
+
+    @Override public Prepared changeParameterTypeLinked(WorkspaceSnapshot baseline, Location type, String newType, Cancellation cancel) {
+        cancel.check();
+        var current = workspace.snapshot();
+        if (!baseline.root().equals(current.root()) || !baseline.sourceRoots().equals(current.sourceRoots())
+                || !baseline.classpath().equals(current.classpath()) || !baseline.projects().equals(current.projects())
+                || baseline.sources().size() != current.sources().size())
+            throw new IllegalStateException("Project changed during parameter editing");
+        for (var source : baseline.sources()) {
+            String expected = source.file().equals(type.file()) ? TextEdit.apply(source.text(),
+                    List.of(new TextEdit(type.start(), type.end(), newType))) : source.text();
+            if (!expected.equals(current.source(source.file()).text()))
+                throw new IllegalStateException("Another source edit occurred during parameter editing");
+        }
+        Plan change;
+        String identity;
+        int parameterIndex;
+        try {
+            workspace.synchronize(baseline, cancel);
+            ASTNode node = NodeFinder.perform(workspace.ast(type.file()), type.start(), type.end() - type.start());
+            SingleVariableDeclaration parameter = ancestor(node, SingleVariableDeclaration.class);
+            if (parameter == null || !(parameter.getParent() instanceof MethodDeclaration method)
+                    || method.isConstructor() || !range(type.file(), parameter.getType()).equals(type))
+                throw new IllegalArgumentException("Select a complete method parameter type");
+            parameterIndex = method.parameters().indexOf(parameter);
+            var signature = signatureRoot(type.file(), method);
+            var declaration = signature.method();
+            var parameters = new ArrayList<Requests.Parameter>();
+            for (int i = 0; i < declaration.parameters().size(); i++) {
+                var p = (SingleVariableDeclaration) declaration.parameters().get(i);
+                parameters.add(new Requests.Parameter(i, (i == parameterIndex ? newType : p.getType().toString())
+                        + (p.isVarargs() ? "..." : "") + "[]".repeat(p.extraDimensions().size()), p.getName().toString(), ""));
+            }
+            Requests.Visibility visibility = Modifier.isPublic(declaration.getModifiers()) || declaration.resolveBinding().getDeclaringClass().isInterface() ? Requests.Visibility.PUBLIC
+                    : Modifier.isProtected(declaration.getModifiers()) ? Requests.Visibility.PROTECTED
+                    : Modifier.isPrivate(declaration.getModifiers()) ? Requests.Visibility.PRIVATE : Requests.Visibility.PACKAGE;
+            change = engine.prepare(new Requests.ChangeSignature(range(signature.file(), declaration.getName()), declaration.getName().toString(),
+                    declaration.getReturnType2().toString(), visibility, parameters), cancel);
+            if (change.valid()) {
+                var calls = InvocationBindings.capture(workspace);
+                var declarations = InvocationBindings.declarations(workspace);
+                var candidateSources = new ArrayList<SourceSnapshot>();
+                for (var source : baseline.sources()) candidateSources.add(new SourceSnapshot(source.file(),
+                        resultingSource(change, source.file()), source.version() + 1, source.open()));
+                workspace.synchronize(new WorkspaceSnapshot(baseline.root(), baseline.version() + 1, candidateSources,
+                        baseline.sourceRoots(), baseline.classpath(), baseline.projects()), cancel);
+                if (!InvocationBindings.sameDeclarationsAfterSignatureEdit(calls, InvocationBindings.capture(workspace),
+                        declarations, InvocationBindings.declarations(workspace)))
+                    change = new Plan(change.id(), change.operation(), baseline, change.affectedSymbols(), List.of(), List.of(),
+                            List.of(new Diagnostic(Severity.ERROR, "template.changed.overload",
+                                    "This parameter type would change an existing call or method-reference target", type)),
+                            ValidationStatus.CONFLICTED, change.description());
+            }
+            var typedTree = sourceTree(type.file(), current.source(type.file()).text());
+            var typedMethod = ancestor(NodeFinder.perform(typedTree, type.start(), newType.length()), MethodDeclaration.class);
+            identity = methodIdentity(typedMethod);
+        } finally { workspace.synchronize(current, Cancellation.NONE); }
+        if (!change.valid()) return new Prepared(new Plan(change.id(), change.operation(), current, change.affectedSymbols(),
+                List.of(), List.of(), change.diagnostics(), change.status(), change.description()), type, List.of());
+        var edits = new ArrayList<FileEdits>();
+        for (var source : current.sources()) {
+            String wanted = resultingSource(change, source.file());
+            if (!source.text().equals(wanted)) edits.add(new FileEdits(source.file(), ChangePlans.difference(source.text(), wanted)));
+        }
+        Plan rebased = checkedPlan(Operation.CHANGE_SIGNATURE, current, edits, List.of(), "Edit linked parameter type", cancel);
+        if (!rebased.valid()) return prepared(rebased, type);
+        var methods = new ArrayList<MethodDeclaration>();
+        sourceTree(type.file(), resultingSource(rebased, type.file())).accept(new ASTVisitor() {
+            @Override public boolean visit(MethodDeclaration method) {
+                if (methodIdentity(method).equals(identity)) methods.add(method);
+                return true;
+            }
+        });
+        if (methods.size() != 1) throw new IllegalStateException("Cannot restore parameter template after signature change");
+        var fields = methodTemplate(rebased, type.file(), methods.getFirst());
+        String group = "parameterType." + parameterIndex;
+        return new Prepared(rebased, fields.placeholders().stream().filter(p -> p.group().equals(group)).findFirst().orElseThrow().location(), fields.placeholders());
+    }
+
+    private record SignatureRoot(Path file, MethodDeclaration method) {}
+    private SignatureRoot signatureRoot(Path file, MethodDeclaration method) {
+        var binding = method.resolveBinding();
+        if (binding == null || binding.isRecovered()) throw new IllegalArgumentException("The method signature cannot be resolved");
+        var inherited = new ArrayList<IMethodBinding>();
+        var pending = new ArrayDeque<ITypeBinding>();
+        pending.add(binding.getDeclaringClass());
+        var seen = new HashSet<String>();
+        while (!pending.isEmpty()) {
+            var type = pending.removeFirst();
+            if (!seen.add(type.getKey())) continue;
+            for (var candidate : type.getDeclaredMethods()) if (binding.overrides(candidate)) inherited.add(candidate);
+            if (type.getSuperclass() != null) pending.add(type.getSuperclass());
+            pending.addAll(Arrays.asList(type.getInterfaces()));
+        }
+        if (inherited.isEmpty()) return new SignatureRoot(file, method);
+        var roots = inherited.stream().filter(candidate -> inherited.stream().noneMatch(other -> candidate != other && candidate.overrides(other))).toList();
+        if (roots.size() != 1 || !(roots.getFirst().getJavaElement() instanceof IMethod root) || root.getCompilationUnit() == null)
+            throw new IllegalArgumentException("The signature has multiple or binary roots; use an explicit Change Signature preview");
+        try {
+            Path target = workspace.original(root.getCompilationUnit());
+            var range = root.getNameRange();
+            var declaration = ancestor(NodeFinder.perform(workspace.ast(target), range.getOffset(), range.getLength()), MethodDeclaration.class);
+            if (declaration == null) throw new IllegalArgumentException("The source signature root is unavailable");
+            return new SignatureRoot(target, declaration);
+        } catch (JavaModelException failure) { throw new IllegalArgumentException("The source signature root is unavailable", failure); }
+    }
+
+    @Override public Validation validateTemplate(WorkspaceSnapshot baseline, Cancellation cancel) {
+        return validateTemplate(baseline, List.of(), cancel);
+    }
+
+    @Override public Validation validateTemplate(WorkspaceSnapshot baseline, List<Placeholder> fields, Cancellation cancel) {
+        cancel.check();
+        WorkspaceSnapshot current = workspace.snapshot();
+        if (!baseline.root().equals(current.root()) || !baseline.sourceRoots().equals(current.sourceRoots())
+                || !baseline.classpath().equals(current.classpath()) || !baseline.projects().equals(current.projects())
+                || !baseline.sources().stream().map(SourceSnapshot::file).collect(java.util.stream.Collectors.toSet())
+                    .equals(current.sources().stream().map(SourceSnapshot::file).collect(java.util.stream.Collectors.toSet())))
+            return new Validation(false, List.of(new Diagnostic(Severity.ERROR, "template.workspace.changed",
+                    "Project changed during inline editing; cancel and invoke the action again", null)));
+        // Field diagnostics cannot be masked by an equal count of pre-existing errors elsewhere.
+        var fieldErrors = new ArrayList<Diagnostic>();
+        for (Path file : fields.stream().map(p -> p.location().file()).distinct().toList()) {
+            cancel.check();
+            String text = current.source(file).text();
+            for (var problem : workspace.validationAst(file).getProblems()) {
+                if (!problem.isError() || fields.stream().noneMatch(p -> p.location().file().equals(file) && intersects(p.location(), problem))) continue;
+                fieldErrors.add(new Diagnostic(Severity.ERROR, "template.field." + problem.getID(), problem.getMessage(),
+                        new Location(file, Math.max(0, problem.getSourceStart()), Math.min(text.length(), Math.max(0, problem.getSourceEnd() + 1)))));
+            }
+        }
+        if (!fieldErrors.isEmpty()) return new Validation(false, fieldErrors);
+        var edits = new ArrayList<FileEdits>();
+        for (var source : baseline.sources()) {
+            String now = current.source(source.file()).text();
+            if (!source.text().equals(now)) edits.add(new FileEdits(source.file(), ChangePlans.difference(source.text(), now)));
+        }
+        try {
+            workspace.synchronize(baseline, cancel);
+            return engine.validate(new Plan(UUID.randomUUID().toString(), Operation.CHANGE_SIGNATURE, baseline,
+                    List.of(), edits, List.of(), List.of(), ValidationStatus.VALID, "Validate inline template"), cancel);
+        } finally { workspace.synchronize(current, Cancellation.NONE); }
     }
 
     private void offer(Context c, List<Proposal> into, Kind kind, Action action, String title,
@@ -562,7 +715,7 @@ final class JdtQuickActions implements JavaQuickActions {
         Plan plan = engine.prepare(request, c.cancel());
         if (!plan.valid()) return;
         offer(c, into, Kind.FIX, Action.REFACTOR, title, "Apply the compiler-confirmed source correction as one undoable change.",
-                request.location(), request.operation(), Map.of("direct", "true"), cancel -> prepared(plan, request.location()));
+                request.location(), request.operation(), Map.of("direct", "true"), cancel -> templateFor(plan, cancel));
     }
 
     private void testGeneration(Context c, List<Proposal> into) {
@@ -627,7 +780,7 @@ final class JdtQuickActions implements JavaQuickActions {
         Plan plan = engine.prepare(request, c.cancel());
         if (!plan.valid()) return;
         offer(c, into, Kind.ASSIST, Action.REFACTOR, title, "Apply the validated Java transformation as one undoable change.",
-                request.location(), request.operation(), Map.of("direct", "true"), cancel -> prepared(plan, request.location()));
+                request.location(), request.operation(), Map.of("direct", "true"), cancel -> templateFor(plan, cancel));
     }
 
     private void assignAssists(Context c, List<Proposal> into) {
@@ -647,7 +800,7 @@ final class JdtQuickActions implements JavaQuickActions {
                 String title = kind == AssignToVariableAssistProposalCore.LOCAL ? "Assign to local variable" : "Assign to field";
                 Plan plan = checkedPlan(operation, c.snapshot(), converted.edits, converted.files, title, c.cancel());
                 if (plan.valid()) offer(c, into, Kind.ASSIST, Action.REFACTOR, title, "Capture this expression's result without changing evaluation order.",
-                        c.at(), operation, Map.of("direct", "true"), cancel -> prepared(plan, c.at()));
+                        c.at(), operation, Map.of("direct", "true"), cancel -> templateFor(plan, cancel));
             } catch (CoreException | IllegalArgumentException ignored) {
                 // A failed semantic precondition is absence of a proposal, not a fake selectable action.
             } finally { if (change != null) change.dispose(); }
@@ -661,6 +814,53 @@ final class JdtQuickActions implements JavaQuickActions {
         var validation = engine.validate(plan, cancel);
         return new Plan(plan.id(), operation, before, List.of(), edits, files, validation.diagnostics(),
                 validation.valid() ? ValidationStatus.VALID : ValidationStatus.CONFLICTED, title);
+    }
+
+    @Override public Prepared templateFor(Plan plan, Cancellation cancel) {
+        cancel.check();
+        if (!plan.valid() || !Set.of(Operation.EXTRACT_METHOD, Operation.EXTRACT_VARIABLE,
+                Operation.CREATE_FIELD, Operation.CREATE_LOCAL).contains(plan.operation())) return prepared(plan, null);
+        var candidates = new ArrayList<Prepared>();
+        for (var edit : plan.edits()) {
+            cancel.check();
+            var oldMethods = new HashSet<String>();
+            var oldVariables = new HashSet<String>();
+            sourceTree(edit.file(), plan.before().source(edit.file()).text()).accept(new ASTVisitor() {
+                @Override public boolean visit(MethodDeclaration m) { oldMethods.add(methodIdentity(m)); return true; }
+                @Override public boolean visit(VariableDeclarationFragment v) { oldVariables.add(variableIdentity(v)); return true; }
+            });
+            sourceTree(edit.file(), resultingSource(plan, edit.file())).accept(new ASTVisitor() {
+                @Override public boolean visit(MethodDeclaration m) {
+                    if (plan.operation() == Operation.EXTRACT_METHOD && !oldMethods.contains(methodIdentity(m)))
+                        candidates.add(methodTemplate(plan, edit.file(), m));
+                    return true;
+                }
+                @Override public boolean visit(VariableDeclarationFragment v) {
+                    if (plan.operation() == Operation.EXTRACT_METHOD || oldVariables.contains(variableIdentity(v))) return true;
+                    Type type = v.getParent() instanceof FieldDeclaration f ? f.getType()
+                            : v.getParent() instanceof VariableDeclarationStatement l ? l.getType() : null;
+                    if (type == null) return true;
+                    var fields = new ArrayList<Placeholder>();
+                    fields.add(new Placeholder("variableName", range(edit.file(), v.getName())));
+                    if (!type.isVar()) fields.add(new Placeholder("valueType", range(edit.file(), type)));
+                    if (v.getInitializer() != null) fields.add(new Placeholder("initializer", range(edit.file(), v.getInitializer())));
+                    fields.add(new Placeholder("end", new Location(edit.file(), v.getStartPosition() + v.getLength())));
+                    candidates.add(new Prepared(plan, fields.getFirst().location(), fields));
+                    return true;
+                }
+            });
+        }
+        // Ambiguous generated declarations retain the preview-only flow rather than selecting a guessed symbol.
+        return candidates.size() == 1 ? candidates.getFirst() : prepared(plan, null);
+    }
+
+    private static String variableIdentity(VariableDeclarationFragment variable) {
+        String owner = "";
+        for (ASTNode node = variable.getParent(); node != null; node = node.getParent()) {
+            if (node instanceof MethodDeclaration method) owner = methodIdentity(method) + "/" + owner;
+            if (node instanceof AbstractTypeDeclaration type) owner = type.getName() + "/" + owner;
+        }
+        return owner + variable.getName();
     }
 
     private Prepared methodPrepared(Plan plan, Path target, String name, int arity) {
@@ -689,7 +889,7 @@ final class JdtQuickActions implements JavaQuickActions {
     }
 
     /**
-     * The inline template of a generated method, in Tab order: return type, method name, each parameter name, then the
+     * The inline template of a generated method, in Tab order: return type, method name, each parameter type/name, then the
      * returned expression. "end" is not a stop: it is where the caret goes when the template is confirmed (after the
      * returned expression, or inside a void method's body). The focus is the first stop.
      */
@@ -699,6 +899,7 @@ final class JdtQuickActions implements JavaQuickActions {
         placeholders.add(new Placeholder("methodName", range(target, method.getName())));
         for (int i = 0; i < method.parameters().size(); i++) {
             SingleVariableDeclaration parameter = (SingleVariableDeclaration) method.parameters().get(i);
+            placeholders.add(new Placeholder("parameterType." + i, range(target, parameter.getType())));
             placeholders.add(new Placeholder("parameter." + i, range(target, parameter.getName())));
         }
         Location end = null;

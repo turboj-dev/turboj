@@ -16,7 +16,7 @@ import javax.swing.*;
 public final class LiveTemplateWorkflowSmoke {
     static Path source;
     public static void main(String[] args) throws Exception {
-        output = Files.createDirectories(Path.of("app/target/live-template-workflow"));
+        output = Files.createDirectories(Path.of(args.length > 0 ? "app/target/inline-semantic-template" : "app/target/live-template-workflow"));
         work = Files.createTempDirectory("turboj-live-template-workflow-").toRealPath();
         System.setProperty("turboj.config", work.resolve("preferences").toString());
         System.setProperty("apple.laf.useScreenMenuBar", "false");
@@ -28,12 +28,72 @@ public final class LiveTemplateWorkflowSmoke {
         try {
             await(() -> frame.mavenProjects().hasProject(), "project"); edt(() -> { frame.openPath(source); return null; });
             await(() -> source.equals(frame.currentFile()) && frame.editor().isFocusOwner(), "source");
-            builtins(); custom(); lifecycle(); invalidGeneratedFields(); generatedLifecycle(); printCompletion(); restartPersistence();
+            if (args.length > 0 && args[0].equals("--qfx08")) { semanticGeneratedFields(); extractedInlineFields(); }
+            else { builtins(); custom(); lifecycle(); invalidGeneratedFields(); generatedLifecycle(); printCompletion(); restartPersistence(); }
         } finally {
             Files.writeString(output.resolve("effects.tsv"), report);
             edt(() -> { for (var d : List.copyOf(OverlayHost.dialogs(frame))) d.dispose(); frame.shutdown(); frame.dispose(); return null; });
         }
     }
+    static void nextField(int index) throws Exception {
+        key(KeyEvent.VK_TAB, 0);
+        await(() -> frame.editor().templateActive() && frame.editor().templateIndex() == index, "inline field " + index);
+    }
+    static void semanticGeneratedFields() throws Exception {
+        String code = "public class C { void f(){ int value = calculate(1, 2); } }\n";
+        generate(code);
+        nextField(1); nextField(2);
+        type("String"); key(KeyEvent.VK_ENTER, 0);
+        await(() -> !frame.editor().templateErrors().isEmpty(), "incompatible call argument rejected");
+        check(edt(() -> frame.editor().templateActive()), "invalid signature remains editable");
+        selectTyped("String"); type("long"); nextField(3);
+        check(edt(() -> frame.editor().getText()).contains("long "), "widened parameter retained");
+        nextField(4); nextField(5); nextField(6);
+        type("true"); key(KeyEvent.VK_ENTER, 0);
+        await(() -> !frame.editor().templateErrors().isEmpty(), "boolean expression rejected for int return");
+        String saved = Files.readString(source);
+        action("save"); await(() -> !frame.editor().templateErrors().isEmpty(), "Save checks expression type");
+        check(Files.readString(source).equals(saved), "invalid expression never saved");
+        selectTyped("true"); type("42"); action("save");
+        await(() -> !frame.editor().templateActive() && Files.readString(source).equals(frame.editor().getText()), "semantic confirmation resumes Save");
+        String result = edt(() -> frame.editor().getText()); compile(result);
+        action("undo"); await(() -> frame.editor().getText().contains("return 0;"), "Undo semantic field edits");
+        action("redo"); await(() -> frame.editor().getText().equals(result), "Redo semantic field edits");
+        pass("qfx08.signature", "real Tab parameter types; incompatible caller rejected; widening accepted; mismatched return and Save rejected; corrected Save, javac, Undo/Redo");
+        generate(code); nextField(1); nextField(2); type("long"); nextField(3);
+        key(KeyEvent.VK_ESCAPE, 0); await(() -> !frame.editor().templateActive() && frame.editor().getText().equals(code), "type-edit cancellation rolls back generation");
+        pass("qfx08.cancel", "Escape restores original caller after a semantically validated parameter edit");
+    }
+    static void extractedInlineFields() throws Exception {
+        for (String id : List.of("refactor.extract-variable", "refactor.extract-method", "refactor.create-field")) {
+            boolean field = id.endsWith("create-field"), method = id.endsWith("extract-method");
+            String code = field ? "public class C { int f(){ return missing; } }\n"
+                    : "public class C { int f(int x){ return x + 1; } }\n";
+            String selection = field ? "missing" : "x + 1";
+            int at = code.indexOf(selection); fixture(code, at, field ? at : at + selection.length());
+            action(id); dialog();
+            if (!top().getTitle().startsWith("RefactorJ")) button("OK");
+            await(() -> OverlayHost.active(frame) && top().getTitle().startsWith("RefactorJ"), "preview " + id);
+            check(edt(() -> frame.editor().getText()).equals(code), "preview hasn't changed source");
+            key(KeyEvent.VK_ESCAPE, 0); await(() -> !OverlayHost.active(frame), "preview cancel");
+            check(edt(() -> frame.editor().getText()).equals(code), "preview cancel preserves source");
+            action(id); dialog(); if (!top().getTitle().startsWith("RefactorJ")) button("OK");
+            await(() -> OverlayHost.active(frame) && top().getTitle().startsWith("RefactorJ"), "second preview");
+            button("Apply changes"); await(() -> frame.editor().templateActive() && !OverlayHost.active(frame), "inline fields " + id);
+            if (method) nextField(1);
+            type("renamed"); key(KeyEvent.VK_ENTER, 0);
+            await(() -> !frame.editor().templateActive(), "confirmed " + id);
+            String result = edt(() -> frame.editor().getText()); compile(result);
+            check(result.contains("renamed"), "declaration renamed");
+            check(method ? result.contains("renamed(x)") : result.contains("return renamed;"), "bound usage renamed");
+            action("undo"); await(() -> !frame.editor().getText().contains("renamed"), "Undo linked rename");
+            action("undo"); await(() -> frame.editor().getText().equals(code), "Undo extraction/generation");
+            action("redo"); await(() -> !frame.editor().getText().equals(code), "Redo extraction/generation");
+            action("redo"); await(() -> frame.editor().getText().equals(result), "Redo linked rename");
+            pass(id + ".inline", "keyboard preview/cancel/apply; inline semantic rename of declaration and uses; javac; two transaction Undo/Redo");
+        }
+    }
+
     static void snippet(String abbreviation) throws Exception {
         String code = "public class C { void f() {\n    " + abbreviation + "\n} }\n";
         int at = "public class C { void f() {\n    ".length() + abbreviation.length(); fixture(code, at, at);
@@ -116,17 +176,17 @@ public final class LiveTemplateWorkflowSmoke {
         selectTyped("List<int>"); type("int"); key(KeyEvent.VK_TAB,0);
         type("bad.name"); key(KeyEvent.VK_ENTER,0); await(() -> !frame.editor().templateErrors().isEmpty(), "qualified method name rejected");
         action("format.document"); check(edt(() -> frame.editor().templateActive()), "Format cannot bypass name validation");
-        selectTyped("bad.name"); type("calculate"); key(KeyEvent.VK_TAB,0);
-        await(() -> frame.editor().templateIndex() == 2, "first parameter");
-        String original = edt(() -> frame.editor().templateText(2)), duplicate = edt(() -> frame.editor().templateText(3));
+        selectTyped("bad.name"); type("calculate"); key(KeyEvent.VK_TAB,0); key(KeyEvent.VK_TAB,0);
+        await(() -> frame.editor().templateIndex() == 3, "first parameter");
+        String original = edt(() -> frame.editor().templateText(3)), duplicate = edt(() -> frame.editor().templateText(5));
         type(duplicate); key(KeyEvent.VK_ENTER,0);
         await(() -> frame.editor().templateErrors().values().contains("Duplicate parameter name"), "duplicate parameters rejected");
         selectTyped(duplicate); type(original);
-        key(KeyEvent.VK_TAB,0); key(KeyEvent.VK_TAB,0); await(() -> frame.editor().templateIndex() == 4, "return expression");
+        key(KeyEvent.VK_TAB,0); key(KeyEvent.VK_TAB,0); key(KeyEvent.VK_TAB,0); await(() -> frame.editor().templateIndex() == 6, "return expression");
         type("Math.ma"); action("complete"); await(() -> frame.intelligence().alternativesVisible(), "completion inside field");
         key(KeyEvent.VK_ENTER,0); await(() -> !frame.intelligence().alternativesVisible(), "Enter accepts completion first");
-        check(edt(() -> frame.editor().templateActive() && frame.editor().templateStopCount() == 5), "completion retains placeholders");
-        check(edt(() -> frame.editor().templateText(4)).contains("Math.max("), "real Math.max completion stays inside body field");
+        check(edt(() -> frame.editor().templateActive() && frame.editor().templateStopCount() == 7), "completion retains placeholders");
+        check(edt(() -> frame.editor().templateText(6)).contains("Math.max("), "real Math.max completion stays inside body field");
         key(KeyEvent.VK_ESCAPE,0); await(() -> !frame.editor().templateActive() && frame.editor().getText().equals(code), "generated session rollback");
         pass("qfx03.validation", "Save/Save All/Format validation; primitive generic, qualified name and duplicate parameters rejected; JDT completion retains fields; Escape restores caller");
     }
@@ -144,8 +204,8 @@ public final class LiveTemplateWorkflowSmoke {
         String code = "public class C { void f(){ int value = calculate(1, 2); } }\n";
         for (String command : List.of("save", "format.document")) {
             generate(code);
-            for(int i=0;i<4;i++) key(KeyEvent.VK_TAB,0);
-            String left = edt(() -> frame.editor().templateText(2)), right = edt(() -> frame.editor().templateText(3));
+            for(int i=0;i<6;i++) key(KeyEvent.VK_TAB,0);
+            String left = edt(() -> frame.editor().templateText(3)), right = edt(() -> frame.editor().templateText(5));
             type(left + " + " + right); action(command);
             await(() -> !frame.editor().templateActive(), command + " confirms generated template");
             if (command.equals("format.document")) await(() -> frame.editor().getText().contains("class C {\n"), "formatter result visible");

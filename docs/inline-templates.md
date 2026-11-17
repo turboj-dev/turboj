@@ -40,12 +40,18 @@ in `Calculator.java`, opens it, and starts the template with the fields in this 
 
 1. return type (`int`, selected);
 2. method name (`multiply`);
-3. each parameter name (`i`, `j`);
+3. each parameter type and name (`int`, `i`, `int`, `j`);
 4. the returned expression (`0`).
 
 The method name and the parameter names are semantic links. Leaving the name field, or confirming with it changed,
 applies RefactorJ's linked rename: the call in `CalculatorTest.java` becomes `calculator.product(0, 0)`, while a
 comment or a string that says `multiply` stays as it was. Parameter names update their references in the body.
+
+Parameter types use RefactorJ Change Signature when leaving the field or confirming. Related source declarations
+are updated together; incompatible arguments, invalid types and changes that redirect an existing call or method
+reference to another overload are rejected. TurboJ does not invent casts or replacement arguments to force a change.
+A compatible widening can leave call text unchanged. Parameter types exclude `void`; varargs and array dimensions
+are retained by the signature operation.
 
 The returned expression follows the return type while the user has not edited it: `0` for numeric types and
 `char`, `false` for `boolean`, `null` for a reference type, nothing for `void`. Once the user types into it, it is
@@ -57,13 +63,37 @@ Enter checks every field first:
 - the name and each parameter must be a Java identifier and not a keyword;
 - two parameters cannot have the same name;
 - a `void` method returns no value, any other method returns one;
-- collisions with existing members come from the linked rename, which refuses names that conflict.
+- collisions with existing members come from the linked rename, which refuses names that conflict;
+- a worker-side JDT validation checks the complete edited workspace against its post-generation baseline, including
+  return-expression assignment compatibility, parameter/body use and callers. Java's conversion rules apply (for
+  example, a constant `127` can be returned from a `byte` method, while `128` needs an explicit cast).
+
+Confirmation stays pending during semantic validation. Save, Save All and Format resume only after successful
+validation. An error leaves the fields editable; no candidate snapshot is published by validation. Edits, cancellation,
+file switches and changed project identities invalidate pending responses. Unrelated errors that already existed at
+session creation do not block the edit, but new compiler errors do. This is not a claim that the entire project is error-free.
 
 An invalid field keeps the session open and receives the caret. An empty active field is not an error while it is
 being typed, but cannot be confirmed or saved empty. Save All uses the same validation as Save and Format.
 Validation rejects qualified method/parameter names, duplicate parameters and primitive generic arguments.
 Explicit JDT completion keeps the fields linked, including when a proposal inserts imports; Enter accepts the
 proposal before it can confirm the template.
+
+## Extract Variable, Extract Method and Create Field
+
+These actions retain their parameter forms and preview. Applying a valid preview starts fields in the generated
+declaration. Closing the preview without applying leaves source untouched.
+
+- Extract Method exposes the return type, method name, parameter types/names and a returned expression when the
+  body is a single return. Existing extracted expressions are never replaced by generated default values.
+- Extract Variable and Create Field expose the declaration name, its explicit type (when it is not `var`) and its
+  initializer when present. Renaming the declaration updates bound references, including other files for a field.
+- Quick Fix's direct Create Field/Assign to Field or Local actions use the same fields.
+
+Names use semantic Rename, and confirmation uses the same workspace validation as Create Method. Ambiguous
+multiple generated declarations keep the preview-only flow; the editor does not guess which symbol to select.
+Escape rolls back the generated/extracted declaration and its linked transactions. Confirmed edits retain the
+one-Undo-step-per-workspace-transaction contract below.
 
 ## Rename of a local variable or parameter
 
@@ -90,7 +120,9 @@ symbols keep the Rename dialog.
 |---|---|
 | `EditorComponent` | Template state: fields as groups of document ranges, Tab order, exit position, remapping on every edit, decorations, Enter/Tab/click handling. Esc belongs to the host. |
 | `TurboFrame` (`InlineSession`) | The session: origin, the workspace transactions applied, validation, default return value, confirm, cancel, status hint. |
-| `JdtQuickActions.methodTemplate` | Placeholders of a generated method in Tab order, with the exit after the returned expression. |
+| `JdtQuickActions.methodTemplate` / `templateFor` | Placeholders of generated methods and variables after a validated preview. |
+| `JdtQuickActions.changeParameterTypeLinked` | Change Signature with hierarchy/caller validation and overload-target preservation. |
+| `JdtQuickActions.validateTemplate` | Asynchronous baseline-to-current compiler validation; temporary workspace state restored in all paths. |
 | `JdtQuickActions.renameLinked` | Semantic rename of a generated name across files, as a workspace transaction. |
 | `JdtQuickActions.localOccurrences` | Occurrences of a local variable or parameter by binding. |
 | `StatusBar.hold` / `release` | The key hint while a mode lasts. |
@@ -98,8 +130,10 @@ symbols keep the Rename dialog.
 ## Limits
 
 - Undo after a confirmed session is one step per workspace transaction, not one step for the whole session.
-- The returned expression is checked for presence, not for type compatibility with the return type; the compiler
-  reports a mismatch after confirmation.
-- Parameter types are ordinary text, not fields.
-- Extract Variable, Extract Method and Create Field still use their existing flow; local and parameter Rename is
-  the refactoring converted to the inline template so far.
+- Semantic validation requires the project's resolvable JDT workspace/classpath. It detects new compiler errors;
+  it does not prove runtime behavior or repair pre-existing compilation failures.
+- Unsupported or ambiguous generation shapes keep the validated preview flow without inline fields.
+- Switching file or editing outside the fields ends the session and preserves the edits, as before. This is not
+  semantic confirmation; ordinary compilation still reports any unfinished code when returning to it.
+- Parameter edits preserve arity/order. Adding/removing/reordering parameters remains the Change Signature dialog.
+- Physical keyboard/IME and VoiceOver checks remain the separately tracked KEY-05 work.

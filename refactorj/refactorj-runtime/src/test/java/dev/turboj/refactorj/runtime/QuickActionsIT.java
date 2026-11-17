@@ -19,6 +19,157 @@ class QuickActionsIT {
     @BeforeAll static void start() throws Exception { runtime = new RefactorJRuntime(); }
     @AfterAll static void stop() { runtime.close(); }
 
+    @Test void templateValidationChecksReturnExpressionsAndCallersWithoutPublishing() throws Exception {
+        Path file = root.resolve("C.java"), caller = root.resolve("Use.java");
+        String original = "class C { int value(int x){ return 0; } }";
+        String use = "class Use { int n = new C().value(2); }";
+        var baseline = snapshot(Map.of(file, original, caller, use), List.of(root), List.of());
+        for (String edited : List.of(original.replace("return 0", "return true"),
+                original.replace("int x", "String x"), original.replace("int value", "long value"),
+                original.replace("return 0", "return missing"))) {
+            var current = snapshot(Map.of(file, edited, caller, use), List.of(root), List.of());
+            try (var engine = runtime.openWorkspace(current)) {
+                var validation = engine.quickActions().validateTemplate(baseline, Cancellation.NONE);
+                assertFalse(validation.valid(), edited);
+                assertFalse(validation.diagnostics().isEmpty());
+                assertEquals(current, engine.workspace().snapshot(), "validation never publishes temporary snapshots");
+            }
+        }
+        var current = snapshot(Map.of(file, original.replace("return 0", "return x + 1"), caller, use), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(current)) {
+            assertTrue(engine.quickActions().validateTemplate(baseline, Cancellation.NONE).valid());
+            compile(current);
+        }
+    }
+
+    @Test void fieldTypeErrorsCannotBeHiddenByAnEqualNumberOfPreExistingErrors() throws Exception {
+        Path file = root.resolve("C.java");
+        String old = "class C { int value(){return 0;} int other(){return true;} }";
+        String edited = "class C { int value(){return true;} int other(){return 0;} }";
+        var baseline = snapshot(Map.of(file, old), List.of(root), List.of());
+        var current = snapshot(Map.of(file, edited), List.of(root), List.of());
+        int start = edited.indexOf("true");
+        var field = new Placeholder("body", new Location(file, start, start + 4));
+        try (var engine = runtime.openWorkspace(current)) {
+            var validation = engine.quickActions().validateTemplate(baseline, List.of(field), Cancellation.NONE);
+            assertFalse(validation.valid());
+            assertTrue(validation.diagnostics().stream().anyMatch(d -> d.location() != null
+                    && d.location().start() == start && d.message().contains("boolean")), validation.toString());
+            assertEquals(current, engine.workspace().snapshot());
+        }
+    }
+
+    @Test void parameterTypeEditingUsesChangeSignatureAndRejectsIncompatibleArguments() throws Exception {
+        Path file = root.resolve("C.java"), caller = root.resolve("Use.java");
+        String original = "class C { int value(int x){ return 0; } }";
+        var baseline = snapshot(Map.of(file, original, caller, "class Use { int n = new C().value(2); }"), List.of(root), List.of());
+        int at = original.indexOf("int x");
+        for (String type : List.of("long", "String", "void", "Missing")) {
+            var current = snapshot(Map.of(file, original.replace("int x", type + " x"), caller, baseline.source(caller).text()), List.of(root), List.of());
+            try (var engine = runtime.openWorkspace(current)) {
+                var result = engine.quickActions().changeParameterTypeLinked(baseline, new Location(file, at, at + 3), type, Cancellation.NONE);
+                assertEquals(type.equals("long"), result.plan().valid(), result.plan().diagnostics().toString());
+                assertEquals(current, engine.workspace().snapshot());
+                if (result.plan().valid()) {
+                    var after = new WorkspaceTransactions(new InMemoryWorkspace(current)).apply(result.plan(), Cancellation.NONE).snapshot();
+                    compile(after);
+                    assertTrue(result.placeholders().stream().anyMatch(p -> p.group().equals("parameterType.0")));
+                }
+            }
+        }
+    }
+
+    @Test void linkedParameterTypeUpdatesHierarchyAndRejectsConcurrentSources() throws Exception {
+        Path file = root.resolve("C.java"), api = root.resolve("Api.java"), caller = root.resolve("Use.java");
+        String source = "class C implements Api { public int value(int x){ return 0; } }";
+        var baseline = snapshot(Map.of(file, source, api, "interface Api { int value(int x); }",
+                caller, "class Use { int n = ((Api)new C()).value(2); }"), List.of(root), List.of());
+        var current = snapshot(Map.of(file, source.replace("int x", "long x"), api, baseline.source(api).text(),
+                caller, baseline.source(caller).text()), List.of(root), List.of());
+        int at = source.indexOf("int x");
+        try (var engine = runtime.openWorkspace(current)) {
+            var result = engine.quickActions().changeParameterTypeLinked(baseline, new Location(file, at, at + 3), "long", Cancellation.NONE);
+            assertTrue(result.plan().valid(), result.plan().diagnostics().toString());
+            var after = new WorkspaceTransactions(new InMemoryWorkspace(current)).apply(result.plan(), Cancellation.NONE).snapshot();
+            assertTrue(after.source(api).text().contains("long x"), after.source(api).text());
+            compile(after);
+            var concurrent = snapshot(Map.of(file, current.source(file).text() + " ", api, baseline.source(api).text(),
+                    caller, baseline.source(caller).text()), List.of(root), List.of());
+            engine.workspace().synchronize(concurrent, Cancellation.NONE);
+            assertThrows(IllegalStateException.class, () -> engine.quickActions().changeParameterTypeLinked(baseline,
+                    new Location(file, at, at + 3), "long", Cancellation.NONE));
+            assertEquals(concurrent, engine.workspace().snapshot());
+        }
+    }
+
+    @Test void templateValidationUsesJavaAssignmentRulesAndToleratesUnrelatedExistingErrors() throws Exception {
+        Path file = root.resolve("C.java"), other = root.resolve("Other.java");
+        String original = "class C { byte value(){return 0;} }";
+        var baseline = snapshot(Map.of(file, original, other, "class Other { Missing value; }"), List.of(root), List.of());
+        for (String expression : List.of("127", "128", "(byte)128", "null", "unknown")) {
+            var current = snapshot(Map.of(file, original.replace("return 0", "return " + expression), other, baseline.source(other).text()), List.of(root), List.of());
+            try (var engine = runtime.openWorkspace(current)) {
+                var result = engine.quickActions().validateTemplate(baseline, Cancellation.NONE);
+                assertEquals(Set.of("127", "(byte)128").contains(expression), result.valid(), expression + ": " + result.diagnostics());
+                assertEquals(current, engine.workspace().snapshot());
+            }
+        }
+    }
+
+    @Test void parameterTypeChangeMustNotSilentlyRetargetAnOverloadedCall() throws Exception {
+        Path file = root.resolve("C.java"), caller = root.resolve("Use.java");
+        String source = "class C { int value(int x){return 1;} int value(Integer x){return 2;} }";
+        var baseline = snapshot(Map.of(file, source, caller, "class Use { int n = new C().value(2); }"), List.of(root), List.of());
+        var current = snapshot(Map.of(file, source.replace("int x", "Number x"), caller, baseline.source(caller).text()), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(current)) {
+            int at = source.indexOf("int x");
+            var result = engine.quickActions().changeParameterTypeLinked(baseline, new Location(file, at, at + 3), "Number", Cancellation.NONE);
+            assertFalse(result.plan().valid(), "Compiling is insufficient: value(2) would silently choose the Integer overload");
+            assertEquals(current, engine.workspace().snapshot());
+        }
+    }
+
+    @Test void extractedMethodVariableAndCreatedFieldOfferRealInlineDeclarations() throws Exception {
+        Path file = root.resolve("C.java");
+        for (Operation operation : List.of(Operation.EXTRACT_METHOD, Operation.EXTRACT_VARIABLE, Operation.CREATE_FIELD)) {
+            String source = operation == Operation.CREATE_FIELD ? "class C { int f(){ return missing; } }"
+                    : "class C { int f(int x){ return x + 1; } }";
+            var baseline = snapshot(Map.of(file, source), List.of(root), List.of());
+            try (var engine = runtime.openWorkspace(baseline)) {
+                int at = source.indexOf(operation == Operation.CREATE_FIELD ? "missing" : "x + 1");
+                Requests.Request request = switch (operation) {
+                    case CREATE_FIELD -> new Requests.CreateField(new Location(file, at));
+                    case EXTRACT_VARIABLE -> new Requests.ExtractVariable(new Location(file, at, at + 5), "amount", false, false);
+                    default -> new Requests.ExtractMethod(new Location(file, at, at + 5), "amount");
+                };
+                var plan = engine.prepare(request, Cancellation.NONE);
+                assertTrue(plan.valid(), plan.diagnostics().toString());
+                var fields = engine.quickActions().templateFor(plan, Cancellation.NONE);
+                assertFalse(fields.placeholders().isEmpty(), operation.toString());
+                var after = new WorkspaceTransactions(new InMemoryWorkspace(baseline)).apply(plan, Cancellation.NONE).snapshot();
+                compile(after);
+                var name = fields.placeholders().stream().filter(p -> p.group().equals(operation == Operation.EXTRACT_METHOD ? "methodName" : "variableName")).findFirst().orElseThrow();
+                String text = after.source(file).text();
+                String typed = TextEdit.apply(text, List.of(new TextEdit(name.location().start(), name.location().end(), "renamed")));
+                var current = snapshot(Map.of(file, typed), List.of(root), List.of());
+                engine.workspace().synchronize(current, Cancellation.NONE);
+                var renamed = engine.quickActions().renameLinked(after, name.location(), "renamed", Cancellation.NONE);
+                assertTrue(renamed.plan().valid(), renamed.plan().diagnostics().toString());
+                assertFalse(renamed.placeholders().isEmpty());
+                var store = new InMemoryWorkspace(current);
+                var transactions = new WorkspaceTransactions(store);
+                var applied = transactions.apply(renamed.plan(), Cancellation.NONE);
+                var result = applied.snapshot();
+                compile(result);
+                assertTrue(result.source(file).text().contains("renamed"));
+                transactions.undo(applied.transactionId(), Cancellation.NONE);
+                assertEquals(typed, store.snapshot().source(file).text());
+                transactions.redo(applied.transactionId(), Cancellation.NONE);
+                assertEquals(result.source(file).text(), store.snapshot().source(file).text());
+            }
+        }
+    }
+
     @Test void caretWithoutFixMovesToClosestFixableProblemOnItsLineLikeEclipse() throws Exception {
         Path file = root.resolve("src/HelloWorld.java");
         String source = """
@@ -289,7 +440,7 @@ class QuickActionsIT {
             assertTrue(generated.contains("int add(int"), generated);
             assertEquals(main, result.focus().file());
             assertEquals("int", generated.substring(result.focus().start(), result.focus().end()), "the return type is the first stop");
-            assertEquals(List.of("returnType", "methodName", "parameter.0", "parameter.1", "body", "end"),
+            assertEquals(List.of("returnType", "methodName", "parameterType.0", "parameter.0", "parameterType.1", "parameter.1", "body", "end"),
                     result.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList(), "Tab order, then the exit position");
             var text = new java.util.LinkedHashMap<String, String>();
             for (var placeholder : result.placeholders())
@@ -536,7 +687,7 @@ class QuickActionsIT {
             assertTrue(changed.contains("return leftOperand+second;"), changed);
             assertTrue(changed.contains("int other(int first){return first;}"), changed);
             assertEquals("leftOperand", changed.substring(prepared.focus().start(), prepared.focus().end()));
-            assertEquals(List.of("returnType", "methodName", "parameter.0", "parameter.1", "body", "end"),
+            assertEquals(List.of("returnType", "methodName", "parameterType.0", "parameter.0", "parameterType.1", "parameter.1", "body", "end"),
                     prepared.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList());
             var slots = prepared.placeholders().stream().collect(java.util.stream.Collectors.toMap(JavaQuickActions.Placeholder::group,
                     p -> changed.substring(p.location().start(), p.location().end())));
@@ -567,10 +718,9 @@ class QuickActionsIT {
         }
     }
 
-    @Test void linkedRenameRejectsLocalAndConstructorParameterDeclarations() throws Exception {
+    @Test void linkedRenameRejectsConstructorParameterDeclarations() throws Exception {
         Path target = root.resolve("Arithmetic.java");
-        for (String source : List.of("class Arithmetic { int sum(){int original=1; return original;} }",
-                "class Arithmetic { Arithmetic(int original){} }")) {
+        for (String source : List.of("class Arithmetic { Arithmetic(int original){} }")) {
             WorkspaceSnapshot baseline = snapshot(Map.of(target, source), List.of(root), List.of());
             int offset = source.indexOf("original");
             String typed = source.substring(0, offset) + "changed" + source.substring(offset + 8);
@@ -639,7 +789,7 @@ class QuickActionsIT {
             assertTrue(callerAfter.contains("UnknownType unrelated"), "an unrelated error stays and does not block creation");
             assertEquals("int", generated.substring(prepared.focus().start(), prepared.focus().end()));
             var groups = prepared.placeholders().stream().map(JavaQuickActions.Placeholder::group).toList();
-            assertEquals(List.of("returnType", "methodName", "parameter.0", "parameter.1", "body", "end"), groups);
+            assertEquals(List.of("returnType", "methodName", "parameterType.0", "parameter.0", "parameterType.1", "parameter.1", "body", "end"), groups);
             var text = new java.util.LinkedHashMap<String, String>();
             for (var placeholder : prepared.placeholders())
                 text.put(placeholder.group(), generated.substring(placeholder.location().start(), placeholder.location().end()));

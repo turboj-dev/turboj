@@ -486,6 +486,7 @@ public final class TurboFrame extends JFrame {
             });
         });
         refactoring.setInlineRename(this::renameLocalInline);
+        refactoring.setInlineGenerated(this::navigateGeneratedSource);
         tests = new TurboTestController(new NativeTestHost());
         lineIntelligence = new LineIntelligenceController(editor, () -> file, tests,
                 Settings.directory().resolve("cherry-runs"), this::cherryResult, this::flash,
@@ -1281,6 +1282,10 @@ public final class TurboFrame extends JFrame {
             // One session spans the generation and the linked renames that restart the template.
             var session = rememberOrigin || inlineSession == null ? new InlineSession(origin, names) : inlineSession;
             session.plans.add(prepared.plan().id());
+            if (session.validationBaseline == null) {
+                session.validationBaseline = after;
+                session.bodyEdited = prepared.plan().operation() == dev.turboj.refactorj.api.Operation.EXTRACT_METHOD;
+            }
             session.restarting = true;
             inlineSession = session;
             editor.startTemplate(List.copyOf(groups.values()), exit, index -> {
@@ -1339,6 +1344,9 @@ public final class TurboFrame extends JFrame {
         // A semantic rename rebuilds the template ranges, but must not turn the
         // user's expression back into an automatically generated default.
         boolean bodyEdited;
+        Model.WorkspaceSnapshot validationBaseline;
+        boolean validating;
+        NativeWorkspaceCommitter.Capture validatedCapture;
         Runnable afterConfirm;
         /** Local rename only: the original source, location and name its semantic check starts from. */
         IntelligenceController.Snapshot snapshot;
@@ -1371,6 +1379,51 @@ public final class TurboFrame extends JFrame {
         String id = session.ids.get(index);
         if (id.equals("localName")) return confirmLocalRename(session);
         if (linkedSemanticName(id) && !completeLinkedName(id)) { session.confirming = true; return false; }
+        if (session.validationBaseline != null) {
+            var capture = new NativeRefactoringHost().capture();
+            if (!capture.equals(session.validatedCapture)) {
+                if (session.validating) return false;
+                session.validating = true;
+                var fields = new ArrayList<dev.turboj.refactorj.api.JavaQuickActions.Placeholder>();
+                for (int field = 0; field < session.ids.size(); field++)
+                    for (var range : editor.templateRanges(field)) fields.add(new dev.turboj.refactorj.api.JavaQuickActions.Placeholder(
+                            session.ids.get(field), new Model.Location(bufferKey, range.start(), range.end())));
+                intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> service.sharedRefactorJ(context)
+                        .quickActions().validateTemplate(session.validationBaseline, List.copyOf(fields), () -> closing || inlineSession != session))
+                        .whenComplete((validation, failure) -> SwingUtilities.invokeLater(() -> {
+                            session.validating = false;
+                            if (closing || inlineSession != session || !editor.templateActive()) return;
+                            if (!capture.equals(new NativeRefactoringHost().capture())) {
+                                session.afterConfirm = null;
+                                flash("Source changed during validation; confirm again", StatusBar.Level.WARNING);
+                                return;
+                            }
+                            if (failure != null || !validation.valid()) {
+                                String problem = failure != null ? message(failure) : validation.diagnostics().stream()
+                                        .map(Model.Diagnostic::message).collect(java.util.stream.Collectors.joining("; "));
+                                if (problem.isBlank()) problem = "The edited source cannot be validated";
+                                session.afterConfirm = null;
+                                var errorsByField = new LinkedHashMap<Integer, String>();
+                                if (validation != null) for (var diagnostic : validation.diagnostics()) {
+                                    var location = diagnostic.location();
+                                    if (location == null) continue;
+                                    for (var field : fields) if (field.location().file().equals(location.file())
+                                            && field.location().start() <= location.end() && field.location().end() >= location.start())
+                                        errorsByField.putIfAbsent(session.ids.indexOf(field.group()), diagnostic.message());
+                                }
+                                if (errorsByField.isEmpty()) errorsByField.put(index, problem);
+                                editor.setTemplateErrors(errorsByField);
+                                int firstError = errorsByField.keySet().iterator().next();
+                                if (firstError != editor.templateIndex()) editor.selectTemplateStop(firstError);
+                                flash(problem, StatusBar.Level.WARNING);
+                                return;
+                            }
+                            session.validatedCapture = capture;
+                            editor.confirmTemplate();
+                        }));
+                return false;
+            }
+        }
         endInlineSession(session, true);
         return true;
     }
@@ -1468,8 +1521,9 @@ public final class TurboFrame extends JFrame {
             String id = ids.get(i), text = editor.templateText(i).strip();
             boolean typing = !confirming && i == editor.templateIndex() && text.isEmpty();
             String error = null;
-            if (id.equals("returnType")) error = typing ? null : text.equals("void") || javaType(text) ? null : "Not a Java type";
-            else if (id.equals("methodName") || id.startsWith("parameter.") || id.equals("localName")) {
+            if (id.equals("returnType") || id.startsWith("parameterType.") || id.equals("valueType"))
+                error = typing || (id.equals("returnType") && text.equals("void")) || javaType(text) ? null : "Not a Java type";
+            else if (id.equals("methodName") || id.startsWith("parameter.") || id.equals("localName") || id.equals("variableName")) {
                 if (!typing && !dev.turboj.templates.JavaTemplateTypes.name(text)) error = text.isEmpty() ? "Name required" : "Not a Java name";
                 else if (id.startsWith("parameter.") && !text.isEmpty()) {
                     Integer prior = parameters.putIfAbsent(text, i);
@@ -1567,7 +1621,7 @@ public final class TurboFrame extends JFrame {
         return false;
     }
 
-    private static boolean linkedSemanticName(String group) { return group.equals("methodName") || group.startsWith("parameter."); }
+    private static boolean linkedSemanticName(String group) { return group.equals("methodName") || group.startsWith("parameter.") || group.equals("variableName") || group.startsWith("parameterType."); }
 
     private boolean completeLinkedName(String resumeGroup) {
         if (linkedRenameBusy) return false;
@@ -1585,8 +1639,10 @@ public final class TurboFrame extends JFrame {
         catch (IllegalArgumentException invalid) { showError(invalid.getMessage()); return false; }
         var capture = new NativeRefactoringHost().capture();
         long ticket = ++linkedRenameRequest; linkedRenameBusy = true;
-        intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> service.sharedRefactorJ(context).quickActions()
-                .renameLinked(entered.baseline(), entered.declaration(), name, () -> closing || ticket != linkedRenameRequest))
+        boolean parameterType = inlineSession != null && inlineSession.ids.get(editor.templateIndex()).startsWith("parameterType.");
+        intelligence.submitSemantic(intelligenceSnapshot(), (service, context) -> parameterType
+                ? service.sharedRefactorJ(context).quickActions().changeParameterTypeLinked(entered.baseline(), entered.declaration(), name, () -> closing || ticket != linkedRenameRequest)
+                : service.sharedRefactorJ(context).quickActions().renameLinked(entered.baseline(), entered.declaration(), name, () -> closing || ticket != linkedRenameRequest))
                 .whenComplete((prepared, failure) -> SwingUtilities.invokeLater(() -> {
                     if (closing || ticket != linkedRenameRequest) { linkedRenameBusy = false; return; }
                     if (failure != null) { linkedRenameBusy = false; linkedRenameFailed(message(failure)); return; }
@@ -1597,6 +1653,15 @@ public final class TurboFrame extends JFrame {
                     if (!prepared.plan().valid()) {
                         linkedRenameBusy = false; linkedRenameFailed(prepared.plan().diagnostics().stream().map(Model.Diagnostic::message)
                                 .collect(java.util.stream.Collectors.joining("\n"))); return;
+                    }
+                    if (prepared.plan().edits().isEmpty() && prepared.plan().fileOperations().isEmpty()) {
+                        linkedRenameBusy = false; linkedName = null;
+                        if (inlineSession != null && inlineSession.confirming) {
+                            inlineSession.confirming = false;
+                            editor.confirmTemplate();
+                        } else if (inlineSession != null && resumeGroup != null)
+                            editor.selectTemplateStop(inlineSession.ids.indexOf(resumeGroup));
+                        return;
                     }
                     linkedRenameUndo = new LinkedRenameUndo(prepared.plan().id(), entered);
                     // Applying the rename rewrites the buffer the template lives in: the session outlives it and restarts it.
@@ -1649,7 +1714,7 @@ public final class TurboFrame extends JFrame {
         if (session == null || !editor.templateActive()) return false;
         session.afterConfirm = command;
         editor.confirmTemplate();
-        if (inlineSession == session && !session.confirming) session.afterConfirm = null;
+        if (inlineSession == session && !session.confirming && !session.validating) session.afterConfirm = null;
         return true;
     }
 

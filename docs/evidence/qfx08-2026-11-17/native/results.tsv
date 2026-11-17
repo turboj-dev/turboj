@@ -1,0 +1,7 @@
+check	exit_status	started_utc	finished_utc
+InlineSemanticTemplateSmoke	0	2026-11-17T18:18:50Z	2026-11-17T18:18:58Z
+InlineTemplateSmoke	0	2026-11-17T18:18:58Z	2026-11-17T18:19:04Z
+LiveTemplateWorkflowSmoke	0	2026-11-17T18:19:04Z	2026-11-17T18:19:09Z
+LiveTemplatePrecedenceSmoke	0	2026-11-17T18:19:09Z	2026-11-17T18:19:14Z
+KeyboardRefactoringEffectsSmoke	0	2026-11-17T18:19:14Z	2026-11-17T18:19:25Z
+FirstLaunchKeyboardSmoke	0	2026-11-17T18:19:25Z	2026-11-17T18:21:10Z

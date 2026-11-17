@@ -412,13 +412,18 @@ public final class FirstLaunchKeyboardSmoke {
         check(edt(() -> frame.editor().getSelectedText().equals("int")), chapter + ": Shift+Tab returns to the return type");
         key(KeyEvent.VK_TAB, 0);
         key(KeyEvent.VK_TAB, 0);
+        key(KeyEvent.VK_TAB, 0);
         waitFor("first parameter stop", () -> frame.editor().getSelectedText().equals("i"));
         key(KeyEvent.VK_TAB, 0); key(KeyEvent.VK_TAB, 0);
+        key(KeyEvent.VK_TAB, 0);
         waitFor("generated return expression", () -> frame.editor().getSelectedText().equals("0"));
         paste("i + j");
         key(KeyEvent.VK_TAB, SHIFT); key(KeyEvent.VK_TAB, SHIFT);
+        key(KeyEvent.VK_TAB, SHIFT);
         waitFor("first parameter after body edit", () -> frame.editor().getSelectedText().equals("i"));
         paste("left"); key(KeyEvent.VK_TAB, 0);
+        waitFor("second parameter type", () -> frame.editor().getSelectedText().equals("int"));
+        key(KeyEvent.VK_TAB, 0);
         waitFor("first parameter references renamed", () -> frame.editor().getSelectedText().equals("j")
                 && frame.editor().getText().contains("return left + j;"));
         paste("right"); key(KeyEvent.VK_TAB, 0);

@@ -63,12 +63,12 @@ public final class InlineTemplateSmoke {
             check(edt(() -> frame.statusBar().text(StatusBar.Segment.MESSAGE)).contains("Tab: next"), "the keys are shown while the template lasts: "
                     + edt(() -> frame.statusBar().text(StatusBar.Segment.MESSAGE)) + " / history " + edt(() -> frame.statusBar().history()));
             var visited = new ArrayList<String>();
-            for (int i = 0; i < 5; i++) { visited.add(edt(() -> frame.editor().getSelectedText())); key(KeyEvent.VK_TAB, 0); }
+            for (int i = 0; i < 7; i++) { visited.add(edt(() -> frame.editor().getSelectedText())); key(KeyEvent.VK_TAB, 0); }
             String afterTabs = edt(() -> frame.editor().getText());
-            check(visited.size() == 5 && visited.get(0).equals("int") && visited.get(1).equals("multiply") && visited.get(4).equals("0"),
+            check(visited.size() == 7 && visited.get(0).equals("int") && visited.get(1).equals("multiply") && visited.get(6).equals("0"),
                     "Tab visits return type, name, both parameters, returned value: " + visited);
             check(edt(() -> frame.editor().getSelectedText()).equals("int"), "Tab on the last field wraps to the first");
-            check(afterTabs.contains("public int multiply(int " + visited.get(2) + ", int " + visited.get(3) + ") {"), "Tab inserted nothing:\n" + afterTabs);
+            check(afterTabs.contains("public int multiply(int " + visited.get(3) + ", int " + visited.get(5) + ") {"), "Tab inserted nothing:\n" + afterTabs);
             System.out.println("PASS fields in order " + visited + "; Tab wraps; nothing inserted");
 
             key(KeyEvent.VK_TAB, 0);                    // the method name
@@ -76,7 +76,7 @@ public final class InlineTemplateSmoke {
             key(KeyEvent.VK_ENTER, 0);                  // Enter from the name field confirms the whole template
             await("confirmed", () -> !frame.editor().templateActive());
             String declared = edt(() -> frame.editor().getText());
-            check(declared.contains("public int product(int " + visited.get(2) + ", int " + visited.get(3) + ") {\n        return 0;\n    }"),
+            check(declared.contains("public int product(int " + visited.get(3) + ", int " + visited.get(5) + ") {\n        return 0;\n    }"),
                     "the method stays as normal Java with the kept defaults:\n" + declared);
             check(edt(() -> frame.editor().getText().substring(0, frame.editor().caretOffset())).endsWith("return 0"), "the caret ends after the returned value");
             check(!edt(() -> frame.statusBar().text(StatusBar.Segment.MESSAGE)).contains("Tab: next"), "the key hint goes away");
