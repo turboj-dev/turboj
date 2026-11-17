@@ -72,6 +72,10 @@ public final class CheatSheet {
             Map.entry("editor.convertSpacesToTabs", "Spaces to tabs"), Map.entry("editor.lowerCase", "Lowercase selection"),
             Map.entry("editor.upperCase", "Uppercase selection"), Map.entry("ai.larger", "Larger AI model"),
             Map.entry("navigation.relatedTests", "Verified test alternatives"),
+            Map.entry("editor.insertLiveTemplate", "Insert live template"),
+            Map.entry("settings.shortcutSymbols", "Shortcut symbols"),
+            Map.entry("cherry.execution", "Cherry execution mode"),
+            Map.entry("cherry.run", "Run Cherry suites"),
             Map.entry("navigation.projectDependency", "Go to dependency"));
 
     /**

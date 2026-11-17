@@ -34,6 +34,10 @@ public final class KeyboardDefaults {
             AG ai.retry
             AS ai.settings
             AT ai.test
+            # L: Live templates
+            LN editor.expandLiveTemplate
+            LO editor.insertLiveTemplate
+            LP settings.liveTemplates
             # C: Completion
             CC complete
             CA completion.accept

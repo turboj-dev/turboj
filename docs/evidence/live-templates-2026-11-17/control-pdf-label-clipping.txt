@@ -1,0 +1,52 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: no clipped labels, keys or rows
++ actual - expected
+
++ [
++   'cheatsheet-eclipse-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.2)',
++   'cheatsheet-eclipse-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-eclipse-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-eclipse-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-intellij-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.8)',
++   'cheatsheet-intellij-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-intellij-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-intellij-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-turboj-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.8)',
++   'cheatsheet-turboj-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-turboj-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-turboj-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-vscode-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.2)',
++   'cheatsheet-vscode-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-vscode-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
++   'cheatsheet-vscode-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)'
++ ]
+- []
+    at file://<TURBOJ>/scripts/verify-cheatsheets.mjs:55:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'cheatsheet-eclipse-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.2)',
+    'cheatsheet-eclipse-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-eclipse-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-eclipse-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-intellij-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.8)',
+    'cheatsheet-intellij-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-intellij-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-intellij-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-turboj-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.8)',
+    'cheatsheet-turboj-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-turboj-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-turboj-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-vscode-macos.html: Row clips text: editor.insertLiveTemplate (160.6x26.9 in 248.0x24.2)',
+    'cheatsheet-vscode-macos.html: Row clips text: settings.shortcutSymbols (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-vscode-macos.html: Row clips text: cherry.execution (160.6x26.9 in 248.0x25.8)',
+    'cheatsheet-vscode-macos.html: Row clips text: cherry.run (160.6x26.9 in 248.0x25.8)'
+  ],
+  expected: [],
+  operator: 'deepStrictEqual'
+}
+
+Node.js v20.20.2

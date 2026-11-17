@@ -1,0 +1,5 @@
+check	exit_status	started_utc	finished_utc
+LiveTemplatePrecedenceSmoke	0	2026-11-17T17:47:50Z	2026-11-17T17:47:54Z
+LiveTemplateWorkflowSmoke	0	2026-11-17T17:47:54Z	2026-11-17T17:47:59Z
+InlineTemplateSmoke	0	2026-11-17T17:47:59Z	2026-11-17T17:48:05Z
+KeyboardIntelligenceEffectsSmoke	0	2026-11-17T17:48:05Z	2026-11-17T17:48:09Z

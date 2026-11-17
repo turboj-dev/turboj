@@ -1,0 +1,18 @@
+Exception in thread "main" java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "dev.turboj.testing.intelligence.LineIntelligence$Snapshot.line(int)" because the return value of "dev.turboj.ui.EditorComponent.lineIntelligence()" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:124)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:207)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.edt(KeyboardActionEffectsSmoke.java:160)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:146)
+	at dev.turboj.app.CherryCoverageLoopSmoke.main(CherryCoverageLoopSmoke.java:63)
+Caused by: java.lang.NullPointerException: Cannot invoke "dev.turboj.testing.intelligence.LineIntelligence$Snapshot.line(int)" because the return value of "dev.turboj.ui.EditorComponent.lineIntelligence()" is null
+	at dev.turboj.app.CherryCoverageLoopSmoke.lambda$main$18(CherryCoverageLoopSmoke.java:63)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:323)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)

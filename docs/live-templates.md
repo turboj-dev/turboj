@@ -1,0 +1,134 @@
+# Java live templates
+
+TurboJ expands declarative Java templates using the existing editor's linked fields. Type `sout`, then **Tab**:
+
+```java
+System.out.println(|);
+```
+
+`|` illustrates the caret; it is not inserted. No AI request is involved.
+
+Typing at least two abbreviation characters (for example `so` or `sou`) opens a small, theme-aware list of applicable
+live templates, with the selected template's source. Typing keeps filtering without moving focus out of the editor.
+Up/Down selects a match; Tab or Enter expands it; Escape closes the list without changing the source. Exact
+abbreviations rank first. User definitions participate in the same list. Comments, literals and unsupported contexts
+are excluded. Moving focus to another panel or opening an unrelated command dismisses the list.
+
+An applicable exact abbreviation such as `sout` takes precedence over an AI ghost on Tab, even if the context worker
+has not yet opened the list. Existing AI requests are cancelled when template choices are displayed/expanded. If
+there is no applicable template (including `sout` inside a comment), ordinary AI acceptance is preserved. An
+**explicitly opened Java completion list** retains its existing acceptance behavior. No keymap is overwritten;
+this uses CommandJ's existing completion and indentation routes.
+
+Inside a live-template field, Tab/Shift+Tab move between fields; Tab after the last field
+finishes at `$END$`. Enter finishes from any field. Escape dismisses completion first, then rolls back the expansion
+and its field edits. Confirmed expansion and field edits have one Undo transaction. Save, Save All and Format finish
+the template first. Changing files ends linked editing and retains the text. Editing outside fields also ends it;
+that outside edit is not folded into the template's Undo transaction.
+
+Generated-method/refactoring templates retain their established **wrapping Tab** behavior. They are semantic
+workspace transactions, not abbreviation snippets. Their Enter/Save/Format validation now rejects an empty active
+return type, qualified names such as `a.b`, invalid generic types such as `List<int>`, and duplicate parameter names.
+
+## Commands and configuration
+
+Code → Live Templates offers Expand and Insert / Surround. The application menu also has **Live Templates…**.
+All three commands are in CommandJ and the palette. Supplemental shortcuts, in every profile unless customized:
+
+| Action | Command ID | Supplemental sequence |
+| --- | --- | --- |
+| Expand abbreviation | `editor.expandLiveTemplate` | Ctrl+Cmd+K, L, N |
+| Insert / surround | `editor.insertLiveTemplate` | Ctrl+Cmd+K, L, O |
+| Edit definitions | `settings.liveTemplates` | Ctrl+Cmd+K, L, P |
+
+Release the prefix before typing the two letters. These are TurboJ additions, not IntelliJ defaults.
+
+The settings form contains editable **User definitions** and a read-only **Catalog** tab. The catalog supplies
+complete definitions to copy. **Add example** adds a starter definition. Save validates and writes atomically;
+invalid JSON leaves the previous catalog and file intact. Cancel discards edits. The user file is
+`Settings.directory()/live-templates.json` (normally the TurboJ configuration directory), not a project source file.
+Startup reads it asynchronously. An invalid startup file is preserved for repair; built-ins remain usable.
+
+```json
+{
+  "schemaVersion": 1,
+  "templates": [
+    {
+      "id": "user/twice",
+      "abbreviation": "twice",
+      "body": "int $NAME$ = 1; System.out.println($NAME$);$END$",
+      "contexts": ["JAVA_STATEMENT"],
+      "variables": [{"name": "NAME", "defaultValue": "total"}]
+    }
+  ]
+}
+```
+
+Repeated `$NAME$` occurrences edit together. `$END$` marks the final caret, `$SELECTION$` inserts selected source,
+and `$$` inserts one dollar sign. Undeclared variables become empty editable fields. Variables are visited in their
+declared order, followed by undeclared fields in source order. A literal `defaultValue` supplies initial text;
+IntelliJ-style quoted string expressions are also accepted. `alwaysStop` defaults to true. A successfully computed
+variable with `alwaysStop: false` is skipped; unresolved expressions stay editable and are identified in the status
+message. Simple aliases refer to the same linked field. Derived values are recomputed on leaving a field, unless
+manually edited.
+
+Use a distinct `user/...` ID for a new template, or copy a built-in with its exact ID to override it. Set
+`"disabled": true` on that copied definition to disable it. Removing the override restores the shipped definition.
+Duplicate IDs in the user file are rejected. Overlapping abbreviations open a chooser instead of silently selecting
+one. The chooser supports filtering, Up/Down, Enter and Escape. There is no executable script facility.
+
+## Upstream catalog and compatibility boundary
+
+All **51 definitions in IntelliJ's three core Java live-template XML groups** are bundled, with original XML,
+license, notice and blob identities under `app/src/main/resources/live-templates/`. This is the core Java catalog,
+not every language/framework plugin's templates. Reference revision:
+`409f9800a1b0d1dd2056630181266fd97cf1532e`, retrieved 2026-11-17.
+Run `python3 scripts/generate-live-template-catalog.py` to regenerate JSON from the pinned XML without network access.
+
+The Java group contains:
+
+`fori`, `else-if`, `itar`, `itco`, `iten`, `itit`, `itli`, `itm`, `ittok`, `ritar`, `iter`, `inst`, `lst`, `mn`, `mx`,
+`psvm`, `main`, `toar`, `lazy`, `inn`, `ifn`, `geti`, `St`, `psf`, `prsf`, `psfi`, `psfs`, `thr`, `serr`, `serrc`,
+`sout`, `iop`, `ior`, `soutc`, `souf`, `soutm`, `soutp`, `soutv`, `C`, `RL`, `WL`, `I`, `sts`.
+
+Two further groups provide `psvm`, `main`, `psvma`, `maina` for implicit classes and for ordinary classes with
+instance main methods. The chooser filters by current context; catalog presence alone does not mean applicability.
+
+Supported automatic values include enclosing class/method, file name, parameter logging, unused index/variable
+names, visible declared variables, array components, declared generic arguments, aliases and string escaping.
+Variable/type suggestions use the parsed declarations, not a claim of full project binding or subtype inference.
+Unknown types, expected types, subtype selection, casts and unsupported macro expressions remain explicit editable
+fields with defaults. This is **not complete IntelliJ macro parity**. In particular:
+
+* `serrc` / `soutc` require a proven Consumer target context; they remain in the catalog but are not automatically offered.
+* `iop` / `ior` require an IO/language-level context; they are not automatically offered yet.
+* `sts` requires the matching structured-concurrency preview API; it is not automatically offered yet.
+* Imported snippets do not automatically shorten qualified names, add imports, or run FormatJ. Explicit Format remains available.
+* `groovyScript`, clipboard macros and arbitrary code execution are not implemented. Unsupported expressions are never executed.
+
+These limits are intentionally visible rather than importing working-looking actions with invented semantic results.
+Ordinary statement/declaration/expression contexts exclude strings, comments and text blocks. User templates can
+declare those contexts explicitly. Java parsing runs on a dedicated worker only when expanding or opening the
+chooser. Applying a result requires the same document, revision, caret/selection, request and editor focus; late
+results cannot overwrite subsequent edits. Catalog sizes and template lengths are bounded.
+
+References: [IntelliJ live templates](https://www.jetbrains.com/help/idea/using-live-templates.html),
+[variables](https://www.jetbrains.com/help/idea/template-variables.html),
+[pinned Java definitions](https://github.com/JetBrains/intellij-community/tree/409f9800a1b0d1dd2056630181266fd97cf1532e/java/java-impl/resources/liveTemplates).
+
+## Validation
+
+Unit tests: `LiveTemplatesTest`, `JavaTemplateTypesTest`, `EditorTemplateTest`, `KeyboardDefaultsTest`.
+Native acceptance: `LiveTemplatePrecedenceSmoke`, `LiveTemplateWorkflowSmoke` and the existing `InlineTemplateSmoke`, using isolated preferences
+and projects, real Swing key events, CommandJ callbacks, actual linked fields and JDT proposals.
+
+```sh
+./mvnw -pl app -am install
+bash scripts/verify-keyboard-effects.sh --only LiveTemplatePrecedenceSmoke LiveTemplateWorkflowSmoke InlineTemplateSmoke
+```
+
+The native suite covers all four keymaps, exact `sout` caret placement, linked fields, Undo/Redo, custom definition
+editing/persistence, validation failures, chooser navigation, Save/Format, file switching, generated-field validation
+and completion. It does not establish physical keyboard/IME/VoiceOver behavior or IntelliJ macro parity.
+
+The [precedence regression evidence](evidence/live-templates-2026-11-17/precedence/README.md) uses deterministic AI ghost fixtures to test the actual native shortcut route. It is not a live model-quality or paid-provider test.

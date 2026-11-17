@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-17",
+  "artifactSha256": "c55f2819a8e09bbaa0328e75bfca5f3fabf10de79cde52545239d8604b4d034b",
+  "sourceHashes": {
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "202a5a83e99a30475868bc48242479647f0a61a38867a890ced3554f8ae5fc98",
+    "app/src/main/java/dev/turboj/templates/LiveTemplateController.java": "af4dc89745ea9b60c28fc674e6722d06c730454db25bd1122a444029a67d5dea",
+    "app/src/main/java/dev/turboj/templates/LiveTemplateCatalog.java": "83057277fc87584d6e8d4fbe14e0fe93abb7786fa0ff126817e4cd3c6d284b76",
+    "app/src/main/java/dev/turboj/intelligence/InlinePopup.java": "095f0c1c1622aa145d49341c14e5717c3ee16701d30e242e20cd8c9ef4f0f466",
+    "app/src/test/java/dev/turboj/templates/LiveTemplatesTest.java": "0069959ffcb425bef40f2c5293fbb0182f476a652e5513218836848361aa3b57",
+    "app/src/test/java/dev/turboj/app/LiveTemplatePrecedenceSmoke.java": "1c1494d6e3ca99a6c2b062a281d0731c873871f8b07fcffa489e18d5d3df5468"
+  },
+  "appTests": 330,
+  "nativeSuites": 4,
+  "profiles": 4,
+  "aiEvidence": "Deterministic visible AI ghost fixtures, actual CommandJ and AI acceptance handlers; no live inference or paid-provider claim.",
+  "environment": "macOS 26.5.1 arm64, Corretto 25.0.4.1, Maven 3.9.11"
+}

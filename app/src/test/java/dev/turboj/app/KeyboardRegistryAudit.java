@@ -111,6 +111,7 @@ public final class KeyboardRegistryAudit {
     private static String digest(byte[] bytes) throws Exception { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(bytes)); }
     private static String suite(Command command) {
         String id = command.id();
+        if (id.endsWith("LiveTemplate") || id.equals("settings.liveTemplates")) return "LiveTemplatesTest / LiveTemplateWorkflowSmoke; see live-templates.md";
         if (Set.of("navigation.findReferences", "navigation.goToTest", "navigation.relatedTests").contains(id))
             return "UsageNavigationIT / UsagesNavigationAcceptance; see find-usages.md";
         if (Set.of("workspace.select", "file.newJavaProject", "file.newMavenProject", "file.newJavaClass", "refactor.context-actions").contains(id))

@@ -4,6 +4,10 @@ Generated code and some refactorings open as an inline template in the editor, l
 Eclipse linked editing. The fields are ranges of the real document, not text fields over it: typing, completion,
 input methods, Undo and the formatter see ordinary Java.
 
+Abbreviation templates such as `sout` and user-defined snippets use the same linked-field editor;
+see [Java live templates](live-templates.md) for their catalog and configuration. The wrapping Tab behavior below
+belongs to generated/refactoring templates; snippets finish after their last field.
+
 ## Keys
 
 | Key | Effect |
@@ -56,7 +60,10 @@ Enter checks every field first:
 - collisions with existing members come from the linked rename, which refuses names that conflict.
 
 An invalid field keeps the session open and receives the caret. An empty active field is not an error while it is
-being typed.
+being typed, but cannot be confirmed or saved empty. Save All uses the same validation as Save and Format.
+Validation rejects qualified method/parameter names, duplicate parameters and primitive generic arguments.
+Explicit JDT completion keeps the fields linked, including when a proposal inserts imports; Enter accepts the
+proposal before it can confirm the template.
 
 ## Rename of a local variable or parameter
 

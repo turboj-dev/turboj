@@ -1,0 +1,16 @@
+This software includes code from IntelliJ IDEA
+Copyright (C) JetBrains s.r.o.
+https://www.jetbrains.com/idea/
+
+TurboJ includes the Java.xml, JavaImplicitClass.xml and JavaNormalClassesWithInstanceMain.xml
+live-template data from JetBrains/intellij-community. The generated catalog.json adapts those
+XML definitions to TurboJ's versioned declarative format. TurboJ's engine is independent and
+is not an IntelliJ plugin or an IntelliJ distribution. No JetBrains telemetry or executable
+code is included with this catalog. Source code/data license: Apache License 2.0.
+
+Reference revision: 409f9800a1b0d1dd2056630181266fd97cf1532e (retrieved 2026-11-17).
+Source directory: java/java-impl/resources/liveTemplates
+Git blob IDs:
+Java.xml: 371c12f5ac3cc648964e0455114af17896fed271
+JavaImplicitClass.xml: 9e4c1702decd535e95465812a127d66b53ac723a
+JavaNormalClassesWithInstanceMain.xml: e5555198813eb9d8af7d7b08d44046bade2e5e15

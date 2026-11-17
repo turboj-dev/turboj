@@ -57,6 +57,13 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
 
     private record Candidate(IBinding binding, String insertion, int caret, int score) {}
 
+    private final Map<String, Symbol> completionSymbols = bounded(320);
+
+    @Override public Symbol resolveCompletion(Context context, Completion proposal) {
+        if (sourceFilesChanged()) return null;
+        return completionSymbols.get(symbolCacheKey(context, "completion:" + proposal));
+    }
+
     private record Prefix(int start, int end, String value, boolean member) {}
 
     public SharedJavaIntelligence(LtkWorkspace workspace) {
@@ -272,6 +279,11 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
                             owner(binding),
                             List.of());
             unique.putIfAbsent(proposalIdentity(binding), proposal);
+            IBinding declaration = declarationBinding(binding);
+            Symbol symbol = new Symbol(declaration.getKey(), declaration.getName(), owner(declaration), signature(declaration),
+                    kind(declaration), prefix.start(), prefix.end());
+            symbols.put(symbolCacheKey(context, symbol.key()), new Resolved(context, parsed, declaration, marker));
+            completionSymbols.put(symbolCacheKey(context, "completion:" + proposal), symbol);
             if (unique.size() == 160) break;
         }
         if (!prefix.member() && !smart) addFavorites(context, prefix, after, unique);
@@ -589,7 +601,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         Map<Path,String> current = new HashMap<>();
         for (var source : workspace.snapshot().sources()) current.put(source.file(), source.text());
         if (!staged.equals(current) || stagedWorkspaceVersion!=workspace.snapshot().version()) {
-            parses.clear(); symbols.clear(); locations.clear(); typeBindings.clear();
+            parses.clear(); symbols.clear(); completionSymbols.clear(); locations.clear(); typeBindings.clear();
             staged.clear(); staged.putAll(current);stagedWorkspaceVersion=workspace.snapshot().version();
         }
     }
@@ -611,6 +623,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
             parses.clear();
             locations.clear();
             symbols.clear();
+            completionSymbols.clear();
             typeBindings.clear();
         }
         return changed;
@@ -1772,6 +1785,7 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         closed = true;
         parses.clear();
         symbols.clear();
+        completionSymbols.clear();
         locations.clear();
         staged.clear();
         archiveEntries.clear();

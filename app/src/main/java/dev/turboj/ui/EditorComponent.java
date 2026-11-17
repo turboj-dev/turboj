@@ -693,6 +693,8 @@ public final class EditorComponent extends JComponent
     /** Applies replacement and import edits in one undo record, only after explicit acceptance. */
     public boolean applyCompletion(InlineCompletion proposal) {
         if (!validCompletion(proposal)) return false;
+        if (templateActive() && currentTemplateRanges().stream().anyMatch(r -> proposal.start() >= r.start() && proposal.end() <= r.end()))
+            return applyTemplateCompletion(proposal);
         List<TextEdit> edits = new ArrayList<>(proposal.additionalEdits());
         TextEdit primary = new TextEdit(proposal.start(), proposal.end(), proposal.insertion());
         edits.add(primary);
@@ -713,6 +715,34 @@ public final class EditorComponent extends JComponent
         }
         if (target < 0) return false;
         return applySemanticEdits(proposal.version(), edits, target, target);
+    }
+
+    /** Complete all linked occurrences together, retaining ranges across independent import edits. */
+    private boolean applyTemplateCompletion(InlineCompletion proposal) {
+        var ranges = currentTemplateRanges();
+        var primary = ranges.stream().filter(r -> proposal.start() >= r.start() && proposal.end() <= r.end()).findFirst().orElseThrow();
+        int from = proposal.start() - primary.start(), to = proposal.end() - primary.start();
+        var edits = new ArrayList<TextEdit>(proposal.additionalEdits());
+        for (var edit : edits) for (var group : templateStops) for (var field : group)
+            if (edit.end() >= field.start() && edit.start() <= field.end()) return false;
+        String replaced = document.substring(proposal.start(), proposal.end());
+        var replacements = new ArrayList<TextEdit>();
+        for (var range : ranges) {
+            if (range.start() + to > range.end() || !document.substring(range.start() + from, range.start() + to).equals(replaced)) return false;
+            var edit = new TextEdit(range.start() + from, range.start() + to, proposal.insertion());
+            replacements.add(edit); edits.add(edit);
+        }
+        edits.sort(java.util.Comparator.comparingInt(TextEdit::start).thenComparingInt(TextEdit::end));
+        var after = new ArrayList<Selection>(); int delta = 0;
+        for (var edit : edits) {
+            if (replacements.contains(edit)) {
+                int offset = edit.start() + delta + proposal.caretInInsertion(); after.add(new Selection(offset, offset));
+            }
+            delta += edit.text().length() - (edit.end() - edit.start());
+        }
+        templateCompletion = true;
+        try { return applyEdits(proposal.version(), edits, after); }
+        finally { templateCompletion = false; }
     }
 
     /** Apply sparse formatter edits on the EDT, preserving source positions and one-step undo. */
@@ -776,7 +806,7 @@ public final class EditorComponent extends JComponent
 
     private boolean validCompletion(InlineCompletion proposal) {
         if (proposal == null
-                || !secondaryCarets.isEmpty()
+                || !secondaryCarets.isEmpty() && !templateActive()
                 || readOnly
                 || !composition.isEmpty()
                 || caret != anchor
@@ -1101,7 +1131,11 @@ public final class EditorComponent extends JComponent
     private java.util.Map<Integer, String> templateErrors = java.util.Map.of();
     private Selection templateExit;
     private boolean templateProgrammatic;
+    private boolean templateCompletion;
     private int templateStop;
+    private boolean templateMovingBackward, templateTraversal;
+    public boolean templateTraversing() { return templateTraversal; }
+    public boolean templateMovingBackward() { return templateMovingBackward; }
     private java.util.function.IntConsumer templateEntered = index -> {};
     private java.util.function.BiPredicate<Integer, Integer> templateLeaving = (index, next) -> true;
     private Runnable templateEnded = () -> {};
@@ -1172,8 +1206,11 @@ public final class EditorComponent extends JComponent
     /** Tab and Shift+Tab: the next or previous field, wrapping around; the template never ends on Tab. */
     public boolean advanceTemplate(boolean previous) {
         if (!templateActive()) return false;
+        templateMovingBackward = previous;
         int next = Math.floorMod(templateStop + (previous ? -1 : 1), templateStops.size());
-        if (!templateLeaving.test(templateStop, next)) return true;
+        templateTraversal = true;
+        try { if (!templateLeaving.test(templateStop, next)) return true; }
+        finally { templateTraversal = false; }
         if (!templateActive()) return true;
         templateStop = next;
         setSelections(templateStops.get(templateStop));
@@ -1270,9 +1307,9 @@ public final class EditorComponent extends JComponent
     private void remapTemplate(List<TextEdit> edits) {
         if (!templateActive() || edits.isEmpty()) return;
         // The user edits the active field; the host edits any field. Anything else ends the template.
-        boolean inside = templateProgrammatic
+        boolean inside = templateCompletion || (templateProgrammatic
                 ? edits.stream().allMatch(e -> templateStops.stream().flatMap(List::stream).anyMatch(r -> e.start() >= r.start() && e.end() <= r.end()))
-                : edits.stream().allMatch(e -> templateStops.get(templateStop).stream().anyMatch(r -> e.start() >= r.start() && e.end() <= r.end()));
+                : edits.stream().allMatch(e -> templateStops.get(templateStop).stream().anyMatch(r -> e.start() >= r.start() && e.end() <= r.end())));
         if (!inside) { finishTemplate(); return; }
         if (!templateProgrammatic) templateModified[templateStop] = true;
         templateStops = templateStops.stream().map(group -> group.stream().map(range -> remapped(range, edits)).toList()).toList();

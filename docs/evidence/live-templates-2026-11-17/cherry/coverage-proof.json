@@ -1,0 +1,27 @@
+{
+  "line": 14,
+  "afterMissedInstructions": 0,
+  "beforeMissedInstructions": 2,
+  "sourceHash": "215b932e62b0da4906d9e80834562087b5d52c6f042c778d445ddf2653e244e2",
+  "afterRun": "20261117-172719-cdd3a0",
+  "tests": [
+    "demo.PriceTest::appliesDiscount:PASSED",
+    "demo.PriceTest::keepsPriceWithoutDiscount:PASSED",
+    "demo.PriceTest::coversDeliveryFee:PASSED"
+  ],
+  "beforeRun": "20261117-172714-041eb0",
+  "afterCoveredInstructions": 2,
+  "beforeCoveredInstructions": 0,
+  "proof": {
+    "sourceHash": "215b932e62b0da4906d9e80834562087b5d52c6f042c778d445ddf2653e244e2",
+    "compilationId": "8b35d0ea-5b0d-40f9-86fc-c4ee080a6220",
+    "compilerIdentity": "Amazon.com Inc. / javac 25.0.4.1",
+    "classIdentity": "72b2d5e2e0aea66c23db2c7c378770687a03dad61f488c14bc1df9d0e48b66a0",
+    "processId": "75166@2026-11-17T17:27:20.517Z",
+    "sessionId": "cherry:14abe5ba-1b8f-487d-9cde-bcbbf53d75f0:e1732368-cc93-4f00-8bcd-0322de1d3854",
+    "collectionId": "14abe5ba-1b8f-487d-9cde-bcbbf53d75f0",
+    "classFiles": {
+      "<TEMP>/turboj-cherry-coverage-loop-7315184594068562535/target/cherry-test/runs/20261117-172719-cdd3a0/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class": "28fa24931473d88595285d6fe40149443206f5b31a1c5e105a0320e4dd52c157"
+    }
+  }
+}

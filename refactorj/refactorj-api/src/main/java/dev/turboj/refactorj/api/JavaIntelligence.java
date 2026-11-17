@@ -131,6 +131,9 @@ public interface JavaIntelligence extends AutoCloseable {
 
     Documentation documentation(Context context, Symbol symbol);
 
+    /** The exact declaration behind a current completion, including its overload. Null when unavailable/stale. */
+    default Symbol resolveCompletion(Context context, Completion proposal) { return null; }
+
     SignatureHelp signatureHelp(Context context, int offset);
 
     @Override

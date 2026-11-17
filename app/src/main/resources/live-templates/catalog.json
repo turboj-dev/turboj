@@ -1,0 +1,894 @@
+{
+  "schemaVersion": 1,
+  "templates": [
+    {
+      "id": "Java/fori",
+      "abbreviation": "fori",
+      "body": "for(int $INDEX$ = 0; $INDEX$ < $LIMIT$; $INDEX$++) {\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "INDEX",
+          "expression": "suggestIndexName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "LIMIT",
+          "expression": "",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/else-if",
+      "abbreviation": "else-if",
+      "body": "else if($CONDITION$){\n$END$\n} ",
+      "contexts": [
+        "JAVA_ELSE_PLACE"
+      ],
+      "variables": [
+        {
+          "name": "CONDITION",
+          "expression": "",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/itar",
+      "abbreviation": "itar",
+      "body": "for(int $INDEX$ = 0; $INDEX$ < $ARRAY$.length; $INDEX$++) {\n  $ELEMENT_TYPE$ $VAR$ = $ARRAY$[$INDEX$];\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "INDEX",
+          "expression": "suggestIndexName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "ARRAY",
+          "expression": "arrayVariable()",
+          "defaultValue": "\"array\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "ELEMENT_TYPE",
+          "expression": "componentTypeOf(ARRAY)",
+          "defaultValue": "",
+          "alwaysStop": false
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/itco",
+      "abbreviation": "itco",
+      "body": "for($ITER_TYPE$ $ITER$ = $COLLECTION$.iterator(); $ITER$.hasNext(); ) {\n  $ELEMENT_TYPE$ $VAR$ =$CAST$ $ITER$.next();\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "ITER",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "COLLECTION",
+          "expression": "variableOfType(\"java.util.Collection\")",
+          "defaultValue": "\"collection\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "ELEMENT_TYPE",
+          "expression": "guessElementType(COLLECTION)",
+          "defaultValue": "\"Object\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "ITER_TYPE",
+          "expression": "rightSideType()",
+          "defaultValue": "\"java.util.Iterator\"",
+          "alwaysStop": false
+        },
+        {
+          "name": "CAST",
+          "expression": "castToLeftSideType()",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/iten",
+      "abbreviation": "iten",
+      "body": "while($ENUM$.hasMoreElements()){\n  $TYPE$ $VAR$ = $CAST$ $ENUM$.nextElement();\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "ENUM",
+          "expression": "variableOfType(\"java.util.Enumeration\")",
+          "defaultValue": "\"enumeration\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "TYPE",
+          "expression": "rightSideType()",
+          "defaultValue": "\"Object\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "CAST",
+          "expression": "castToLeftSideType()",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/itit",
+      "abbreviation": "itit",
+      "body": "while($ITER$.hasNext()){\n  $TYPE$ $VAR$ = $CAST$ $ITER$.next();\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "ITER",
+          "expression": "variableOfType(\"java.util.Iterator\")",
+          "defaultValue": "\"iterator\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "TYPE",
+          "expression": "rightSideType()",
+          "defaultValue": "\"Object\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "CAST",
+          "expression": "castToLeftSideType()",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/itli",
+      "abbreviation": "itli",
+      "body": "for (int $INDEX$ = 0; $INDEX$ < $LIST$.size(); $INDEX$++) {\n  $ELEMENT_TYPE$ $VAR$ = $CAST$ $LIST$.get($INDEX$);\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "INDEX",
+          "expression": "suggestIndexName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "LIST",
+          "expression": "variableOfType(\"java.util.List\")",
+          "defaultValue": "\"list\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "ELEMENT_TYPE",
+          "expression": "guessElementType(LIST)",
+          "defaultValue": "\"Object\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "\"o\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "CAST",
+          "expression": "castToLeftSideType()",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/itm",
+      "abbreviation": "itm",
+      "body": "for (java.util.Map.Entry<$KEY_TYPE$, $VALUE_TYPE$> $ENTRY$: $MAP$.entrySet()) {\n  $KEY_TYPE$ $KEY$ = $ENTRY$.getKey();\n  $VALUE_TYPE$ $VALUE$ = $ENTRY$.getValue();\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "MAP",
+          "expression": "variableOfType(\"java.util.Map\")",
+          "defaultValue": "\"map\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "KEY_TYPE",
+          "expression": "typeParameterOf(MAP,\"0\")",
+          "defaultValue": "",
+          "alwaysStop": false
+        },
+        {
+          "name": "VALUE_TYPE",
+          "expression": "typeParameterOf(MAP,\"1\")",
+          "defaultValue": "",
+          "alwaysStop": false
+        },
+        {
+          "name": "ENTRY",
+          "expression": "suggestVariableName()",
+          "defaultValue": "\"entry\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "KEY",
+          "expression": "suggestVariableName()",
+          "defaultValue": "\"key\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "VALUE",
+          "expression": "suggestVariableName()",
+          "defaultValue": "\"value\"",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/ittok",
+      "abbreviation": "ittok",
+      "body": "for (java.util.StringTokenizer $TOKENIZER$ = new java.util.StringTokenizer($STRING$); $TOKENIZER$.hasMoreTokens(); ) {\n    String $VAR$ = $TOKENIZER_COPY$.nextToken();\n    $END$\n}\n",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "TOKENIZER",
+          "expression": "suggestVariableName()",
+          "defaultValue": "\"tokenizer\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "STRING",
+          "expression": "variableOfType(\"java.lang.String\")",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "\"token\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "TOKENIZER_COPY",
+          "expression": "TOKENIZER  ",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/ritar",
+      "abbreviation": "ritar",
+      "body": "for(int $INDEX$ = $ARRAY$.length - 1; $INDEX$ >= 0; $INDEX$--) {\n  $ELEMENT_TYPE$ $VAR$ = $ARRAY$[$INDEX$];\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "INDEX",
+          "expression": "suggestIndexName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "ARRAY",
+          "expression": "arrayVariable()",
+          "defaultValue": "\"array\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "ELEMENT_TYPE",
+          "expression": "componentTypeOf(ARRAY)",
+          "defaultValue": "",
+          "alwaysStop": false
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/iter",
+      "abbreviation": "iter",
+      "body": "for ($ELEMENT_TYPE$ $VAR$ : $ITERABLE_TYPE$) {\n  $END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "ITERABLE_TYPE",
+          "expression": "iterableVariable()",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "ELEMENT_TYPE",
+          "expression": "iterableComponentType(ITERABLE_TYPE)",
+          "defaultValue": "\"java.lang.Object\"",
+          "alwaysStop": false
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/inst",
+      "abbreviation": "inst",
+      "body": "if ($EXPR$ instanceof $TYPE$) {\r\n  $TYPE$ $VAR$ = ($TYPE$)$EXPR$;\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "EXPR",
+          "expression": "variableOfType(\"Object\")",
+          "defaultValue": "expr",
+          "alwaysStop": true
+        },
+        {
+          "name": "TYPE",
+          "expression": "subtypes(typeOfVariable(EXPR))",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/lst",
+      "abbreviation": "lst",
+      "body": "$ARRAY$[$ARRAY$.length - 1]",
+      "contexts": [
+        "JAVA_EXPRESSION"
+      ],
+      "variables": [
+        {
+          "name": "ARRAY",
+          "expression": "arrayVariable()",
+          "defaultValue": "array",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/mn",
+      "abbreviation": "mn",
+      "body": "$VAR$ = Math.min($VAR$, $END$);",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "VAR",
+          "expression": "variableOfType(\"double\")",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/mx",
+      "abbreviation": "mx",
+      "body": "$VAR$ = Math.max($VAR$, $END$);",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "VAR",
+          "expression": "variableOfType(\"double\")",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/psvm",
+      "abbreviation": "psvm",
+      "body": "public static void main(String[] args){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_NORMAL_CLASS_DECLARATION_WITHOUT_INSTANCE_MAIN"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/main",
+      "abbreviation": "main",
+      "body": "public static void main(String[] args){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_NORMAL_CLASS_DECLARATION_WITHOUT_INSTANCE_MAIN"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/toar",
+      "abbreviation": "toar",
+      "body": "$COLLECTION$.toArray(new $COMPONENT_TYPE$[0])$END$",
+      "contexts": [
+        "JAVA_EXPRESSION"
+      ],
+      "variables": [
+        {
+          "name": "COMPONENT_TYPE",
+          "expression": "componentTypeOf(expectedType())",
+          "defaultValue": "\"Object\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "COLLECTION",
+          "expression": "variableOfType(\"java.util.Collection\")",
+          "defaultValue": "collection",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/lazy",
+      "abbreviation": "lazy",
+      "body": "if ($VAR$ == null) {\n  $VAR$ = new $TYPE$($END$);\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "VAR",
+          "expression": "variableOfType(\"java.lang.Object\")",
+          "defaultValue": "",
+          "alwaysStop": true
+        },
+        {
+          "name": "TYPE",
+          "expression": "subtypes(typeOfVariable(VAR))",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/inn",
+      "abbreviation": "inn",
+      "body": "if ($VAR$ != null) {\n$END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "VAR",
+          "expression": "suggestFirstVariableName(\"Object\")",
+          "defaultValue": "var",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/ifn",
+      "abbreviation": "ifn",
+      "body": "if ($VAR$ == null) {\n$END$\n}",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "VAR",
+          "expression": "suggestFirstVariableName(\"Object\")",
+          "defaultValue": "var",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/geti",
+      "abbreviation": "geti",
+      "body": "public static $CLASS_NAME$ getInstance() {\r\n  return $VALUE$;\r\n}",
+      "contexts": [
+        "JAVA_DECLARATION"
+      ],
+      "variables": [
+        {
+          "name": "CLASS_NAME",
+          "expression": "className",
+          "defaultValue": "",
+          "alwaysStop": false
+        },
+        {
+          "name": "VALUE",
+          "expression": "variableOfType(CLASS_NAME)",
+          "defaultValue": "null",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/St",
+      "abbreviation": "St",
+      "body": "String ",
+      "contexts": [
+        "JAVA_STATEMENT",
+        "JAVA_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/psf",
+      "abbreviation": "psf",
+      "body": "public static final ",
+      "contexts": [
+        "JAVA_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/prsf",
+      "abbreviation": "prsf",
+      "body": "private static final ",
+      "contexts": [
+        "JAVA_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/psfi",
+      "abbreviation": "psfi",
+      "body": "public static final int ",
+      "contexts": [
+        "JAVA_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/psfs",
+      "abbreviation": "psfs",
+      "body": "public static final String ",
+      "contexts": [
+        "JAVA_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/thr",
+      "abbreviation": "thr",
+      "body": "throw new ",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/serr",
+      "abbreviation": "serr",
+      "body": "System.err.println($END$);",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/serrc",
+      "abbreviation": "serrc",
+      "body": "System.err::println",
+      "contexts": [
+        "JAVA_CONSUMER"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/sout",
+      "abbreviation": "sout",
+      "body": "System.out.println($END$);",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/iop",
+      "abbreviation": "iop",
+      "body": "IO.println($END$);",
+      "contexts": [
+        "JAVA_LANG_IO_STATEMENT"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/ior",
+      "abbreviation": "ior",
+      "body": "IO.readln($END$);",
+      "contexts": [
+        "JAVA_LANG_IO_STATEMENT"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/soutc",
+      "abbreviation": "soutc",
+      "body": "System.out::println",
+      "contexts": [
+        "JAVA_CONSUMER"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/souf",
+      "abbreviation": "souf",
+      "body": "System.out.printf(\"$END$\");",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": []
+    },
+    {
+      "id": "Java/soutm",
+      "abbreviation": "soutm",
+      "body": "System.out.println(\"$CLASS_NAME$.$METHOD_NAME$\");",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "CLASS_NAME",
+          "expression": "className()",
+          "defaultValue": "",
+          "alwaysStop": false
+        },
+        {
+          "name": "METHOD_NAME",
+          "expression": "methodName()",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/soutp",
+      "abbreviation": "soutp",
+      "body": "System.out.println($FORMAT$);",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "FORMAT",
+          "expression": "parameterInfo()",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/soutv",
+      "abbreviation": "soutv",
+      "body": "System.out.println(\"$EXPR_COPY$ = \" + $EXPR$);",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "EXPR",
+          "expression": "variableOfType(\"\")",
+          "defaultValue": "\"expr\"",
+          "alwaysStop": true
+        },
+        {
+          "name": "EXPR_COPY",
+          "expression": "escapeString(EXPR)",
+          "defaultValue": "",
+          "alwaysStop": false
+        }
+      ]
+    },
+    {
+      "id": "Java/C",
+      "abbreviation": "C",
+      "body": "java.util.concurrent.Callable<$RET$> callable = new java.util.concurrent.Callable<$RET$>() {\n  public $RET$ call() throws Exception {\n    $SELECTION$\n    $END$ \n  }\n};",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "RET",
+          "expression": "",
+          "defaultValue": "\"java.lang.Object\"",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/RL",
+      "abbreviation": "RL",
+      "body": "$LOCK$.readLock().lock();\ntry { \n  $SELECTION$\n} finally {\n  $LOCK$.readLock().unlock();\n}\n",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "LOCK",
+          "expression": "variableOfType(\"java.util.concurrent.locks.ReadWriteLock\")",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/WL",
+      "abbreviation": "WL",
+      "body": "$LOCK$.writeLock().lock();\ntry { \n  $SELECTION$\n} finally {\n  $LOCK$.writeLock().unlock();\n}\n",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "LOCK",
+          "expression": "variableOfType(\"java.util.concurrent.locks.ReadWriteLock\")",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/I",
+      "abbreviation": "I",
+      "body": "for ($ELEMENT_TYPE$ $VAR$ : $SELECTION$) {\n  $END$\n}\n",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "ELEMENT_TYPE",
+          "expression": "iterableComponentType(SELECTION)",
+          "defaultValue": "\"java.lang.Object\"",
+          "alwaysStop": false
+        },
+        {
+          "name": "VAR",
+          "expression": "suggestVariableName()",
+          "defaultValue": "",
+          "alwaysStop": true
+        }
+      ]
+    },
+    {
+      "id": "Java/sts",
+      "abbreviation": "sts",
+      "body": "try (var scope = java.util.concurrent.StructuredTaskScope.open()) {\n    $END$\n    scope.join();\n} catch (InterruptedException e) {\n    // TODO: handle interrupted exception\n}  catch (java.util.concurrent.ExecutionException e) {\n    // TODO: handle execution exception\n}",
+      "contexts": [
+        "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY_STATIC_FACTORY_METHODS_WITH_EXECUTION_EXCEPTION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaImplicitClass/psvm",
+      "abbreviation": "psvm",
+      "body": "void main(){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_IMPLICIT_CLASS_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaImplicitClass/main",
+      "abbreviation": "main",
+      "body": "void main(){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_IMPLICIT_CLASS_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaImplicitClass/psvma",
+      "abbreviation": "psvma",
+      "body": "void main(String[] args){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_IMPLICIT_CLASS_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaImplicitClass/maina",
+      "abbreviation": "maina",
+      "body": "void main(String[] args){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_IMPLICIT_CLASS_DECLARATION"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaNormalClassesWithInstanceMain/psvm",
+      "abbreviation": "psvm",
+      "body": "static void main(){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaNormalClassesWithInstanceMain/main",
+      "abbreviation": "main",
+      "body": "static void main(){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaNormalClassesWithInstanceMain/psvma",
+      "abbreviation": "psvma",
+      "body": "static void main(String[] args){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
+      ],
+      "variables": []
+    },
+    {
+      "id": "JavaNormalClassesWithInstanceMain/maina",
+      "abbreviation": "maina",
+      "body": "static void main(String[] args){\r\n  $END$\r\n}",
+      "contexts": [
+        "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
+      ],
+      "variables": []
+    }
+  ]
+}

@@ -6,12 +6,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /** A transient editor surface clipped to its owning frame; never creates a native window. */
-final class InlinePopup extends JPanel {
+public final class InlinePopup extends JPanel {
     private final JFrame owner;
     private final JRootPane root = new JRootPane();
     private final ComponentAdapter boundsListener;
 
-    InlinePopup(JFrame owner) {
+    public InlinePopup(JFrame owner) {
         super(new BorderLayout());
         this.owner = owner;
         root.getContentPane().setLayout(new BorderLayout());
@@ -25,8 +25,8 @@ final class InlinePopup extends JPanel {
     }
 
     @Override public JRootPane getRootPane() { return root; }
-    Container getContentPane() { return root.getContentPane(); }
-    void pack() { setSize(getPreferredSize()); }
+    public Container getContentPane() { return root.getContentPane(); }
+    public void pack() { setSize(getPreferredSize()); }
     void setFocusableWindowState(boolean enabled) { setFocusable(enabled); }
     boolean isFocused() {
         Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
@@ -37,7 +37,7 @@ final class InlinePopup extends JPanel {
         SwingUtilities.convertPointFromScreen(local, this);
         return contains(local);
     }
-    void showBelow(Component anchor, Rectangle cell) {
+    public void showBelow(Component anchor, Rectangle cell) {
         if (OverlayHost.active(owner)) return;
         JLayeredPane layer = owner.getLayeredPane();
         Rectangle allowed = SwingUtilities.convertRectangle(owner.getContentPane(),
@@ -52,7 +52,7 @@ final class InlinePopup extends JPanel {
         layer.moveToFront(this);
         revalidate(); repaint();
     }
-    void dispose() {
+    public void dispose() {
         setVisible(false);
         owner.getLayeredPane().removeComponentListener(boundsListener);
         owner.getLayeredPane().remove(this);

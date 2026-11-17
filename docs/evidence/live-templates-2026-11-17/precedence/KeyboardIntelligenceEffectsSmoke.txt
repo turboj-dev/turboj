@@ -1,0 +1,22 @@
+PASS complete: real JDT proposals for String receiver
+PASS completion.next: selected JDT proposal advances
+PASS completion.previous: selected JDT proposal returns
+PASS completion.accept: selected JDT proposal changes actual source
+PASS completion.smart: int-compatible count offered/applied; incompatible String content excluded; javac
+PASS completion.dismiss: popup and ghost removed without editing source
+PASS documentation: resolved source method documentation visible
+PASS documentation.focus: keyboard focus reaches selectable documentation text
+PASS completion.parameterInformation: actual invocation signatures resolved
+PASS organizeImports: unused import removed; used import retained; javac
+PASS menu: actual application menu opens via shortcut
+PASS new: actual application menu opens via shortcut
+PASS java.generate: actual application menu opens via shortcut
+PASS refactor.this: real semantic action chooser; Escape preserves source
+PASS refactor.inline: real semantic action chooser; Escape preserves source
+PASS file.newFile: new empty untitled buffer owns typing focus
+PASS ai.disabled: actual configuration disables AI
+PASS ai.test: disabled mode explains why no request is sent
+PASS ai.download: disabled mode refuses download with explanation
+PASS ai.local: mode-specific settings opens; cancellation preserves disabled config
+PASS ai.cloud: mode-specific settings opens; cancellation preserves disabled config
+PASS ai.diagnostics: actual runtime diagnostic text copied to clipboard

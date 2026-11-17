@@ -160,6 +160,7 @@ public final class InlineTemplateSmoke {
     }
 
     private static void type(String text) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> {
             Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
             for (char c : text.toCharArray())
@@ -181,7 +182,7 @@ public final class InlineTemplateSmoke {
         return null;
     }
     private static void key(int code, int modifiers) throws Exception {
-        await("keyboard focus", () -> KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null);
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> {
             Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
             for (int kind : new int[]{KeyEvent.KEY_PRESSED, KeyEvent.KEY_RELEASED})
@@ -193,7 +194,7 @@ public final class InlineTemplateSmoke {
     private static void check(boolean condition, String message) { if (!condition) throw new AssertionError(message); }
     private static void await(String what, Callable<Boolean> check) throws Exception {
         long end = System.nanoTime() + TimeUnit.SECONDS.toNanos(60);
-        while (System.nanoTime() < end) { if (edt(check)) return; Thread.sleep(25); }
+        while (System.nanoTime() < end) { edt(() -> { NativeWindowTestSupport.recover(frame); return null; }); if (edt(check)) return; Thread.sleep(25); }
         throw new AssertionError("Timed out waiting for " + what + "; file " + edt(frame::currentFile) + "; template "
                 + edt(() -> frame.editor().templateActive()) + "; message " + edt(() -> frame.statusBar().lastMessage())
                 + "; dialogs " + edt(() -> dev.turboj.commandj.swing.OverlayHost.dialogs(frame).stream().map(d -> d.getTitle()).toList())

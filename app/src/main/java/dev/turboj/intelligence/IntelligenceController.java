@@ -670,19 +670,23 @@ public final class IntelligenceController implements AutoCloseable {
     private void document(int offset, boolean keyboard) {
         completionTimer.stop();
         Ticket t = ticket(offset);
+        Completion selected = keyboard && alternativesVisible() && completionTicket != null && valid(completionTicket)
+                ? choices.getSelectedValue() : null;
         enqueue(
                 Lane.DOCUMENTATION,
                 () -> {
                     long start = System.nanoTime();
                     try {
                         Context context = context(t);
-                        Symbol symbol = service().resolveSymbol(context, offset);
+                        Symbol symbol = selected == null ? service().resolveSymbol(context, offset)
+                                : service().resolveCompletion(context, selected);
                         Documentation docs =
                                 symbol == null ? null : service().documentation(context, symbol);
                         long duration = System.nanoTime() - start;
                         SwingUtilities.invokeLater(
                                 () -> {
-                                    if (!valid(t) || (!keyboard && hoverOffset != offset)) return;
+                                    if (!valid(t) || (!keyboard && hoverOffset != offset)
+                                            || selected != null && !Objects.equals(selected, choices.getSelectedValue())) return;
                                     sample(documentationTimes, duration);
                                     if (docs == null) {
                                         if (keyboard)

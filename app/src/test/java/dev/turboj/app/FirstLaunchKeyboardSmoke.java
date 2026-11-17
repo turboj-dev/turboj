@@ -370,6 +370,9 @@ public final class FirstLaunchKeyboardSmoke {
         waitFor("JShell input restored", () -> focus() == input);
         replace("Thread.sleep(1200);"); key(KeyEvent.VK_ENTER, 0);
         waitFor("JShell evaluating", () -> !input.isEditable());
+        // A newly started worker JVM may temporarily activate the macOS host terminal.
+        // Restore only our window before inspecting its retained component focus.
+        NativeWindowTestSupport.beforeKey(frame);
         check(edt(() -> input.isEnabled() && focus() == input), chapter + ": busy JShell keeps focus for global shortcuts");
         key(KeyEvent.VK_ESCAPE, 0);
         waitFor("leave active JShell", () -> frame.editor().isFocusOwner());

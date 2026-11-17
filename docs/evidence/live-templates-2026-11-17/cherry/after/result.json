@@ -1,0 +1,42 @@
+{
+  "package": "native-ide",
+  "phase": "unit",
+  "project": "demo",
+  "result": {
+    "coverage": [
+      "<TEMP>/turboj-cherry-coverage-loop-7315184594068562535/target/cherry-test/runs/20261117-172719-cdd3a0/reports/adapters/demo/native-ide/unit/0.lcov"
+    ],
+    "diagnostics": [],
+    "protocol": 1,
+    "success": true,
+    "tests": [
+      {
+        "attachments": [],
+        "duration_ms": 21,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::appliesDiscount",
+        "source": null,
+        "status": "passed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 3,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+        "source": null,
+        "status": "passed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 1,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::coversDeliveryFee",
+        "source": null,
+        "status": "passed"
+      }
+    ]
+  }
+}

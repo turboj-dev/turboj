@@ -1,0 +1,63 @@
+PASS indent: sout Tab, exact caret, Undo/Redo in intellij-macos
+PASS indent: sout Tab, exact caret, Undo/Redo in eclipse-macos
+PASS indent: sout Tab, exact caret, Undo/Redo in vscode-macos
+PASS indent: sout Tab, exact caret, Undo/Redo in turboj-macos
+PASS editor.expandLiveTemplate: actual default chord expands source
+PASS live.fields: linked index, Shift Tab, last Tab exits; Java compiles; one Undo/Redo
+PASS settings.liveTemplates: keyboard creates and saves user definition; actual expansion and linked edits compile
+PASS editor.insertLiveTemplate: filter, arrows and Enter insert real catalog entry
+PASS live.lifecycle: Escape rollback, Save writes edited template, Format confirms valid code; file switch ends fields and preserves edits
+PASS qfx03.validation: Save/Save All/Format validation; primitive generic, qualified name and duplicate parameters rejected; JDT completion retains fields; Escape restores caller
+Exception in thread "main" java.lang.AssertionError: saved generated method; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class C { void f(){ int value = calculate(1, 2); }
+
+private int calculate(int i, int j) {
+    return i + j;
+} }
+; status=18:10:59  File changed outside TurboJ. Use Save as to preserve both versions, or reopen it.
+18:10:59  Refactoring applied
+18:10:59  Finding Java fixes and assists…
+18:10:59  Refactoring undone
+18:10:59  Template cancelled
+18:10:59  Duplicate parameter name
+18:10:59  Not a Java name
+18:10:59  Not a Java name
+18:10:59  Not a Java type
+18:10:59  Not a Java type
+18:10:59  Not a Java type
+18:10:59  Refactoring applied
+18:10:58  Finding Java fixes and assists…
+18:10:58  Live template: twice — Tab: next, Enter: finish, Escape: cancel
+18:10:58  IntelliJ IDEA · 5 edits · 16.46 ms
+18:10:58  Live template: twice — Tab: next, Enter: finish, Escape: cancel
+18:10:58  Live template: twice — Tab: next, Enter: finish, Escape: cancel
+18:10:58  Live template cancelled
+18:10:58  Live template: twice — Tab: next, Enter: finish, Escape: cancel
+18:10:58  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+18:10:58  ⌃⌘K L …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K L …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  Live template: twice — Tab: next, Enter: finish, Escape: cancel
+18:10:58  Live templates saved
+18:10:58  ⌃⌘K L …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  Live template: fori — Tab: next, Enter: finish, Escape: cancel
+18:10:58  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+18:10:58  ⌃⌘K L …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+18:10:58  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+18:10:58  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+18:10:58  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+18:10:58  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:58  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+18:10:57  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+18:10:57  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+18:10:57  Opened Java project project (<TEMP>/turboj-live-template-workflow-6893006254473288218/project).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.LiveTemplateWorkflowSmoke.generatedLifecycle(LiveTemplateWorkflowSmoke.java:153)
+	at dev.turboj.app.LiveTemplateWorkflowSmoke.main(LiveTemplateWorkflowSmoke.java:31)

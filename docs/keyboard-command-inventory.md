@@ -60,9 +60,11 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `editor.deletePreviousWord` | Edit | Option+BACK_SPACE | Option+BACK_SPACE | Option+BACK_SPACE | Option+BACK_SPACE | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `editor.deleteToLineEnd` | Edit | Ctrl+Cmd+K, L, T | Ctrl+Cmd+K, L, T | Ctrl+Cmd+K, L, T | Ctrl+Cmd+K, L, T | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `editor.deleteToLineStart` | Edit | Ctrl+Cmd+K, L, S | Ctrl+Cmd+K, L, S | Ctrl+Cmd+K, L, S | Ctrl+Cmd+K, L, S | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
+| `editor.expandLiveTemplate` | Edit | Ctrl+Cmd+K, L, N | Ctrl+Cmd+K, L, N | Ctrl+Cmd+K, L, N | Ctrl+Cmd+K, L, N | Implemented; available | LiveTemplatesTest / LiveTemplateWorkflowSmoke; see live-templates.md |
 | `editor.expandSelection` | Java Structure | Option+UP | Ctrl+Shift+PAGE_UP | Ctrl+Shift+Cmd+RIGHT | Ctrl+Shift+RIGHT | Implemented; available | KeyboardJavaIT / KeyboardWorkflowSmoke |
 | `editor.insertLineAbove` | Edit | Option+Cmd+ENTER | Shift+Cmd+ENTER | Shift+Cmd+ENTER | Ctrl+Cmd+K, L, I | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `editor.insertLineBelow` | Edit | Shift+ENTER | Shift+ENTER | Cmd+ENTER | Shift+ENTER | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
+| `editor.insertLiveTemplate` | Edit | Ctrl+Cmd+K, L, O | Ctrl+Cmd+K, L, O | Ctrl+Cmd+K, L, O | Ctrl+Cmd+K, L, O | Implemented; available | LiveTemplatesTest / LiveTemplateWorkflowSmoke; see live-templates.md |
 | `editor.inspectLineIntelligence` | Testing Intelligence | Ctrl+Cmd+K, T, I | Ctrl+Cmd+K, T, I | Ctrl+Cmd+K, T, I | Ctrl+Cmd+K, T, I | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `editor.joinLines` | Edit | Ctrl+Shift+J | Ctrl+Cmd+K, L, J | Ctrl+Cmd+K, L, J | Ctrl+Cmd+K, L, J | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
 | `editor.lowerCase` | Edit | Ctrl+Cmd+K, E, L | Ctrl+Cmd+K, E, L | Ctrl+Cmd+K, E, L | Ctrl+Cmd+K, E, L | Implemented; available | KeyboardEditingTest / KeyboardWorkflowSmoke |
@@ -278,6 +280,7 @@ The Test column identifies the relevant suite; actual execution and limits are i
 | `saveAs` | File | Shift+Cmd+S | Ctrl+Cmd+K, F, D | Shift+Cmd+S | Shift+Cmd+S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `selectAll` | Edit | Cmd+A | Cmd+A | Cmd+A | Cmd+A | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `settings.general` | Settings | Ctrl+Cmd+K, K, G | Ctrl+Cmd+K, K, G | Ctrl+Cmd+K, K, G | Cmd+COMMA | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
+| `settings.liveTemplates` | Settings | Ctrl+Cmd+K, L, P | Ctrl+Cmd+K, L, P | Ctrl+Cmd+K, L, P | Ctrl+Cmd+K, L, P | Implemented; available | LiveTemplatesTest / LiveTemplateWorkflowSmoke; see live-templates.md |
 | `settings.shortcutSymbols` | Settings | Ctrl+Cmd+K, K, S | Ctrl+Cmd+K, K, S | Ctrl+Cmd+K, K, S | Ctrl+Cmd+K, K, S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `showPressedShortcuts` | Appearance | Ctrl+Cmd+K, O, S | Ctrl+Cmd+K, O, S | Ctrl+Cmd+K, O, S | Ctrl+Cmd+K, O, S | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |
 | `smart.action` | Edit | Ctrl+Cmd+K, C, G | Cmd+ENTER | Ctrl+Cmd+K, C, G | Cmd+ENTER | Implemented; available | KeyboardWorkflowSmoke + existing controller suites; see audit |

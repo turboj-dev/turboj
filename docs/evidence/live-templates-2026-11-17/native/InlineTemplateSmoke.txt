@@ -1,0 +1,5 @@
+PASS fields in order [int, multiply, i, j, 0]; Tab wraps; nothing inserted
+PASS Enter confirmed: product(...) declared in Calculator and called in CalculatorTest; homonyms untouched
+PASS ⌘Z: rename (declaration and call together), then generation; ⇧⌘Z restores both
+PASS Esc removed the generated divide(...) and its edits only, and returned to the call
+PASS local Rename edits all occurrences in place; Enter checks it semantically; one ⌘Z restores

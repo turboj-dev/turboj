@@ -5,6 +5,14 @@ The four profiles remain distinct. The original October audit counted 263 comman
 and 29 aliases; consult the generated inventory and manifest for the current count.
 Registration alone is not proof of a working keyboard interaction.
 
+## 17 November: extensible live templates
+
+The registry now contains **312 commands**. The three additions (Expand Live Template, Insert Live Template,
+Live Templates settings) have native keyboard/effect coverage in `LiveTemplateWorkflowSmoke`. The previous
+309-command ledger remains a dated record; it has not been relabeled as a new exhaustive 312-command run.
+Template lifecycle, validation, JDT completion/documentation and plain/Maven first-launch regressions were
+rerun. See [the delivery evidence](evidence/live-templates-2026-11-17/README.md) and [usage/compatibility](live-templates.md).
+
 ## 17 November: remaining automated KEY-04 checks completed
 
 The [boundary follow-up](evidence/key04-effects-2026-11-17/boundary-followup/README.md)

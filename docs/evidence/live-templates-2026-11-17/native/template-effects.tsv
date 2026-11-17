@@ -1,0 +1,16 @@
+command	assertion
+indent	sout Tab, exact caret, Undo/Redo in intellij-macos
+indent	sout Tab, exact caret, Undo/Redo in eclipse-macos
+indent	sout Tab, exact caret, Undo/Redo in vscode-macos
+indent	sout Tab, exact caret, Undo/Redo in turboj-macos
+editor.expandLiveTemplate	actual default chord expands source
+live.fields	linked index, Shift Tab, last Tab exits; Java compiles; one Undo/Redo
+settings.liveTemplates	keyboard creates and saves user definition; actual expansion and linked edits compile
+editor.insertLiveTemplate	filter, arrows and Enter insert real catalog entry
+live.lifecycle	Escape rollback, Save writes edited template, Format confirms valid code; file switch ends fields and preserves edits
+qfx03.validation	Save/Save All/Format validation; primitive generic, qualified name and duplicate parameters rejected; JDT completion retains fields; Escape restores caller
+qfx03.save	valid generated template confirms; resulting Java compiles; saved bytes and transaction Undo/Redo verified
+qfx03.format.document	valid generated template confirms; resulting Java compiles
+qfx03.switch	buffer switch ends fields, preserves compiling generated method and restores editor
+qfx05.accept	actual PrintStream documentation/owner/signature; Escape; println proposal selected with arrows and accepted
+live.persistence	new TurboFrame loads saved user catalog and expands custom abbreviation

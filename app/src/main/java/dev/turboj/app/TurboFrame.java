@@ -54,6 +54,7 @@ public final class TurboFrame extends JFrame {
                     + "    }\n"
                     + "}\n";
     private final EditorComponent editor = new EditorComponent();
+    private final dev.turboj.templates.LiveTemplateController liveTemplates;
     private final WorkerClient worker = new WorkerClient();
     private WorkerClient programWorker = worker;
     private record ProjectWorkerKey(Path home, List<Path> modulePath, String moduleName, String mainClass) {}
@@ -233,6 +234,8 @@ public final class TurboFrame extends JFrame {
     public TurboFrame(Settings settings, Map<String, String> keymap) {
         super("TurboJ");
         this.settings = settings;
+        liveTemplates = new dev.turboj.templates.LiveTemplateController(editor, Settings.directory(),
+                () -> file == null ? "Untitled.java" : file.getFileName().toString(), this::flash);
         editor.setShowPressedShortcuts(settings.showPressedShortcuts);
         editor.setShowCoverageBackgrounds(settings.showCoverageBackgrounds);
         this.themeCatalog =
@@ -449,6 +452,11 @@ public final class TurboFrame extends JFrame {
                 shortcut("aiAcceptWord", "ctrl alt ENTER"));
         aiCompletion.setNextLineKey(shortcut("aiAcceptLine", "alt shift RIGHT"));
         aiCompletion.setLocalRuntime(this::localAIReady);
+        liveTemplates.configureSuggestions(() -> isJavaBuffer() && !OverlayHost.active(this)
+                        && (quickFix == null || !quickFix.visible()) && !intelligence.alternativesVisible()
+                        && !intelligence.documentationVisible(),
+                () -> { aiCompletion.dismiss(); intelligence.dismiss(); editor.clearInlineCompletion(); });
+        liveTemplates.setTheme(theme);
         localAI.configure(settings.ai);
         formatting =
                 new FormattingController(
@@ -1352,7 +1360,7 @@ public final class TurboFrame extends JFrame {
     private boolean confirmInlineSession(InlineSession session, int index) {
         if (inlineSession != session) return true;
         deriveReturnValue(session.ids);
-        var errors = validateTemplate();
+        var errors = validateTemplate(true);
         if (!errors.isEmpty()) {
             int first = errors.keySet().stream().min(Integer::compare).orElse(index);
             if (first != index) editor.selectTemplateStop(first);
@@ -1447,21 +1455,26 @@ public final class TurboFrame extends JFrame {
     }
 
     /** Errors beside the fields; an empty field being typed is not an error yet. */
-    private Map<Integer, String> validateTemplate() {
+    private Map<Integer, String> validateTemplate() { return validateTemplate(false); }
+
+    private Map<Integer, String> validateTemplate(boolean confirming) {
         var session = inlineSession;
         if (session == null || !editor.templateActive()) return Map.of();
         var errors = new LinkedHashMap<Integer, String>();
         var ids = session.ids;
         String type = ids.contains("returnType") ? editor.templateText(ids.indexOf("returnType")).strip() : null;
-        var parameters = new HashSet<String>();
+        var parameters = new HashMap<String, Integer>();
         for (int i = 0; i < ids.size() && i < editor.templateStopCount(); i++) {
             String id = ids.get(i), text = editor.templateText(i).strip();
-            boolean typing = i == editor.templateIndex() && text.isEmpty();
+            boolean typing = !confirming && i == editor.templateIndex() && text.isEmpty();
             String error = null;
             if (id.equals("returnType")) error = typing ? null : text.equals("void") || javaType(text) ? null : "Not a Java type";
             else if (id.equals("methodName") || id.startsWith("parameter.") || id.equals("localName")) {
-                if (!typing && !javax.lang.model.SourceVersion.isName(text)) error = text.isEmpty() ? "Name required" : "Not a Java name";
-                else if (id.startsWith("parameter.") && !text.isEmpty() && !parameters.add(text)) error = "Duplicate parameter name";
+                if (!typing && !dev.turboj.templates.JavaTemplateTypes.name(text)) error = text.isEmpty() ? "Name required" : "Not a Java name";
+                else if (id.startsWith("parameter.") && !text.isEmpty()) {
+                    Integer prior = parameters.putIfAbsent(text, i);
+                    if (prior != null) { errors.put(prior, "Duplicate parameter name"); error = "Duplicate parameter name"; }
+                }
             } else if (id.equals("body") && type != null) {
                 if (type.equals("void") && !text.isEmpty()) error = "A void method returns no value";
                 else if (!type.equals("void") && text.isEmpty() && !typing) error = "Return value required";
@@ -1474,18 +1487,7 @@ public final class TurboFrame extends JFrame {
 
     /** Java type syntax: primitives, qualified names, type arguments with wildcards, arrays. Not "void". */
     static boolean javaType(String type) {
-        String compact = type.replaceAll("\\s+", " ").strip();
-        if (compact.isEmpty() || !compact.matches("[\\p{L}\\p{N}_$.<>,?\\[\\] &]+") || compact.matches(".*\\[(?!\\]).*")) return false;
-        int depth = 0;
-        for (char c : compact.toCharArray()) { if (c == '<') depth++; else if (c == '>' && --depth < 0) return false; }
-        if (depth != 0 || compact.startsWith("<") || compact.startsWith("[")) return false;
-        var primitives = Set.of("boolean", "byte", "short", "int", "long", "char", "float", "double");
-        for (String token : compact.split("[<>,\\[\\] &?]+")) {
-            if (token.isEmpty() || token.equals("extends") || token.equals("super") || primitives.contains(token)) continue;
-            for (String part : token.split("\\.", -1))
-                if (!javax.lang.model.SourceVersion.isIdentifier(part) || javax.lang.model.SourceVersion.isKeyword(part)) return false;
-        }
-        return true;
+        return dev.turboj.templates.JavaTemplateTypes.type(type);
     }
 
     /**
@@ -1642,6 +1644,7 @@ public final class TurboFrame extends JFrame {
 
     /** Save, Format and other explicit commands first resolve a template: confirmed when valid, kept with its errors otherwise. */
     private boolean resolveInlineSessionThen(Runnable command) {
+        if (liveTemplates.active()) { editor.confirmTemplate(); return false; }
         var session = inlineSession;
         if (session == null || !editor.templateActive()) return false;
         session.afterConfirm = command;
@@ -1689,6 +1692,8 @@ public final class TurboFrame extends JFrame {
             java.util.function.Function<CommandContext, Availability> availability) {
         commandRegistry.register(Command.of(id, title, category, (context, cancellation) -> {
             outputCommandGesture.reset();
+            if (!Set.of("indent", "completion.accept", "completion.next", "completion.previous",
+                    "completion.dismiss", "escape").contains(id)) liveTemplates.dismissSuggestions();
             if (quickFix != null && !Set.of("refactor.context-actions", "cut", "copy", "paste", "selectAll").contains(id))
                 quickFix.dismiss(false);
             action.accept(context);
@@ -1778,10 +1783,12 @@ public final class TurboFrame extends JFrame {
             tags.add("completion");
         if (editor.isAIInlineCompletion() && !editor.templateActive())
             tags.add("ai-completion");
-        if (intelligence != null && intelligence.alternativesVisible() && !editor.templateActive()) {
-            tags.add("completion");
+        if (intelligence != null && intelligence.alternativesVisible()) {
+            // Tab still traverses fields; Enter/arrows address an explicitly opened semantic popup.
+            if (!editor.templateActive()) tags.add("completion");
             tags.add("completion-popup");
         }
+        if (liveTemplates.suggestionsVisible()) { tags.add("completion"); tags.add("completion-popup"); }
         var attributes = new HashMap<String, Object>();
         attributes.put("documentVersion", editor.version());
         Component textTarget = focusedTextCommandTarget();
@@ -1905,6 +1912,8 @@ public final class TurboFrame extends JFrame {
                 "duplicateLine", "deleteLine", "moveLineUp", "moveLineDown", "format.document",
                 "format.selection");
 
+        if (id.endsWith("LiveTemplate") && (!context.has("editable") || !isJavaBuffer() || editor.caretCount() != 1 || editor.templateActive()))
+            return Availability.disabled("Focus one caret in editable Java source and finish the active template");
         if (edits.contains(id) && !context.has("editable"))
             return Availability.disabled("Attached source is read only");
         if ((edits.contains(id) || Set.of("copy", "selectAll").contains(id)) && !context
@@ -1923,7 +1932,7 @@ public final class TurboFrame extends JFrame {
             return Availability.disabled("No program is running");
         if (id.equals("stop") && !running && !hasPendingSaveRun())
             return Availability.disabled("No program is running or waiting to run");
-        if (id.equals("completion.accept") && !context.has("completion"))
+        if (id.equals("completion.accept") && !context.has("completion") && !context.has("completion-popup"))
             return Availability.disabled("No completion is visible");
         if (Set.of("completion.next", "completion.previous").contains(id) && !context
                 .has("completion-popup"))
@@ -2146,7 +2155,10 @@ public final class TurboFrame extends JFrame {
         command("deleteLine", "Delete line", editor::deleteLine);
         command("moveLineUp", "Move line up", () -> editor.moveLine(-1));
         command("moveLineDown", "Move line down", () -> editor.moveLine(1));
-        command("indent", "Indent / Next Template Placeholder", () -> { if (!editor.advanceTemplate(false)) editor.indent(false); });
+        command("indent", "Indent / Next Template Placeholder", () -> { if (!editor.advanceTemplate(false) && !(isJavaBuffer() && liveTemplates.acceptOrExpand(() -> editor.indent(false)))) editor.indent(false); });
+        command("editor.expandLiveTemplate", "Expand Live Template", () -> liveTemplates.expand(true));
+        command("editor.insertLiveTemplate", "Insert / Surround with Live Template…", liveTemplates::choose);
+        command("settings.liveTemplates", "Live Templates…", liveTemplates::configure);
         command("unindent", "Unindent / Previous Template Placeholder", () -> { if (!editor.advanceTemplate(true)) editor.indent(true); });
         command("comment", "Toggle line comment", editor::toggleComment);
         command(
@@ -2353,6 +2365,7 @@ public final class TurboFrame extends JFrame {
                     () -> commandKeymaps.select(profile.id()));
         command("menu", "Open menu", () -> menus.getMenu(0).doClick());
         command("escape", "Return to editor / dismiss", () -> {
+            if (liveTemplates.dismissSuggestions()) return;
             boolean armCommand = editor.isFocusOwner() && !editor.hasInputComposition()
                     && !editor.templateActive() && editor.caretCount() == 1;
             if (console.isCommandLineVisible()) {
@@ -2362,7 +2375,8 @@ public final class TurboFrame extends JFrame {
             boolean popup = editor.inlineCompletion() != null || (intelligence != null && intelligence.alternativesVisible());
             // Escape closes a completion first; the next one cancels the template.
             if (inlineSession != null && editor.templateActive() && !popup) { cancelInlineSession(); return; }
-            if (!popup || inlineSession == null) {
+            if (!popup && liveTemplates.cancel()) return;
+            if (!popup || inlineSession == null && !liveTemplates.active()) {
                 ++linkedRenameRequest;
                 editor.finishTemplate();
             }
@@ -2385,6 +2399,7 @@ public final class TurboFrame extends JFrame {
         command("completion.next", "Next completion", () -> completionKey("DOWN"));
         command("completion.previous", "Previous completion", () -> completionKey("UP"));
         command("completion.dismiss", "Dismiss suggestion", () -> {
+            liveTemplates.dismissSuggestions();
             aiCompletion.dismiss();
             intelligence.dismiss();
             editor.clearInlineCompletion();
@@ -2704,7 +2719,10 @@ public final class TurboFrame extends JFrame {
         command("navigation.previousEditorTab", "Previous Open File", () -> cycleBuffer(-1));
         command("file.close", "Close Current File", this::closeBuffer);
         command("file.reopenClosed", "Reopen Closed File", this::reopenClosedBuffer);
-        command("file.saveAll", "Save All", () -> saveAllBuffers(new ArrayList<>(dirtyBufferKeys()), 0, editor.document()));
+        command("file.saveAll", "Save All", () -> {
+            Runnable saveAll = () -> saveAllBuffers(new ArrayList<>(dirtyBufferKeys()), 0, editor.document());
+            if (!resolveInlineSessionThen(saveAll)) saveAll.run();
+        });
         command("navigation.goToFile", "Go to File…", () -> searchProject(ProjectSearchDialog.Tab.FILES));
         command("navigation.goToType", "Go to Class…", () -> searchProject(ProjectSearchDialog.Tab.CLASSES));
         command("navigation.goToSymbol", "Go to Symbol…", () -> searchProject(ProjectSearchDialog.Tab.METHODS));
@@ -3038,6 +3056,14 @@ public final class TurboFrame extends JFrame {
     }
 
     private void completionKey(String key) {
+        if (key.equals("DOWN") && liveTemplates.moveSuggestion(1)) return;
+        if (key.equals("UP") && liveTemplates.moveSuggestion(-1)) return;
+        if (key.equals("TAB") && isJavaBuffer() && !intelligence.alternativesVisible()
+                && liveTemplates.acceptOrExpand(() -> completionKeyDefault(key))) return;
+        completionKeyDefault(key);
+    }
+
+    private void completionKeyDefault(String key) {
         KeyStroke stroke = switch (key) {
             case "TAB" -> shortcut("acceptCompletion", "TAB");
             case "ctrl alt ENTER" -> shortcut("aiAcceptWord", "ctrl alt ENTER");
@@ -3325,6 +3351,7 @@ public final class TurboFrame extends JFrame {
         testsPane.setFont(console.inputComponent().getFont());
         dev.turboj.commandj.swing.AsciiStyle.apply(outputTabs, AsciiChrome.output(t));
         if (intelligence != null) intelligence.setTheme(t);
+        liveTemplates.setTheme(t);
         if (quickFix != null) quickFix.setTheme(t);
         if (maven != null) maven.setTheme(t);
         MenuStyler.style(menus, t);
@@ -3460,6 +3487,7 @@ public final class TurboFrame extends JFrame {
 
     private void updatePosition() {
         updatePositionLabel();
+        liveTemplates.changed();
         if (intelligence != null && isJavaBuffer()) intelligence.changed();
         if (aiCompletion != null && isJavaBuffer()) aiCompletion.changed();
     }
@@ -4415,6 +4443,7 @@ public final class TurboFrame extends JFrame {
         settings.height = getHeight();
         if (pendingAnalysis != null) pendingAnalysis.cancel(false);
         if (pendingRecovery != null) pendingRecovery.cancel(false);
+        liveTemplates.close();
         worker.close();
         if (programWorker != worker) programWorker.close();
         projectWorkers.values().forEach(WorkerClient::close);

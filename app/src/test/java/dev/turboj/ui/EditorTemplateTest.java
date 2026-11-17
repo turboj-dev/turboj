@@ -17,6 +17,22 @@ import org.junit.jupiter.api.Test;
 class EditorTemplateTest {
     private static final String METHOD = "public int multiply(int i, int j) {\n    return 0;\n}\n";
 
+    @Test void completionUpdatesLinkedFieldsAndPreservesThemAcrossImportInsertion() throws Exception {
+        edt(() -> {
+            var editor = new EditorComponent(); String source = "class C { Lis first; Lis second; }"; editor.setText(source);
+            int first = source.indexOf("Lis"), second = source.lastIndexOf("Lis");
+            editor.startTemplate(List.of(List.of(range(first, first + 3), range(second, second + 3))));
+            editor.replaceSelection("Lis"); // Collapsed carets in both linked occurrences.
+            assertTrue(editor.applyCompletion(new EditorComponent.InlineCompletion(editor.version(), first + 3, first, first + 3,
+                    "List", 4, List.of(new EditorComponent.TextEdit(0, 0, "import java.util.List;\n")))));
+            assertEquals("import java.util.List;\nclass C { List first; List second; }", editor.getText());
+            assertTrue(editor.templateActive()); assertEquals(2, editor.currentTemplateRanges().size());
+            assertEquals("List", editor.templateText(0));
+            editor.undo(); assertEquals(source, editor.getText());
+            editor.redo(); assertTrue(editor.getText().contains("List second"));
+        });
+    }
+
     /** Return type, name, parameters, returned expression; the exit after the expression. */
     private static EditorComponent method(List<Integer> entered, List<Integer> left, AtomicInteger ended) {
         var editor = new EditorComponent();

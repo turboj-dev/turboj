@@ -1,0 +1,6 @@
+Driver reactivates fixture window while waiting: baseline Cherry run
+Driver reactivates fixture window while waiting: delivery fee genuinely uncovered
+Driver reactivates fixture window while waiting: conventional PriceTest opens directly
+Driver reactivates fixture window while waiting: Save automatically reruns configured Cherry suites
+Driver reactivates fixture window while waiting: Save automatically reruns configured Cherry suites
+PASS CH-10: uncovered deliveryFee → inspect → PriceTest → keyboard adds test → Save automatically runs Cherry → three passes → current covered source/class/process proof; Tests lane remains unattributed

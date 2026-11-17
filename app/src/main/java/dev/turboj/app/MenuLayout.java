@@ -32,7 +32,7 @@ final class MenuLayout {
                 // Turbo C's ≡ menu, and the Mac application menu.
                 new Menu("≡", "TurboJ", '\0', List.of(
                         c("metrics"), SEPARATOR,
-                        c("settings.general"), c("keymap"), c("keymap.assignMissing"), new Submenu("Keyboard Profile", profileItems),
+                        c("settings.general"), c("settings.liveTemplates"), c("keymap"), c("keymap.assignMissing"), new Submenu("Keyboard Profile", profileItems),
                         new Submenu("Themes", themeItems),
                         new Submenu("AI Completion", items(c("ai.disabled"), c("ai.local"), c("ai.cloud"), SEPARATOR, c("ai.settings"))),
                         SEPARATOR, c("quit"))),
@@ -69,6 +69,7 @@ final class MenuLayout {
                         c("navigation.nextError"), c("navigation.previousError"), c("navigation.nextMethod"),
                         c("navigation.previousMethod"), c("navigation.matchingBrace"))),
                 new Menu("Code", "Code", 'C', List.of(
+                        new Submenu("Live Templates", items(c("editor.expandLiveTemplate"), c("editor.insertLiveTemplate"))),
                         c("smart.action"), c("complete"), c("completion.smart"), c("java.completeStatement"), SEPARATOR,
                         c("refactor.context-actions"), c("documentation"), c("completion.parameterInformation"), SEPARATOR,
                         new Submenu("Generate", items(c("java.generateConstructor"), c("java.generateGetters"), c("java.generateSetters"),

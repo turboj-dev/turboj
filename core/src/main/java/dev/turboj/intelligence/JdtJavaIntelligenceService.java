@@ -74,6 +74,7 @@ public final class JdtJavaIntelligenceService implements JavaIntelligenceService
     @Override public Symbol resolveSymbol(Context context,int offset){return intelligence(context).resolveSymbol(context,offset);}
     @Override public Declaration findDeclaration(Context context,Symbol symbol){return intelligence(context).findDeclaration(context,symbol);}
     @Override public Documentation documentation(Context context,Symbol symbol){return intelligence(context).documentation(context,symbol);}
+    @Override public Symbol resolveCompletion(Context context,Completion proposal){return intelligence(context).resolveCompletion(context,proposal);}
     @Override public SignatureHelp signatureHelp(Context context,int offset){return intelligence(context).signatureHelp(context,offset);}
     public static String plainJavadoc(String comment){return DocumentationText.plainJavadoc(comment);}
     private void ensureOpen(){if(closed)throw new IllegalStateException("Semantic service is closed");}

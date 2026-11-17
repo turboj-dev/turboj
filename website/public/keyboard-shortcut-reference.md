@@ -44,6 +44,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | editor.deleteToLineEnd | Delete to Line End | Edit | Ctrl+Cmd+K, L, T | editor | Available | editor deleteToLineEnd |
 | editor.deleteToLineStart | Delete to Line Start | Edit | Ctrl+Cmd+K, L, S | editor | Available | editor deleteToLineStart |
 | duplicateLine | Duplicate line | Edit | Ctrl+Cmd+K, L, L | editor | Available | copy line below, duplicate row, editor.duplicateLine |
+| editor.expandLiveTemplate | Expand Live Template | Edit | Ctrl+Cmd+K, L, N | editor | Available | editor expandLiveTemplate |
 | replace | Find and Replace… | Edit | Option+Cmd+F | Any | Available | replace |
 | findNext | Find next | Edit | Cmd+G | Any | Available | findNext |
 | findPrevious | Find previous | Edit | Shift+Cmd+G | Any | Available | findPrevious |
@@ -51,6 +52,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | documentation.focus | Focus Quick Documentation | Edit | Ctrl+Cmd+K, C, F | editor | Available | documentation focus |
 | java.generate | Generate… | Edit | Option+Cmd+N | editor | Available | java generate |
 | indent | Indent / Next Template Placeholder | Edit | TAB | editor; binding requires [editor]; excludes [completion] | Available | editor.indentSelection, indent |
+| editor.insertLiveTemplate | Insert / Surround with Live Template… | Edit | Ctrl+Cmd+K, L, O | editor | Available | editor insertLiveTemplate |
 | editor.insertLineAbove | Insert Line Above | Edit | Ctrl+Cmd+K, L, I | editor | Available | editor insertLineAbove |
 | editor.insertLineBelow | Insert Line Below | Edit | Shift+ENTER | editor; binding requires [editor] | Available | editor insertLineBelow |
 | editor.joinLines | Join Lines | Edit | Ctrl+Cmd+K, L, J | editor | Available | editor joinLines |
@@ -293,6 +295,7 @@ Generated from the executable registry. Availability reflects the captured conte
 | keymap.profile.vscode-macos | Keyboard Profile: VS Code macOS | Settings | Ctrl+Cmd+K, K, V | Any | Available | change keymap, keymap profile vscode-macos, switch keyboard profile |
 | help | Keyboard reference… | Settings | Shift+F1 | Any | Available | help |
 | keymap | Keymap… | Settings | Cmd+K | Any | Available | bindings, configure shortcuts, keyboard settings |
+| settings.liveTemplates | Live Templates… | Settings | Ctrl+Cmd+K, L, P | Any | Available | settings liveTemplates |
 | menu | Open menu | Settings | F10 | Any | Available | menu |
 | metrics | Performance | Settings | Ctrl+Cmd+K, K, D | Any | Available | metrics |
 | help.cheatSheet | Print Keyboard Cheat Sheet… | Settings | Ctrl+Cmd+K, K, H | Any | Available | help cheatSheet |

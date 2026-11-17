@@ -17,6 +17,23 @@ import javax.tools.ToolProvider;
 class JavaIntelligenceTest {
     @TempDir Path directory;
 
+    @Test void selectedCompletionDocumentationUsesItsExactOverloadBeforeInsertion() {
+        String source = "public class Main { void f(){ System.out.print; } }";
+        Context context = context(source);
+        try (var service = new JdtJavaIntelligenceService()) {
+            var proposals = service.complete(context, source.indexOf("print;") + 5).proposals();
+            var noArguments = proposals.stream().filter(p -> p.display().contains("void println()" )).findFirst().orElseThrow();
+            var booleanArgument = proposals.stream().filter(p -> p.display().contains("print(boolean")).findFirst().orElseThrow();
+            var first = service.resolveCompletion(context, noArguments);
+            var second = service.resolveCompletion(context, booleanArgument);
+            assertNotNull(first); assertNotNull(second); assertNotEquals(first.key(), second.key());
+            var docs = service.documentation(context, first);
+            assertEquals("java.io.PrintStream", docs.owner()); assertTrue(docs.signature().contains("println()"), docs.signature());
+            assertTrue(service.documentation(context, second).signature().contains("boolean"));
+            assertNull(service.resolveCompletion(context(source + "\n"), noArguments), "a different source snapshot cannot reuse a completion binding");
+        }
+    }
+
     private Context context(String source) {
         return new Context(
                 directory.resolve("Main.java"),
