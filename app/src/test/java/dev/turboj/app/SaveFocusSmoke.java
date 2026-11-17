@@ -43,6 +43,7 @@ public final class SaveFocusSmoke {
                 key(KeyEvent.VK_S, KeyEvent.META_DOWN_MASK);
                 await("saved and run", () -> count(frame.statusMessages(), " done · exit 0") > runs && !frame.isRunning());
                 Thread.sleep(600); // let any late focus request land
+                NativeWindowTestSupport.beforeKey(frame); // Restore only the owned window after worker JVM activation.
                 int finalRound = round;
                 check(edt(() -> frame.editor().isFocusOwner()), "round " + finalRound + ": the caret stays in the editor after Save, Run and Test on Save; focus "
                         + edt(() -> String.valueOf(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner()).replaceAll(",.*", "")));
@@ -71,7 +72,10 @@ public final class SaveFocusSmoke {
     private static void check(boolean condition, String message) { if (!condition) throw new AssertionError(message); }
     private static void await(String what, Callable<Boolean> check) throws Exception {
         long end = System.nanoTime() + TimeUnit.SECONDS.toNanos(60);
-        while (System.nanoTime() < end) { if (edt(check)) return; Thread.sleep(25); }
+        while (System.nanoTime() < end) {
+            if (edt(() -> { NativeWindowTestSupport.recover(frame); return check.call(); })) return;
+            Thread.sleep(25);
+        }
         throw new AssertionError("Timed out waiting for " + what + "; messages " + edt(() -> frame.statusMessages()) + "; build " + edt(frame::buildStatus) + "; saved file:\n" + java.nio.file.Files.readString(frame.currentFile()) + "; output:\n" + edt(() -> frame.console().text()));
     }
     private static <T> T edt(Callable<T> task) throws Exception { var future = new FutureTask<>(task); SwingUtilities.invokeAndWait(future); return future.get(); }

@@ -17,19 +17,23 @@ import javax.swing.*;
 public final class QuickFixPopupSmoke {
     private static TurboFrame frame;
     public static void main(String[] args) throws Exception {
-        Path directory = Files.createTempDirectory("turboj-quick-fix-");
+        for (String profile : new String[]{"turboj-macos", "eclipse-macos"}) exercise(profile);
+    }
+    private static void exercise(String profile) throws Exception {
+        // RefactorJ deliberately refuses symbolic workspace roots; macOS /var aliases /private/var.
+        Path directory = Files.createTempDirectory("turboj-quick-fix-").toRealPath();
         System.setProperty("turboj.config",directory.resolve("preferences").toString());
         Path source = directory.resolve("Demo.java");
         String text = "public class Demo {\n    void example() {\n        Calculator calculator = new Calculator();\n    }\n}\n";
         Files.writeString(source,text);
         try {
             frame = edt(() -> {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // Same bootstrap as TurboJ.main.
                 Settings settings = new Settings(); settings.theme = "vscode-monokai"; settings.keymapProfile = "turboj-macos";
                 TurboFrame result = new TurboFrame(settings,Map.of()); result.setVisible(true); result.toFront(); result.openPath(source); return result;
             });
             await(() -> source.equals(frame.currentFile()));
-            for (String profile : new String[]{"turboj-macos","eclipse-macos"}) {
+            {
                 edt(() -> { frame.commandKeymaps().select(profile); frame.editor().gotoOffset(text.indexOf("Calculator") + 3);
                     frame.editor().requestFocusInWindow(); return null; });
                 await(() -> frame.editor().isFocusOwner());
@@ -80,13 +84,39 @@ public final class QuickFixPopupSmoke {
                 if (AsciiPalette.contrast(details.getForeground(),details.getBackground()) < 4.5) throw new AssertionError("Unreadable empty state");
                 return null;
             });
-            Path image = Path.of("app/target/quick-fix-popup-smoke.png");
+            Path image = Path.of("app/target/quick-fix-popup-" + profile + ".png");
             BufferedImage capture = edt(() -> {
                 BufferedImage b = new BufferedImage(frame.getWidth(),frame.getHeight(),BufferedImage.TYPE_INT_RGB);
                 Graphics2D g = b.createGraphics(); frame.printAll(g); g.dispose(); return b;
             });
             ImageIO.write(capture,"png",image.toFile());
             System.out.println("PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: " + image);
+            key(KeyEvent.VK_ESCAPE, 0); await(() -> frame.editor().isFocusOwner());
+            edt(() -> { frame.editor().gotoOffset(text.indexOf("Calculator") + 2); return null; });
+            key(KeyEvent.VK_1, KeyEvent.META_DOWN_MASK);
+            await(() -> named("quick-actions-proposals") instanceof JList<?>);
+            int target = edt(() -> {
+                JList<?> list = (JList<?>)named("quick-actions-proposals");
+                for (int i = 0; i < list.getModel().getSize(); i++)
+                    if (((Proposal)list.getModel().getElementAt(i)).title().contains("Create class 'Calculator'")) return i;
+                throw new AssertionError("Create class missing");
+            });
+            int selected = edt(() -> ((JList<?>)named("quick-actions-proposals")).getSelectedIndex());
+            for (int i = selected; i < target; i++) key(KeyEvent.VK_DOWN, 0);
+            for (int i = selected; i > target; i--) key(KeyEvent.VK_UP, 0);
+            key(KeyEvent.VK_ENTER, 0);
+            Path generated = directory.resolve("Calculator.java");
+            await(() -> generated.equals(frame.currentFile()) || named("first-launch-quick-class-finish") != null);
+            if (edt(() -> named("first-launch-quick-class-finish") != null)) {
+                for (int i = 0; i < 30 && !edt(() -> named("first-launch-quick-class-finish").isFocusOwner()); i++)
+                    key(KeyEvent.VK_TAB, 0);
+                if (!edt(() -> named("first-launch-quick-class-finish").isFocusOwner()))
+                    throw new AssertionError("Create class Finish is not keyboard reachable");
+                key(KeyEvent.VK_ENTER, 0);
+            }
+            await(() -> generated.equals(frame.currentFile()) && frame.editor().isFocusOwner());
+            if (!Files.readString(generated).contains("class Calculator")) throw new AssertionError("Generated class missing");
+            System.out.println("PASS " + profile + ": arrows/Return apply real Create Calculator; generated file receives editor focus");
         } finally { if (frame != null) edt(() -> { frame.shutdown(); frame.dispose(); return null; }); }
     }
     private static Component named(String name) { return named(frame,name); }
@@ -98,18 +128,29 @@ public final class QuickFixPopupSmoke {
         return null;
     }
     private static void key(int code,int modifiers) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> {
             var manager = KeyboardFocusManager.getCurrentKeyboardFocusManager(); Component focus = manager.getFocusOwner();
             if (focus == null) throw new AssertionError("No keyboard focus");
             for (int kind : new int[]{KeyEvent.KEY_PRESSED,KeyEvent.KEY_RELEASED})
-                manager.dispatchEvent(new KeyEvent(focus,kind,System.currentTimeMillis(),modifiers,code,KeyEvent.CHAR_UNDEFINED));
+                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(
+                        new KeyEvent(focus,kind,System.currentTimeMillis(),modifiers,code,KeyEvent.CHAR_UNDEFINED));
             return null;
         });
+        edt(() -> null);
+        // Let native focus traversal settle before addressing the next control, as in the
+        // first-launch keyboard driver. Never assign focus to a dialog control from the test.
+        Thread.sleep(65);
     }
     private static void await(Callable<Boolean> check) throws Exception {
         long end = System.nanoTime() + TimeUnit.SECONDS.toNanos(60);
-        while (System.nanoTime() < end) { if (edt(check)) return; Thread.sleep(25); }
-        throw new AssertionError("Timed out waiting for contextual popup/focus");
+        while (System.nanoTime() < end) {
+            if (edt(() -> { NativeWindowTestSupport.recover(frame); return check.call(); })) return;
+            Thread.sleep(25);
+        }
+        throw new AssertionError("Timed out waiting for contextual popup/focus; file=" + edt(() -> frame.currentFile())
+                + "; focus=" + edt(() -> KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner())
+                + "; status=" + edt(() -> frame.statusMessages()));
     }
     private static <T> T edt(Callable<T> action) throws Exception {
         FutureTask<T> task = new FutureTask<>(action); SwingUtilities.invokeAndWait(task); return task.get();

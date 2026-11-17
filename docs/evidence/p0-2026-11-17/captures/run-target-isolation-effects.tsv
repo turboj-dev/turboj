@@ -1,0 +1,8 @@
+command	assertion
+run	multiple mains require an explicit choice, no arbitrary execution
+run	non-main file reuses the selected main inside the same project
+run	two projects with identical main class names keep their target selection separate
+run	no-main project reports the problem without running a previous program
+stop	cancelled run preparation cannot launch its program later
+stop	cancelled run.context preparation cannot launch its program later
+run	source edit during compilation prevents stale execution

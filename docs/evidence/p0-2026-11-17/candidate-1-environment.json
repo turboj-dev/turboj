@@ -1,0 +1,11 @@
+{
+  "baseline": "a712d51138855ec0b9ba25dc9e134414ffc536d8",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.5.1\nBuildVersion:\t\t25F80\n",
+  "architecture": "arm64",
+  "java": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode, sharing)\n",
+  "artifact": "app/target/turboj-app.jar",
+  "sha256": "48cacfc5764399d2b71afce074c95b14b17645fc124c32e32704afc6a58bc76d",
+  "buildCommand": "./mvnw clean install",
+  "cache": "warm dependency cache; clean reactor target directories",
+  "preservedLocalHarness": "InlineTemplateAcceptance.java compiled by Maven but not selected by test naming patterns; excluded from native acceptance"
+}

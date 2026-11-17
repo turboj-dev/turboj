@@ -1,0 +1,29 @@
+PASS run: multiple mains require an explicit choice, no arbitrary execution
+PASS run: non-main file reuses the selected main inside the same project
+Driver reactivates fixture window while waiting: previous project's main must not select this project's main
+Exception in thread "main" java.lang.AssertionError: previous project's main must not select this project's main; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class Helper {}
+; status=19:31:52  Run Helper.java done · exit 0 · 27 ms (2 ms running)
+19:31:52  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  Run Helper.java done · exit 0 · 26 ms (2 ms running)
+19:31:52  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  Run Main.java done · exit 0 · 63 ms (11 ms running)
+19:31:52  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  Run Helper.java failed · 203 ms
+19:31:52  Run Helper.java: No main method to run · Run Tests runs the tests
+19:31:52  Several programs have a main: open the one to run, then Run
+19:31:52  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+19:31:52  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.RunTargetIsolationSmoke.reject(RunTargetIsolationSmoke.java:72)
+	at dev.turboj.app.RunTargetIsolationSmoke.main(RunTargetIsolationSmoke.java:29)

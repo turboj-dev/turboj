@@ -1,0 +1,5 @@
+PASS qfx08.signature: real Tab parameter types; incompatible caller rejected; widening accepted; mismatched return and Save rejected; corrected Save, javac, Undo/Redo
+PASS qfx08.cancel: Escape restores original caller after a semantically validated parameter edit
+PASS refactor.extract-variable.inline: keyboard preview/cancel/apply; inline semantic rename of declaration and uses; javac; two transaction Undo/Redo
+PASS refactor.extract-method.inline: keyboard preview/cancel/apply; inline semantic rename of declaration and uses; javac; two transaction Undo/Redo
+PASS refactor.create-field.inline: keyboard preview/cancel/apply; inline semantic rename of declaration and uses; javac; two transaction Undo/Redo

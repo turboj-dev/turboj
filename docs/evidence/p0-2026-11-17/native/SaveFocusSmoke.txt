@@ -1,0 +1,4 @@
+PASS round 1: Save keeps the caret in the editor at the same place
+java.lang.AssertionError: round 2: the caret stays in the editor after Save, Run and Test on Save; focus null
+	at dev.turboj.app.SaveFocusSmoke.check(SaveFocusSmoke.java:71)
+	at dev.turboj.app.SaveFocusSmoke.main(SaveFocusSmoke.java:47)

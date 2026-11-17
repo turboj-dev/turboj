@@ -1,0 +1,85 @@
+{
+  "baseline": "a712d51138855ec0b9ba25dc9e134414ffc536d8",
+  "files": [
+    {
+      "path": "examples/Calculator.java",
+      "sha256": "e2bfeb0695915a6f5eb1ff737d1eebcfbe38026ff8a133c3c44012c3ebd4d2b9",
+      "classification": "personal example (excluded from release validation)",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "examples/Hello.java",
+      "sha256": "d07f51e81b15b3aebe5417d0f49f9c1aba12ac03498ccd149a43c49beb11f74e",
+      "classification": "personal example (excluded from release validation)",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "examples/SampleTest.java",
+      "sha256": "e765d3969735f63d355feab300ecbae9f6d2023ea5315634b596e2fd7a01382e",
+      "classification": "personal example (excluded from release validation)",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "examples/maven/src/main/java/dev/turboj/examples/calculator/Calculator.java",
+      "sha256": "4a0720fdf06e00801e2a4a9e8dd4019cfe1a1ac668c75ae6664e926cc133be92",
+      "classification": "personal example (excluded from release validation)",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "examples/maven/src/test/java/dev/turboj/examples/calculator/CalculatorTest.java",
+      "sha256": "1772838cf1cb6c16e7612a00c075e6785d8769dd0f6b4596a1bf5a33d5a42347",
+      "classification": "personal example (excluded from release validation)",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "app/src/test/java/dev/turboj/app/InlineTemplateAcceptance.java",
+      "sha256": "b6208d436504b077378f6dd186cc05e9fed1bd27f8b132d70d70a19413b5f87b",
+      "classification": "superseded local harness: mutable external JUG dependency",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T06-51-04.305444Z.md",
+      "sha256": "137663d23a178362052b33d0f36b97b0ba5dd9fa997b780a1ef4d4636e3f4f06",
+      "classification": "historical timing without artifact identity",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T06-55-25.994533Z.md",
+      "sha256": "55df8fba087886ab1336edeef1819f32d403eedddf1e2564506304854da34262",
+      "classification": "historical timing without artifact identity",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T06-57-22.827136Z.md",
+      "sha256": "a8c610680a572cb0b11f026cd8bcc592631e1817245057cae55927008cc848d7",
+      "classification": "historical timing without artifact identity",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T08-45-50.301404Z.md",
+      "sha256": "d94ff679c3f77d2f58ef104fa5027df4208fb1d8dfe898968637ce9604e187f8",
+      "classification": "historical timing without artifact identity",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T16-28-57.197592Z.md",
+      "sha256": "f8126b29c516e098106e19dac3398265f36b78825e5e0eb796e1d1699168f25a",
+      "classification": "historical timing without artifact identity",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "docs/evidence/cherry-native/real-executions.json",
+      "sha256": "4006804a97d1139db0cebc9389fde43698c326278e2b70dfd21e4882869e683b",
+      "classification": "historical Cherry metadata: raw evidence references require audit",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    },
+    {
+      "path": "examples/HelloWorld.java",
+      "sha256": "e765d3969735f63d355feab300ecbae9f6d2023ea5315634b596e2fd7a01382e",
+      "classification": "personal example (excluded from release validation)",
+      "disposition": "preserve unchanged; excluded from this changeset"
+    }
+  ],
+  "localBackup": ".cache/p0-user-work-2026-11-17.tar.gz",
+  "backupSha256": "bdba99d79c7ceefbe1fe55b8683d9fc1289cb74315ad054a47a954b241fad639"
+}

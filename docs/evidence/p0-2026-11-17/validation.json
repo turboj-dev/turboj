@@ -1,0 +1,168 @@
+{
+  "status": "VERIFIED",
+  "baseline": "a712d51138855ec0b9ba25dc9e134414ffc536d8",
+  "artifact": "app/target/turboj-app.jar",
+  "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2",
+  "build": {
+    "command": "./mvnw clean install",
+    "log": "reactor-final-clean-install.txt",
+    "exitStatus": 0,
+    "modules": 39,
+    "suites": 132,
+    "totals": {
+      "tests": 907,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "native": {
+    "acceptedChecks": [
+      {
+        "check": "RunTargetIsolationSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:05:42Z",
+        "finished_utc": "2026-11-17T19:05:54Z",
+        "evidence": "native-final/RunTargetIsolationSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "QuickFixPopupSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:05:54Z",
+        "finished_utc": "2026-11-17T19:06:05Z",
+        "evidence": "native-final/QuickFixPopupSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "SaveAutomationSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:06:05Z",
+        "finished_utc": "2026-11-17T19:06:34Z",
+        "evidence": "native-final/SaveAutomationSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "OutputStatusSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:06:34Z",
+        "finished_utc": "2026-11-17T19:06:39Z",
+        "evidence": "native-final/OutputStatusSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "SaveFocusSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:06:39Z",
+        "finished_utc": "2026-11-17T19:06:44Z",
+        "evidence": "native-final/SaveFocusSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "BufferSaveSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:06:44Z",
+        "finished_utc": "2026-11-17T19:06:48Z",
+        "evidence": "native-final/BufferSaveSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "KeyboardExecutionEffectsSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:06:48Z",
+        "finished_utc": "2026-11-17T19:06:55Z",
+        "evidence": "native-final/KeyboardExecutionEffectsSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "KeyboardTestEffectsSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:06:55Z",
+        "finished_utc": "2026-11-17T19:07:01Z",
+        "evidence": "native-final/KeyboardTestEffectsSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "KeyboardMavenBoundarySmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:07:01Z",
+        "finished_utc": "2026-11-17T19:07:14Z",
+        "evidence": "native-final/KeyboardMavenBoundarySmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "KeyboardPomEffectsSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:07:14Z",
+        "finished_utc": "2026-11-17T19:07:19Z",
+        "evidence": "native-final/KeyboardPomEffectsSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "InlineSemanticTemplateSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:08:17Z",
+        "finished_utc": "2026-11-17T19:08:24Z",
+        "evidence": "native-final/InlineSemanticTemplateSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "InlineTemplateSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:08:24Z",
+        "finished_utc": "2026-11-17T19:08:30Z",
+        "evidence": "native-final/InlineTemplateSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "CommandRolloverSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:08:30Z",
+        "finished_utc": "2026-11-17T19:08:34Z",
+        "evidence": "native-final/CommandRolloverSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "KeyboardPanelSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:08:34Z",
+        "finished_utc": "2026-11-17T19:08:41Z",
+        "evidence": "native-final/KeyboardPanelSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      },
+      {
+        "check": "FirstLaunchKeyboardSmoke",
+        "exit_status": "0",
+        "started_utc": "2026-11-17T19:17:25Z",
+        "finished_utc": "2026-11-17T19:19:10Z",
+        "evidence": "native-first-launch-verified/FirstLaunchKeyboardSmoke.txt",
+        "artifactSha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2"
+      }
+    ],
+    "count": 15,
+    "firstLaunch": {
+      "assertions": 176,
+      "keyboardEvents": 494,
+      "archive": "captures/first-launch-verified.tar.gz"
+    },
+    "failedControlsRetained": true,
+    "driverChangesAfterBuild": "Standalone FirstLaunchKeyboardSmoke only; recompiled by verify-keyboard-effects.sh. Production JAR unchanged."
+  },
+  "closedItems": [
+    "RUN-01",
+    "RUN-02",
+    "QFX-01",
+    "REL-01",
+    "GOV-01",
+    "GOV-02"
+  ],
+  "preservedLocalFiles": 13,
+  "historicalEvidence": "historical-evidence-audit.json",
+  "limits": [
+    "Development JAR qualification, not packaged/signed .app delivery",
+    "Physical keyboard/IME/VoiceOver remain postponed KEY-05",
+    "Live paid-cloud inference remains AI-05",
+    "Eight historical raw capture directories are unavailable; newer identified archives do not reconstruct them",
+    "No website deployment or repository publication performed"
+  ]
+}

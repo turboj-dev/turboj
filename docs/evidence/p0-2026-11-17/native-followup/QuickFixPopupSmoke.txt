@@ -1,0 +1,7 @@
+PASS turboj-macos: Cmd+1 creates contextual proposals; theme switch and selection contrast >=4.5:1; Escape restores focus
+PASS Eclipse-style Cmd+1 after the statement jumps to the closest problem on its line
+PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: app/target/quick-fix-popup-turboj-macos.png
+Exception in thread "main" java.lang.AssertionError: Timed out waiting for contextual popup/focus
+	at dev.turboj.app.QuickFixPopupSmoke.await(QuickFixPopupSmoke.java:147)
+	at dev.turboj.app.QuickFixPopupSmoke.exercise(QuickFixPopupSmoke.java:116)
+	at dev.turboj.app.QuickFixPopupSmoke.main(QuickFixPopupSmoke.java:20)

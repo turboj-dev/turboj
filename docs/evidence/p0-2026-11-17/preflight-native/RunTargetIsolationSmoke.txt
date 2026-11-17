@@ -1,0 +1,7 @@
+PASS run: multiple mains require an explicit choice, no arbitrary execution
+PASS run: non-main file reuses the selected main inside the same project
+PASS run: two projects with identical main class names keep their target selection separate
+PASS run: no-main project reports the problem without running a previous program
+Exception in thread "main" java.lang.AssertionError: stop during compilation must prevent launch
+	at dev.turboj.app.KeyboardActionEffectsSmoke.check(KeyboardActionEffectsSmoke.java:141)
+	at dev.turboj.app.RunTargetIsolationSmoke.main(RunTargetIsolationSmoke.java:41)

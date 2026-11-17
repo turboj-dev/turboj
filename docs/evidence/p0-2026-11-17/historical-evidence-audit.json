@@ -1,0 +1,628 @@
+{
+  "historicalReferences": [
+    {
+      "rawEvidence": "/private/tmp/cherry-native-fixture.3xv8zsmy/passing-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/cherry-native-fixture.3xv8zsmy/failing-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/cherry-native-sample-controls/mini/events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/cherry-native-sample-controls/shop-cart/retry-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/cherry-native-sample-controls/shop-java/failed-with-coverage-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/turboj-jug-shop-domain-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/turboj-jug-shop-spring-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    },
+    {
+      "rawEvidence": "/private/tmp/turboj-jug-shop-quarkus-events.jsonl",
+      "exists": false,
+      "disposition": "retired historical control; metadata alone is not reproducible evidence"
+    }
+  ],
+  "retainedManifests": [
+    {
+      "folder": "delivery-2026-11-16",
+      "files": [
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/cherry-clean-install.log.gz",
+          "matches": true,
+          "expected": "c29559fe517dd66ad7b085f8422efda17f154c4255a82cf1984ca9aff0eb9025",
+          "actual": "c29559fe517dd66ad7b085f8422efda17f154c4255a82cf1984ca9aff0eb9025"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/cherry-clean-rust.log.gz",
+          "matches": true,
+          "expected": "7706dec3f7b678367c48f6a4f695d8926b5111844209c888054c17a8431a3ec5",
+          "actual": "7706dec3f7b678367c48f6a4f695d8926b5111844209c888054c17a8431a3ec5"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/cherry-isolated-install.log.gz",
+          "matches": true,
+          "expected": "67d0f85b0c70a70475aa824fb7207f016388795d002696f4b0193498831864ef",
+          "actual": "67d0f85b0c70a70475aa824fb7207f016388795d002696f4b0193498831864ef"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/cherry-test-suites.json",
+          "matches": true,
+          "expected": "8ac124c9e0a1ab455181125636d023b471f03bb22f58c99fb62d762439cc7f0b",
+          "actual": "8ac124c9e0a1ab455181125636d023b471f03bb22f58c99fb62d762439cc7f0b"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/native-evidence.tar.gz",
+          "matches": true,
+          "expected": "13960655ccf4521cc2f41bf6c4f161fa2237eeb31211f57e951f25b92d83c3d7",
+          "actual": "13960655ccf4521cc2f41bf6c4f161fa2237eeb31211f57e951f25b92d83c3d7"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/native-report.txt",
+          "matches": true,
+          "expected": "4b496b76b4bd4500a6fcd8c905e81b15a2da2d95e184672c6bc4c82763f10fb3",
+          "actual": "4b496b76b4bd4500a6fcd8c905e81b15a2da2d95e184672c6bc4c82763f10fb3"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/native-smoke.log.gz",
+          "matches": true,
+          "expected": "0002c902db1b136ae499c0adb66614ccf85801da2e2f6c7fabaedc699c3e3974",
+          "actual": "0002c902db1b136ae499c0adb66614ccf85801da2e2f6c7fabaedc699c3e3974"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/repository-fix-targeted.log.gz",
+          "matches": true,
+          "expected": "25aa27dd63833df532f889995f9ab93bfc5eb1e53122138b3c73403cb8ca74e1",
+          "actual": "25aa27dd63833df532f889995f9ab93bfc5eb1e53122138b3c73403cb8ca74e1"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/turboj-clean-install.log.gz",
+          "matches": true,
+          "expected": "0f9b879a7540af3ee434bf7d5518984623a9931ff0d7d7cc4abe04caa5c6e30f",
+          "actual": "0f9b879a7540af3ee434bf7d5518984623a9931ff0d7d7cc4abe04caa5c6e30f"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/turboj-final-install.log.gz",
+          "matches": true,
+          "expected": "4fc3cc0d121b04e8e01ea908d31af379e2e39bdcf8f0ec27b8bec1333cb2844e",
+          "actual": "4fc3cc0d121b04e8e01ea908d31af379e2e39bdcf8f0ec27b8bec1333cb2844e"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/turboj-isolated-install.log.gz",
+          "matches": true,
+          "expected": "90cee695db6df68a31d949d9688ce274ab3b21a72132ab6aa6f80425626eac2a",
+          "actual": "90cee695db6df68a31d949d9688ce274ab3b21a72132ab6aa6f80425626eac2a"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/turboj-test-suites.json",
+          "matches": true,
+          "expected": "8d5ffd0c107e13f0419f50dc519c6f862863ddb2144d7b198757fa2674cf10c3",
+          "actual": "8d5ffd0c107e13f0419f50dc519c6f862863ddb2144d7b198757fa2674cf10c3"
+        },
+        {
+          "path": "docs/evidence/cherry-native/delivery-2026-11-16/validation.json",
+          "matches": true,
+          "expected": "fbae07dcf592aa52242c2d5b7d8e4e633dcc03684f38fa7b1503a4a2a3f2b916",
+          "actual": "fbae07dcf592aa52242c2d5b7d8e4e633dcc03684f38fa7b1503a4a2a3f2b916"
+        }
+      ]
+    },
+    {
+      "folder": "completion-2026-11-16",
+      "files": [
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/README.md",
+          "matches": true,
+          "expected": "328c8be7811c4643d5fe7a78542168283a0ec042c01b7ee9907e1f1fd0e7555e",
+          "actual": "328c8be7811c4643d5fe7a78542168283a0ec042c01b7ee9907e1f1fd0e7555e"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/ReportCounts.java",
+          "matches": true,
+          "expected": "ff104b0f17a5f6e3f5546b071f930c3d2c1409710d31c0e15655905dcdf3ec19",
+          "actual": "ff104b0f17a5f6e3f5546b071f930c3d2c1409710d31c0e15655905dcdf3ec19"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/artifact-hashes.json",
+          "matches": true,
+          "expected": "bd6492708da83805d84663468a091590a777ada1391ed63a37b2574e6ff237f0",
+          "actual": "bd6492708da83805d84663468a091590a777ada1391ed63a37b2574e6ff237f0"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/cancellation/events.jsonl.completion.json.gz",
+          "matches": true,
+          "expected": "bc9736018f0ae8a4a48cb5244ce0e137337a470c9c751584fb0506d7902e57be",
+          "actual": "bc9736018f0ae8a4a48cb5244ce0e137337a470c9c751584fb0506d7902e57be"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/cancellation/events.jsonl.gz",
+          "matches": true,
+          "expected": "5b3ea1b479284a4047da96e2d9570e422f454a3168399bc4d182cb9ec13a6cd7",
+          "actual": "5b3ea1b479284a4047da96e2d9570e422f454a3168399bc4d182cb9ec13a6cd7"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/cancellation/events.jsonl.log.gz",
+          "matches": true,
+          "expected": "0d06d4a8d35cc1450f46ca21967a86fcc83e952d1ac64ff9c20a9f7b0a3ae730",
+          "actual": "0d06d4a8d35cc1450f46ca21967a86fcc83e952d1ac64ff9c20a9f7b0a3ae730"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/capture-manifest.json",
+          "matches": true,
+          "expected": "4decca176aa5b6c13723fe151bda49573dce8c3388d7fed405c106d2f9521f24",
+          "actual": "4decca176aa5b6c13723fe151bda49573dce8c3388d7fed405c106d2f9521f24"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/configuration/mini-pom.xml.gz",
+          "matches": true,
+          "expected": "cbeab576827b0016e73f6ca838e5b3a005ca7057e50004317fced286354bedd8",
+          "actual": "cbeab576827b0016e73f6ca838e5b3a005ca7057e50004317fced286354bedd8"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/configuration/mini-with-kotlin.yaml",
+          "matches": true,
+          "expected": "77d5e847ce58bce2cb3831edf5a56a9f74dba32fd865b5c8e5433bc0e35fafeb",
+          "actual": "77d5e847ce58bce2cb3831edf5a56a9f74dba32fd865b5c8e5433bc0e35fafeb"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/configuration/mini.yaml",
+          "matches": true,
+          "expected": "216de859335cb6cab1c2b8f466bbc788fa4a08acb122f6630177e62abf65d21c",
+          "actual": "216de859335cb6cab1c2b8f466bbc788fa4a08acb122f6630177e62abf65d21c"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/configuration/shop-java-pom.xml.gz",
+          "matches": true,
+          "expected": "777ea2a25aba7bb1d9f58343c555d00ffed0e1dc6f2329839e35e2fcb60a4bdb",
+          "actual": "777ea2a25aba7bb1d9f58343c555d00ffed0e1dc6f2329839e35e2fcb60a4bdb"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/configuration/shop-java.yaml",
+          "matches": true,
+          "expected": "7aa164bcd84c10fe830049d893775eafac25f750718ac5cfdc4f07e4f508bc23",
+          "actual": "7aa164bcd84c10fe830049d893775eafac25f750718ac5cfdc4f07e4f508bc23"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/configuration/shop.yaml",
+          "matches": true,
+          "expected": "8619bc122fe7d6c75920edbeb931e2f66a798d0bbe512c9bb60cd5d9654c9332",
+          "actual": "8619bc122fe7d6c75920edbeb931e2f66a798d0bbe512c9bb60cd5d9654c9332"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/jug-enabled.jsonl.gz",
+          "matches": true,
+          "expected": "98297afe53a92bbcb59cfa2cfc53cdaff3cc677d2868268f001ecd40db5f96ef",
+          "actual": "98297afe53a92bbcb59cfa2cfc53cdaff3cc677d2868268f001ecd40db5f96ef"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/kotlin.jsonl.gz",
+          "matches": true,
+          "expected": "027135e47315e0f2ff8ef3462aeb0e3534faf6f0c0badb59548255ab14a9c542",
+          "actual": "027135e47315e0f2ff8ef3462aeb0e3534faf6f0c0badb59548255ab14a9c542"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/mini-all.jsonl.gz",
+          "matches": true,
+          "expected": "485adad7541174842d456923fd87c149cccfd8464b6dcad1576a85c56b44db10",
+          "actual": "485adad7541174842d456923fd87c149cccfd8464b6dcad1576a85c56b44db10"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/mini-server.jsonl.gz",
+          "matches": true,
+          "expected": "4bba27e64b959dda7fb176b2fa4998b7b692e17a9ecab55c2b1e3714123def79",
+          "actual": "4bba27e64b959dda7fb176b2fa4998b7b692e17a9ecab55c2b1e3714123def79"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/shop-profile-server.jsonl.gz",
+          "matches": true,
+          "expected": "bbf5beac731a0017fd569c25141aea1a4b36fa7c8ad55b3b02f9d17538057e25",
+          "actual": "bbf5beac731a0017fd569c25141aea1a4b36fa7c8ad55b3b02f9d17538057e25"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/shop-rust.jsonl.gz",
+          "matches": true,
+          "expected": "b72d8d2c0cb20ffdf7fe00403f90deefab29a419bfb108de4d21c334923aed1d",
+          "actual": "b72d8d2c0cb20ffdf7fe00403f90deefab29a419bfb108de4d21c334923aed1d"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/events/shop-server.jsonl.gz",
+          "matches": true,
+          "expected": "e7e088cfb108915691bc8855282f8be0e0ab48c88d341ace8904c27a7755e9ff",
+          "actual": "e7e088cfb108915691bc8855282f8be0e0ab48c88d341ace8904c27a7755e9ff"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/jug-native/console.txt.gz",
+          "matches": true,
+          "expected": "f2fed997a07cdbfca97b019b77cd5e5b3e1d8af42228af6253f0eaca5b8d3309",
+          "actual": "f2fed997a07cdbfca97b019b77cd5e5b3e1d8af42228af6253f0eaca5b8d3309"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/jug-native/native.png",
+          "matches": true,
+          "expected": "9231e97c94e5c572ac977d67a2af8309d2fa227ac4e175a4c72d5ccde4cf91cc",
+          "actual": "9231e97c94e5c572ac977d67a2af8309d2fa227ac4e175a4c72d5ccde4cf91cc"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/jug-native/result.txt.gz",
+          "matches": true,
+          "expected": "d6644ccfa4ba0893895623a0d85a195ee46301281b82b92d4a24a53509340fcc",
+          "actual": "d6644ccfa4ba0893895623a0d85a195ee46301281b82b92d4a24a53509340fcc"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/jug-native/settings-8339158361583401699/cherry-runs/80dcf306c3b867092f66f1c5/run-edab9c13-a87a-43cd-93c0-4c013ab11620.jsonl.completion.json.gz",
+          "matches": true,
+          "expected": "5565a772fc73bc720d806f734bf14ac65c24bc7b579215cffea03e59e25f700a",
+          "actual": "5565a772fc73bc720d806f734bf14ac65c24bc7b579215cffea03e59e25f700a"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/jug-native/settings-8339158361583401699/cherry-runs/80dcf306c3b867092f66f1c5/run-edab9c13-a87a-43cd-93c0-4c013ab11620.jsonl.gz",
+          "matches": true,
+          "expected": "1250c2ab6bc91bc265dd29e2487b04719a322564defb0a7b16773d62b6d5cbb3",
+          "actual": "1250c2ab6bc91bc265dd29e2487b04719a322564defb0a7b16773d62b6d5cbb3"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/jug-native/settings-8339158361583401699/cherry-runs/80dcf306c3b867092f66f1c5/run-edab9c13-a87a-43cd-93c0-4c013ab11620.jsonl.log.gz",
+          "matches": true,
+          "expected": "4b9b3ea5aa1b169b2cd1c91f88c50056824002c1bb2909dc2cd6d9ff842af8c8",
+          "actual": "4b9b3ea5aa1b169b2cd1c91f88c50056824002c1bb2909dc2cd6d9ff842af8c8"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cancel-build.log.gz",
+          "matches": true,
+          "expected": "0b6b63bb454361b15fcc233c989ad130ccb7118d12255f8518a381fd8c92df73",
+          "actual": "0b6b63bb454361b15fcc233c989ad130ccb7118d12255f8518a381fd8c92df73"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cancellation.log.gz",
+          "matches": true,
+          "expected": "f9dddf08368a4b2c39acd6b4360bbc74fcbcd31c7b9ddf956042b2387cc3642c",
+          "actual": "f9dddf08368a4b2c39acd6b4360bbc74fcbcd31c7b9ddf956042b2387cc3642c"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cherry-docker-tests.log.gz",
+          "matches": true,
+          "expected": "e382cfde98ff43e0e39f8ba5162ae9a93ea819bba125da7cb5a040a08cf14f62",
+          "actual": "e382cfde98ff43e0e39f8ba5162ae9a93ea819bba125da7cb5a040a08cf14f62"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cherry-local-install.log.gz",
+          "matches": true,
+          "expected": "5a47194bed4724dd87f824d23c761d3dc96da6c71061dc97b3fbc20b312c4d2d",
+          "actual": "5a47194bed4724dd87f824d23c761d3dc96da6c71061dc97b3fbc20b312c4d2d"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cherry-rust-docker-tests.log.gz",
+          "matches": true,
+          "expected": "e2a2a262d9d0b2f934884f95f530488d2a984710e3071849ea7fe805f8f049ff",
+          "actual": "e2a2a262d9d0b2f934884f95f530488d2a984710e3071849ea7fe805f8f049ff"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cherry-rust-tests.log.gz",
+          "matches": true,
+          "expected": "8093fad93a6882f63477c1f0a1cdcd312ea1d1f76a384402e4727815fb723849",
+          "actual": "8093fad93a6882f63477c1f0a1cdcd312ea1d1f76a384402e4727815fb723849"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/cherry-server-tests.log.gz",
+          "matches": true,
+          "expected": "37b5789eb958ecdf9a140deab8079ae8d1a5c320cb5086bd20116f852591e6d4",
+          "actual": "37b5789eb958ecdf9a140deab8079ae8d1a5c320cb5086bd20116f852591e6d4"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/jug-count-reconciliation.log.gz",
+          "matches": true,
+          "expected": "d68862443192cf37434cdb1d23d3a6928754912b6213500fe27a52fafc6df49d",
+          "actual": "d68862443192cf37434cdb1d23d3a6928754912b6213500fe27a52fafc6df49d"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/jug-enabled-control.log.gz",
+          "matches": true,
+          "expected": "c547b10e0ede70b94be988aaa3adb6da4ccf08e61fccae1f87c08a873409d614",
+          "actual": "c547b10e0ede70b94be988aaa3adb6da4ccf08e61fccae1f87c08a873409d614"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/jug-enabled-reader.log.gz",
+          "matches": true,
+          "expected": "9a02ac709d02d01b28d3615c9d9fc85197b92fe41a20c2c0abd96aba06078e52",
+          "actual": "9a02ac709d02d01b28d3615c9d9fc85197b92fe41a20c2c0abd96aba06078e52"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/jug-enabled.log.gz",
+          "matches": true,
+          "expected": "3c714aaa7969a8df4ea5a23895fe21c7d795ed323b495b55b800a238e396f684",
+          "actual": "3c714aaa7969a8df4ea5a23895fe21c7d795ed323b495b55b800a238e396f684"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/jug-native.log.gz",
+          "matches": true,
+          "expected": "8cf2cd2219a96b155c1e686f54aa981839843961dc3f0dabaa9d1b847f2a86f0",
+          "actual": "8cf2cd2219a96b155c1e686f54aa981839843961dc3f0dabaa9d1b847f2a86f0"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/jug-reader.log.gz",
+          "matches": true,
+          "expected": "fb10304dd8144ddb3bb9d47fc9234fef46be3e23b1d5f5f0629e30fa82858491",
+          "actual": "fb10304dd8144ddb3bb9d47fc9234fef46be3e23b1d5f5f0629e30fa82858491"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/kotlin-reader.log.gz",
+          "matches": true,
+          "expected": "8d0670947bb61a06e896bf111b85351798ef10c416021e90ea3e7d6b986761f4",
+          "actual": "8d0670947bb61a06e896bf111b85351798ef10c416021e90ea3e7d6b986761f4"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/kotlin.log.gz",
+          "matches": true,
+          "expected": "9667486fa0bda04b83de1278ae3f8d0bb406665d741e48d91f425877fac8ae96",
+          "actual": "9667486fa0bda04b83de1278ae3f8d0bb406665d741e48d91f425877fac8ae96"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-all-reader.log.gz",
+          "matches": true,
+          "expected": "c3ecd75275070659a7d6f49b01c189c6cfb3c460011b8246c6e3d08848d35858",
+          "actual": "c3ecd75275070659a7d6f49b01c189c6cfb3c460011b8246c6e3d08848d35858"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-all.log.gz",
+          "matches": true,
+          "expected": "1917d323b2acf13e7e634c28846c03c06466ea9d2ab8cd2e6ed63c42180e1731",
+          "actual": "1917d323b2acf13e7e634c28846c03c06466ea9d2ab8cd2e6ed63c42180e1731"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-native-profile.log.gz",
+          "matches": true,
+          "expected": "3bfa4c32b2c47e8447b429baad095d8f600020e4dd0b15ff91045aa816103300",
+          "actual": "3bfa4c32b2c47e8447b429baad095d8f600020e4dd0b15ff91045aa816103300"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-native-save.log.gz",
+          "matches": true,
+          "expected": "5bf61fb421a6231ef69dfea3a4be2ffb2430d7f042a0e91c751828ea687bcd81",
+          "actual": "5bf61fb421a6231ef69dfea3a4be2ffb2430d7f042a0e91c751828ea687bcd81"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-pnpm.log.gz",
+          "matches": true,
+          "expected": "949c1648d579506779b7ad7a60f3f18e570bf1cc68cc427fd6081aed6d439a8d",
+          "actual": "949c1648d579506779b7ad7a60f3f18e570bf1cc68cc427fd6081aed6d439a8d"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-profile-reader.log.gz",
+          "matches": true,
+          "expected": "3b248c6e35114c692344f989d54002882f9982318419eeae4cf25c4e0b760376",
+          "actual": "3b248c6e35114c692344f989d54002882f9982318419eeae4cf25c4e0b760376"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-server-reader.log.gz",
+          "matches": true,
+          "expected": "f1a32eb4cf60abf82bcc52362e390e47a251b2ecb7b513ae7f1581c052087224",
+          "actual": "f1a32eb4cf60abf82bcc52362e390e47a251b2ecb7b513ae7f1581c052087224"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-server.log.gz",
+          "matches": true,
+          "expected": "28145a8a542b56a03d36e34ece441a4a8cce851ff71e8f57f4b2dc2f551c85de",
+          "actual": "28145a8a542b56a03d36e34ece441a4a8cce851ff71e8f57f4b2dc2f551c85de"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/mini-standalone.log.gz",
+          "matches": true,
+          "expected": "e2dcbfc90f883849d704e452dab7c1eaa47b5832c425f1543375d65a8deb55df",
+          "actual": "e2dcbfc90f883849d704e452dab7c1eaa47b5832c425f1543375d65a8deb55df"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/native-driver-build.log.gz",
+          "matches": true,
+          "expected": "1c7e558addeec7e6765b8c71987297d007d663e6cfb4fd4026631241428657cf",
+          "actual": "1c7e558addeec7e6765b8c71987297d007d663e6cfb4fd4026631241428657cf"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/profile-compatibility.log.gz",
+          "matches": true,
+          "expected": "eb4c9529c5185d626da10d091977152aa7f1cbb43348637b3490b84e9ba8e573",
+          "actual": "eb4c9529c5185d626da10d091977152aa7f1cbb43348637b3490b84e9ba8e573"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/registry.log.gz",
+          "matches": true,
+          "expected": "52158f07a72d69ee7642c8284c050c576090874b62215034654327cf86b4abab",
+          "actual": "52158f07a72d69ee7642c8284c050c576090874b62215034654327cf86b4abab"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-adapter-tests.log.gz",
+          "matches": true,
+          "expected": "75548263d0467ad325f516ea5aa44df9c1556bb0044f43fed88c1d43caf8bf21",
+          "actual": "75548263d0467ad325f516ea5aa44df9c1556bb0044f43fed88c1d43caf8bf21"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-profile-reader.log.gz",
+          "matches": true,
+          "expected": "729e31db15085e14d81ccea77e62a56bce230b7b72f42efb6dcfe42a770f4a37",
+          "actual": "729e31db15085e14d81ccea77e62a56bce230b7b72f42efb6dcfe42a770f4a37"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-profile-server.log.gz",
+          "matches": true,
+          "expected": "47b45c9aeb85ca1bcd00a1f3e8a1f7d47d04cb71d5552b3429c171ed442a674c",
+          "actual": "47b45c9aeb85ca1bcd00a1f3e8a1f7d47d04cb71d5552b3429c171ed442a674c"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-rust-reader.log.gz",
+          "matches": true,
+          "expected": "06620f3292f858083be9e227dd6371176ce67b3f9c52fb6ca1bd6bd11679816f",
+          "actual": "06620f3292f858083be9e227dd6371176ce67b3f9c52fb6ca1bd6bd11679816f"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-rust.log.gz",
+          "matches": true,
+          "expected": "1ada3c49b60bbf69f7bba541c6c40ae868382b4b27412fcf59e6523b71dfaf66",
+          "actual": "1ada3c49b60bbf69f7bba541c6c40ae868382b4b27412fcf59e6523b71dfaf66"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-server-reader.log.gz",
+          "matches": true,
+          "expected": "ecc378c8b85cde569c7a95fa3bbd143a9bc9c509538116c8357e1acf043cc132",
+          "actual": "ecc378c8b85cde569c7a95fa3bbd143a9bc9c509538116c8357e1acf043cc132"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/shop-server.log.gz",
+          "matches": true,
+          "expected": "ea0145e45d2c9fd3828b1c81c57efd14d6512aa2921511578b121d41ea41b44f",
+          "actual": "ea0145e45d2c9fd3828b1c81c57efd14d6512aa2921511578b121d41ea41b44f"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/targeted-tests.log.gz",
+          "matches": true,
+          "expected": "35ea24c2553c3ffff57cd766ebb484d5e01771bf8d6b99f509e0117b08c32e3f",
+          "actual": "35ea24c2553c3ffff57cd766ebb484d5e01771bf8d6b99f509e0117b08c32e3f"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/turboj-install.log.gz",
+          "matches": true,
+          "expected": "f36ca727c03b4dc8701a7e1ebbce01fec61553c65e1e8334cdc354748055f1c3",
+          "actual": "f36ca727c03b4dc8701a7e1ebbce01fec61553c65e1e8334cdc354748055f1c3"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/logs/turboj-package.log.gz",
+          "matches": true,
+          "expected": "a2a7631f6e3ddd0b5aeddaa5f859b47feeaee7cd7f4b535f524698af8a3b691c",
+          "actual": "a2a7631f6e3ddd0b5aeddaa5f859b47feeaee7cd7f4b535f524698af8a3b691c"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/console.txt.gz",
+          "matches": true,
+          "expected": "f2fed997a07cdbfca97b019b77cd5e5b3e1d8af42228af6253f0eaca5b8d3309",
+          "actual": "f2fed997a07cdbfca97b019b77cd5e5b3e1d8af42228af6253f0eaca5b8d3309"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/native.png",
+          "matches": true,
+          "expected": "196af854363cf0660603cc6bbbd8f098f9f45b69ca3882a25035f401bd5719a9",
+          "actual": "196af854363cf0660603cc6bbbd8f098f9f45b69ca3882a25035f401bd5719a9"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/result.txt.gz",
+          "matches": true,
+          "expected": "ce7b676b997a31ab4340ff58b3fadf4066c174d0e4c24922ef66a79f22020229",
+          "actual": "ce7b676b997a31ab4340ff58b3fadf4066c174d0e4c24922ef66a79f22020229"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/saved-source.java.gz",
+          "matches": true,
+          "expected": "3e686c1a425e0fdf6c906539ab8e87e00182b8d4ee97411888af97b3b04b950e",
+          "actual": "3e686c1a425e0fdf6c906539ab8e87e00182b8d4ee97411888af97b3b04b950e"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/settings-11108888514736579910/cherry-runs/36e54721ad47ea13c5f6a9c1/run-43cc2175-9f15-4fd6-a479-1c9c3342514a.jsonl.completion.json.gz",
+          "matches": true,
+          "expected": "542119fb12406060bc09b0a8ef9864d8e67801af64277ec12e7e8a03cdb565b5",
+          "actual": "542119fb12406060bc09b0a8ef9864d8e67801af64277ec12e7e8a03cdb565b5"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/settings-11108888514736579910/cherry-runs/36e54721ad47ea13c5f6a9c1/run-43cc2175-9f15-4fd6-a479-1c9c3342514a.jsonl.gz",
+          "matches": true,
+          "expected": "d2030be5ff6db7c9879e8c660943984d49467d839c2853c277959ff6f092bf32",
+          "actual": "d2030be5ff6db7c9879e8c660943984d49467d839c2853c277959ff6f092bf32"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-profile/settings-11108888514736579910/cherry-runs/36e54721ad47ea13c5f6a9c1/run-43cc2175-9f15-4fd6-a479-1c9c3342514a.jsonl.log.gz",
+          "matches": true,
+          "expected": "74c1ecc20604dbc21dccc0fe909bbd42b331addd2eeeb560594d3df9c98518c9",
+          "actual": "74c1ecc20604dbc21dccc0fe909bbd42b331addd2eeeb560594d3df9c98518c9"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/console.txt.gz",
+          "matches": true,
+          "expected": "f2fed997a07cdbfca97b019b77cd5e5b3e1d8af42228af6253f0eaca5b8d3309",
+          "actual": "f2fed997a07cdbfca97b019b77cd5e5b3e1d8af42228af6253f0eaca5b8d3309"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/native.png",
+          "matches": true,
+          "expected": "2751d71de23f6cf657e1ec14366399c10ea0fcd874862424e73496ddb25da072",
+          "actual": "2751d71de23f6cf657e1ec14366399c10ea0fcd874862424e73496ddb25da072"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/result.txt.gz",
+          "matches": true,
+          "expected": "b7b5e3232657c88e2bedf6c23a05a4b5211291d988a94945cc99f8c408a20032",
+          "actual": "b7b5e3232657c88e2bedf6c23a05a4b5211291d988a94945cc99f8c408a20032"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/saved-source.java.gz",
+          "matches": true,
+          "expected": "3e686c1a425e0fdf6c906539ab8e87e00182b8d4ee97411888af97b3b04b950e",
+          "actual": "3e686c1a425e0fdf6c906539ab8e87e00182b8d4ee97411888af97b3b04b950e"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/settings-4235932926117495344/cherry-runs/36e54721ad47ea13c5f6a9c1/run-eaf8deaf-25dc-4048-bc79-2b986bdf20dc.jsonl.completion.json.gz",
+          "matches": true,
+          "expected": "d2a477e2c29a12bad92acc0070a34b2087194c9d934feb7af97a87ec966ba163",
+          "actual": "d2a477e2c29a12bad92acc0070a34b2087194c9d934feb7af97a87ec966ba163"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/settings-4235932926117495344/cherry-runs/36e54721ad47ea13c5f6a9c1/run-eaf8deaf-25dc-4048-bc79-2b986bdf20dc.jsonl.gz",
+          "matches": true,
+          "expected": "c43100609a79422f7d18d1ee402afe61a47aa92c3c81043a782590f8d4d4c1ab",
+          "actual": "c43100609a79422f7d18d1ee402afe61a47aa92c3c81043a782590f8d4d4c1ab"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/mini-native-save/settings-4235932926117495344/cherry-runs/36e54721ad47ea13c5f6a9c1/run-eaf8deaf-25dc-4048-bc79-2b986bdf20dc.jsonl.log.gz",
+          "matches": true,
+          "expected": "4cdbbf4d768c62f451677178b9d6ecc9379d335873544c0f706fbd8cf9f35929",
+          "actual": "4cdbbf4d768c62f451677178b9d6ecc9379d335873544c0f706fbd8cf9f35929"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/profile-compatibility.rb",
+          "matches": true,
+          "expected": "cfcfb84d6d972f147ef39ba6ae9fc4dde2cecb41008a71692833e1daf39e274d",
+          "actual": "cfcfb84d6d972f147ef39ba6ae9fc4dde2cecb41008a71692833e1daf39e274d"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/real-artifacts.tar.gz",
+          "matches": true,
+          "expected": "57e3f3ff4b1a149a7681861203d2b423ec680b3a3d00dad2d7fad83f9db854af",
+          "actual": "57e3f3ff4b1a149a7681861203d2b423ec680b3a3d00dad2d7fad83f9db854af"
+        },
+        {
+          "path": "docs/evidence/cherry-native/completion-2026-11-16/validation.json",
+          "matches": true,
+          "expected": "ef70cd2fc71f0e8ec7b84eef6bb1d88fb9bb4fcc7b6ca81130cb9da44b8ef1a4",
+          "actual": "ef70cd2fc71f0e8ec7b84eef6bb1d88fb9bb4fcc7b6ca81130cb9da44b8ef1a4"
+        }
+      ]
+    }
+  ],
+  "archives": [
+    {
+      "path": "docs/evidence/cherry-native/delivery-2026-11-16/native-evidence.tar.gz",
+      "sha256": "13960655ccf4521cc2f41bf6c4f161fa2237eeb31211f57e951f25b92d83c3d7",
+      "members": 188,
+      "fullyReadable": true
+    },
+    {
+      "path": "docs/evidence/cherry-native/completion-2026-11-16/real-artifacts.tar.gz",
+      "sha256": "57e3f3ff4b1a149a7681861203d2b423ec680b3a3d00dad2d7fad83f9db854af",
+      "members": 611,
+      "fullyReadable": true
+    }
+  ]
+}

@@ -32,6 +32,7 @@ public final class FirstLaunchKeyboardSmoke {
     private static Robot robot;
     private static long started;
     private static int eventNumber;
+    private static long windowDeactivations;
 
     public static void main(String[] args) throws Exception {
         output = Path.of(System.getProperty("firstlaunch.output", "app/target/first-launch-keyboard-smoke")).toAbsolutePath();
@@ -75,6 +76,9 @@ public final class FirstLaunchKeyboardSmoke {
                 }
                 return false;
             });
+            edt(() -> { frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override public void windowDeactivated(java.awt.event.WindowEvent event) { windowDeactivations++; }
+            }); return null; });
             workspace();
             action("keymap.profile.eclipse-macos");
             check(edt(() -> frame.commandKeymaps().selectedId().equals("eclipse-macos")), "Eclipse profile selected through CommandJ palette");
@@ -153,6 +157,11 @@ public final class FirstLaunchKeyboardSmoke {
                 && frame.console().text().lines().anyMatch("Hello World!"::equals) && frame.statusMessages().contains(" done · exit 0"));
         check(true, chapter + ": generated main compiled and ran through native application");
         snapshot(chapter + "-hello");
+
+        // If macOS deactivated the window while the worker exited, its remembered focus can
+        // still be Output. Return through the real keyboard route before editing source.
+        key(KeyEvent.VK_ESCAPE, 0);
+        waitFor("return to source after Run", () -> frame.editor().isFocusOwner());
 
         // Unsaved text is entered through Paste; no test helper writes source files.
         replace("""
@@ -339,6 +348,7 @@ public final class FirstLaunchKeyboardSmoke {
             String draft = edt(() -> ((JTextComponent)origin).getText());
             key(KeyEvent.VK_S, CMD);
             waitFor("Save from " + command, () -> Files.readString(source).contains(marker));
+            NativeWindowTestSupport.beforeKey(frame); // A worker may deactivate the window after disk completion.
             check(edt(() -> focus() == origin), chapter + ": Save keeps " + command + " focus");
             String saved = Files.readString(source);
             key(KeyEvent.VK_3, CMD);
@@ -378,6 +388,7 @@ public final class FirstLaunchKeyboardSmoke {
         waitFor("leave active JShell", () -> frame.editor().isFocusOwner());
         waitFor("JShell completed", () -> input.isEnabled() && input.isEditable());
         Thread.sleep(150);
+        NativeWindowTestSupport.beforeKey(frame); // Recover host deactivation, never select a component.
         check(edt(() -> frame.editor().isFocusOwner()), chapter + ": JShell completion does not steal focus back");
         key(KeyEvent.VK_END, CMD); paste("\n// modal guard\n");
         String disk = Files.readString(source);
@@ -449,6 +460,21 @@ public final class FirstLaunchKeyboardSmoke {
                 && frame.mavenProjects().workspace().resolved());
     }
     private static void newProjectFromMenu(boolean maven) throws Exception {
+        for (int attempt = 0; ; attempt++) {
+            long before = edt(() -> windowDeactivations);
+            try { newProjectMenuAttempt(maven); return; }
+            catch (AssertionError failure) {
+                // Only a proven host deactivation with a cancelled menu grab can be retried.
+                // A wrong item, active menu or open form remains an application/test failure.
+                boolean cancelledByHost = edt(() -> windowDeactivations > before
+                        && MenuSelectionManager.defaultManager().getSelectedPath().length == 0
+                        && !OverlayHost.active(frame));
+                if (!cancelledByHost || attempt >= 2) throw failure;
+                report.append("Host deactivated during menu navigation; restart keyboard F10 sequence\n");
+            }
+        }
+    }
+    private static void newProjectMenuAttempt(boolean maven) throws Exception {
         key(KeyEvent.VK_F10, 0);
         // A native menu grab can be cancelled if macOS activates the automation host.
         // Retry only that external deactivation, never a failed menu while TurboJ is active.

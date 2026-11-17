@@ -14,14 +14,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /** Real-window regression for saving an inactive unsaved buffer during source navigation. */
 public final class BufferSaveSmoke {
@@ -41,38 +38,12 @@ public final class BufferSaveSmoke {
         Files.writeString(first, original);
         Files.writeString(second, otherSource);
         CountDownLatch release = new CountDownLatch(1);
-        AtomicInteger savedMessages = new AtomicInteger();
         TurboFrame frame =
                 edt(
                         () -> {
                             UIManager.setLookAndFeel(
                                     UIManager.getCrossPlatformLookAndFeelClassName());
                             TurboFrame value = new TurboFrame(new Settings(), Map.of());
-                            value.console()
-                                    .inputComponent()
-                                    .getDocument()
-                                    .addDocumentListener(
-                                            new DocumentListener() {
-                                                public void insertUpdate(DocumentEvent event) {
-                                                    try {
-                                                        String inserted =
-                                                                event.getDocument()
-                                                                        .getText(
-                                                                                event.getOffset(),
-                                                                                event.getLength());
-                                                        if (inserted.contains("Saved A.java"))
-                                                            savedMessages.incrementAndGet();
-                                                    } catch (
-                                                            javax.swing.text.BadLocationException
-                                                                    e) {
-                                                        throw new AssertionError(e);
-                                                    }
-                                                }
-
-                                                public void removeUpdate(DocumentEvent event) {}
-
-                                                public void changedUpdate(DocumentEvent event) {}
-                                            });
                             value.setVisible(true);
                             value.toFront();
                             value.editor().requestFocusInWindow();
@@ -177,7 +148,7 @@ public final class BufferSaveSmoke {
                             switchNanos / 1e6));
 
             String editedAgain = edited + "// second edit after return\n";
-            int beforeSecondSave = savedMessages.get();
+            int beforeSecondSave = edt(() -> savedMessages(frame));
             edt(
                     () -> {
                         frame.editor().gotoOffset(frame.editor().getText().length());
@@ -188,8 +159,8 @@ public final class BufferSaveSmoke {
             waitFor(
                     () ->
                             !field(frame, "saving", Boolean.class)
-                                    && savedMessages.get() > beforeSecondSave,
-                    "second save completion and console acknowledgment");
+                                    && savedMessages(frame) > beforeSecondSave,
+                    "second save completion and status acknowledgment");
             check(
                     editedAgain.equals(Files.readString(first)),
                     "second save rejected the internally updated fingerprint");
@@ -202,7 +173,7 @@ public final class BufferSaveSmoke {
                                 !frame.statusMessages().contains("File changed outside TurboJ"),
                                 "second save incorrectly detected an external change");
                         check(
-                                savedMessages.get() > beforeSecondSave,
+                                savedMessages(frame) > beforeSecondSave,
                                 "Save command did not report success");
                         check(
                                 frame.editor().version()
@@ -318,6 +289,10 @@ public final class BufferSaveSmoke {
                     }
                 });
         return future.get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
+    }
+
+    private static int savedMessages(TurboFrame frame) {
+        return frame.statusMessages().split("Saved A.java", -1).length - 1;
     }
 
     private static void check(boolean condition, String description) {

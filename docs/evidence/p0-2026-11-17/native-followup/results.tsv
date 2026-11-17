@@ -1,0 +1,6 @@
+check	exit_status	started_utc	finished_utc
+QuickFixPopupSmoke	1	2026-11-17T18:49:26Z	2026-11-17T18:50:33Z
+SaveAutomationSmoke	1	2026-11-17T18:50:33Z	2026-11-17T18:52:30Z
+OutputStatusSmoke	0	2026-11-17T18:52:30Z	2026-11-17T18:52:35Z
+SaveFocusSmoke	1	2026-11-17T18:52:35Z	2026-11-17T18:53:36Z
+FirstLaunchKeyboardSmoke	0	2026-11-17T18:53:36Z	2026-11-17T18:55:22Z

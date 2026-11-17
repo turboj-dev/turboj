@@ -1,0 +1,10 @@
+java.lang.AssertionError: Timed out waiting for editor focus; messages 19:52:36  Opened Java project hello-world (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-save-focus-11276813707447345747/hello-world).; build BUILD OK | 0 errors | 89.53 ms; saved file:
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+; output:
+
+	at dev.turboj.app.SaveFocusSmoke.await(SaveFocusSmoke.java:76)
+	at dev.turboj.app.SaveFocusSmoke.main(SaveFocusSmoke.java:39)

@@ -1,0 +1,22 @@
+PASS clean profile starts at workspace selection
+PASS workspace default is ~/Workspace
+PASS Command available: keymap.profile.eclipse-macos
+PASS Eclipse profile selected through CommandJ palette
+PASS Command available: theme.more
+PASS java: project does not exist before keyboard wizard
+PASS F10 → File → New is keyboard accessible
+PASS File → New → New Java Project… selected with arrow keys
+PASS java: location follows chosen workspace/project name
+PASS Command available: file.newJavaClass
+Driver restores owned application's foreground; component focus is not assigned
+PASS java: conventional Java main stub selected
+PASS java: real HelloWorld.java created by keyboard wizard
+PASS java: generated main signature is valid
+PASS Command available: compile
+PASS java: generated main compiled and ran through native application
+Driver restores owned application's foreground; component focus is not assigned
+Exception in thread "main" java.lang.AssertionError: Find selects exact source: Calculator
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.check(FirstLaunchKeyboardSmoke.java:692)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.find(FirstLaunchKeyboardSmoke.java:567)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.flow(FirstLaunchKeyboardSmoke.java:171)
+	at dev.turboj.app.FirstLaunchKeyboardSmoke.main(FirstLaunchKeyboardSmoke.java:92)

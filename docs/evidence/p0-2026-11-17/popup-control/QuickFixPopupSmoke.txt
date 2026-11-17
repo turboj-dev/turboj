@@ -1,0 +1,33 @@
+PASS turboj-macos: Cmd+1 creates contextual proposals; theme switch and selection contrast >=4.5:1; Escape restores focus
+PASS Eclipse-style Cmd+1 after the statement jumps to the closest problem on its line
+PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: app/target/quick-fix-popup-turboj-macos.png
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Exception in thread "main" java.lang.AssertionError: Timed out waiting for contextual popup/focus; file=/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-quick-fix-9761905535644086947/Demo.java; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; status=19:56:57  Cannot open disk workspace
+19:56:57  Quick Fix: Workspace root must be a real directory, not a symbolic alias
+19:56:57  Finding Java fixes and assists…
+19:56:57  Finding Java fixes and assists…
+19:56:56  Finding Java fixes and assists…
+19:56:54  Finding Java fixes and assists…
+	at dev.turboj.app.QuickFixPopupSmoke.await(QuickFixPopupSmoke.java:152)
+	at dev.turboj.app.QuickFixPopupSmoke.exercise(QuickFixPopupSmoke.java:116)
+	at dev.turboj.app.QuickFixPopupSmoke.main(QuickFixPopupSmoke.java:20)

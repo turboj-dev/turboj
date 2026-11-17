@@ -1,0 +1,21 @@
+{
+  "baseline": "a712d51138855ec0b9ba25dc9e134414ffc536d8",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.5.1\nBuildVersion:\t\t25F80\n",
+  "architecture": "arm64",
+  "java": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode, sharing)\n",
+  "artifact": "app/target/turboj-app.jar",
+  "sha256": "bdb6e72728a30024a59931651f67b4775d6ff514c67ddfec27c32d44fee12ba2",
+  "buildCommand": "./mvnw clean install",
+  "cache": "warm dependency cache; clean reactor target directories",
+  "preservedLocalHarness": "InlineTemplateAcceptance.java compiled by Maven but not selected by test naming patterns; excluded from native acceptance",
+  "buildLog": "reactor-final-clean-install.txt",
+  "sourceManifest": "build-inputs.sha256",
+  "nativeResults": [
+    "native-final/results.tsv",
+    "native-first-launch-verified/results.tsv"
+  ],
+  "maven": "3.9.16 (repository wrapper)",
+  "buildElapsed": "3 min 57 sec",
+  "acceptedNativeResults": "validation.json",
+  "sourceManifestNote": "Final source snapshot; standalone FirstLaunchKeyboardSmoke was revised and compiled after the clean reactor. Production inputs and JAR unchanged."
+}

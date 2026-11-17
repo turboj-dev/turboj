@@ -1,0 +1,3 @@
+PASS turboj-macos: Cmd+1 creates contextual proposals; theme switch and selection contrast >=4.5:1; Escape restores focus
+PASS Eclipse-style Cmd+1 after the statement jumps to the closest problem on its line
+PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: app/target/quick-fix-popup-turboj-macos.png

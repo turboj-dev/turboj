@@ -171,6 +171,8 @@ public final class TurboFrame extends JFrame {
     private final javax.swing.Timer saveAutomationTimer = new javax.swing.Timer(150, event -> trySaveAutomation());
     private MavenRunTargets.Target lastMavenRunTarget;
     private String lastPlainRunTarget;
+    private Path lastMavenRunRoot, lastPlainRunRoot, currentPlainRoot;
+    private long preparingRunRequest = -1, preparingRunOperation = -1, preparingRunRevision = -1;
     private String testSubject = "";
     private List<String> programArguments = List.of();
     private String configuredInput = "";
@@ -1995,7 +1997,8 @@ public final class TurboFrame extends JFrame {
             return Availability.disabled("Nothing to redo");
         if (id.equals("eof") && !running)
             return Availability.disabled("No program is running");
-        if (id.equals("stop") && !running && !hasPendingSaveRun())
+        if (id.equals("stop") && !running && !hasPendingSaveRun() && !hasPreparingRun()
+                && pendingContextRunTicket != contextRunTicket)
             return Availability.disabled("No program is running or waiting to run");
         if (id.equals("completion.accept") && !context.has("completion") && !context.has("completion-popup"))
             return Availability.disabled("No completion is visible");
@@ -2273,6 +2276,8 @@ public final class TurboFrame extends JFrame {
                 () -> {
                     if (replVisible) repl.cancel();
                     ++runRequest;
+                    ++contextRunTicket;
+                    pendingContextRunTicket = -1;
                     queuedSaveAutomation = withoutSaveAction(queuedSaveAutomation, true);
                     runningSaveAutomation = withoutSaveAction(runningSaveAutomation, true);
                     pendingSaveRun = null;
@@ -2280,6 +2285,7 @@ public final class TurboFrame extends JFrame {
                     programWorker.stop();
                     running = false;
                     console.setProgramRunning(false);
+                    if (runOpen()) runLog.finish(dev.turboj.console.OutputLog.Outcome.STOPPED, "cancelled", null);
                     flash("Program stopped.", StatusBar.Level.WARNING);
                 });
         command("eof", "Send EOF", () -> programWorker.closeInput());
@@ -3581,6 +3587,7 @@ public final class TurboFrame extends JFrame {
     private void changed() {
         if (refactoringPublishing)
             return;
+        boolean sourceEdited = observedDocument == editor.document();
         if (inlineSession != null) validateTemplate();
         if (lineIntelligence != null) lineIntelligence.changed();
         if (keyboardJava != null) keyboardJava.changed();
@@ -3642,7 +3649,9 @@ public final class TurboFrame extends JFrame {
                         buildStatus = diagnostics.isEmpty() ? "XML READY" : "XML DIAGNOSTICS"; refreshTitle();
                     });
                 }, 60, TimeUnit.MILLISECONDS);
-                maven.configurationChanged(file);
+                // Opening/restoring a POM is navigation, not a model edit. A delayed redundant
+                // import can otherwise invalidate a Save/Run issued immediately in another buffer.
+                if (sourceEdited) maven.configurationChanged(file);
             }
             refreshTitle();
         } else if (maven.workspace() != null && file != null && maven.workspace().moduleFor(file).isPresent()) {
@@ -3784,6 +3793,7 @@ public final class TurboFrame extends JFrame {
         String activeName = activeFile == null ? "" : activeFile.toString();
         long revision = refactoringRevision, op = operation.incrementAndGet();
         long request = run ? ++runRequest : runRequest;
+        if (run) preparingRun(request, op);
         CompletableFuture<RunResult> previous = execution;
         if (run) { programWorker.stop(); running = false; console.setProgramRunning(false); }
         setMessagesVisible(true);
@@ -3871,6 +3881,7 @@ public final class TurboFrame extends JFrame {
             CompilationResult compiled, long revision, long op, long request, boolean isolated,
             CompletableFuture<RunResult> previous, boolean preserveOutput, SaveAutomation saveRequest) {
         lastMavenRunTarget = target;
+        lastMavenRunRoot = model.root();
         CompletableFuture.supplyAsync(() -> {
             try { return nativeMavenCompiler().pinExecution(target.moduleId(), target.tests(), model.generation(), revision); }
             catch (java.io.IOException failure) { throw new UncheckedIOException(failure); }
@@ -3905,6 +3916,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private long contextRunTicket;
+    private long pendingContextRunTicket = -1;
     private record ContextRun(boolean test, boolean main) {}
     private record LastTestLaunch(Path root, Path file, String moduleId, TurboTestController.Selection selection) {}
     private LastTestLaunch lastTestLaunch;
@@ -3948,10 +3960,12 @@ public final class TurboFrame extends JFrame {
                 && (runModel == null ? previousTest.moduleId().isEmpty()
                         : runModel.moduleFor(snapshot.file()).map(MavenModels.Module::id).orElse("").equals(previousTest.moduleId()));
         int caret = editor.caretOffset(); long ticket = ++contextRunTicket;
+        pendingContextRunTicket = ticket;
         intelligence.submitSemantic(snapshot, (service, context) -> {
             boolean test = service.isTestClass(context, caret);
             return new ContextRun(test, !test && (!repeatCandidate || service.hasMainMethod(context)));
         }).whenComplete((target, error) -> SwingUtilities.invokeLater(() -> {
+                    if (pendingContextRunTicket == ticket) pendingContextRunTicket = -1;
                     if (closing || ticket != contextRunTicket || editor.document() != runDocument || !bufferKey.equals(snapshot.file())
                             || !capture.equals(new NativeRefactoringHost().capture())) return;
                     if (maven.workspace() != runModel) { flash("Project changed; invoke Run again.", StatusBar.Level.NORMAL); return; }
@@ -3966,7 +3980,7 @@ public final class TurboFrame extends JFrame {
                 }));
     }
 
-    private record PlainCompilation(CompilationResult result, List<Path> classpath) {}
+    private record PlainCompilation(CompilationResult result, List<Path> classpath, Path root) {}
 
     private CompletableFuture<PlainCompilation> compilePlain(IntelligenceController.Snapshot snapshot, Path actualFile) {
         return CompletableFuture.supplyAsync(() -> {
@@ -3976,14 +3990,15 @@ public final class TurboFrame extends JFrame {
                 // Loose files retain their existing single-file behavior. A declared project compiles coherently.
                 if (!Files.isRegularFile(config.projectRoot().resolve(".turboj/project.properties"))
                         && !Files.isRegularFile(config.projectRoot().resolve(FirstLaunchProjects.JUNIT_MARKER))) return null;
-                return new PlainCompilation(plainCompiler.compile(actualFile, snapshot.source(), snapshot.openSources(), config).active(), config.classPath());
+                return new PlainCompilation(plainCompiler.compile(actualFile, snapshot.source(), snapshot.openSources(), config).active(), config.classPath(), config.projectRoot());
             } catch (Exception failure) { throw new CompletionException(failure); }
         }, nativeProjectCompiler).thenCompose(compiled -> {
             if (compiled != null) return CompletableFuture.completedFuture(compiled);
             String text = snapshot.source().toString(); long version = snapshot.source().version();
             var source = actualFile == null ? SourceSnapshot.forBuffer(text, version)
                     : new SourceSnapshot(actualFile.getFileName().toString(), text, version);
-            return compiler.compileNow(source).thenApply(result -> new PlainCompilation(result, List.of()));
+            return compiler.compileNow(source).thenApply(result -> new PlainCompilation(result, List.of(),
+                    actualFile == null ? null : actualFile.toAbsolutePath().normalize().getParent()));
         });
     }
 
@@ -3999,6 +4014,7 @@ public final class TurboFrame extends JFrame {
         String name = file == null ? null : file.getFileName().toString();
         long op = operation.incrementAndGet();
         long request = run ? ++runRequest : runRequest;
+        if (run) preparingRun(request, op);
         CompletableFuture<RunResult> previousExecution = execution;
         if (run) {
             // Stop immediately, then await process termination asynchronously before dispatching.
@@ -4038,6 +4054,7 @@ public final class TurboFrame extends JFrame {
                                         return;
                                     }
                                     currentPlainClasspath = prepared.join().classpath();
+                                    currentPlainRoot = prepared.join().root();
                                     accept(result, true);
                                     if (!run && result.success()) runLog.finish(dev.turboj.console.OutputLog.Outcome.SUCCESS, null, null);
                                     if (run && result.success()) {
@@ -4069,7 +4086,8 @@ public final class TurboFrame extends JFrame {
         if (result.mainClass() != null && !result.mainClass().isBlank()) return result;
         var candidates = result.bytecode().entrySet().stream().filter(entry -> JavacCompilerBackend.findMain(
                 Map.of(entry.getKey(), entry.getValue()), entry.getKey() + ".java") != null).map(Map.Entry::getKey).sorted().toList();
-        String main = candidates.size() == 1 ? candidates.getFirst() : candidates.contains(lastPlainRunTarget) ? lastPlainRunTarget : null;
+        String main = candidates.size() == 1 ? candidates.getFirst()
+                : Objects.equals(currentPlainRoot, lastPlainRunRoot) && candidates.contains(lastPlainRunTarget) ? lastPlainRunTarget : null;
         if (main == null) {
             if (candidates.size() > 1) flash("Several programs have a main: open the one to run, then Run", StatusBar.Level.WARNING);
             return result;
@@ -4082,6 +4100,7 @@ public final class TurboFrame extends JFrame {
     private void startRun(CompilationResult result, boolean isolated, long request) {
         programWorker = worker;
         lastPlainRunTarget = result.mainClass();
+        lastPlainRunRoot = currentPlainRoot;
         startRun(result, isolated, request, currentPlainClasspath);
     }
 
@@ -4592,6 +4611,18 @@ public final class TurboFrame extends JFrame {
                 || runningSaveAutomation != null && runningSaveAutomation.run();
     }
 
+    /** Includes compilation and asynchronous worker preparation, before a process is running. */
+    private void preparingRun(long request, long op) {
+        preparingRunRequest = request;
+        preparingRunOperation = op;
+        preparingRunRevision = refactoringRevision;
+    }
+
+    private boolean hasPreparingRun() {
+        return preparingRunRequest == runRequest && preparingRunOperation == operation.get()
+                && preparingRunRevision == refactoringRevision && runOpen();
+    }
+
     private static SaveAutomation withoutSaveAction(SaveAutomation request, boolean run) {
         if (request == null) return null;
         boolean keepRun = !run && request.run(), keepTests = run && request.tests();
@@ -4657,7 +4688,7 @@ public final class TurboFrame extends JFrame {
                         }
                         var candidates = MavenRunTargets.candidates(result, request.file());
                         MavenRunTargets.Target target = candidates.size() == 1 ? candidates.getFirst()
-                                : candidates.contains(lastMavenRunTarget) ? lastMavenRunTarget : null;
+                                : Objects.equals(model.root(), lastMavenRunRoot) && candidates.contains(lastMavenRunTarget) ? lastMavenRunTarget : null;
                         if (target == null) { finishPendingSaveRun(request); autoRunUnavailable(candidates.size()); return; }
                         long run = ++runRequest, op = operation.get();
                         var previous = execution;
@@ -4671,7 +4702,9 @@ public final class TurboFrame extends JFrame {
             if (selected == null) {
                 var candidates = bytes.entrySet().stream().filter(entry -> JavacCompilerBackend.findMain(
                         Map.of(entry.getKey(), entry.getValue()), entry.getKey() + ".java") != null).map(Map.Entry::getKey).sorted().toList();
-                selected = candidates.size() == 1 ? candidates.getFirst() : candidates.contains(lastPlainRunTarget) ? lastPlainRunTarget : null;
+                selected = candidates.size() == 1 ? candidates.getFirst()
+                        : testWorkspace != null && Objects.equals(testWorkspace.root(), lastPlainRunRoot)
+                                && candidates.contains(lastPlainRunTarget) ? lastPlainRunTarget : null;
                 if (selected == null) { finishPendingSaveRun(request); autoRunUnavailable(candidates.size()); return; }
             }
             String main = selected;
@@ -4683,6 +4716,7 @@ public final class TurboFrame extends JFrame {
                 if (!currentSave(request) || run != runRequest || !settings.autoRunOnSave) { finishPendingSaveRun(request); return; }
                 finishPendingSaveRun(request);
                 programWorker = worker; lastPlainRunTarget = main;
+                lastPlainRunRoot = testWorkspace == null ? null : testWorkspace.root();
                 // Save runs the program without taking the panel from the tab the user is reading.
                 setMessagesVisible(true);
                 startRun(new CompilationResult(editor.version(), true, List.of(), bytes, compiled.durationNanos(), false, main), settings.isolated, run, classpath, false);

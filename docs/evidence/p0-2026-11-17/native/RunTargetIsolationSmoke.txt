@@ -1,0 +1,7 @@
+PASS run: multiple mains require an explicit choice, no arbitrary execution
+PASS run: non-main file reuses the selected main inside the same project
+PASS run: two projects with identical main class names keep their target selection separate
+PASS run: no-main project reports the problem without running a previous program
+PASS stop: cancelled run preparation cannot launch its program later
+PASS stop: cancelled run.context preparation cannot launch its program later
+PASS run: source edit during compilation prevents stale execution

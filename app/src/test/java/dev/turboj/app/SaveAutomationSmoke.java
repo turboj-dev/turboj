@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-/** Runs real registered Save/Options commands in private copies of both example projects. */
+/** Runs real registered Save/Options commands in frozen, isolated plain and Maven projects. */
 public final class SaveAutomationSmoke {
     private static final List<String> checks = new ArrayList<>();
     private static Path output;
@@ -39,6 +39,7 @@ public final class SaveAutomationSmoke {
         exercise(session, false);
         exercise(session, true);
         restoredPreferencesDoNotTrustNewProject(session);
+        mavenTargetIsolation(session);
         Files.writeString(output.resolve("report.txt"), String.join("\n", checks) + "\nPrivate projects: " + session + "\n");
     }
 
@@ -140,6 +141,39 @@ public final class SaveAutomationSmoke {
             check(edt(() -> !frame.console().text().contains("AUTO_GENERATION=6")),
                     kind + ": superseded save never executes stale bytecode");
 
+            TestEngine.Report beforeStop = edt(() -> frame.tests().lastReport());
+            clear(frame); edit(frame, fixture.source(11));
+            saveThenIntercept(frame, () -> frame.commandRegistry().execute("stop", context()));
+            tested(frame, beforeStop, kind + ": Stop program preserves independently requested tests");
+            check(edt(() -> !frame.console().text().contains("AUTO_GENERATION=11")),
+                    kind + ": Stop cancels queued automatic program execution");
+
+            beforeStop = edt(() -> frame.tests().lastReport());
+            clear(frame); edit(frame, fixture.source(12));
+            saveThenIntercept(frame, () -> frame.commandRegistry().execute("tests.stop", context()));
+            ran(frame, 12);
+            TestEngine.Report stoppedTests = beforeStop;
+            check(edt(() -> frame.tests().lastReport() == stoppedTests),
+                    kind + ": Stop Tests cancels queued tests while independently requested AutoRun completes");
+
+            clear(frame); edit(frame, fixture.source(13));
+            saveThenIntercept(frame, () -> {
+                frame.commandRegistry().execute("stop", context());
+                frame.commandRegistry().execute("tests.stop", context());
+            });
+            pause();
+            check(edt(() -> frame.tests().lastReport() == stoppedTests && !frame.tests().busy()
+                            && !frame.isRunning() && !frame.console().text().contains("AUTO_GENERATION=")),
+                    kind + ": cancelling both queued actions prevents later execution");
+
+            edit(frame, fixture.source(14));
+            saveThenIntercept(frame, () -> replace(frame, fixture.source(15)));
+            pause();
+            check(Files.readString(fixture.main()).equals(fixture.source(14))
+                            && edt(() -> frame.tests().lastReport() == stoppedTests && !frame.tests().busy()
+                            && !frame.console().text().contains("AUTO_GENERATION=")),
+                    kind + ": unsaved edit invalidates the queued saved-source execution");
+
             accepted(command(frame, "run.onSave"));
             accepted(command(frame, "tests.onSave"));
             persisted(frame, false, false);
@@ -202,16 +236,83 @@ public final class SaveAutomationSmoke {
         String source(int generation) { return template.replace("SAVE_VALUE", Integer.toString(generation)); }
     }
 
+    private static void mavenTargetIsolation(Path session) throws Exception {
+        Fixture first = copyExample(session.resolve("target-first"), true);
+        Fixture second = copyExample(session.resolve("target-second"), true);
+        Path helper = second.main().resolveSibling("Helper.java");
+        Files.writeString(helper, "package dev.turboj.examples.calculator; public class Helper {}\n");
+        Files.writeString(second.main().resolveSibling("Other.java"), """
+                package dev.turboj.examples.calculator;
+                public class Other { public static void main(String[] args) { System.out.println("OTHER_MAIN"); } }
+                """);
+        System.setProperty("turboj.config", session.resolve("target-preferences").toString());
+        Settings settings = new Settings();
+        TurboFrame frame = open(first, settings);
+        try {
+            enableTrustedRun(frame);
+            edit(frame, first.source(1)); save(frame, first, 1); ran(frame, 1);
+            accepted(command(frame, "run.onSave")); // Do not carry automatic execution into an untrusted import.
+            edt(() -> { frame.openPath(second.root().resolve("pom.xml")); return null; });
+            waitFor(frame, "second Maven workspace", () -> !frame.mavenProjects().busy()
+                    && frame.mavenProjects().workspace() != null
+                    && frame.mavenProjects().workspace().root().equals(second.root())
+                    && second.root().resolve("pom.xml").equals(frame.currentFile()));
+            edt(() -> { frame.openPath(helper); return null; });
+            waitFor(frame, "second project helper", () -> helper.equals(frame.currentFile()));
+            enableTrustedRun(frame);
+            clear(frame); edit(frame, Files.readString(helper) + "// saved\n");
+            accepted(command(frame, "save"));
+            waitFor(frame, "ambiguous automatic main refused", () -> frame.statusMessages().contains("use Run once to choose a main class")
+                    || frame.console().text().contains("use Run once to choose a main class"));
+            check(edt(() -> !frame.isRunning() && !frame.console().text().contains("AUTO_GENERATION=")
+                            && !frame.console().text().contains("OTHER_MAIN")),
+                    "Maven: same module/class names in another project cannot reuse the first project's AutoRun choice");
+            edt(() -> { frame.openPath(second.main()); return null; });
+            waitFor(frame, "second main selected", () -> second.main().equals(frame.currentFile()));
+            accepted(command(frame, "run")); ran(frame, 0);
+            edt(() -> { frame.openPath(helper); return null; });
+            waitFor(frame, "helper reopened", () -> helper.equals(frame.currentFile()));
+            clear(frame); edit(frame, Files.readString(helper) + "// save again\n");
+            accepted(command(frame, "save")); ran(frame, 0);
+            check(true, "Maven: AutoRun reuses the explicit main only within its own project");
+            var originalModel = edt(() -> frame.mavenProjects().workspace());
+            Path pom = second.root().resolve("pom.xml");
+            edt(() -> { frame.openPath(pom); return null; });
+            waitFor(frame, "POM opened without edits", () -> pom.equals(frame.currentFile()));
+            pause(); // Beyond configurationChanged's 550 ms debounce.
+            check(edt(() -> frame.mavenProjects().workspace() == originalModel),
+                    "Maven: opening an unchanged POM does not schedule a redundant model import");
+            String diskPom = Files.readString(pom);
+            edit(frame, diskPom.replace("<properties>", "<properties><p0.validation>edited</p0.validation>"));
+            waitFor(frame, "actual unsaved POM edit resolves", () -> !frame.mavenProjects().busy()
+                    && frame.mavenProjects().workspace() != originalModel
+                    && "edited".equals(frame.mavenProjects().workspace().modules().getFirst().properties().get("p0.validation")));
+            check(Files.readString(pom).equals(diskPom),
+                    "Maven: actual POM edits still reimport the unsaved overlay without silently saving it");
+        } finally { close(frame); }
+    }
+
+    private static void enableTrustedRun(TurboFrame frame) throws Exception {
+        var enable = command(frame, "run.onSave");
+        waitFor(frame, "explicit trust for save execution", () -> dialog(frame, "Project Trust") != null);
+        edt(() -> { button(dialog(frame, "Project Trust"), "OK").doClick(); return null; });
+        accepted(enable);
+    }
+
     private static Fixture copyExample(Path destination, boolean maven) throws Exception {
-        Path source = Path.of(maven ? "examples/maven" : "examples/plain-java").toAbsolutePath();
-        try (var files = Files.walk(source)) {
-            for (Path file : files.filter(path -> !path.startsWith(source.resolve("target"))).toList()) {
-                Path target = destination.resolve(source.relativize(file));
-                if (Files.isDirectory(file)) Files.createDirectories(target); else Files.copy(file, target);
-            }
-        }
         Path main = destination.resolve((maven ? "src/main/java/" : "src/") + "dev/turboj/examples/calculator/Calculator.java");
         Path test = destination.resolve((maven ? "src/test/java/" : "test/") + "dev/turboj/examples/calculator/CalculatorTest.java");
+        Files.createDirectories(main.getParent());
+        Files.createDirectories(test.getParent());
+        for (Path target : List.of(main, test))
+            Files.writeString(target, fixtureText(target.getFileName().toString()));
+        if (maven) Files.writeString(destination.resolve("pom.xml"), fixtureText("pom.xml"));
+        else {
+            Files.createDirectories(destination.resolve(".turboj"));
+            Files.writeString(destination.resolve(".turboj/source-roots.txt"), fixtureText("source-roots.txt"));
+            Files.writeString(destination.resolve(dev.turboj.project.FirstLaunchProjects.JUNIT_MARKER),
+                    "runtime=bundled-jupiter-" + dev.turboj.project.FirstLaunchProjects.JUNIT_VERSION + "\n");
+        }
         String template = Files.readString(main).replace("public static void main(String[] args) {", """
                 // SAVE_GENERATION=SAVE_VALUE
                 public static int savedGeneration() { return SAVE_VALUE; }
@@ -235,6 +336,23 @@ public final class SaveAutomationSmoke {
             destination.resolve("mvnw").toFile().setExecutable(true);
         }
         return new Fixture(destination, main, template, maven);
+    }
+
+    private static String fixtureText(String name) throws Exception {
+        try (var stream = SaveAutomationSmoke.class.getResourceAsStream("/save-automation/" + name)) {
+            if (stream == null) throw new IllegalStateException("Missing frozen fixture: " + name);
+            return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        }
+    }
+
+    /** Observe the real debounce queue, then cancel/edit in that same EDT turn before dispatch. */
+    private static void saveThenIntercept(TurboFrame frame, Runnable action) throws Exception {
+        var queued = TurboFrame.class.getDeclaredField("queuedSaveAutomation"); queued.setAccessible(true);
+        accepted(command(frame, "save"));
+        waitFor(frame, "saved request in debounce queue", () -> {
+            if (queued.get(frame) == null) return false;
+            action.run(); return true;
+        });
     }
 
     private static TurboFrame open(Fixture fixture, Settings settings) throws Exception {
@@ -348,7 +466,8 @@ public final class SaveAutomationSmoke {
             if (edt(condition)) return;
             Thread.sleep(30);
         }
-        throw new AssertionError("Timed out waiting for " + description + "\n" + edt(() -> frame.console().text()));
+        throw new AssertionError("Timed out waiting for " + description + "\n" + edt(() -> frame.console().text())
+                + "\nStatus:\n" + edt(() -> frame.statusMessages()));
     }
 
     private static <T> T edt(Callable<T> action) throws Exception {

@@ -1,0 +1,12 @@
+Driver reactivates fixture window while waiting: ambiguous target is refused
+Driver reactivates fixture window while waiting: ambiguous target is refused
+Exception in thread "main" java.lang.AssertionError: ambiguous target is refused; focus=dev.turboj.ui.EditorComponent[,13,19,1034x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; active=true; overlay=false; source=public class Helper {}
+; status=19:30:45  Run Helper.java failed · 203 ms
+19:30:45  Run Helper.java: No main method to run · Run Tests runs the tests
+19:30:45  Several programs have a main: open the one to run, then Run
+19:30:45  ⌃⌘K V …  (Escape cancels; 10 seconds per key)
+19:30:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+19:30:45  ⌃⌘K J …  (Escape cancels; 10 seconds per key)
+19:30:45  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.RunTargetIsolationSmoke.main(RunTargetIsolationSmoke.java:24)

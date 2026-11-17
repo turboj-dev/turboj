@@ -1,0 +1,17 @@
+PASS status line: [● BUILD OK · 111 ms, Opened Java project hello-world (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-output-14073458678227544621/hello-world)., Ln 1, Col 1, LF UTF-8, IntelliJ IDEA, TurboJ, Java project · hello-world]
+PASS Run: terminal [Hello World!], status Run HelloWorld.java done · exit 0 · 69 ms (13 ms running)
+PASS Saved HelloWorld.java appears in the status line only
+PASS compile error in the status line: Run HelloWorld.java failed · 1 error · src/main/java/HelloWorld.java:[3,43] ';' expected · 19 ms · state ✖ BUILD FAILED · 1 error
+PASS Tests tab:
+✖ CalculatorTest 2 tests  10 ms · 1 failed
+  ✖ fails                 3 ms
+      AssertionFailedError: expected: <5> but was: <4>
+      at CalculatorTest.fails(CalculatorTest.java:8)
+  ✔ adds                  7 ms
+Test all tests · hello-world · Java 25 — 1 failed · 1 of 2 passed · 122 ms
+PASS tests segment: ✖ 1 of 2 tests failed
+PASS ⌥⌘' / ⇧⌥⌘' go to the failing assertion, line 8 of CalculatorTest.java
+PASS one title line: [Output, Tests ✖ 1, JShell]; clicks select tabs
+PASS Save keeps the Tests tab; ⌘R switches to Output
+Driver restores owned application's foreground; component focus is not assigned
+PASS ⌘R runs only the program (from CalculatorTest.java too); ⇧⌘U only the tests

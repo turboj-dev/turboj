@@ -155,8 +155,7 @@ public final class OutputStatusSmoke {
     }
 
     private static void key(int code, int modifiers) throws Exception {
-        await("keyboard focus", () -> KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null
-                || frame.editor().requestFocusInWindow() && false);
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> {
             Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
             for (int kind : new int[]{KeyEvent.KEY_PRESSED, KeyEvent.KEY_RELEASED})
@@ -169,7 +168,10 @@ public final class OutputStatusSmoke {
     private static void check(boolean condition, String message) { if (!condition) throw new AssertionError(message); }
     private static void await(String what, Callable<Boolean> check) throws Exception {
         long end = System.nanoTime() + TimeUnit.SECONDS.toNanos(60);
-        while (System.nanoTime() < end) { if (edt(check)) return; Thread.sleep(25); }
+        while (System.nanoTime() < end) {
+            if (edt(() -> { NativeWindowTestSupport.recover(frame); return check.call(); })) return;
+            Thread.sleep(25);
+        }
         throw new AssertionError("Timed out waiting for " + what + "; state " + segment(StatusBar.Segment.STATE) + "; message "
                 + edt(() -> frame.statusBar().lastMessage()) + "; dialogs " + edt(() -> dev.turboj.commandj.swing.OverlayHost.dialogs(frame).stream()
                 .map(d -> d.getTitle()).toList()) + "; output:\n" + edt(() -> frame.console().text()));

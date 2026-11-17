@@ -1,0 +1,81 @@
+PASS plain Java: all automatic execution settings default off
+PASS plain Java: legacy Auto Test stays off
+PASS plain Java: typing with default settings executes nothing
+PASS plain Java: Save with both toggles off executes nothing
+PASS save options persist independently: Run=true, Tests=false
+PASS plain Java: enabling Auto Run on Save does not run while typing
+PASS plain Java: run-only Save does not execute tests
+PASS plain Java: automatic main observes the source already written to disk
+PASS save options persist independently: Run=false, Tests=true
+PASS plain Java: enabling Auto Test on Save does not test while typing
+PASS plain Java: test-only Save executes two passing tests against saved source
+PASS plain Java: test-only Save publishes only the current source generation
+PASS plain Java: test-only Save does not run the main class
+PASS save options persist independently: Run=true, Tests=true
+PASS plain Java: both new toggles still require Save rather than a text change
+PASS plain Java: combined Run and Test executes two passing tests against saved source
+PASS plain Java: combined Run and Test publishes only the current source generation
+PASS plain Java: combined save uses one workspace compilation before execution
+PASS plain Java: automatic tests report inline without a modal result dialog
+PASS plain Java: invalid Java is saved while compilation rejects execution
+PASS plain Java: compile error launches neither main nor tests
+PASS plain Java: coalesced rapid saves executes two passing tests against saved source
+PASS plain Java: coalesced rapid saves publishes only the current source generation
+PASS plain Java: superseded save never executes stale bytecode
+PASS plain Java: Stop program preserves independently requested tests executes two passing tests against saved source
+PASS plain Java: Stop program preserves independently requested tests publishes only the current source generation
+PASS plain Java: Stop cancels queued automatic program execution
+PASS plain Java: Stop Tests cancels queued tests while independently requested AutoRun completes
+PASS plain Java: cancelling both queued actions prevents later execution
+PASS plain Java: unsaved edit invalidates the queued saved-source execution
+PASS save options persist independently: Run=false, Tests=false
+PASS plain Java: disabling both toggles stops subsequent save execution
+PASS save options persist independently: Run=true, Tests=true
+PASS plain Java: failed disk write preserves external changes and triggers no automation
+PASS Maven: all automatic execution settings default off
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+PASS Maven: legacy Auto Test stays off
+PASS Maven: typing with default settings executes nothing
+PASS Maven: Save with both toggles off executes nothing
+PASS Maven: cancelling trust leaves Auto Run on Save off
+PASS save options persist independently: Run=true, Tests=false
+PASS Maven: enabling Auto Run on Save does not run while typing
+PASS Maven: run-only Save does not execute tests
+PASS Maven: automatic main observes the source already written to disk
+PASS save options persist independently: Run=false, Tests=true
+PASS Maven: enabling Auto Test on Save does not test while typing
+PASS Maven: test-only Save executes two passing tests against saved source
+PASS Maven: test-only Save publishes only the current source generation
+PASS Maven: test-only Save does not run the main class
+PASS save options persist independently: Run=true, Tests=true
+PASS Maven: both new toggles still require Save rather than a text change
+PASS Maven: combined Run and Test executes two passing tests against saved source
+PASS Maven: combined Run and Test publishes only the current source generation
+PASS Maven: combined save uses one workspace compilation before execution
+PASS Maven: automatic tests report inline without a modal result dialog
+PASS Maven: invalid Java is saved while compilation rejects execution
+PASS Maven: compile error launches neither main nor tests
+PASS Maven: coalesced rapid saves executes two passing tests against saved source
+PASS Maven: coalesced rapid saves publishes only the current source generation
+PASS Maven: superseded save never executes stale bytecode
+PASS Maven: Stop program preserves independently requested tests executes two passing tests against saved source
+PASS Maven: Stop program preserves independently requested tests publishes only the current source generation
+PASS Maven: Stop cancels queued automatic program execution
+PASS Maven: Stop Tests cancels queued tests while independently requested AutoRun completes
+PASS Maven: cancelling both queued actions prevents later execution
+PASS Maven: unsaved edit invalidates the queued saved-source execution
+PASS save options persist independently: Run=false, Tests=false
+PASS Maven: disabling both toggles stops subsequent save execution
+PASS save options persist independently: Run=true, Tests=true
+PASS Maven: failed disk write preserves external changes and triggers no automation
+PASS Maven: every save uses native compilation with no Maven lifecycle or wrapper invocation
+PASS both save options restore independently of legacy Auto Test
+PASS restored options do not trust an unfamiliar Maven workspace
+PASS untrusted Maven Save writes source but runs neither main nor tests
+PASS untrusted Save never launches the Maven wrapper
+PASS Maven: same module/class names in another project cannot reuse the first project's AutoRun choice
+PASS Maven: AutoRun reuses the explicit main only within its own project
+PASS Maven: opening an unchanged POM does not schedule a redundant model import
+PASS Maven: actual POM edits still reimport the unsaved overlay without silently saving it
