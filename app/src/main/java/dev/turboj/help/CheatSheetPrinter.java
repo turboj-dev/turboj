@@ -21,16 +21,21 @@ public final class CheatSheetPrinter {
         if (browser.isEmpty()) return new Printed(page, false);
         Path pdf = directory.resolve(name + ".pdf");
         Path profile = Files.createTempDirectory("turboj-cheatsheet-browser-");
+        Path rendered = profile.resolve("sheet.pdf");
         try {
             Process process = new ProcessBuilder(browser.get().toString(), "--headless", "--disable-gpu", "--no-first-run",
                     "--no-default-browser-check", "--user-data-dir=" + profile, "--no-pdf-header-footer",
-                    "--print-to-pdf-no-header", "--print-to-pdf=" + pdf, page.toUri().toString())
+                    "--print-to-pdf-no-header", "--print-to-pdf=" + rendered, page.toUri().toString())
                     .redirectErrorStream(true).redirectOutput(ProcessBuilder.Redirect.DISCARD).start();
             if (!process.waitFor(90, TimeUnit.SECONDS)) {
                 process.destroyForcibly();
                 return new Printed(page, false);
             }
-            return Files.isRegularFile(pdf) && Files.size(pdf) > 0 ? new Printed(pdf, true) : new Printed(page, false);
+            if (process.exitValue() == 0 && Files.isRegularFile(rendered) && Files.size(rendered) > 0) {
+                Files.move(rendered, pdf, StandardCopyOption.REPLACE_EXISTING);
+                return new Printed(pdf, true);
+            }
+            return new Printed(page, false);
         } finally {
             try (var files = Files.walk(profile)) {
                 files.sorted(Comparator.reverseOrder()).forEach(file -> file.toFile().delete());

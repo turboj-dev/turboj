@@ -12,13 +12,12 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A two-page landscape A4 keyboard cheat sheet built from the live registry and keymap, so it always shows the user's
- * own bindings. The daily loop comes first, then every other bound command by category; the type is sized so the
- * two pages fill completely. Styled like turboj.dev: IBM Plex Sans, JetBrains Mono and the Turbo blue.
+ * Four landscape A4 pages (two double-sided sheets) from the live registry and keymap.
+ * Every command is included; columns fill completely. IBM Plex Sans, JetBrains Mono and Turbo blue.
  */
 public final class CheatSheet {
     record Section(String title, List<String> commands) {}
-    private record Row(String title, String keys) {}
+    private record Row(String id, String title, String keys) {}
     /** A titled list of rows. */
     private record Block(String title, List<Row> rows, List<String> paragraphs, String style) {}
     private record Fragment(Block block, List<Row> rows, boolean continued) {}
@@ -67,7 +66,13 @@ public final class CheatSheet {
             Map.entry("indent", "Indent / next placeholder"), Map.entry("unindent", "Unindent / previous placeholder"),
             Map.entry("navigation.nextEditorTab", "Next tab"), Map.entry("navigation.previousEditorTab", "Previous tab"),
             Map.entry("completion.accept", "Accept suggestion"), Map.entry("completion.acceptWord", "Accept AI word"),
-            Map.entry("completion.acceptLine", "Accept AI line"));
+            Map.entry("completion.acceptLine", "Accept AI line"),
+            Map.entry("editor.toggleColumnSelection", "Rectangular selection"),
+            Map.entry("console.copy", "Copy console selection"), Map.entry("console.commandLine", "Output command line"),
+            Map.entry("editor.convertSpacesToTabs", "Spaces to tabs"), Map.entry("editor.lowerCase", "Lowercase selection"),
+            Map.entry("editor.upperCase", "Uppercase selection"), Map.entry("ai.larger", "Larger AI model"),
+            Map.entry("navigation.relatedTests", "Verified test alternatives"),
+            Map.entry("navigation.projectDependency", "Go to dependency"));
 
     /**
      * Keys the editor itself handles, in every profile: listed only where the profile does not give the same
@@ -82,30 +87,28 @@ public final class CheatSheet {
                     "Delete next word=ALT+DELETE")),
             new Section("Inline templates", List.of("Next field=TAB", "Previous field=SHIFT+TAB", "Confirm the template=ENTER",
                     "Take its edits back=ESCAPE")));
-    /** Bound, but too obvious to spend a line on. */
-    private static final Set<String> SKIPPED = Set.of("completion.next", "completion.previous", "completion.dismiss");
-
     // Landscape A4 in millimetres: four columns under the title band, above the footer.
-    private static final int COLUMNS_PER_PAGE = 4, PAGES = 2;
+    private static final int COLUMNS_PER_PAGE = 4, PAGES = 4;
     private static final double COLUMN_HEIGHT = 166, COLUMN_WIDTH = (297 - 2 * 9 - 3 * 5.5) / 4;
     private static final double MIN_ROW = 3.9, MAX_ROW = 7.5, HEADER = 1.6, GAP = 0.75;
 
     private CheatSheet() {}
 
-    /** A self-contained HTML page (fonts embedded) laid out as two landscape A4 pages for printing. */
+    /** Self-contained HTML with embedded fonts. Never silently drops commands to fit. */
     public static String html(CommandRegistry registry, Map<String, List<KeyBinding>> bindings, String profileId, String profile) {
         String palette = keys(ShortcutReference.bindings(registry, bindings, registry.canonicalId("palette")));
         var blocks = blocks(registry, bindings);
-        // The largest type that still fits; below the smallest, the least used rows give way.
+        // The largest rows that fit, with balanced column lengths. Fail rather than lose actions.
         double row = MIN_ROW;
-        while (pack(blocks, MIN_ROW, COLUMN_HEIGHT / MIN_ROW) == null && trimmed(blocks)) {}
+        if (pack(blocks, MIN_ROW, COLUMN_HEIGHT / MIN_ROW) == null)
+            throw new IllegalStateException("All commands no longer fit four cheat-sheet pages");
         for (double size = MAX_ROW; size >= MIN_ROW; size -= 0.05) if (pack(blocks, size, COLUMN_HEIGHT / size) != null) { row = size; break; }
         // Then the shortest columns that still hold everything, so the eight columns end level and none is left half empty.
         double full = COLUMN_HEIGHT / row, capacity = full;
         for (double cap = full; cap >= full / 2; cap -= 0.25) if (pack(blocks, row, cap) != null) capacity = cap; else break;
         var columns = pack(blocks, row, capacity);
 
-        double font = Math.min(11, row * 1.9);
+        double font = Math.min(9, row * 1.9);
         var out = new StringBuilder("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>TurboJ · ")
                 .append(escape(profile)).append(" cheat sheet</title><style>").append(fonts())
                 .append(":root{--row:").append(String.format(Locale.ROOT, "%.2fmm", row)).append(";--font:")
@@ -125,7 +128,8 @@ public final class CheatSheet {
                 for (Fragment fragment : fragments) out.append(render(fragment));
                 out.append("</div>");
             }
-            out.append("</div><footer><span>Everything else: Find Action ").append(palette.isEmpty() ? "(Help menu)" : palette)
+            out.append("</div><footer><span>Sequence: press/release ").append(k("⌃⌘K"))
+                    .append(" then type both letters. Find Action ").append(palette.isEmpty() ? "(Help menu)" : palette)
                     .append("</span><span>").append(escape(profile)).append(" · generated by TurboJ on ").append(LocalDate.now())
                     .append("</span></footer></section>");
         }
@@ -152,13 +156,12 @@ public final class CheatSheet {
                 String title = entry.substring(0, entry.indexOf('=')), key = entry.substring(entry.indexOf('=') + 1);
                 var binding = KeyBinding.of(key);
                 boolean template = section.title().equals("Inline templates");
-                if (template || !taken.contains(binding.sequence().external())) rows.add(new Row(title, keys(List.of(binding))));
+                if (template || !taken.contains(binding.sequence().external())) rows.add(new Row("", title, keys(List.of(binding))));
             }
             if (!rows.isEmpty()) blocks.add(new Block(section.title(), rows, List.of(), ""));
         }
         var rest = new TreeMap<String, List<Row>>();
         for (Command command : registry.commands().stream().sorted(Comparator.comparing(Command::title)).toList()) {
-            if (SKIPPED.contains(command.id()) || command.id().startsWith("keymap.profile.")) continue;
             row(registry, bindings, command.id(), shown).ifPresent(row -> rest.computeIfAbsent(command.category(), c -> new ArrayList<>()).add(row));
         }
         rest.forEach((category, rows) -> blocks.add(new Block("More " + category, rows, List.of(), "")));
@@ -169,14 +172,14 @@ public final class CheatSheet {
         Optional<Command> command = registry.find(registry.canonicalId(id));
         if (command.isEmpty() || !shown.add(command.get().id())) return Optional.empty();
         var values = ShortcutReference.bindings(registry, bindings, command.get().id());
-        if (values.isEmpty()) return Optional.empty();
         String title = SHORT.getOrDefault(command.get().id(), command.get().title().replace("…", ""));
-        return Optional.of(new Row(title.startsWith("Keyboard Profile: ") ? title.substring(18) : title, keys(values)));
+        return Optional.of(new Row(command.get().id(), title.startsWith("Keyboard Profile: ") ? title.substring(18) : title,
+                values.isEmpty() ? "<small>Unassigned</small>" : keys(values)));
     }
 
     /**
      * Lists fill every column from the top, splitting between columns, each column holding at most
-     * {@code capacity} rows; null when the blocks need more than two pages.
+     * {@code capacity} rows; null when the blocks need more than four pages.
      */
     private static List<List<Fragment>> pack(List<Block> blocks, double row, double capacity) {
         int count = COLUMNS_PER_PAGE * PAGES;
@@ -202,24 +205,12 @@ public final class CheatSheet {
         return columns;
     }
 
-    /** Drops the last row of the least used list; false when nothing is left to drop. */
-    private static boolean trimmed(List<Block> blocks) {
-        for (int i = blocks.size() - 1; i >= 0; i--) {
-            Block block = blocks.get(i);
-            if (block.rows().isEmpty()) continue;
-            if (block.rows().size() == 1) blocks.remove(i);
-            else blocks.set(i, new Block(block.title(), block.rows().subList(0, block.rows().size() - 1), List.of(), block.style()));
-            return true;
-        }
-        return false;
-    }
-
     private static String render(Fragment fragment) {
         Block block = fragment.block();
         var out = new StringBuilder("<div class=\"section").append(block.style().isEmpty() ? "" : " " + block.style()).append("\"><h2>")
                 .append(escape(block.title())).append(fragment.continued() ? " <small>cont.</small>" : "").append("</h2>");
         for (Row row : fragment.rows())
-            out.append("<div class=\"row\"><span class=\"what\">").append(escape(row.title()))
+            out.append("<div class=\"row\" data-command=\"").append(escape(row.id())).append("\"><span class=\"what\">").append(escape(row.title()))
                     .append("</span><span class=\"keys\">").append(row.keys()).append("</span></div>");
         return out.append("</div>").toString();
     }
@@ -310,7 +301,7 @@ public final class CheatSheet {
             display:flex;align-items:center;padding:0 2mm;text-transform:uppercase;letter-spacing:.04em}
             h2 small{font-size:.75em;font-weight:500;text-transform:none;margin-left:1.5mm;color:#333}
             .row{display:flex;justify-content:space-between;align-items:center;gap:2mm;height:var(--row);padding-right:.6mm;border-bottom:.2mm solid #DADDE2;font-size:var(--font)}
-            .what{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.keys{white-space:nowrap;display:flex;align-items:center}
+            .what{flex:1;min-width:0;line-height:1.12;overflow-wrap:anywhere}.keys{white-space:nowrap;display:flex;align-items:center;flex-shrink:0}
             kbd{font:600 calc(var(--font)*.94)/1 var(--mono);color:var(--blue);background:#fff;border:.25mm solid var(--rule);border-bottom-width:.5mm;
             border-radius:1mm;padding:.35mm .9mm;margin-left:.6mm;display:inline-flex;align-items:center;gap:.15mm}
             svg.k{width:1.02em;height:1.02em;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none}

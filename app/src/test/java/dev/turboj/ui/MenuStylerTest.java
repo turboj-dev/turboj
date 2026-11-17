@@ -2,6 +2,7 @@ package dev.turboj.ui;
 
 import static org.junit.jupiter.api.Assertions.*;
 import dev.turboj.commandj.swing.AsciiBorder;
+import dev.turboj.commandj.swing.KeyGlyphs;
 import dev.turboj.ui.themes.Theme;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,29 @@ import javax.swing.*;
 import org.junit.jupiter.api.Test;
 
 class MenuStylerTest {
+    @Test void multiStrokeHintsArePaintedWithoutInstallingAPrefixAsAnAccelerator() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            Theme theme = Theme.bundled("monokai");
+            MenuStyler.install(theme);
+            Action action = new AbstractAction("Focus editor") {
+                @Override public void actionPerformed(ActionEvent event) {}
+            };
+            var item = new JMenuItem(action);
+            MenuStyler.style(item, theme);
+            int before = item.getPreferredSize().width;
+            action.putValue(MenuStyler.SHORTCUT_TEXT, "⌃⌘K V E");
+            assertEquals("⌃⌘K V E", MenuStyler.shortcutText(item));
+            assertNull(item.getAccelerator(), "the prefix must remain available to the CommandJ chord resolver");
+            assertTrue(item.getPreferredSize().width > before);
+            var image = paint(item);
+            var p = MenuStyler.palette(theme);
+            int cell = item.getFontMetrics(item.getFont()).charWidth('M');
+            int width = KeyGlyphs.width(item, AsciiChrome.font(), MenuStyler.shortcutText(item));
+            assertTrue(hasColor(image, p.foreground(), image.getWidth() - cell * 3 - width, image.getWidth() - cell * 3));
+            action.putValue(MenuStyler.SHORTCUT_TEXT, null);
+            assertEquals(before, item.getPreferredSize().width);
+        });
+    }
     @Test void allCatalogMenuRolesKeepRequiredContrast() {
         for (String id : Theme.bundledResources().keySet()) {
             var p = MenuStyler.palette(Theme.bundled(id));

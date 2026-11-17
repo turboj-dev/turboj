@@ -1,0 +1,4 @@
+PASS cheatsheet-eclipse-macos.pdf: 4 landscape A4 pages; extracted text characters [1933, 2117, 2262, 2479]
+PASS cheatsheet-intellij-macos.pdf: 4 landscape A4 pages; extracted text characters [1901, 2056, 2255, 2406]
+PASS cheatsheet-turboj-macos.pdf: 4 landscape A4 pages; extracted text characters [1868, 2109, 2267, 2390]
+PASS cheatsheet-vscode-macos.pdf: 4 landscape A4 pages; extracted text characters [1941, 2121, 2261, 2486]

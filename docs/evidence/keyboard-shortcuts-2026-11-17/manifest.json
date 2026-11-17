@@ -1,0 +1,12 @@
+{
+  "artifact": "app/target/turboj-app.jar",
+  "sha256": "c62557b3833e6a56fbae41e22d6e3ca41ce83f6009726d5102c29fd77fbff37e",
+  "commands": 309,
+  "profiles": 4,
+  "pdfs": {
+    "docs/cheatsheets/cheatsheet-eclipse-macos.pdf": "ffd12751ae1194e0ba010d0ad867cfe4f2c148e554d167dafb7b67f5a41b54ed",
+    "docs/cheatsheets/cheatsheet-intellij-macos.pdf": "660d360f5161f436f0a3db14a94c1cf2fd0871463835bdf6ff4236cd601a8a71",
+    "docs/cheatsheets/cheatsheet-turboj-macos.pdf": "0458b9e63f391ff87de024bb019fde56e5d800f31d76473540cccf94ff7119b7",
+    "docs/cheatsheets/cheatsheet-vscode-macos.pdf": "ed458c7c5f72e5a32934589175d34850535b8f8aaa66c7167c2dece470cb137c"
+  }
+}

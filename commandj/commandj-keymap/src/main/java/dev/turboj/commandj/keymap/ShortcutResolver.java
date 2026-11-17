@@ -8,6 +8,7 @@ public final class ShortcutResolver {
     public enum Kind {
         NONE,
         PENDING,
+        CANCELLED,
         MATCH,
         CONFLICT
     }
@@ -36,7 +37,7 @@ public final class ShortcutResolver {
     }
 
     public ShortcutResolver(KeymapManager maps, CommandRegistry registry) {
-        this(maps, registry, 1_500_000_000L);
+        this(maps, registry, 10_000_000_000L);
     }
 
     public ShortcutResolver(KeymapManager maps, CommandRegistry registry, long timeoutNanos) {
@@ -60,13 +61,14 @@ public final class ShortcutResolver {
             rebuild();
             reset();
         }
+        boolean wasPending = pending();
         if (now - last > timeoutNanos || context.has("input-method")) {
             reset();
         }
         if (context.has("input-method")) return new Resolution(Kind.NONE, null, List.of());
-        if (stroke.key().equals("ESCAPE") && pending()) {
+        if (stroke.key().equals("ESCAPE") && wasPending) {
             reset();
-            return new Resolution(Kind.NONE, null, List.of());
+            return new Resolution(Kind.CANCELLED, null, List.of());
         }
         last = now;
         prefix.add(stroke);
@@ -77,6 +79,10 @@ public final class ShortcutResolver {
             prefix.add(stroke);
             result = resolve(context);
         }
+        // A mistyped/expired suffix must not become source text. A valid fresh shortcut (e.g.
+        // Cmd+S after a timeout) may still execute. Escape always cancels without another action.
+        if (result.kind() == Kind.NONE && wasPending)
+            result = new Resolution(Kind.CANCELLED, null, List.of());
         if (result.kind() != Kind.NONE)
             result = new Resolution(result.kind(), result.command(), result.candidates(), new KeySequence(prefix));
         if (result.kind() != Kind.PENDING)
@@ -111,8 +117,11 @@ public final class ShortcutResolver {
         }
         for (Candidate candidate : node.candidates) {
             var binding = candidate.binding();
-            if (!binding.context().matches(context)
-                    || !registry.availability(candidate.command(), context).enabled()) continue;
+            if (!binding.context().matches(context)) continue;
+            // Reserve multi-stroke sequences even when unavailable: execute() explains why.
+            // Single-key contextual actions still fall through to ordinary widget navigation.
+            if (binding.sequence().strokes().size() == 1
+                    && !registry.availability(candidate.command(), context).enabled()) continue;
             if (binding.sequence().strokes().size() == prefix.size()) matches.add(candidate.command());
             else longer.add(candidate.command());
         }

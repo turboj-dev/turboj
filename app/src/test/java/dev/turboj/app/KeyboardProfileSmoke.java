@@ -37,16 +37,21 @@ public final class KeyboardProfileSmoke {
         frame = open(intellij);
         try {
             waitFor(() -> frame.isActive() && frame.editor().isFocusOwner(), "initial editor focus");
+            check(edt(() -> frame.tests().lastReport() == null), "Panel checks start before any test execution");
+            check(edt(() -> !frame.commandRegistry().find("tests.nextFailure").orElseThrow()
+                    .available(dev.turboj.commandj.core.CommandContext.of("workspace")).enabled()),
+                    "Failure navigation remains unavailable without results");
             check(edt(() -> frame.commandKeymaps().selectedId()).equals("intellij-macos"), "The saved IntelliJ selection is restored");
             check(edt(() -> frame.commandKeymaps().replaceCommandBindings(frame.commandRegistry(),
                     "editor.trimTrailingWhitespace", List.of(KeyBinding.editor(CUSTOM_BINDING)), Set.of()).applied()),
                     "Fixture installs one conflict-free IntelliJ custom binding");
             for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos")) {
-                palette("keymap.profile." + profile);
+                shortcut("keymap.profile." + profile);
                 waitFor(() -> frame.commandKeymaps().selectedId().equals(profile) && frame.editor().isFocusOwner(), "profile " + profile);
-                check(true, "Palette switches to " + profile + " using the previously active palette shortcut");
+                check(true, "Supplemental chord switches to " + profile);
                 selectedMarker(profile);
                 commandD(profile);
+                bottomPanelShortcuts(profile);
             }
             menuSwitch("vscode-macos");
             comboSwitch("eclipse-macos");
@@ -120,6 +125,38 @@ public final class KeyboardProfileSmoke {
     }
     private static JMenu profilesMenu() {
         return find(frame.getJMenuBar(), JMenu.class, menu -> "Keyboard Profile".equals(menu.getText()));
+    }
+    private static void bottomPanelShortcuts(String profile) throws Exception {
+        for (String command : List.of("view.focusConsole", "view.focusTestResults", "view.focusJShell", "console.commandLine")) {
+            shortcut(command);
+            waitFor(() -> focus() instanceof javax.swing.text.JTextComponent && !OverlayHost.active(frame), command + " focus");
+            Component origin = edt(KeyboardProfileSmoke::focus);
+            String source = edt(() -> frame.editor().getText());
+            String input = edt(() -> ((javax.swing.text.JTextComponent) origin).getText());
+            stroke(KeyStrokeSpec.parse(KeyboardDefaults.PREFIX));
+            key(KeyEvent.VK_ESCAPE, 0);
+            check(edt(() -> focus() == origin), profile + ": Escape cancels pending chord without leaving " + command);
+            stroke(KeyStrokeSpec.parse(KeyboardDefaults.PREFIX));
+            type("z"); // Unallocated group: the suffix must not be inserted into stdin/JShell.
+            shortcut("editor.upperCase"); // Editor-only action is unavailable from this panel.
+            check(edt(() -> ((javax.swing.text.JTextComponent) origin).getText()).equals(input)
+                    && edt(() -> frame.editor().getText()).equals(source),
+                    profile + ": invalid/disabled chord suffixes never become source or panel input");
+            var binding = edt(() -> frame.commandKeymaps().commandBindings(frame.commandRegistry(), "palette").getFirst());
+            for (var stroke : binding.sequence().strokes()) stroke(stroke);
+            waitFor(() -> palette() != null && palette().searchField().isFocusOwner(), "global palette from " + command);
+            key(KeyEvent.VK_ESCAPE, 0);
+            waitFor(() -> palette() == null && focus() == origin, "palette restores " + command);
+            key(KeyEvent.VK_D, KeyEvent.META_DOWN_MASK);
+            check(edt(() -> frame.editor().getText()).equals(source), profile + ": bottom panel Cmd+D leaves source unchanged");
+            key(KeyEvent.VK_F6, KeyEvent.CTRL_DOWN_MASK);
+            waitFor(() -> frame.editor().isFocusOwner(), "next panel from " + command);
+            key(KeyEvent.VK_F6, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
+            waitFor(() -> focus() == origin, "previous panel to " + command);
+            shortcut("view.focusEditor");
+            waitFor(() -> frame.editor().isFocusOwner(), "editor chord from " + command);
+            check(true, profile + ": palette, panel cycle and editor chord work from " + command);
+        }
     }
     private static void selectedMarker(String expected) throws Exception {
         int count = edt(() -> {
@@ -229,6 +266,7 @@ public final class KeyboardProfileSmoke {
         int selected = edt(() -> palette().results().getSelectedIndex());
         for (int i = selected; i < target; i++) key(KeyEvent.VK_DOWN, 0);
         for (int i = selected; i > target; i--) key(KeyEvent.VK_UP, 0);
+        check(edt(() -> palette().results().getSelectedValue().availability().enabled()), "Palette command is enabled: " + id);
         key(KeyEvent.VK_ENTER, 0); waitFor(() -> palette() == null, "palette closes");
     }
     private static CommandPaletteDialog palette() {
@@ -236,12 +274,19 @@ public final class KeyboardProfileSmoke {
         return null;
     }
     private static void stroke(KeyStrokeSpec stroke) throws Exception {
+        if (stroke.modifiers().isEmpty() && stroke.key().matches("[A-Z]")) {
+            type(stroke.key().toLowerCase(java.util.Locale.ROOT)); return;
+        }
         int modifiers = 0;
         for (var modifier : stroke.modifiers()) modifiers |= switch (modifier) {
             case META -> KeyEvent.META_DOWN_MASK; case ALT -> KeyEvent.ALT_DOWN_MASK;
             case CTRL -> KeyEvent.CTRL_DOWN_MASK; case SHIFT -> KeyEvent.SHIFT_DOWN_MASK;
         };
         key(KeyEvent.class.getField("VK_" + stroke.key()).getInt(null), modifiers);
+    }
+    private static void shortcut(String id) throws Exception {
+        var binding = edt(() -> frame.commandKeymaps().commandBindings(frame.commandRegistry(), id).getFirst());
+        for (var stroke : binding.sequence().strokes()) stroke(stroke);
     }
     private static void type(String text) throws Exception {
         for (char character : text.toCharArray()) edt(() -> {
@@ -253,6 +298,7 @@ public final class KeyboardProfileSmoke {
         });
     }
     private static void key(int code, int modifiers) throws Exception {
+        waitFor(() -> frame.isActive() && focus() != null, "native window before " + KeyEvent.getKeyText(code));
         edt(() -> { dispatch(KeyEvent.KEY_PRESSED, code, KeyEvent.CHAR_UNDEFINED, modifiers);
             dispatch(KeyEvent.KEY_RELEASED, code, KeyEvent.CHAR_UNDEFINED, modifiers); return null; });
     }
@@ -266,7 +312,17 @@ public final class KeyboardProfileSmoke {
         checks++; report.append("PASS ").append(label).append('\n'); System.out.println("PASS " + label); }
     private static void waitFor(Callable<Boolean> test, String label) throws Exception {
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(30);
-        while (System.nanoTime() < deadline) { if (edt(test)) return; Thread.sleep(15); }
+        long lastForeground = 0;
+        while (System.nanoTime() < deadline) {
+            if (edt(test)) return;
+            if (System.nanoTime() - lastForeground > TimeUnit.SECONDS.toNanos(2)
+                    && edt(() -> frame != null && frame.isShowing() && !frame.isActive())) {
+                report.append("Application foreground recovery while waiting for ").append(label).append('\n');
+                edt(() -> { frame.toFront(); Desktop.getDesktop().requestForeground(true); return null; });
+                lastForeground = System.nanoTime();
+            }
+            Thread.sleep(15);
+        }
         throw new AssertionError("Timeout: " + label + "; focus="
                 + edt(() -> focus() == null ? "none" : focus().getClass().getSimpleName()));
     }

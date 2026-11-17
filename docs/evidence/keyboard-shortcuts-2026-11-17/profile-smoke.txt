@@ -1,0 +1,118 @@
+Started UTC: 2026-11-17T07:03:50.028913Z
+Artifact: /Users/luca/Workspace/turboj/app/target/turboj-app.jar
+SHA-256: c62557b3833e6a56fbae41e22d6e3ca41ce83f6009726d5102c29fd77fbff37e
+Runtime: 25.0.4.1; Swing key dispatch, no mouse; isolated settings; fixture and custom binding setup programmatic.
+PASS New settings default to TurboJ macOS
+PASS Panel checks start before any test execution
+PASS Failure navigation remains unavailable without results
+PASS The saved IntelliJ selection is restored
+PASS Fixture installs one conflict-free IntelliJ custom binding
+PASS Supplemental chord switches to intellij-macos
+PASS Keyboard Profile menu marker matches intellij-macos
+PASS IntelliJ Cmd+D duplicates the current line
+PASS intellij-macos: Escape cancels pending chord without leaving view.focusConsole
+PASS intellij-macos: invalid/disabled chord suffixes never become source or panel input
+PASS intellij-macos: bottom panel Cmd+D leaves source unchanged
+PASS intellij-macos: palette, panel cycle and editor chord work from view.focusConsole
+PASS intellij-macos: Escape cancels pending chord without leaving view.focusTestResults
+PASS intellij-macos: invalid/disabled chord suffixes never become source or panel input
+PASS intellij-macos: bottom panel Cmd+D leaves source unchanged
+PASS intellij-macos: palette, panel cycle and editor chord work from view.focusTestResults
+PASS intellij-macos: Escape cancels pending chord without leaving view.focusJShell
+PASS intellij-macos: invalid/disabled chord suffixes never become source or panel input
+PASS intellij-macos: bottom panel Cmd+D leaves source unchanged
+PASS intellij-macos: palette, panel cycle and editor chord work from view.focusJShell
+PASS intellij-macos: Escape cancels pending chord without leaving console.commandLine
+PASS intellij-macos: invalid/disabled chord suffixes never become source or panel input
+PASS intellij-macos: bottom panel Cmd+D leaves source unchanged
+PASS intellij-macos: palette, panel cycle and editor chord work from console.commandLine
+PASS Supplemental chord switches to eclipse-macos
+PASS Keyboard Profile menu marker matches eclipse-macos
+PASS Eclipse Cmd+D deletes the current line
+PASS eclipse-macos: Escape cancels pending chord without leaving view.focusConsole
+PASS eclipse-macos: invalid/disabled chord suffixes never become source or panel input
+PASS eclipse-macos: bottom panel Cmd+D leaves source unchanged
+PASS eclipse-macos: palette, panel cycle and editor chord work from view.focusConsole
+PASS eclipse-macos: Escape cancels pending chord without leaving view.focusTestResults
+PASS eclipse-macos: invalid/disabled chord suffixes never become source or panel input
+PASS eclipse-macos: bottom panel Cmd+D leaves source unchanged
+PASS eclipse-macos: palette, panel cycle and editor chord work from view.focusTestResults
+PASS eclipse-macos: Escape cancels pending chord without leaving view.focusJShell
+PASS eclipse-macos: invalid/disabled chord suffixes never become source or panel input
+PASS eclipse-macos: bottom panel Cmd+D leaves source unchanged
+PASS eclipse-macos: palette, panel cycle and editor chord work from view.focusJShell
+PASS eclipse-macos: Escape cancels pending chord without leaving console.commandLine
+PASS eclipse-macos: invalid/disabled chord suffixes never become source or panel input
+PASS eclipse-macos: bottom panel Cmd+D leaves source unchanged
+PASS eclipse-macos: palette, panel cycle and editor chord work from console.commandLine
+PASS Supplemental chord switches to vscode-macos
+PASS Keyboard Profile menu marker matches vscode-macos
+PASS VS Code Cmd+D selects the current occurrence
+PASS VS Code repeated Cmd+D adds the next occurrence without modifying source
+PASS vscode-macos: Escape cancels pending chord without leaving view.focusConsole
+PASS vscode-macos: invalid/disabled chord suffixes never become source or panel input
+PASS vscode-macos: bottom panel Cmd+D leaves source unchanged
+PASS vscode-macos: palette, panel cycle and editor chord work from view.focusConsole
+PASS vscode-macos: Escape cancels pending chord without leaving view.focusTestResults
+PASS vscode-macos: invalid/disabled chord suffixes never become source or panel input
+PASS vscode-macos: bottom panel Cmd+D leaves source unchanged
+PASS vscode-macos: palette, panel cycle and editor chord work from view.focusTestResults
+PASS vscode-macos: Escape cancels pending chord without leaving view.focusJShell
+PASS vscode-macos: invalid/disabled chord suffixes never become source or panel input
+PASS vscode-macos: bottom panel Cmd+D leaves source unchanged
+PASS vscode-macos: palette, panel cycle and editor chord work from view.focusJShell
+PASS vscode-macos: Escape cancels pending chord without leaving console.commandLine
+PASS vscode-macos: invalid/disabled chord suffixes never become source or panel input
+PASS vscode-macos: bottom panel Cmd+D leaves source unchanged
+PASS vscode-macos: palette, panel cycle and editor chord work from console.commandLine
+PASS Supplemental chord switches to turboj-macos
+PASS Keyboard Profile menu marker matches turboj-macos
+PASS TurboJ Cmd+D goes to a declaration and never edits
+PASS turboj-macos: Escape cancels pending chord without leaving view.focusConsole
+PASS turboj-macos: invalid/disabled chord suffixes never become source or panel input
+PASS turboj-macos: bottom panel Cmd+D leaves source unchanged
+PASS turboj-macos: palette, panel cycle and editor chord work from view.focusConsole
+PASS turboj-macos: Escape cancels pending chord without leaving view.focusTestResults
+PASS turboj-macos: invalid/disabled chord suffixes never become source or panel input
+PASS turboj-macos: bottom panel Cmd+D leaves source unchanged
+PASS turboj-macos: palette, panel cycle and editor chord work from view.focusTestResults
+PASS turboj-macos: Escape cancels pending chord without leaving view.focusJShell
+PASS turboj-macos: invalid/disabled chord suffixes never become source or panel input
+PASS turboj-macos: bottom panel Cmd+D leaves source unchanged
+PASS turboj-macos: palette, panel cycle and editor chord work from view.focusJShell
+PASS turboj-macos: Escape cancels pending chord without leaving console.commandLine
+PASS turboj-macos: invalid/disabled chord suffixes never become source or panel input
+PASS turboj-macos: bottom panel Cmd+D leaves source unchanged
+PASS turboj-macos: palette, panel cycle and editor chord work from console.commandLine
+PASS Keyboard arrows reach the ≡ menu
+PASS Keyboard arrows select the Keyboard Profile submenu
+PASS Keyboard arrows reach the requested profile menu item
+PASS Enter changes the profile through Options → Keyboard Profile
+PASS Keyboard Profile menu marker matches vscode-macos
+PASS Palette command is enabled: keymap
+PASS Tab reaches the existing Keyboard Profile combo
+Combo UI: dev.turboj.commandj.swing.AsciiStyle$Combo
+Combo binding alt DOWN -> togglePopup; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@4e88eb06
+Combo binding SPACE -> spacePopup; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@65c30b5f
+Combo binding DOWN -> selectNext; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@7e4ed754
+Combo binding UP -> selectPrevious; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@582b288
+Combo binding HOME -> homePassThrough; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@c5bb9e5
+Combo binding ENTER -> enterPressed; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@713fd2c2
+Combo binding ESCAPE -> hidePopup; action=javax.swing.plaf.basic.BasicComboBoxUI$Actions@79c34fc6
+PASS Escape closes the profile dropdown without closing Settings or changing profile
+PASS Existing Keymap Editor combo changes profile entirely by keyboard
+PASS Keyboard Profile menu marker matches eclipse-macos
+PASS Palette command is enabled: keymap.profile.intellij-macos
+PASS Switching profiles preserves the IntelliJ custom override
+PASS Keyboard Profile menu marker matches custom profile
+PASS A user-created custom profile does not falsely mark a bundled profile selected
+PASS Palette command is enabled: keymap.profile.vscode-macos
+PASS A new frame reloads the selected VS Code profile from isolated disk settings
+PASS Keyboard Profile menu marker matches vscode-macos
+PASS VS Code Cmd+D selects the current occurrence
+PASS VS Code repeated Cmd+D adds the next occurrence without modifying source
+PASS Palette command is enabled: keymap.profile.intellij-macos
+PASS Reloading preserves the custom IntelliJ binding
+PASS Reloaded custom shortcut still executes its actual editor action
+Completed UTC: 2026-11-17T07:03:53.797484Z
+PASS complete: 104 assertions.

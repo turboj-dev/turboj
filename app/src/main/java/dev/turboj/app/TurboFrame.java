@@ -238,7 +238,6 @@ public final class TurboFrame extends JFrame {
         this.themeCatalog =
                 new ThemeCatalog(Settings.directory().resolve("themes"), externalThemePath());
         this.keymap = keymap;
-        initializeKeymap();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setMinimumSize(new Dimension(640, 420));
         setSize(settings.width, settings.height);
@@ -380,6 +379,8 @@ public final class TurboFrame extends JFrame {
         setJMenuBar(menus);
         InFramePopupFactory.install(getRootPane());
         createCommands();
+        commandKeymaps.completeDefaults(commandRegistry, KeyboardDefaults.SUPPLEMENTS);
+        initializeKeymap();
         createMenus();
         menus.sealMenus();
         bindKeys();
@@ -1320,6 +1321,9 @@ public final class TurboFrame extends JFrame {
         long checkpoint = -1;
         String baseline = "";
         boolean restarting, confirming, automaticTests;
+        // A semantic rename rebuilds the template ranges, but must not turn the
+        // user's expression back into an automatically generated default.
+        boolean bodyEdited;
         Runnable afterConfirm;
         /** Local rename only: the original source, location and name its semantic check starts from. */
         IntelligenceController.Snapshot snapshot;
@@ -1420,7 +1424,8 @@ public final class TurboFrame extends JFrame {
     /** A returned expression still generated follows the return type: 0, false, null, or nothing for void. */
     private void deriveReturnValue(List<String> ids) {
         int type = ids.indexOf("returnType"), body = ids.indexOf("body");
-        if (type < 0 || body < 0 || !editor.templateActive() || editor.templateModified(body)) return;
+        if (type < 0 || body < 0 || !editor.templateActive()) return;
+        if (editor.templateModified(body) || inlineSession != null && inlineSession.bodyEdited) return;
         String value = defaultReturnValue(editor.templateText(type).strip());
         if (value != null && !value.equals(editor.templateText(body))) editor.replaceTemplateText(body, value);
     }
@@ -1563,6 +1568,10 @@ public final class TurboFrame extends JFrame {
         String name = editor.getText().substring(range.start(), range.end());
         String original = entered.baseline().source(bufferKey).text().substring(entered.declaration().start(), entered.declaration().end());
         if (name.equals(original)) return true;
+        if (inlineSession != null) {
+            int body = inlineSession.ids.indexOf("body");
+            if (body >= 0) inlineSession.bodyEdited |= editor.templateModified(body);
+        }
         try { entered.document().validateCoalesceSince(entered.checkpoint(), entered.baseline().source(bufferKey).text()); }
         catch (IllegalArgumentException invalid) { showError(invalid.getMessage()); return false; }
         var capture = new NativeRefactoringHost().capture();
@@ -1845,7 +1854,9 @@ public final class TurboFrame extends JFrame {
             return Availability.disabled("Open a project first");
         if (Set.of("navigation.mavenModule", "navigation.projectDependency").contains(id)
                 && maven.importRequest() == null) return Availability.disabled("Open a Maven project first");
-        if (Set.of("view.focusTestResults", "view.toggleTestPanel", "navigation.testFailure", "tests.nextFailure", "tests.previousFailure").contains(id)
+        // The empty Tests tab is clickable, so its focus/toggle commands must also
+        // be reachable before the first run. Only result-dependent navigation waits.
+        if (Set.of("navigation.testFailure", "tests.nextFailure", "tests.previousFailure").contains(id)
                 && (tests == null || tests.lastReport() == null)) return Availability.disabled("Run tests first");
         if (Set.of("navigation.testFailure", "tests.nextFailure", "tests.previousFailure").contains(id) && tests.lastReport().failed() == 0)
             return Availability.disabled("No failed tests");
@@ -2322,6 +2333,12 @@ public final class TurboFrame extends JFrame {
                 "help", "Keyboard reference…", () -> new ShortcutReferenceDialog(this, commandRegistry, commandKeymaps, commandContext()).setVisible(true));
         command("help.cheatSheet", "Print Keyboard Cheat Sheet…", this::printCheatSheet);
         command("keymap", "Keymap…", this::showKeymapEditor);
+        command("keymap.assignMissing", "Assign Missing Shortcuts", () -> {
+            var conflicts = commandKeymaps.assignMissing(commandRegistry, KeyboardDefaults.SUPPLEMENTS);
+            flash(conflicts.isEmpty() ? "All actions have shortcuts in this profile."
+                    : "Custom shortcuts preserved; resolve remaining assignments in Keymap Settings.");
+            if (!conflicts.isEmpty()) showKeymapEditor();
+        });
         for (var profile : BundledKeymaps.profiles())
             command("keymap.profile." + profile.id(), "Keyboard Profile: " + profile.name(),
                     () -> commandKeymaps.select(profile.id()));
@@ -2715,8 +2732,13 @@ public final class TurboFrame extends JFrame {
             if (maven.hasExplorerFocus()) current = targets.size() - 1;
         }
         if (messages.isVisible()) {
-            targets.add(() -> { if (replVisible) repl.focusInput(); else console.focusInput(); });
-            if (console.hasConsoleFocus() || repl.hasConsoleFocus()) current = targets.size() - 1;
+            targets.add(() -> {
+                if (outputTabs.getSelectedComponent() == testsPane) testsPane.view().requestFocusInWindow();
+                else if (outputTabs.getSelectedComponent() == repl) repl.focusInput();
+                else console.focusInput();
+            });
+            Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+            if (focus != null && SwingUtilities.isDescendingFrom(focus, messages)) current = targets.size() - 1;
         }
         targets.get(Math.floorMod(current + direction, targets.size())).run();
     }
@@ -3165,6 +3187,8 @@ public final class TurboFrame extends JFrame {
                     break;
                 }
             entry.getValue().putValue(Action.ACCELERATOR_KEY, accelerator);
+            entry.getValue().putValue(MenuStyler.SHORTCUT_TEXT,
+                    accelerator == null && !bindings.isEmpty() ? bindings.getFirst().sequence().display() : null);
         }
     }
 

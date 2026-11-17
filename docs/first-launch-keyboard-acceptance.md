@@ -1,5 +1,15 @@
 # First-launch keyboard acceptance
 
+## Current revalidation — 16 November 2026
+
+**QFX-04 PASS:** the current native application completed the plain Java and Maven tutorial in one clean-profile, Monokai/Eclipse session: **470 keyboard events, 172 assertions**, real compilation and JUnit outcomes. Save, Run, Palette, panel cycling and Escape work from Output, Tests, JShell and the command line; modal settings block background Save/Run/Palette. Busy JShell retains global navigation without stealing focus on completion. Semantic parameter/method renames preserve a previously edited expression and its references.
+
+The [current report, screenshots, sources, logs and hashes](evidence/qfx04-2026-11-16/README.md) supersede the old artifact as present-day verification. Full `./mvnw install`: **874 tests / 126 suites**, zero failures, errors or skips. The four-profile regression passed 92 assertions, including empty Tests access and custom shortcut persistence. The final workflow needed no application-foreground recovery; earlier activation interruptions are retained separately. This is automated Swing acceptance, not physical-keyboard/IME/VoiceOver certification.
+
+Current templates select return type → method name → parameters → expression. Tab wraps, Enter confirms and Escape rolls back the session. See [the current contract](inline-templates.md); the body-first ordering described in the historical October run is no longer current.
+
+## Historical acceptance — 25 October 2026
+
 **PASS: the native Java and Maven sequences both reached a real passing JUnit result in one clean-profile session.** Run09 completed with exit 0, 241 keyboard events and 100 recorded PASS assertions on 2026-10-25. The app was visible throughout; no mouse events or direct command callbacks were used. This is automated Swing acceptance, not a human walkthrough or certification of OS keyboard layouts.
 
 The [session report](evidence/first-launch/run09/report.txt), [key/focus trace](evidence/first-launch/run09/keyboard-events.tsv), [checkpoint data](evidence/first-launch/run09/checkpoints.json), [native Java result](evidence/first-launch/run09/java-green.png) and [native Maven result](evidence/first-launch/run09/maven-green.png) are committed for review. The screenshots are unmodified frame captures from the application, not mockups. [Evidence provenance](evidence/first-launch/README.md) describes path redaction and hashes.

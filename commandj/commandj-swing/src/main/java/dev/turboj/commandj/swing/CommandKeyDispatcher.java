@@ -81,8 +81,9 @@ public final class CommandKeyDispatcher implements KeyEventDispatcher, AutoClose
                 return false;
             }
             case PENDING -> {
-                notice.accept(stroke.get().display() + " …");
+                notice.accept(outcome.sequence().display() + " …  (Escape cancels; 10 seconds per key)");
             }
+            case CANCELLED -> notice.accept("Shortcut cancelled.");
             case CONFLICT -> {
                 notice.accept("Conflicting shortcuts: " + String.join(", ", outcome.candidates()));
             }

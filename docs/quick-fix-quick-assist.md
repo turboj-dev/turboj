@@ -9,9 +9,9 @@ TurboJ's `refactor.context-actions` command now inspects the current Java source
 | Eclipse macOS | Cmd+1 | Quick Fix / Quick Assist |
 | IntelliJ macOS | Option+Return | Quick Fix / Quick Assist |
 | VS Code macOS | Cmd+. | Quick Fix / Quick Assist |
-| TurboJ Classic | Cmd+1 | Quick Fix / Quick Assist; intentional TurboJ addition |
+| TurboJ macOS (default) | Cmd+1 | Quick Fix / Quick Assist; intentional TurboJ addition |
 
-All four profiles and existing customized bindings are preserved. IntelliJ's Cmd+1 already focuses Project Explorer, so this change does not add a conflicting default-profile Cmd+1 binding. Users can explicitly customize it in Keymap Settings. The stable command ID remains `refactor.context-actions`; there is no new independent key dispatcher.
+The four current profiles and existing customized bindings are preserved. A saved Classic profile remains a user profile through migration. IntelliJ's Cmd+1 focuses Project Explorer; the default TurboJ profile uses Cmd+1 for contextual actions. Users can explicitly customize it in Keymap Settings. The stable command ID remains `refactor.context-actions`; there is no new independent key dispatcher.
 
 The Eclipse profile also assigns Cmd+Shift+S to **Save All**, matching page 17 of the supplied macOS tutorial. Save As remains accessible through the File menu and Command Palette without a dedicated Eclipse default. The other three profiles retain their existing bindings. Explicit user bindings take precedence; an incompatible new default is suppressed with a migration diagnostic. Eclipse documents Save All and Save As as separate actions, with no default shortcut listed for Save As. [Eclipse File actions](https://help.eclipse.org/latest/topic/org.eclipse.jdt.doc.user/reference/ref-menu-file.htm).
 
@@ -74,20 +74,19 @@ Unsaved buffers are included in the shared workspace snapshot. Existing source r
 
 ## Generated method template and semantic linked names
 
-After Create Method, focus selects the generated first body statement. The ordered template stops are:
+The current interaction contract is documented in [Inline templates](inline-templates.md). After Create Method, the return type is selected, followed by the method name, parameter names and returned expression. Tab/Shift+Tab wrap between fields; Enter confirms; Escape rolls back the session and returns to its origin. This supersedes the original October body-first ordering and Escape-to-finish behavior.
 
-1. Body statement (or insertion position for an empty body).
-2. Each parameter name in declaration order.
-3. Return type.
-4. Method name.
+Leaving an edited method-name or parameter-name field invokes RefactorJ's semantic linked rename. Declaration and bound references update together, including the originating caller, while unrelated strings and comments stay intact. The service validates the source snapshot and editor context before publication. Enter validates every field; invalid values retain the session and explain the problem. Save and Format confirm a valid template first.
 
-Tab advances, Shift+Tab goes backward and wraps from the first stop to the last; advancing beyond the last stop ends linked editing. These are actual selected source ranges, not decorative highlights. This deliberately prioritizes useful body/name edits; it does not reproduce every Eclipse modifier/type placeholder shown in the tutorial screenshot.
+Undo is per transaction, not per entire template session: a linked rename updates the declaration and callers in one transaction; later local expression edits may be another step. The keyboard acceptance therefore edits the body and parameters first, renames the method last, and checks Undo/Redo of that final cross-file rename independently. Escape reverses the session's own edits and transactions, preserving unrelated prior work.
 
-Using Tab or Shift+Tab to leave an edited method-name or parameter-name stop invokes `renameLinked`. Escape ends the template; it does not independently complete or roll back an ordinary typed identifier edit. The host records a fresh baseline on entry into that stop, including any body edits already made. The semantic service accepts only a complete non-constructor method declaration name or a parameter declared directly in that method. It rejects fields, local variables, constructor parameters, partial identifiers, project changes and any simultaneous edit beyond that one name replacement.
+## Global shortcuts and panel focus
 
-The shared model temporarily returns to the baseline to resolve the original symbol. A real JDT Rename updates bound references, including parameter uses in the body or method calls in other sources; text in unrelated strings and unrelated same-named parameters is left intact. The model is restored to the actual current buffers in `finally`, even after rejection. The semantic result is rebased onto the already typed declaration and validated again. Fresh template ranges are parsed from the resulting method, allowing the host to continue at the next requested stop.
+CommandJ resolves global shortcuts at window level before local widget handling. Output, Tests, JShell and the output command line retain Save, Run, the Command Palette and panel navigation. Editor-only actions must not mutate hidden source while a bottom panel owns focus. Ctrl+F6 / Ctrl+Shift+F6 cycle visible panels and return to the selected bottom tab; Escape returns to source. The Tests panel can be focused or toggled before the first run, while failure-navigation commands remain unavailable without results.
 
-The host checks active document identity, template context and source captures before publishing the rebased plan. It preflights the original undo checkpoint and reserves its history before further buffer changes. Local name typing and the subsequent semantic reference update are coalesced into one undoable transaction. Publication records both caller buffers and the renamed declaration. History that was trimmed, an invalid rename or conflicting source changes produces an explicit failure rather than a partial semantic rename. Return-type and body stops are ordinary editing; they are not a general Change Signature implementation.
+Modal dialogs deliberately suspend background CommandJ actions. Tab/Shift+Tab traverse their controls; Enter confirms the focused action; Escape cancels and restores the previous control. Contextual Quick Fix popups retain their existing local keys and the explicit Command Palette route.
+
+JShell owns unmodified Up/Down for history and Tab for completion. Modified navigation remains available to CommandJ/the text widget; Shift+Tab traverses backward. Evaluation keeps its input focusable but temporarily read-only, and completion never requests focus after the developer has moved elsewhere.
 
 ## Running the generated test
 

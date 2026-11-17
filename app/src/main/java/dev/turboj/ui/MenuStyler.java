@@ -142,6 +142,14 @@ public final class MenuStyler {
         return item instanceof JMenu menu && menu.isTopLevelMenu();
     }
 
+    /** Presentation only: multi-stroke dispatch stays in CommandJ, never Swing's accelerator map. */
+    public static final String SHORTCUT_TEXT = "turboj.shortcutText";
+
+    static String shortcutText(JMenuItem item) {
+        Object sequence = item.getAction() == null ? null : item.getAction().getValue(SHORTCUT_TEXT);
+        return sequence instanceof String text ? text : accelerator(item.getAccelerator());
+    }
+
     /** Readable text labels preserve the actual KeyStroke, including platform modifiers. */
     static String accelerator(KeyStroke shortcut) {
         if (shortcut == null) return "";
@@ -177,12 +185,12 @@ public final class MenuStyler {
         FontMetrics fm = item.getFontMetrics(AsciiChrome.font());
         int cell = fm.charWidth('M'), width = fm.stringWidth(item.getText() == null ? "" : item.getText());
         if (topLevel(item)) return new Dimension(topLevelWidth((JMenu) item), fm.getHeight() + 4);
-        int shortcuts = KeyGlyphs.width(item, AsciiChrome.font(), accelerator(item.getAccelerator()));
+        int shortcuts = KeyGlyphs.width(item, AsciiChrome.font(), shortcutText(item));
         Container parent = item.getParent();
         if (parent != null)
             for (Component sibling : parent.getComponents())
                 if (sibling instanceof JMenuItem other)
-                    shortcuts = Math.max(shortcuts, KeyGlyphs.width(item, AsciiChrome.font(), accelerator(other.getAccelerator())));
+                    shortcuts = Math.max(shortcuts, KeyGlyphs.width(item, AsciiChrome.font(), shortcutText(other)));
         return new Dimension(width + cell * 8 + (shortcuts == 0 ? 0 : shortcuts + cell * 2), fm.getHeight() + 2);
     }
 
@@ -206,7 +214,7 @@ public final class MenuStyler {
             int labelX = leftToRight ? cell * (top ? 1 : 5) : cell * (top ? 1 : 3);
             String label = item.getText() == null ? "" : item.getText();
             if (!top) {
-                String shortcut = accelerator(item.getAccelerator());
+                String shortcut = shortcutText(item);
                 int shortcutWidth = KeyGlyphs.width(item, AsciiChrome.font(), shortcut);
                 int shortcutX = leftToRight ? item.getWidth() - cell * 3 - shortcutWidth : cell * 3;
                 if (!shortcut.isEmpty()) KeyGlyphs.draw((Graphics2D) g, shortcut, shortcutX, baseline);

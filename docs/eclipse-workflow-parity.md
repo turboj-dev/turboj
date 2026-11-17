@@ -9,6 +9,10 @@ The interaction specification is the supplied **TurboJ - First Launch.docx**, in
 
 Status vocabulary: **PASS** means the stated behavior has direct evidence; **PARTIAL** means a named subset works; **FAIL** means an observed behavior violates the requirement; **UNVERIFIED** means it has not been exercised. The final native run09 passed the Java and Maven development sequences through green JUnit. Evidence and limits are in [the keyboard acceptance report](first-launch-keyboard-acceptance.md). This does not establish every optional Eclipse wizard feature or physical keyboard layout.
 
+## Current revalidation — 16 November 2026
+
+The [QFX-04 native run](evidence/qfx04-2026-11-16/README.md) re-exercises the Java/Maven sequence with the current Eclipse profile, `run.context`, Monokai and Enter-confirmed inline templates. It also verifies bottom-panel global shortcuts and modal isolation. The table below retains the original DOCX page mapping; historical body-first template descriptions are superseded by [Inline templates](inline-templates.md). Physical keyboard layouts and the optional print-completion step remain unverified.
+
 ## Page-by-page implementation map
 
 `refactor.context-actions` is the existing stable CommandJ entry for contextual actions. New first-launch commands have stable IDs shown below; their presence is not counted as native verification. Local widget navigation is recorded explicitly and does not require a second dispatcher.
@@ -21,7 +25,7 @@ Status vocabulary: **PASS** means the stated behavior has direct evidence; **PAR
 | 4 | Configure project, then New → Class from source root | Tab, Space, Return; contextual menu | `file.newJavaProject`, `file.newJavaClass` | PASS — selected project/class flow | PASS — project location and source root |
 | 5 | Configure HelloWorld class/main stub; content assist for print | Class form; Ctrl+Space for content assist | `file.newJavaClass`, `complete` | PARTIAL — main generation implemented; completion pre-existing | PARTIAL — main wizard PASS; print completion not exercised |
 | 6 | Enter println and compile | Prose requests Cmd+Return; not proven as Eclipse default | `compile` | PASS — existing compile command/profile retained | PASS — Cmd+3 palette Compile; no Cmd+Return claim |
-| 7 | Run | Screenshot shows Shift+Cmd+F11 | `run` under selected profile | PASS | PASS — Shift+Cmd+F11, actual stdout and exit 0 |
+| 7 | Run | Screenshot shows Shift+Cmd+F11 | `run.context` under Eclipse profile | PASS | PASS — Shift+Cmd+F11, actual stdout and exit 0 |
 | 8 | Save and Launch; then type unresolved Calculator reference | Return confirms save; Cmd+1 next | `run`, save flow, `refactor.context-actions` | PARTIAL — Save before Run Yes/No/Cancel; no per-file checklist | PASS — Yes saves dirty sources before Run |
 | 9 | Create class Calculator from unresolved type; confirm class form | Cmd+1 → arrows → Return; form Finish | `refactor.context-actions` → Create class | PASS | PASS — inferred class form, actual file, editor focus |
 | 10 | Open generated Calculator; request JUnit test at declaration | Cmd+1 → arrows → Return | `refactor.context-actions` → Create new JUnit test | PASS | PASS — declaration-context JUnit assist |

@@ -22,6 +22,7 @@ public final class KeymapManager {
     private long revision;
     private Map<String, List<KeyBinding>> cached = Map.of();
     private List<String> migrationNotices = List.of();
+    private Map<String, String> commandAliases = Map.of();
 
     public KeymapManager() {
         for (KeymapProfile p : BundledKeymaps.profiles()) {
@@ -57,6 +58,42 @@ public final class KeymapManager {
     }
 
     public synchronized List<String> migrationNotices() { return migrationNotices; }
+
+    /** Complete application defaults before importing preferences. Aliases count as existing bindings.
+     * Supplemental sequences are product choices, not claimed defaults of the emulated IDEs. */
+    public synchronized void completeDefaults(CommandRegistry registry, Map<String, KeySequence> supplements) {
+        var completed = new LinkedHashMap<String, KeymapProfile>();
+        for (var profile : defaults.values()) {
+            var values = new TreeMap<>(profile.overrides());
+            for (var command : registry.commands()) {
+                if (!ShortcutReference.bindings(registry, values, command.id()).isEmpty()) continue;
+                KeySequence sequence = Objects.requireNonNull(supplements.get(command.id()),
+                        "Missing supplemental shortcut: " + command.id());
+                values.put(command.id(), List.of(new KeyBinding(sequence, BindingContext.any())));
+            }
+            var collisions = conflicts(values);
+            if (!collisions.isEmpty()) throw new IllegalArgumentException("Supplement conflicts in " + profile.id() + ": " + collisions);
+            completed.put(profile.id(), new KeymapProfile(profile.id(), profile.name(), profile.parentId(), values, true));
+        }
+        completed.forEach((id, profile) -> { defaults.put(id, profile); profiles.put(id, profile); });
+        commandAliases = registry.aliases();
+        changed();
+    }
+
+    /** Explicit opt-in to bind previously unbound actions, without changing any existing shortcut.
+     * Conflicts are retained as diagnostics; even a customized prefix must never be overwritten. */
+    public synchronized List<String> assignMissing(CommandRegistry registry, Map<String, KeySequence> supplements) {
+        var notices = new ArrayList<String>();
+        for (var command : registry.commands()) {
+            if (!commandBindings(registry, command.id()).isEmpty()) continue;
+            KeySequence sequence = supplements.get(command.id());
+            if (sequence == null) { notices.add("No default for " + command.id()); continue; }
+            var change = replaceBindings(command.id(), List.of(new KeyBinding(sequence, BindingContext.any())));
+            if (!change.applied()) notices.add("Unassigned " + command.id() + ": " + change.conflicts());
+        }
+        migrationNotices = List.copyOf(notices);
+        return migrationNotices;
+    }
 
     public synchronized boolean hasStoredConflicts() {
         return profiles.keySet().stream().anyMatch(id -> !conflicts(resolve(id, new HashSet<>())).isEmpty());
@@ -302,6 +339,9 @@ public final class KeymapManager {
                 for (var entry : bundled.overrides().entrySet()) {
                     KeymapProfile current = profiles.get(imported.id());
                     if (current.overrides().containsKey(entry.getKey())) continue;
+                    String canonical = commandAliases.getOrDefault(entry.getKey(), entry.getKey());
+                    if (imported.overrides().keySet().stream().anyMatch(id ->
+                            commandAliases.getOrDefault(id, id).equals(canonical))) continue;
                     profiles.put(current.id(), current.with(entry.getKey(), entry.getValue()));
                     boolean collision = profiles.keySet().stream()
                             .flatMap(id -> conflicts(resolve(id, new HashSet<>())).stream())

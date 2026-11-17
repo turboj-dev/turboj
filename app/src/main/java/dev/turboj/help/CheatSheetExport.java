@@ -33,7 +33,8 @@ public final class CheatSheetExport {
         for (var page : pages.entrySet()) {
             var printed = CheatSheetPrinter.print(page.getValue(), output, page.getKey());
             // The PDF is the published sheet; its HTML source is regenerated on demand.
-            if (printed.pdf()) Files.deleteIfExists(output.resolve(page.getKey() + ".html"));
+            if (printed.pdf() && !java.util.Arrays.asList(args).contains("--keep-html"))
+                Files.deleteIfExists(output.resolve(page.getKey() + ".html"));
             System.out.println(printed.file());
         }
         System.exit(0);

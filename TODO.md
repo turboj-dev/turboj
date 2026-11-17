@@ -1,6 +1,6 @@
 # TurboJ — stato del progetto e piano unico di sviluppo
 
-**Aggiornamento: 16 novembre 2026. Baseline pubblicata: TurboJ `a03254c`, Cherry Test `302325e8`. JAVA-06 consegnata; CH-02/08/09 implementate e verificate il 16 novembre, dettagli in §7.**
+**Aggiornamento: 17 novembre 2026. Baseline pubblicata: TurboJ `a03254c`, Cherry Test `302325e8`. JAVA-06 consegnata; CH-02/08/09 implementate e verificate il 16 novembre, dettagli in §7.**
 
 Questo è il **canovaccio operativo unico**: sommario, stato effettivo, decisioni, attività aggregate, dipendenze e criteri di accettazione. Sostituisce la precedente lista breve e consolida il lavoro disperso nei documenti del progetto. Le specifiche e le evidenze originali restano nei rispettivi percorsi: non vengono eliminate né trasformate retroattivamente in verifiche della versione attuale.
 
@@ -27,8 +27,8 @@ L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro su
 | Area | Stato rilevato | Prossimo risultato necessario |
 | --- | --- | --- |
 | Editor e tastiera | Editing di righe, multicaret, selezione strutturale, focus e palette implementati; prove storiche | Certificare build corrente, migrazione keymap e flussi reali macOS |
-| Quick Fix / Quick Assist | Provider semantici; Cmd+1 TurboJ/Eclipse; correzioni Monokai nel codice | Riprovare Calculator e popup sull'artefatto effettivamente usato |
-| First launch e template | Percorso Java/Maven fino a JUnit verde registrato; template successivamente evoluti | Nuova accettazione con template e Run attuali |
+| Quick Fix / Quick Assist | Cmd+1 TurboJ/Eclipse e contrasto Monokai ricontrollati; Calculator generato nel workflow Eclipse QFX-04 | Completare casi avanzati e prove host, senza inferire parità Eclipse completa |
+| First launch e template | QFX-04 verificata il 16 novembre: plain/Maven, template attuali, JUnit verde e shortcut nei pannelli | Restano casi avanzati QFX-03/05 e walkthrough umano KEY-05 |
 | Output, Tests, Explorer | Console verbatim, Tests separato, `:!`, ridimensionamento, font condiviso e operazioni file | Validare modifiche locali Run/Run File/AutoRun e focus |
 | MavenJ / TurboTest / RefactorJ | Integrazioni operative, con limiti espliciti | Qualificazione aggiornata e percorsi alternativi per casi non supportati |
 | Cherry Test | Slice reale: processo, risultati strutturati, Git, tre corsie, contatori, inspector e provenienza opt-in javac/JaCoCo | Qualificare altri progetti/provider, selettori, aggregazione e workflow completo |
@@ -37,7 +37,9 @@ L'obiettivo resta **Minimal interface. Maximum Java intelligence.** Il lavoro su
 | Sito e hero | Cinque capitoli, evidenze, curl nell'Output nativo, controlli compatti, loop e fix tema | Verificare build/deploy e scegliere quali cambi nativi successivi rappresentare |
 | Distribuzione/ecosistema | Monorepo con moduli riutilizzabili e artefatti locali | Coordinare versioni, repository Cherry, packaging e pubblicazioni |
 
-**Ripartenza immediata:** **QFX-04**, workflow tastiera plain/Maven da creazione progetto a Cmd+1 e JUnit verde. CH-01 e JAVA-06 consegnate; CH-02/08/09 completate nel perimetro dichiarato javac/JaCoCo e qualificazione mini/shop/JUG: provenance server, union dei probe, policy per progetto e sidecars/eventi nativi. Il resto del prodotto Cherry rimane distinto nelle righe aperte. Kotlin/Rust/ECJ e output incrementali privi di capture non vengono certificati correnti; è un limite esplicito, non coverage zero. Preservare controlli Cmd+1/Monokai e routing Run.
+**KEY-03 completata il 17 novembre:** 309 comandi con shortcut nei quattro profili e [PDF completi da quattro pagine](docs/cheatsheets/README.md). Verifica umana host ancora in KEY-05.
+
+**QFX-04 completata il 16 novembre:** workflow tastiera plain/Maven fino a JUnit verde, shortcut globali nei pannelli inferiori e isolamento modale. [Prove correnti](docs/evidence/qfx04-2026-11-16/README.md). Prossimo consolidamento consigliato: **KEY-04/05** (restante audit e walkthrough host) e casi avanzati **QFX-03/05**, senza riaprire il flusso già verificato. CH-01 e JAVA-06 consegnate; CH-02/08/09 completate nel perimetro dichiarato javac/JaCoCo e qualificazione mini/shop/JUG: provenance server, union dei probe, policy per progetto e sidecars/eventi nativi. Il resto del prodotto Cherry rimane distinto nelle righe aperte. Kotlin/Rust/ECJ e output incrementali privi di capture non vengono certificati correnti; è un limite esplicito, non coverage zero. Preservare controlli Cmd+1/Monokai e routing Run.
 
 Il consolidamento iniziale è stato un audit documentale e del codice, senza riesecuzione di build, test o controlli live. Le verifiche successive sono registrate separatamente in §7; non ricertificano automaticamente le evidenze di ottobre.
 
@@ -203,7 +205,7 @@ Fonti: [keyboard-performance](docs/keyboard-performance.md), [Cherry benchmark](
 
 ## 5. Sequenza di lavoro consigliata
 
-Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. CH-01 e JAVA-06 consegnate; CH-02/08/09 implementate e qualificate nel perimetro supportato; QFX-04 è la prossima attività. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
+Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. CH-01 e JAVA-06 consegnate; CH-02/08/09 implementate e qualificate nel perimetro supportato; QFX-04 è ora verificata con il workflow nativo e i controlli dei pannelli inferiori. Restano gli audit estesi KEY-04/05 e i casi QFX-03/05. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
 
 | Traguardo | Attività | Uscita verificabile |
 | --- | --- | --- |
@@ -222,12 +224,12 @@ AI, documentazione e test librerie possono procedere in parallelo dove indipende
 
 Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
 
-**Registro al 16 novembre: 113 attività aggregate, di cui 106 aperte e 7 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 46 qualificazioni da eseguire, 28 attività parziali, 12 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
+**Registro al 17 novembre: 113 attività aggregate, di cui 104 aperte e 9 chiuse**, non 113 difetti dimostrati. Le attività aperte comprendono 45 qualificazioni da eseguire, 27 attività parziali, 12 da fare, 18 decisioni, 1 requisito essenziale incompleto e 1 attività sospesa.
 
 | Priorità | Attività aperte | Lettura |
 | --- | --- | --- |
 | P0 | 6 | Baseline, regressioni segnalate e correttezza semantica |
-| P1 | 54 | Consolidamento, implementazione e qualificazione prossimi |
+| P1 | 52 | Consolidamento, implementazione e qualificazione prossimi |
 | P2 | 38 | Miglioramenti e decisioni successive |
 | P3 | 8 | Evoluzioni da decidere o attività sospese |
 
@@ -251,7 +253,7 @@ Fonti: [design](docs/keyboard-first-design.md), [audit](docs/keyboard-accessibil
 | --- | --- | --- | --- |
 | KEY-01 | P0 | CHIUSA | 15 novembre: Classic salvato conservato come profilo utente, senza quinto default; selezione, binding personalizzati, unbinding espliciti, contesti/chord e profili figli preservati. Fallback TurboJ solo senza profilo legacy salvato; diagnostica di migrazione e import atomico. Suite keymap PASS, inclusi round-trip/cambio profilo e duplicati respinti; install completo 841 test PASS. Inclusa nella consegna del 16 novembre. |
 | KEY-02 | P1 | DECISIONE | Esplicitare TurboJ-default/ritiro Classic rispetto al requisito iniziale. Documentare compatibilità e scelta profilo, senza sovrascrivere preferenze o introdurre silenziosamente un quinto profilo. |
-| KEY-03 | P1 | PARZIALE | Rigenerare inventario/reference/cheatsheet/menu/export sito dal registro finale, inclusi `run.context` e AI per profilo. Manifest/hash coerenti, nessun conteggio storico presentato come attuale. |
+| KEY-03 | P1 | CHIUSA | **17 novembre:** tutti i 309 comandi assegnati nei quattro profili; supplementi stabili Ctrl+Cmd+K + due lettere, nessuna collisione interna, custom/unbinding/alias preservati. Sequenze visibili nei menu; inventario/reference/export sito rigenerati con hash. Quattro PDF da quattro pagine A4 ciascuno, 16 colonne piene, tutti i comandi una volta, nessun testo tagliato. Install 878 test + 42 regressioni finali PASS; smoke nativo 104 asserzioni; [prove e limiti](docs/evidence/keyboard-shortcuts-2026-11-17/README.md). |
 | KEY-04 | P1 | DA VERIFICARE | Audit tastiera completo: menu/dialoghi, Explorer/Maven, RefactorJ, Tests, console/JShell, temi/settings/file chooser/notifiche. Ogni azione ha route e focus/Escape prevedibili. |
 | KEY-05 | P1 | DA VERIFICARE | Walkthrough umano macOS: US, italiano, svizzero italiano/tedesco, Fn/Globe, dead keys, IME e VoiceOver. Layout indisponibili dichiarati; Swing sintetico non sostituisce prova host. |
 | KEY-06 | P1 | DA VERIFICARE | Collisioni esatte/prefix/chord/contesto, acceleratori menu, OS, precedenza popup/template/AI/Tab. Binding custom preservati, comandi raggiungibili e conflitti visibili. |
@@ -266,7 +268,7 @@ Fonti: [Quick Fix](docs/quick-fix-quick-assist.md), [parità](docs/eclipse-workf
 | QFX-01 | P0 | DA VERIFICARE | Riprodurre `Calculator calculator = new Calculator();` con Cmd+1 TurboJ/Eclipse, caret sul tipo e dopo `;`. Proposta pertinente, Return applica, focus corretto; Monokai, selezione e lista vuota leggibili con contrasto verificato. |
 | QFX-02 | P1 | PARZIALE | Contratto fix/assist univoco: priorità diagnostica, seconda invocazione, filtro e problema più vicino sulla riga. Testare problemi multipli/caret/Escape e documentare la posizione realmente mantenuta. |
 | QFX-03 | P1 | DA VERIFICARE | Template attuali: Tab/Shift+Tab, Enter, Escape rollback, caller rename, campi invalidi, completion/IME, Save/Format, cambio file e undo/redo. Esplicitare undo per transazione, non intera sessione se non implementato. |
-| QFX-04 | P1 | DA VERIFICARE | Ripetere tutorial plain e Maven da workspace al test verde con keymap/template/Run attuali. Registrare shortcut, proposte, file, diagnostica e focus; non confondere compile failure e assertion failure. |
+| QFX-04 | P1 | CHIUSA | **16 novembre:** plain e Maven da workspace a JUnit verde, Monokai/Eclipse, 470 eventi tastiera e 172 asserzioni; Save/Run/Palette/focus da Output, Tests, JShell e command line, modali isolati. Corretti ciclo Tests, accesso Tests vuoto, tasti/focus JShell e perdita dell’espressione durante rename linked. Quattro profili/custom persistiti: 92 asserzioni; install 874 test PASS. [Evidenze e limiti](docs/evidence/qfx04-2026-11-16/README.md). Eventi Swing reali, non certificazione di layout fisici/IME/VoiceOver. |
 | QFX-05 | P2 | DA VERIFICARE | Coprire content assist del tutorial `System.out.print`→proposta/documentazione→accettazione, non dimostrato da run09. |
 | QFX-06 | P2 | PARZIALE | Provider per uncaught exceptions, conversioni aggiuntive e altri costruttori/tipi. Diagnostica/binding reali, risultati validati, contesti insicuri rifiutati; nessuna lista statica. |
 | QFX-07 | P2 | DECISIONE | Parità wizard oltre minimo: Save-and-Launch per-file/remember, superclass/interfaces/module-info/working set, framework/versioni JUnit/lifecycle stub e archetype Maven. Confermare necessità prima di aggiungere UI. |
@@ -459,6 +461,14 @@ Ispezionati stato Git, cronologia, documenti e punti di codice rilevanti; effett
 - **Nativo reale:** `CherryNativeSmoke` → PASS. Run All Tests: 2/2 JUnit; modifica + solo Save: 1/2; Undo + solo Save: 2/2 e coverage corrente nell'editor. Save invariato non avvia un quarto run. [Report](docs/evidence/cherry-native/save-workflow-2026-11-15/native-report.txt), [run e hash JUnit](docs/evidence/cherry-native/save-workflow-2026-11-15/validation.json). Non sono state rieseguite le suite browser/service dei progetti mini/shop/JUG.
 - **Controllo ambientale:** primo test Swing nel sandbox terminato con JVM exit 134; lo stesso comando fuori sandbox passa. Non è contato come test superato.
 - **Build finale aggiornato:** `./mvnw install` → BUILD SUCCESS, **848 test in 123 suite**, zero failure/error/skip; 3:18. Include i 24 controlli mirati, da non sommare. SHA-256 `app/target/turboj-app.jar`: `922270b9d7893ce518eb826f2814c34655ef493dc469ff7bbbc4bb0a7ddd770b`. Questo artefatto sostituisce quello della verifica CH-02 precedente.
+
+### QFX-04 — workflow completo e shortcut nei pannelli, 16 novembre 2026
+
+- **VERIFICATO:** una sessione nativa da profilo pulito crea progetti plain e Maven via tastiera, genera HelloWorld/Calculator/test/metodo, distingue assertion failure da compile failure, applica linked rename con Undo/Redo e raggiunge JUnit verde. **470 eventi, 172 asserzioni**, nessun recupero foreground nella sessione finale.
+- **CORRETTO:** il ciclo dei pannelli riconosce Tests e torna alla tab selezionata; Focus/Toggle Tests funzionano anche prima del primo test. JShell non consuma tasti modificati, Shift+Tab attraversa i controlli e la fine di un’operazione non ruba focus. Un rename semantico non ripristina più `0` sopra un’espressione modificata.
+- **VERIFICATO:** Save, Run, Palette, Escape e Ctrl+F6/Ctrl+Shift+F6 da quattro controlli inferiori, in entrambi i progetti. Settings modali bloccano Save/Run/Palette; dopo Escape i comandi tornano disponibili. Quattro profili e override persistiti: **92 asserzioni**. Clipboard: 11 controlli; output command line: 25 controlli, con prova mouse separata esplicitamente etichettata.
+- `./mvnw install`: **874 test / 126 suite, zero failure/error/skip**. Popup Cmd+1 TurboJ/Eclipse e contrasto Classic/Monokai ≥4,5:1 PASS. Registro rigenerato: 308 comandi, 29 alias, nessun binding privo di callback; sei test Node della reference PASS.
+- [Rapporto, log, screenshot, sorgenti, controlli falliti conservati e hash](docs/evidence/qfx04-2026-11-16/README.md). Test Swing automatizzati; layout fisici, IME/dead keys, Fn/Globe, VoiceOver e walkthrough umano restano KEY-05. Nessun deploy o nuovo pacchetto macOS.
 
 ### Verifica successiva — coverage visiva nativa, 16 novembre 2026
 

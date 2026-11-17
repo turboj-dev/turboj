@@ -8,6 +8,13 @@ all-profile Markdown comparison, including unassigned commands.
 
 ## Sources and interpretation
 
+**16 November 2026 supplement:** the complete current assignments are generated
+in [the inventory](keyboard-command-inventory.md). Every fresh bundled action now
+has a binding. Previously unassigned actions receive stable `Ctrl+Cmd+K, letter,
+letter` sequences; these are TurboJ additions, not official IDE defaults. The
+historical comparison below documents the original profile research, including
+retired Classic. See [current usage and migration](shortcuts.md).
+
 - [IntelliJ IDEA macOS keymap](https://www.jetbrains.com/help/idea/reference-keymap-mac-default.html):
   current editing, structure, selection and navigation conventions.
 - [VS Code macOS reference card](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)

@@ -1,0 +1,102 @@
+[
+  {
+    "file": "cheatsheet-eclipse-macos.html",
+    "pages": 4,
+    "columns": [
+      23,
+      21,
+      23,
+      18,
+      22,
+      22,
+      18,
+      22,
+      15,
+      20,
+      21,
+      21,
+      21,
+      22,
+      23,
+      17
+    ],
+    "ids": 309,
+    "problems": [],
+    "font": "12px"
+  },
+  {
+    "file": "cheatsheet-intellij-macos.html",
+    "pages": 4,
+    "columns": [
+      23,
+      20,
+      23,
+      18,
+      23,
+      22,
+      18,
+      20,
+      18,
+      17,
+      21,
+      23,
+      20,
+      19,
+      23,
+      17
+    ],
+    "ids": 309,
+    "problems": [],
+    "font": "12px"
+  },
+  {
+    "file": "cheatsheet-turboj-macos.html",
+    "pages": 4,
+    "columns": [
+      23,
+      20,
+      23,
+      18,
+      23,
+      22,
+      18,
+      22,
+      18,
+      17,
+      21,
+      23,
+      20,
+      19,
+      23,
+      17
+    ],
+    "ids": 309,
+    "problems": [],
+    "font": "12px"
+  },
+  {
+    "file": "cheatsheet-vscode-macos.html",
+    "pages": 4,
+    "columns": [
+      23,
+      21,
+      23,
+      18,
+      22,
+      22,
+      18,
+      22,
+      15,
+      20,
+      21,
+      21,
+      21,
+      22,
+      23,
+      17
+    ],
+    "ids": 309,
+    "problems": [],
+    "font": "12px"
+  }
+]

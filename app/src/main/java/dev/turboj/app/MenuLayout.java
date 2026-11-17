@@ -32,7 +32,7 @@ final class MenuLayout {
                 // Turbo C's ≡ menu, and the Mac application menu.
                 new Menu("≡", "TurboJ", '\0', List.of(
                         c("metrics"), SEPARATOR,
-                        c("settings.general"), c("keymap"), new Submenu("Keyboard Profile", profileItems),
+                        c("settings.general"), c("keymap"), c("keymap.assignMissing"), new Submenu("Keyboard Profile", profileItems),
                         new Submenu("Themes", themeItems),
                         new Submenu("AI Completion", items(c("ai.disabled"), c("ai.local"), c("ai.cloud"), SEPARATOR, c("ai.settings"))),
                         SEPARATOR, c("quit"))),

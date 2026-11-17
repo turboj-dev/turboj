@@ -78,6 +78,13 @@ public final class FirstLaunchKeyboardSmoke {
             workspace();
             action("keymap.profile.eclipse-macos");
             check(edt(() -> frame.commandKeymaps().selectedId().equals("eclipse-macos")), "Eclipse profile selected through CommandJ palette");
+            action("theme.more");
+            waitFor("theme browser", () -> showing("theme-search") != null);
+            field("theme-search", "Monokai");
+            waitFor("Monokai preview", () -> showing("theme-selection") instanceof JLabel label
+                    && label.getText().contains("Monokai") && showing("theme-apply") instanceof JButton button && button.isEnabled());
+            pressNamed("theme-apply");
+            waitFor("theme applied", () -> !OverlayHost.active(frame) && frame.editor().isFocusOwner());
             flow(false);
             flow(true);
             snapshot("complete");
@@ -143,7 +150,7 @@ public final class FirstLaunchKeyboardSmoke {
         eclipseRun();
         handleLaunchDialogs();
         waitFor("HelloWorld actual console output", () -> !frame.isRunning()
-                && frame.console().text().contains("\nHello World!\n") && frame.statusMessages().contains(" done · exit 0"));
+                && frame.console().text().lines().anyMatch("Hello World!"::equals) && frame.statusMessages().contains(" done · exit 0"));
         check(true, chapter + ": generated main compiled and ran through native application");
         snapshot(chapter + "-hello");
 
@@ -303,65 +310,120 @@ public final class FirstLaunchKeyboardSmoke {
         check(edt(() -> calculator.equals(frame.currentFile())), chapter + ": Eclipse Run reruns the prior JUnit launch while Calculator implementation stays active");
         snapshot(chapter + "-green");
         closeResults();
+        bottomPanels(chapter, calculator);
         check(Files.isRegularFile(hello) && Files.isRegularFile(calculator) && Files.isRegularFile(test), chapter + ": all three Java files exist after UI-only creation");
     }
 
-    private static void editTemplate(String chapter) throws Exception {
-        // Providers supply actual linked ranges; inspect selected text only to identify the stop.
-        String first = edt(() -> frame.editor().getSelectedText());
-        key(KeyEvent.VK_TAB, 0);
-        String second = edt(() -> frame.editor().getSelectedText());
+    private static void bottomPanels(String chapter, Path source) throws Exception {
+        for (String command : List.of("view.focusConsole", "view.focusTestResults", "view.focusJShell", "console.commandLine")) {
+            action("view.focusEditor");
+            waitFor("source focus for panel control", () -> frame.editor().isFocusOwner());
+            key(KeyEvent.VK_END, CMD);
+            String marker = "// " + chapter + " " + command + " Save control";
+            paste("\n" + marker + "\n");
+            action(command);
+            waitFor("bottom focus " + command, () -> focus() instanceof JTextComponent && !OverlayHost.active(frame));
+            Component origin = edt(FirstLaunchKeyboardSmoke::focus);
+            if (command.equals("view.focusTestResults")) check(origin == edt(() -> frame.testResults().view()), "Tests panel actually owns focus");
+            if (origin instanceof JTextField) paste("unsubmitted draft");
+            String draft = edt(() -> ((JTextComponent)origin).getText());
+            key(KeyEvent.VK_S, CMD);
+            waitFor("Save from " + command, () -> Files.readString(source).contains(marker));
+            check(edt(() -> focus() == origin), chapter + ": Save keeps " + command + " focus");
+            String saved = Files.readString(source);
+            key(KeyEvent.VK_3, CMD);
+            waitFor("global palette from " + command, () -> dialog("Find Action") != null);
+            key(KeyEvent.VK_ESCAPE, 0);
+            waitFor("palette restores panel", () -> dialog("Find Action") == null && focus() == origin);
+            check(edt(() -> ((JTextComponent)origin).getText().equals(draft)), chapter + ": palette preserves panel text/draft");
+            key(KeyEvent.VK_D, CMD);
+            check(edt(() -> frame.editor().getText().equals(saved)), chapter + ": editor-only Delete Line cannot edit hidden source");
+            key(KeyEvent.VK_F6, KeyEvent.CTRL_DOWN_MASK);
+            waitFor("next panel from " + command, () -> frame.editor().isFocusOwner());
+            key(KeyEvent.VK_F6, KeyEvent.CTRL_DOWN_MASK | SHIFT);
+            waitFor("previous panel restores " + command, () -> focus() == origin);
+            check(true, chapter + ": global panel shortcuts work in " + command);
+            TestEngine.Report previous = edt(() -> frame.tests().lastReport());
+            eclipseRun(); handleLaunchDialogs();
+            waitFor("Run from " + command, () -> frame.tests().lastReport() != previous && !frame.tests().busy());
+            check(edt(() -> frame.tests().lastReport().successful()), chapter + ": global Run compiles and passes tests from " + command);
+            key(KeyEvent.VK_ESCAPE, 0);
+            waitFor("Escape returns editor", () -> frame.editor().isFocusOwner());
+        }
+        action("view.focusJShell");
+        waitFor("JShell input", () -> focus() instanceof JTextField);
+        JTextField input = (JTextField)edt(FirstLaunchKeyboardSmoke::focus);
         key(KeyEvent.VK_TAB, SHIFT);
-        check(edt(() -> frame.editor().templateActive() && frame.editor().getSelectedText().equals(first)), chapter + ": Shift+Tab returns to previous linked stop");
-        report.append("Template first stops: ").append(first).append(" → ").append(second).append('\n');
-        if (first.contains("return") || first.contains("TODO")) {
-            key(KeyEvent.VK_TAB, 0);
-            check(edt(() -> frame.editor().getSelectedText().matches("[A-Za-z_$][A-Za-z0-9_$]*")), chapter + ": Tab selects first generated parameter");
-            String firstParameter = edt(() -> frame.editor().getSelectedText());
-            key(KeyEvent.VK_TAB, 0);
-            check(edt(() -> frame.editor().getSelectedText().matches("[A-Za-z_$][A-Za-z0-9_$]*")), chapter + ": Tab selects second generated parameter");
-            String secondParameter = edt(() -> frame.editor().getSelectedText());
-            key(KeyEvent.VK_TAB, SHIFT); key(KeyEvent.VK_TAB, SHIFT);
-            paste("return " + firstParameter + " + " + secondParameter + ";");
-            key(KeyEvent.VK_TAB, 0);
-            paste("left"); key(KeyEvent.VK_TAB, 0);
-            waitFor("first linked parameter renamed", () -> frame.editor().templateActive()
-                    && frame.editor().getSelectedText().equals(secondParameter)
-                    && frame.editor().getText().contains("return left + " + secondParameter + ";"));
-            paste("right"); key(KeyEvent.VK_TAB, SHIFT);
-            waitFor("second linked parameter renamed", () -> frame.editor().templateActive()
-                    && frame.editor().getSelectedText().equals("left")
-                    && frame.editor().getText().contains("return left + right;"));
-            key(KeyEvent.VK_TAB, SHIFT);
-            check(edt(() -> frame.editor().getSelectedText().contains("return")), chapter + ": Shift+Tab returns to generated body after parameter edits");
-            check(edt(() -> frame.editor().getText().contains("int left") && frame.editor().getText().contains("int right")
-                    && frame.editor().getText().contains("return left + right;")), chapter + ": linked parameter edits update declarations and real body references");
-            key(KeyEvent.VK_TAB, SHIFT);
-            check(edt(() -> frame.editor().getSelectedText().equals("add")), chapter + ": Shift+Tab reaches generated method-name placeholder");
-            paste("addition"); key(KeyEvent.VK_TAB, 0);
-            waitFor("linked semantic rename applies", () -> !frame.editor().templateActive()
-                    && frame.editor().getText().contains("addition(int left, int right)"));
-            check(true, chapter + ": method-name placeholder commits a semantic cross-file rename");
-            return;
-        }
-        boolean renamedLeft = false, renamedRight = false, body = false;
-        for (int i = 0; i < 14 && edt(() -> frame.editor().templateActive()); i++) {
-            String selected = edt(() -> frame.editor().getSelectedText());
-            report.append("Template selected: ").append(selected.replace('\n', ' ')).append('\n');
-            if (selected.contains("return") || selected.contains("TODO") || selected.equals("0") || selected.equals("null")) {
-                paste(selected.equals("0") || selected.equals("null") ? "left + right" : "return left + right;"); body = true;
-            } else if (selected.matches("(?:arg|param)0|(?:arg|param)1|i|a|value|int1" ) && !renamedLeft) {
-                paste("left"); renamedLeft = true;
-            } else if (selected.matches("(?:arg|param)[12]|j|b|value2|int2") && !renamedRight) {
-                paste("right"); renamedRight = true;
-            }
-            key(KeyEvent.VK_TAB, 0);
-            if (body) break;
-        }
-        check(renamedLeft && renamedRight && body, chapter + ": linked parameters and body are editable using Tab without a method dialog");
+        waitFor("JShell backward traversal", () -> focus() != null && focus() != input && !frame.editor().isFocusOwner());
+        check(edt(input::isEditable), chapter + ": Shift+Tab traverses JShell controls without starting completion");
+        action("view.focusJShell");
+        waitFor("JShell input restored", () -> focus() == input);
+        replace("Thread.sleep(1200);"); key(KeyEvent.VK_ENTER, 0);
+        waitFor("JShell evaluating", () -> !input.isEditable());
+        check(edt(() -> input.isEnabled() && focus() == input), chapter + ": busy JShell keeps focus for global shortcuts");
         key(KeyEvent.VK_ESCAPE, 0);
-        check(edt(() -> frame.editor().getText().contains("int left") && frame.editor().getText().contains("int right")
-                && frame.editor().getText().contains("return left + right;")), chapter + ": linked edits changed actual method source");
+        waitFor("leave active JShell", () -> frame.editor().isFocusOwner());
+        waitFor("JShell completed", () -> input.isEnabled() && input.isEditable());
+        Thread.sleep(150);
+        check(edt(() -> frame.editor().isFocusOwner()), chapter + ": JShell completion does not steal focus back");
+        key(KeyEvent.VK_END, CMD); paste("\n// modal guard\n");
+        String disk = Files.readString(source);
+        action("view.focusConsole");
+        Component origin = edt(FirstLaunchKeyboardSmoke::focus);
+        action("settings.general");
+        waitFor("settings modal", () -> OverlayHost.active(frame));
+        TestEngine.Report modalReport = edt(() -> frame.tests().lastReport());
+        key(KeyEvent.VK_S, CMD); key(KeyEvent.VK_3, CMD); eclipseRun();
+        Thread.sleep(150);
+        check(Files.readString(source).equals(disk) && edt(() -> dialog("Find Action") == null
+                        && frame.tests().lastReport() == modalReport && !frame.tests().busy()),
+                chapter + ": modal blocks background Save, Run and palette shortcuts");
+        key(KeyEvent.VK_TAB, 0); key(KeyEvent.VK_TAB, SHIFT); key(KeyEvent.VK_ESCAPE, 0);
+        waitFor("modal restores panel", () -> !OverlayHost.active(frame) && focus() == origin);
+        key(KeyEvent.VK_S, CMD);
+        waitFor("global Save restored after modal", () -> Files.readString(source).contains("// modal guard"));
+        TestEngine.Report previous = edt(() -> frame.tests().lastReport());
+        eclipseRun(); handleLaunchDialogs();
+        waitFor("Run from output panel", () -> frame.tests().lastReport() != previous && !frame.tests().busy());
+        check(edt(() -> frame.tests().lastReport().successful()), chapter + ": global Eclipse Run works from bottom output");
+        key(KeyEvent.VK_ESCAPE, 0);
+        waitFor("source after bottom controls", () -> frame.editor().isFocusOwner());
+        snapshot(chapter + "-bottom-panels");
+    }
+
+    private static void editTemplate(String chapter) throws Exception {
+        check(edt(() -> frame.editor().getSelectedText().equals("int")), chapter + ": generated return type is the first linked stop");
+        key(KeyEvent.VK_TAB, 0);
+        waitFor("method-name stop", () -> frame.editor().getSelectedText().equals("add"));
+        key(KeyEvent.VK_TAB, SHIFT);
+        check(edt(() -> frame.editor().getSelectedText().equals("int")), chapter + ": Shift+Tab returns to the return type");
+        key(KeyEvent.VK_TAB, 0);
+        key(KeyEvent.VK_TAB, 0);
+        waitFor("first parameter stop", () -> frame.editor().getSelectedText().equals("i"));
+        key(KeyEvent.VK_TAB, 0); key(KeyEvent.VK_TAB, 0);
+        waitFor("generated return expression", () -> frame.editor().getSelectedText().equals("0"));
+        paste("i + j");
+        key(KeyEvent.VK_TAB, SHIFT); key(KeyEvent.VK_TAB, SHIFT);
+        waitFor("first parameter after body edit", () -> frame.editor().getSelectedText().equals("i"));
+        paste("left"); key(KeyEvent.VK_TAB, 0);
+        waitFor("first parameter references renamed", () -> frame.editor().getSelectedText().equals("j")
+                && frame.editor().getText().contains("return left + j;"));
+        paste("right"); key(KeyEvent.VK_TAB, 0);
+        waitFor("second parameter references renamed", () -> frame.editor().getSelectedText().equals("left + right"));
+        check(edt(() -> frame.editor().templateActive() && frame.editor().getText().contains("return left + right;")),
+                chapter + ": semantic parameter renames preserve the edited expression and update its references");
+        key(KeyEvent.VK_TAB, 0);
+        check(edt(() -> frame.editor().getSelectedText().equals("int")), chapter + ": Tab wraps without confirming the template");
+        key(KeyEvent.VK_TAB, 0);
+        waitFor("method name after body edits", () -> frame.editor().getSelectedText().equals("add"));
+        // Rename last so the next Undo/Redo checks exactly this cross-file transaction,
+        // rather than pretending the whole multi-transaction template is one undo step.
+        paste("addition");
+        key(KeyEvent.VK_ENTER, 0);
+        waitFor("linked template confirmed", () -> !frame.editor().templateActive() && !frame.refactoring().busy()
+                && frame.editor().getText().contains("addition(int left, int right)"));
+        check(edt(() -> frame.editor().getText().contains("return left + right;")),
+                chapter + ": Enter commits real method implementation and semantic rename");
     }
 
     private static void waitMaven() throws Exception {
@@ -370,7 +432,15 @@ public final class FirstLaunchKeyboardSmoke {
     }
     private static void newProjectFromMenu(boolean maven) throws Exception {
         key(KeyEvent.VK_F10, 0);
+        // A native menu grab can be cancelled if macOS activates the automation host.
+        // Retry only that external deactivation, never a failed menu while TurboJ is active.
+        if (edt(() -> !frame.isActive() && MenuSelectionManager.defaultManager().getSelectedPath().length == 0)) {
+            report.append("Inactive window cancelled menu grab; restoring application and retrying F10\n");
+            key(KeyEvent.VK_F10, 0);
+        }
         waitFor("File menu", () -> MenuSelectionManager.defaultManager().getSelectedPath().length > 0);
+        for (int i = 0; i < 12 && !edt(() -> Arrays.stream(MenuSelectionManager.defaultManager().getSelectedPath())
+                .anyMatch(item -> item instanceof JMenu menu && menu.getText().equals("File"))); i++) key(KeyEvent.VK_RIGHT, 0);
         for (int i = 0; i < 12 && !edt(() -> selectedMenuItem().equals("New")); i++) key(KeyEvent.VK_DOWN, 0);
         check(edt(() -> selectedMenuItem().equals("New")), "F10 → File → New is keyboard accessible");
         key(KeyEvent.VK_RIGHT, 0);
@@ -481,6 +551,15 @@ public final class FirstLaunchKeyboardSmoke {
         key(KeyEvent.VK_V, CMD);
     }
     private static void key(int code, int modifiers) throws Exception {
+        // macOS can activate the terminal/approval UI between automation calls. Restore
+        // only the application, never a component: its own focus policy must restore
+        // the dialog/panel/editor. Internal focus assertions remain authoritative.
+        if (!edt(() -> frame.isActive())) {
+            report.append("Application foreground recovery before ").append(KeyEvent.getKeyText(code)).append('\n');
+            edt(() -> { frame.toFront(); Desktop.getDesktop().requestForeground(true); return null; });
+        }
+        long focusDeadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+        while (!edt(() -> frame.isActive() && focus() != null) && System.nanoTime() < focusDeadline) Thread.sleep(20);
         String before = edt(() -> describe(focus()));
         if (!edt(() -> frame.isActive() && focus() != null && SwingUtilities.isDescendingFrom(focus(), frame)))
             throw new AssertionError("Native application lost keyboard focus; no key sent: " + before);
@@ -521,7 +600,9 @@ public final class FirstLaunchKeyboardSmoke {
             StringBuilder state = new StringBuilder("Current file: ").append(frame.currentFile()).append("\nFocus: ")
                     .append(describe(focus())).append("\nLocation: ").append(frame.editor().captureLocation())
                     .append("\nCompilation: ").append(frame.currentResult()).append("\nTest report: ").append(frame.tests().lastReport())
-                    .append("\nProposals: ").append(proposals()).append("\nBuild status: ").append(frame.buildStatus()).append('\n');
+                    .append("\nProposals: ").append(proposals()).append("\nBuild status: ").append(frame.buildStatus())
+                    .append("\nStatus history:\n").append(frame.statusMessages())
+                    .append("\nMenu path: ").append(Arrays.toString(MenuSelectionManager.defaultManager().getSelectedPath())).append('\n');
             var maven = frame.mavenProjects().workspace();
             if (maven != null) {
                 state.append("Maven root: ").append(maven.root()).append("\nMaven generation: ").append(maven.generation())
@@ -578,7 +659,17 @@ public final class FirstLaunchKeyboardSmoke {
     private static void check(boolean passed, String label) { if (!passed) throw new AssertionError(label); report.append("PASS ").append(label).append('\n'); System.out.println("PASS " + label); }
     private static void waitFor(String description, Callable<Boolean> ready) throws Exception {
         long until = System.nanoTime() + TimeUnit.SECONDS.toNanos(90);
-        while (System.nanoTime() < until) { if (edt(ready)) return; Thread.sleep(50); }
+        long lastForeground = 0;
+        while (System.nanoTime() < until) {
+            if (edt(ready)) return;
+            if (System.nanoTime() - lastForeground > TimeUnit.SECONDS.toNanos(2)
+                    && edt(() -> frame != null && frame.isShowing() && !frame.isActive())) {
+                report.append("Application foreground recovery while waiting for ").append(description).append('\n');
+                edt(() -> { frame.toFront(); Desktop.getDesktop().requestForeground(true); return null; });
+                lastForeground = System.nanoTime();
+            }
+            Thread.sleep(50);
+        }
         throw new AssertionError("Timed out: " + description);
     }
     private static <T> T edt(Callable<T> call) throws Exception {

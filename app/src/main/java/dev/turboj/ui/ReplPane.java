@@ -52,6 +52,16 @@ public final class ReplPane extends JPanel implements AutoCloseable {
                 new KeyAdapter() {
                     @Override
                     public void keyPressed(KeyEvent e) {
+                        if (e.isConsumed()) return;
+                        if (e.getKeyCode() == KeyEvent.VK_TAB
+                                && e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK) {
+                            input.transferFocusBackward();
+                            e.consume();
+                            return;
+                        }
+                        // History/completion own only unmodified keys. CommandJ and the
+                        // text widget retain their modified navigation and editing keys.
+                        if (e.getModifiersEx() != 0 || busy) return;
                         if (e.getKeyCode() == KeyEvent.VK_UP) {
                             if (!history.isEmpty()) {
                                 historyIndex = Math.max(0, historyIndex - 1);
@@ -237,8 +247,9 @@ public final class ReplPane extends JPanel implements AutoCloseable {
 
     private void setBusy(boolean value) {
         busy = value;
-        console.inputField().setEnabled(!value);
-        if (!value) focusInput();
+        // Keep focus (and global shortcuts) available during evaluation. Completion
+        // must not pull the user back after they have moved to another panel.
+        console.inputField().setEditable(!value);
     }
 
     private void enqueue(Runnable action) {

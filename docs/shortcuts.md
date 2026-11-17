@@ -9,6 +9,32 @@ See [profiles, verified sources and customization](../commandj/docs/KEYMAPS.md).
 Find Action defaults to Cmd+Shift+A in IntelliJ, Cmd+3 in Eclipse,
 Cmd+Shift+P/F1 in VS Code, and ⇧⌘A in TurboJ.
 
+## Every action has a binding
+
+The four fresh bundled profiles now bind every registered action. Familiar profile
+shortcuts stay unchanged. Previously unassigned actions use a **TurboJ supplement**:
+press **Ctrl+Cmd+K**, release the keys, then type the two letters shown in the
+reference (without Shift). For example, `Ctrl+Cmd+K, V, E` focuses the editor;
+`Ctrl+Cmd+K, T, S` toggles Auto Test on Save. These sequences are product choices,
+not official Eclipse, IntelliJ or VS Code defaults.
+
+The first letter groups the action (V panels, T testing, M Maven, P project,
+R refactoring, G Java generation, A AI, K keymap/settings). The status line shows
+the pending sequence. Allow up to ten seconds between keys; Escape cancels it.
+Unavailable actions explain their context requirement. Invalid or disabled chord
+suffixes do not become editor, stdin or JShell text. Modal dialogs retain their
+own navigation; global commands work from the main window's bottom panels.
+
+Saved custom assignments and explicit unbindings are preserved. Safe new defaults
+are merged on import. **≡ → Assign Missing Shortcuts** fills remaining
+unbound actions in the active profile without replacing existing shortcuts;
+conflicts are shown in Keymap Settings. Use this after upgrading if the stored
+profile intentionally or historically contains empty assignments.
+
+The four bundled PDFs below use fresh defaults. **Help → Print Keyboard Cheat
+Sheet…** exports the active profile, including your custom bindings and any
+unassigned actions. Help → Keyboard reference offers the searchable live list.
+
 Options → **Show Pressed Shortcuts** (`showPressedShortcuts`) adds a brief,
 theme-accent indicator in the editor's bottom-right corner. It displays actual
 executed bindings, including remapped shortcuts and multi-stroke sequences;
@@ -29,13 +55,14 @@ preference persists independently of the selected theme.
 Options → **Auto Run on Save** (`run.onSave`) and **Auto Test on Save**
 (`tests.onSave`) enable the corresponding actions after saving and successful
 workspace compilation. They default off and are independent of Test → **Auto
-Test on Changes** (`tests.auto`). All three actions can receive custom shortcuts.
+Test on Changes** (`tests.auto`). All three actions have supplemental shortcuts and can be customized.
 
 ## TurboJ macOS bindings
 
 The default map applies Turbo C's grammar to the Mac ([study and full table](keymap-turboj-macos.md)):
 ⌘+letter is the verb, ⇧ widens it, ⌥⌘ transforms code, and Turbo's function keys stay as second bindings.
-Help → **Print Keyboard Cheat Sheet…** prints the active map on two A4 pages; the bundled sheets are in
+Help → **Print Keyboard Cheat Sheet…** prints every action on four landscape A4 pages
+(two double-sided sheets, short-edge duplex); all sixteen columns are filled. The bundled sheets are in
 [cheatsheets](cheatsheets/).
 
 | Shortcut | Action |

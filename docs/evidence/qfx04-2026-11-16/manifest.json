@@ -1,0 +1,2616 @@
+{
+  "schema": 1,
+  "baselineCommit": "a1ef710b2f23a21b7d580e5e0ad13d51f32c7c34",
+  "appJarSha256": "27f1d89fe20f9480add69f4efaad456b91490fdb525704ea0e00aa7e357857cb",
+  "sourceSha256": {
+    "app/src/main/java/dev/turboj/app/TurboFrame.java": "de3172a36a004fc7cb41e26cf1d4bd632c02e306e12d54c537f57776f278852e",
+    "app/src/main/java/dev/turboj/ui/ReplPane.java": "2bddf5f4a20a7135bd69302e3d805c159c225e3d2ad3dafdb3c8105ec60e42f2",
+    "app/src/test/java/dev/turboj/app/FirstLaunchKeyboardSmoke.java": "fa9408611aa11e790d647b201886f08c0e5e29135a40dde9e5a709d51370065f",
+    "app/src/test/java/dev/turboj/app/KeyboardProfileSmoke.java": "9945a63f5a029bc50ec186696b23d0f97b83cfcee8554db86fcc6cef933bb957",
+    "app/src/test/java/dev/turboj/app/QuickFixPopupSmoke.java": "5bb9880d2f03bce95d0c1472d5a1ea6304c180c78a3f5bf0ecfe892bc759cf31",
+    "app/src/test/java/dev/turboj/ui/ReplKeyboardTest.java": "aaed9cfb1f7f6eb192a45f4fef606ab839722250c868913f07d46683d5772ec4"
+  },
+  "harnessClassSha256": {
+    "FirstLaunchKeyboardSmoke": "bf6616851b45bb6bd27bcfc074cd0f13cdeb98f1af3a274e23a1cb4ace5ec7fc",
+    "KeyboardProfileSmoke": "a8203002d5a92ed0b8e19ff82a31fdd3d6f82f417347d5ac55b06b2b9a8c0f14",
+    "QuickFixPopupSmoke": "9e984ed5b3dda626b9f4b4e5f71541838656a558d2196dbda818f01bc8422ab9"
+  },
+  "reactor": {
+    "suites": 126,
+    "tests": 874,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "suite": "dev.javafmt.parser.JdtJavaParserTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.javafmt.core.JavaFormatterTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.javafmt.cli.CliTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.core.CommandRegistryTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.keymap.ProfileSwitchTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.keymap.KeymapTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.keymap.KeyboardAuditTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.palette.CommandSearchTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.AsciiTextNavigationTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.OverlayHostTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.AsciiComboKeyboardTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.AsciiTreeKeyboardTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.SwingBridgeTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.AsciiSurfaceTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.commandj.swing.PaletteDispatchTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.api.EditComposerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.api.SourceInventoryTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.transactions.WorkspaceTransactionsTest",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.ModernizationIT",
+        "tests": 21,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.ExtendedClassicIT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.KeyboardJavaIT",
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.ClassicIT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.SymbolIdentityIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.QuickActionsIT",
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.RuntimeLifecycleIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.UsageNavigationIT",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.runtime.SemanticPropertiesIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.cli.ProtocolTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.cli.RefactorIntegrationIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.lsp.LspIntegrationIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.mcp.McpProtocolTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.mcp.McpIntegrationIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.turbotest.TestEngineTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.core.DefaultMavenJTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.core.RepositoryPolicyTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.workspace.PomEditsTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.workspace.PomFilesTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.workspace.MavenLifecycleTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.workspace.ToolchainsTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.workspace.MetadataWatcherTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.cli.MainTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.mavenj.mcp.McpServerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.AIProviderTest",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.CompletionValidationTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.AIProtocolTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.local.LocalModelManagerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.FallbackChainTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.java.JavaSuggestionFilterTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.java.CompletionContextTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.SharedSemanticWorkspaceTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.JavaIntelligenceTest",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.repl.JavaReplTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.language.JdtSyntaxAnalyzerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.MavenCompilationWorkspaceTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.intelligence.GitBufferDiffTest",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.intelligence.TestSourceResolverTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.intelligence.CherryEventsTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.compiler.ContinuousCompilerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.compiler.WorkspaceCompilationTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.compiler.JavacCompilerBackendTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.editor.PieceTableCoalesceTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.editor.JavaLexerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.editor.PieceTableTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.execution.WorkerClientTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorCommandTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorFormattingTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.AsciiMenuBarTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorCoalesceTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.KeyboardEditingTest",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorComponentTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.MenuStylerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.InFramePopupFactoryTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.ConsolePaneTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.AsciiChromeTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.XmlEditingTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.QuickFixPaletteTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorIntelligenceTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.LineIntelligenceEditorTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorAICompletionTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.EditorTemplateTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.themes.ThemeCatalogTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.themes.ThemeWheelPlanTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.themes.LineIntelligenceThemeTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.themes.ThemeContractTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.PressedShortcutDisplayTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.ReplKeyboardTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ui.StatusBarTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.app.WorkspaceStatusTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.app.FilesAndThemesTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.app.MenuLayoutTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.app.CommandSettingsTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.SourceUsagePreviewTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.ProjectContextTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.SignatureMarkupTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.CompletionCoordinatorTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.intelligence.NavigationHistoryTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.ProjectSearchTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.MavenRunTargetsTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.PlainProjectCompilerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.SourceEncodingTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.MavenProjectControllerTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.ProjectFilesTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.project.FirstLaunchProjectsTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.CherryExecutionReceiptTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.MavenAutoTestControllerTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.LineIntelligenceControllerTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.TestOutputTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.CherrySaveWorkflowTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.CherryTestProcessLifecycleTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.TurboTestControllerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.MissingJUnitTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.testing.MavenNativeAcceptanceTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.CredentialStoreTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.AISettingsPolicyTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.ai.AICompletionControllerTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.formatting.OtherEnginesTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.formatting.StandardFormattersTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.formatting.FormattingControllerTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.refactoring.NativeWorkspaceCommitterTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.help.CheatSheetTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.console.OutputCommandControllerTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.console.OutputCommandRunnerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.console.OutputCommandGestureTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.console.OutputLogTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "dev.turboj.cli.TjTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "native": {
+    "keyEvents": 470,
+    "passAssertions": 172,
+    "foregroundRecoveries": 0
+  },
+  "provenance": {
+    "/private/tmp/turboj-qfx04-20261116/baseline/report.txt": {
+      "rawSha256": "5f05d1442df5637d4c91252040f004254e4ef58ac34ea6426b3545c3ff602743",
+      "curatedSha256": "d48941f16c28611c90c0f04b577e7bb23d1d95d021152dd488fe3adad4583fa7"
+    },
+    "/private/tmp/turboj-qfx04-20261116/baseline/keyboard-events.tsv": {
+      "rawSha256": "5e17b2314b7ad3a66baab3f58ad63d507a83481631a92556cb6c3bd0dfb49341",
+      "curatedSha256": "5e17b2314b7ad3a66baab3f58ad63d507a83481631a92556cb6c3bd0dfb49341"
+    },
+    "/private/tmp/turboj-qfx04-20261116/baseline/failure/state.txt": {
+      "rawSha256": "bb26a67106f4cef5d9e98eb1b01843b10525879bb6f6ddca543d86f3da6a4a87",
+      "curatedSha256": "bb26a67106f4cef5d9e98eb1b01843b10525879bb6f6ddca543d86f3da6a4a87"
+    },
+    "/private/tmp/turboj-qfx04-20261116/baseline/failure/editor.java.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run02/report.txt": {
+      "rawSha256": "76c46a4c2536b9979f7a04081cf0efc91113bdad8b11fc671fdb1ab0ba6ed8b0",
+      "curatedSha256": "dadca99f9550c6007c5102d25ca85146eb9991e5baf4aa2551230c95c3a98f10"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run02/keyboard-events.tsv": {
+      "rawSha256": "44266916bdee120c8adfd36fa03bb0064761e760712f84f1c8f5ccbaf0b92b0f",
+      "curatedSha256": "44266916bdee120c8adfd36fa03bb0064761e760712f84f1c8f5ccbaf0b92b0f"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run02/failure/state.txt": {
+      "rawSha256": "7f71d5f205dd3e11b03cfd966d2698ac4722a6b4925469b277d545ed9589c464",
+      "curatedSha256": "7f71d5f205dd3e11b03cfd966d2698ac4722a6b4925469b277d545ed9589c464"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run02/failure/editor.java.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run03/report.txt": {
+      "rawSha256": "6e34eac72e8caa83444dce7d76c8b21e09f6c9bd96a4e64f58692e8b621f32c6",
+      "curatedSha256": "4e05726c3d1de7cbe49813187ff52cefe9b14b7706f3734b200961aaec8491a9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run03/keyboard-events.tsv": {
+      "rawSha256": "73189807c10352b56a95f3954f3175727f570bb67fb2d4d1b0fb5194b0ea1d21",
+      "curatedSha256": "73189807c10352b56a95f3954f3175727f570bb67fb2d4d1b0fb5194b0ea1d21"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run03/failure/state.txt": {
+      "rawSha256": "57dfcb880cce65aa133e6f1317378e31c02f28d05424c372773c1eb73bf2b120",
+      "curatedSha256": "68ece4f871a3e104838d8c41e01615059881c0c0d28d509a1cb33ecc13637cc3"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run03/failure/editor.java.txt": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run04/report.txt": {
+      "rawSha256": "1d3e8916781c451fdfed49cf30cb9d9bcbb67eaced2274a5565ac8460a95e039",
+      "curatedSha256": "ff47e5da300f5cc4f9889b2a4ec9b1127b4c77bd929366af69364e448df80c8d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run04/keyboard-events.tsv": {
+      "rawSha256": "739827cc390cab66b170733db22908e4f95e916d73428feac92915f52ba677ca",
+      "curatedSha256": "739827cc390cab66b170733db22908e4f95e916d73428feac92915f52ba677ca"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run04/failure/state.txt": {
+      "rawSha256": "a0326b83eea652d7811597fdce367bff37e0a51ad05a82866378e85858f71635",
+      "curatedSha256": "5ac287226f00e376cb951913cb43fd368cfb2a363dc5bf3aa1d87b52171f292e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run04/failure/editor.java.txt": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run05/report.txt": {
+      "rawSha256": "6793d7840ec089e46def21b1be54a347c5d15b70312774b892254feb1ca073bf",
+      "curatedSha256": "eb7b3957e0c4b6023fb12dd72ee88cc50a0c30a4a586d5f50ee66df74fe41d70"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run05/keyboard-events.tsv": {
+      "rawSha256": "b39b748664757f5206705dd270c884a4d3d1e78a0dbf464679c3b7e7e629337a",
+      "curatedSha256": "b39b748664757f5206705dd270c884a4d3d1e78a0dbf464679c3b7e7e629337a"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run05/failure/state.txt": {
+      "rawSha256": "067504cee7a7d7419c52c07a2f922b2f49b9315519def94c7ba808038d1fbaa2",
+      "curatedSha256": "0959e56d7c84ee19d9e0e9eec49da68196a18a2c3bde9fde2c401003d0d98177"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run05/failure/editor.java.txt": {
+      "rawSha256": "d5e3057cac39683e222e309e666f9f9508f8a686fb146b4dc01b43aabfd24ca1",
+      "curatedSha256": "d5e3057cac39683e222e309e666f9f9508f8a686fb146b4dc01b43aabfd24ca1"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run06/report.txt": {
+      "rawSha256": "8ac932330f7609626214a753f3f2de8e4ccdf37ad21504b182513fad8be6f3e6",
+      "curatedSha256": "40819da629af454f277d314f167b053e30417426fe36a6899dee3fef54421ffb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run06/keyboard-events.tsv": {
+      "rawSha256": "9fa389a5dd3f6c052184c8cb33551236f5e89c9c8d73c0d8060373314ebe4eac",
+      "curatedSha256": "9fa389a5dd3f6c052184c8cb33551236f5e89c9c8d73c0d8060373314ebe4eac"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run06/failure/state.txt": {
+      "rawSha256": "a09f6548b86513d6d181ff115fac8b781c0bcc76de323919f81dfd4083a11e2e",
+      "curatedSha256": "a09f6548b86513d6d181ff115fac8b781c0bcc76de323919f81dfd4083a11e2e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run06/failure/editor.java.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run07/report.txt": {
+      "rawSha256": "665885763ab8b9a5ccd3758aafc9ceb7b56ffab431fa611ae97f0044586beeb5",
+      "curatedSha256": "2d4f0d5f04091677d682cc4fae1f3d13801b81e38d40a18f7d0dcadf022fd6a8"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run07/keyboard-events.tsv": {
+      "rawSha256": "1c8c824d4158e308de21539210536ac2c3de9d066508f71b5373b05b231ffc8d",
+      "curatedSha256": "1c8c824d4158e308de21539210536ac2c3de9d066508f71b5373b05b231ffc8d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run07/failure/state.txt": {
+      "rawSha256": "7542d6bc61ea24359e460b58a44163a8bb6008c7b3258477d194e5442aad2b60",
+      "curatedSha256": "992351874b9769ce53d463cfea8c1331e30c1eca528811534db65efa666a15b6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run07/failure/editor.java.txt": {
+      "rawSha256": "d5e3057cac39683e222e309e666f9f9508f8a686fb146b4dc01b43aabfd24ca1",
+      "curatedSha256": "d5e3057cac39683e222e309e666f9f9508f8a686fb146b4dc01b43aabfd24ca1"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run08/report.txt": {
+      "rawSha256": "1b30b4b3c412d863cf4081587c2f8bf79a7435210cda60df0f09c6d76738a5df",
+      "curatedSha256": "f8521fef65a3e95025a972e6de5a9979da2a570ca90f00ef1e351f31d731655a"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run08/keyboard-events.tsv": {
+      "rawSha256": "d2eb4a05c2c1312197211a1c2fc53b44c9aa6e9e470a8568a417000f3322d253",
+      "curatedSha256": "d2eb4a05c2c1312197211a1c2fc53b44c9aa6e9e470a8568a417000f3322d253"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run08/failure/state.txt": {
+      "rawSha256": "9b8020c702fab7355f45c9ddba94d9596f3b19adf7cccb1209c9bef490a8a7e4",
+      "curatedSha256": "567226351883489e7c95610dae6ac5d11bff2ae0165d63250572b05e4adea300"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run08/failure/editor.java.txt": {
+      "rawSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96",
+      "curatedSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run09/report.txt": {
+      "rawSha256": "33cdc20b5d7c7057411bd86688a2bc6a74ab83c7848f805d04be8d0bed07904c",
+      "curatedSha256": "fece7b6a07c2f7a5d1ed47fefc1976fa099a006e027336297a5c7a4c7711ac99"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run09/keyboard-events.tsv": {
+      "rawSha256": "30f35127eae169179df7c16a0520e6a23dfa6bfc13e174b9467fbc7fa0f64cb4",
+      "curatedSha256": "30f35127eae169179df7c16a0520e6a23dfa6bfc13e174b9467fbc7fa0f64cb4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run09/failure/state.txt": {
+      "rawSha256": "8b70a23c8fce6c7e5f78f293187df110eace4bb2dc9aa0fb335e25ffe2fce1a1",
+      "curatedSha256": "24bdcd2f8426d2390121e0bcd1a58a8c1211a2da9579676f4e09c947296e72eb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run09/failure/editor.java.txt": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run10/report.txt": {
+      "rawSha256": "ad5f932fcb63697ddb0be5948cd8f30550e9f9db35e0c1b00a7a68be24ca1b00",
+      "curatedSha256": "133f96368f41c8f8ed863b81fe2cfd9865be3333e64150e5b5b80993068cf57b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/run10/keyboard-events.tsv": {
+      "rawSha256": "da57e015b5d5b84f998d297e95458bf8a5b1c5e6391f21ed564b50c720e6ec4f",
+      "curatedSha256": "da57e015b5d5b84f998d297e95458bf8a5b1c5e6391f21ed564b50c720e6ec4f"
+    },
+    "/private/tmp/turboj-qfx04-baseline.log": {
+      "rawSha256": "13a451037c46435c3242deb83db21f54877721a2c192cb018502c580a6547440",
+      "curatedSha256": "d7a3d870a082ed4eb7d7f3c0770f16e380a4f9416a12298245c643302adffd74"
+    },
+    "/private/tmp/turboj-qfx04-run02.log": {
+      "rawSha256": "372b2fa173e5e150ad0acbb4c7ac3040d4a451196637e2c4a8141190c47b249c",
+      "curatedSha256": "0e3cc6f51e67d23af364211f466e130f7718dd9bf679e6843febd2a8aba58798"
+    },
+    "/private/tmp/turboj-qfx04-run03.log": {
+      "rawSha256": "b41cc0ac00194392a6852886971c8756fd0da967c5b0650513be4a51e1adf22f",
+      "curatedSha256": "ba8c8943e01e24d8730b3999738d4d31f46a4e1bc105f5d7f91b355ba0087bed"
+    },
+    "/private/tmp/turboj-qfx04-run04.log": {
+      "rawSha256": "3e919058d772957ffdbb4f9dbee8b561d51da0c23f29e43baa97efd58934671f",
+      "curatedSha256": "c8686217f7f22a162276138de3426826f5426776b7e3148cf46f9c96c9f1cb97"
+    },
+    "/private/tmp/turboj-qfx04-run05.log": {
+      "rawSha256": "f37daccc51207b85d3d89450d1a95b7b16b0ff5818a22bfd1d72aba5cc35c728",
+      "curatedSha256": "e8d5fd10f61f0145970c9df8fe4e4d9055139d89ab861208729f700fd08731eb"
+    },
+    "/private/tmp/turboj-qfx04-run06.log": {
+      "rawSha256": "1df4155e07a323aa785717cdb6f497df5f2e3aaf794ce4315abc8c410398ac7b",
+      "curatedSha256": "b83ccc15601235b719b6c1ca0386780148caadc17c24d2545a2b9f3e107c0d34"
+    },
+    "/private/tmp/turboj-qfx04-run07.log": {
+      "rawSha256": "892d6f49e5f39c36c8d632eaff4de985b7f7e4971b12c84e06476d239db440f4",
+      "curatedSha256": "05e4d3736141327aad93e2d6498570abf59328aa9a3b9a0ef38037263191bb60"
+    },
+    "/private/tmp/turboj-qfx04-run08.log": {
+      "rawSha256": "f416bea4acda16becd5ab6853d83fa1a54682bf1f1116039ff1be177ccd0f1cc",
+      "curatedSha256": "8f47be37a9c7ae690d5db6ffae8b7930db623c77e7f3019c23cac59ce37691e1"
+    },
+    "/private/tmp/turboj-qfx04-run09.log": {
+      "rawSha256": "ecb238dc9da2baa138f4457aee54978c1e4f79c098685f3189595157854cb512",
+      "curatedSha256": "84e8e1c7f472a436f263cb8c8e57baa02b3809c051c6454bd5796d7676a517c6"
+    },
+    "/private/tmp/turboj-qfx04-run10.log": {
+      "rawSha256": "7ec92fa5f29b449767b0232bff98679eea969612168cefbc2e9c4683af9ebcd8",
+      "curatedSha256": "54b36415ba1be3048be9dcf319ba8eed7d98f53906e3c660a8b47715b315045d"
+    },
+    "/private/tmp/turboj-qfx04-repl-baseline.log": {
+      "rawSha256": "9d2cf4f760887220382ecfa350b52e7549dab52ba919864698fecdb457484d63",
+      "curatedSha256": "474a9f42b6845dd586254ead462eae7619deefc1f4194c1959338c4f59cd910a"
+    },
+    "/private/tmp/turboj-qfx04-repl-baseline-unrestricted.log": {
+      "rawSha256": "575564bf350fb6126f7b17b8eb8be4a9e7222c87573627a8388c1b44bebceaa3",
+      "curatedSha256": "eb1e0b59c919ede388d4ed22368b47f193ce2f2be2bc93de2d399a872dfe6ee9"
+    },
+    "/private/tmp/turboj-qfx04-repl-fixed.log": {
+      "rawSha256": "7a4ad6d8e67c2fdab39bd99fa07142be724c1f99c6e357eac4ee5bba78b73caf",
+      "curatedSha256": "c297e695b850f87570d77dde535ad9cf8a094227688cc0a378411e479797f9c6"
+    },
+    "/private/tmp/turboj-qfx04-profiles-before-empty-panel-fix.log": {
+      "rawSha256": "39599a7c9bd7ba9a8bc95233a9586ee1fdf5266fdd45f53200af826247f31e27",
+      "curatedSha256": "363bb79ed26ec58c52db10b2a9e3e00b9dea0d77ba3ec5c94d899f145bb889aa"
+    },
+    "/private/tmp/turboj-qfx04-install-before-empty-panel-fix.log": {
+      "rawSha256": "b1a61463b64785cd7a3ab920cfa2e18491136470942575c814ed5682eaaeb46f",
+      "curatedSha256": "23185bb555724ae0e4e87587a6fe59ed66161364364808b779a0723635df6fcc"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/report.txt": {
+      "rawSha256": "6d40fac09da0dfb0593a9d114db8766cc41ab63548ac6689a2a77ef35a9a5701",
+      "curatedSha256": "7f452e6332eaceb09698c8c4c0ce94f42eb4d479ba0d114ab8dadd16d5882332"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/keyboard-events.tsv": {
+      "rawSha256": "fde3067235e807748e278786a7825589e6ff628c28a9f73d10770101bfa7caad",
+      "curatedSha256": "fde3067235e807748e278786a7825589e6ff628c28a9f73d10770101bfa7caad"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef",
+      "curatedSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/editor.java.txt": {
+      "rawSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef",
+      "curatedSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef",
+      "curatedSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/source-sha256.txt": {
+      "rawSha256": "1241722b82fe3b52e7a6ec0ac133e740a3e94702230ba0165ab33b5784758a32",
+      "curatedSha256": "1241722b82fe3b52e7a6ec0ac133e740a3e94702230ba0165ab33b5784758a32"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/complete/state.txt": {
+      "rawSha256": "a74c8917ec26c40c200b436685566c010c7b19ee5c89c18adc28b88f3095b13b",
+      "curatedSha256": "3bf355e440847299a6ba347cc9933f786779eb74e9dd95a28b5c84a5823ebe8d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/editor.java.txt": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/source-sha256.txt": {
+      "rawSha256": "14dd89d5bd58b9b28b793c99a44c3c522417c4dd5fa1558ec3ac876834d8a160",
+      "curatedSha256": "14dd89d5bd58b9b28b793c99a44c3c522417c4dd5fa1558ec3ac876834d8a160"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-assertion-failure/state.txt": {
+      "rawSha256": "39e88ba20ef0279a75375ac2e71a89c5b3805e2c533790d1667ee45f9f7f2964",
+      "curatedSha256": "ca2737158dd48a3d6ccd9af889737105b5b10bf5a7df75adb0094b4ab678d471"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96",
+      "curatedSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/editor.java.txt": {
+      "rawSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96",
+      "curatedSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96",
+      "curatedSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/source-sha256.txt": {
+      "rawSha256": "505a84380a830ea8bd7c0dd1bd37508014c5506e6fcec270176e12aafba13f87",
+      "curatedSha256": "505a84380a830ea8bd7c0dd1bd37508014c5506e6fcec270176e12aafba13f87"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/state.txt": {
+      "rawSha256": "99af05e993a510319613adc287ffaeff0fed7bc897372b67554010369629a1b8",
+      "curatedSha256": "e07b7c68c6f9332cf250f63360dca7304bb1b01300f4e7c011ccde9e67768622"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/editor.java.txt": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/source-sha256.txt": {
+      "rawSha256": "18976d1a09376fb1f16a246e4cfeacfb55f35301e56bd5f818a8ce305db61c3f",
+      "curatedSha256": "18976d1a09376fb1f16a246e4cfeacfb55f35301e56bd5f818a8ce305db61c3f"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-created/state.txt": {
+      "rawSha256": "1bb0b904c27d21507a8c7c0dbf85247e03558e527513685a27ab0f890ec9519f",
+      "curatedSha256": "45bd44384bc4322b2c0e42b5264ce14e50eb053836bafb8dab53e10197c79ffa"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/editor.java.txt": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/source-sha256.txt": {
+      "rawSha256": "2107aa5b3a320beae60d130881250c77e2b54d10eb89137278e4bb5657633f6d",
+      "curatedSha256": "2107aa5b3a320beae60d130881250c77e2b54d10eb89137278e4bb5657633f6d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-class-proposals/state.txt": {
+      "rawSha256": "4de114d7a5b12d04e664bc034dc5a03dfce1b62568a3cc1a5701bbd6aa6584d0",
+      "curatedSha256": "1354a68ec1fef268b99feb25d123a730772a88164af571f98c958437a88d564d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/editor.java.txt": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/source-sha256.txt": {
+      "rawSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b",
+      "curatedSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-compile-failure/state.txt": {
+      "rawSha256": "6d87d430c0c8d99b92e42b404076cf2c64c71292563c95d5632b7d6ecf3fdcf6",
+      "curatedSha256": "1f008e3f6beea436daa17bbae344d2200c287857b0847a335e52cdedb83a818c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/editor.java.txt": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/source-sha256.txt": {
+      "rawSha256": "871652934e02ef317ac664fe78425398e4881a8a379d6e26971b4bf72efcdadd",
+      "curatedSha256": "871652934e02ef317ac664fe78425398e4881a8a379d6e26971b4bf72efcdadd"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/state.txt": {
+      "rawSha256": "3bc446685f3070b6deadf676b8143cbf2d2c184a8442da3c822f95a36c1fbba3",
+      "curatedSha256": "f5493a775840caf5248108025fc424f47735dee6fccb86981db081c4ac860827"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/editor.java.txt": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/source-sha256.txt": {
+      "rawSha256": "2107aa5b3a320beae60d130881250c77e2b54d10eb89137278e4bb5657633f6d",
+      "curatedSha256": "2107aa5b3a320beae60d130881250c77e2b54d10eb89137278e4bb5657633f6d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-hello/state.txt": {
+      "rawSha256": "09c8247f29d8e2f219970ca6aaa63e4ace528a5838114782fbfb480a8bbeed82",
+      "curatedSha256": "a4da5df82dacf2682a5eee1180eef8b0308cc7c27a32972979860395a6f48100"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/editor.java.txt": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/source-sha256.txt": {
+      "rawSha256": "18976d1a09376fb1f16a246e4cfeacfb55f35301e56bd5f818a8ce305db61c3f",
+      "curatedSha256": "18976d1a09376fb1f16a246e4cfeacfb55f35301e56bd5f818a8ce305db61c3f"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-junit-dependency/state.txt": {
+      "rawSha256": "7756b6555ff5a65789a9a011874800c3d0b7f13236b7e51c3ed96448f874bd33",
+      "curatedSha256": "b510e1307961bb960d5873cf514b92baf056673b8f327bf89c47847f5492692e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/editor.java.txt": {
+      "rawSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/source-sha256.txt": {
+      "rawSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b",
+      "curatedSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-linked-rename-undo/state.txt": {
+      "rawSha256": "cdf5a1591077a1a3e71afc4fb1c5f6097ae51d80304acfa0a46c9acf8eb73b3e",
+      "curatedSha256": "4bbee04b6d13f5b7e3b29d03f622a16c9a0e8d9e96d3409ddc99631e2d25d5b2"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/editor.java.txt": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/source-sha256.txt": {
+      "rawSha256": "871652934e02ef317ac664fe78425398e4881a8a379d6e26971b4bf72efcdadd",
+      "curatedSha256": "871652934e02ef317ac664fe78425398e4881a8a379d6e26971b4bf72efcdadd"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-implemented/state.txt": {
+      "rawSha256": "07923439eeaa42ca3d2c40fc229e41bba99f64a593112184e6c3cc6f89fbc1a1",
+      "curatedSha256": "c4e35aee55bc5cc64317bc7a3d72450d10611351d7aac895a3244da504493595"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/editor.java.txt": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/source-sha256.txt": {
+      "rawSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b",
+      "curatedSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-proposals/state.txt": {
+      "rawSha256": "b5f7dc0ba8f95ab0805e837b8c4babbcd60b6bb3e5a873b8e9fc047dd38f013b",
+      "curatedSha256": "5d506477558b838f562c0ab6f53074f5962a3223037002e57689a6e03d0d87de"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/buffers/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/editor.java.txt": {
+      "rawSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/.turboj/junit.properties": {
+      "rawSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c",
+      "curatedSha256": "a6bcb48ebccfd0cad56424233855a1e5dc1f6400de47c7bd69f239ec2fd9759c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/.turboj/project.properties": {
+      "rawSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e",
+      "curatedSha256": "4f1f346921b6d0156bcc4f78853466c2bd496d5ab11f633f427514019fed9b4e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/src/main/java/FirstLaunchJava.java": {
+      "rawSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4",
+      "curatedSha256": "8cc10a1bc333622b90cf453a2d215f9d99ce5708daa060dad7520eba11ec16b4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/source-sha256.txt": {
+      "rawSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b",
+      "curatedSha256": "9cd50d7264876d1cfab2997f406e0ac4bcbbc8822d152927d7406270f5ff7f0b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-method-template/state.txt": {
+      "rawSha256": "0ea83174275bd8e06d6277d1fe5ee83c555921148447a93d506f1856ea512fca",
+      "curatedSha256": "5320c250574fd611e183a21808511e1bdaff80dfd5db421bb3301eddb1cd8afb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-project-form/console.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-project-form/editor.java.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-project-form/state.txt": {
+      "rawSha256": "78021a56d35204d55e8ee7118956f03d3ee38f179c44f4d2447c54578a00c25f",
+      "curatedSha256": "b100e71fa3e69be8cacaf5288d2909d201802a70c9c0e1e1425293b054ed820c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/editor.java.txt": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e",
+      "curatedSha256": "569a04e8dc8dcc3f37bbabb3bdc4be2eefe0e3ca0ea5fc6b31522f6feed5026e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/source-sha256.txt": {
+      "rawSha256": "1795d270a729ba4bcce6637528a99638ffcc8661daba05b27a28944c398859ba",
+      "curatedSha256": "1795d270a729ba4bcce6637528a99638ffcc8661daba05b27a28944c398859ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-assertion-failure/state.txt": {
+      "rawSha256": "676ecb76ab9f77183abeae42408956ac90bb535d438aeb2a30bf04803bfd72e9",
+      "curatedSha256": "5fe1447878890a9c7b6a437143c785883a4614514799e00ae347357e84f25167"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef",
+      "curatedSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/editor.java.txt": {
+      "rawSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef",
+      "curatedSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef",
+      "curatedSha256": "3fcb50f378c7470ae1480a4482f1f28704964ef17fea536cf2742947ffd919ef"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/source-sha256.txt": {
+      "rawSha256": "1241722b82fe3b52e7a6ec0ac133e740a3e94702230ba0165ab33b5784758a32",
+      "curatedSha256": "1241722b82fe3b52e7a6ec0ac133e740a3e94702230ba0165ab33b5784758a32"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/state.txt": {
+      "rawSha256": "a74c8917ec26c40c200b436685566c010c7b19ee5c89c18adc28b88f3095b13b",
+      "curatedSha256": "3bf355e440847299a6ba347cc9933f786779eb74e9dd95a28b5c84a5823ebe8d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/editor.java.txt": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/project/pom.xml": {
+      "rawSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/source-sha256.txt": {
+      "rawSha256": "fbb4f3b87cc30a97a6fd0d88d1ce13b67715e8f6b1ec1460cdca95d4310e72cd",
+      "curatedSha256": "fbb4f3b87cc30a97a6fd0d88d1ce13b67715e8f6b1ec1460cdca95d4310e72cd"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-created/state.txt": {
+      "rawSha256": "0e99c6652f6aebbeed41d60ab944d8533702fa762d14429331a5541598a7ca60",
+      "curatedSha256": "63514cc8b7b04b197ea1c0eb42d810e80893df8267b86304d3a4260822300e3c"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/editor.java.txt": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/project/pom.xml": {
+      "rawSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/source-sha256.txt": {
+      "rawSha256": "f3a6489e1b94142d5fc9d12196d1eaff95b7c96825442e788301d954cc635151",
+      "curatedSha256": "f3a6489e1b94142d5fc9d12196d1eaff95b7c96825442e788301d954cc635151"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-class-proposals/state.txt": {
+      "rawSha256": "be3ee3d7272d8e78c58aa093101866fa4df45e261355f388ef2867d601d8675b",
+      "curatedSha256": "7fd1e361316ceb57cb7cfceebaa1908bcaee47f9c594610ec77cb2a90d287c1e"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/editor.java.txt": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/source-sha256.txt": {
+      "rawSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb",
+      "curatedSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-compile-failure/state.txt": {
+      "rawSha256": "c8c2552952fcfe0ab8415649748eca660b03f1bc272b9023844558d064191b82",
+      "curatedSha256": "81df6b258e83427b898d7145884ee12f3f189baf7ad78bb6116ecc2a550b0cb0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/editor.java.txt": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/source-sha256.txt": {
+      "rawSha256": "aeebaa98098c34fe0a7f32abf7f2100494e7c0b6235e9cf37445fb523e0f50fa",
+      "curatedSha256": "aeebaa98098c34fe0a7f32abf7f2100494e7c0b6235e9cf37445fb523e0f50fa"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/state.txt": {
+      "rawSha256": "fe6225be24355c371e3e2a06b34688cd29974ea15e46477e91920461ef90d6b5",
+      "curatedSha256": "d1a55b3c64d73f366e89853da36d76c8b55dda618aadedb9d701efdcd8305345"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/editor.java.txt": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/project/pom.xml": {
+      "rawSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/source-sha256.txt": {
+      "rawSha256": "f3a6489e1b94142d5fc9d12196d1eaff95b7c96825442e788301d954cc635151",
+      "curatedSha256": "f3a6489e1b94142d5fc9d12196d1eaff95b7c96825442e788301d954cc635151"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-hello/state.txt": {
+      "rawSha256": "87c2e2d5f2d08c2545e12355a883e6c8da5544fb4b01284fc07136061a5cea13",
+      "curatedSha256": "7b598d1bf9006b34bd20b5c193812f1d3c2b26341be9dc0020ed74426e90ef76"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/editor.java.txt": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/project/pom.xml": {
+      "rawSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4",
+      "curatedSha256": "9d1bccfa732a68bbf35215ecfb7ff6238dd63975c46311cb48274b35fa7372a4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b",
+      "curatedSha256": "29e3c4580399e33cf5855ce0caa5466d4f6bf89f52f0889280bcb6eff3ab537b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/source-sha256.txt": {
+      "rawSha256": "fbb4f3b87cc30a97a6fd0d88d1ce13b67715e8f6b1ec1460cdca95d4310e72cd",
+      "curatedSha256": "fbb4f3b87cc30a97a6fd0d88d1ce13b67715e8f6b1ec1460cdca95d4310e72cd"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-junit-dependency/state.txt": {
+      "rawSha256": "ffd19ab427b1da28fa25b11ae0377d77c7c495375a7718c1c43cddfd0b542895",
+      "curatedSha256": "ae0d7596a670e0f27e63c806102404def71ccd97e5ac36ff16d5125192e3a406"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/editor.java.txt": {
+      "rawSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764",
+      "curatedSha256": "34303fad21623bea50f0e1d2ea9ecd3acb9aa568053bcdf147cf8a65b05c0764"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/source-sha256.txt": {
+      "rawSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb",
+      "curatedSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-linked-rename-undo/state.txt": {
+      "rawSha256": "6b43cdeac63dbc53a346b57ed6baa94e4f049d399fb6a76b62c599c33cd3c2da",
+      "curatedSha256": "aeaf0b6651f4c1045643409c6e808bd3371ca8c336a5cd52cf140d3fa1ef62ca"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/editor.java.txt": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6",
+      "curatedSha256": "e23a1d975002b895cc9d7a470555f65caffd5d060dac1e70050d7e719c87c4a6"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0",
+      "curatedSha256": "cfd30f69b6bc4cb4f9bfcd38e34e68c8056eab6d6b712c24bb2d187bb8f293e0"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/source-sha256.txt": {
+      "rawSha256": "aeebaa98098c34fe0a7f32abf7f2100494e7c0b6235e9cf37445fb523e0f50fa",
+      "curatedSha256": "aeebaa98098c34fe0a7f32abf7f2100494e7c0b6235e9cf37445fb523e0f50fa"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-implemented/state.txt": {
+      "rawSha256": "f445d8aec26bddfa38e05e7c9461c3ccce2f39fc77d53a210b31d4a239a77b5f",
+      "curatedSha256": "81b8cf548edcf1b6330b274fbd742f3fbb7c5736304d39dd3ea7dbf8ecfb5f43"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/editor.java.txt": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/source-sha256.txt": {
+      "rawSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb",
+      "curatedSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-proposals/state.txt": {
+      "rawSha256": "3f7ed0eab4fd2c50131483361daa72684185f9c9d0cbb6704cc9b79ab15b9b3e",
+      "curatedSha256": "db8d30ea2fb1f9b4c21e57f7fe777f36c4552b063aaa4dc4f8738a09ed8d11dd"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/buffers/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/buffers/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/buffers/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/buffers/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/console.txt": {
+      "rawSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5",
+      "curatedSha256": "784b69949810dbc3f880cddfb908a722f901dbcc244587d74c665b10441b41f5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/editor.java.txt": {
+      "rawSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3",
+      "curatedSha256": "61030c2b1615e0fce7f81d644ed2d2e41004a4d2ee6d8da931d7749bf907a1d3"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/.turboj/project.properties": {
+      "rawSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba",
+      "curatedSha256": "bd2bb45734aae9fd99bbb4b939832b57bc2b90a1ae9bbb50f52251faf2bed7ba"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/.turboj/source-roots.txt": {
+      "rawSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b",
+      "curatedSha256": "ca7516a6ac366f49bbe7907e456b4097b4099c3e8d6625041658139becc0aa4b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/pom.xml": {
+      "rawSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9",
+      "curatedSha256": "762642f43c62b0a6a035b6cd518a4964f67dd23cc16a502279ad0e0b15535fa9"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/src/main/java/example/firstlaunchmaven/FirstLaunchMaven.java": {
+      "rawSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5",
+      "curatedSha256": "39fb0fb70a9d08ed8d297964f419328dc6d2b0b7f298ed3ab4ddeeffc6a805b5"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/src/main/java/tutorial/Calculator.java": {
+      "rawSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11",
+      "curatedSha256": "894c74fbeeb5ecb535abf732769d6e8b1443c9e8406dbf20702c6b85211e8f11"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/src/main/java/tutorial/HelloWorld.java": {
+      "rawSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319",
+      "curatedSha256": "726ea21ec16b87a35f8ab38ed2fa709ac6847f3e0627a4d10ee5fbce7f023319"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/project/src/test/java/tutorial/CalculatorTest.java": {
+      "rawSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36",
+      "curatedSha256": "70fbd560f428681f7f2b6b9d555f8613efeff25701488ab697bd452af66a1d36"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/source-sha256.txt": {
+      "rawSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb",
+      "curatedSha256": "644e3fb67640a9bebe93bfb54751ae736d1ddda0eac270e305da1d8b51f1f0cb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-method-template/state.txt": {
+      "rawSha256": "0ee4f1cefcd24f2b5b1fcbfc18fa4c7940cd2910e6580de2a523d5180434e87e",
+      "curatedSha256": "03bec9e834b1890a9c2b8a3cdde8a9494e4321accf8fb78580b2a95023e4d016"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-project-form/console.txt": {
+      "rawSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340",
+      "curatedSha256": "03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-project-form/editor.java.txt": {
+      "rawSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96",
+      "curatedSha256": "3284bdff3a3acf8a8ee966ffbee31bdccca935e42a3a819163f1eb7c55483c96"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-project-form/state.txt": {
+      "rawSha256": "a73788771478838016e38d2f5bf1758693b93568e7516c7bd02ff815236b9b29",
+      "curatedSha256": "2276a249601f8b23c7034fd146be04ba32f1b1b0afd2f764cbd77ecde3c4f0f4"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/workspace/console.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/workspace/editor.java.txt": {
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "curatedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/workspace/state.txt": {
+      "rawSha256": "6aaaf9e64808160b2ce3b8cf5afde3d5e58d400910a6c93dbbe24148375609f0",
+      "curatedSha256": "f29a83900fa70b7eda1d8540b4842500a270c2bd43d88f392a95b39089009b82"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-green/frame.png": {
+      "rawSha256": "ca1386a3516ba63245084bd4899161acc912658e70fbea13145368e1ce234e0d",
+      "curatedSha256": "ca1386a3516ba63245084bd4899161acc912658e70fbea13145368e1ce234e0d"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-green/frame.png": {
+      "rawSha256": "d6b30a771731c102efb8c04f052e60345c559711f82ad39ea43c6dd1ea58cf0b",
+      "curatedSha256": "d6b30a771731c102efb8c04f052e60345c559711f82ad39ea43c6dd1ea58cf0b"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/java-bottom-panels/frame.png": {
+      "rawSha256": "4c10519eaa40134118570d24f085cd2344ac30f4dd84e44641cb602f2f6153fb",
+      "curatedSha256": "4c10519eaa40134118570d24f085cd2344ac30f4dd84e44641cb602f2f6153fb"
+    },
+    "/private/tmp/turboj-qfx04-20261116/final/maven-bottom-panels/frame.png": {
+      "rawSha256": "de45ee03281ddea056325701c521c9cc9fa998fc1dd121e58ff1924510b43183",
+      "curatedSha256": "de45ee03281ddea056325701c521c9cc9fa998fc1dd121e58ff1924510b43183"
+    },
+    "/private/tmp/turboj-qfx04-install.log": {
+      "rawSha256": "6e6ea1c085d52c055982a9610e7040795090cc9aa11a368d5e0f31d1d538977e",
+      "curatedSha256": "8f4eed1865c37c36145e8e83cee69ec36985151499cf5a290fcc4ef306ebabcb"
+    },
+    "/private/tmp/turboj-qfx04-profiles.log": {
+      "rawSha256": "2507d1237f295c570f154d0e9e7d3a349fe7c8d2c1a2ba81b9309121960a9761",
+      "curatedSha256": "e6d5f425712d894a0436725dd430787939062d300943d31dd07233edfee21dad"
+    },
+    "/private/tmp/turboj-qfx04-popup.log": {
+      "rawSha256": "e6d206c61dd38ebd1cb063948fe2c057a94b5a9b0ed2e80335f81beb830a16c3",
+      "curatedSha256": "26addd3d7842d7a8796a152e977adb72bae0aa1df3ee39ffd443429bc9a58ea6"
+    },
+    "/private/tmp/turboj-qfx04-final.log": {
+      "rawSha256": "da1d578fff421cd83fcd63bf35a883f6597f4bb2c0df05a77c530923a7f79b07",
+      "curatedSha256": "f519669802c21e7d787d2b0d6247963568d486918d008bddc4bdc59691c0267e"
+    },
+    "/private/tmp/turboj-qfx04-registry.log": {
+      "rawSha256": "061e3272cae9c5a7f4b5145e14768bffe763fd1999baa4b663d8d71520f4f318",
+      "curatedSha256": "061e3272cae9c5a7f4b5145e14768bffe763fd1999baa4b663d8d71520f4f318"
+    },
+    "/private/tmp/turboj-qfx04-reference.log": {
+      "rawSha256": "079fbf848dde16cccd9ba028764b6d0867a69aaa4618a89ae6538bb795594839",
+      "curatedSha256": "079fbf848dde16cccd9ba028764b6d0867a69aaa4618a89ae6538bb795594839"
+    },
+    "/private/tmp/turboj-qfx04-clipboard.log": {
+      "rawSha256": "e3434ffb82e8c11abc1112af422a9037696dc8211f6958015fbeff2ff0491130",
+      "curatedSha256": "370bcaae17742517ebadd5721e8401145084648cffb2d154922a7023666361d6"
+    },
+    "/private/tmp/turboj-qfx04-output.log": {
+      "rawSha256": "8062590bb8b0490aba9fd28f8567cf90bfbe3d25090275411c2192920cc9aa5f",
+      "curatedSha256": "92edc6c4a8ce7d1fd9a18a94d5a30c669a6115780b293b0d8f051e40c11bf2d6"
+    },
+    "<repository>/app/target/keyboard-profile-smoke/report.txt": {
+      "rawSha256": "36ca5da91e01e892c5074d7de59d8d3b8c33c096e94382bcd7a2dcfcb484417e",
+      "curatedSha256": "14079cae1d59417f79dd91e10c4d3e2961494fbb764b1b69e4207bd55ba86134"
+    },
+    "<repository>/app/target/quick-fix-popup-smoke.png": {
+      "rawSha256": "0cb78dbf556c1d65287feda107879cf737820bd44d2ddeba11c78d29b8598c0b",
+      "curatedSha256": "0cb78dbf556c1d65287feda107879cf737820bd44d2ddeba11c78d29b8598c0b"
+    }
+  }
+}

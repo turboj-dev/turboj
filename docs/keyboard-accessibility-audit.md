@@ -1,9 +1,44 @@
 # Keyboard interaction audit
 
 This audit covers the executable TurboJ/CommandJ changes, not the browser demo.
-The four profiles remain distinct. The generated inventory currently contains
-263 registered commands and 29 command-ID aliases; all bundled bindings resolve
-to registered callbacks. No debugger or shell terminal was invented.
+The four profiles remain distinct. The original October audit counted 263 commands
+and 29 aliases; consult the generated inventory and manifest for the current count.
+Registration alone is not proof of a working keyboard interaction.
+
+## Complete shortcut assignments — 17 November 2026
+
+All 309 registered commands are bound in all four fresh profiles. Existing profile
+bindings remain; unbound actions receive stable `Ctrl+Cmd+K, letter, letter`
+supplements. Custom bindings and explicit unbinding are preserved on migration.
+The native four-profile smoke passes 104 assertions, including sequences from the
+bottom panels, disabled/invalid suffix suppression and preference reload. The four
+PDFs include every command across four A4 pages each, with 16 filled columns and
+no clipped labels. See [evidence and limits](evidence/keyboard-shortcuts-2026-11-17/README.md).
+This updates binding coverage; it does not replace the remaining physical-keyboard
+and accessibility walkthrough.
+
+## QFX-04 revalidation — 16 November 2026
+
+The plain Java and Maven first-launch workflows have been rerun with the current
+inline template, Eclipse Run and Monokai theme. See [current evidence](evidence/qfx04-2026-11-16/README.md)
+and [first-launch acceptance](first-launch-keyboard-acceptance.md).
+
+Confirmed fixes:
+
+- Panel cycling now recognizes the Tests view and focuses the selected bottom tab,
+  instead of targeting hidden Console input. Focus/toggle commands also reach the
+  empty Tests tab before the first execution; failure navigation still needs results.
+- JShell history/completion consume only their unmodified keys. Shift+Tab traverses
+  backward. Evaluation leaves input focusable but read-only; completion does not
+  steal focus after switching back to source.
+- Semantic linked rename preserves a user-edited return expression when restarting
+  template ranges. It no longer silently replaces that expression with `0`.
+
+The native check exercises Save, Run, Palette, panel cycling and Escape from Output,
+Tests, JShell and the output command line in both project types. Modal settings
+retain their local keys and block background actions. This is automated Swing
+key/focus testing, with logged application foreground recovery when macOS deactivates
+the test window; it is not a human or physical-keyboard-layout certification.
 
 ## Evidence categories
 

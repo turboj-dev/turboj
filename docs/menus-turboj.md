@@ -4,6 +4,13 @@ Status: approved and implemented in `MenuLayout` (one table builds the menu bar;
 it). The inventory below describes the app before the change (26 Oct 2026). The proposal keeps every command and
 changes only where it lives.
 
+**17 November 2026:** the application menu (`≡`) also includes **Assign Missing
+Shortcuts** beside Keymap. All 309 actions have bindings in fresh profiles; menu
+labels show supplemental multi-stroke sequences as well as single accelerators.
+The current generated inventory and four-page PDFs are linked from
+[the complete cheat sheets](cheatsheets/README.md). The inventory below remains
+the historical menu study, not a current action count.
+
 ## Today
 
 TurboJ has 12 menus and about 200 items, in this order: File, Project, Build, Edit, Search, Navigate, Code, Refactor,
