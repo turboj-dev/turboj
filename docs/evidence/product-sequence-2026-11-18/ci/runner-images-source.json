@@ -1,0 +1,8 @@
+{
+  "url": "https://github.com/actions/runner-images/blob/main/README.md",
+  "retrievedUTC": "2026-11-18",
+  "sha256": "49a421dc7368312cdc183d5a7626335fa89d2110ef4bf3b29e3c637c72d10801",
+  "selectedLabel": "macos-15-intel",
+  "architecture": "x64",
+  "reason": "Prior macos-15 ARM job was not acquired; GitHub annotations explicitly reported hosted ARM capacity constraints."
+}

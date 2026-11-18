@@ -1,0 +1,8 @@
+{
+  "hw.model": "Mac17,2",
+  "hw.memsize": "17179869184",
+  "hw.ncpu": "10",
+  "machdep.cpu.brand_string": "Apple M5",
+  "macOS": "ProductName:\t\tmacOS\nProductVersion:\t\t26.5.1\nBuildVersion:\t\t25F80",
+  "scope": "Physical host identity; no serial number, power/energy measurement or cold OS-cache claim."
+}

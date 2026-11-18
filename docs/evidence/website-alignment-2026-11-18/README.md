@@ -1,5 +1,10 @@
 # Website alignment — 18 November 2026
 
+The later [queued visibility correction](../website-visibility-2026-11-18/README.md)
+supersedes this build's renderer hashes and payload/Lighthouse measurements.
+This record preserves the original alignment verification and generated PDF
+evidence; its byte-identical-renderer statement applies to that earlier build.
+
 Local verification of WEB-02/03/04/06/07, including the final guarded build and
 native registry export. No publication occurred.
 

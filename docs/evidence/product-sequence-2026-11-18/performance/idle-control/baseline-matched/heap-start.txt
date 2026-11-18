@@ -1,0 +1,3 @@
+19423:
+garbage-first heap   total reserved 786432K, committed 100352K, used 68651K [0x00000007d0000000, 0x0000000800000000)
+ region size 1024K, 19 young (19456K), 1 survivors (1024K)

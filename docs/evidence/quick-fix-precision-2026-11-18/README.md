@@ -16,3 +16,7 @@ A failed control is retained: adding throws initially transferred the same diagn
 Native pending-inspection double invocation and caret restoration are added to QuickFixPopupSmoke. They require the separate shared native qualification run; these unit/integration results do not certify physical keyboard behavior.
 
 Safety boundaries: contextual exceptions require actual bindings. No unsafe lambda/initializer/anonymous-boundary propagation, declaration-scope-changing catch, generic exception inference, or changed caller/override error is offered. Catch explicitly wraps with RuntimeException and cause; it is a user-selected semantic choice, never silent handling.
+
+## Final integrated result
+
+[QuickFixPopupSmoke](../product-sequence-2026-11-18/native-final/QuickFixPopupSmoke.txt) passed on the final installed JAR `36ae34e6…ea33a9`: both profiles, pending double invocation, real Create Class, caret movement, Monokai contrast and focus. Earlier cancellation controls remain retained in the product evidence. Physical keyboard behavior is not inferred from these Swing events.

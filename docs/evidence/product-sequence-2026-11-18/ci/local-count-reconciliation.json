@@ -1,0 +1,14 @@
+{
+  "localRecord": "../final-reactor/tests.json",
+  "hostedRecord": "ubuntu-results.json",
+  "originalLocalScan": {"suites": 142, "tests": 978},
+  "rootReactor": {"suites": 141, "tests": 976},
+  "excludedOutsideReactor": {
+    "file": "examples/maven/target/surefire-reports/TEST-dev.turboj.examples.calculator.CalculatorTest.xml",
+    "name": "dev.turboj.examples.calculator.CalculatorTest",
+    "tests": 2,
+    "sha256": "8ce7fa6ad45beee3b60a0bef0523a7344ab58ad61c0ee706b956937390d44b1f",
+    "reason": "The example target is outside the 39-module root reactor. Its existing XML was included by the broad local report scan; it cannot establish two additional executions in the final reactor. The original record and personal example are preserved."
+  },
+  "missingTrackedSuite": false
+}

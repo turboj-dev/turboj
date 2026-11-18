@@ -1,0 +1,481 @@
+{
+  "total_count": 3,
+  "jobs": [
+    {
+      "id": 135063378018,
+      "run_id": 44378326946,
+      "workflow_name": "Verify Java and website",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/turboj-dev/turboj/actions/runs/44378326946",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVVMAqs8AAAAfcmeYYg",
+      "head_sha": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "url": "https://api.github.com/repos/turboj-dev/turboj/actions/jobs/135063378018",
+      "html_url": "https://github.com/turboj-dev/turboj/actions/runs/44378326946/job/135063378018",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-18T19:14:07Z",
+      "started_at": "2026-11-18T19:14:09Z",
+      "completed_at": "2026-11-18T19:18:47Z",
+      "name": "website",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-18T19:14:10Z",
+          "completed_at": "2026-11-18T19:14:10Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-18T19:14:10Z",
+          "completed_at": "2026-11-18T19:14:13Z"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-18T19:14:13Z",
+          "completed_at": "2026-11-18T19:14:14Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-18T19:14:14Z",
+          "completed_at": "2026-11-18T19:14:19Z"
+        },
+        {
+          "name": "Run npm run check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-18T19:14:19Z",
+          "completed_at": "2026-11-18T19:14:24Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-18T19:14:24Z",
+          "completed_at": "2026-11-18T19:14:27Z"
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-18T19:14:27Z",
+          "completed_at": "2026-11-18T19:14:27Z"
+        },
+        {
+          "name": "Install pinned Playwright browser",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-18T19:14:27Z",
+          "completed_at": "2026-11-18T19:14:46Z"
+        },
+        {
+          "name": "Browser, keyboard and accessibility regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-18T19:14:46Z",
+          "completed_at": "2026-11-18T19:18:43Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-18T19:18:43Z",
+          "completed_at": "2026-11-18T19:18:45Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-18T19:18:45Z",
+          "completed_at": "2026-11-18T19:18:45Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-11-18T19:18:45Z",
+          "completed_at": "2026-11-18T19:18:46Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-18T19:18:46Z",
+          "completed_at": "2026-11-18T19:18:46Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/turboj-dev/turboj/check-runs/135063378018",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000000015,
+      "runner_name": "GitHub Actions 1000000015",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135063378544,
+      "run_id": 44378326946,
+      "workflow_name": "Verify Java and website",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/turboj-dev/turboj/actions/runs/44378326946",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVVMAqs8AAAAfcmeacA",
+      "head_sha": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "url": "https://api.github.com/repos/turboj-dev/turboj/actions/jobs/135063378544",
+      "html_url": "https://github.com/turboj-dev/turboj/actions/runs/44378326946/job/135063378544",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-18T19:14:07Z",
+      "started_at": "2026-11-18T19:14:12Z",
+      "completed_at": "2026-11-18T19:32:19Z",
+      "name": "java (macos-15-intel)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-18T19:14:13Z",
+          "completed_at": "2026-11-18T19:14:16Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-18T19:14:16Z",
+          "completed_at": "2026-11-18T19:14:22Z"
+        },
+        {
+          "name": "Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-18T19:14:22Z",
+          "completed_at": "2026-11-18T19:14:35Z"
+        },
+        {
+          "name": "Retain actual project toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-18T19:14:35Z",
+          "completed_at": "2026-11-18T19:14:35Z"
+        },
+        {
+          "name": "Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-18T19:14:35Z",
+          "completed_at": "2026-11-18T19:14:36Z"
+        },
+        {
+          "name": "Capture build inputs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-18T19:14:36Z",
+          "completed_at": "2026-11-18T19:14:36Z"
+        },
+        {
+          "name": "Verify build receipt guards",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-18T19:14:36Z",
+          "completed_at": "2026-11-18T19:14:37Z"
+        },
+        {
+          "name": "Build and test complete reactor (macOS)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-18T19:14:37Z",
+          "completed_at": "2026-11-18T19:31:05Z"
+        },
+        {
+          "name": "Build and test complete reactor (Linux virtual display)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-11-18T19:31:05Z",
+          "completed_at": "2026-11-18T19:31:05Z"
+        },
+        {
+          "name": "Verify standalone ecosystem build entry points",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-18T19:31:05Z",
+          "completed_at": "2026-11-18T19:31:38Z"
+        },
+        {
+          "name": "Real Swing command effects and JUnit output (Linux virtual display)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-11-18T19:31:38Z",
+          "completed_at": "2026-11-18T19:31:38Z"
+        },
+        {
+          "name": "Capture exact build identity",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-18T19:31:38Z",
+          "completed_at": "2026-11-18T19:31:40Z"
+        },
+        {
+          "name": "Ad-hoc signed local macOS app and DMG with bundled runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-18T19:31:40Z",
+          "completed_at": "2026-11-18T19:32:14Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-18T19:32:14Z",
+          "completed_at": "2026-11-18T19:32:16Z"
+        },
+        {
+          "name": "Post Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26,
+          "started_at": "2026-11-18T19:32:16Z",
+          "completed_at": "2026-11-18T19:32:16Z"
+        },
+        {
+          "name": "Post Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27,
+          "started_at": "2026-11-18T19:32:16Z",
+          "completed_at": "2026-11-18T19:32:16Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-11-18T19:32:16Z",
+          "completed_at": "2026-11-18T19:32:17Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-18T19:32:17Z",
+          "completed_at": "2026-11-18T19:32:17Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/turboj-dev/turboj/check-runs/135063378544",
+      "labels": [
+        "macos-15-intel"
+      ],
+      "runner_id": 1000000017,
+      "runner_name": "GitHub Actions 1000000017",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135063378594,
+      "run_id": 44378326946,
+      "workflow_name": "Verify Java and website",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/turboj-dev/turboj/actions/runs/44378326946",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVVMAqs8AAAAfcmeaog",
+      "head_sha": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "url": "https://api.github.com/repos/turboj-dev/turboj/actions/jobs/135063378594",
+      "html_url": "https://github.com/turboj-dev/turboj/actions/runs/44378326946/job/135063378594",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-18T19:14:07Z",
+      "started_at": "2026-11-18T19:14:10Z",
+      "completed_at": "2026-11-18T19:23:06Z",
+      "name": "java (ubuntu-24.04)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-18T19:14:11Z",
+          "completed_at": "2026-11-18T19:14:14Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-18T19:14:14Z",
+          "completed_at": "2026-11-18T19:14:23Z"
+        },
+        {
+          "name": "Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-18T19:14:23Z",
+          "completed_at": "2026-11-18T19:14:26Z"
+        },
+        {
+          "name": "Retain actual project toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-18T19:14:26Z",
+          "completed_at": "2026-11-18T19:14:26Z"
+        },
+        {
+          "name": "Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-18T19:14:26Z",
+          "completed_at": "2026-11-18T19:14:27Z"
+        },
+        {
+          "name": "Capture build inputs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-18T19:14:27Z",
+          "completed_at": "2026-11-18T19:14:27Z"
+        },
+        {
+          "name": "Verify build receipt guards",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-18T19:14:27Z",
+          "completed_at": "2026-11-18T19:14:27Z"
+        },
+        {
+          "name": "Build and test complete reactor (macOS)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-11-18T19:14:27Z",
+          "completed_at": "2026-11-18T19:14:27Z"
+        },
+        {
+          "name": "Build and test complete reactor (Linux virtual display)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-18T19:14:27Z",
+          "completed_at": "2026-11-18T19:22:11Z"
+        },
+        {
+          "name": "Verify standalone ecosystem build entry points",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-18T19:22:11Z",
+          "completed_at": "2026-11-18T19:22:31Z"
+        },
+        {
+          "name": "Real Swing command effects and JUnit output (Linux virtual display)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-18T19:22:31Z",
+          "completed_at": "2026-11-18T19:22:59Z"
+        },
+        {
+          "name": "Capture exact build identity",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-18T19:22:59Z",
+          "completed_at": "2026-11-18T19:22:59Z"
+        },
+        {
+          "name": "Ad-hoc signed local macOS app and DMG with bundled runtime",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-11-18T19:22:59Z",
+          "completed_at": "2026-11-18T19:22:59Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-18T19:22:59Z",
+          "completed_at": "2026-11-18T19:23:02Z"
+        },
+        {
+          "name": "Post Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26,
+          "started_at": "2026-11-18T19:23:02Z",
+          "completed_at": "2026-11-18T19:23:02Z"
+        },
+        {
+          "name": "Post Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27,
+          "started_at": "2026-11-18T19:23:02Z",
+          "completed_at": "2026-11-18T19:23:02Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-11-18T19:23:02Z",
+          "completed_at": "2026-11-18T19:23:02Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-18T19:23:02Z",
+          "completed_at": "2026-11-18T19:23:02Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/turboj-dev/turboj/check-runs/135063378594",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000000016,
+      "runner_name": "GitHub Actions 1000000016",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

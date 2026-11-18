@@ -66,3 +66,7 @@ it can restore that metadata (macOS's OS-managed provenance tag is excluded from
 The remaining REF-01 cases remain unverified,
 not silently promoted to passing. The record contains the actual focused results in
 `validation.json`; it is not a complete-reactor or packaged-application certification.
+
+## Final installed-app result
+
+[RecoverySmoke](../product-sequence-2026-11-18/native-final/RecoverySmoke.txt) passed on the installed JAR `36ae34e6…ea33a9` and bundled runtime, including keyboard restoration, continuous typing and the read-only attachment case. The remaining filesystem boundaries above are unchanged.

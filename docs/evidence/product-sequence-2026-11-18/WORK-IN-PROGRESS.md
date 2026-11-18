@@ -1,5 +1,9 @@
 # Product sequence — execution ledger (18 November 2026)
 
+**Historical checkpoint, superseded by the [final qualification record](README.md).**
+The pending statements below preserve the execution history; they are not the
+current delivery status. Consult the final record and root TODO.md for remaining work.
+
 Baseline dd75866. This is an execution ledger, not a claim that all nine groups passed.
 The authoritative backlog remains root TODO.md. Personal files listed in the P0 manifest are preserved.
 

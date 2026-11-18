@@ -1,0 +1,11 @@
+{
+  "app" : "\/tmp\/turboj-baseline-package-dd75866\/TurboJ.app",
+  "boundary" : "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+  "createdAt" : "2026-11-18T18:23:12Z",
+  "height" : 728,
+  "launchToWindowServerMs" : 765.13933299999997,
+  "pid" : 23493,
+  "profile" : "\/private\/tmp\/turboj-package-startup-isolated-final\/profiles\/baseline-3",
+  "source" : "\/tmp\/turboj-package-startup-isolated-final\/workspace\/Startup.java",
+  "width" : 1042
+}

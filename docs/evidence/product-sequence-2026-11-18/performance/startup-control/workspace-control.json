@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only check of the initial shared output/source tree after measurement; only Java source paths/content hashes, no preferences or process environment. Does not prove every earlier transient filesystem state.",
+  "sourceRoot": "/private/tmp/turboj-package-startup-final",
+  "javaSources": [
+    {
+      "relativePath": "Startup.java",
+      "sha256": "4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4"
+    }
+  ],
+  "onlyExpectedJavaFixture": true,
+  "correctedRunIsolation": "Final startup driver uses fresh output/workspace for source and sibling output/profiles, hashes fixture and driver; original six runs retained only as control."
+}

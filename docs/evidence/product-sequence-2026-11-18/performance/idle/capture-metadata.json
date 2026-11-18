@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "method": "Read stat.st_mtime_ns from the original explicitly nominated local capture files. Times are wall-clock UTC last-write metadata, not monotonic measurement starts/ends, counter timestamps or precise command-dispatch times. Raw full PerfCounter property dumps are not archived.",
+  "scope": "Retrospective capture-window clarification. CPU/RSS sample wall_seconds remain the original monotonic measurements; endpoint file times must not be substituted for those intervals.",
+  "artifacts": {
+    "candidate": {
+      "captures": {
+        "launch.json": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/launch.json",
+          "fileModifiedAtUTC": "2026-11-18T17:47:58.373345Z",
+          "fileModifiedEpochNanoseconds": 1795024078373344662
+        },
+        "idle.json": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/idle.json",
+          "fileModifiedAtUTC": "2026-11-18T17:58:25.551389Z",
+          "fileModifiedEpochNanoseconds": 1795024705551388436
+        },
+        "idle.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/idle.txt",
+          "fileModifiedAtUTC": "2026-11-18T17:58:25.547903Z",
+          "fileModifiedEpochNanoseconds": 1795024705547902704
+        },
+        "heap-start.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/heap-start.txt",
+          "fileModifiedAtUTC": "2026-11-18T17:50:14.498623Z",
+          "fileModifiedEpochNanoseconds": 1795024214498623096
+        },
+        "heap-end.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/heap-end.txt",
+          "fileModifiedAtUTC": "2026-11-18T17:59:37.947810Z",
+          "fileModifiedEpochNanoseconds": 1795024777947809914
+        },
+        "perf-counters.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/perf-counters.txt",
+          "fileModifiedAtUTC": "2026-11-18T17:55:51.562229Z",
+          "fileModifiedEpochNanoseconds": 1795024551562229488
+        },
+        "perf-counters-end.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/perf-counters-end.txt",
+          "fileModifiedAtUTC": "2026-11-18T17:59:39.917108Z",
+          "fileModifiedEpochNanoseconds": 1795024779917108037
+        },
+        "runtime.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/candidate/runtime.txt",
+          "fileModifiedAtUTC": "2026-11-18T17:50:15.910966Z",
+          "fileModifiedEpochNanoseconds": 1795024215910965757
+        }
+      },
+      "endpointsValid": true
+    },
+    "baseline": {
+      "captures": {
+        "launch.json": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/launch.json",
+          "fileModifiedAtUTC": "2026-11-18T18:11:32.559466Z",
+          "fileModifiedEpochNanoseconds": 1795025492559465648
+        },
+        "idle.json": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/idle.json",
+          "fileModifiedAtUTC": "2026-11-18T18:22:30.690663Z",
+          "fileModifiedEpochNanoseconds": 1795026150690663231
+        },
+        "idle.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/idle.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:22:30.689374Z",
+          "fileModifiedEpochNanoseconds": 1795026150689374234
+        },
+        "heap-start.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/heap-start.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:12:14.912513Z",
+          "fileModifiedEpochNanoseconds": 1795025534912513554
+        },
+        "heap-end.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/heap-end.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:22:36.298176Z",
+          "fileModifiedEpochNanoseconds": 1795026156298175939
+        },
+        "perf-counters-start.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/perf-counters-start.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:12:15.750223Z",
+          "fileModifiedEpochNanoseconds": 1795025535750223283
+        },
+        "perf-counters-end.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/perf-counters-end.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:22:45.115491Z",
+          "fileModifiedEpochNanoseconds": 1795026165115491407
+        },
+        "runtime.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-final/runtime.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:22:45.235231Z",
+          "fileModifiedEpochNanoseconds": 1795026165235230930
+        }
+      },
+      "endpointsValid": true
+    },
+    "earlierBaselineControl": {
+      "captures": {
+        "launch.json": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/launch.json",
+          "fileModifiedAtUTC": "2026-11-18T17:59:59.199234Z",
+          "fileModifiedEpochNanoseconds": 1795024799199234209
+        },
+        "idle.json": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/idle.json",
+          "fileModifiedAtUTC": "2026-11-18T18:10:52.815117Z",
+          "fileModifiedEpochNanoseconds": 1795025452815116590
+        },
+        "idle.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/idle.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:10:52.814317Z",
+          "fileModifiedEpochNanoseconds": 1795025452814316710
+        },
+        "heap-start.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/heap-start.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:00:48.745202Z",
+          "fileModifiedEpochNanoseconds": 1795024848745201668
+        },
+        "heap-end.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/heap-end.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:11:15.537797Z",
+          "fileModifiedEpochNanoseconds": 1795025475537797127
+        },
+        "perf-counters-start.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/perf-counters-start.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:00:50.404370Z",
+          "fileModifiedEpochNanoseconds": 1795024850404370057
+        },
+        "perf-counters-end.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/perf-counters-end.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:11:15.711844Z",
+          "fileModifiedEpochNanoseconds": 1795025475711844376
+        },
+        "runtime.txt": {
+          "originalPath": "/private/tmp/turboj-package-qualification/baseline-matched/runtime.txt",
+          "fileModifiedAtUTC": "2026-11-18T18:11:15.908986Z",
+          "fileModifiedEpochNanoseconds": 1795025475908986410
+        }
+      },
+      "endpointsValid": false
+    }
+  },
+  "interpretation": {
+    "candidate": "The first heap and GC captures occurred after CPU/RSS sampling began; candidate GC first capture was especially late. Neither candidate endpoint pair brackets the complete ten-minute CPU/RSS interval. No full-interval GC or matched-window heap-growth inference is valid.",
+    "baseline": "Heap and GC captures are independent endpoint observations. Their original wall-clock file times are retained separately from CPU/RSS monotonic sample intervals.",
+    "earlierBaselineControl": "CPU/RSS samples completed, but end jcmd files contain only a PID header (or no allowlisted counters); their metadata does not make them valid GC/heap measurements."
+  }
+}

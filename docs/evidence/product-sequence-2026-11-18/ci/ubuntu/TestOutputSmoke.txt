@@ -1,0 +1,15 @@
+
+(java:9994): dbind-WARNING **: 18:02:28.244: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+PASS Run All Tests command accepted
+PASS resident JUnit worker returned four actual outcomes
+PASS the Tests tab names the suite and the exact outcome
+PASS every test is listed with its outcome
+PASS the failure keeps its message and the project's frame, without JUnit frames
+PASS tests write nothing to the terminal
+PASS an explicit run shows the Tests tab
+PASS failed tests cannot leave a successful project-build status
+PASS failure and warning lines recolor with classic
+PASS failure and warning lines recolor with dark
+PASS failure and warning lines recolor with light
+PASS failure detail stays selectable for copying
+PASS test execution preserves saved source

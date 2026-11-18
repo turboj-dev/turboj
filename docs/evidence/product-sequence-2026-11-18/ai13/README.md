@@ -20,3 +20,7 @@ transient proposals; explicit requests retain streaming. Rejected final output a
 No telemetry was added. These scheduling observations do not establish subjective preference or vendor
 latency. Single-character programmatic insertions are indistinguishable from typing in this heuristic;
 full edit-origin tracking is not claimed. Existing user delay/provider settings were not overwritten.
+
+## Final integrated result
+
+The unchanged production controller passed the 976-test reactor and [six native typing assertions](../native-final/AIInteractionSmoke.txt) using the installed package JAR `36ae34e6…ea33a9` and its bundled Java. Final template precedence passed separately. The earlier source hashes identify the original focused control; the final native driver hashes are retained in `../native-final/test-sources.sha256`.

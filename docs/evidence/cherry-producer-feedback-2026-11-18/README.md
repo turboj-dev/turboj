@@ -18,3 +18,7 @@ External source/class roots are explicitly configured modules. Report artifacts 
 Real two-repository and progress/exact-run process evidence is maintained by the consumer qualification in [the native feedback evidence](../cherry-native/feedback-2026-11-18/README.md). Initial failed controls are retained there: a fixture manifest used project-relative rather than workspace-relative paths; subsequent real execution exposed the old root-only LCOV normalization, missing package environment and different XML/callback method names. The latter three implementation defects were fixed with regression tests.
 
 Limits: no universal test discovery inventory or dynamic per-test production coverage; no fabricated progress for final-report-only adapters; ambiguous Java display/parameterized/ordered cases use broader explicit execution. Docker smoke was not implicitly claimed from Java unit results.
+
+## Source delivery
+
+The 15 qualified producer files are committed locally as `9cbd9e1fe808c0a5b56050c42b823355d036cdf5`. [companion.patch](companion.patch) reproduces exactly those files on base `39af874d3d7c3d2589866aed9ee5d7664d47d0df`; an isolated application of the patch matched every qualified source hash ([record](companion-delivery.json)). The earlier 16 unpublished ancestor commits were preserved and were not pushed. The patch is published with the TurboJ source for review and reproduction on that identified base.

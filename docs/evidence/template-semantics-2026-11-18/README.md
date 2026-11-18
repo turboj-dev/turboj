@@ -64,3 +64,7 @@ module-level report. No separate GUI session is claimed here.
 - Formatting failure keeps user text. Name conflicts retain qualification. A new edit during preparation prevents
   late edits and Save; the developer can invoke Save again on the new source.
 - Physical keyboard/IME/VoiceOver and live paid-cloud checks remain outside this automated qualification.
+
+## Final integrated result
+
+The final installed JAR `36ae34e6…ea33a9` passed [LiveTemplateWorkflowSmoke](../product-sequence-2026-11-18/native-final/LiveTemplateWorkflowSmoke.txt), [precedence](../product-sequence-2026-11-18/native-final/LiveTemplatePrecedenceSmoke.txt), [dialog](../product-sequence-2026-11-18/native-final/LiveTemplateDialogSmoke.txt) and [inline semantic transformations](../product-sequence-2026-11-18/native-final/InlineSemanticTemplateSmoke.txt). The 976-test reactor also includes the JFrame tests excluded from the earlier headless control. This supersedes the pending integrated gate above without replacing its historical logs.

@@ -1,6 +1,14 @@
 # Native macOS source metadata — 18 November 2026
 
-Status: **VERIFIED in isolated native filesystem tests**, pending the final identified reactor/package rerun.
+Status: **VERIFIED in isolated native filesystem tests and the final reactor**.
+The [final 976-test reactor](../final-reactor/reactor-results.json) includes all 14
+`RecoveryAndSaveTest`, five `NativeMetadataTest` and 21 `WorkspaceTransactionsTest`
+cases, with zero failures, errors or skips. The resulting JAR
+`36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9` has a separately
+verified [DMG installation identity](../package/installation.json); the installed
+application also passed [RecoverySmoke](../native-final/RecoverySmoke.txt).
+The metadata tests above ran in the reactor, not as a separate repetition inside
+the installed app. There is no remaining reactor/package gate for this record.
 
 The initial control compiled current `SafeFiles` into a private temporary directory and saved an owned Java file with a real native ACL. `AclFileAttributeView` returned null. Save succeeded, but `ls -le` showed its ACL disappeared. The exact failing control is retained in `before-fix-native-acl.txt`.
 

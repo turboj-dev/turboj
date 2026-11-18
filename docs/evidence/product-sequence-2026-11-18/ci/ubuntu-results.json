@@ -1,0 +1,1464 @@
+{
+  "platform": "ubuntu",
+  "runId": 44363620856,
+  "suites": [
+    {
+      "name": "dev.turboj.ai.AICompletionControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ai.AICompletionControllerTest.xml",
+      "sha256": "12b44fe0240511d6d523f130fe97a1bf5e94eab965d5d9a6fc9ae786d967f210",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.AISettingsPolicyTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ai.AISettingsPolicyTest.xml",
+      "sha256": "7da103f5e6dbad5564c260a4c8f4bd7d1e578f5008581f74577fc261f1907e3f",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.CredentialStoreTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ai.CredentialStoreTest.xml",
+      "sha256": "620dc350489cef8c1e7630cf75d2dacabae073e84e7c68ab775b6fd1bb4489ab",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.app.CommandSettingsTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.app.CommandSettingsTest.xml",
+      "sha256": "848c0df788fef7825f2ef2fbf9fe53e27349b5f02a6fbbc2bdf30b286e43555a",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.app.FilesAndThemesTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.app.FilesAndThemesTest.xml",
+      "sha256": "1d445ff0268f1aa78512b778c88b1ecdd4f574909b8d857bebd73f90d562a6c8",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.app.KeyboardDefaultsTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.app.KeyboardDefaultsTest.xml",
+      "sha256": "49eeb0ceb518c889071e15cd52b30dc0757f1e6be6003ac19a41c59849162cb2",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.app.MenuLayoutTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.app.MenuLayoutTest.xml",
+      "sha256": "5860df3f58c4a6ee38f795f1c410dbe85078068e6f407c6954ddb764c7b3aa20",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.app.WorkspaceStatusTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.app.WorkspaceStatusTest.xml",
+      "sha256": "a9c9719b3b80e0caad569eedd10a5d3d5bfdf7681e1cccbf28c6b2afde4a7082",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.config.RecoveryAndSaveTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.config.RecoveryAndSaveTest.xml",
+      "sha256": "644a62ff43b150ff8bc0667bd95549c48b333b0bcbb21b6f6f8e4448c77b7744",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "skippedCases": [
+        {
+          "name": "concurrentNativeAclAndAttributeChangesRejectSaveWithoutChangingSource",
+          "reason": ""
+        },
+        {
+          "name": "macNativeDeniedWriteFailsClosedAndKeepsOriginalMetadata",
+          "reason": ""
+        },
+        {
+          "name": "macNativeAclAndExtendedAttributesSurviveARealAtomicSave",
+          "reason": ""
+        },
+        {
+          "name": "concurrentPermissionChangeRejectsSaveAndUnknownNativeAttributeNamesFailClosed",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "name": "dev.turboj.console.OutputCommandControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.console.OutputCommandControllerTest.xml",
+      "sha256": "714158aea7c788d6fa47213f5d6d97565a0919f443e176ef60c77454ac65bbb0",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.console.OutputCommandGestureTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.console.OutputCommandGestureTest.xml",
+      "sha256": "8de4dfd2926e25f223da096fdda6a9a399ac75ce50ecfdee55bcfcea99aef03f",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.console.OutputCommandRunnerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.console.OutputCommandRunnerTest.xml",
+      "sha256": "cf4d24f210e08efc759ff1d52aa19fe06096c3624b04191ed3b1457b56c82c01",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.console.OutputLogTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.console.OutputLogTest.xml",
+      "sha256": "7f165012bd32bb8ed341fcaae55c8b9bd252439a134ded4c0db1580b843d104b",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.formatting.FormattingControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.formatting.FormattingControllerTest.xml",
+      "sha256": "694cad0dad83f01be8d67d7842801a5cabd9e2044ff4382c4cc7f5589601f789",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.formatting.OtherEnginesTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.formatting.OtherEnginesTest.xml",
+      "sha256": "bbb27a91fc22e33b0de62a85835f97ffa7034438eb8bf2a78d4d2d8b3d07c416",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.formatting.StandardFormattersTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.formatting.StandardFormattersTest.xml",
+      "sha256": "c152447fd0ee2a2d32ab38c95c6cd6352e67c9c7a53b88a5269504faa74e0b9d",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.help.CheatSheetTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.help.CheatSheetTest.xml",
+      "sha256": "1ff394d78836cc5f1ac3c7ee9ef6e4561d49d2dd989ea79f1a816262aeed0084",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.CompletionCoordinatorTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.intelligence.CompletionCoordinatorTest.xml",
+      "sha256": "cf01ddc09c52f6348784a8776effc3a6e02506e46f158815224cb425d8bf386e",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.NavigationHistoryTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.intelligence.NavigationHistoryTest.xml",
+      "sha256": "0dfd419cb6fa0173bc222c1b75b18a1f03262e2b50362f8c6c8be185c830f050",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.ProjectContextTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.intelligence.ProjectContextTest.xml",
+      "sha256": "dd0d868054fc5d55079784e087edc7ab5a35404207662ebe40d565d201d96a98",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.SignatureMarkupTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.intelligence.SignatureMarkupTest.xml",
+      "sha256": "7043a5321c6c887c14c6962adc809a2b45ce2588ee8adbbcfb5e6c5c6e0931e4",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.SourceUsagePreviewTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.intelligence.SourceUsagePreviewTest.xml",
+      "sha256": "7af47237c3187ab231bcbde5a542d308f3c9d8cdacbe23e7dcef171a4f203978",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.FirstLaunchProjectsTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.FirstLaunchProjectsTest.xml",
+      "sha256": "92c6ac0a947caafdc697b053a84e8d237d70a61659b305a8133ea32f7aaf6201",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.MavenProjectControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.MavenProjectControllerTest.xml",
+      "sha256": "70b867dc403f04ea9c7100131ac80c665e6f64a48d45c8d636e0c43b5e241dfd",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.MavenRunTargetsTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.MavenRunTargetsTest.xml",
+      "sha256": "dc6edb36736611141de92728135456186ea7241eaa3d978896d2118bde3f0e6c",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.PlainProjectCompilerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.PlainProjectCompilerTest.xml",
+      "sha256": "33a2450ae19cc126383025f146769f6f7d1319e5abf67400168b9ad54c9f438e",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.ProjectFilesTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.ProjectFilesTest.xml",
+      "sha256": "b823af8707e726d330ca3535ada9825e3fcb362f9dde673aa0ce04a230709bc2",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.ProjectSearchTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.ProjectSearchTest.xml",
+      "sha256": "1d2df50ef84975c8fedcbe0bb33f0e487c76f2c8669867b16bd242d5ee48e271",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.SourceEncodingTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.project.SourceEncodingTest.xml",
+      "sha256": "6a01c5677b75f689b0ae68fbcf470136991f7fff453f9f999b37f00a3afae137",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactoring.NativeWorkspaceCommitterTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.refactoring.NativeWorkspaceCommitterTest.xml",
+      "sha256": "c43b585bf4f921eb27bb42e61a2aac0d3dd633b63c6c4c8661e44e8c5a00ece0",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.templates.JavaTemplateTypesTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.templates.JavaTemplateTypesTest.xml",
+      "sha256": "d2652333d65c9c480b248279d10b69ce6925744795b6f2d0bbd8d4442055253e",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.templates.LiveTemplateFinishTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.templates.LiveTemplateFinishTest.xml",
+      "sha256": "eb66cf6b71e1df167bdcd38a0555180660902314b9f1a9efbbddd9e223110d1f",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.templates.LiveTemplateSemanticTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.templates.LiveTemplateSemanticTest.xml",
+      "sha256": "c433b95b187a9be9a3c91714d16cf0e3a9c6a790eecf1ae13a007e719986c06d",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.templates.LiveTemplateSettingsTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.templates.LiveTemplateSettingsTest.xml",
+      "sha256": "d563acfb3038cea2474f95b63ca5d6079b65a2ebc4fc87c2071c33ad78e1fb16",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.templates.LiveTemplatesTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.templates.LiveTemplatesTest.xml",
+      "sha256": "0995655f866721cb34bccc84c48c107e319fb3e93843d04c96980e284840a918",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.CherryExactSelectionTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.CherryExactSelectionTest.xml",
+      "sha256": "28001d3d506d3f119ac50f7e382061c9e1f4abf9dde5e0c16ab70f2942cf380f",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.CherryExecutionReceiptTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.CherryExecutionReceiptTest.xml",
+      "sha256": "2691b1e0d7bfa2f2704c8bd15e4b0a92d81a27cd86c37f45ea9b1378b465f0be",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.CherrySaveWorkflowTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.CherrySaveWorkflowTest.xml",
+      "sha256": "5576196491d28ade9eefc7a8eb23e89e6c145f767bf50e88395359f53a9941f4",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.CherryTestProcessLifecycleTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.CherryTestProcessLifecycleTest.xml",
+      "sha256": "d6ea09e5f037cdb527ec3909a63b33dbd737fccd3b78e994599a3fc595833394",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.CoverageCollectionDetailsTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.CoverageCollectionDetailsTest.xml",
+      "sha256": "d817a2cb8a5fa19bf79e9c281f7b48558f84913bebe41a69cd72565690e1cdaf",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.LineIntelligenceControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.LineIntelligenceControllerTest.xml",
+      "sha256": "5d0fded57a382429bdc9b438c1e8ab2908fc5578f9e4811f3010ef365b518029",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.MavenAutoTestControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.MavenAutoTestControllerTest.xml",
+      "sha256": "10a54c229cb0714e3dd65a87357e8741f08b4a1200fa1b1bf058a39039cbc30a",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.MavenNativeAcceptanceTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.MavenNativeAcceptanceTest.xml",
+      "sha256": "c7684c7812650cd624b5521cfd6bba812764ca73adb4a35c345803858eb8ce44",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.MavenTestCompilationTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.MavenTestCompilationTest.xml",
+      "sha256": "4e48f79e1ed1ae77af46a43fa0128b7a0b23c125f459154e33c1ac167d7d5021",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.MavenToolchainQualificationTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.MavenToolchainQualificationTest.xml",
+      "sha256": "57e30c6a6ca9d4cc91cec754fb0d1ae9a53483983fcef31f3daa516b1526feae",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.MissingJUnitTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.MissingJUnitTest.xml",
+      "sha256": "86f33553ab5b0de89d54ade5855005ba1d48f312c9935ffb0526051d4c77d784",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.TestOutputTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.TestOutputTest.xml",
+      "sha256": "0499c143c939d3fda402a429427226b36c95c546bf876ec7e9cd9d732b694e05",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.TurboTestControllerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.testing.TurboTestControllerTest.xml",
+      "sha256": "1a12a46c09e31c94b1ed2e1499f9e6f8070fa42d245d2084c3924c49fa365d00",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.AsciiChromeTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.AsciiChromeTest.xml",
+      "sha256": "2ff0e35fcfe0da9e1f989e3d223cf67a172a2db564c3475d38e06f56f1d13e15",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.AsciiMenuBarTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.AsciiMenuBarTest.xml",
+      "sha256": "b4b9b14668129a3f9b165ed0b0267ea0586d3ea55bc09447179410b86744b1bb",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.ConsolePaneTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.ConsolePaneTest.xml",
+      "sha256": "bf3efcf0038e947a73c7ed02a658207328c156645f067d22eec74cfc7adb63bd",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorAICompletionTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorAICompletionTest.xml",
+      "sha256": "fee8d1aaac0171d6bd1d33b46788df03ec961b9648791720d880b3da33f48843",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorAccessibilityTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorAccessibilityTest.xml",
+      "sha256": "98289129801d3d0a8f422afa873c1c25d1ffe05fa763e8a8aee8efb39166f289",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorCoalesceTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorCoalesceTest.xml",
+      "sha256": "4e10c11a733100270eb79ad4be9ae88189bc3c39c5ee9d220d190f3ac975fcee",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorCommandTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorCommandTest.xml",
+      "sha256": "0db2a89ae605c71b6d82b7656583b988847947e0692a092f5bde3a64086fbc8c",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorComponentTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorComponentTest.xml",
+      "sha256": "0c50cfcabed78e9ec5d0c11af3bb1ff0f74c4fc43dfd5ac7a3fb357c5f09b1a0",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorFormattingTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorFormattingTest.xml",
+      "sha256": "c0c4d3e5dc6f79c37e0beb04ba9022df5c04b5798a69fea818068b7e1685b5d5",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorIntelligenceTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorIntelligenceTest.xml",
+      "sha256": "9939caf7087fa862344b35c2ec5b075088b1e8712e4adf3f6bac3a74ed838bd5",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.EditorTemplateTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.EditorTemplateTest.xml",
+      "sha256": "e484ad23f31efa24fe5d029d9c0756f5dabe92fe75a8e2b71879ab6eaa0872d6",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.InFramePopupFactoryTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.InFramePopupFactoryTest.xml",
+      "sha256": "514d65f9301853e16349d5ceaf6780466e4ca3ca5e222a48a2a2e77c0c641e6d",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.KeyboardEditingTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.KeyboardEditingTest.xml",
+      "sha256": "4b55c5b3cc98ed1e7bfd6998fb72fd2029f1845e3da295c8ff89adca2dae83ff",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.LineIntelligenceEditorTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.LineIntelligenceEditorTest.xml",
+      "sha256": "ad8aa0d6fd4a12142dd9e1a3b363dcf16da355d9b4beb7fd2a33639e872dfece",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.MenuStylerTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.MenuStylerTest.xml",
+      "sha256": "1fa4ff3181fd5771b44b6b8652bbefc5a19c296d389bbc5999a56149311e24c0",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.PressedShortcutDisplayTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.PressedShortcutDisplayTest.xml",
+      "sha256": "e40b956fd37224e5159be9eb4fc016b6e3a89816e98dd1592699c428432896d5",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.QuickFixPaletteTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.QuickFixPaletteTest.xml",
+      "sha256": "ca32114538511c1b4e6b6180a4cb0abbdbc3756e875ae43e793176521b6c8f7e",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.ReplKeyboardTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.ReplKeyboardTest.xml",
+      "sha256": "52668fba4a93809169d50d79b3474f27928c55d83b08c2000b34b2f3abad3030",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.StatusBarTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.StatusBarTest.xml",
+      "sha256": "2da88a1fbaca28bab8ba1fd662cd4ad3b6e52cf3a2a121b37a3134198ea2eff0",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.XmlEditingTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.XmlEditingTest.xml",
+      "sha256": "c00ede087b6963bdacdfe77efbd4002766244f3d5a0dd6085883779ad3c4f097",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.themes.LineIntelligenceThemeTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.themes.LineIntelligenceThemeTest.xml",
+      "sha256": "8d28ffa8e1eddd45eb12d9fb82ab848b224278dfc6be222777009dd9ef0c2667",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.themes.ThemeCatalogTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.themes.ThemeCatalogTest.xml",
+      "sha256": "c0d77c7e239aada881aa8c96f14bcd0ce3c125f705d5308a1623a3849f8617f9",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.themes.ThemeContractTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.themes.ThemeContractTest.xml",
+      "sha256": "e0fa210457e95a16e9657749c83dfd0f4b9a9d0ead6f495391e97f76ad5d0d4f",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ui.themes.ThemeWheelPlanTest",
+      "path": "app/target/surefire-reports/TEST-dev.turboj.ui.themes.ThemeWheelPlanTest.xml",
+      "sha256": "d886a1d2501034e75aaef8d36c7d795bc630023d4329595ae94092f51b1286d0",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.cli.TjTest",
+      "path": "cli/target/surefire-reports/TEST-dev.turboj.cli.TjTest.xml",
+      "sha256": "42a2014f3935d2f9303cd3b7107977104879a789e2aeff8b27b9deaaca2f282b",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.core.CommandRegistryTest",
+      "path": "commandj/commandj-core/target/surefire-reports/TEST-dev.turboj.commandj.core.CommandRegistryTest.xml",
+      "sha256": "8dd8a918e01b762b1ba27eef36e2ce2f0de223c4fb8e9e938765cc9ad2da9549",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.CompleteDefaultsTest",
+      "path": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.CompleteDefaultsTest.xml",
+      "sha256": "0890350b4d818fd5f4eedfc1ccc541ee1edb872e0cddff11384beaa8f7dfce5a",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.KeyboardAuditTest",
+      "path": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.KeyboardAuditTest.xml",
+      "sha256": "a552a054b56b4204da15d6c741bf6dcd97fe2d00ef11aca5a483ea743139bea7",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.KeymapTest",
+      "path": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.KeymapTest.xml",
+      "sha256": "48f6399e838b6b77c1bf664f0af67561c45c62f3ec83c970249687967be7204d",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.keymap.ProfileSwitchTest",
+      "path": "commandj/commandj-keymap/target/surefire-reports/TEST-dev.turboj.commandj.keymap.ProfileSwitchTest.xml",
+      "sha256": "ef5266a1a7d02ba791ea914440b4a34920d2ae80e6ce87412ffe67f256e292d9",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.palette.CommandSearchTest",
+      "path": "commandj/commandj-palette/target/surefire-reports/TEST-dev.turboj.commandj.palette.CommandSearchTest.xml",
+      "sha256": "2073ea1442ee840822d0bf74f97861dfc15c8912f327ac2b368102fcefbb4f63",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.AsciiComboKeyboardTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.AsciiComboKeyboardTest.xml",
+      "sha256": "0b9b565bd6b8e6e3273a20db276daf165a26492f59b0af738586eb327f59be67",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.AsciiSurfaceTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.AsciiSurfaceTest.xml",
+      "sha256": "adf18503db323adae75c6a2390cf1c6cd2d053c5539f96bef407512795255829",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.AsciiTextNavigationTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.AsciiTextNavigationTest.xml",
+      "sha256": "0c282cf29679c4793a22b00226a925c6910726a00a92ba16a94b3d2d70f5b42a",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.AsciiTreeKeyboardTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.AsciiTreeKeyboardTest.xml",
+      "sha256": "6a32569175ce77e574462b7e9d10c6a0140a342ab7f1fcc0c15ce505b47c5cf0",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.OverlayHostTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.OverlayHostTest.xml",
+      "sha256": "dbe34215635335ef293427c16bfafca88c138779fdc317ce72a8b0ec597395cc",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.PaletteDispatchTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.PaletteDispatchTest.xml",
+      "sha256": "9327b838b4a4c2f0601a11ea38f3f04686664f3486713211dc850d875a43a9fd",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.commandj.swing.SwingBridgeTest",
+      "path": "commandj/commandj-swing/target/surefire-reports/TEST-dev.turboj.commandj.swing.SwingBridgeTest.xml",
+      "sha256": "f650af02981932a65e28428ff2d2a6f308206d427a03f3d9b7fe8b0874109e71",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.compiler.ContinuousCompilerTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.compiler.ContinuousCompilerTest.xml",
+      "sha256": "0646e29fadf4c152c09306491b206f4b003a639bc3121d0d298f2de8e64618ae",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.compiler.JavacCompilerBackendTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.compiler.JavacCompilerBackendTest.xml",
+      "sha256": "6ca203a4c53ef1f864d656d16b208c147d52ea301ef433e294ce126d3a5d6292",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.compiler.WorkspaceCompilationTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.compiler.WorkspaceCompilationTest.xml",
+      "sha256": "8446409dabc70912b8702554d04ac5e431c6b190efb1d4313e881c1aac73c2e0",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.editor.JavaLexerTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.editor.JavaLexerTest.xml",
+      "sha256": "7381a3afb346ae21d0f4441f6c03d5d34c72fc948956580f50beea124ebd75f6",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.editor.PieceTableCoalesceTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.editor.PieceTableCoalesceTest.xml",
+      "sha256": "03c49a62a669e7a3616486e1782275a83b54564c4d31b800f6b9641fda1666d0",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.editor.PieceTableTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.editor.PieceTableTest.xml",
+      "sha256": "cdf046180fcb7eb94460ac62c34d8052ca432b26f5c211d93a895ad64d254550",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.JavaIntelligenceTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.intelligence.JavaIntelligenceTest.xml",
+      "sha256": "9e3a279711646892e84269bfd4786f044084bbf13ea6f2c88d7cd498a504a712",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.intelligence.SharedSemanticWorkspaceTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.intelligence.SharedSemanticWorkspaceTest.xml",
+      "sha256": "0ddcb75a5a4dbe0a0bf00a62c56cfd674e678ad81e3d4de8e99f9363c2eec66c",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.language.JdtSyntaxAnalyzerTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.language.JdtSyntaxAnalyzerTest.xml",
+      "sha256": "3bb743a5b0aa7f6d7f08b27b5cf58db7cd2d83bbb5c1a0c79e80e69a83fddfe4",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.project.MavenCompilationWorkspaceTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.project.MavenCompilationWorkspaceTest.xml",
+      "sha256": "9289be2cc4d3a2201c75731e8cfad11869b28f422db0d85753c5b1fd3c48a6ae",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.repl.JavaReplTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.repl.JavaReplTest.xml",
+      "sha256": "5cc0a8efdaf4a35d8acbe4017faf0be276a3cb2a0a25a3debd939a08eca286ec",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.intelligence.CherryEventsTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.testing.intelligence.CherryEventsTest.xml",
+      "sha256": "67afccdd0a6a706ea0e146f8fd6a828f4961786af1f6c08b2bdefe811cda690a",
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.intelligence.CherryRunHistoryTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.testing.intelligence.CherryRunHistoryTest.xml",
+      "sha256": "aa6e7be5b98572c065d157d6ff53c71af233eee2e08fe5d9d1d20496fb27def7",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.intelligence.GitBufferDiffTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.testing.intelligence.GitBufferDiffTest.xml",
+      "sha256": "5ff8ba3f04c536400297643dc6fe4b32f1006a75809ae4753ffd4c07ab62b036",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.testing.intelligence.TestSourceResolverTest",
+      "path": "core/target/surefire-reports/TEST-dev.turboj.testing.intelligence.TestSourceResolverTest.xml",
+      "sha256": "917d9c9a32f4b97c9fc69ce8e2175af764018c47dff8d20c0d59582c0eb26c6e",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.javafmt.cli.CliTest",
+      "path": "javafmt/javafmt-cli/target/surefire-reports/TEST-dev.javafmt.cli.CliTest.xml",
+      "sha256": "9d6f757cb0aaada550ee97f4f73c7063ee84f3042cb60cabe9447291ea5df063",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.javafmt.core.JavaFormatterTest",
+      "path": "javafmt/javafmt-core/target/surefire-reports/TEST-dev.javafmt.core.JavaFormatterTest.xml",
+      "sha256": "fadd7e92687f62215781f9db78caf4b711658445e27df809f2ecf874df86a41c",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.javafmt.parser.JdtJavaParserTest",
+      "path": "javafmt/javafmt-parser/target/surefire-reports/TEST-dev.javafmt.parser.JdtJavaParserTest.xml",
+      "sha256": "57b4cec36202ce6207344f912849a48563fbae5e9784e50e86105ca27862dad1",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.cli.MainTest",
+      "path": "mavenj/mavenj-cli/target/surefire-reports/TEST-dev.turboj.mavenj.cli.MainTest.xml",
+      "sha256": "000c1dde5ad593a806bd4e1e23b37412601f54c3e8088ab8a5ec754099e9b219",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.core.DefaultMavenJTest",
+      "path": "mavenj/mavenj-core/target/surefire-reports/TEST-dev.turboj.mavenj.core.DefaultMavenJTest.xml",
+      "sha256": "5ff1fdfffffa54a1bb922c8973da1038f7fce875e6f5c8968f4f275053c4d70f",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.core.RepositoryPolicyTest",
+      "path": "mavenj/mavenj-core/target/surefire-reports/TEST-dev.turboj.mavenj.core.RepositoryPolicyTest.xml",
+      "sha256": "ec335894964457fab0a4ea88f9e51517cbab545ee5ab509f076aedc2e19bfab6",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.mcp.McpServerTest",
+      "path": "mavenj/mavenj-mcp/target/surefire-reports/TEST-dev.turboj.mavenj.mcp.McpServerTest.xml",
+      "sha256": "06da8578bebadd946510a786b2d3e3b852b0b81f7e86968d7020a5d082c9ec59",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.workspace.MavenLifecycleTest",
+      "path": "mavenj/mavenj-workspace/target/surefire-reports/TEST-dev.turboj.mavenj.workspace.MavenLifecycleTest.xml",
+      "sha256": "4d2609610053090572a5909166115d2723832d8f8397eab1c9715c680f4ca378",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.workspace.MetadataWatcherTest",
+      "path": "mavenj/mavenj-workspace/target/surefire-reports/TEST-dev.turboj.mavenj.workspace.MetadataWatcherTest.xml",
+      "sha256": "b3c2087ffdf9e296ba6004ed444612e566bb84d1256b9b7da1ff6ee0dcebf855",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.workspace.PomEditsTest",
+      "path": "mavenj/mavenj-workspace/target/surefire-reports/TEST-dev.turboj.mavenj.workspace.PomEditsTest.xml",
+      "sha256": "7ef6629bd2a1cd36492b390f8ec47c8abc1d78b20601004481f75262d1fa8e22",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.workspace.PomFilesTest",
+      "path": "mavenj/mavenj-workspace/target/surefire-reports/TEST-dev.turboj.mavenj.workspace.PomFilesTest.xml",
+      "sha256": "30ad660f195e29a8f277b5442302649b77ea99009c64952bb4fa4af4715e4f12",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.mavenj.workspace.ToolchainsTest",
+      "path": "mavenj/mavenj-workspace/target/surefire-reports/TEST-dev.turboj.mavenj.workspace.ToolchainsTest.xml",
+      "sha256": "74d1fe7f315a67e11821d391c072889051113d568afe10990b2a102cb5b43419",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.api.EditComposerTest",
+      "path": "refactorj/refactorj-api/target/surefire-reports/TEST-dev.turboj.refactorj.api.EditComposerTest.xml",
+      "sha256": "f8f2f3b1ecf2dbcaaebc2fc291d918d95210bfbcc66002412de5d284652f5823",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.api.SourceInventoryTest",
+      "path": "refactorj/refactorj-api/target/surefire-reports/TEST-dev.turboj.refactorj.api.SourceInventoryTest.xml",
+      "sha256": "cd0c5759048db9a81bb1e09b7bb7d23670067b86733fff4c1f35cfeed518d8b9",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.cli.RefactorIntegrationIT",
+      "path": "refactorj/refactorj-cli/target/failsafe-reports/TEST-dev.turboj.refactorj.cli.RefactorIntegrationIT.xml",
+      "sha256": "983522b1e8f048d6173176cf5f1bcfd845d056d39dfabc7e8a71df51acb0bdd3",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.cli.ProtocolTest",
+      "path": "refactorj/refactorj-cli/target/surefire-reports/TEST-dev.turboj.refactorj.cli.ProtocolTest.xml",
+      "sha256": "a9cde5da26989ebbba79d330e2d59b24b05d99087eb9f3132d6b29cce220d3c4",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest",
+      "path": "refactorj/refactorj-formatj/target/surefire-reports/TEST-dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest.xml",
+      "sha256": "c0d2ddbfeb51c0cd62935c928ac2ddd34779ffe5d3c3ee8162df7a0a7527d519",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.lsp.LspIntegrationIT",
+      "path": "refactorj/refactorj-lsp/target/failsafe-reports/TEST-dev.turboj.refactorj.lsp.LspIntegrationIT.xml",
+      "sha256": "db4ad208b1634bc99cc9acd3ee3fdc99e85e8a70ccbbaecd26a7789319ecd069",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.mcp.McpIntegrationIT",
+      "path": "refactorj/refactorj-mcp/target/failsafe-reports/TEST-dev.turboj.refactorj.mcp.McpIntegrationIT.xml",
+      "sha256": "8c2f94b8f3786475ea24f6c30e7ae42656dca309149adc533463a415e5309724",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.mcp.McpProtocolTest",
+      "path": "refactorj/refactorj-mcp/target/surefire-reports/TEST-dev.turboj.refactorj.mcp.McpProtocolTest.xml",
+      "sha256": "ba3f8a9ea3d34eea2893766728198b8de4a2444bd13f463c53d4c398b88091db",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.ClassicIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.ClassicIT.xml",
+      "sha256": "c0dc0cdf620279524139796277adcfef1ac5ca2afb9e2c080abc5681fe0aeeca",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.ExtendedClassicIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.ExtendedClassicIT.xml",
+      "sha256": "7c76a6339255fde4dab64a87455bc275a3ca3076ba1b813d1ba3f17b24f48f0c",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.KeyboardJavaIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.KeyboardJavaIT.xml",
+      "sha256": "25a4b93b44dd8c0cf010d54ed0890fb815422de6c3aa3ff30ebd6368c1a4efa9",
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.ModernizationIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.ModernizationIT.xml",
+      "sha256": "ecd53abf6eef0cc13b7f55e9f003d692f254d29eca97d9ba1234e95177c83c0b",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.QuickActionsIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.QuickActionsIT.xml",
+      "sha256": "cee0e25c01fc842ffa016b950e768bc14c1a09919ec1f08c0ae4e7f31971c18d",
+      "tests": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.RuntimeLifecycleIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.RuntimeLifecycleIT.xml",
+      "sha256": "fe49872b77aefceb102db37365496a61d8637b51bab5b96bf6e170a205f02db5",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.SemanticPropertiesIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.SemanticPropertiesIT.xml",
+      "sha256": "c624b5e3e7b37b90fee2f037ff80bb7d11f3646340a84f339a21fb3a6af5ba47",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.SymbolIdentityIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.SymbolIdentityIT.xml",
+      "sha256": "0cc7b654875b0aed029799961b747d5a17f8c194df01f1a6cdb95b9c00dafcdd",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.runtime.UsageNavigationIT",
+      "path": "refactorj/refactorj-runtime/target/failsafe-reports/TEST-dev.turboj.refactorj.runtime.UsageNavigationIT.xml",
+      "sha256": "8a373f5a7015909ed6f7fcdcfa66eec113abd33b911c1838291dd23d01cca16d",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.refactorj.transactions.NativeMetadataTest",
+      "path": "refactorj/refactorj-transactions/target/surefire-reports/TEST-dev.turboj.refactorj.transactions.NativeMetadataTest.xml",
+      "sha256": "e5f969f903f7b2038782459e84fe400aadb34fe407f8ff30d01bf4cb074d0234",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 5,
+      "skippedCases": [
+        {
+          "name": "metadataAddedImmediatelyBeforeDeletionIsRetained",
+          "reason": ""
+        },
+        {
+          "name": "concurrentNativeMetadataAtReplacementRefusesEditAndRetainsExternalAttributes",
+          "reason": ""
+        },
+        {
+          "name": "editUndoRedoAndRestartRetainNativeAclAndXattrs",
+          "reason": ""
+        },
+        {
+          "name": "interruptedMultiFileEditRollsBackWithoutStrippingNativeMetadata",
+          "reason": ""
+        },
+        {
+          "name": "deleteAndRenameWithNonJournaledMetadataRefuseBeforeMutation",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "name": "dev.turboj.refactorj.transactions.WorkspaceTransactionsTest",
+      "path": "refactorj/refactorj-transactions/target/surefire-reports/TEST-dev.turboj.refactorj.transactions.WorkspaceTransactionsTest.xml",
+      "sha256": "be14d7ca52acddb0a42966c13dc7410fad8c2580c80d6ca8d66a20ba779c9717",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.AIProtocolTest",
+      "path": "turbo-ai/turbo-ai-core/target/surefire-reports/TEST-dev.turboj.ai.AIProtocolTest.xml",
+      "sha256": "815ae855a26a03ea2061ba3f7f42fc3422aad045f634a4dace861d0dc8c9af23",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.AIProviderTest",
+      "path": "turbo-ai/turbo-ai-core/target/surefire-reports/TEST-dev.turboj.ai.AIProviderTest.xml",
+      "sha256": "613914d28a7c5bfd8652220118bd1202473552c3e9a628228b1a99a0f712de70",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.CompletionValidationTest",
+      "path": "turbo-ai/turbo-ai-core/target/surefire-reports/TEST-dev.turboj.ai.CompletionValidationTest.xml",
+      "sha256": "07d9aa0176f11131bedb45f7f28c89ad624e0dbabd9933b0838d56f4722412ef",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.FallbackChainTest",
+      "path": "turbo-ai/turbo-ai-core/target/surefire-reports/TEST-dev.turboj.ai.FallbackChainTest.xml",
+      "sha256": "7bbb42f3c1caa9ec96a0b5a9b4b8a31d74c37186ea6a7c6fa931e79fbb8260ae",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.local.LocalModelManagerTest",
+      "path": "turbo-ai/turbo-ai-core/target/surefire-reports/TEST-dev.turboj.ai.local.LocalModelManagerTest.xml",
+      "sha256": "bd16086dbbf97293c26a50decff26e599db56444f8e57326adee2b37d0aad4da",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.java.CompletionContextTest",
+      "path": "turbo-ai/turbo-ai-java/target/surefire-reports/TEST-dev.turboj.ai.java.CompletionContextTest.xml",
+      "sha256": "bb7fd48c54887d1af47375baca26bbf19172c6aa328cd3f651d36b41e0120254",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.ai.java.JavaSuggestionFilterTest",
+      "path": "turbo-ai/turbo-ai-java/target/surefire-reports/TEST-dev.turboj.ai.java.JavaSuggestionFilterTest.xml",
+      "sha256": "7b816bebde528816fcaa3da0728dc2fb00ecf37a16405b92cb9ef12977435672",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.turbotest.TestEngineTest",
+      "path": "turbotest/target/surefire-reports/TEST-dev.turboj.turbotest.TestEngineTest.xml",
+      "sha256": "dd7225eb2ffdd88f525779c2612fb511dfe5cac9247a3dcb4fd808f4681bab9f",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "name": "dev.turboj.execution.WorkerClientTest",
+      "path": "worker/target/surefire-reports/TEST-dev.turboj.execution.WorkerClientTest.xml",
+      "sha256": "2c176ccbc83e2ce60e9f8c8fb770dceabd92184a73b2d84430cd4f8f68b127d4",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skippedCases": [
+        {
+          "name": "selectedProjectJdkRunsResidentWorkerWithoutUsingEditorRuntime",
+          "reason": ""
+        }
+      ]
+    }
+  ],
+  "tests": 976,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 10,
+  "executedPassed": 966
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "path": "docs/cheatsheets/cheatsheet-eclipse-macos.pdf",
+    "sha256": "a653a8459108604fb09ac9ba3964c5485dfbe79bf5682fbe8303bc790c87e2cf",
+    "status": "unchanged"
+  },
+  {
+    "path": "docs/cheatsheets/cheatsheet-intellij-macos.pdf",
+    "sha256": "b440423db3afb2bc2aea2fd7efea9bbb75df7e297f0c75990d771d07e4098849",
+    "status": "unchanged"
+  },
+  {
+    "path": "docs/cheatsheets/cheatsheet-turboj-macos.pdf",
+    "sha256": "ea9524bdcaa226f262d08033c49df4e729e92a71e3ff93dbb40b5dc183467c27",
+    "status": "unchanged"
+  },
+  {
+    "path": "docs/cheatsheets/cheatsheet-vscode-macos.pdf",
+    "sha256": "e0b1e3ff5e8a34c56caefaf4afcd5d935d930d080a45639a202705b14e9c464a",
+    "status": "unchanged"
+  }
+]

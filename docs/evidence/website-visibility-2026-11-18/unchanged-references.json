@@ -1,0 +1,23 @@
+[
+  {
+    "url": "/keyboard-command-inventory.md",
+    "source": "docs/keyboard-command-inventory.md",
+    "sha256": "ea8de0367554f720f4f7d9bf87077a4da9484852863e09484bafd6d574e4fc6b",
+    "distBytes": 62773,
+    "status": "unchanged native/generated download"
+  },
+  {
+    "url": "/keyboard-shortcut-reference.md",
+    "source": "docs/keyboard-shortcut-reference.md",
+    "sha256": "b7bd1038f5af105cc7a897576cb63a279d3d8b45e36966c545f06ae09cab3d07",
+    "distBytes": 38661,
+    "status": "unchanged native/generated download"
+  },
+  {
+    "url": "/keyboard-conflicts.md",
+    "source": "docs/keyboard-conflicts.md",
+    "sha256": "129387654a4e58a1b66685e6737364eaf955ffbc7ad0efbbaafcfaf2f7e50a3f",
+    "distBytes": 1056,
+    "status": "unchanged native/generated download"
+  }
+]

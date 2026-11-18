@@ -1,0 +1,1245 @@
+{
+  "timestamp": "2026-11-18T18:59:20.064Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "id": "classic",
+      "status": "PASS",
+      "ratios": {
+        "editor": 13.28730514590469,
+        "console": 7.336799060467667,
+        "menu": 9.039555596643915,
+        "keyword": 12.456643210094041,
+        "string": 10.847304601994345,
+        "comment": 5.719587314094201
+      }
+    },
+    {
+      "id": "dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.888055126278072,
+        "console": 11.239923540162271,
+        "menu": 9.938944593451735,
+        "keyword": 7.914869848679964,
+        "string": 9.93271782606867,
+        "comment": 7.141179360011382
+      }
+    },
+    {
+      "id": "light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 14.599389388528882,
+        "console": 13.4665706156038,
+        "menu": 11.969151608762873,
+        "keyword": 8.53799211254802,
+        "string": 6.030932201010566,
+        "comment": 5.620711664407072
+      }
+    },
+    {
+      "id": "vscode-abyss",
+      "status": "PASS",
+      "ratios": {
+        "editor": 5.590793437623702,
+        "console": 5.643874720982604,
+        "menu": 4.9760132094293095,
+        "keyword": 4.502050915565779,
+        "string": 6.475434125827387,
+        "comment": 4.510518347730308
+      }
+    },
+    {
+      "id": "ayu-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.807851218495513,
+        "console": 10.121214491852788,
+        "menu": 4.502420221850116,
+        "keyword": 8.126546879626993,
+        "string": 11.185472058421736,
+        "comment": 4.512905867237095
+      }
+    },
+    {
+      "id": "ayu-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.097740422648227,
+        "console": 5.934812759512011,
+        "menu": 4.532486516617182,
+        "keyword": 4.528967963960857,
+        "string": 4.526187833542645,
+        "comment": 4.541440876112181
+      }
+    },
+    {
+      "id": "ayu-mirage",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.851658896337389,
+        "console": 9.454497337874743,
+        "menu": 4.50972470663237,
+        "keyword": 7.506788159464751,
+        "string": 12.760619471345057,
+        "comment": 4.539816498296225
+      }
+    },
+    {
+      "id": "catppuccin-frappe",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.058361993601588,
+        "console": 8.058361993601588,
+        "menu": 9.041960747620669,
+        "keyword": 5.5970355805855005,
+        "string": 7.097126848161248,
+        "comment": 4.534149732171675
+      }
+    },
+    {
+      "id": "catppuccin-latte",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.0619995573104415,
+        "console": 7.0619995573104415,
+        "menu": 6.56603960831074,
+        "keyword": 4.788136419651749,
+        "string": 4.53812820479972,
+        "comment": 4.508480531148239
+      }
+    },
+    {
+      "id": "catppuccin-macchiato",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.91891243005997,
+        "console": 9.91891243005997,
+        "menu": 10.84527019876337,
+        "keyword": 6.842957776211358,
+        "string": 9.1732256693203,
+        "comment": 5.290982884291469
+      }
+    },
+    {
+      "id": "catppuccin-mocha",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.341133436863977,
+        "console": 11.341133436863977,
+        "menu": 12.139034496271739,
+        "keyword": 8.07338006064095,
+        "string": 11.030978948690597,
+        "comment": 5.81082367650918
+      }
+    },
+    {
+      "id": "dracula",
+      "status": "PASS",
+      "ratios": {
+        "editor": 13.359134716531573,
+        "console": 13.359134716531573,
+        "menu": 11.061884016167056,
+        "keyword": 5.969029289187878,
+        "string": 12.743863766171874,
+        "comment": 4.501419871257905
+      }
+    },
+    {
+      "id": "github-dark-default",
+      "status": "PASS",
+      "ratios": {
+        "editor": 16.016082890827004,
+        "console": 17.379673997531437,
+        "menu": 5.073359682133979,
+        "keyword": 7.505116067725495,
+        "string": 12.312268624514386,
+        "comment": 6.152739606307679
+      }
+    },
+    {
+      "id": "github-dark-dimmed",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.601990586445604,
+        "console": 8.18854565927124,
+        "menu": 4.508113210217558,
+        "keyword": 5.265988809741159,
+        "string": 9.131703860890028,
+        "comment": 4.508113210217558
+      }
+    },
+    {
+      "id": "github-dark-high-contrast",
+      "status": "PASS",
+      "ratios": {
+        "editor": 17.57358905641591,
+        "console": 18.439292213136934,
+        "menu": 17.57358905641591,
+        "keyword": 9.22948757364445,
+        "string": 13.474780291111589,
+        "comment": 11.120147906065945
+      }
+    },
+    {
+      "id": "github-light-default",
+      "status": "PASS",
+      "ratios": {
+        "editor": 15.797619425332647,
+        "console": 14.839194581350755,
+        "menu": 5.246855630597905,
+        "keyword": 5.355309574522374,
+        "string": 12.807446413901234,
+        "comment": 4.546708849145402
+      }
+    },
+    {
+      "id": "gruvbox-dark-medium",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.74706817440964,
+        "console": 10.74706817440964,
+        "menu": 10.74706817440964,
+        "keyword": 4.500852218005012,
+        "string": 7.142887169733334,
+        "comment": 4.511793927642198
+      }
+    },
+    {
+      "id": "gruvbox-light-medium",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.219745507342939,
+        "console": 10.219745507342939,
+        "menu": 10.219745507342939,
+        "keyword": 7.597197796266652,
+        "string": 4.536003792971458,
+        "comment": 4.500539602211235
+      }
+    },
+    {
+      "id": "vscode-kimbie-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.380017011306059,
+        "console": 7.038081764446408,
+        "menu": 8.98240289343877,
+        "keyword": 4.518728442171618,
+        "string": 5.589617427263453,
+        "comment": 4.531235456882792
+      }
+    },
+    {
+      "id": "vscode-monokai",
+      "status": "PASS",
+      "ratios": {
+        "editor": 13.943421027852569,
+        "console": 15.537013691280054,
+        "menu": 10.313006260487484,
+        "keyword": 4.510871606209978,
+        "string": 10.439225127724919,
+        "comment": 4.510231886756873
+      }
+    },
+    {
+      "id": "vscode-monokai-dimmed",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.88458074170184,
+        "console": 8.857214338578027,
+        "menu": 9.302044463881764,
+        "keyword": 4.50188135423087,
+        "string": 6.379619260119207,
+        "comment": 5.9718658403849565
+      }
+    },
+    {
+      "id": "nord",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.245243340706116,
+        "console": 9.245243340706116,
+        "menu": 9.245243340706116,
+        "keyword": 4.639843515409693,
+        "string": 6.126674054079218,
+        "comment": 4.519703873175388
+      }
+    },
+    {
+      "id": "one-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.5676782521903485,
+        "console": 7.22197939059332,
+        "menu": 6.212337766188236,
+        "keyword": 4.754293214763805,
+        "string": 6.9444288403086984,
+        "comment": 4.53555244607291
+      }
+    },
+    {
+      "id": "one-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.863393658010082,
+        "console": 9.431340742014093,
+        "menu": 8.349600773535428,
+        "keyword": 5.85768899000911,
+        "string": 4.539454109400793,
+        "comment": 4.518716086452181
+      }
+    },
+    {
+      "id": "vscode-quietlight",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.588970061927006,
+        "console": 11.588970061927006,
+        "menu": 6.679404072936624,
+        "keyword": 4.658000827210949,
+        "string": 4.51517716214402,
+        "comment": 4.542288769612194
+      }
+    },
+    {
+      "id": "rainglow-absent",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.086935178822111,
+        "console": 8.326608243216157,
+        "menu": 8.058555169168216,
+        "keyword": 4.522712406062353,
+        "string": 9.171496799961181,
+        "comment": 4.524972699711466
+      }
+    },
+    {
+      "id": "rainglow-allure",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.37437537912996,
+        "console": 8.84561885135038,
+        "menu": 8.5118237579133,
+        "keyword": 4.506063980908999,
+        "string": 6.925258335153132,
+        "comment": 4.525396835452638
+      }
+    },
+    {
+      "id": "rainglow-allure-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.588781711680452,
+        "console": 6.588781711680452,
+        "menu": 4.878137195440475,
+        "keyword": 4.512153349909527,
+        "string": 4.540879208880386,
+        "comment": 4.518720128513328
+      }
+    },
+    {
+      "id": "rainglow-arstotzka",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.220082477799618,
+        "console": 13.210344037113233,
+        "menu": 12.884681019763555,
+        "keyword": 5.417299358686782,
+        "string": 9.228652804532219,
+        "comment": 4.516464121775813
+      }
+    },
+    {
+      "id": "rainglow-arstotzka-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.63465434445799,
+        "console": 12.63465434445799,
+        "menu": 6.025957396933101,
+        "keyword": 4.502770585069989,
+        "string": 4.501618598243875,
+        "comment": 4.542224959605253
+      }
+    },
+    {
+      "id": "rainglow-azure",
+      "status": "PASS",
+      "ratios": {
+        "editor": 16.900428072432618,
+        "console": 18.911466369919406,
+        "menu": 18.596937350457043,
+        "keyword": 4.5255881894713985,
+        "string": 6.637216944223841,
+        "comment": 4.533616716675233
+      }
+    },
+    {
+      "id": "rainglow-banner",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.5958076071855,
+        "console": 10.612711928467574,
+        "menu": 10.417001104443488,
+        "keyword": 12.329608802395429,
+        "string": 12.806533209737243,
+        "comment": 4.502532546949011
+      }
+    },
+    {
+      "id": "rainglow-banner-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.283055571474629,
+        "console": 12.283055571474629,
+        "menu": 5.868479244086826,
+        "keyword": 4.544475669369802,
+        "string": 4.512015786418719,
+        "comment": 4.545502942934809
+      }
+    },
+    {
+      "id": "rainglow-brave",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.365357428801753,
+        "console": 9.972170560171373,
+        "menu": 9.587020568193214,
+        "keyword": 5.106361137936196,
+        "string": 4.546134181904741,
+        "comment": 4.504987109717903
+      }
+    },
+    {
+      "id": "rainglow-brave-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 13.071416824018904,
+        "console": 13.071416824018904,
+        "menu": 6.1252296052335575,
+        "keyword": 4.507968574777138,
+        "string": 4.505979779362798,
+        "comment": 4.5245223353323105
+      }
+    },
+    {
+      "id": "rainglow-carbonight",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.407009353721511,
+        "console": 7.562259640100248,
+        "menu": 7.323250259819351,
+        "keyword": 11.97614904044214,
+        "string": 13.895093042282625,
+        "comment": 4.526845363983089
+      }
+    },
+    {
+      "id": "rainglow-chocolate",
+      "status": "PASS",
+      "ratios": {
+        "editor": 16.86031642293044,
+        "console": 19.203113797799077,
+        "menu": 18.85006644021913,
+        "keyword": 6.1736025809585415,
+        "string": 8.14015267891401,
+        "comment": 4.51277519027374
+      }
+    },
+    {
+      "id": "rainglow-chocolate-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 19.026534186729933,
+        "console": 19.026534186729933,
+        "menu": 6.8224723083757235,
+        "keyword": 4.533652342481835,
+        "string": 4.517985815116056,
+        "comment": 4.500779558340388
+      }
+    },
+    {
+      "id": "rainglow-codecourse",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.353578084124564,
+        "console": 10.865993144651808,
+        "menu": 10.562665333113596,
+        "keyword": 5.8870368033560325,
+        "string": 9.548865852151803,
+        "comment": 4.5261974292652765
+      }
+    },
+    {
+      "id": "rainglow-coffee",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.331641733552742,
+        "console": 9.53606243285754,
+        "menu": 9.270480888411226,
+        "keyword": 6.697086581015056,
+        "string": 4.507198927943374,
+        "comment": 4.527171978393085
+      }
+    },
+    {
+      "id": "rainglow-coffee-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 14.14842232079061,
+        "console": 14.14842232079061,
+        "menu": 5.9804058524100405,
+        "keyword": 4.511528509299606,
+        "string": 4.515904790197165,
+        "comment": 4.5464841414939805
+      }
+    },
+    {
+      "id": "rainglow-comrade",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.38649919593605,
+        "console": 10.098240944295245,
+        "menu": 9.821910444996295,
+        "keyword": 5.431974862453579,
+        "string": 4.503857718134787,
+        "comment": 4.51511078708213
+      }
+    },
+    {
+      "id": "rainglow-crisp",
+      "status": "PASS",
+      "ratios": {
+        "editor": 16.950894481059866,
+        "console": 18.950068751458627,
+        "menu": 18.652082743477163,
+        "keyword": 5.817870621057515,
+        "string": 7.884771333598191,
+        "comment": 4.505263897356765
+      }
+    },
+    {
+      "id": "rainglow-darkside",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.11184133931825,
+        "console": 9.317898884026352,
+        "menu": 9.078081297685525,
+        "keyword": 6.402618950083533,
+        "string": 10.667344212865839,
+        "comment": 4.539349144375311
+      }
+    },
+    {
+      "id": "rainglow-downpour",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.207425071819063,
+        "console": 10.869501526763687,
+        "menu": 10.578730807833985,
+        "keyword": 5.620374020758471,
+        "string": 4.572156309995561,
+        "comment": 4.500533209325129
+      }
+    },
+    {
+      "id": "rainglow-earthsong",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.781604622644503,
+        "console": 8.781604622644503,
+        "menu": 9.461438202997309,
+        "keyword": 6.784904951216731,
+        "string": 7.447558272009598,
+        "comment": 4.500838016727711
+      }
+    },
+    {
+      "id": "rainglow-earthsong-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.287187294697937,
+        "console": 9.287187294697937,
+        "menu": 5.429962149036408,
+        "keyword": 4.51723639506761,
+        "string": 4.503478836110388,
+        "comment": 4.501672875625001
+      }
+    },
+    {
+      "id": "rainglow-freshcut",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.418873363678658,
+        "console": 14.782345018025177,
+        "menu": 14.235468768520526,
+        "keyword": 9.040552532557708,
+        "string": 10.524012762273822,
+        "comment": 4.536187452284693
+      }
+    },
+    {
+      "id": "rainglow-freshcut-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 13.238115154150984,
+        "console": 13.238115154150984,
+        "menu": 6.074898925044042,
+        "keyword": 4.53404325711949,
+        "string": 4.652085517753063,
+        "comment": 4.542224959605253
+      }
+    },
+    {
+      "id": "rainglow-frontier",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.067273299377833,
+        "console": 14.437457164887903,
+        "menu": 13.900982923078784,
+        "keyword": 5.080486420874575,
+        "string": 7.447558272009598,
+        "comment": 4.500838016727711
+      }
+    },
+    {
+      "id": "rainglow-gloom",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.538891027465679,
+        "console": 12.641336469088564,
+        "menu": 12.171901265657015,
+        "keyword": 4.5211910339368835,
+        "string": 7.834585419676812,
+        "comment": 4.538888798723246
+      }
+    },
+    {
+      "id": "rainglow-goldfish",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.990751377895297,
+        "console": 14.318182899649301,
+        "menu": 13.769562528611589,
+        "keyword": 8.379520420199185,
+        "string": 4.51831569574131,
+        "comment": 4.522175833502073
+      }
+    },
+    {
+      "id": "rainglow-goldfish-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.78175103948019,
+        "console": 12.78175103948019,
+        "menu": 6.008496389734941,
+        "keyword": 4.510646451854463,
+        "string": 4.521941541052189,
+        "comment": 4.508429261200713
+      }
+    },
+    {
+      "id": "rainglow-grunge",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.008830102849904,
+        "console": 14.480299446930028,
+        "menu": 13.969939113317906,
+        "keyword": 4.690670351520352,
+        "string": 10.33544591539513,
+        "comment": 4.507787729796043
+      }
+    },
+    {
+      "id": "rainglow-halflife",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.907031221196354,
+        "console": 11.37110166243857,
+        "menu": 11.056696482610674,
+        "keyword": 4.5099967012855045,
+        "string": 10.96244189882332,
+        "comment": 4.548108225829837
+      }
+    },
+    {
+      "id": "rainglow-hawaii",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.017479667747933,
+        "console": 11.950861734480725,
+        "menu": 11.542042641043631,
+        "keyword": 5.1679341650726265,
+        "string": 7.621065436458347,
+        "comment": 4.5347860408651295
+      }
+    },
+    {
+      "id": "rainglow-horizon",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.183823443481687,
+        "console": 10.852835782342554,
+        "menu": 10.50626632215968,
+        "keyword": 4.509816294241076,
+        "string": 4.509701648622989,
+        "comment": 4.523435341557499
+      }
+    },
+    {
+      "id": "rainglow-hyrule",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.979052259806942,
+        "console": 10.592773943664497,
+        "menu": 10.231935863009426,
+        "keyword": 7.043241484658402,
+        "string": 4.563972953975664,
+        "comment": 4.50384698222111
+      }
+    },
+    {
+      "id": "rainglow-iceberg",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.549679530706453,
+        "console": 9.187178620450927,
+        "menu": 8.831865487262187,
+        "keyword": 8.219506787393,
+        "string": 11.484244698215976,
+        "comment": 4.52564114306331
+      }
+    },
+    {
+      "id": "rainglow-iceberg-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.549679530706453,
+        "console": 7.549679530706453,
+        "menu": 5.896804333019793,
+        "keyword": 4.504844402220831,
+        "string": 4.542251074686877,
+        "comment": 4.545401957385864
+      }
+    },
+    {
+      "id": "rainglow-joker",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.37437537912996,
+        "console": 8.84561885135038,
+        "menu": 8.5118237579133,
+        "keyword": 4.536698064654914,
+        "string": 7.474526404775658,
+        "comment": 4.525396835452638
+      }
+    },
+    {
+      "id": "rainglow-joker-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.038601257428459,
+        "console": 8.038601257428459,
+        "menu": 5.235361895637164,
+        "keyword": 4.534820435161179,
+        "string": 4.543329457491835,
+        "comment": 4.510809719138135
+      }
+    },
+    {
+      "id": "rainglow-laravel",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.328166285146878,
+        "console": 12.190441864899647,
+        "menu": 11.805156236774698,
+        "keyword": 7.249588463005581,
+        "string": 9.078755443635536,
+        "comment": 4.511283077653
+      }
+    },
+    {
+      "id": "rainglow-laravel-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.739769120526205,
+        "console": 9.739769120526205,
+        "menu": 5.5259225839956665,
+        "keyword": 4.5128371985487075,
+        "string": 4.513954058334764,
+        "comment": 4.542224959605253
+      }
+    },
+    {
+      "id": "rainglow-lavender",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.436982959047118,
+        "console": 11.933064616151363,
+        "menu": 11.652510803929005,
+        "keyword": 4.503421395935952,
+        "string": 9.055863624571648,
+        "comment": 4.5402205373051165
+      }
+    },
+    {
+      "id": "rainglow-lavender-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 15.41232701993823,
+        "console": 15.41232701993823,
+        "menu": 5.8704006298367,
+        "keyword": 4.502577395337501,
+        "string": 4.508495656464178,
+        "comment": 4.540377150755715
+      }
+    },
+    {
+      "id": "rainglow-lichen",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.755484541702232,
+        "console": 7.764102624442193,
+        "menu": 7.550076726292789,
+        "keyword": 4.511231176173818,
+        "string": 9.80377366151047,
+        "comment": 4.504596684093518
+      }
+    },
+    {
+      "id": "rainglow-lichen-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.937984432766187,
+        "console": 7.937984432766187,
+        "menu": 5.523145945862868,
+        "keyword": 4.867645800950943,
+        "string": 4.5212783479086776,
+        "comment": 5.803194870764834
+      }
+    },
+    {
+      "id": "rainglow-mellow-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.455177810447525,
+        "console": 7.455177810447525,
+        "menu": 5.02958116120149,
+        "keyword": 4.504304303673913,
+        "string": 4.503478836110388,
+        "comment": 4.542224959605253
+      }
+    },
+    {
+      "id": "rainglow-mintchoc",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.025245524468822,
+        "console": 9.225561567083695,
+        "menu": 9.02441264004242,
+        "keyword": 4.521715867171642,
+        "string": 8.930487084873052,
+        "comment": 4.5049226699054925
+      }
+    },
+    {
+      "id": "rainglow-monzo",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.421717852606896,
+        "console": 10.68251493228622,
+        "menu": 10.446831335883205,
+        "keyword": 4.522875194489891,
+        "string": 4.51902229521549,
+        "comment": 4.539203926666303
+      }
+    },
+    {
+      "id": "rainglow-peacock",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.040463008158579,
+        "console": 9.135819472483709,
+        "menu": 9.135819472483709,
+        "keyword": 4.843857636739562,
+        "string": 8.603809559148132,
+        "comment": 4.535238125087593
+      }
+    },
+    {
+      "id": "rainglow-peacock-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.63465434445799,
+        "console": 12.63465434445799,
+        "menu": 6.025957396933101,
+        "keyword": 4.53616382453595,
+        "string": 4.5421264509329315,
+        "comment": 4.542224959605253
+      }
+    },
+    {
+      "id": "rainglow-rainbow",
+      "status": "PASS",
+      "ratios": {
+        "editor": 7.127429514474777,
+        "console": 8.629564900261938,
+        "menu": 8.265494430227086,
+        "keyword": 4.527835443833207,
+        "string": 4.533631404345438,
+        "comment": 4.50719229232283
+      }
+    },
+    {
+      "id": "rainglow-rebellion",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.509127570590131,
+        "console": 11.099322585693399,
+        "menu": 10.810403726156965,
+        "keyword": 5.163612490824451,
+        "string": 9.089157927277821,
+        "comment": 4.527525610361657
+      }
+    },
+    {
+      "id": "rainglow-slate",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.994719282569374,
+        "console": 10.666818501054406,
+        "menu": 10.34238721959163,
+        "keyword": 4.5211161917109886,
+        "string": 4.986062561041767,
+        "comment": 4.546646575462463
+      }
+    },
+    {
+      "id": "rainglow-slate-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 17.4974815799724,
+        "console": 17.4974815799724,
+        "menu": 5.66980293277198,
+        "keyword": 5.625031150261907,
+        "string": 4.500036177944001,
+        "comment": 4.528408067978906
+      }
+    },
+    {
+      "id": "rainglow-solarflare",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.289390846323966,
+        "console": 14.105528645554887,
+        "menu": 13.715517949843445,
+        "keyword": 4.892390760097995,
+        "string": 12.167971549780104,
+        "comment": 4.548108225829837
+      }
+    },
+    {
+      "id": "rainglow-stasis-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.646157928250515,
+        "console": 6.646157928250515,
+        "menu": 4.977396092269405,
+        "keyword": 4.533224064929536,
+        "string": 4.520305696509596,
+        "comment": 4.507245748278447
+      }
+    },
+    {
+      "id": "rainglow-stealth",
+      "status": "PASS",
+      "ratios": {
+        "editor": 4.533800405749869,
+        "console": 4.523042142655863,
+        "menu": 4.508851041840422,
+        "keyword": 4.537017955116521,
+        "string": 4.529377502448621,
+        "comment": 4.510805189128036
+      }
+    },
+    {
+      "id": "rainglow-tron",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.75347659685912,
+        "console": 10.760254511092176,
+        "menu": 10.602870044200838,
+        "keyword": 4.987980772265123,
+        "string": 11.766571393473338,
+        "comment": 4.509570623143285
+      }
+    },
+    {
+      "id": "rainglow-tron-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 12.364349014864402,
+        "console": 12.364349014864402,
+        "menu": 6.157923777554642,
+        "keyword": 4.506055914931993,
+        "string": 4.502268662286808,
+        "comment": 7.8608749571223955
+      }
+    },
+    {
+      "id": "rainglow-turnip-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.739769120526205,
+        "console": 9.739769120526205,
+        "menu": 5.5259225839956665,
+        "keyword": 4.537629184913387,
+        "string": 4.512234096525667,
+        "comment": 4.542224959605253
+      }
+    },
+    {
+      "id": "vscode-red",
+      "status": "PASS",
+      "ratios": {
+        "editor": 16.843437820242606,
+        "console": 17.333785487334104,
+        "menu": 11.707704423782634,
+        "keyword": 4.511850018980276,
+        "string": 6.6359326275362,
+        "comment": 10.816953168605519
+      }
+    },
+    {
+      "id": "rose-pine",
+      "status": "PASS",
+      "ratios": {
+        "editor": 13.388874563413932,
+        "console": 12.504764925214188,
+        "menu": 12.504764925214188,
+        "keyword": 4.502186917522135,
+        "string": 10.772891909253605,
+        "comment": 4.505055265257783
+      }
+    },
+    {
+      "id": "rose-pine-dawn",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.657280748896968,
+        "console": 7.000912811102115,
+        "menu": 7.000912811102115,
+        "keyword": 5.591811035368044,
+        "string": 4.514953999890322,
+        "comment": 4.538212653999251
+      }
+    },
+    {
+      "id": "rose-pine-moon",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.86365608062847,
+        "console": 10.903828359349136,
+        "menu": 10.903828359349136,
+        "keyword": 4.516319264919901,
+        "string": 9.545677943268556,
+        "comment": 4.512564825883317
+      }
+    },
+    {
+      "id": "vscode-solarized-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 4.747877839876171,
+        "console": 5.302845261361449,
+        "menu": 4.679185462047979,
+        "keyword": 4.685239140584896,
+        "string": 4.753863657156936,
+        "comment": 4.522167147542094
+      }
+    },
+    {
+      "id": "vscode-solarized-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 4.541644809014045,
+        "console": 4.541644809014045,
+        "menu": 4.501318598297542,
+        "keyword": 4.540927774329205,
+        "string": 4.511306087945155,
+        "comment": 4.526919997897055
+      }
+    },
+    {
+      "id": "tokyo-night",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.095547455350856,
+        "console": 4.520690869735651,
+        "menu": 4.520690869735651,
+        "keyword": 7.388622050927342,
+        "string": 9.351848742873356,
+        "comment": 4.50639497881316
+      }
+    },
+    {
+      "id": "tokyo-night-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 8.88265120890042,
+        "console": 7.710851328103539,
+        "menu": 7.719541720652814,
+        "keyword": 6.675117224889262,
+        "string": 6.054351655768409,
+        "comment": 4.508491761891136
+      }
+    },
+    {
+      "id": "tokyo-night-storm",
+      "status": "PASS",
+      "ratios": {
+        "editor": 6.899479680581846,
+        "console": 4.553083771509965,
+        "menu": 4.553083771509965,
+        "keyword": 6.296998194257738,
+        "string": 7.970170113039405,
+        "comment": 4.5154042804297205
+      }
+    },
+    {
+      "id": "vscode-tomorrow-night-blue",
+      "status": "PASS",
+      "ratios": {
+        "editor": 15.315423933501545,
+        "console": 16.93364502811152,
+        "menu": 18.95020124507037,
+        "keyword": 9.542649072141396,
+        "string": 12.300542785535985,
+        "comment": 4.522203865315487
+      }
+    },
+    {
+      "id": "visual-studio-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.247073869530501,
+        "console": 9.552284692628849,
+        "menu": 9.536027513838427,
+        "keyword": 5.653968330608518,
+        "string": 6.3078378304760765,
+        "comment": 5.00174616006845
+      }
+    },
+    {
+      "id": "visual-studio-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 21,
+        "console": 17.937464630197162,
+        "menu": 17.937464630197162,
+        "keyword": 8.592471358428805,
+        "string": 7.849291236713629,
+        "comment": 5.137402780824574
+      }
+    },
+    {
+      "id": "vscode-2026-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 9.947704027383658,
+        "console": 10.852637530217478,
+        "menu": 8.770673013849937,
+        "keyword": 6.683310239685447,
+        "string": 12.101733424450659,
+        "comment": 6.047530054481068
+      }
+    },
+    {
+      "id": "vscode-dark-modern",
+      "status": "PASS",
+      "ratios": {
+        "editor": 10.263829808673044,
+        "console": 11.056696482610674,
+        "menu": 10.263829808673044,
+        "keyword": 5.922299643210686,
+        "string": 6.236636779854255,
+        "comment": 4.94528789479411
+      }
+    },
+    {
+      "id": "vscode-dark-plus",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.247073869530501,
+        "console": 9.552284692628849,
+        "menu": 9.536027513838427,
+        "keyword": 5.989912039375225,
+        "string": 6.3078378304760765,
+        "comment": 5.00174616006845
+      }
+    },
+    {
+      "id": "vscode-high-contrast-dark",
+      "status": "PASS",
+      "ratios": {
+        "editor": 21,
+        "console": 18.733663902900595,
+        "menu": 18.733663902900595,
+        "keyword": 7.545256474054825,
+        "string": 7.945735081721142,
+        "comment": 7.511399710771547
+      }
+    },
+    {
+      "id": "vscode-high-contrast-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 14.5481984654954,
+        "console": 12.765934961605579,
+        "menu": 12.765934961605579,
+        "keyword": 6.609660271591348,
+        "string": 8.98006020622079,
+        "comment": 7.9375454493049435
+      }
+    },
+    {
+      "id": "vscode-2026-light",
+      "status": "PASS",
+      "ratios": {
+        "editor": 16.29325535858735,
+        "console": 10.752336398334858,
+        "menu": 15.639516680532836,
+        "keyword": 5.460663358003811,
+        "string": 12.807446413901234,
+        "comment": 4.546708849145402
+      }
+    },
+    {
+      "id": "vscode-light-modern",
+      "status": "PASS",
+      "ratios": {
+        "editor": 11.201788790415135,
+        "console": 10.547665438364753,
+        "menu": 15.697652076936773,
+        "keyword": 5.460663358003811,
+        "string": 7.849291236713629,
+        "comment": 5.137402780824574
+      }
+    },
+    {
+      "id": "vscode-light-plus",
+      "status": "PASS",
+      "ratios": {
+        "editor": 21,
+        "console": 17.937464630197162,
+        "menu": 17.937464630197162,
+        "keyword": 5.460663358003811,
+        "string": 7.849291236713629,
+        "comment": 5.137402780824574
+      }
+    }
+  ],
+  "failures": [],
+  "reopen": "PASS: an older close event cannot disable Enter/Apply in a newly reopened dialog"
+}

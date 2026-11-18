@@ -18,13 +18,16 @@ not substitute an untested Java binary.
 | REL/GOV | Source/JAR and sealed-app receipts, reproducible local DMG, pinned CI workflow | [Installed package](package/installation.json), [packaging regression](package-receipt-correction/README.md) |
 | MVN/FMT | Actual Java 17 compiler/run/test toolchain, modules and explicit codegen/lifecycle; bundled-runtime formatter | [Toolchain](../maven-toolchain-2026-11-18/README.md), native FormatterSmoke |
 | PERF/CH-16 | Alternating matched-artifact editor, Git and semantic probes; separate large-report import comparison | [Measurements and limits](performance/README.md) |
-| WEB | Native-aligned panes, 103 themes, guarded generated references and four-page PDFs | [Website](../website-alignment-2026-11-18/README.md) |
+| WEB | Native-aligned panes, 103 themes, guarded generated references and four-page PDFs; latest visibility observation controls playback | [Final browser verification](../website-visibility-2026-11-18/README.md), [references](../website-alignment-2026-11-18/README.md) |
 
 ## Final Java and native verification
 
 `./mvnw --batch-mode --no-transfer-progress -Dturboj.test.java17=/private/tmp/turboj-jdk17/amazon-corretto-17.jdk/Contents/Home clean install`
-passed **978 test entries / 142 suites, zero failures, errors or skips**.
-[Raw reactor](final-reactor/clean-install.txt), [per-suite counts/hashes](final-reactor/tests.json).
+passed **976 test entries / 141 suites, zero failures, errors or skips**.
+[Raw reactor](final-reactor/clean-install.txt), [reactor-only counts/hashes](final-reactor/reactor-results.json). The original
+[unfiltered XML inventory](final-reactor/tests.json) included a preexisting two-test
+example report outside the root reactor; its 978/142 total is retained for audit,
+not reported as current reactor execution.
 
 The installed DMG's bundled Java 25 runtime and JAR executed these real-window
 checks: AIInteractionSmoke, QuickFixPopupSmoke, LiveTemplateWorkflowSmoke,
@@ -57,8 +60,18 @@ No installed user application was replaced. This is a **local ad-hoc signed**
 package, not a Developer ID/notarized release; bundle label `1.0.10` is the existing
 development label, not source identity.
 
-Finder startup/idle measurements, CommandJ JMH and hosted CI are being completed
-separately. They must be recorded before those gates are closed in TODO.md.
+[CommandJ JMH](performance/README.md#commandj-jmh) is complete: all six
+artifact/round invocations and 36 benchmark JVM forks passed. Identical benchmark
+artifacts mean the observed differences are variation, not an optimization claim.
+Six isolated LaunchServices starts and both ten-minute visible-idle controls are
+complete. Their [measurement boundaries](performance/README.md#installed-application-startup-idle-cpu-heap-and-rss)
+distinguish window-server observation, CPU/RSS sampling and independent heap/GC
+captures. Final hosted CI is **SUCCESS** on Linux, Intel macOS and the website:
+[run 44378326946](https://github.com/turboj-dev/turboj/actions/runs/44378326946),
+[exact counts, skips and artifact identities](ci/final-summary.json).
+Linux executed 966 passes with ten explicit skips; Intel executed 975 passes
+with one explicit skip. Both have 976 entries in 141 suites, with zero failures
+or errors. Intel packaging and bounded evidence upload also completed.
 Physical keyboard/IME/VoiceOver and paid-cloud inference remain separate postponed
 qualifications. Coverage remains aggregate unless explicit attribution exists;
 missing instrumentation never becomes uncovered code. Destructive refactorings

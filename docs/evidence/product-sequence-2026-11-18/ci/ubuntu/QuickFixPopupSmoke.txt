@@ -1,0 +1,13 @@
+
+(java:9802): dbind-WARNING **: 18:02:11.946: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+PASS rapid pending invocation and visible fix/assist toggles preserve caret
+PASS turboj-macos: Cmd+1 creates contextual proposals; theme switch and selection contrast >=4.5:1; Escape restores focus
+PASS Eclipse-style Cmd+1 after the statement jumps to the closest problem on its line
+PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: app/target/quick-fix-popup-turboj-macos.png
+PASS turboj-macos: arrows/Return apply real Create Calculator; generated file receives editor focus
+Driver restores owned application's foreground; component focus is not assigned
+PASS rapid pending invocation and visible fix/assist toggles preserve caret
+PASS eclipse-macos: Cmd+1 creates contextual proposals; theme switch and selection contrast >=4.5:1; Escape restores focus
+PASS Eclipse-style Cmd+1 after the statement jumps to the closest problem on its line
+PASS Monokai empty state readable; caret on a problem-free line has no diagnostic proposal. Screenshot: app/target/quick-fix-popup-eclipse-macos.png
+PASS eclipse-macos: arrows/Return apply real Create Calculator; generated file receives editor focus

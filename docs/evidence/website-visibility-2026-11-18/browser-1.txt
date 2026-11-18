@@ -1,0 +1,51 @@
+
+> turboj-website@1.0.0 test:browser
+> node tests/browser.mjs
+
+PASS 320×844: hero exposes only Play/Pause and one accessible explanatory prompt
+PASS 320×844: responsive layout and loaded images
+PASS 320×844: all anchor destinations exist
+PASS 320×844: mobile navigation opens with keyboard, closes with Escape
+PASS 320×844: mobile navigation follows and closes
+PASS 320×844: navigation and CTA anchors activate
+PASS 320×844: all FAQ entries work using only keyboard
+PASS 320×844: no external requests, failed requests, or console errors
+PASS 390×844: hero exposes only Play/Pause and one accessible explanatory prompt
+PASS 390×844: responsive layout and loaded images
+PASS 390×844: all anchor destinations exist
+PASS 390×844: mobile navigation opens with keyboard, closes with Escape
+PASS 390×844: mobile navigation follows and closes
+PASS 390×844: navigation and CTA anchors activate
+PASS 390×844: all FAQ entries work using only keyboard
+PASS 390×844: WCAG 2.2 AA automated audit
+PASS 390×844: no external requests, failed requests, or console errors
+PASS 768×1024: hero exposes only Play/Pause and one accessible explanatory prompt
+PASS 768×1024: responsive layout and loaded images
+PASS 768×1024: all anchor destinations exist
+PASS 768×1024: mobile navigation opens with keyboard, closes with Escape
+PASS 768×1024: mobile navigation follows and closes
+PASS 768×1024: navigation and CTA anchors activate
+PASS 768×1024: all FAQ entries work using only keyboard
+PASS 768×1024: no external requests, failed requests, or console errors
+PASS 1280×800: hero exposes only Play/Pause and one accessible explanatory prompt
+PASS 1280×800: responsive layout and loaded images
+PASS 1280×800: all anchor destinations exist
+PASS 1280×800: navigation and CTA anchors activate
+PASS 1280×800: all FAQ entries work using only keyboard
+PASS 1280×800: no external requests, failed requests, or console errors
+PASS 1440×900: hero exposes only Play/Pause and one accessible explanatory prompt
+PASS 1440×900: responsive layout and loaded images
+PASS 1440×900: all anchor destinations exist
+PASS 1440×900: navigation and CTA anchors activate
+PASS 1440×900: all FAQ entries work using only keyboard
+PASS 1440×900: WCAG 2.2 AA automated audit
+PASS 1440×900: no external requests, failed requests, or console errors
+PASS 1920×1080: hero exposes only Play/Pause and one accessible explanatory prompt
+PASS 1920×1080: responsive layout and loaded images
+PASS 1920×1080: all anchor destinations exist
+PASS 1920×1080: navigation and CTA anchors activate
+PASS 1920×1080: all FAQ entries work using only keyboard
+PASS 1920×1080: no external requests, failed requests, or console errors
+PASS keyboard skip link is first and moves focus into main content
+PASS the removed hero screenshot link stays absent while the original asset remains byte-identical
+46 checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/visibility-followup/browser/page/

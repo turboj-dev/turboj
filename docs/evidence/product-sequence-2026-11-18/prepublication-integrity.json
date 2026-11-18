@@ -1,0 +1,108 @@
+{
+  "checks": {
+    "preexistingUserFiles": {
+      "pass": true,
+      "detail": {
+        "count": 13,
+        "mismatches": []
+      }
+    },
+    "performanceHashes": {
+      "pass": true,
+      "detail": {
+        "count": 98,
+        "mismatches": [],
+        "unlisted": []
+      }
+    },
+    "websiteVisibilityHashes": {
+      "pass": true,
+      "detail": {
+        "count": 53,
+        "mismatches": [],
+        "unlisted": [],
+        "totalFilesIncludingManifest": 54,
+        "clarification": "SHA256SUMS hashes all 53 payload files; the 54th file is the manifest itself and is intentionally not self-hashed."
+      }
+    },
+    "reactorCorrection": {
+      "pass": true,
+      "detail": {
+        "totals": {
+          "tests": 976,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "suites": 141,
+        "excluded": 1,
+        "mismatches": []
+      }
+    },
+    "reactorMembership": {
+      "pass": true,
+      "detail": {
+        "modules": 39,
+        "outside": []
+      }
+    },
+    "startupDriverAndFixture": {
+      "pass": true,
+      "detail": {
+        "driverSha256": "f2dda0e710c3d109a93e91bbc3f7cd0b133e7d0e1f124e2047254882cbe893cf",
+        "fixtureSha256": "4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4"
+      }
+    },
+    "sixStartupRecords": {
+      "pass": true,
+      "detail": {
+        "count": 6,
+        "mismatches": []
+      }
+    },
+    "matrixReceiptHashes": {
+      "pass": true,
+      "detail": {
+        "files": 123,
+        "links": 99,
+        "buildReceipt": "ad8efbff782b116d9400288fe29cfc0026e3104f8a6eadf2ab4b1061d866567e",
+        "packageReceipt": "1ffd746ca8700461027fb304dc2fb2e199431c699f241b9519489b2287697e40"
+      }
+    },
+    "sourceCommitInputs": {
+      "pass": true,
+      "detail": {
+        "commit": "c7d08485a30a02ddc321c360ff02a3ab38872ccb",
+        "inputs": 743,
+        "mismatches": []
+      }
+    },
+    "matrixFileReferences": {
+      "pass": true,
+      "detail": {
+        "count": 23,
+        "missing": []
+      }
+    },
+    "releaseAndEvidenceMarkdownLinks": {
+      "pass": true,
+      "detail": {
+        "localLinks": 64,
+        "missing": []
+      }
+    },
+    "generatedReferenceHashes": {
+      "pass": true,
+      "detail": {
+        "count": 7,
+        "mismatches": []
+      }
+    },
+    "noFullJvmPropertyDumps": {
+      "pass": true,
+      "detail": []
+    }
+  },
+  "issues": [],
+  "status": "PASS"
+}

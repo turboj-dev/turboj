@@ -1,0 +1,1584 @@
+﻿2026-11-18T17:41:22.4579312Z Current runner version: '2.338.2'
+2026-11-18T17:41:22.4596675Z ##[group]Runner Image Provisioner
+2026-11-18T17:41:22.4597337Z Hosted Compute Agent
+2026-11-18T17:41:22.4597831Z Version: 20261103.629
+2026-11-18T17:41:22.4598300Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-18T17:41:22.4599127Z Build Date: 2026-11-03T17:26:59Z
+2026-11-18T17:41:22.4599670Z Worker ID: {fd2f87f2-d62b-40f6-81ac-2c0e84330a60}
+2026-11-18T17:41:22.4600194Z Region: us-west-2
+2026-11-18T17:41:22.4600601Z Cloud: AWS
+2026-11-18T17:41:22.4601034Z ##[endgroup]
+2026-11-18T17:41:22.4602039Z ##[group]Operating System
+2026-11-18T17:41:22.4602496Z Ubuntu
+2026-11-18T17:41:22.4602873Z 24.04.5
+2026-11-18T17:41:22.4603279Z LTS
+2026-11-18T17:41:22.4603673Z ##[endgroup]
+2026-11-18T17:41:22.4604097Z ##[group]Runner Image
+2026-11-18T17:41:22.4604540Z Image: ubuntu-24.04
+2026-11-18T17:41:22.4604948Z Version: 20261111.127.1
+2026-11-18T17:41:22.4605918Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.127/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-18T17:41:22.4607073Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.127
+2026-11-18T17:41:22.4607791Z ##[endgroup]
+2026-11-18T17:41:22.4608769Z ##[group]GITHUB_TOKEN Permissions
+2026-11-18T17:41:22.4610371Z Contents: read
+2026-11-18T17:41:22.4610812Z Metadata: read
+2026-11-18T17:41:22.4611245Z ##[endgroup]
+2026-11-18T17:41:22.4612924Z Secret source: Actions
+2026-11-18T17:41:22.4613587Z Cache mode: write
+2026-11-18T17:41:22.4614130Z Prepare workflow directory
+2026-11-18T17:41:22.4838359Z Prepare all required actions
+2026-11-18T17:41:22.4874184Z Getting action download info
+2026-11-18T17:41:22.9126697Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-18T17:41:24.4947926Z Download action repository 'actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
+2026-11-18T17:41:24.9230847Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-18T17:41:25.2407856Z Complete job name: java (ubuntu-24.04)
+2026-11-18T17:41:25.2999101Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-18T17:41:25.2999711Z with:
+2026-11-18T17:41:25.3000027Z   repository: turboj-dev/turboj
+2026-11-18T17:41:25.3002222Z   token: ***
+2026-11-18T17:41:25.3002486Z   ssh-strict: true
+2026-11-18T17:41:25.3002756Z   ssh-user: git
+2026-11-18T17:41:25.3003028Z   persist-credentials: true
+2026-11-18T17:41:25.3003327Z   clean: true
+2026-11-18T17:41:25.3003620Z   sparse-checkout-cone-mode: true
+2026-11-18T17:41:25.3003941Z   fetch-depth: 1
+2026-11-18T17:41:25.3004207Z   fetch-tags: false
+2026-11-18T17:41:25.3004473Z   show-progress: true
+2026-11-18T17:41:25.3004742Z   lfs: false
+2026-11-18T17:41:25.3005007Z   submodules: false
+2026-11-18T17:41:25.3005260Z   set-safe-directory: true
+2026-11-18T17:41:25.3005568Z   allow-unsafe-pr-checkout: false
+2026-11-18T17:41:25.3005985Z ##[endgroup]
+2026-11-18T17:41:27.7464103Z Syncing repository: turboj-dev/turboj
+2026-11-18T17:41:27.7465232Z ##[group]Getting Git version info
+2026-11-18T17:41:27.7465588Z Working directory is '/home/runner/work/turboj/turboj'
+2026-11-18T17:41:27.7466001Z [command]/usr/bin/git version
+2026-11-18T17:41:27.7949203Z git version 2.56.1
+2026-11-18T17:41:27.7964826Z ##[endgroup]
+2026-11-18T17:41:27.7974506Z Temporarily overriding HOME='/home/runner/work/_temp/bf06712d-7f90-4c5a-b680-1a55758e2e3c' before making global git config changes
+2026-11-18T17:41:27.7975412Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-18T17:41:27.7978776Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/turboj/turboj
+2026-11-18T17:41:27.8317399Z Deleting the contents of '/home/runner/work/turboj/turboj'
+2026-11-18T17:41:27.8320203Z ##[group]Initializing the repository
+2026-11-18T17:41:27.8323900Z [command]/usr/bin/git init /home/runner/work/turboj/turboj
+2026-11-18T17:41:27.8819133Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-18T17:41:27.8819704Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-18T17:41:27.8820118Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-18T17:41:27.8820532Z hint: call:
+2026-11-18T17:41:27.8820712Z hint:
+2026-11-18T17:41:27.8820996Z hint: 	git config --global init.defaultBranch <name>
+2026-11-18T17:41:27.8821265Z hint:
+2026-11-18T17:41:27.8821691Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-18T17:41:27.8822086Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-18T17:41:27.8822377Z hint:
+2026-11-18T17:41:27.8822560Z hint: 	git branch -m <name>
+2026-11-18T17:41:27.8822755Z hint:
+2026-11-18T17:41:27.8823021Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-18T17:41:27.8829844Z Initialized empty Git repository in /home/runner/work/turboj/turboj/.git/
+2026-11-18T17:41:27.8837392Z [command]/usr/bin/git remote add origin https://github.com/turboj-dev/turboj
+2026-11-18T17:41:27.8883997Z ##[endgroup]
+2026-11-18T17:41:27.8884442Z ##[group]Disabling automatic garbage collection
+2026-11-18T17:41:27.8886475Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-18T17:41:27.8910563Z ##[endgroup]
+2026-11-18T17:41:27.8910891Z ##[group]Setting up auth
+2026-11-18T17:41:27.8920592Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-18T17:41:27.8941413Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-18T17:41:28.0452630Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-18T17:41:28.0477331Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-18T17:41:28.0629377Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-18T17:41:28.0658492Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-18T17:41:28.0817728Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-18T17:41:28.0842556Z ##[endgroup]
+2026-11-18T17:41:28.0843009Z ##[group]Fetching the repository
+2026-11-18T17:41:28.0853584Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c7d08485a30a02ddc321c360ff02a3ab38872ccb:refs/remotes/origin/main
+2026-11-18T17:41:31.0322569Z From https://github.com/turboj-dev/turboj
+2026-11-18T17:41:31.0323027Z  * [new ref]         c7d08485a30a02ddc321c360ff02a3ab38872ccb -> origin/main
+2026-11-18T17:41:31.0326460Z ##[endgroup]
+2026-11-18T17:41:31.0327146Z ##[group]Determining the checkout info
+2026-11-18T17:41:31.0328645Z ##[endgroup]
+2026-11-18T17:41:31.0337633Z [command]/usr/bin/git sparse-checkout disable
+2026-11-18T17:41:31.0401268Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-18T17:41:31.0425485Z ##[group]Checking out the ref
+2026-11-18T17:41:31.0427750Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-18T17:41:31.3213371Z Switched to a new branch 'main'
+2026-11-18T17:41:31.3219361Z branch 'main' set up to track 'origin/main'.
+2026-11-18T17:41:31.3231473Z ##[endgroup]
+2026-11-18T17:41:31.3271062Z [command]/usr/bin/git log -1 --format=%H
+2026-11-18T17:41:31.3291362Z c7d08485a30a02ddc321c360ff02a3ab38872ccb
+2026-11-18T17:41:31.3502788Z ##[group]Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+2026-11-18T17:41:31.3503074Z with:
+2026-11-18T17:41:31.3503247Z   distribution: corretto
+2026-11-18T17:41:31.3503550Z   java-version: 17
+2026-11-18T17:41:31.3503718Z   java-package: jdk
+2026-11-18T17:41:31.3503891Z   check-latest: false
+2026-11-18T17:41:31.3504063Z   server-id: github
+2026-11-18T17:41:31.3504233Z   server-username: GITHUB_ACTOR
+2026-11-18T17:41:31.3504438Z   server-password: GITHUB_TOKEN
+2026-11-18T17:41:31.3504631Z   overwrite-settings: true
+2026-11-18T17:41:31.3504837Z   job-status: success
+2026-11-18T17:41:31.3506768Z   token: ***
+2026-11-18T17:41:31.3506938Z ##[endgroup]
+2026-11-18T17:41:31.5194466Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
+2026-11-18T17:41:31.5199661Z ##[group]Installed distributions
+2026-11-18T17:41:31.5202767Z Trying to resolve the latest version from remote
+2026-11-18T17:41:31.5325104Z (node:2145) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:41:31.5325728Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:41:31.6337119Z Resolved latest version as 17.0.21+1.2
+2026-11-18T17:41:31.6337701Z Trying to download...
+2026-11-18T17:41:31.6338751Z Downloading Java 17.0.21+1.2 (Corretto) from https://corretto.aws/downloads/resources/17.0.21.1.2/amazon-corretto-17.0.21.1.2-linux-x64.tar.gz ...
+2026-11-18T17:41:32.4011487Z Extracting Java archive...
+2026-11-18T17:41:32.4103657Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/08991cc7-316b-4c33-a284-a5125ea5dcc8 -f /home/runner/work/_temp/2fde8bb3-19f9-4f18-8616-3beeb723339e
+2026-11-18T17:41:34.5434626Z Java 17.0.21+1.2 was downloaded
+2026-11-18T17:41:34.5435320Z Setting Java 17.0.21+1.2 as the default
+2026-11-18T17:41:34.5440585Z Creating toolchains.xml for JDK version 17 from corretto
+2026-11-18T17:41:34.5495458Z Writing to /home/runner/.m2/toolchains.xml
+2026-11-18T17:41:34.5495795Z 
+2026-11-18T17:41:34.5495922Z Java configuration:
+2026-11-18T17:41:34.5496216Z   Distribution: corretto
+2026-11-18T17:41:34.5496545Z   Version: 17.0.21+1.2
+2026-11-18T17:41:34.5496871Z   Path: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:34.5497097Z 
+2026-11-18T17:41:34.5497530Z ##[endgroup]
+2026-11-18T17:41:34.5516213Z Creating settings.xml with server-id: github
+2026-11-18T17:41:34.5516662Z Writing to /home/runner/.m2/settings.xml
+2026-11-18T17:41:34.5637972Z ##[group]Run echo "TURBOJ_TEST_JDK17=$JAVA_HOME" >> "$GITHUB_ENV"
+2026-11-18T17:41:34.5638346Z [36;1mecho "TURBOJ_TEST_JDK17=$JAVA_HOME" >> "$GITHUB_ENV"[0m
+2026-11-18T17:41:34.8472057Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:34.8472307Z env:
+2026-11-18T17:41:34.8472543Z   JAVA_HOME: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:34.8472887Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:34.8473155Z ##[endgroup]
+2026-11-18T17:41:34.8613951Z ##[group]Run actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+2026-11-18T17:41:34.8614237Z with:
+2026-11-18T17:41:34.8614423Z   distribution: temurin
+2026-11-18T17:41:34.8614599Z   java-version: 25
+2026-11-18T17:41:34.8614761Z   java-package: jdk
+2026-11-18T17:41:34.8614925Z   check-latest: false
+2026-11-18T17:41:34.8615089Z   server-id: github
+2026-11-18T17:41:34.8615260Z   server-username: GITHUB_ACTOR
+2026-11-18T17:41:34.8615460Z   server-password: GITHUB_TOKEN
+2026-11-18T17:41:34.8615654Z   overwrite-settings: true
+2026-11-18T17:41:34.8615833Z   job-status: success
+2026-11-18T17:41:34.8617719Z   token: ***
+2026-11-18T17:41:34.8617876Z env:
+2026-11-18T17:41:34.8618090Z   JAVA_HOME: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:34.8618419Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:34.8618960Z   TURBOJ_TEST_JDK17: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:34.8619273Z ##[endgroup]
+2026-11-18T17:41:34.9810017Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
+2026-11-18T17:41:34.9811838Z ##[group]Installed distributions
+2026-11-18T17:41:35.1165768Z Resolved Java 25.0.5+8 from tool-cache
+2026-11-18T17:41:35.1166353Z Setting Java 25.0.5+8 as the default
+2026-11-18T17:41:35.1171234Z (node:2167) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:41:35.1171717Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:41:35.1173887Z Creating toolchains.xml for JDK version 25 from temurin
+2026-11-18T17:41:35.1233036Z Overwriting existing file /home/runner/.m2/toolchains.xml
+2026-11-18T17:41:35.1233608Z 
+2026-11-18T17:41:35.1233823Z Java configuration:
+2026-11-18T17:41:35.1234359Z   Distribution: temurin
+2026-11-18T17:41:35.1234649Z   Version: 25.0.5+8
+2026-11-18T17:41:35.1235002Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.1235308Z 
+2026-11-18T17:41:35.1235643Z ##[endgroup]
+2026-11-18T17:41:35.1241464Z Creating settings.xml with server-id: github
+2026-11-18T17:41:35.1275086Z Overwriting existing file /home/runner/.m2/settings.xml
+2026-11-18T17:41:35.1362517Z ##[group]Run python3 scripts/build-receipt.py begin
+2026-11-18T17:41:35.1362951Z [36;1mpython3 scripts/build-receipt.py begin[0m
+2026-11-18T17:41:35.1398222Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:35.1398484Z env:
+2026-11-18T17:41:35.1399007Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.1399516Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:35.1400024Z   TURBOJ_TEST_JDK17: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:35.1400538Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.1400930Z ##[endgroup]
+2026-11-18T17:41:35.3118100Z Build receipt begin: /home/runner/work/turboj/turboj/app/target/build-receipt.json
+2026-11-18T17:41:35.3183152Z ##[group]Run python3 scripts/test-build-receipt.py
+2026-11-18T17:41:35.3183460Z [36;1mpython3 scripts/test-build-receipt.py[0m
+2026-11-18T17:41:35.3207531Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:35.3207740Z env:
+2026-11-18T17:41:35.3207979Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.3208334Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:35.3208884Z   TURBOJ_TEST_JDK17: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:35.3209238Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.3209517Z ##[endgroup]
+2026-11-18T17:41:35.4788316Z ..........
+2026-11-18T17:41:35.4789243Z ----------------------------------------------------------------------
+2026-11-18T17:41:35.4789937Z Ran 10 tests in 0.027s
+2026-11-18T17:41:35.4790203Z 
+2026-11-18T17:41:35.4790572Z OK
+2026-11-18T17:41:35.4936412Z ##[group]Run xvfb-run --auto-servernum ./mvnw --batch-mode --no-transfer-progress -Dturboj.test.mavenOffline=false clean install
+2026-11-18T17:41:35.4937118Z [36;1mxvfb-run --auto-servernum ./mvnw --batch-mode --no-transfer-progress -Dturboj.test.mavenOffline=false clean install[0m
+2026-11-18T17:41:35.4963322Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:35.4963545Z env:
+2026-11-18T17:41:35.4963789Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.4964150Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:35.4964492Z   TURBOJ_TEST_JDK17: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:41:35.4964843Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:41:35.4965122Z ##[endgroup]
+2026-11-18T17:41:39.0190216Z WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+2026-11-18T17:41:39.0191860Z WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/home/runner/work/turboj/turboj/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/lib/guice-5.1.0-classes.jar)
+2026-11-18T17:41:39.0193600Z WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+2026-11-18T17:41:39.0194425Z WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+2026-11-18T17:41:39.3843795Z [INFO] Scanning for projects...
+2026-11-18T17:41:40.4534603Z [INFO] ------------------------------------------------------------------------
+2026-11-18T17:41:40.4562580Z [INFO] Reactor Build Order:
+2026-11-18T17:41:40.4572453Z [INFO] 
+2026-11-18T17:41:40.4582791Z [INFO] javafmt                                                            [pom]
+2026-11-18T17:41:40.4583284Z [INFO] javafmt-parser                                                     [jar]
+2026-11-18T17:41:40.4583700Z [INFO] javafmt-core                                                       [jar]
+2026-11-18T17:41:40.4584079Z [INFO] javafmt-cli                                                        [jar]
+2026-11-18T17:41:40.4584482Z [INFO] javafmt-benchmarks                                                 [jar]
+2026-11-18T17:41:40.4584885Z [INFO] CommandJ                                                           [pom]
+2026-11-18T17:41:40.4585236Z [INFO] commandj-core                                                      [jar]
+2026-11-18T17:41:40.4585617Z [INFO] commandj-keymap                                                    [jar]
+2026-11-18T17:41:40.4586022Z [INFO] commandj-palette                                                   [jar]
+2026-11-18T17:41:40.4586423Z [INFO] commandj-swing                                                     [jar]
+2026-11-18T17:41:40.4586823Z [INFO] commandj-benchmarks                                                [jar]
+2026-11-18T17:41:40.4587204Z [INFO] RefactorJ                                                          [pom]
+2026-11-18T17:41:40.4587674Z [INFO] refactorj-api                                                      [jar]
+2026-11-18T17:41:40.4587985Z [INFO] refactorj-jdt                                                      [jar]
+2026-11-18T17:41:40.4588320Z [INFO] refactorj-transactions                                             [jar]
+2026-11-18T17:41:40.4588854Z [INFO] refactorj-runtime                                                  [jar]
+2026-11-18T17:41:40.4589174Z [INFO] refactorj-cli                                                      [jar]
+2026-11-18T17:41:40.4589488Z [INFO] refactorj-lsp                                                      [jar]
+2026-11-18T17:41:40.4589836Z [INFO] refactorj-mcp                                                      [jar]
+2026-11-18T17:41:40.4590156Z [INFO] refactorj-benchmarks                                               [jar]
+2026-11-18T17:41:40.4590494Z [INFO] refactorj-formatj                                                  [jar]
+2026-11-18T17:41:40.4591068Z [INFO] TurboTest                                                          [jar]
+2026-11-18T17:41:40.4591406Z [INFO] MavenJ                                                             [pom]
+2026-11-18T17:41:40.4591699Z [INFO] mavenj-api                                                         [jar]
+2026-11-18T17:41:40.4592003Z [INFO] mavenj-core                                                        [jar]
+2026-11-18T17:41:40.4592298Z [INFO] mavenj-workspace                                                   [jar]
+2026-11-18T17:41:40.4592599Z [INFO] mavenj-cli                                                         [jar]
+2026-11-18T17:41:40.4592882Z [INFO] mavenj-mcp                                                         [jar]
+2026-11-18T17:41:40.4593185Z [INFO] mavenj-benchmarks                                                  [jar]
+2026-11-18T17:41:40.4593479Z [INFO] TurboAI                                                            [pom]
+2026-11-18T17:41:40.4593859Z [INFO] turbo-ai-core                                                      [jar]
+2026-11-18T17:41:40.4594191Z [INFO] turbo-ai-java                                                      [jar]
+2026-11-18T17:41:40.4594593Z [INFO] turbo-ai-cli                                                       [jar]
+2026-11-18T17:41:40.4594875Z [INFO] TurboJ                                                             [pom]
+2026-11-18T17:41:40.4595156Z [INFO] turboj-core                                                        [jar]
+2026-11-18T17:41:40.4595457Z [INFO] turboj-worker                                                      [jar]
+2026-11-18T17:41:40.4595774Z [INFO] turboj-app                                                         [jar]
+2026-11-18T17:41:40.4596061Z [INFO] turboj-cli                                                         [jar]
+2026-11-18T17:41:40.4596369Z [INFO] turboj-benchmarks                                                  [jar]
+2026-11-18T17:41:40.4656699Z [INFO] 
+2026-11-18T17:41:40.4679494Z [INFO] ------------------------< dev.javafmt:javafmt >-------------------------
+2026-11-18T17:41:40.4679926Z [INFO] Building javafmt 0.1.0                                            [1/39]
+2026-11-18T17:41:40.4680231Z [INFO]   from javafmt/pom.xml
+2026-11-18T17:41:40.4680489Z [INFO] --------------------------------[ pom ]---------------------------------
+2026-11-18T17:41:40.7068433Z [INFO] 
+2026-11-18T17:41:40.7069301Z [INFO] --- clean:3.4.1:clean (default-clean) @ javafmt ---
+2026-11-18T17:41:41.1951348Z [INFO] 
+2026-11-18T17:41:41.1951673Z [INFO] --- install:3.1.4:install (default-install) @ javafmt ---
+2026-11-18T17:41:41.5345557Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt/0.1.0/javafmt-0.1.0.pom
+2026-11-18T17:41:41.5382022Z [INFO] 
+2026-11-18T17:41:41.5382480Z [INFO] ---------------------< dev.javafmt:javafmt-parser >---------------------
+2026-11-18T17:41:41.5383027Z [INFO] Building javafmt-parser 0.1.0                                     [2/39]
+2026-11-18T17:41:41.5383510Z [INFO]   from javafmt/javafmt-parser/pom.xml
+2026-11-18T17:41:41.5383897Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:41:43.2121354Z [INFO] 
+2026-11-18T17:41:43.2121807Z [INFO] --- clean:3.4.1:clean (default-clean) @ javafmt-parser ---
+2026-11-18T17:41:43.2139661Z [INFO] 
+2026-11-18T17:41:43.2139964Z [INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-parser ---
+2026-11-18T17:41:44.5385595Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:41:44.5422829Z [INFO] 
+2026-11-18T17:41:44.5423434Z [INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-parser ---
+2026-11-18T17:41:45.9712968Z [INFO] Recompiling the module because of changed source code.
+2026-11-18T17:41:45.9773387Z [INFO] Compiling 5 source files with javac [debug release 25] to target/classes
+2026-11-18T17:41:47.0767654Z [INFO] /home/runner/work/turboj/turboj/javafmt/javafmt-parser/src/main/java/dev/javafmt/parser/JdtJavaParser.java: /home/runner/work/turboj/turboj/javafmt/javafmt-parser/src/main/java/dev/javafmt/parser/JdtJavaParser.java uses or overrides a deprecated API.
+2026-11-18T17:41:47.0770233Z [INFO] /home/runner/work/turboj/turboj/javafmt/javafmt-parser/src/main/java/dev/javafmt/parser/JdtJavaParser.java: Recompile with -Xlint:deprecation for details.
+2026-11-18T17:41:47.0798896Z [INFO] 
+2026-11-18T17:41:47.0809831Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-parser ---
+2026-11-18T17:41:47.0816051Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/javafmt/javafmt-parser/src/test/resources
+2026-11-18T17:41:47.0816819Z [INFO] 
+2026-11-18T17:41:47.0817337Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-parser ---
+2026-11-18T17:41:47.0869639Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:41:47.0879872Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:41:47.3160091Z [INFO] 
+2026-11-18T17:41:47.3160871Z [INFO] --- surefire:3.5.4:test (default-test) @ javafmt-parser ---
+2026-11-18T17:41:48.4251964Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:41:48.8053751Z [INFO] 
+2026-11-18T17:41:48.8054109Z [INFO] -------------------------------------------------------
+2026-11-18T17:41:48.8054386Z [INFO]  T E S T S
+2026-11-18T17:41:48.8054597Z [INFO] -------------------------------------------------------
+2026-11-18T17:41:49.3149154Z [INFO] Running dev.javafmt.parser.JdtJavaParserTest
+2026-11-18T17:41:49.8770143Z [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.555 s -- in dev.javafmt.parser.JdtJavaParserTest
+2026-11-18T17:41:49.8906589Z [INFO] 
+2026-11-18T17:41:49.8907125Z [INFO] Results:
+2026-11-18T17:41:49.8907444Z [INFO] 
+2026-11-18T17:41:49.8909587Z [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:41:49.8909908Z [INFO] 
+2026-11-18T17:41:49.8930398Z [INFO] 
+2026-11-18T17:41:49.8950815Z [INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-parser ---
+2026-11-18T17:41:51.7548728Z [INFO] Building jar: /home/runner/work/turboj/turboj/javafmt/javafmt-parser/target/javafmt-parser-0.1.0.jar
+2026-11-18T17:41:51.7829618Z [INFO] 
+2026-11-18T17:41:51.7859697Z [INFO] --- install:3.1.4:install (default-install) @ javafmt-parser ---
+2026-11-18T17:41:51.7860918Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-parser/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-parser/0.1.0/javafmt-parser-0.1.0.pom
+2026-11-18T17:41:51.7920101Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-parser/target/javafmt-parser-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-parser/0.1.0/javafmt-parser-0.1.0.jar
+2026-11-18T17:41:51.7921138Z [INFO] 
+2026-11-18T17:41:51.7946884Z [INFO] ----------------------< dev.javafmt:javafmt-core >----------------------
+2026-11-18T17:41:51.7969494Z [INFO] Building javafmt-core 0.1.0                                       [3/39]
+2026-11-18T17:41:51.7999369Z [INFO]   from javafmt/javafmt-core/pom.xml
+2026-11-18T17:41:51.8029244Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:41:51.8059082Z [INFO] 
+2026-11-18T17:41:51.8079345Z [INFO] --- clean:3.4.1:clean (default-clean) @ javafmt-core ---
+2026-11-18T17:41:51.8119522Z [INFO] 
+2026-11-18T17:41:51.8129236Z [INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-core ---
+2026-11-18T17:41:51.8130033Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:41:51.8130542Z [INFO] 
+2026-11-18T17:41:51.8130928Z [INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-core ---
+2026-11-18T17:41:51.8131499Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:41:51.8132059Z [INFO] Compiling 9 source files with javac [debug release 25] to target/classes
+2026-11-18T17:41:52.0369905Z [INFO] 
+2026-11-18T17:41:52.0389703Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-core ---
+2026-11-18T17:41:52.0428994Z [INFO] Copying 2 resources from src/test/resources to target/test-classes
+2026-11-18T17:41:52.0452750Z [INFO] 
+2026-11-18T17:41:52.0469891Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-core ---
+2026-11-18T17:41:52.0499636Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:41:52.0500307Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:41:52.2079870Z [INFO] 
+2026-11-18T17:41:52.2088737Z [INFO] --- surefire:3.5.4:test (default-test) @ javafmt-core ---
+2026-11-18T17:41:52.2115940Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:41:52.2169778Z [INFO] 
+2026-11-18T17:41:52.2188059Z [INFO] -------------------------------------------------------
+2026-11-18T17:41:52.2192743Z [INFO]  T E S T S
+2026-11-18T17:41:52.2193234Z [INFO] -------------------------------------------------------
+2026-11-18T17:41:52.6041407Z [INFO] Running dev.javafmt.core.JavaFormatterTest
+2026-11-18T17:41:56.3370377Z [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.730 s -- in dev.javafmt.core.JavaFormatterTest
+2026-11-18T17:41:56.3526959Z [INFO] 
+2026-11-18T17:41:56.3528445Z [INFO] Results:
+2026-11-18T17:41:56.3529129Z [INFO] 
+2026-11-18T17:41:56.3529593Z [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:41:56.3530111Z [INFO] 
+2026-11-18T17:41:56.3533129Z [INFO] 
+2026-11-18T17:41:56.3533455Z [INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-core ---
+2026-11-18T17:41:56.3571797Z [INFO] Building jar: /home/runner/work/turboj/turboj/javafmt/javafmt-core/target/javafmt-core-0.1.0.jar
+2026-11-18T17:41:56.3734207Z [INFO] 
+2026-11-18T17:41:56.3735145Z [INFO] --- install:3.1.4:install (default-install) @ javafmt-core ---
+2026-11-18T17:41:56.3750582Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-core/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-core/0.1.0/javafmt-core-0.1.0.pom
+2026-11-18T17:41:56.3757938Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-core/target/javafmt-core-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-core/0.1.0/javafmt-core-0.1.0.jar
+2026-11-18T17:41:56.3775837Z [INFO] 
+2026-11-18T17:41:56.3776201Z [INFO] ----------------------< dev.javafmt:javafmt-cli >-----------------------
+2026-11-18T17:41:56.3776705Z [INFO] Building javafmt-cli 0.1.0                                        [4/39]
+2026-11-18T17:41:56.3777119Z [INFO]   from javafmt/javafmt-cli/pom.xml
+2026-11-18T17:41:56.3777508Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:41:56.5692533Z [INFO] 
+2026-11-18T17:41:56.5693030Z [INFO] --- clean:3.4.1:clean (default-clean) @ javafmt-cli ---
+2026-11-18T17:41:56.5708276Z [INFO] 
+2026-11-18T17:41:56.5708905Z [INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-cli ---
+2026-11-18T17:41:56.5739947Z [INFO] Copying 54 resources from src/main/resources to target/classes
+2026-11-18T17:41:56.5769314Z [INFO] 
+2026-11-18T17:41:56.5789369Z [INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-cli ---
+2026-11-18T17:41:56.5799848Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:41:56.5800518Z [INFO] Compiling 4 source files with javac [debug release 25] to target/classes
+2026-11-18T17:41:56.7509726Z [INFO] 
+2026-11-18T17:41:56.7512789Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-cli ---
+2026-11-18T17:41:56.7524372Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/javafmt/javafmt-cli/src/test/resources
+2026-11-18T17:41:56.7525004Z [INFO] 
+2026-11-18T17:41:56.7525383Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-cli ---
+2026-11-18T17:41:56.7558992Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:41:56.7577837Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:41:56.8734732Z [INFO] 
+2026-11-18T17:41:56.8760060Z [INFO] --- surefire:3.5.4:test (default-test) @ javafmt-cli ---
+2026-11-18T17:41:56.8783038Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:41:56.8799382Z [INFO] 
+2026-11-18T17:41:56.8799857Z [INFO] -------------------------------------------------------
+2026-11-18T17:41:56.8800331Z [INFO]  T E S T S
+2026-11-18T17:41:56.8800717Z [INFO] -------------------------------------------------------
+2026-11-18T17:41:57.2223891Z [INFO] Running dev.javafmt.cli.CliTest
+2026-11-18T17:41:57.7425400Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.519 s -- in dev.javafmt.cli.CliTest
+2026-11-18T17:41:57.7536815Z [INFO] 
+2026-11-18T17:41:57.7537111Z [INFO] Results:
+2026-11-18T17:41:57.7537533Z [INFO] 
+2026-11-18T17:41:57.7538043Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:41:57.7538389Z [INFO] 
+2026-11-18T17:41:57.7542452Z [INFO] 
+2026-11-18T17:41:57.7542896Z [INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-cli ---
+2026-11-18T17:41:57.7659711Z [INFO] Building jar: /home/runner/work/turboj/turboj/javafmt/javafmt-cli/target/javafmt-cli-0.1.0.jar
+2026-11-18T17:41:57.7872646Z [INFO] 
+2026-11-18T17:41:57.7879570Z [INFO] --- shade:3.6.1:shade (default) @ javafmt-cli ---
+2026-11-18T17:41:59.5074592Z [WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5076437Z [WARNING]   - plugin.properties
+2026-11-18T17:41:59.5077029Z [WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5077564Z [WARNING]   - META-INF/LICENSE
+2026-11-18T17:41:59.5080118Z [WARNING] ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, javafmt-cli-0.1.0.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5082529Z [WARNING]   - META-INF/MANIFEST.MF
+2026-11-18T17:41:59.5083967Z [WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5085406Z [WARNING]   - .options
+2026-11-18T17:41:59.5085771Z [WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5086152Z [WARNING]   - META-INF/javafmt-LICENSE.txt
+2026-11-18T17:41:59.5086746Z [WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5087609Z [WARNING]   - about_files/LICENSE-2.0.txt
+2026-11-18T17:41:59.5089361Z [WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5090976Z [WARNING]   - plugin.xml
+2026-11-18T17:41:59.5091406Z [WARNING] org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5091895Z [WARNING]   - META-INF/NOTICE
+2026-11-18T17:41:59.5094110Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar define 2 overlapping resources: 
+2026-11-18T17:41:59.5096487Z [WARNING]   - .api_description
+2026-11-18T17:41:59.5096681Z [WARNING]   - about.html
+2026-11-18T17:41:59.5096953Z [WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+2026-11-18T17:41:59.5097249Z [WARNING]   - META-INF/AL2.0
+2026-11-18T17:41:59.5097430Z [WARNING]   - META-INF/LGPL2.1
+2026-11-18T17:41:59.5097809Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+2026-11-18T17:41:59.5098211Z [WARNING]   - META-INF/eclipse.inf
+2026-11-18T17:41:59.5098455Z [WARNING] maven-shade-plugin has detected that some files are
+2026-11-18T17:41:59.5099034Z [WARNING] present in two or more JARs. When this happens, only one
+2026-11-18T17:41:59.5099345Z [WARNING] single version of the file is copied to the uber jar.
+2026-11-18T17:41:59.5099670Z [WARNING] Usually this is not harmful and you can skip these warnings,
+2026-11-18T17:41:59.5099989Z [WARNING] otherwise try to manually exclude artifacts based on
+2026-11-18T17:41:59.5100292Z [WARNING] mvn dependency:tree -Ddetail=true and the above output.
+2026-11-18T17:41:59.5100619Z [WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+2026-11-18T17:41:59.5226107Z [INFO] 
+2026-11-18T17:41:59.5226586Z [INFO] --- install:3.1.4:install (default-install) @ javafmt-cli ---
+2026-11-18T17:41:59.5245308Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-cli/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-cli/0.1.0/javafmt-cli-0.1.0.pom
+2026-11-18T17:41:59.5257053Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-cli/target/javafmt-cli-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-cli/0.1.0/javafmt-cli-0.1.0.jar
+2026-11-18T17:41:59.5271180Z [INFO] 
+2026-11-18T17:41:59.5272129Z [INFO] -------------------< dev.javafmt:javafmt-benchmarks >-------------------
+2026-11-18T17:41:59.5272675Z [INFO] Building javafmt-benchmarks 0.1.0                                 [5/39]
+2026-11-18T17:41:59.5273137Z [INFO]   from javafmt/javafmt-benchmarks/pom.xml
+2026-11-18T17:41:59.5273609Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:00.2169077Z [INFO] 
+2026-11-18T17:42:00.2169420Z [INFO] --- clean:3.4.1:clean (default-clean) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.2207709Z [INFO] 
+2026-11-18T17:42:00.2208020Z [INFO] --- resources:3.3.1:resources (default-resources) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.2221571Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/javafmt/javafmt-benchmarks/src/main/resources
+2026-11-18T17:42:00.2222128Z [INFO] 
+2026-11-18T17:42:00.2222699Z [INFO] --- compiler:3.14.1:compile (default-compile) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.3585899Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:00.3595471Z [INFO] Compiling 2 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:00.6199906Z [INFO] 
+2026-11-18T17:42:00.6229742Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.6243548Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/javafmt/javafmt-benchmarks/src/test/resources
+2026-11-18T17:42:00.6263236Z [INFO] 
+2026-11-18T17:42:00.6269639Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.6270304Z [INFO] No sources to compile
+2026-11-18T17:42:00.6270695Z [INFO] 
+2026-11-18T17:42:00.6271105Z [INFO] --- surefire:3.5.4:test (default-test) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.6271638Z [INFO] No tests to run.
+2026-11-18T17:42:00.6272049Z [INFO] 
+2026-11-18T17:42:00.6272505Z [INFO] --- jar:3.4.2:jar (default-jar) @ javafmt-benchmarks ---
+2026-11-18T17:42:00.6281218Z [INFO] Building jar: /home/runner/work/turboj/turboj/javafmt/javafmt-benchmarks/target/javafmt-benchmarks-0.1.0.jar
+2026-11-18T17:42:00.6380554Z [INFO] 
+2026-11-18T17:42:00.6397690Z [INFO] --- shade:3.6.1:shade (default) @ javafmt-benchmarks ---
+2026-11-18T17:42:01.9911118Z [WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9913516Z [WARNING]   - plugin.properties
+2026-11-18T17:42:01.9914021Z [WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9914551Z [WARNING]   - META-INF/LICENSE
+2026-11-18T17:42:01.9916678Z [WARNING] commons-math3-3.6.1.jar, ecj-3.44.0.jar, javafmt-benchmarks-0.1.0.jar, javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar, jmh-core-1.37.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jopt-simple-5.0.4.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar, org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9918992Z [WARNING]   - META-INF/MANIFEST.MF
+2026-11-18T17:42:01.9920468Z [WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9921967Z [WARNING]   - .options
+2026-11-18T17:42:01.9922434Z [WARNING] javafmt-core-0.1.0.jar, javafmt-parser-0.1.0.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9922942Z [WARNING]   - META-INF/javafmt-LICENSE.txt
+2026-11-18T17:42:01.9923966Z [WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9924627Z [WARNING]   - about_files/LICENSE-2.0.txt
+2026-11-18T17:42:01.9925913Z [WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9927183Z [WARNING]   - plugin.xml
+2026-11-18T17:42:01.9927596Z [WARNING] org.osgi.service.prefs-1.1.2.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9928006Z [WARNING]   - META-INF/NOTICE
+2026-11-18T17:42:01.9929714Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.text-3.14.500.jar define 2 overlapping resources: 
+2026-11-18T17:42:01.9931331Z [WARNING]   - .api_description
+2026-11-18T17:42:01.9931632Z [WARNING]   - about.html
+2026-11-18T17:42:01.9931964Z [WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+2026-11-18T17:42:01.9932334Z [WARNING]   - META-INF/AL2.0
+2026-11-18T17:42:01.9932594Z [WARNING]   - META-INF/LGPL2.1
+2026-11-18T17:42:01.9933049Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+2026-11-18T17:42:01.9933569Z [WARNING]   - META-INF/eclipse.inf
+2026-11-18T17:42:01.9933886Z [WARNING] maven-shade-plugin has detected that some files are
+2026-11-18T17:42:01.9934268Z [WARNING] present in two or more JARs. When this happens, only one
+2026-11-18T17:42:01.9934650Z [WARNING] single version of the file is copied to the uber jar.
+2026-11-18T17:42:01.9935022Z [WARNING] Usually this is not harmful and you can skip these warnings,
+2026-11-18T17:42:01.9935424Z [WARNING] otherwise try to manually exclude artifacts based on
+2026-11-18T17:42:01.9935788Z [WARNING] mvn dependency:tree -Ddetail=true and the above output.
+2026-11-18T17:42:01.9936206Z [WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+2026-11-18T17:42:02.0008126Z [INFO] 
+2026-11-18T17:42:02.0008672Z [INFO] --- install:3.1.4:install (default-install) @ javafmt-benchmarks ---
+2026-11-18T17:42:02.0026504Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-benchmarks/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-benchmarks/0.1.0/javafmt-benchmarks-0.1.0.pom
+2026-11-18T17:42:02.0034958Z [INFO] Installing /home/runner/work/turboj/turboj/javafmt/javafmt-benchmarks/target/javafmt-benchmarks-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/javafmt/javafmt-benchmarks/0.1.0/javafmt-benchmarks-0.1.0.jar
+2026-11-18T17:42:02.0045033Z [INFO] 
+2026-11-18T17:42:02.0045646Z [INFO] --------------------< dev.turboj.commandj:commandj >--------------------
+2026-11-18T17:42:02.0046285Z [INFO] Building CommandJ 0.1.0                                           [6/39]
+2026-11-18T17:42:02.0046811Z [INFO]   from commandj/pom.xml
+2026-11-18T17:42:02.0047272Z [INFO] --------------------------------[ pom ]---------------------------------
+2026-11-18T17:42:02.0051041Z [INFO] 
+2026-11-18T17:42:02.0051581Z [INFO] --- clean:3.4.1:clean (default-clean) @ commandj ---
+2026-11-18T17:42:02.0057309Z [INFO] 
+2026-11-18T17:42:02.0057811Z [INFO] --- install:3.1.4:install (default-install) @ commandj ---
+2026-11-18T17:42:02.0062433Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj/0.1.0/commandj-0.1.0.pom
+2026-11-18T17:42:02.0069809Z [INFO] 
+2026-11-18T17:42:02.0071364Z [INFO] -----------------< dev.turboj.commandj:commandj-core >------------------
+2026-11-18T17:42:02.0072053Z [INFO] Building commandj-core 0.1.0                                      [7/39]
+2026-11-18T17:42:02.0072629Z [INFO]   from commandj/commandj-core/pom.xml
+2026-11-18T17:42:02.0073129Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:02.0095620Z [INFO] 
+2026-11-18T17:42:02.0096325Z [INFO] --- clean:3.4.1:clean (default-clean) @ commandj-core ---
+2026-11-18T17:42:02.0109405Z [INFO] 
+2026-11-18T17:42:02.0109983Z [INFO] --- resources:3.3.1:resources (default-resources) @ commandj-core ---
+2026-11-18T17:42:02.0119180Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:42:02.0122148Z [INFO] 
+2026-11-18T17:42:02.0122700Z [INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-core ---
+2026-11-18T17:42:02.0149474Z [INFO] Recompiling the module because of changed source code.
+2026-11-18T17:42:02.0152804Z [INFO] Compiling 7 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:02.0979950Z [INFO] 
+2026-11-18T17:42:02.1000231Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-core ---
+2026-11-18T17:42:02.1010181Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/commandj/commandj-core/src/test/resources
+2026-11-18T17:42:02.1011001Z [INFO] 
+2026-11-18T17:42:02.1011719Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-core ---
+2026-11-18T17:42:02.1012535Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:02.1013204Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:02.1579776Z [INFO] 
+2026-11-18T17:42:02.1582086Z [INFO] --- surefire:3.5.4:test (default-test) @ commandj-core ---
+2026-11-18T17:42:02.1598795Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:02.1633916Z [INFO] 
+2026-11-18T17:42:02.1635855Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:02.1636497Z [INFO]  T E S T S
+2026-11-18T17:42:02.1637016Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:02.5975984Z [INFO] Running dev.turboj.commandj.core.CommandRegistryTest
+2026-11-18T17:42:02.6957493Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.097 s -- in dev.turboj.commandj.core.CommandRegistryTest
+2026-11-18T17:42:02.7092973Z [INFO] 
+2026-11-18T17:42:02.7094219Z [INFO] Results:
+2026-11-18T17:42:02.7094643Z [INFO] 
+2026-11-18T17:42:02.7095227Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:42:02.7095737Z [INFO] 
+2026-11-18T17:42:02.7097469Z [INFO] 
+2026-11-18T17:42:02.7097898Z [INFO] --- jar:3.4.2:jar (default-jar) @ commandj-core ---
+2026-11-18T17:42:02.7181564Z [INFO] Building jar: /home/runner/work/turboj/turboj/commandj/commandj-core/target/commandj-core-0.1.0.jar
+2026-11-18T17:42:02.7231455Z [INFO] 
+2026-11-18T17:42:02.7232060Z [INFO] --- install:3.1.4:install (default-install) @ commandj-core ---
+2026-11-18T17:42:02.7238870Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-core/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-core/0.1.0/commandj-core-0.1.0.pom
+2026-11-18T17:42:02.7242734Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-core/target/commandj-core-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-core/0.1.0/commandj-core-0.1.0.jar
+2026-11-18T17:42:02.7248838Z [INFO] 
+2026-11-18T17:42:02.7249706Z [INFO] ----------------< dev.turboj.commandj:commandj-keymap >-----------------
+2026-11-18T17:42:02.7250436Z [INFO] Building commandj-keymap 0.1.0                                    [8/39]
+2026-11-18T17:42:02.7251340Z [INFO]   from commandj/commandj-keymap/pom.xml
+2026-11-18T17:42:02.7251935Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:02.7270688Z [INFO] 
+2026-11-18T17:42:02.7271467Z [INFO] --- clean:3.4.1:clean (default-clean) @ commandj-keymap ---
+2026-11-18T17:42:02.7275851Z [INFO] 
+2026-11-18T17:42:02.7276525Z [INFO] --- resources:3.3.1:resources (default-resources) @ commandj-keymap ---
+2026-11-18T17:42:02.7284259Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:42:02.7285672Z [INFO] 
+2026-11-18T17:42:02.7286352Z [INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-keymap ---
+2026-11-18T17:42:02.7301996Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:02.7303951Z [INFO] Compiling 11 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:02.9352770Z [INFO] 
+2026-11-18T17:42:02.9353776Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-keymap ---
+2026-11-18T17:42:02.9366315Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/commandj/commandj-keymap/src/test/resources
+2026-11-18T17:42:02.9367629Z [INFO] 
+2026-11-18T17:42:02.9368178Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-keymap ---
+2026-11-18T17:42:02.9386559Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:02.9387703Z [INFO] Compiling 4 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:03.1528080Z [INFO] 
+2026-11-18T17:42:03.1530909Z [INFO] --- surefire:3.5.4:test (default-test) @ commandj-keymap ---
+2026-11-18T17:42:03.1557560Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:03.1610234Z [INFO] 
+2026-11-18T17:42:03.1611807Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:03.1612565Z [INFO]  T E S T S
+2026-11-18T17:42:03.1613127Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:03.5524801Z [INFO] Running dev.turboj.commandj.keymap.ProfileSwitchTest
+2026-11-18T17:42:03.7971076Z [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.247 s -- in dev.turboj.commandj.keymap.ProfileSwitchTest
+2026-11-18T17:42:03.7990182Z [INFO] Running dev.turboj.commandj.keymap.CompleteDefaultsTest
+2026-11-18T17:42:03.9839821Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.178 s -- in dev.turboj.commandj.keymap.CompleteDefaultsTest
+2026-11-18T17:42:03.9865038Z [INFO] Running dev.turboj.commandj.keymap.KeyboardAuditTest
+2026-11-18T17:42:04.0877342Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 s -- in dev.turboj.commandj.keymap.KeyboardAuditTest
+2026-11-18T17:42:04.0921152Z [INFO] Running dev.turboj.commandj.keymap.KeymapTest
+2026-11-18T17:42:04.1470114Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in dev.turboj.commandj.keymap.KeymapTest
+2026-11-18T17:42:04.1590959Z [INFO] 
+2026-11-18T17:42:04.1591382Z [INFO] Results:
+2026-11-18T17:42:04.1591729Z [INFO] 
+2026-11-18T17:42:04.1592119Z [INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:42:04.1592573Z [INFO] 
+2026-11-18T17:42:04.1596575Z [INFO] 
+2026-11-18T17:42:04.1596994Z [INFO] --- jar:3.4.2:jar (default-jar) @ commandj-keymap ---
+2026-11-18T17:42:04.1639867Z [INFO] Building jar: /home/runner/work/turboj/turboj/commandj/commandj-keymap/target/commandj-keymap-0.1.0.jar
+2026-11-18T17:42:04.1699467Z [INFO] 
+2026-11-18T17:42:04.1700295Z [INFO] --- install:3.1.4:install (default-install) @ commandj-keymap ---
+2026-11-18T17:42:04.1710039Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-keymap/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-keymap/0.1.0/commandj-keymap-0.1.0.pom
+2026-11-18T17:42:04.1712730Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-keymap/target/commandj-keymap-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-keymap/0.1.0/commandj-keymap-0.1.0.jar
+2026-11-18T17:42:04.1720868Z [INFO] 
+2026-11-18T17:42:04.1721612Z [INFO] ----------------< dev.turboj.commandj:commandj-palette >----------------
+2026-11-18T17:42:04.1722302Z [INFO] Building commandj-palette 0.1.0                                   [9/39]
+2026-11-18T17:42:04.1722940Z [INFO]   from commandj/commandj-palette/pom.xml
+2026-11-18T17:42:04.1723517Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:04.1743194Z [INFO] 
+2026-11-18T17:42:04.1743820Z [INFO] --- clean:3.4.1:clean (default-clean) @ commandj-palette ---
+2026-11-18T17:42:04.1748279Z [INFO] 
+2026-11-18T17:42:04.1749253Z [INFO] --- resources:3.3.1:resources (default-resources) @ commandj-palette ---
+2026-11-18T17:42:04.1757610Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:42:04.1759607Z [INFO] 
+2026-11-18T17:42:04.1760374Z [INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-palette ---
+2026-11-18T17:42:04.1775481Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:04.1777482Z [INFO] Compiling 1 source file with javac [debug release 25] to target/classes
+2026-11-18T17:42:04.2168371Z [INFO] 
+2026-11-18T17:42:04.2169331Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-palette ---
+2026-11-18T17:42:04.2180135Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/commandj/commandj-palette/src/test/resources
+2026-11-18T17:42:04.2181693Z [INFO] 
+2026-11-18T17:42:04.2182405Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-palette ---
+2026-11-18T17:42:04.2200930Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:04.2202491Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:04.2521650Z [INFO] 
+2026-11-18T17:42:04.2522258Z [INFO] --- surefire:3.5.4:test (default-test) @ commandj-palette ---
+2026-11-18T17:42:04.2540821Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:04.2573280Z [INFO] 
+2026-11-18T17:42:04.2574784Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:04.2575428Z [INFO]  T E S T S
+2026-11-18T17:42:04.2575913Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:04.6366366Z [INFO] Running dev.turboj.commandj.palette.CommandSearchTest
+2026-11-18T17:42:04.7060227Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s -- in dev.turboj.commandj.palette.CommandSearchTest
+2026-11-18T17:42:04.7110978Z [INFO] 
+2026-11-18T17:42:04.7111402Z [INFO] Results:
+2026-11-18T17:42:04.7111790Z [INFO] 
+2026-11-18T17:42:04.7112186Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:42:04.7112610Z [INFO] 
+2026-11-18T17:42:04.7114275Z [INFO] 
+2026-11-18T17:42:04.7114679Z [INFO] --- jar:3.4.2:jar (default-jar) @ commandj-palette ---
+2026-11-18T17:42:04.7144605Z [INFO] Building jar: /home/runner/work/turboj/turboj/commandj/commandj-palette/target/commandj-palette-0.1.0.jar
+2026-11-18T17:42:04.7178272Z [INFO] 
+2026-11-18T17:42:04.7179193Z [INFO] --- install:3.1.4:install (default-install) @ commandj-palette ---
+2026-11-18T17:42:04.7185659Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-palette/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-palette/0.1.0/commandj-palette-0.1.0.pom
+2026-11-18T17:42:04.7190081Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-palette/target/commandj-palette-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-palette/0.1.0/commandj-palette-0.1.0.jar
+2026-11-18T17:42:04.7196558Z [INFO] 
+2026-11-18T17:42:04.7197131Z [INFO] -----------------< dev.turboj.commandj:commandj-swing >-----------------
+2026-11-18T17:42:04.7197965Z [INFO] Building commandj-swing 0.1.0                                    [10/39]
+2026-11-18T17:42:04.7199011Z [INFO]   from commandj/commandj-swing/pom.xml
+2026-11-18T17:42:04.7202229Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:04.7229544Z [INFO] 
+2026-11-18T17:42:04.7230825Z [INFO] --- clean:3.4.1:clean (default-clean) @ commandj-swing ---
+2026-11-18T17:42:04.7238138Z [INFO] 
+2026-11-18T17:42:04.7269403Z [INFO] --- resources:3.3.1:resources (default-resources) @ commandj-swing ---
+2026-11-18T17:42:04.7276844Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:42:04.7278158Z [INFO] 
+2026-11-18T17:42:04.7279548Z [INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-swing ---
+2026-11-18T17:42:04.7280841Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:04.7281922Z [INFO] Compiling 15 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:05.1120359Z [INFO] 
+2026-11-18T17:42:05.1150322Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-swing ---
+2026-11-18T17:42:05.1170492Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/commandj/commandj-swing/src/test/resources
+2026-11-18T17:42:05.1185822Z [INFO] 
+2026-11-18T17:42:05.1187446Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-swing ---
+2026-11-18T17:42:05.1188270Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:05.1189317Z [INFO] Compiling 7 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:05.3069679Z [INFO] 
+2026-11-18T17:42:05.3070554Z [INFO] --- surefire:3.5.4:test (default-test) @ commandj-swing ---
+2026-11-18T17:42:05.3107041Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:05.3147816Z [INFO] 
+2026-11-18T17:42:05.3148931Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:05.3151701Z [INFO]  T E S T S
+2026-11-18T17:42:05.3153220Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:06.0633896Z [INFO] Running dev.turboj.commandj.swing.SwingBridgeTest
+2026-11-18T17:42:06.7700545Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.702 s -- in dev.turboj.commandj.swing.SwingBridgeTest
+2026-11-18T17:42:06.7701571Z [INFO] Running dev.turboj.commandj.swing.OverlayHostTest
+2026-11-18T17:42:07.5867931Z [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.818 s -- in dev.turboj.commandj.swing.OverlayHostTest
+2026-11-18T17:42:07.5874133Z [INFO] Running dev.turboj.commandj.swing.AsciiSurfaceTest
+2026-11-18T17:42:07.8091179Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.224 s -- in dev.turboj.commandj.swing.AsciiSurfaceTest
+2026-11-18T17:42:07.8092365Z [INFO] Running dev.turboj.commandj.swing.AsciiComboKeyboardTest
+2026-11-18T17:42:07.8350201Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in dev.turboj.commandj.swing.AsciiComboKeyboardTest
+2026-11-18T17:42:07.8351076Z [INFO] Running dev.turboj.commandj.swing.PaletteDispatchTest
+2026-11-18T17:42:07.8805877Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in dev.turboj.commandj.swing.PaletteDispatchTest
+2026-11-18T17:42:07.8838798Z [INFO] Running dev.turboj.commandj.swing.AsciiTextNavigationTest
+2026-11-18T17:42:07.8920618Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in dev.turboj.commandj.swing.AsciiTextNavigationTest
+2026-11-18T17:42:07.8936555Z [INFO] Running dev.turboj.commandj.swing.AsciiTreeKeyboardTest
+2026-11-18T17:42:07.9111629Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in dev.turboj.commandj.swing.AsciiTreeKeyboardTest
+2026-11-18T17:42:08.0923350Z [INFO] 
+2026-11-18T17:42:08.0923880Z [INFO] Results:
+2026-11-18T17:42:08.0924404Z [INFO] 
+2026-11-18T17:42:08.0924913Z [INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:42:08.0925435Z [INFO] 
+2026-11-18T17:42:08.0929350Z [INFO] 
+2026-11-18T17:42:08.0930175Z [INFO] --- jar:3.4.2:jar (default-jar) @ commandj-swing ---
+2026-11-18T17:42:08.1009941Z [INFO] Building jar: /home/runner/work/turboj/turboj/commandj/commandj-swing/target/commandj-swing-0.1.0.jar
+2026-11-18T17:42:08.1109383Z [INFO] 
+2026-11-18T17:42:08.1110006Z [INFO] --- install:3.1.4:install (default-install) @ commandj-swing ---
+2026-11-18T17:42:08.1119859Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-swing/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-swing/0.1.0/commandj-swing-0.1.0.pom
+2026-11-18T17:42:08.1134118Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-swing/target/commandj-swing-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-swing/0.1.0/commandj-swing-0.1.0.jar
+2026-11-18T17:42:08.1139256Z [INFO] 
+2026-11-18T17:42:08.1144633Z [INFO] --------------< dev.turboj.commandj:commandj-benchmarks >---------------
+2026-11-18T17:42:08.1145407Z [INFO] Building commandj-benchmarks 0.1.0                               [11/39]
+2026-11-18T17:42:08.1146225Z [INFO]   from commandj/commandj-benchmarks/pom.xml
+2026-11-18T17:42:08.1156339Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:08.1164574Z [INFO] 
+2026-11-18T17:42:08.1165323Z [INFO] --- clean:3.4.1:clean (default-clean) @ commandj-benchmarks ---
+2026-11-18T17:42:08.1170759Z [INFO] 
+2026-11-18T17:42:08.1171431Z [INFO] --- resources:3.3.1:resources (default-resources) @ commandj-benchmarks ---
+2026-11-18T17:42:08.1181709Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:42:08.1183556Z [INFO] 
+2026-11-18T17:42:08.1184228Z [INFO] --- compiler:3.14.1:compile (default-compile) @ commandj-benchmarks ---
+2026-11-18T17:42:08.1213722Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:08.1215915Z [INFO] Compiling 1 source file with javac [debug release 25] to target/classes
+2026-11-18T17:42:08.3530997Z [INFO] 
+2026-11-18T17:42:08.3539927Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ commandj-benchmarks ---
+2026-11-18T17:42:08.3542546Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/commandj/commandj-benchmarks/src/test/resources
+2026-11-18T17:42:08.3543549Z [INFO] 
+2026-11-18T17:42:08.3547749Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ commandj-benchmarks ---
+2026-11-18T17:42:08.3559489Z [INFO] No sources to compile
+2026-11-18T17:42:08.3564782Z [INFO] 
+2026-11-18T17:42:08.3565437Z [INFO] --- surefire:3.5.4:test (default-test) @ commandj-benchmarks ---
+2026-11-18T17:42:08.3576594Z [INFO] No tests to run.
+2026-11-18T17:42:08.3587940Z [INFO] 
+2026-11-18T17:42:08.3588848Z [INFO] --- jar:3.4.2:jar (default-jar) @ commandj-benchmarks ---
+2026-11-18T17:42:08.3614934Z [INFO] Building jar: /home/runner/work/turboj/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks-0.1.0.jar
+2026-11-18T17:42:08.3697759Z [INFO] 
+2026-11-18T17:42:08.3698700Z [INFO] --- shade:3.6.1:shade (default) @ commandj-benchmarks ---
+2026-11-18T17:42:08.6007819Z [WARNING] commandj-benchmarks-0.1.0.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar define 1 overlapping resource: 
+2026-11-18T17:42:08.6008917Z [WARNING]   - META-INF/commandj-LICENSE.txt
+2026-11-18T17:42:08.6009748Z [WARNING] commandj-benchmarks-0.1.0.jar, commandj-core-0.1.0.jar, commandj-keymap-0.1.0.jar, commandj-palette-0.1.0.jar, commons-math3-3.6.1.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, jmh-core-1.37.jar, jopt-simple-5.0.4.jar define 1 overlapping resource: 
+2026-11-18T17:42:08.6010744Z [WARNING]   - META-INF/MANIFEST.MF
+2026-11-18T17:42:08.6011090Z [WARNING] maven-shade-plugin has detected that some files are
+2026-11-18T17:42:08.6011479Z [WARNING] present in two or more JARs. When this happens, only one
+2026-11-18T17:42:08.6011896Z [WARNING] single version of the file is copied to the uber jar.
+2026-11-18T17:42:08.6012276Z [WARNING] Usually this is not harmful and you can skip these warnings,
+2026-11-18T17:42:08.6012880Z [WARNING] otherwise try to manually exclude artifacts based on
+2026-11-18T17:42:08.6013267Z [WARNING] mvn dependency:tree -Ddetail=true and the above output.
+2026-11-18T17:42:08.6013673Z [WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+2026-11-18T17:42:08.6033524Z [INFO] 
+2026-11-18T17:42:08.6033951Z [INFO] --- install:3.1.4:install (default-install) @ commandj-benchmarks ---
+2026-11-18T17:42:08.6041069Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-benchmarks/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-benchmarks/0.1.0/commandj-benchmarks-0.1.0.pom
+2026-11-18T17:42:08.6044913Z [INFO] Installing /home/runner/work/turboj/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/commandj/commandj-benchmarks/0.1.0/commandj-benchmarks-0.1.0.jar
+2026-11-18T17:42:08.6052133Z [INFO] 
+2026-11-18T17:42:08.6052753Z [INFO] -------------------< dev.turboj.refactorj:refactorj >-------------------
+2026-11-18T17:42:08.6053473Z [INFO] Building RefactorJ 0.1.0                                         [12/39]
+2026-11-18T17:42:08.6054236Z [INFO]   from refactorj/pom.xml
+2026-11-18T17:42:08.6054866Z [INFO] --------------------------------[ pom ]---------------------------------
+2026-11-18T17:42:08.6059106Z [INFO] 
+2026-11-18T17:42:08.6059599Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj ---
+2026-11-18T17:42:08.6065555Z [INFO] 
+2026-11-18T17:42:08.6065922Z [INFO] --- install:3.1.4:install (default-install) @ refactorj ---
+2026-11-18T17:42:08.6067156Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj/0.1.0/refactorj-0.1.0.pom
+2026-11-18T17:42:08.6073905Z [INFO] 
+2026-11-18T17:42:08.6074431Z [INFO] -----------------< dev.turboj.refactorj:refactorj-api >-----------------
+2026-11-18T17:42:08.6075076Z [INFO] Building refactorj-api 0.1.0                                     [13/39]
+2026-11-18T17:42:08.6075724Z [INFO]   from refactorj/refactorj-api/pom.xml
+2026-11-18T17:42:08.6076254Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:08.6095976Z [INFO] 
+2026-11-18T17:42:08.6096688Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-api ---
+2026-11-18T17:42:08.6100016Z [INFO] 
+2026-11-18T17:42:08.6100609Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-api ---
+2026-11-18T17:42:08.6106389Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-api/src/main/resources
+2026-11-18T17:42:08.6107102Z [INFO] 
+2026-11-18T17:42:08.6107623Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-api ---
+2026-11-18T17:42:08.6123605Z [INFO] Recompiling the module because of changed source code.
+2026-11-18T17:42:08.6125413Z [INFO] Compiling 13 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:08.7768042Z [INFO] 
+2026-11-18T17:42:08.7769163Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-api ---
+2026-11-18T17:42:08.7787262Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-api/src/test/resources
+2026-11-18T17:42:08.7788201Z [INFO] 
+2026-11-18T17:42:08.7789128Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-api ---
+2026-11-18T17:42:08.7821605Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:08.7851408Z [INFO] Compiling 2 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:08.8283166Z [INFO] 
+2026-11-18T17:42:08.8283958Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-api ---
+2026-11-18T17:42:08.8304387Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:08.8339657Z [INFO] 
+2026-11-18T17:42:08.8340402Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:08.8341369Z [INFO]  T E S T S
+2026-11-18T17:42:08.8343818Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:09.1982037Z [INFO] Running dev.turboj.refactorj.api.EditComposerTest
+2026-11-18T17:42:09.2632524Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s -- in dev.turboj.refactorj.api.EditComposerTest
+2026-11-18T17:42:09.2638244Z [INFO] Running dev.turboj.refactorj.api.SourceInventoryTest
+2026-11-18T17:42:09.3027145Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in dev.turboj.refactorj.api.SourceInventoryTest
+2026-11-18T17:42:09.3109849Z [INFO] 
+2026-11-18T17:42:09.3110142Z [INFO] Results:
+2026-11-18T17:42:09.3110554Z [INFO] 
+2026-11-18T17:42:09.3110871Z [INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:42:09.3111177Z [INFO] 
+2026-11-18T17:42:09.3114728Z [INFO] 
+2026-11-18T17:42:09.3115037Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-api ---
+2026-11-18T17:42:09.3174419Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-api/target/refactorj-api-0.1.0.jar
+2026-11-18T17:42:09.3249589Z [INFO] 
+2026-11-18T17:42:09.3250296Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-api ---
+2026-11-18T17:42:09.3255208Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-api/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-api/0.1.0/refactorj-api-0.1.0.pom
+2026-11-18T17:42:09.3260857Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-api/target/refactorj-api-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-api/0.1.0/refactorj-api-0.1.0.jar
+2026-11-18T17:42:09.3268165Z [INFO] 
+2026-11-18T17:42:09.3268951Z [INFO] -----------------< dev.turboj.refactorj:refactorj-jdt >-----------------
+2026-11-18T17:42:09.3269600Z [INFO] Building refactorj-jdt 0.1.0                                     [14/39]
+2026-11-18T17:42:09.3270215Z [INFO]   from refactorj/refactorj-jdt/pom.xml
+2026-11-18T17:42:09.3270837Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:11.7134616Z [INFO] 
+2026-11-18T17:42:11.7135080Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-jdt ---
+2026-11-18T17:42:11.7143538Z [INFO] 
+2026-11-18T17:42:11.7144277Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-jdt ---
+2026-11-18T17:42:11.7152737Z [INFO] Copying 1 resource from src/main/resources to target/classes
+2026-11-18T17:42:11.7154214Z [INFO] 
+2026-11-18T17:42:11.7154730Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-jdt ---
+2026-11-18T17:42:11.7172411Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:11.7174057Z [INFO] Compiling 18 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:12.6414303Z [INFO] /home/runner/work/turboj/turboj/refactorj/refactorj-jdt/src/main/java/dev/turboj/refactorj/jdt/JdtQuickActions.java: Some input files use unchecked or unsafe operations.
+2026-11-18T17:42:12.6416425Z [INFO] /home/runner/work/turboj/turboj/refactorj/refactorj-jdt/src/main/java/dev/turboj/refactorj/jdt/JdtQuickActions.java: Recompile with -Xlint:unchecked for details.
+2026-11-18T17:42:12.6417550Z [INFO] 
+2026-11-18T17:42:12.6418119Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-jdt ---
+2026-11-18T17:42:12.6514631Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-jdt/target/refactorj-jdt-0.1.0.jar
+2026-11-18T17:42:12.6670295Z [INFO] 
+2026-11-18T17:42:12.6670901Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-jdt ---
+2026-11-18T17:42:12.6776124Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-jdt/src/test/resources
+2026-11-18T17:42:12.6777212Z [INFO] 
+2026-11-18T17:42:12.6777776Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-jdt ---
+2026-11-18T17:42:12.6783332Z [INFO] No sources to compile
+2026-11-18T17:42:12.6785665Z [INFO] 
+2026-11-18T17:42:12.6786450Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-jdt ---
+2026-11-18T17:42:12.6801991Z [INFO] No tests to run.
+2026-11-18T17:42:12.6802578Z [INFO] 
+2026-11-18T17:42:12.6803207Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-jdt ---
+2026-11-18T17:42:12.6809123Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-jdt/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-jdt/0.1.0/refactorj-jdt-0.1.0.pom
+2026-11-18T17:42:12.6815307Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-jdt/target/refactorj-jdt-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-jdt/0.1.0/refactorj-jdt-0.1.0.jar
+2026-11-18T17:42:12.6825250Z [INFO] 
+2026-11-18T17:42:12.6826090Z [INFO] ------------< dev.turboj.refactorj:refactorj-transactions >-------------
+2026-11-18T17:42:12.6826963Z [INFO] Building refactorj-transactions 0.1.0                            [15/39]
+2026-11-18T17:42:12.6827751Z [INFO]   from refactorj/refactorj-transactions/pom.xml
+2026-11-18T17:42:12.6828398Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:12.6859499Z [INFO] 
+2026-11-18T17:42:12.6879499Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-transactions ---
+2026-11-18T17:42:12.6907022Z [INFO] 
+2026-11-18T17:42:12.6929408Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-transactions ---
+2026-11-18T17:42:12.6964990Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-transactions/src/main/resources
+2026-11-18T17:42:12.6972458Z [INFO] 
+2026-11-18T17:42:12.6973190Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-transactions ---
+2026-11-18T17:42:12.6999430Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:12.7009703Z [INFO] Compiling 7 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:12.8437184Z [INFO] 
+2026-11-18T17:42:12.8460140Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-transactions ---
+2026-11-18T17:42:12.8480449Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-transactions/src/test/resources
+2026-11-18T17:42:12.8481435Z [INFO] 
+2026-11-18T17:42:12.8482119Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-transactions ---
+2026-11-18T17:42:12.8482944Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:12.8483663Z [INFO] Compiling 2 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:12.9860465Z [INFO] 
+2026-11-18T17:42:12.9889902Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-transactions ---
+2026-11-18T17:42:12.9890999Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:12.9913761Z [INFO] 
+2026-11-18T17:42:12.9915623Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:12.9916281Z [INFO]  T E S T S
+2026-11-18T17:42:12.9938819Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:13.4056976Z [INFO] Running dev.turboj.refactorj.transactions.NativeMetadataTest
+2026-11-18T17:42:13.4820313Z [WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 5, Time elapsed: 0.069 s -- in dev.turboj.refactorj.transactions.NativeMetadataTest
+2026-11-18T17:42:13.4849909Z [INFO] Running dev.turboj.refactorj.transactions.WorkspaceTransactionsTest
+2026-11-18T17:42:13.7445641Z [INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.270 s -- in dev.turboj.refactorj.transactions.WorkspaceTransactionsTest
+2026-11-18T17:42:13.7523886Z [INFO] 
+2026-11-18T17:42:13.7524266Z [INFO] Results:
+2026-11-18T17:42:13.7524728Z [INFO] 
+2026-11-18T17:42:13.7525194Z [WARNING] Tests run: 26, Failures: 0, Errors: 0, Skipped: 5
+2026-11-18T17:42:13.7525616Z [INFO] 
+2026-11-18T17:42:13.7529217Z [INFO] 
+2026-11-18T17:42:13.7529607Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-transactions ---
+2026-11-18T17:42:13.7556991Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-transactions/target/refactorj-transactions-0.1.0.jar
+2026-11-18T17:42:13.7608197Z [INFO] 
+2026-11-18T17:42:13.7609192Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-transactions ---
+2026-11-18T17:42:13.7616025Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-transactions/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-transactions/0.1.0/refactorj-transactions-0.1.0.pom
+2026-11-18T17:42:13.7620386Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-transactions/target/refactorj-transactions-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-transactions/0.1.0/refactorj-transactions-0.1.0.jar
+2026-11-18T17:42:13.7627623Z [INFO] 
+2026-11-18T17:42:13.7628277Z [INFO] ---------------< dev.turboj.refactorj:refactorj-runtime >---------------
+2026-11-18T17:42:13.7629174Z [INFO] Building refactorj-runtime 0.1.0                                 [16/39]
+2026-11-18T17:42:13.7629753Z [INFO]   from refactorj/refactorj-runtime/pom.xml
+2026-11-18T17:42:13.7630459Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:42:14.9883152Z [INFO] 
+2026-11-18T17:42:14.9883767Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-runtime ---
+2026-11-18T17:42:14.9889170Z [INFO] 
+2026-11-18T17:42:14.9889712Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-runtime ---
+2026-11-18T17:42:14.9896902Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-runtime/src/main/resources
+2026-11-18T17:42:14.9897487Z [INFO] 
+2026-11-18T17:42:14.9897873Z [INFO] --- dependency:3.8.1:copy-dependencies (embed-intact-semantic-bundles) @ refactorj-runtime ---
+2026-11-18T17:42:22.2719983Z [INFO] 
+2026-11-18T17:42:22.2720455Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-runtime ---
+2026-11-18T17:42:22.2741000Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:22.2744553Z [INFO] Compiling 3 source files with javac [debug release 25] to target/classes
+2026-11-18T17:42:22.3489533Z [INFO] 
+2026-11-18T17:42:22.3519679Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-runtime ---
+2026-11-18T17:42:22.3526560Z [INFO] Copying 2 resources from src/test/resources to target/test-classes
+2026-11-18T17:42:22.3527322Z [INFO] 
+2026-11-18T17:42:22.3528386Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-runtime ---
+2026-11-18T17:42:22.3529486Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:42:22.3530180Z [INFO] Compiling 10 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:42:22.6299928Z [INFO] 
+2026-11-18T17:42:22.6303768Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-runtime ---
+2026-11-18T17:42:22.6323511Z [INFO] 
+2026-11-18T17:42:22.6324207Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-runtime ---
+2026-11-18T17:42:22.6366116Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-runtime/target/refactorj-runtime-0.1.0.jar
+2026-11-18T17:42:22.9548399Z [INFO] 
+2026-11-18T17:42:22.9549176Z [INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-runtime ---
+2026-11-18T17:42:23.0130682Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:42:23.0268250Z [INFO] 
+2026-11-18T17:42:23.0269433Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:23.0270174Z [INFO]  T E S T S
+2026-11-18T17:42:23.0270712Z [INFO] -------------------------------------------------------
+2026-11-18T17:42:23.5744690Z [INFO] Running dev.turboj.refactorj.runtime.RuntimeLifecycleIT
+2026-11-18T17:42:24.7636212Z WARNING: A restricted method in java.lang.System has been called
+2026-11-18T17:42:24.7637492Z WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/tmp/refactorj-runtime-14225082131030935960/configuration/org.eclipse.osgi/11/0/bundleFile)
+2026-11-18T17:42:24.7638767Z WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+2026-11-18T17:42:24.7639356Z WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+2026-11-18T17:42:24.7639642Z 
+2026-11-18T17:42:27.6816242Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.107 s -- in dev.turboj.refactorj.runtime.RuntimeLifecycleIT
+2026-11-18T17:42:27.6850288Z [INFO] Running dev.turboj.refactorj.runtime.ExtendedClassicIT
+2026-11-18T17:43:12.4477183Z [INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 44.77 s -- in dev.turboj.refactorj.runtime.ExtendedClassicIT
+2026-11-18T17:43:12.4478408Z [INFO] Running dev.turboj.refactorj.runtime.KeyboardJavaIT
+2026-11-18T17:43:22.1059815Z [INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.655 s -- in dev.turboj.refactorj.runtime.KeyboardJavaIT
+2026-11-18T17:43:22.1064222Z [INFO] Running dev.turboj.refactorj.runtime.ClassicIT
+2026-11-18T17:43:54.2420831Z [INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.13 s -- in dev.turboj.refactorj.runtime.ClassicIT
+2026-11-18T17:43:54.2423402Z [INFO] Running dev.turboj.refactorj.runtime.SymbolIdentityIT
+2026-11-18T17:44:10.5669190Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.33 s -- in dev.turboj.refactorj.runtime.SymbolIdentityIT
+2026-11-18T17:44:10.5670301Z [INFO] Running dev.turboj.refactorj.runtime.SemanticPropertiesIT
+2026-11-18T17:44:12.7190324Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.147 s -- in dev.turboj.refactorj.runtime.SemanticPropertiesIT
+2026-11-18T17:44:12.7191244Z [INFO] Running dev.turboj.refactorj.runtime.QuickActionsIT
+2026-11-18T17:44:40.2544047Z text
+2026-11-18T17:45:23.1483721Z [INFO] Tests run: 49, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 70.43 s -- in dev.turboj.refactorj.runtime.QuickActionsIT
+2026-11-18T17:45:23.1484895Z [INFO] Running dev.turboj.refactorj.runtime.UsageNavigationIT
+2026-11-18T17:45:49.8686170Z [INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.72 s -- in dev.turboj.refactorj.runtime.UsageNavigationIT
+2026-11-18T17:45:49.8688150Z [INFO] Running dev.turboj.refactorj.runtime.ModernizationIT
+2026-11-18T17:46:04.7954533Z [INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.93 s -- in dev.turboj.refactorj.runtime.ModernizationIT
+2026-11-18T17:46:04.9335064Z [INFO] 
+2026-11-18T17:46:04.9335689Z [INFO] Results:
+2026-11-18T17:46:04.9336217Z [INFO] 
+2026-11-18T17:46:04.9337147Z [INFO] Tests run: 165, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:04.9337640Z [INFO] 
+2026-11-18T17:46:04.9365622Z [INFO] 
+2026-11-18T17:46:04.9367874Z [INFO] --- failsafe:3.5.4:verify (default) @ refactorj-runtime ---
+2026-11-18T17:46:04.9680493Z [INFO] 
+2026-11-18T17:46:04.9680978Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-runtime ---
+2026-11-18T17:46:04.9686204Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-runtime/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-runtime/0.1.0/refactorj-runtime-0.1.0.pom
+2026-11-18T17:46:04.9691163Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-runtime/target/refactorj-runtime-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-runtime/0.1.0/refactorj-runtime-0.1.0.jar
+2026-11-18T17:46:04.9794362Z [INFO] 
+2026-11-18T17:46:04.9794872Z [INFO] -----------------< dev.turboj.refactorj:refactorj-cli >-----------------
+2026-11-18T17:46:04.9795318Z [INFO] Building refactorj-cli 0.1.0                                     [17/39]
+2026-11-18T17:46:04.9795679Z [INFO]   from refactorj/refactorj-cli/pom.xml
+2026-11-18T17:46:04.9796080Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:04.9847459Z [INFO] 
+2026-11-18T17:46:04.9848261Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-cli ---
+2026-11-18T17:46:04.9852915Z [INFO] 
+2026-11-18T17:46:04.9853240Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-cli ---
+2026-11-18T17:46:04.9862334Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-cli/src/main/resources
+2026-11-18T17:46:04.9862979Z [INFO] 
+2026-11-18T17:46:04.9863362Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-cli ---
+2026-11-18T17:46:04.9879965Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:04.9881515Z [INFO] Compiling 5 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:05.0852444Z [INFO] 
+2026-11-18T17:46:05.0853211Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-cli ---
+2026-11-18T17:46:05.0862690Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-cli/src/test/resources
+2026-11-18T17:46:05.0863716Z [INFO] 
+2026-11-18T17:46:05.0864365Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-cli ---
+2026-11-18T17:46:05.0884656Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:05.0885536Z [INFO] Compiling 2 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:05.2011337Z [INFO] 
+2026-11-18T17:46:05.2012313Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-cli ---
+2026-11-18T17:46:05.2033673Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:05.2062010Z [INFO] 
+2026-11-18T17:46:05.2067457Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:05.2068941Z [INFO]  T E S T S
+2026-11-18T17:46:05.2069648Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:05.5995933Z [INFO] Running dev.turboj.refactorj.cli.ProtocolTest
+2026-11-18T17:46:05.7560545Z [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.156 s -- in dev.turboj.refactorj.cli.ProtocolTest
+2026-11-18T17:46:05.7681279Z [INFO] 
+2026-11-18T17:46:05.7681624Z [INFO] Results:
+2026-11-18T17:46:05.7681961Z [INFO] 
+2026-11-18T17:46:05.7682308Z [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:05.7682631Z [INFO] 
+2026-11-18T17:46:05.7685787Z [INFO] 
+2026-11-18T17:46:05.7686147Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-cli ---
+2026-11-18T17:46:05.7717508Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-cli/target/refactorj-cli-0.1.0.jar
+2026-11-18T17:46:05.7869734Z [INFO] 
+2026-11-18T17:46:05.7870330Z [INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-cli ---
+2026-11-18T17:46:05.7899590Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:05.7922056Z [INFO] 
+2026-11-18T17:46:05.7922728Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:05.7924379Z [INFO]  T E S T S
+2026-11-18T17:46:05.7924868Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:06.1590357Z [INFO] Running dev.turboj.refactorj.cli.RefactorIntegrationIT
+2026-11-18T17:46:07.1865688Z WARNING: A restricted method in java.lang.System has been called
+2026-11-18T17:46:07.1866737Z WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/tmp/refactorj-runtime-17890206503595218973/configuration/org.eclipse.osgi/11/0/bundleFile)
+2026-11-18T17:46:07.1867685Z WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+2026-11-18T17:46:07.1868248Z WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+2026-11-18T17:46:07.1868683Z 
+2026-11-18T17:46:23.4242543Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.27 s -- in dev.turboj.refactorj.cli.RefactorIntegrationIT
+2026-11-18T17:46:23.4654259Z [INFO] 
+2026-11-18T17:46:23.4654978Z [INFO] Results:
+2026-11-18T17:46:23.4655452Z [INFO] 
+2026-11-18T17:46:23.4655982Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:23.4656499Z [INFO] 
+2026-11-18T17:46:23.4662715Z [INFO] 
+2026-11-18T17:46:23.4663224Z [INFO] --- failsafe:3.5.4:verify (default) @ refactorj-cli ---
+2026-11-18T17:46:23.4703523Z [INFO] 
+2026-11-18T17:46:23.4704039Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-cli ---
+2026-11-18T17:46:23.4712012Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-cli/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-cli/0.1.0/refactorj-cli-0.1.0.pom
+2026-11-18T17:46:23.4718758Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-cli/target/refactorj-cli-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-cli/0.1.0/refactorj-cli-0.1.0.jar
+2026-11-18T17:46:23.4729852Z [INFO] 
+2026-11-18T17:46:23.4730643Z [INFO] -----------------< dev.turboj.refactorj:refactorj-lsp >-----------------
+2026-11-18T17:46:23.4731312Z [INFO] Building refactorj-lsp 0.1.0                                     [18/39]
+2026-11-18T17:46:23.4732239Z [INFO]   from refactorj/refactorj-lsp/pom.xml
+2026-11-18T17:46:23.4732755Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:23.4778404Z [INFO] 
+2026-11-18T17:46:23.4779393Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-lsp ---
+2026-11-18T17:46:23.4783118Z [INFO] 
+2026-11-18T17:46:23.4783898Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-lsp ---
+2026-11-18T17:46:23.4791523Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-lsp/src/main/resources
+2026-11-18T17:46:23.4792279Z [INFO] 
+2026-11-18T17:46:23.4792887Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-lsp ---
+2026-11-18T17:46:23.4809741Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:23.4811782Z [INFO] Compiling 2 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:23.5317663Z [INFO] 
+2026-11-18T17:46:23.5318760Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-lsp ---
+2026-11-18T17:46:23.5325623Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-lsp/src/test/resources
+2026-11-18T17:46:23.5328819Z [INFO] 
+2026-11-18T17:46:23.5329668Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-lsp ---
+2026-11-18T17:46:23.5349963Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:23.5361229Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:23.5950477Z [INFO] 
+2026-11-18T17:46:23.5956928Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-lsp ---
+2026-11-18T17:46:23.5972122Z [INFO] 
+2026-11-18T17:46:23.5972690Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-lsp ---
+2026-11-18T17:46:23.5990937Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-lsp/target/refactorj-lsp-0.1.0.jar
+2026-11-18T17:46:23.6063808Z [INFO] 
+2026-11-18T17:46:23.6064659Z [INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-lsp ---
+2026-11-18T17:46:23.6065553Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:23.6084731Z [INFO] 
+2026-11-18T17:46:23.6085498Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:23.6086202Z [INFO]  T E S T S
+2026-11-18T17:46:23.6087243Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:24.0194044Z [INFO] Running dev.turboj.refactorj.lsp.LspIntegrationIT
+2026-11-18T17:46:25.0980020Z WARNING: A restricted method in java.lang.System has been called
+2026-11-18T17:46:25.0981896Z WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/tmp/refactorj-runtime-16997730694023045392/configuration/org.eclipse.osgi/11/0/bundleFile)
+2026-11-18T17:46:25.0983122Z WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+2026-11-18T17:46:25.0983843Z WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+2026-11-18T17:46:25.0984207Z 
+2026-11-18T17:46:27.3942237Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.374 s -- in dev.turboj.refactorj.lsp.LspIntegrationIT
+2026-11-18T17:46:27.4205827Z [INFO] 
+2026-11-18T17:46:27.4206246Z [INFO] Results:
+2026-11-18T17:46:27.4206516Z [INFO] 
+2026-11-18T17:46:27.4206888Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:27.4207276Z [INFO] 
+2026-11-18T17:46:27.4211389Z [INFO] 
+2026-11-18T17:46:27.4211734Z [INFO] --- failsafe:3.5.4:verify (default) @ refactorj-lsp ---
+2026-11-18T17:46:27.4248311Z [INFO] 
+2026-11-18T17:46:27.4249191Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-lsp ---
+2026-11-18T17:46:27.4255361Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-lsp/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-lsp/0.1.0/refactorj-lsp-0.1.0.pom
+2026-11-18T17:46:27.4259703Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-lsp/target/refactorj-lsp-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-lsp/0.1.0/refactorj-lsp-0.1.0.jar
+2026-11-18T17:46:27.4265558Z [INFO] 
+2026-11-18T17:46:27.4265936Z [INFO] -----------------< dev.turboj.refactorj:refactorj-mcp >-----------------
+2026-11-18T17:46:27.4266498Z [INFO] Building refactorj-mcp 0.1.0                                     [19/39]
+2026-11-18T17:46:27.4266939Z [INFO]   from refactorj/refactorj-mcp/pom.xml
+2026-11-18T17:46:27.4267356Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:27.4303249Z [INFO] 
+2026-11-18T17:46:27.4303682Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-mcp ---
+2026-11-18T17:46:27.4313827Z [INFO] 
+2026-11-18T17:46:27.4327002Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-mcp ---
+2026-11-18T17:46:27.4327845Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-mcp/src/main/resources
+2026-11-18T17:46:27.4328439Z [INFO] 
+2026-11-18T17:46:27.4329056Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-mcp ---
+2026-11-18T17:46:27.4329751Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:27.4330324Z [INFO] Compiling 2 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:27.4734608Z [INFO] 
+2026-11-18T17:46:27.4735483Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-mcp ---
+2026-11-18T17:46:27.4736502Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-mcp/src/test/resources
+2026-11-18T17:46:27.4737290Z [INFO] 
+2026-11-18T17:46:27.4737855Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-mcp ---
+2026-11-18T17:46:27.4748936Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:27.4749950Z [INFO] Compiling 2 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:27.5416282Z [INFO] 
+2026-11-18T17:46:27.5417264Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-mcp ---
+2026-11-18T17:46:27.5438334Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:27.5461053Z [INFO] 
+2026-11-18T17:46:27.5461684Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:27.5465746Z [INFO]  T E S T S
+2026-11-18T17:46:27.5466362Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:27.9385187Z [INFO] Running dev.turboj.refactorj.mcp.McpProtocolTest
+2026-11-18T17:46:28.0340519Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s -- in dev.turboj.refactorj.mcp.McpProtocolTest
+2026-11-18T17:46:28.0422969Z [INFO] 
+2026-11-18T17:46:28.0450062Z [INFO] Results:
+2026-11-18T17:46:28.0450310Z [INFO] 
+2026-11-18T17:46:28.0450685Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:28.0451001Z [INFO] 
+2026-11-18T17:46:28.0451216Z [INFO] 
+2026-11-18T17:46:28.0451503Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-mcp ---
+2026-11-18T17:46:28.0459427Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-mcp/target/refactorj-mcp-0.1.0.jar
+2026-11-18T17:46:28.0486286Z [INFO] 
+2026-11-18T17:46:28.0486886Z [INFO] --- failsafe:3.5.4:integration-test (default) @ refactorj-mcp ---
+2026-11-18T17:46:28.0503676Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:28.0526489Z [INFO] 
+2026-11-18T17:46:28.0526806Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:28.0527266Z [INFO]  T E S T S
+2026-11-18T17:46:28.0527757Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:28.4180756Z [INFO] Running dev.turboj.refactorj.mcp.McpIntegrationIT
+2026-11-18T17:46:29.4726149Z WARNING: A restricted method in java.lang.System has been called
+2026-11-18T17:46:29.4730182Z WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/tmp/refactorj-runtime-3000149576123928000/configuration/org.eclipse.osgi/11/0/bundleFile)
+2026-11-18T17:46:29.4734831Z WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+2026-11-18T17:46:29.4735636Z WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+2026-11-18T17:46:29.4736013Z 
+2026-11-18T17:46:37.1486681Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.729 s -- in dev.turboj.refactorj.mcp.McpIntegrationIT
+2026-11-18T17:46:37.1888400Z [INFO] 
+2026-11-18T17:46:37.1889413Z [INFO] Results:
+2026-11-18T17:46:37.1889802Z [INFO] 
+2026-11-18T17:46:37.1890131Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:37.1890463Z [INFO] 
+2026-11-18T17:46:37.1893713Z [INFO] 
+2026-11-18T17:46:37.1894901Z [INFO] --- failsafe:3.5.4:verify (default) @ refactorj-mcp ---
+2026-11-18T17:46:37.1928467Z [INFO] 
+2026-11-18T17:46:37.1929122Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-mcp ---
+2026-11-18T17:46:37.1934363Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-mcp/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-mcp/0.1.0/refactorj-mcp-0.1.0.pom
+2026-11-18T17:46:37.1939714Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-mcp/target/refactorj-mcp-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-mcp/0.1.0/refactorj-mcp-0.1.0.jar
+2026-11-18T17:46:37.1945733Z [INFO] 
+2026-11-18T17:46:37.1946335Z [INFO] -------------< dev.turboj.refactorj:refactorj-benchmarks >--------------
+2026-11-18T17:46:37.1946990Z [INFO] Building refactorj-benchmarks 0.1.0                              [20/39]
+2026-11-18T17:46:37.1947493Z [INFO]   from refactorj/refactorj-benchmarks/pom.xml
+2026-11-18T17:46:37.1948026Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:37.1990960Z [INFO] 
+2026-11-18T17:46:37.1991394Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.1995272Z [INFO] 
+2026-11-18T17:46:37.1995674Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.2012976Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-benchmarks/src/main/resources
+2026-11-18T17:46:37.2013544Z [INFO] 
+2026-11-18T17:46:37.2013936Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.2040974Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:37.2043377Z [INFO] Compiling 3 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:37.4111138Z [INFO] 
+2026-11-18T17:46:37.4112437Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.4113542Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-benchmarks/src/test/resources
+2026-11-18T17:46:37.4114434Z [INFO] 
+2026-11-18T17:46:37.4115056Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.4122454Z [INFO] No sources to compile
+2026-11-18T17:46:37.4123172Z [INFO] 
+2026-11-18T17:46:37.4123722Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.4137513Z [INFO] No tests to run.
+2026-11-18T17:46:37.4138477Z [INFO] 
+2026-11-18T17:46:37.4139324Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-benchmarks ---
+2026-11-18T17:46:37.4170180Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-benchmarks/target/refactorj-benchmarks-0.1.0.jar
+2026-11-18T17:46:37.4256356Z [INFO] 
+2026-11-18T17:46:37.4257139Z [INFO] --- shade:3.6.1:shade (default) @ refactorj-benchmarks ---
+2026-11-18T17:46:39.8583942Z [WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8586488Z [WARNING]   - plugin.xml
+2026-11-18T17:46:39.8588459Z [WARNING] org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8591270Z [WARNING]   - .options
+2026-11-18T17:46:39.8591894Z [WARNING] jmh-core-1.37.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8592490Z [WARNING]   - LICENSE
+2026-11-18T17:46:39.8593087Z [WARNING] org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.launching-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8593781Z [WARNING]   - META-INF/p2.inf
+2026-11-18T17:46:39.8594911Z [WARNING] org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8596078Z [WARNING]   - META-INF/NOTICE
+2026-11-18T17:46:39.8600092Z [WARNING] org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8603737Z [WARNING]   - plugin.properties
+2026-11-18T17:46:39.8607647Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8611770Z [WARNING]   - about.html
+2026-11-18T17:46:39.8612703Z [WARNING] org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.osgi-3.24.0.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8613661Z [WARNING]   - about_files/LICENSE-2.0.txt
+2026-11-18T17:46:39.8614419Z [WARNING] commonmark-0.27.0.jar, commonmark-ext-gfm-tables-0.27.0.jar, commons-math3-3.6.1.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8615134Z [WARNING]   - META-INF/LICENSE.txt
+2026-11-18T17:46:39.8616352Z [WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar, org.apache.felix.scr-2.2.18.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8617580Z [WARNING]   - META-INF/LICENSE
+2026-11-18T17:46:39.8621433Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8625192Z [WARNING]   - .api_description
+2026-11-18T17:46:39.8631467Z [WARNING] animal-sniffer-annotations-1.9.jar, commonmark-0.27.0.jar, commonmark-ext-gfm-tables-0.27.0.jar, commons-math3-3.6.1.jar, ecj-3.44.0.jar, error_prone_annotations-2.41.0.jar, gson-2.13.2.jar, jmh-core-1.37.jar, jna-5.18.1.jar, jna-platform-5.18.1.jar, jopt-simple-5.0.4.jar, org.apache.felix.scr-2.2.18.jar, org.eclipse.core.commands-3.12.500.jar, org.eclipse.core.contenttype-3.9.800.jar, org.eclipse.core.expressions-3.9.500.jar, org.eclipse.core.filebuffers-3.8.500.jar, org.eclipse.core.filesystem-1.11.400.jar, org.eclipse.core.jobs-3.15.700.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.core.runtime-3.34.100.jar, org.eclipse.core.variables-3.6.700.jar, org.eclipse.debug.core-3.23.200.jar, org.eclipse.equinox.app-1.7.500.jar, org.eclipse.equinox.common-3.20.300.jar, org.eclipse.equinox.preferences-3.12.100.jar, org.eclipse.equinox.registry-3.12.600.jar, org.eclipse.jdt.core-3.44.0.jar, org.eclipse.jdt.core.manipulation-1.23.200.jar, org.eclipse.jdt.debug-3.25.0.jar, org.eclipse.jdt.launching-3.24.0.jar, org.eclipse.jdt.launching.macosx-3.6.300.jar, org.eclipse.ltk.core.refactoring-3.15.100.jar, org.eclipse.osgi-3.24.0.jar, org.eclipse.search.core-3.16.600.jar, org.eclipse.text-3.14.500.jar, org.osgi.namespace.extender-1.0.1.jar, org.osgi.service.component-1.5.1.jar, org.osgi.service.prefs-1.1.2.jar, org.osgi.util.function-1.2.0.jar, org.osgi.util.promise-1.3.0.jar, osgi.annotation-8.0.1.jar, refactorj-api-0.1.0.jar, refactorj-benchmarks-0.1.0.jar, refactorj-jdt-0.1.0.jar, refactorj-runtime-0.1.0.jar, refactorj-transactions-0.1.0.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8637877Z [WARNING]   - META-INF/MANIFEST.MF
+2026-11-18T17:46:39.8638389Z [WARNING] jna-5.18.1.jar, jna-platform-5.18.1.jar define 2 overlapping resources: 
+2026-11-18T17:46:39.8639195Z [WARNING]   - META-INF/AL2.0
+2026-11-18T17:46:39.8639583Z [WARNING]   - META-INF/LGPL2.1
+2026-11-18T17:46:39.8640245Z [WARNING] ecj-3.44.0.jar, org.eclipse.core.resources-3.23.100.jar, org.eclipse.jdt.core-3.44.0.jar define 1 overlapping resource: 
+2026-11-18T17:46:39.8640986Z [WARNING]   - META-INF/eclipse.inf
+2026-11-18T17:46:39.8641413Z [WARNING] maven-shade-plugin has detected that some files are
+2026-11-18T17:46:39.8641916Z [WARNING] present in two or more JARs. When this happens, only one
+2026-11-18T17:46:39.8642491Z [WARNING] single version of the file is copied to the uber jar.
+2026-11-18T17:46:39.8643053Z [WARNING] Usually this is not harmful and you can skip these warnings,
+2026-11-18T17:46:39.8643616Z [WARNING] otherwise try to manually exclude artifacts based on
+2026-11-18T17:46:39.8644127Z [WARNING] mvn dependency:tree -Ddetail=true and the above output.
+2026-11-18T17:46:39.8644655Z [WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+2026-11-18T17:46:39.8747163Z [INFO] 
+2026-11-18T17:46:39.8747773Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-benchmarks ---
+2026-11-18T17:46:39.8764604Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-benchmarks/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-benchmarks/0.1.0/refactorj-benchmarks-0.1.0.pom
+2026-11-18T17:46:39.8771689Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-benchmarks/target/refactorj-benchmarks-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-benchmarks/0.1.0/refactorj-benchmarks-0.1.0.jar
+2026-11-18T17:46:39.8781217Z [INFO] 
+2026-11-18T17:46:39.8783623Z [INFO] ---------------< dev.turboj.refactorj:refactorj-formatj >---------------
+2026-11-18T17:46:39.8803634Z [INFO] Building refactorj-formatj 0.1.0                                 [21/39]
+2026-11-18T17:46:39.8829784Z [INFO]   from refactorj/refactorj-formatj/pom.xml
+2026-11-18T17:46:39.8859529Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:39.8889623Z [INFO] 
+2026-11-18T17:46:39.8899987Z [INFO] --- clean:3.4.1:clean (default-clean) @ refactorj-formatj ---
+2026-11-18T17:46:39.8900614Z [INFO] 
+2026-11-18T17:46:39.8901276Z [INFO] --- resources:3.3.1:resources (default-resources) @ refactorj-formatj ---
+2026-11-18T17:46:39.8902278Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-formatj/src/main/resources
+2026-11-18T17:46:39.8903086Z [INFO] 
+2026-11-18T17:46:39.8903640Z [INFO] --- compiler:3.14.1:compile (default-compile) @ refactorj-formatj ---
+2026-11-18T17:46:39.8904300Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:39.8905008Z [INFO] Compiling 1 source file with javac [debug release 25] to target/classes
+2026-11-18T17:46:39.9347306Z [INFO] 
+2026-11-18T17:46:39.9348817Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ refactorj-formatj ---
+2026-11-18T17:46:39.9356720Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/refactorj/refactorj-formatj/src/test/resources
+2026-11-18T17:46:39.9357697Z [INFO] 
+2026-11-18T17:46:39.9358471Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ refactorj-formatj ---
+2026-11-18T17:46:39.9375085Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:39.9375978Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:39.9924592Z [INFO] 
+2026-11-18T17:46:39.9929558Z [INFO] --- surefire:3.5.4:test (default-test) @ refactorj-formatj ---
+2026-11-18T17:46:39.9934320Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:39.9961218Z [INFO] 
+2026-11-18T17:46:39.9962429Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:39.9965004Z [INFO]  T E S T S
+2026-11-18T17:46:39.9971150Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:40.3530114Z [INFO] Running dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest
+2026-11-18T17:46:40.7830703Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.430 s -- in dev.turboj.refactorj.formatj.GeneratedCodeFormatterTest
+2026-11-18T17:46:40.8103068Z [INFO] 
+2026-11-18T17:46:40.8103417Z [INFO] Results:
+2026-11-18T17:46:40.8103843Z [INFO] 
+2026-11-18T17:46:40.8104212Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:40.8104646Z [INFO] 
+2026-11-18T17:46:40.8108241Z [INFO] 
+2026-11-18T17:46:40.8108952Z [INFO] --- jar:3.4.2:jar (default-jar) @ refactorj-formatj ---
+2026-11-18T17:46:40.8132499Z [INFO] Building jar: /home/runner/work/turboj/turboj/refactorj/refactorj-formatj/target/refactorj-formatj-0.1.0.jar
+2026-11-18T17:46:40.8165617Z [INFO] 
+2026-11-18T17:46:40.8166249Z [INFO] --- install:3.1.4:install (default-install) @ refactorj-formatj ---
+2026-11-18T17:46:40.8172573Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-formatj/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-formatj/0.1.0/refactorj-formatj-0.1.0.pom
+2026-11-18T17:46:40.8176010Z [INFO] Installing /home/runner/work/turboj/turboj/refactorj/refactorj-formatj/target/refactorj-formatj-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/refactorj/refactorj-formatj/0.1.0/refactorj-formatj-0.1.0.jar
+2026-11-18T17:46:40.8182532Z [INFO] 
+2026-11-18T17:46:40.8183068Z [INFO] ----------------< dev.turboj.turbotest:turbotest-core >-----------------
+2026-11-18T17:46:40.8183798Z [INFO] Building TurboTest 0.1.0                                         [22/39]
+2026-11-18T17:46:40.8184394Z [INFO]   from turbotest/pom.xml
+2026-11-18T17:46:40.8184874Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:40.9748444Z [INFO] 
+2026-11-18T17:46:40.9749227Z [INFO] --- clean:3.2.0:clean (default-clean) @ turbotest-core ---
+2026-11-18T17:46:41.0943148Z [INFO] 
+2026-11-18T17:46:41.0943713Z [INFO] --- resources:3.3.1:resources (default-resources) @ turbotest-core ---
+2026-11-18T17:46:41.0949800Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/turbotest/src/main/resources
+2026-11-18T17:46:41.0950553Z [INFO] 
+2026-11-18T17:46:41.0951010Z [INFO] --- dependency:3.8.1:copy-dependencies (embed-junit-runtime) @ turbotest-core ---
+2026-11-18T17:46:41.0973139Z [INFO] 
+2026-11-18T17:46:41.0973647Z [INFO] --- compiler:3.14.1:compile (default-compile) @ turbotest-core ---
+2026-11-18T17:46:41.0989983Z [INFO] Recompiling the module because of changed source code.
+2026-11-18T17:46:41.0992790Z [INFO] Compiling 3 source files with javac [debug release 17] to target/classes
+2026-11-18T17:46:41.1464481Z [INFO] 
+2026-11-18T17:46:41.1465491Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ turbotest-core ---
+2026-11-18T17:46:41.1474257Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/turbotest/src/test/resources
+2026-11-18T17:46:41.1475138Z [INFO] 
+2026-11-18T17:46:41.1475848Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turbotest-core ---
+2026-11-18T17:46:41.1493003Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:41.1493915Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:41.1753744Z [INFO] 
+2026-11-18T17:46:41.1764015Z [INFO] --- surefire:3.5.4:test (default-test) @ turbotest-core ---
+2026-11-18T17:46:41.1774787Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:41.1797352Z [INFO] 
+2026-11-18T17:46:41.1797877Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:41.1798758Z [INFO]  T E S T S
+2026-11-18T17:46:41.1799315Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:41.5279064Z [INFO] Running dev.turboj.turbotest.TestEngineTest
+2026-11-18T17:46:41.6790045Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.152 s -- in dev.turboj.turbotest.TestEngineTest
+2026-11-18T17:46:41.6891340Z [INFO] 
+2026-11-18T17:46:41.6891646Z [INFO] Results:
+2026-11-18T17:46:41.6892093Z [INFO] 
+2026-11-18T17:46:41.6892407Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:41.6892782Z [INFO] 
+2026-11-18T17:46:41.6896640Z [INFO] 
+2026-11-18T17:46:41.6897017Z [INFO] --- jar:3.4.2:jar (default-jar) @ turbotest-core ---
+2026-11-18T17:46:41.6923007Z [INFO] Building jar: /home/runner/work/turboj/turboj/turbotest/target/turbotest-core-0.1.0.jar
+2026-11-18T17:46:41.7163452Z [INFO] 
+2026-11-18T17:46:41.7164458Z [INFO] --- install:3.1.2:install (default-install) @ turbotest-core ---
+2026-11-18T17:46:41.9510707Z [INFO] Installing /home/runner/work/turboj/turboj/turbotest/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/turbotest/turbotest-core/0.1.0/turbotest-core-0.1.0.pom
+2026-11-18T17:46:41.9514657Z [INFO] Installing /home/runner/work/turboj/turboj/turbotest/target/turbotest-core-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/turbotest/turbotest-core/0.1.0/turbotest-core-0.1.0.jar
+2026-11-18T17:46:41.9534401Z [INFO] 
+2026-11-18T17:46:41.9535029Z [INFO] ----------------------< dev.turboj.mavenj:mavenj >----------------------
+2026-11-18T17:46:41.9535636Z [INFO] Building MavenJ 0.1.0                                            [23/39]
+2026-11-18T17:46:41.9536192Z [INFO]   from mavenj/pom.xml
+2026-11-18T17:46:41.9536711Z [INFO] --------------------------------[ pom ]---------------------------------
+2026-11-18T17:46:41.9540767Z [INFO] 
+2026-11-18T17:46:41.9541195Z [INFO] --- clean:3.2.0:clean (default-clean) @ mavenj ---
+2026-11-18T17:46:41.9545832Z [INFO] 
+2026-11-18T17:46:41.9546244Z [INFO] --- install:3.1.4:install (default-install) @ mavenj ---
+2026-11-18T17:46:41.9549370Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj/0.1.0/mavenj-0.1.0.pom
+2026-11-18T17:46:41.9555749Z [INFO] 
+2026-11-18T17:46:41.9556469Z [INFO] --------------------< dev.turboj.mavenj:mavenj-api >--------------------
+2026-11-18T17:46:41.9557304Z [INFO] Building mavenj-api 0.1.0                                        [24/39]
+2026-11-18T17:46:41.9557933Z [INFO]   from mavenj/mavenj-api/pom.xml
+2026-11-18T17:46:41.9558853Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:41.9572074Z [INFO] 
+2026-11-18T17:46:41.9572605Z [INFO] --- clean:3.2.0:clean (default-clean) @ mavenj-api ---
+2026-11-18T17:46:41.9574891Z [INFO] 
+2026-11-18T17:46:41.9575346Z [INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-api ---
+2026-11-18T17:46:41.9580937Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-api/src/main/resources
+2026-11-18T17:46:41.9581546Z [INFO] 
+2026-11-18T17:46:41.9610528Z [INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-api ---
+2026-11-18T17:46:41.9612834Z [INFO] Recompiling the module because of changed source code.
+2026-11-18T17:46:41.9613570Z [INFO] Compiling 3 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:42.0001036Z [INFO] 
+2026-11-18T17:46:42.0001803Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-api ---
+2026-11-18T17:46:42.0007716Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-api/src/test/resources
+2026-11-18T17:46:42.0008802Z [INFO] 
+2026-11-18T17:46:42.0009441Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-api ---
+2026-11-18T17:46:42.0015730Z [INFO] No sources to compile
+2026-11-18T17:46:42.0016216Z [INFO] 
+2026-11-18T17:46:42.0016797Z [INFO] --- surefire:3.5.4:test (default-test) @ mavenj-api ---
+2026-11-18T17:46:42.0027688Z [INFO] No tests to run.
+2026-11-18T17:46:42.0030088Z [INFO] 
+2026-11-18T17:46:42.0030747Z [INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-api ---
+2026-11-18T17:46:42.0055470Z [INFO] Building jar: /home/runner/work/turboj/turboj/mavenj/mavenj-api/target/mavenj-api-0.1.0.jar
+2026-11-18T17:46:42.0112158Z [INFO] 
+2026-11-18T17:46:42.0113081Z [INFO] --- install:3.1.4:install (default-install) @ mavenj-api ---
+2026-11-18T17:46:42.0116147Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/mavenj-api/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj-api/0.1.0/mavenj-api-0.1.0.pom
+2026-11-18T17:46:42.0120693Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/mavenj-api/target/mavenj-api-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj-api/0.1.0/mavenj-api-0.1.0.jar
+2026-11-18T17:46:42.0126907Z [INFO] 
+2026-11-18T17:46:42.0127575Z [INFO] -------------------< dev.turboj.mavenj:mavenj-core >--------------------
+2026-11-18T17:46:42.0128264Z [INFO] Building mavenj-core 0.1.0                                       [25/39]
+2026-11-18T17:46:42.0129115Z [INFO]   from mavenj/mavenj-core/pom.xml
+2026-11-18T17:46:42.0129752Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:44.5289860Z [INFO] 
+2026-11-18T17:46:44.5290784Z [INFO] --- clean:3.2.0:clean (default-clean) @ mavenj-core ---
+2026-11-18T17:46:44.5295524Z [INFO] 
+2026-11-18T17:46:44.5296015Z [INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-core ---
+2026-11-18T17:46:44.5301976Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-core/src/main/resources
+2026-11-18T17:46:44.5302887Z [INFO] 
+2026-11-18T17:46:44.5306892Z [INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-core ---
+2026-11-18T17:46:44.5327381Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:44.5328140Z [INFO] Compiling 7 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:44.6666642Z [INFO] /home/runner/work/turboj/turboj/mavenj/mavenj-core/src/main/java/dev/turboj/mavenj/core/ModelSupport.java: Some input files use or override a deprecated API.
+2026-11-18T17:46:44.6668739Z [INFO] /home/runner/work/turboj/turboj/mavenj/mavenj-core/src/main/java/dev/turboj/mavenj/core/ModelSupport.java: Recompile with -Xlint:deprecation for details.
+2026-11-18T17:46:44.6669918Z [INFO] 
+2026-11-18T17:46:44.6670537Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-core ---
+2026-11-18T17:46:44.6677226Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-core/src/test/resources
+2026-11-18T17:46:44.6677922Z [INFO] 
+2026-11-18T17:46:44.6678846Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-core ---
+2026-11-18T17:46:44.6693973Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:44.6694959Z [INFO] Compiling 2 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:44.7489444Z [INFO] 
+2026-11-18T17:46:44.7520305Z [INFO] --- surefire:3.5.4:test (default-test) @ mavenj-core ---
+2026-11-18T17:46:44.7540414Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:44.7544659Z [INFO] 
+2026-11-18T17:46:44.7545266Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:44.7545971Z [INFO]  T E S T S
+2026-11-18T17:46:44.7547601Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:45.1413529Z [INFO] Running dev.turboj.mavenj.core.DefaultMavenJTest
+2026-11-18T17:46:45.2506384Z SLF4J(W): No SLF4J providers were found.
+2026-11-18T17:46:45.2506948Z SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+2026-11-18T17:46:45.2507590Z SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+2026-11-18T17:46:46.0638015Z [INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.925 s -- in dev.turboj.mavenj.core.DefaultMavenJTest
+2026-11-18T17:46:46.0638848Z [INFO] Running dev.turboj.mavenj.core.RepositoryPolicyTest
+2026-11-18T17:46:46.2952728Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.231 s -- in dev.turboj.mavenj.core.RepositoryPolicyTest
+2026-11-18T17:46:46.3081378Z [INFO] 
+2026-11-18T17:46:46.3081742Z [INFO] Results:
+2026-11-18T17:46:46.3082534Z [INFO] 
+2026-11-18T17:46:46.3082893Z [INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:46.3083362Z [INFO] 
+2026-11-18T17:46:46.3084517Z [INFO] 
+2026-11-18T17:46:46.3084864Z [INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-core ---
+2026-11-18T17:46:46.3116340Z [INFO] Building jar: /home/runner/work/turboj/turboj/mavenj/mavenj-core/target/mavenj-core-0.1.0.jar
+2026-11-18T17:46:46.3208445Z [INFO] 
+2026-11-18T17:46:46.3209167Z [INFO] --- install:3.1.4:install (default-install) @ mavenj-core ---
+2026-11-18T17:46:46.3223387Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/mavenj-core/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj-core/0.1.0/mavenj-core-0.1.0.pom
+2026-11-18T17:46:46.3229241Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/mavenj-core/target/mavenj-core-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj-core/0.1.0/mavenj-core-0.1.0.jar
+2026-11-18T17:46:46.3239347Z [INFO] 
+2026-11-18T17:46:46.3239843Z [INFO] -----------------< dev.turboj.mavenj:mavenj-workspace >-----------------
+2026-11-18T17:46:46.3240467Z [INFO] Building mavenj-workspace 0.1.0                                  [26/39]
+2026-11-18T17:46:46.3241007Z [INFO]   from mavenj/mavenj-workspace/pom.xml
+2026-11-18T17:46:46.3241518Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:46.3279383Z [INFO] 
+2026-11-18T17:46:46.3279949Z [INFO] --- clean:3.2.0:clean (default-clean) @ mavenj-workspace ---
+2026-11-18T17:46:46.3284275Z [INFO] 
+2026-11-18T17:46:46.3284699Z [INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-workspace ---
+2026-11-18T17:46:46.3299750Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-workspace/src/main/resources
+2026-11-18T17:46:46.3300799Z [INFO] 
+2026-11-18T17:46:46.3301598Z [INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-workspace ---
+2026-11-18T17:46:46.3310502Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:46.3312325Z [INFO] Compiling 5 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:46.4465710Z [INFO] 
+2026-11-18T17:46:46.4466335Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-workspace ---
+2026-11-18T17:46:46.4490715Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-workspace/src/test/resources
+2026-11-18T17:46:46.4509752Z [INFO] 
+2026-11-18T17:46:46.4510563Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-workspace ---
+2026-11-18T17:46:46.4523686Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:46.4524517Z [INFO] Compiling 5 source files with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:46.5297220Z [INFO] 
+2026-11-18T17:46:46.5298810Z [INFO] --- surefire:3.5.4:test (default-test) @ mavenj-workspace ---
+2026-11-18T17:46:46.5321819Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:46.5355991Z [INFO] 
+2026-11-18T17:46:46.5356617Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:46.5357648Z [INFO]  T E S T S
+2026-11-18T17:46:46.5360165Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:46.9376229Z [INFO] Running dev.turboj.mavenj.workspace.MavenLifecycleTest
+2026-11-18T17:46:47.1730690Z [INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.237 s -- in dev.turboj.mavenj.workspace.MavenLifecycleTest
+2026-11-18T17:46:47.1731957Z [INFO] Running dev.turboj.mavenj.workspace.ToolchainsTest
+2026-11-18T17:46:47.3707851Z [INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.194 s -- in dev.turboj.mavenj.workspace.ToolchainsTest
+2026-11-18T17:46:47.3709671Z [INFO] Running dev.turboj.mavenj.workspace.PomFilesTest
+2026-11-18T17:46:47.4024904Z Nov 18, 2026 5:46:47 PM org.junit.jupiter.engine.extension.TempDirectory$CloseablePath$1 warnAboutLinkWithTargetOutsideTempDir
+2026-11-18T17:46:47.4032719Z WARNING: Deleting symbolic link from location inside of temp dir (/tmp/junit-11115300123502641420/inside/pom.xml) to location outside of temp dir (/etc/hosts) but not the target file/directory
+2026-11-18T17:46:47.4290914Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.058 s -- in dev.turboj.mavenj.workspace.PomFilesTest
+2026-11-18T17:46:47.4315787Z [INFO] Running dev.turboj.mavenj.workspace.PomEditsTest
+2026-11-18T17:46:47.4689683Z [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in dev.turboj.mavenj.workspace.PomEditsTest
+2026-11-18T17:46:47.4690978Z [INFO] Running dev.turboj.mavenj.workspace.MetadataWatcherTest
+2026-11-18T17:46:48.9334264Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.463 s -- in dev.turboj.mavenj.workspace.MetadataWatcherTest
+2026-11-18T17:46:48.9437237Z [INFO] 
+2026-11-18T17:46:48.9437641Z [INFO] Results:
+2026-11-18T17:46:48.9437937Z [INFO] 
+2026-11-18T17:46:48.9438354Z [INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0
+2026-11-18T17:46:48.9438968Z [INFO] 
+2026-11-18T17:46:48.9460675Z [INFO] 
+2026-11-18T17:46:48.9461133Z [INFO] --- jar:3.4.2:jar (default-jar) @ mavenj-workspace ---
+2026-11-18T17:46:48.9470966Z [INFO] Building jar: /home/runner/work/turboj/turboj/mavenj/mavenj-workspace/target/mavenj-workspace-0.1.0.jar
+2026-11-18T17:46:48.9563618Z [INFO] 
+2026-11-18T17:46:48.9564132Z [INFO] --- install:3.1.4:install (default-install) @ mavenj-workspace ---
+2026-11-18T17:46:48.9570302Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/mavenj-workspace/pom.xml to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj-workspace/0.1.0/mavenj-workspace-0.1.0.pom
+2026-11-18T17:46:48.9575015Z [INFO] Installing /home/runner/work/turboj/turboj/mavenj/mavenj-workspace/target/mavenj-workspace-0.1.0.jar to /home/runner/work/turboj/turboj/.cache/m2/dev/turboj/mavenj/mavenj-workspace/0.1.0/mavenj-workspace-0.1.0.jar
+2026-11-18T17:46:48.9581628Z [INFO] 
+2026-11-18T17:46:48.9582337Z [INFO] --------------------< dev.turboj.mavenj:mavenj-cli >--------------------
+2026-11-18T17:46:48.9583043Z [INFO] Building mavenj-cli 0.1.0                                        [27/39]
+2026-11-18T17:46:48.9583654Z [INFO]   from mavenj/mavenj-cli/pom.xml
+2026-11-18T17:46:48.9584175Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-18T17:46:48.9616711Z [INFO] 
+2026-11-18T17:46:48.9617285Z [INFO] --- clean:3.2.0:clean (default-clean) @ mavenj-cli ---
+2026-11-18T17:46:48.9620568Z [INFO] 
+2026-11-18T17:46:48.9621061Z [INFO] --- resources:3.3.1:resources (default-resources) @ mavenj-cli ---
+2026-11-18T17:46:48.9625161Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-cli/src/main/resources
+2026-11-18T17:46:48.9625830Z [INFO] 
+2026-11-18T17:46:48.9626530Z [INFO] --- compiler:3.14.1:compile (default-compile) @ mavenj-cli ---
+2026-11-18T17:46:48.9638007Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:48.9639544Z [INFO] Compiling 2 source files with javac [debug release 25] to target/classes
+2026-11-18T17:46:49.0250549Z [INFO] 
+2026-11-18T17:46:49.0251451Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ mavenj-cli ---
+2026-11-18T17:46:49.0252960Z [INFO] skip non existing resourceDirectory /home/runner/work/turboj/turboj/mavenj/mavenj-cli/src/test/resources
+2026-11-18T17:46:49.0253747Z [INFO] 
+2026-11-18T17:46:49.0254306Z [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ mavenj-cli ---
+2026-11-18T17:46:49.0260563Z [INFO] Recompiling the module because of changed dependency.
+2026-11-18T17:46:49.0262007Z [INFO] Compiling 1 source file with javac [debug release 25] to target/test-classes
+2026-11-18T17:46:49.0696736Z [INFO] 
+2026-11-18T17:46:49.0697257Z [INFO] --- surefire:3.5.4:test (default-test) @ mavenj-cli ---
+2026-11-18T17:46:49.0709733Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-18T17:46:49.0736496Z [INFO] 
+2026-11-18T17:46:49.0737488Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:49.0740159Z [INFO]  T E S T S
+2026-11-18T17:46:49.0740687Z [INFO] -------------------------------------------------------
+2026-11-18T17:46:49.4456133Z [INFO] Running dev.turboj.mavenj.cli.MainTest
+2026-11-18T17:46:49.5719283Z SLF4J(W): No SLF4J providers were found.
+2026-11-18T17:46:49.5719850Z SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+2026-11-18T17:46:49.5720339Z SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+2026-11-18T17:46:49.8131164Z [ERROR] Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.364 s <<< FAILURE! -- in dev.turboj.mavenj.cli.MainTest
+2026-11-18T17:46:49.8160249Z [ERROR] dev.turboj.mavenj.cli.MainTest.actualCommandsInspectSharedModelWithoutLaunchingProjectWrapper -- Time elapsed: 0.332 s <<< FAILURE!
+2026-11-18T17:46:49.8196387Z org.opentest4j.AssertionFailedError: {"diagnostics":[{"code":"settings.credentials","column":-1,"file":"/home/runner/.m2/settings.xml","line":-1,"message":"Unable to decrypt configured Maven credentials","severity":"ERROR"}],"generation":1,"resolved":false,"result":{"activeProfiles":[],"buildOrder":["example:app:1"],"cacheHit":false,"diagnostics":[{"code":"settings.credentials","column":-1,"file":"/home/runner/.m2/settings.xml","line":-1,"message":"Unable to decrypt configured Maven credentials","severity":"ERROR"}],"durationNanos":146679236,"fingerprint":"17fcb555f3cef880fd7243d4c5838403b4daeb6bb024d8111a7a9266392ca01b","generation":1,"globalToolchains":null,"localRepository":"/tmp/junit-14143887373977000731/repo","modules":[{"activeProfiles":[],"childModuleIds":[],"classpaths":{"classpaths":{"MAIN_COMPILE":[],"MAIN_RUNTIME":["/tmp/junit-14143887373977000731/target/classes"],"PROCESSOR":[],"TEST_COMPILE":["/tmp/junit-14143887373977000731/target/classes"],"TEST_RUNTIME":["/tmp/junit-14143887373977000731/target/test-classes","/tmp/junit-14143887373977000731/target/classes"]},"modulePaths":{},"resolved":true},"coordinates":{"artifactId":"app","classifier":"","groupId":"example","type":"jar","version":"1"},"dependencies":[],"diagnostics":[],"directory":"/tmp/junit-14143887373977000731","effectivePom":"<?xml version=\"1.0\"?>\n<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\" xmlns=\"http://maven.apache.org/POM/4.0.0\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <modelVersion>4.0.0</modelVersion>\n  <groupId>example</groupId>\n  <artifactId>app</artifactId>\n  <version>1</version>\n  <properties>\n    <maven.compiler.release>21</maven.compiler.release>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    <project.build.outputTimestamp>1980-02-01T00:00:00Z</project.build.outputTimestamp>\n    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>\n  </properties>\n  <repositories>\n    <repository>\n      <snapshots>\n        <enabled>false</enabled>\n      </snapshots>\n      <id>central</id>\n      <name>Central Repository</name>\n      <url>https://repo.maven.apache.org/maven2</url>\n    </repository>\n  </repositories>\n  <pluginRepositories>\n    <pluginRepository>\n      <snapshots>\n        <enabled>false</enabled>\n      </snapshots>\n      <id>central</id>\n      <name>Central Repository</name>\n      <url>https://repo.maven.apache.org/maven2</url>\n    </pluginRepository>\n  </pluginRepositories>\n  <build>\n    <sourceDirectory>/tmp/junit-14143887373977000731/src/main/java</sourceDirectory>\n    <scriptSourceDirectory>/tmp/junit-14143887373977000731/src/main/scripts</scriptSourceDirectory>\n    <testSourceDirectory>/tmp/junit-14143887373977000731/src/test/java</testSourceDirectory>\n    <outputDirectory>/tmp/junit-14143887373977000731/target/classes</outputDirectory>\n    <testOutputDirectory>/tmp/junit-14143887373977000731/target/test-classes</testOutputDirectory>\n    <resources>\n      <resource>\n        <directory>/tmp/junit-14143887373977000731/src/main/resources</directory>\n      </resource>\n    </resources>\n    <testResources>\n      <testResource>\n        <directory>/tmp/junit-14143887373977000731/src/test/resources</directory>\n      </testResource>\n    </testResources>\n    <directory>/tmp/junit-14143887373977000731/target</directory>\n    <finalName>app-1</finalName>\n    <pluginManagement>\n      <plugins>\n        <plugin>\n          <artifactId>maven-site-plugin</artifactId>\n          <configuration>\n            <outputDirectory>/tmp/junit-14143887373977000731/target/site</outputDirectory>\n            <reportPlugins>\n              <reportPlugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-project-info-reports-plugin</artifactId>\n              </reportPlugin>\n            </reportPlugins>\n          </configuration>\n        </plugin>\n      </plugins>\n    </pluginManagement>\n  </build>\n  <reporting>\n    <outputDirectory>/tmp/junit-14143887373977000731/target/site</outputDirectory>\n  </reporting>\n</project>\n","fastPath":"SUPPORTED","generatedSourceRoots":["/tmp/junit-14143887373977000731/target/generated-sources/annotations"],"generatedTestRoots":["/tmp/junit-14143887373977000731/target/generated-test-sources/test-annotations"],"id":"example:app:1","mainJava":{"compilerArguments":[],"encoding":"UTF-8","javaHome":"/usr/lib/jvm/temurin-21-jdk-amd64","preview":false,"processors":{"dependencies":[],"generatedSources":"/tmp/junit-14143887373977000731/target/generated-sources/annotations","modulePath":[],"options":{},"path":[],"processors":[],"requested":false},"release":"21","source":"","target":"","toolchainRequirements":{}},"outputDirectory":"/tmp/junit-14143887373977000731/target/classes","packaging":"jar","parentId":"","pom":"/tmp/junit-14143887373977000731/pom.xml","properties":{"maven.compiler.release":"21","project.build.outputTimestamp":"1980-02-01T00:00:00Z","project.build.sourceEncoding":"UTF-8","project.reporting.outputEncoding":"UTF-8"},"reactorDependencies":[],"repositories":[{"id":"central","releaseUpdatePolicy":"daily","releases":true,"snapshotUpdatePolicy":"daily","snapshots":false,"url":"https://repo.maven.apache.org/maven2"}],"resources":[{"directory":"/tmp/junit-14143887373977000731/src/main/resources","excludes":[],"filtering":false,"includes":[],"targetPath":""}],"sourceRoots":["/tmp/junit-14143887373977000731/src/main/java"],"testJava":{"compilerArguments":[],"encoding":"UTF-8","javaHome":"/usr/lib/jvm/temurin-21-jdk-amd64","preview":false,"processors":{"dependencies":[],"generatedSources":"/tmp/junit-14143887373977000731/target/generated-test-sources/test-annotations","modulePath":[],"options":{},"path":[],"processors":[],"requested":false},"release":"21","source":"","target":"","toolchainRequirements":{}},"testOutputDirectory":"/tmp/junit-14143887373977000731/target/test-classes","testResources":[{"directory":"/tmp/junit-14143887373977000731/src/test/resources","excludes":[],"filtering":false,"includes":[],"targetPath":""}],"testRoots":["/tmp/junit-14143887373977000731/src/test/java"]}],"observedFiles":["/tmp/junit-14143887373977000731/.mvn/maven.config","/tmp/junit-14143887373977000731/.mvn/extensions.xml","/tmp/junit-14143887373977000731/.mvn/jvm.config","/home/runner/.m2/settings.xml","/home/runner/.m2/settings-security.xml","/home/runner/.m2/toolchains.xml","/tmp/junit-14143887373977000731/pom.xml","/tmp/junit-14143887373977000731/target/generated-sources","/tmp/junit-14143887373977000731/target/generated-test-sources","/tmp/junit-14143887373977000731/src/main/java/module-info.java","/tmp/junit-14143887373977000731/src/test/java/module-info.java"],"offline":true,"root":"/tmp/junit-14143887373977000731","rootPom":"/tmp/junit-14143887373977000731/pom.xml","userToolchains":"/home/runner/.m2/toolchains.xml"}} ==> expected: <0> but was: <3>
+2026-11-18T17:46:49.8221771Z 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+2026-11-18T17:46:49.8222412Z 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+2026-11-18T17:46:49.8223190Z 	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+2026-11-18T17:46:49.8223708Z 	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+2026-11-18T17:46:49.8224186Z 	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:563)
+2026-11-18T17:46:49.8224807Z 	at dev.turboj.mavenj.cli.MainTest.actualCommandsInspectSharedModelWithoutLaunchingProjectWrapper(MainTest.java:28)
+2026-11-18T17:46:49.8225415Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+2026-11-18T17:46:49.8225828Z 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+2026-11-18T17:46:49.8226226Z 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+2026-11-18T17:46:49.8226470Z 
+2026-11-18T17:46:49.8294628Z [INFO] 
+2026-11-18T17:46:49.8294988Z [INFO] Results:
+2026-11-18T17:46:49.8295283Z [INFO] 
+2026-11-18T17:46:49.8295606Z [ERROR] Failures: 
+2026-11-18T17:46:49.8316094Z [ERROR]   MainTest.actualCommandsInspectSharedModelWithoutLaunchingProjectWrapper:28 {"diagnostics":[{"code":"settings.credentials","column":-1,"file":"/home/runner/.m2/settings.xml","line":-1,"message":"Unable to decrypt configured Maven credentials","severity":"ERROR"}],"generation":1,"resolved":false,"result":{"activeProfiles":[],"buildOrder":["example:app:1"],"cacheHit":false,"diagnostics":[{"code":"settings.credentials","column":-1,"file":"/home/runner/.m2/settings.xml","line":-1,"message":"Unable to decrypt configured Maven credentials","severity":"ERROR"}],"durationNanos":146679236,"fingerprint":"17fcb555f3cef880fd7243d4c5838403b4daeb6bb024d8111a7a9266392ca01b","generation":1,"globalToolchains":null,"localRepository":"/tmp/junit-14143887373977000731/repo","modules":[{"activeProfiles":[],"childModuleIds":[],"classpaths":{"classpaths":{"MAIN_COMPILE":[],"MAIN_RUNTIME":["/tmp/junit-14143887373977000731/target/classes"],"PROCESSOR":[],"TEST_COMPILE":["/tmp/junit-14143887373977000731/target/classes"],"TEST_RUNTIME":["/tmp/junit-14143887373977000731/target/test-classes","/tmp/junit-14143887373977000731/target/classes"]},"modulePaths":{},"resolved":true},"coordinates":{"artifactId":"app","classifier":"","groupId":"example","type":"jar","version":"1"},"dependencies":[],"diagnostics":[],"directory":"/tmp/junit-14143887373977000731","effectivePom":"<?xml version=\"1.0\"?>\n<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\" xmlns=\"http://maven.apache.org/POM/4.0.0\"\n    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <modelVersion>4.0.0</modelVersion>\n  <groupId>example</groupId>\n  <artifactId>app</artifactId>\n  <version>1</version>\n  <properties>\n    <maven.compiler.release>21</maven.compiler.release>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    <project.build.outputTimestamp>1980-02-01T00:00:00Z</project.build.outputTimestamp>\n    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>\n  </properties>\n  <repositories>\n    <repository>\n      <snapshots>\n        <enabled>false</enabled>\n      </snapshots>\n      <id>central</id>\n      <name>Central Repository</name>\n      <url>https://repo.maven.apache.org/maven2</url>\n    </repository>\n  </repositories>\n  <pluginRepositories>\n    <pluginRepository>\n      <snapshots>\n        <enabled>false</enabled>\n      </snapshots>\n      <id>central</id>\n      <name>Central Repository</name>\n      <url>https://repo.maven.apache.org/maven2</url>\n    </pluginRepository>\n  </pluginRepositories>\n  <build>\n    <sourceDirectory>/tmp/junit-14143887373977000731/src/main/java</sourceDirectory>\n    <scriptSourceDirectory>/tmp/junit-14143887373977000731/src/main/scripts</scriptSourceDirectory>\n    <testSourceDirectory>/tmp/junit-14143887373977000731/src/test/java</testSourceDirectory>\n    <outputDirectory>/tmp/junit-14143887373977000731/target/classes</outputDirectory>\n    <testOutputDirectory>/tmp/junit-14143887373977000731/target/test-classes</testOutputDirectory>\n    <resources>\n      <resource>\n        <directory>/tmp/junit-14143887373977000731/src/main/resources</directory>\n      </resource>\n    </resources>\n    <testResources>\n      <testResource>\n        <directory>/tmp/junit-14143887373977000731/src/test/resources</directory>\n      </testResource>\n    </testResources>\n    <directory>/tmp/junit-14143887373977000731/target</directory>\n    <finalName>app-1</finalName>\n    <pluginManagement>\n      <plugins>\n        <plugin>\n          <artifactId>maven-site-plugin</artifactId>\n          <configuration>\n            <outputDirectory>/tmp/junit-14143887373977000731/target/site</outputDirectory>\n            <reportPlugins>\n              <reportPlugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-project-info-reports-plugin</artifactId>\n              </reportPlugin>\n            </reportPlugins>\n          </configuration>\n        </plugin>\n      </plugins>\n    </pluginManagement>\n  </build>\n  <reporting>\n    <outputDirectory>/tmp/junit-14143887373977000731/target/site</outputDirectory>\n  </reporting>\n</project>\n","fastPath":"SUPPORTED","generatedSourceRoots":["/tmp/junit-14143887373977000731/target/generated-sources/annotations"],"generatedTestRoots":["/tmp/junit-14143887373977000731/target/generated-test-sources/test-annotations"],"id":"example:app:1","mainJava":{"compilerArguments":[],"encoding":"UTF-8","javaHome":"/usr/lib/jvm/temurin-21-jdk-amd64","preview":false,"processors":{"dependencies":[],"generatedSources":"/tmp/junit-14143887373977000731/target/generated-sources/annotations","modulePath":[],"options":{},"path":[],"processors":[],"requested":false},"release":"21","source":"","target":"","toolchainRequirements":{}},"outputDirectory":"/tmp/junit-14143887373977000731/target/classes","packaging":"jar","parentId":"","pom":"/tmp/junit-14143887373977000731/pom.xml","properties":{"maven.compiler.release":"21","project.build.outputTimestamp":"1980-02-01T00:00:00Z","project.build.sourceEncoding":"UTF-8","project.reporting.outputEncoding":"UTF-8"},"reactorDependencies":[],"repositories":[{"id":"central","releaseUpdatePolicy":"daily","releases":true,"snapshotUpdatePolicy":"daily","snapshots":false,"url":"https://repo.maven.apache.org/maven2"}],"resources":[{"directory":"/tmp/junit-14143887373977000731/src/main/resources","excludes":[],"filtering":false,"includes":[],"targetPath":""}],"sourceRoots":["/tmp/junit-14143887373977000731/src/main/java"],"testJava":{"compilerArguments":[],"encoding":"UTF-8","javaHome":"/usr/lib/jvm/temurin-21-jdk-amd64","preview":false,"processors":{"dependencies":[],"generatedSources":"/tmp/junit-14143887373977000731/target/generated-test-sources/test-annotations","modulePath":[],"options":{},"path":[],"processors":[],"requested":false},"release":"21","source":"","target":"","toolchainRequirements":{}},"testOutputDirectory":"/tmp/junit-14143887373977000731/target/test-classes","testResources":[{"directory":"/tmp/junit-14143887373977000731/src/test/resources","excludes":[],"filtering":false,"includes":[],"targetPath":""}],"testRoots":["/tmp/junit-14143887373977000731/src/test/java"]}],"observedFiles":["/tmp/junit-14143887373977000731/.mvn/maven.config","/tmp/junit-14143887373977000731/.mvn/extensions.xml","/tmp/junit-14143887373977000731/.mvn/jvm.config","/home/runner/.m2/settings.xml","/home/runner/.m2/settings-security.xml","/home/runner/.m2/toolchains.xml","/tmp/junit-14143887373977000731/pom.xml","/tmp/junit-14143887373977000731/target/generated-sources","/tmp/junit-14143887373977000731/target/generated-test-sources","/tmp/junit-14143887373977000731/src/main/java/module-info.java","/tmp/junit-14143887373977000731/src/test/java/module-info.java"],"offline":true,"root":"/tmp/junit-14143887373977000731","rootPom":"/tmp/junit-14143887373977000731/pom.xml","userToolchains":"/home/runner/.m2/toolchains.xml"}} ==> expected: <0> but was: <3>
+2026-11-18T17:46:49.8342560Z [INFO] 
+2026-11-18T17:46:49.8342880Z [ERROR] Tests run: 3, Failures: 1, Errors: 0, Skipped: 0
+2026-11-18T17:46:49.8343244Z [INFO] 
+2026-11-18T17:46:49.8343751Z [INFO] ------------------------------------------------------------------------
+2026-11-18T17:46:49.8344108Z [INFO] Reactor Summary:
+2026-11-18T17:46:49.8344356Z [INFO] 
+2026-11-18T17:46:49.8344668Z [INFO] javafmt 0.1.0 ...................................... SUCCESS [  1.073 s]
+2026-11-18T17:46:49.8345081Z [INFO] javafmt-parser 0.1.0 ............................... SUCCESS [ 10.246 s]
+2026-11-18T17:46:49.8345500Z [INFO] javafmt-core 0.1.0 ................................. SUCCESS [  4.593 s]
+2026-11-18T17:46:49.8345902Z [INFO] javafmt-cli 0.1.0 .................................. SUCCESS [  3.150 s]
+2026-11-18T17:46:49.8346347Z [INFO] javafmt-benchmarks 0.1.0 ........................... SUCCESS [  2.477 s]
+2026-11-18T17:46:49.8346789Z [INFO] CommandJ 0.1.0 ..................................... SUCCESS [  0.002 s]
+2026-11-18T17:46:49.8347188Z [INFO] commandj-core 0.1.0 ................................ SUCCESS [  0.718 s]
+2026-11-18T17:46:49.8347609Z [INFO] commandj-keymap 0.1.0 .............................. SUCCESS [  1.447 s]
+2026-11-18T17:46:49.8348079Z [INFO] commandj-palette 0.1.0 ............................. SUCCESS [  0.548 s]
+2026-11-18T17:46:49.8348839Z [INFO] commandj-swing 0.1.0 ............................... SUCCESS [  3.394 s]
+2026-11-18T17:46:49.8349590Z [INFO] commandj-benchmarks 0.1.0 .......................... SUCCESS [  0.492 s]
+2026-11-18T17:46:49.8350212Z [INFO] RefactorJ 0.1.0 .................................... SUCCESS [  0.002 s]
+2026-11-18T17:46:49.8350847Z [INFO] refactorj-api 0.1.0 ................................ SUCCESS [  0.719 s]
+2026-11-18T17:46:49.8351480Z [INFO] refactorj-jdt 0.1.0 ................................ SUCCESS [  3.356 s]
+2026-11-18T17:46:49.8352095Z [INFO] refactorj-transactions 0.1.0 ....................... SUCCESS [  1.080 s]
+2026-11-18T17:46:49.8352766Z [INFO] refactorj-runtime 0.1.0 ............................ SUCCESS [03:51 min]
+2026-11-18T17:46:49.8353376Z [INFO] refactorj-cli 0.1.0 ................................ SUCCESS [ 18.494 s]
+2026-11-18T17:46:49.8353994Z [INFO] refactorj-lsp 0.1.0 ................................ SUCCESS [  3.954 s]
+2026-11-18T17:46:49.8354648Z [INFO] refactorj-mcp 0.1.0 ................................ SUCCESS [  9.768 s]
+2026-11-18T17:46:49.8355231Z [INFO] refactorj-benchmarks 0.1.0 ......................... SUCCESS [  2.683 s]
+2026-11-18T17:46:49.8355853Z [INFO] refactorj-formatj 0.1.0 ............................ SUCCESS [  0.940 s]
+2026-11-18T17:46:49.8356381Z [INFO] TurboTest 0.1.0 .................................... SUCCESS [  1.135 s]
+2026-11-18T17:46:49.8356931Z [INFO] MavenJ 0.1.0 ....................................... SUCCESS [  0.002 s]
+2026-11-18T17:46:49.8357444Z [INFO] mavenj-api 0.1.0 ................................... SUCCESS [  0.057 s]
+2026-11-18T17:46:49.8357882Z [INFO] mavenj-core 0.1.0 .................................. SUCCESS [  4.311 s]
+2026-11-18T17:46:49.8358802Z [INFO] mavenj-workspace 0.1.0 ............................. SUCCESS [  2.635 s]
+2026-11-18T17:46:49.8359273Z [INFO] mavenj-cli 0.1.0 ................................... FAILURE [  0.872 s]
+2026-11-18T17:46:49.8359694Z [INFO] mavenj-mcp 0.1.0 ................................... SKIPPED
+2026-11-18T17:46:49.8360109Z [INFO] mavenj-benchmarks 0.1.0 ............................ SKIPPED
+2026-11-18T17:46:49.8360485Z [INFO] TurboAI 0.1.0 ...................................... SKIPPED
+2026-11-18T17:46:49.8360904Z [INFO] turbo-ai-core 0.1.0 ................................ SKIPPED
+2026-11-18T17:46:49.8361320Z [INFO] turbo-ai-java 0.1.0 ................................ SKIPPED
+2026-11-18T17:46:49.8361735Z [INFO] turbo-ai-cli 0.1.0 ................................. SKIPPED
+2026-11-18T17:46:49.8362138Z [INFO] TurboJ 0.1.0-SNAPSHOT .............................. SKIPPED
+2026-11-18T17:46:49.8362585Z [INFO] turboj-core 0.1.0-SNAPSHOT ......................... SKIPPED
+2026-11-18T17:46:49.8362976Z [INFO] turboj-worker 0.1.0-SNAPSHOT ....................... SKIPPED
+2026-11-18T17:46:49.8363377Z [INFO] turboj-app 0.1.0-SNAPSHOT .......................... SKIPPED
+2026-11-18T17:46:49.8363807Z [INFO] turboj-cli 0.1.0-SNAPSHOT .......................... SKIPPED
+2026-11-18T17:46:49.8364246Z [INFO] turboj-benchmarks 0.1.0-SNAPSHOT ................... SKIPPED
+2026-11-18T17:46:49.8364667Z [INFO] ------------------------------------------------------------------------
+2026-11-18T17:46:49.8365055Z [INFO] BUILD FAILURE
+2026-11-18T17:46:49.8365358Z [INFO] ------------------------------------------------------------------------
+2026-11-18T17:46:49.8365713Z [INFO] Total time:  05:10 min
+2026-11-18T17:46:49.8366007Z [INFO] Finished at: 2026-11-18T17:46:49Z
+2026-11-18T17:46:49.8366407Z [INFO] ------------------------------------------------------------------------
+2026-11-18T17:46:49.8367062Z [ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test) on project mavenj-cli: There are test failures.
+2026-11-18T17:46:49.8367644Z [ERROR] 
+2026-11-18T17:46:49.8368068Z [ERROR] See /home/runner/work/turboj/turboj/mavenj/mavenj-cli/target/surefire-reports for the individual test results.
+2026-11-18T17:46:49.8369051Z [ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+2026-11-18T17:46:49.8369535Z [ERROR] -> [Help 1]
+2026-11-18T17:46:49.8369786Z [ERROR] 
+2026-11-18T17:46:49.8370115Z [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+2026-11-18T17:46:49.8370547Z [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+2026-11-18T17:46:49.8370896Z [ERROR] 
+2026-11-18T17:46:49.8371289Z [ERROR] For more information about the errors and possible solutions, please read the following articles:
+2026-11-18T17:46:49.8371916Z [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+2026-11-18T17:46:49.8372302Z [ERROR] 
+2026-11-18T17:46:49.8372614Z [ERROR] After correcting the problems, you can resume the build with the command
+2026-11-18T17:46:49.8372999Z [ERROR]   mvn <args> -rf :mavenj-cli
+2026-11-18T17:46:49.8641972Z ##[error]Process completed with exit code 1.
+2026-11-18T17:46:49.8724855Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-18T17:46:49.8725259Z with:
+2026-11-18T17:46:49.8725506Z   name: java-evidence-ubuntu-24.04
+2026-11-18T17:46:49.8726598Z   path: **/target/surefire-reports/*.xml
+**/target/failsafe-reports/*.xml
+app/target/build-receipt.json
+app/target/ci-native/
+app/target/test-output-smoke/
+target/maven-toolchain17-qualification.txt
+target/maven-explicit-lifecycle-qualification.txt
+target/ci-package/TurboJ.app/Contents/Resources/build-receipt.json
+target/ci-package/TurboJ.package-receipt.json
+
+2026-11-18T17:46:49.8727696Z   if-no-files-found: warn
+2026-11-18T17:46:49.8727954Z   compression-level: 6
+2026-11-18T17:46:49.8728196Z   overwrite: false
+2026-11-18T17:46:49.8728691Z   include-hidden-files: false
+2026-11-18T17:46:49.8729016Z env:
+2026-11-18T17:46:49.8729339Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:46:49.8729831Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:46:49.8730275Z   TURBOJ_TEST_JDK17: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+2026-11-18T17:46:49.8730695Z   JAVA_HOME_25_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.5-8/x64
+2026-11-18T17:46:49.8731056Z ##[endgroup]
+2026-11-18T17:46:50.0044436Z (node:4703) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:46:50.0045069Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:46:50.3984975Z With the provided path, there will be 48 files uploaded
+2026-11-18T17:46:50.3988961Z Artifact name is valid!
+2026-11-18T17:46:50.3989632Z Root directory input is valid!
+2026-11-18T17:46:50.7788138Z Beginning upload of artifact content to blob storage
+2026-11-18T17:46:50.8289301Z (node:4703) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-18T17:46:51.3844435Z Uploaded bytes 110809
+2026-11-18T17:46:51.4721193Z Finished uploading artifact content to blob storage!
+2026-11-18T17:46:51.4722169Z SHA256 digest of uploaded artifact zip is 7db315bdcc9110ef7676130936aa0a41eb78ea143a32e4571e5b1cb473d6733a
+2026-11-18T17:46:51.4722632Z Finalizing artifact upload
+2026-11-18T17:46:51.9335775Z Artifact java-evidence-ubuntu-24.04.zip successfully finalized. Artifact ID 14454866801
+2026-11-18T17:46:51.9336757Z Artifact java-evidence-ubuntu-24.04 has been successfully uploaded! Final size is 110809 bytes. Artifact ID is 14454866801
+2026-11-18T17:46:51.9342718Z Artifact download URL: https://github.com/turboj-dev/turboj/actions/runs/44361417640/artifacts/14454866801
+2026-11-18T17:46:51.9515884Z Post job cleanup.
+2026-11-18T17:46:52.0522586Z (node:4715) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:46:52.0523263Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:46:52.0680182Z Post job cleanup.
+2026-11-18T17:46:52.1776820Z (node:4723) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:46:52.1777776Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:46:52.1943666Z Post job cleanup.
+2026-11-18T17:46:52.2610188Z [command]/usr/bin/git version
+2026-11-18T17:46:52.2641283Z git version 2.56.1
+2026-11-18T17:46:52.2673341Z Temporarily overriding HOME='/home/runner/work/_temp/d9de1a8e-4ae4-4ce4-8f4f-4ec74889f3a5' before making global git config changes
+2026-11-18T17:46:52.2674219Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-18T17:46:52.2677453Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/turboj/turboj
+2026-11-18T17:46:52.2709325Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-18T17:46:52.2735044Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-18T17:46:52.2978477Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-18T17:46:52.2999991Z http.https://github.com/.extraheader
+2026-11-18T17:46:52.3013526Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-18T17:46:52.3036545Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-18T17:46:52.3215809Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-18T17:46:52.3239978Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-18T17:46:52.3512789Z Cleaning up orphan processes
+2026-11-18T17:46:52.3954749Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

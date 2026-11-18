@@ -1,0 +1,26 @@
+::debug::followSymbolicLinks 'true'
+::debug::implicitDescendants 'true'
+::debug::matchDirectories 'true'
+::debug::omitBrokenSymbolicLinks 'true'
+::debug::excludeHiddenFiles 'false'
+::debug::Search path '/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-upload-glob-l6Wq8m/repo'
+::debug::followSymbolicLinks 'true'
+::debug::implicitDescendants 'true'
+::debug::matchDirectories 'true'
+::debug::omitBrokenSymbolicLinks 'true'
+::debug::excludeHiddenFiles 'false'
+::debug::Search path '/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-upload-glob-l6Wq8m/repo'
+{
+  "package": "@actions/glob",
+  "version": "0.5.0",
+  "outsideSymlinkFollowedByRecursivePattern": true,
+  "broad": [
+    "app/target/surefire-reports/TEST-owned.xml",
+    "target/package.owned/image/Applications/Foreign.app/target/surefire-reports/TEST-outside.xml"
+  ],
+  "bounded": [
+    "app/target/surefire-reports/TEST-owned.xml",
+    "refactorj/refactorj-jdt/target/failsafe-reports/TEST-nested.xml"
+  ],
+  "result": "PASS"
+}

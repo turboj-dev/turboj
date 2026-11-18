@@ -1485,5 +1485,1103 @@
         }
       }
     }
+  },
+  "commandJ": {
+    "status": "VERIFIED",
+    "manifest": "commandj/manifest.json",
+    "invocations": 6,
+    "invocationExitCodes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "benchmarkForks": 36,
+    "benchmarksPerArtifactRound": 6,
+    "roundsPerArtifact": 3,
+    "jmhVersion": "1.37",
+    "mode": "SampleTime",
+    "threads": 1,
+    "warmup": "3 x 1 second per fork",
+    "measurement": "5 x 1 second per fork",
+    "unit": "us/op",
+    "artifacts": {
+      "baseline": {
+        "path": "/private/tmp/turboj-baseline-dd75866/commandj/commandj-benchmarks/target/commandj-benchmarks.jar",
+        "sha256": "188fed19bed428076f5daf40ee667f6d8c86c774e4e3a0a56b98debea2d823a4"
+      },
+      "candidate": {
+        "path": "/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar",
+        "sha256": "188fed19bed428076f5daf40ee667f6d8c86c774e4e3a0a56b98debea2d823a4"
+      }
+    },
+    "identicalBenchmarkArtifacts": true,
+    "commandjSourceChangedBetweenDd75866AndC7d08485": false,
+    "aggregation": "Median of three per-fork p50/p95/p99 and sample mean; maximum across all forks; no pooling or discarded outliers. Raw JMH histograms retained.",
+    "cases": [
+      {
+        "benchmark": "dispatch",
+        "nominalCommandCount": 100,
+        "actualRegisteredCommands": 101,
+        "baseline": {
+          "mean": {
+            "median": 0.08218295134700443,
+            "min": 0.08000891905401418,
+            "max": 0.0836269819063607,
+            "all": [
+              0.0836269819063607,
+              0.08000891905401418,
+              0.08218295134700443
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.084,
+            "all": [
+              0.084,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.125,
+            "max": 0.125,
+            "all": [
+              0.125,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 1.3895400000010267,
+            "min": 1.25,
+            "max": 2.913800000000512,
+            "all": [
+              1.25,
+              2.913800000000512,
+              1.3895400000010267
+            ]
+          },
+          "max": {
+            "median": 388.096,
+            "min": 315.904,
+            "max": 440.832,
+            "all": [
+              440.832,
+              388.096,
+              315.904
+            ]
+          }
+        },
+        "candidate": {
+          "mean": {
+            "median": 0.08254497048973068,
+            "min": 0.074852406239234,
+            "max": 0.08258722495370291,
+            "all": [
+              0.074852406239234,
+              0.08254497048973068,
+              0.08258722495370291
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.084,
+            "all": [
+              0.084,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.084,
+            "max": 0.125,
+            "all": [
+              0.084,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.875,
+            "min": 0.541,
+            "max": 1.666,
+            "all": [
+              0.541,
+              0.875,
+              1.666
+            ]
+          },
+          "max": {
+            "median": 373.248,
+            "min": 255.744,
+            "max": 536.576,
+            "all": [
+              255.744,
+              373.248,
+              536.576
+            ]
+          }
+        }
+      },
+      {
+        "benchmark": "dispatch",
+        "nominalCommandCount": 1000,
+        "actualRegisteredCommands": 1001,
+        "baseline": {
+          "mean": {
+            "median": 0.08376672687968258,
+            "min": 0.07339695646635092,
+            "max": 0.13771131119140087,
+            "all": [
+              0.07339695646635092,
+              0.08376672687968258,
+              0.13771131119140087
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.084,
+            "all": [
+              0.084,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.084,
+            "max": 0.125,
+            "all": [
+              0.084,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.708,
+            "min": 0.3465049999997136,
+            "max": 2.7662400000002236,
+            "all": [
+              0.3465049999997136,
+              0.708,
+              2.7662400000002236
+            ]
+          },
+          "max": {
+            "median": 328.704,
+            "min": 325.632,
+            "max": 8503.296,
+            "all": [
+              325.632,
+              328.704,
+              8503.296
+            ]
+          }
+        },
+        "candidate": {
+          "mean": {
+            "median": 0.07511408476213478,
+            "min": 0.06986883551902096,
+            "max": 0.16048521642129532,
+            "all": [
+              0.06986883551902096,
+              0.07511408476213478,
+              0.16048521642129532
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.084,
+            "all": [
+              0.084,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.084,
+            "max": 0.125,
+            "all": [
+              0.084,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.583,
+            "min": 0.459,
+            "max": 5.463760000000242,
+            "all": [
+              0.583,
+              0.459,
+              5.463760000000242
+            ]
+          },
+          "max": {
+            "median": 328.192,
+            "min": 26.496000000000002,
+            "max": 5726.2080000000005,
+            "all": [
+              26.496000000000002,
+              328.192,
+              5726.2080000000005
+            ]
+          }
+        }
+      },
+      {
+        "benchmark": "shortcut",
+        "nominalCommandCount": 100,
+        "actualRegisteredCommands": 101,
+        "baseline": {
+          "mean": {
+            "median": 0.07573815443288523,
+            "min": 0.07292906026116874,
+            "max": 0.13605575262289044,
+            "all": [
+              0.07292906026116874,
+              0.13605575262289044,
+              0.07573815443288523
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.167,
+            "all": [
+              0.084,
+              0.167,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.125,
+            "max": 0.209,
+            "all": [
+              0.125,
+              0.209,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.583,
+            "min": 0.42860299999982815,
+            "max": 8.368,
+            "all": [
+              0.583,
+              8.368,
+              0.42860299999982815
+            ]
+          },
+          "max": {
+            "median": 367.616,
+            "min": 317.44,
+            "max": 707.5840000000001,
+            "all": [
+              367.616,
+              707.5840000000001,
+              317.44
+            ]
+          }
+        },
+        "candidate": {
+          "mean": {
+            "median": 0.07535742451956193,
+            "min": 0.07282740687272214,
+            "max": 0.07817314595005227,
+            "all": [
+              0.07817314595005227,
+              0.07535742451956193,
+              0.07282740687272214
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.125,
+            "all": [
+              0.125,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.125,
+            "max": 0.125,
+            "all": [
+              0.125,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.45898300000000747,
+            "min": 0.375,
+            "max": 0.583,
+            "all": [
+              0.375,
+              0.583,
+              0.45898300000000747
+            ]
+          },
+          "max": {
+            "median": 342.528,
+            "min": 303.616,
+            "max": 347.136,
+            "all": [
+              342.528,
+              347.136,
+              303.616
+            ]
+          }
+        }
+      },
+      {
+        "benchmark": "shortcut",
+        "nominalCommandCount": 1000,
+        "actualRegisteredCommands": 1001,
+        "baseline": {
+          "mean": {
+            "median": 0.07401271977325626,
+            "min": 0.06531941640465552,
+            "max": 0.07448627677427502,
+            "all": [
+              0.07448627677427502,
+              0.07401271977325626,
+              0.06531941640465552
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.042,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.042
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.125,
+            "all": [
+              0.125,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.125,
+            "max": 0.125,
+            "all": [
+              0.125,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.5,
+            "min": 0.25,
+            "max": 0.8088510000008974,
+            "all": [
+              0.5,
+              0.8088510000008974,
+              0.25
+            ]
+          },
+          "max": {
+            "median": 301.568,
+            "min": 239.104,
+            "max": 442.88,
+            "all": [
+              301.568,
+              442.88,
+              239.104
+            ]
+          }
+        },
+        "candidate": {
+          "mean": {
+            "median": 0.07797825166526529,
+            "min": 0.07513846011912662,
+            "max": 0.07928196636182674,
+            "all": [
+              0.07928196636182674,
+              0.07513846011912662,
+              0.07797825166526529
+            ]
+          },
+          "p50": {
+            "median": 0.083,
+            "min": 0.083,
+            "max": 0.083,
+            "all": [
+              0.083,
+              0.083,
+              0.083
+            ]
+          },
+          "p95": {
+            "median": 0.084,
+            "min": 0.084,
+            "max": 0.084,
+            "all": [
+              0.084,
+              0.084,
+              0.084
+            ]
+          },
+          "p99": {
+            "median": 0.125,
+            "min": 0.125,
+            "max": 0.125,
+            "all": [
+              0.125,
+              0.125,
+              0.125
+            ]
+          },
+          "p99_9": {
+            "median": 0.708,
+            "min": 0.3333080000000191,
+            "max": 0.792,
+            "all": [
+              0.708,
+              0.792,
+              0.3333080000000191
+            ]
+          },
+          "max": {
+            "median": 344.576,
+            "min": 318.976,
+            "max": 811.008,
+            "all": [
+              811.008,
+              344.576,
+              318.976
+            ]
+          }
+        }
+      },
+      {
+        "benchmark": "palette",
+        "nominalCommandCount": 100,
+        "actualRegisteredCommands": 101,
+        "baseline": {
+          "mean": {
+            "median": 9.772956566126027,
+            "min": 9.345266355762831,
+            "max": 12.720568590678596,
+            "all": [
+              9.345266355762831,
+              12.720568590678596,
+              9.772956566126027
+            ]
+          },
+          "p50": {
+            "median": 9.072000000000001,
+            "min": 9.072000000000001,
+            "max": 9.200000000000001,
+            "all": [
+              9.200000000000001,
+              9.072000000000001,
+              9.072000000000001
+            ]
+          },
+          "p95": {
+            "median": 10.288,
+            "min": 9.744,
+            "max": 15.664,
+            "all": [
+              9.744,
+              15.664,
+              10.288
+            ]
+          },
+          "p99": {
+            "median": 23.936,
+            "min": 11.904,
+            "max": 39.936,
+            "all": [
+              11.904,
+              39.936,
+              23.936
+            ]
+          },
+          "p99_9": {
+            "median": 107.67692799999936,
+            "min": 27.47926400000136,
+            "max": 547.8942720000446,
+            "all": [
+              27.47926400000136,
+              547.8942720000446,
+              107.67692799999936
+            ]
+          },
+          "max": {
+            "median": 3723.264,
+            "min": 508.928,
+            "max": 11862.016,
+            "all": [
+              508.928,
+              11862.016,
+              3723.264
+            ]
+          }
+        },
+        "candidate": {
+          "mean": {
+            "median": 9.765485570002234,
+            "min": 9.295268102539918,
+            "max": 9.983090537995405,
+            "all": [
+              9.983090537995405,
+              9.295268102539918,
+              9.765485570002234
+            ]
+          },
+          "p50": {
+            "median": 9.456,
+            "min": 9.040000000000001,
+            "max": 9.616,
+            "all": [
+              9.616,
+              9.040000000000001,
+              9.456
+            ]
+          },
+          "p95": {
+            "median": 10.08,
+            "min": 9.616,
+            "max": 10.16,
+            "all": [
+              10.16,
+              9.616,
+              10.08
+            ]
+          },
+          "p99": {
+            "median": 15.408,
+            "min": 13.993279999999329,
+            "max": 19.20128000000026,
+            "all": [
+              19.20128000000026,
+              13.993279999999329,
+              15.408
+            ]
+          },
+          "p99_9": {
+            "median": 45.824,
+            "min": 27.5794560000021,
+            "max": 48.711808000009505,
+            "all": [
+              48.711808000009505,
+              27.5794560000021,
+              45.824
+            ]
+          },
+          "max": {
+            "median": 479.232,
+            "min": 436.736,
+            "max": 533.504,
+            "all": [
+              533.504,
+              436.736,
+              479.232
+            ]
+          }
+        }
+      },
+      {
+        "benchmark": "palette",
+        "nominalCommandCount": 1000,
+        "actualRegisteredCommands": 1001,
+        "baseline": {
+          "mean": {
+            "median": 138.7844153773767,
+            "min": 119.00744182072766,
+            "max": 143.51541366587526,
+            "all": [
+              138.7844153773767,
+              143.51541366587526,
+              119.00744182072766
+            ]
+          },
+          "p50": {
+            "median": 117.632,
+            "min": 108.288,
+            "max": 133.376,
+            "all": [
+              133.376,
+              108.288,
+              117.632
+            ]
+          },
+          "p95": {
+            "median": 150.784,
+            "min": 125.824,
+            "max": 309.1456000000015,
+            "all": [
+              150.784,
+              309.1456000000015,
+              125.824
+            ]
+          },
+          "p99": {
+            "median": 317.952,
+            "min": 137.728,
+            "max": 496.4966400000006,
+            "all": [
+              317.952,
+              496.4966400000006,
+              137.728
+            ]
+          },
+          "p99_9": {
+            "median": 590.4424960000067,
+            "min": 459.776,
+            "max": 2041.929728,
+            "all": [
+              590.4424960000067,
+              2041.929728,
+              459.776
+            ]
+          },
+          "max": {
+            "median": 5021.696,
+            "min": 3194.88,
+            "max": 11501.568000000001,
+            "all": [
+              3194.88,
+              11501.568000000001,
+              5021.696
+            ]
+          }
+        },
+        "candidate": {
+          "mean": {
+            "median": 118.50070185233392,
+            "min": 97.77682700553514,
+            "max": 132.65529875759972,
+            "all": [
+              97.77682700553514,
+              118.50070185233392,
+              132.65529875759972
+            ]
+          },
+          "p50": {
+            "median": 116.608,
+            "min": 95.616,
+            "max": 131.328,
+            "all": [
+              95.616,
+              116.608,
+              131.328
+            ]
+          },
+          "p95": {
+            "median": 125.952,
+            "min": 103.552,
+            "max": 139.776,
+            "all": [
+              103.552,
+              125.952,
+              139.776
+            ]
+          },
+          "p99": {
+            "median": 152.32,
+            "min": 118.4,
+            "max": 155.3510399999991,
+            "all": [
+              118.4,
+              155.3510399999991,
+              152.32
+            ]
+          },
+          "p99_9": {
+            "median": 466.00652800000086,
+            "min": 437.248,
+            "max": 503.6687359999977,
+            "all": [
+              437.248,
+              503.6687359999977,
+              466.00652800000086
+            ]
+          },
+          "max": {
+            "median": 1169.4080000000001,
+            "min": 608.256,
+            "max": 4399.104,
+            "all": [
+              1169.4080000000001,
+              4399.104,
+              608.256
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "installedPackage": {
+    "status": "VERIFIED",
+    "startup": {
+      "manifest": "startup/manifest.json",
+      "baseline": {
+        "median": 771.117667,
+        "min": 765.139333,
+        "max": 1170.363333,
+        "all": [
+          1170.363333,
+          771.117667,
+          765.139333
+        ]
+      },
+      "candidate": {
+        "median": 846.6955,
+        "min": 785.85075,
+        "max": 940.515708,
+        "all": [
+          940.515708,
+          785.85075,
+          846.6955
+        ]
+      },
+      "scope": "Alternating order, new JVM and fresh isolated profile, same source, warm OS caches. LaunchServices dispatch to CGWindowList observation at 20 ms polling; not physical compositor presentation or completed semantic initialization.",
+      "artifactIdentities": {
+        "baseline": {
+          "app": "/private/tmp/turboj-baseline-package-dd75866/TurboJ.app",
+          "jarSha256": "56165b7a1979281adc2d38b2d034c2020c2e919c03fe7d988b47a5b37eeb9dfb"
+        },
+        "candidate": {
+          "app": "/private/tmp/turboj-product-final-installed/TurboJ.app",
+          "jarSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9"
+        }
+      },
+      "initialControl": "startup-control/manifest.json",
+      "initialControlIncludedInFinalAggregate": false,
+      "initialControlStats": {
+        "baseline": {
+          "median": 807.797167,
+          "min": 791.186208,
+          "max": 1528.233875,
+          "all": [
+            1528.233875,
+            807.797167,
+            791.186208
+          ]
+        },
+        "candidate": {
+          "median": 860.624959,
+          "min": 834.015334,
+          "max": 918.972583,
+          "all": [
+            918.972583,
+            834.015334,
+            860.624959
+          ]
+        }
+      },
+      "sourceFixtureSha256": "4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4",
+      "earlierControlWorkspaceEvidence": "startup-control/workspace-control.json"
+    },
+    "idle": {
+      "candidate": {
+        "samples": 20,
+        "wallSeconds": 600.8411581240001,
+        "cpuSecondsFromRoundedCounters": 0.7299999999999995,
+        "weightedCpuPercentOneCore": 0.12149633728143237,
+        "intervalCpuPercentOneCore": {
+          "median": 0.09987445180004924,
+          "min": 0.06653623706731376,
+          "max": 0.36597252454211865,
+          "all": [
+            0.36597252454211865,
+            0.13316808727330412,
+            0.0998664353005487,
+            0.1332161739668037,
+            0.0666042371276202,
+            0.13304862185123453,
+            0.06656353229767904,
+            0.09988613119885136,
+            0.09985008965185707,
+            0.19966158609042778,
+            0.06653623706731376,
+            0.16649214058657896,
+            0.0998364590046899,
+            0.09983946728854905,
+            0.06659027883137113,
+            0.13317918212796212,
+            0.13320393015532164,
+            0.06657196000943996,
+            0.09984112531331767,
+            0.09988246829954978
+          ]
+        },
+        "sumRssKiB": {
+          "median": 48808.0,
+          "min": 39568,
+          "max": 81440,
+          "all": [
+            60896,
+            58272,
+            64160,
+            80160,
+            81440,
+            44816,
+            39568,
+            39936,
+            48480,
+            43536,
+            41632,
+            49136,
+            44304,
+            50240,
+            48064,
+            52320,
+            50400,
+            49936,
+            46400,
+            46096
+          ]
+        },
+        "processCounts": [
+          2
+        ],
+        "heap": {
+          "start": {
+            "committedKiB": 111616,
+            "usedKiB": 59801
+          },
+          "end": {
+            "committedKiB": 111616,
+            "usedKiB": 60067
+          }
+        },
+        "gcCounterDeltas": {
+          "sun.gc.collector.0.invocations": 0,
+          "sun.gc.collector.0.time": 0,
+          "sun.gc.collector.1.invocations": 0,
+          "sun.gc.collector.1.time": 0,
+          "sun.gc.collector.2.invocations": 0,
+          "sun.gc.collector.2.time": 0
+        },
+        "gcClockTicksPerSecond": 1000000000,
+        "scope": "One ten-minute CPU/RSS sample sequence per artifact (20 monotonic intervals), parent and immediate children only. Heap and GC are separate captures: deltas apply only between their own endpoints, not matched ten-minute windows. No forced GC or full JVM property dump is archived.",
+        "sourceFixtureSha256": "4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4",
+        "profileOutsideSourceTree": true,
+        "captureMetadata": "idle/capture-metadata.json",
+        "measurementWindows": {
+          "cpuRss": {
+            "durationClock": "monotonic",
+            "utcStartInstrumented": false,
+            "resultFileLastWriteUTC": "2026-11-18T17:58:25.551389Z"
+          },
+          "heap": {
+            "startFileLastWriteUTC": "2026-11-18T17:50:14.498623Z",
+            "endFileLastWriteUTC": "2026-11-18T17:59:37.947810Z",
+            "sameAsCpuRssInterval": false,
+            "interpretation": "Independent endpoint values only; no matched-window growth or retained-memory conclusion."
+          },
+          "gc": {
+            "startFileLastWriteUTC": "2026-11-18T17:55:51.562229Z",
+            "endFileLastWriteUTC": "2026-11-18T17:59:39.917108Z",
+            "claimsEntireCpuRssInterval": false,
+            "interpretation": "No invocation/time increments were observed only between these independently captured counter endpoints."
+          },
+          "candidateEndpointsDoNotBracketEntireCpuRssInterval": true
+        }
+      },
+      "baseline": {
+        "samples": 20,
+        "wallSeconds": 600.9891837089998,
+        "cpuSecondsFromRoundedCounters": 1.0700000000000003,
+        "weightedCpuPercentOneCore": 0.17803980986754273,
+        "intervalCpuPercentOneCore": {
+          "median": 0.1663931089648771,
+          "min": 0.1330767473160398,
+          "max": 0.3992069924886291,
+          "all": [
+            0.19962406380421385,
+            0.16643188929457578,
+            0.1663566854765299,
+            0.16630130178090952,
+            0.13315174708344943,
+            0.19965832692134575,
+            0.1663111214403823,
+            0.1331304696783478,
+            0.3992069924886291,
+            0.13322124615912165,
+            0.23295816359131927,
+            0.16649984746694485,
+            0.16644079102315823,
+            0.16639885094974685,
+            0.16638310756233973,
+            0.16640048874523183,
+            0.16638736698000736,
+            0.1330767473160398,
+            0.19965831806501688,
+            0.13308669799178585
+          ]
+        },
+        "sumRssKiB": {
+          "median": 47872.0,
+          "min": 39376,
+          "max": 57472,
+          "all": [
+            49616,
+            45808,
+            57472,
+            43728,
+            39680,
+            42336,
+            39504,
+            39376,
+            43504,
+            46128,
+            55296,
+            55296,
+            55296,
+            42464,
+            51872,
+            54560,
+            55584,
+            51840,
+            50176,
+            44128
+          ]
+        },
+        "processCounts": [
+          2
+        ],
+        "heap": {
+          "start": {
+            "committedKiB": 104448,
+            "usedKiB": 62712
+          },
+          "end": {
+            "committedKiB": 104448,
+            "usedKiB": 63145
+          }
+        },
+        "gcCounterDeltas": {
+          "sun.gc.collector.0.invocations": 0,
+          "sun.gc.collector.0.time": 0,
+          "sun.gc.collector.1.invocations": 0,
+          "sun.gc.collector.1.time": 0,
+          "sun.gc.collector.2.invocations": 0,
+          "sun.gc.collector.2.time": 0
+        },
+        "gcClockTicksPerSecond": 1000000000,
+        "scope": "One ten-minute CPU/RSS sample sequence per artifact (20 monotonic intervals), parent and immediate children only. Heap and GC are separate captures: deltas apply only between their own endpoints, not matched ten-minute windows. No forced GC or full JVM property dump is archived.",
+        "sourceFixtureSha256": "4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4",
+        "profileOutsideSourceTree": true,
+        "captureMetadata": "idle/capture-metadata.json",
+        "measurementWindows": {
+          "cpuRss": {
+            "durationClock": "monotonic",
+            "utcStartInstrumented": false,
+            "resultFileLastWriteUTC": "2026-11-18T18:22:30.690663Z"
+          },
+          "heap": {
+            "startFileLastWriteUTC": "2026-11-18T18:12:14.912513Z",
+            "endFileLastWriteUTC": "2026-11-18T18:22:36.298176Z",
+            "sameAsCpuRssInterval": false,
+            "interpretation": "Independent endpoint values only; no matched-window growth or retained-memory conclusion."
+          },
+          "gc": {
+            "startFileLastWriteUTC": "2026-11-18T18:12:15.750223Z",
+            "endFileLastWriteUTC": "2026-11-18T18:22:45.115491Z",
+            "claimsEntireCpuRssInterval": false,
+            "interpretation": "No invocation/time increments were observed only between these independently captured counter endpoints."
+          }
+        }
+      }
+    },
+    "earlierBaselineIdleControl": {
+      "path": "idle-control/baseline-matched",
+      "samples": 20,
+      "wallSeconds": 601.004625665,
+      "cpuSecondsFromRoundedCounters": 1.0599999999999996,
+      "weightedCpuPercentOneCore": 0.176371354684189,
+      "cpuAndRssMeasurementCompleted": true,
+      "endHeapAndGcAvailable": false,
+      "includedInFinalComparison": false,
+      "reason": "End jcmd calls failed under sandbox and owned process was then stopped; PID-header-only endpoints do not establish heap/GC state. Repeated with explicit approved endpoint capture."
+    }
   }
 }

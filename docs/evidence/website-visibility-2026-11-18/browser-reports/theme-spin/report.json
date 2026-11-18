@@ -1,0 +1,340 @@
+{
+  "timestamp": "2026-11-18T18:59:04.652Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "browser": "156.0.8078.4",
+  "catalogCount": 103,
+  "checks": [
+    {
+      "name": "390: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it",
+      "details": {
+        "chosen": "rainglow-laravel",
+        "reducedMotionElapsedMs": 66
+      }
+    },
+    {
+      "name": "1440: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it",
+      "details": {
+        "chosen": "vscode-high-contrast-light",
+        "reducedMotionElapsedMs": 67
+      }
+    },
+    {
+      "name": "Random theme uses only the current search results and is disabled when nothing matches"
+    },
+    {
+      "name": "real-time ASCII spin previews every real centered theme globally, decelerates for 3–5 seconds and suspends while hidden",
+      "details": {
+        "configuredDurationMs": 4484,
+        "wallDurationWith650msSuspension": 5151,
+        "crossings": [
+          {
+            "id": "vscode-quietlight",
+            "time": 759.2000000476837,
+            "centered": "vscode-quietlight",
+            "background": "rgb(245, 245, 245)",
+            "pageBackground": "rgb(245, 245, 245)",
+            "consoleBackground": "rgb(245, 245, 245)"
+          },
+          {
+            "id": "vscode-solarized-light",
+            "time": 804.9000000953674,
+            "centered": "vscode-solarized-light",
+            "background": "rgb(253, 246, 227)",
+            "pageBackground": "rgb(253, 246, 227)",
+            "consoleBackground": "rgb(253, 246, 227)"
+          },
+          {
+            "id": "rainglow-brave-light",
+            "time": 1521.7000000476837,
+            "centered": "rainglow-brave-light",
+            "background": "rgb(247, 249, 249)",
+            "pageBackground": "rgb(247, 249, 249)",
+            "consoleBackground": "rgb(247, 249, 249)"
+          },
+          {
+            "id": "one-light",
+            "time": 1555,
+            "centered": "one-light",
+            "background": "rgb(250, 250, 250)",
+            "pageBackground": "rgb(250, 250, 250)",
+            "consoleBackground": "rgb(234, 234, 235)"
+          },
+          {
+            "id": "ayu-light",
+            "time": 1604.9000000953674,
+            "centered": "ayu-light",
+            "background": "rgb(252, 252, 252)",
+            "pageBackground": "rgb(252, 252, 252)",
+            "consoleBackground": "rgb(248, 249, 250)"
+          },
+          {
+            "id": "github-light-default",
+            "time": 1654.9000000953674,
+            "centered": "github-light-default",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(246, 248, 250)"
+          },
+          {
+            "id": "rainglow-allure-light",
+            "time": 1688.2999999523163,
+            "centered": "rainglow-allure-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-arstotzka-light",
+            "time": 1738.2000000476837,
+            "centered": "rainglow-arstotzka-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-banner-light",
+            "time": 1788.2000000476837,
+            "centered": "rainglow-banner-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-chocolate-light",
+            "time": 1838.2000000476837,
+            "centered": "rainglow-chocolate-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-earthsong-light",
+            "time": 1888.2999999523163,
+            "centered": "rainglow-earthsong-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-freshcut-light",
+            "time": 1938.2000000476837,
+            "centered": "rainglow-freshcut-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-goldfish-light",
+            "time": 1987.2999999523163,
+            "centered": "rainglow-goldfish-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-joker-light",
+            "time": 2053.9000000953674,
+            "centered": "rainglow-joker-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-laravel-light",
+            "time": 2103.9000000953674,
+            "centered": "rainglow-laravel-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-lavender-light",
+            "time": 2170.5,
+            "centered": "rainglow-lavender-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-mellow-light",
+            "time": 2220.5,
+            "centered": "rainglow-mellow-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-peacock-light",
+            "time": 2287.5,
+            "centered": "rainglow-peacock-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-slate-light",
+            "time": 2353.9000000953674,
+            "centered": "rainglow-slate-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-stasis-light",
+            "time": 2420.5,
+            "centered": "rainglow-stasis-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "rainglow-turnip-light",
+            "time": 2487.0999999046326,
+            "centered": "rainglow-turnip-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(255, 255, 255)"
+          },
+          {
+            "id": "visual-studio-light",
+            "time": 2570.4000000953674,
+            "centered": "visual-studio-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(237, 237, 237)"
+          },
+          {
+            "id": "vscode-2026-light",
+            "time": 2637.0999999046326,
+            "centered": "vscode-2026-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(250, 250, 253)"
+          },
+          {
+            "id": "vscode-high-contrast-light",
+            "time": 2720.5,
+            "centered": "vscode-high-contrast-light",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(240, 240, 240)"
+          },
+          {
+            "id": "vscode-light-modern",
+            "time": 2803.7999999523163,
+            "centered": "vscode-light-modern",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(248, 248, 248)"
+          },
+          {
+            "id": "vscode-light-plus",
+            "time": 2887.2000000476837,
+            "centered": "vscode-light-plus",
+            "background": "rgb(255, 255, 255)",
+            "pageBackground": "rgb(255, 255, 255)",
+            "consoleBackground": "rgb(237, 237, 237)"
+          },
+          {
+            "id": "vscode-high-contrast-dark",
+            "time": 2987.2000000476837,
+            "centered": "vscode-high-contrast-dark",
+            "background": "rgb(0, 0, 0)",
+            "pageBackground": "rgb(0, 0, 0)",
+            "consoleBackground": "rgb(18, 18, 18)"
+          },
+          {
+            "id": "vscode-abyss",
+            "time": 3087.5,
+            "centered": "vscode-abyss",
+            "background": "rgb(0, 12, 24)",
+            "pageBackground": "rgb(0, 12, 24)",
+            "consoleBackground": "rgb(6, 6, 33)"
+          },
+          {
+            "id": "github-dark-high-contrast",
+            "time": 3203.7999999523163,
+            "centered": "github-dark-high-contrast",
+            "background": "rgb(10, 12, 16)",
+            "pageBackground": "rgb(10, 12, 16)",
+            "consoleBackground": "rgb(1, 4, 9)"
+          },
+          {
+            "id": "github-dark-default",
+            "time": 3320.5999999046326,
+            "centered": "github-dark-default",
+            "background": "rgb(13, 17, 23)",
+            "pageBackground": "rgb(13, 17, 23)",
+            "consoleBackground": "rgb(1, 4, 9)"
+          },
+          {
+            "id": "vscode-2026-dark",
+            "time": 3437.0999999046326,
+            "centered": "vscode-2026-dark",
+            "background": "rgb(18, 19, 20)",
+            "pageBackground": "rgb(18, 19, 20)",
+            "consoleBackground": "rgb(25, 26, 27)"
+          },
+          {
+            "id": "ayu-dark",
+            "time": 3587,
+            "centered": "ayu-dark",
+            "background": "rgb(16, 20, 28)",
+            "pageBackground": "rgb(16, 20, 28)",
+            "consoleBackground": "rgb(13, 16, 23)"
+          },
+          {
+            "id": "dark",
+            "time": 3753.5999999046326,
+            "centered": "dark",
+            "background": "rgb(23, 26, 33)",
+            "pageBackground": "rgb(17, 21, 28)",
+            "consoleBackground": "rgb(32, 38, 49)"
+          },
+          {
+            "id": "vscode-red",
+            "time": 3953.7999999523163,
+            "centered": "vscode-red",
+            "background": "rgb(57, 0, 0)",
+            "pageBackground": "rgb(57, 0, 0)",
+            "consoleBackground": "rgb(51, 0, 0)"
+          },
+          {
+            "id": "rainglow-tron",
+            "time": 4203.799999952316,
+            "centered": "rainglow-tron",
+            "background": "rgb(20, 25, 31)",
+            "pageBackground": "rgb(20, 25, 31)",
+            "consoleBackground": "rgb(10, 13, 15)"
+          },
+          {
+            "id": "rose-pine",
+            "time": 4553.700000047684,
+            "centered": "rose-pine",
+            "background": "rgb(25, 23, 36)",
+            "pageBackground": "rgb(25, 23, 36)",
+            "consoleBackground": "rgb(31, 29, 46)"
+          },
+          {
+            "id": "vscode-kimbie-dark",
+            "time": 5909,
+            "centered": "vscode-kimbie-dark",
+            "background": "rgb(34, 26, 15)",
+            "pageBackground": "rgb(34, 26, 15)",
+            "consoleBackground": "rgb(54, 39, 18)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Escape cancels an active spin and its asynchronous previews; Skip lands on the prepared target",
+      "details": {
+        "chosen": "rainglow-freshcut-light"
+      }
+    },
+    {
+      "name": "visibility changes during preload cannot start the drum before its genuine palettes are ready"
+    }
+  ],
+  "failures": []
+}

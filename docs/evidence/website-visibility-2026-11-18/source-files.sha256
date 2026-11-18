@@ -1,0 +1,5 @@
+eb299585577159ed48d395579bfd97fa3f24695f985c8868515c7be0e23d6611  docs/evidence/website-visibility-2026-11-18/README.md
+d9e0374250d9e93518eb2fe3ff2b2ecaeac95a123ad4251897f59b9f3de343dc  website/src/scripts/turboj-demo.ts
+d591ea6f1acb0b6633438d99d294282d35d1406502fb6ce7ce664ca304c3b6b9  website/tests/demo-visibility-browser.mjs
+ff64372951f1d77d6f8fc972c0128e0ad7779fc35f63dd34ea56a06e5cdf4baa  website/package.json
+7efc7b1e45f3743353d6a54c3ece46114ab82e460bd7dd705f136e00f3a16c22  website/QA.md

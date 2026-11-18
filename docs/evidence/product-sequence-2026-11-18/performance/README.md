@@ -175,6 +175,165 @@ and remains approximate, not an allocation profile. Three forks do not support a
 p95 estimate for one import per fork, so none is invented. Earlier concurrently loaded
 pilot measurements remain available and are excluded from the final comparison.
 
+## CommandJ JMH
+
+All **six artifact/round invocations completed with exit status zero**, each producing all
+six benchmark/size results. JMH 1.37 runs dispatch, shortcut matching and palette search at
+nominal registry sizes 100 and 1,000. Each artifact has three separate forks per case:
+**36 benchmark JVM forks total**, one thread, sample-time mode, three one-second warmups
+and five one-second measurements per fork, using the installed application's Corretto 25
+runtime with `-Xmx768m`. Artifact order alternates by round. Raw result histograms, per-fork
+percentiles/confidence output and logs are retained in [commandj/manifest.json](commandj/manifest.json)
+and the adjacent twelve JSON/text files.
+
+Both separately built benchmark JARs have the **same SHA-256**:
+`188fed19bed428076f5daf40ee667f6d8c86c774e4e3a0a56b98debea2d823a4`.
+The CommandJ source subtree is unchanged between `dd75866` and `c7d08485`. Therefore this
+is a repeatability/load comparison of identical benchmark code, **not evidence of a
+CommandJ optimization or speedup**. It also demonstrates why a lower median alone cannot
+establish a product performance improvement.
+
+The actual `CommandBenchmarks` setup registers `count` synthetic formatting commands plus
+one Save command. Dispatch executes a no-op caller handler through `CommandRegistry` and
+returns its completed stage. Shortcut timing resolves `META+S` using the bundled IntelliJ
+map and the registered Save command; it does not execute Save. The 100/1,000 parameter
+varies registry size, **not the number of bound shortcuts or competing contexts**. Palette
+search uses the already-built `CommandSearch` index, repeated query `fmt doc` and a 50-result
+limit. These are core API measurements, excluding Swing dispatch, dialogs, painting, actual
+command work, physical input and registry/index rebuild cost.
+
+All values below are **microseconds per operation**, formatted as
+**p50 / p95 / p99 / maximum**. Percentiles are the median of the three fork percentiles;
+maximum is the highest sampled latency across all forks, not the median maximum.
+
+| Operation / nominal commands | Baseline | Candidate |
+| --- | --- | --- |
+| Dispatch / 100 | 0.083 / 0.084 / 0.125 / 440.832 | 0.083 / 0.084 / 0.125 / 536.576 |
+| Dispatch / 1,000 | 0.083 / 0.084 / 0.125 / 8503.296 | 0.083 / 0.084 / 0.125 / 5726.208 |
+| Shortcut / 100 | 0.083 / 0.084 / 0.125 / 707.584 | 0.083 / 0.084 / 0.125 / 347.136 |
+| Shortcut / 1,000 | 0.083 / 0.084 / 0.125 / 442.880 | 0.083 / 0.084 / 0.125 / 811.008 |
+| Palette / 100 | 9.072 / 10.288 / 23.936 / 11862.016 | 9.456 / 10.080 / 15.408 / 533.504 |
+| Palette / 1,000 | 117.632 / 150.784 / 317.952 / 11501.568 | 116.608 / 125.952 / 152.320 / 4399.104 |
+
+Dispatch and shortcut p50 values are around 83 ns, near the observed clock quantization;
+the raw histograms even contain some zero-width samples. They must not be interpreted as
+precise end-to-end keyboard latency. Long tails remain: candidate dispatch reached
+**5.726 ms**, candidate palette search reached **4.399 ms**, and baseline palette search
+reached **11.862 ms**. No GC/OS profiler was recorded, so their cause is not assigned.
+
+The three 1,000-command palette p99 observations were **317.952, 496.497, 137.728 µs**
+for baseline and **118.400, 155.351, 152.320 µs** for candidate. Candidate 1,000-command
+dispatch sample means were approximately **0.070, 0.075, 0.160 µs** despite matching
+p50/p95/p99, illustrating the retained extreme-tail cost. [summary.json](summary.json)
+keeps every fork's mean, p50, p95, p99, p99.9 and maximum; the raw histograms preserve the
+full measured distributions without dropping outliers.
+
+Reproduce with `scripts/qualify-command-performance.py BASELINE_BENCHMARK_JAR
+CANDIDATE_BENCHMARK_JAR --output /private/tmp/turboj-command-reproduction --java
+/path/to/TurboJ.app/Contents/runtime/Contents/Home/bin/java`. This driver invokes
+`commandj/commandj-benchmarks/.../CommandBenchmarks.java` from each shaded benchmark JAR;
+it does not substitute the full application JAR for the benchmark artifact.
+
+## Installed application startup, idle CPU, heap and RSS
+
+The corrected startup driver completed all **six LaunchServices starts**, alternating
+baseline/candidate order with three fresh JVMs and isolated profiles per artifact. Both
+installed applications use the same `Startup.java` bytes, with SHA-256
+`4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4`. The final driver requires
+a fresh output directory and separates `workspace/` source from sibling `profiles/`.
+The [startup manifest](startup/manifest.json) records artifact, probe, driver and fixture
+hashes, PIDs, ordering and each original result.
+
+The Swift probe uses `NSWorkspace.openApplication` with a new application instance and a
+minimal `/usr/bin:/bin:/usr/sbin:/sbin` PATH. It measures LaunchServices dispatch until
+`CGWindowList` observes the owned on-screen application window, polling every 20 ms.
+This exercises the packaged launcher and bundled runtime through the macOS application
+launch route. It is not a physical Finder-click measurement, cold-disk-cache start,
+completed semantic initialization or proof of compositor presentation. Warm OS caches
+are retained, and the decimal raw timestamps do not imply sub-millisecond observation
+precision.
+
+| LaunchServices → observed window | Baseline | Candidate |
+| --- | --- | --- |
+| Three observed intervals | 1170.363 / 771.118 / 765.139 ms | 940.516 / 785.851 / 846.696 ms |
+| Median | 771.118 ms | 846.696 ms |
+| Range | 765.139–1170.363 ms | 785.851–940.516 ms |
+
+The candidate median is approximately 75.6 ms higher in this small sample. There is no
+causal regression/speedup conclusion or useful p95 estimate from three launches. The
+original six starts remain in [startup-control/manifest.json](startup-control/manifest.json)
+and are excluded from this final aggregate: their driver placed preferences below the
+source/output root. A later bounded [workspace check](startup-control/workspace-control.json)
+found only the expected Java fixture; it does not retrospectively prove every transient
+state. The corrected separation removes that potential fixture-input ambiguity.
+
+Idle qualification is **one approximately ten-minute interval per artifact**, measured
+sequentially, with 20 contiguous 30-second sample periods. The native window remained
+visible after initial compilation. Both used the same Java source hash above and profiles
+outside the source tree. `scripts/measure-idle.py` records monotonic elapsed time, rounded
+`ps` process CPU counters and RSS for the owned application plus its immediate worker
+children; both sets contained two processes throughout their measured periods. It is not
+an all-descendant process audit or a repeated-fork idle experiment.
+
+| Ten-minute CPU/RSS measurement | Baseline | Candidate |
+| --- | ---: | ---: |
+| Actual summed sample duration | 600.989184 s | 600.841158 s |
+| CPU seconds from rounded counters | 1.07 s | 0.73 s |
+| Time-weighted CPU, percent of one core | 0.178040% | 0.121496% |
+| Largest individual interval CPU | 0.399207% | 0.365973% |
+| Summed RSS median | 46.75 MiB | 47.66 MiB |
+| Summed RSS range | 38.45–56.13 MiB | 38.64–79.53 MiB |
+
+CPU is **not zero**. The weighted value is total measured CPU divided by total measured
+wall time, expressed relative to one core; it is not normalized by all ten processors.
+The counter precision is limited by `ps`. Summed RSS can double-count shared pages and
+reflect macOS paging/compression/reclamation; it is not private retained memory and its
+decline does not prove a TurboJ memory optimization. A single quiet interval does not
+certify absence of long-term leaks, all idle states, sleep/wake behavior or a CPU improvement.
+
+Heap and GC were captured independently of those CPU/RSS samples. **The candidate's first
+heap and GC captures were late and neither pair brackets its complete ten-minute CPU/RSS
+interval.** These observations therefore do not establish matched-window heap growth or
+absence of GC throughout either complete CPU/RSS interval.
+
+| Independent main-JVM captures | Baseline | Candidate |
+| --- | ---: | ---: |
+| Used heap, first → last reading | 61.24 → 61.67 MiB | 58.40 → 58.66 MiB |
+| Committed heap, first/last reading | 102 / 102 MiB | 109 / 109 MiB |
+| Collector invocation/time deltas between counter captures only | All three G1 collector counters unchanged | All three G1 collector counters unchanged |
+
+Used-heap readings differed by 433 KiB baseline and 266 KiB candidate, without forcing GC;
+these are separate endpoint differences, not comparable ten-minute growth measurements.
+No young/full/concurrent G1 invocation or time increment was observed **between each pair
+of captured counters only**. Worker heap and worker GC were not inspected.
+
+The original files' last-write times below document the capture order on 2026-11-18. They
+are retrospective **wall-clock filesystem metadata, not monotonic measurement boundaries**,
+counter sample timestamps or precise command-dispatch times. The CPU/RSS durations above
+remain the original monotonic measurements; no UTC start is inferred by subtracting them
+from a file-write time. Exact metadata and the retained failed control are recorded in
+[idle/capture-metadata.json](idle/capture-metadata.json).
+
+| Original file written (UTC) | Baseline | Candidate |
+| --- | --- | --- |
+| Launch result | 18:11:32.559466 | 17:47:58.373345 |
+| First heap capture | 18:12:14.912513 | 17:50:14.498623 |
+| First GC-counter capture | 18:12:15.750223 | 17:55:51.562229 |
+| Completed CPU/RSS result | 18:22:30.690663 | 17:58:25.551389 |
+| Last heap capture | 18:22:36.298176 | 17:59:37.947810 |
+| Last GC-counter capture | 18:22:45.115491 | 17:59:39.917108 |
+
+Raw CPU/RSS samples, launch metadata, runtime and heap endpoints are under
+`idle/baseline/` and `idle/candidate/`; the aggregate is [installed-summary.json](installed-summary.json).
+Only allowlisted collector names/counts/times and the counter frequency from `jcmd
+PerfCounter.print` are archived as `gc-start.txt`/`gc-end.txt`. Full JVM property dumps
+are deliberately excluded. The prior baseline control completed its CPU/RSS samples, but
+its end `jcmd` calls failed under the sandbox before the owned process was stopped. Its
+[control record](idle-control/baseline-matched/control-limitation.json) and original
+CPU/RSS/heap-output files remain available. The PID-header-only failed endpoint is **not**
+treated as a zero-GC/heap measurement. The final baseline was repeated with successfully
+captured endpoints and is the only baseline used in the table.
+
 ## Reproduction and remaining measurement boundaries
 
 The root driver is `scripts/qualify-product-performance.py`. It compiles only these test
@@ -198,8 +357,13 @@ python3 scripts/qualify-product-performance.py \
   --java /path/to/TurboJ.app/Contents/runtime/Contents/Home/bin/java
 ```
 
-CommandJ JMH, Finder-launched startup, idle CPU and resident-memory controls are separate
-release measurements and were still pending when this paired summary was written. The
-release owner will add their exact artifacts and boundaries separately. These measurements
-also do not qualify physical keyboard/IME, compositor presentation, paid-cloud AI latency,
-network filesystems, metadata-heavy saves or performance on other hardware.
+For installed startup, compile `scripts/launch-package-probe.swift`, then use
+`scripts/qualify-package-startup.py` with both app bundles, `--probe`, a fresh `--output`
+directory and `--rounds 3`. Idle collection uses `scripts/measure-idle.py OWNED_PID --seconds
+30 --samples 20`, with explicit approved `jcmd` endpoint captures before stopping the owned
+application. Never infer missing endpoint data from a terminated process.
+
+These measurements do not qualify physical keyboard/IME, compositor presentation,
+paid-cloud AI latency, network filesystems, metadata-heavy saves or performance on other
+hardware. The measured gates above are complete for their stated local scope; hosted CI
+and other release decisions are tracked in the consolidated release record.

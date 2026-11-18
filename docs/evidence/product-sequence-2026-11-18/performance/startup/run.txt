@@ -1,0 +1,12 @@
+baseline, round 1
+Owned app PID 15796, evidence /private/tmp/turboj-package-startup-final/baseline-1.json
+candidate, round 1
+Owned app PID 15814, evidence /private/tmp/turboj-package-startup-final/candidate-1.json
+candidate, round 2
+Owned app PID 15821, evidence /private/tmp/turboj-package-startup-final/candidate-2.json
+baseline, round 2
+Owned app PID 15827, evidence /private/tmp/turboj-package-startup-final/baseline-2.json
+baseline, round 3
+Owned app PID 15838, evidence /private/tmp/turboj-package-startup-final/baseline-3.json
+candidate, round 3
+Owned app PID 15851, evidence /private/tmp/turboj-package-startup-final/candidate-3.json

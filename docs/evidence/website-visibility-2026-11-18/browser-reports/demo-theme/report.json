@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-11-18T18:57:25.074Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "sessionId": "hero-session-2026-10-25",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "saved Monokai paints immediately while module is gated",
+      "status": "PASS",
+      "detail": {
+        "theme": "vscode-monokai",
+        "gated": "module"
+      }
+    },
+    {
+      "name": "saved Monokai paints immediately while manifest is gated",
+      "status": "PASS",
+      "detail": {
+        "theme": "vscode-monokai",
+        "gated": "manifest"
+      }
+    },
+    {
+      "name": "saved Monokai paints immediately while chapter is gated",
+      "status": "PASS",
+      "detail": {
+        "theme": "vscode-monokai",
+        "gated": "chapter"
+      }
+    },
+    {
+      "name": "saved Monokai survives module failure with a readable fallback",
+      "status": "PASS",
+      "detail": {
+        "samples": 1
+      }
+    },
+    {
+      "name": "saved Monokai survives manifest failure with a readable fallback",
+      "status": "PASS",
+      "detail": {
+        "samples": 2
+      }
+    },
+    {
+      "name": "saved Monokai survives chapter failure with a readable fallback",
+      "status": "PASS",
+      "detail": {
+        "samples": 2
+      }
+    },
+    {
+      "name": "a valid cached custom palette remains painted when theme catalog refresh is offline",
+      "status": "PASS",
+      "detail": {
+        "samples": 3
+      }
+    },
+    {
+      "name": "chapter loading keeps the current themed frame instead of showing the Classic screenshot",
+      "status": "PASS",
+      "detail": {
+        "samples": 4
+      }
+    },
+    {
+      "name": "Play keeps every recorded menu and dialog in Monokai through all five chapters and loop restart",
+      "status": "PASS",
+      "detail": {
+        "realPlaybackDurationMs": 43545.12812500001,
+        "observedChanges": 95,
+        "distinctOverlayScenes": 15
+      }
+    },
+    {
+      "name": "no-JavaScript keeps the genuine native screenshot and evidence route unchanged",
+      "status": "PASS",
+      "detail": {
+        "authenticScreenshotSha256": "27e0f5c593105574e60abd6e3055db525f119a20f80e3ddcf01ce3727cd9bcc8"
+      }
+    }
+  ],
+  "failures": []
+}

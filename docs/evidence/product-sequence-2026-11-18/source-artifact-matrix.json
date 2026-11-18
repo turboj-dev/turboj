@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 1,
+  "scope": "Source-to-qualified-artifact correspondence; local receipt verification, not a signature or deployment attestation. No rebuild was performed to create this matrix.",
+  "turboj": {
+    "commit": "c7d08485a30a02ddc321c360ff02a3ab38872ccb",
+    "remoteTrackingRef": "origin/main",
+    "baselineCommit": "dd75866e810c3e5ca74b8e21b515eb3f4e5685de",
+    "artifactSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+    "buildReceipt": "package/build-receipt.json",
+    "buildReceiptSha256": "ad8efbff782b116d9400288fe29cfc0026e3104f8a6eadf2ab4b1061d866567e",
+    "sourceToCommitVerification": {
+      "method": "git cat-file --batch of commit:path; SHA-256 of blob bytes compared with every source entry in the preserved build receipt",
+      "comparedSources": 743,
+      "mismatches": [],
+      "status": "PASS"
+    },
+    "receiptCommitExplanation": "Receipt captured the pre-commit dirty tree at dd75866. All 743 captured input bytes match c7d08485; receipt metadata preserved unchanged.",
+    "fullReactor": {
+      "evidence": "final-reactor/reactor-results.json",
+      "tests": 976,
+      "suites": 141,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "inputMap": "final-reactor/inputs.json",
+      "differencesFromFinalBuildReceipt": [
+        "scripts/package-macos.sh",
+        "scripts/build-receipt.py"
+      ],
+      "differenceExplanation": "Only packaging/build-receipt scripts changed after Java verification; package-receipt regression tests pass and Java reassembly retained identical JAR bytes.",
+      "unfilteredInventory": "final-reactor/tests.json",
+      "excludedPreexistingExample": "examples/maven/target/surefire-reports/TEST-dev.turboj.examples.calculator.CalculatorTest.xml"
+    },
+    "remoteTrackingRefMatchedAtSourcePublication": true,
+    "ciRepairCommit": "ede0821ed2613147250aa0d3d8b91784af36172b",
+    "ciRepairScope": "setup-java publishing settings isolation and Maven CLI test fixture only; no production Java changes",
+    "remoteTrackingRefAtOriginalSourceVerification": "c7d08485a30a02ddc321c360ff02a3ab38872ccb",
+    "publishedHeadAtCiRepair": "98002efc291df11ec1a2ccfe2eb843bd7976536c",
+    "sourceCommitIsAncestorOfPublishedCiRepair": true
+  },
+  "macOSPackage": {
+    "applicationLabel": "1.0.10",
+    "architecture": "arm64",
+    "runtime": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode)",
+    "receipt": "package/package-receipt.json",
+    "receiptSha256": "1ffd746ca8700461027fb304dc2fb2e199431c699f241b9519489b2287697e40",
+    "embeddedBuildReceiptHashMatches": true,
+    "jarHashMatches": true,
+    "regularFiles": 123,
+    "symlinks": 99,
+    "fileModes": 123,
+    "installationEvidence": "package/installation.json",
+    "dmg": "target/product-sequence-final-2026-11-18/TurboJ-1.0.10.dmg",
+    "dmgSha256": "00e8b0843e8373c0b59da61a1de952ada002023952fb23eacfd46c22d371c561",
+    "verification": "hdiutil checksum-verified readonly mount, ditto isolated installation, schema2 verify-package, codesign --verify --deep --strict, detach",
+    "signing": "ad-hoc only; not Developer ID or notarized",
+    "userApplicationReplaced": false
+  },
+  "cherry": {
+    "baseCommit": "39af874d3d7c3d2589866aed9ee5d7664d47d0df",
+    "localCommit": "9cbd9e1fe808c0a5b56050c42b823355d036cdf5",
+    "qualifiedJarSha256": "01004385b5163b3ef9aad1b55f01b482956640aeee79e8fe7f29e6c72a937f25",
+    "localCommitSourceVerification": [
+      {
+        "path": "docs/native-ide-events.md",
+        "sha256": "4da4677ca41bd72da4d0a3072cb79cc1ebdb8a01579378bc38bfbf28b4931d7a",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/CherryTest.java",
+        "sha256": "b5df9fb88151c2350732b6888b63a1efcd90d0507e5f3c42e0e48577c232d7fb",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeEvents.java",
+        "sha256": "100e272542b7cd48cc650d814c658b4af5ed122f8c63f37e5147918778d0ec62",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/Runner.java",
+        "sha256": "24cc671b56aad61a10736190199f376fb3e8b646172c8ac28456555cb0502b08",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Adapters.java",
+        "sha256": "996d28b0686dfc7bb27fdfe9501c0160ea443727cf2d2c311fb3d72b616cea6b",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Builtins.java",
+        "sha256": "91c257d7019cd4ba3c8cebf383c4179901a98f16e077aa5bd2d746810fb5a1e9",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageEvidence.java",
+        "sha256": "7def77638ed30db7dbb69ff8e7034479ab903dcd481e00acad7db93a2dd0ba24",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageUnion.java",
+        "sha256": "cb8efaa0ef5761001c8128f0e09e89bd4c8ba7e7fc5a262528453b03a44fc3f2",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/test/java/com/cherrytest/cli/adapters/CoverageEvidenceTest.java",
+        "sha256": "58e4d86cd2a039bbc25cc10a432c960ced5c1fbefb876ce854f4e93549f06da8",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-junit/src/main/java/com/cherrytest/junit/CherryTestExtension.java",
+        "sha256": "321b732c65a8e7247468d8d0bae278a1d42b5315cbfa5fb74b46eeeff3f77f97",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-junit/src/test/java/com/cherrytest/junit/CherryTestExtensionTest.java",
+        "sha256": "12c3de36ddf8582c8a7003cdd9621f1a4a6f088b209fbc6549c9bed4364aca49",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeProgress.java",
+        "sha256": "fe5818e27396dd2cee5396ad8fa3a40741ff6e220912a71f1798408418996696",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeSelection.java",
+        "sha256": "4cb3f8ee1ec936de343d67bfe44f7e28e42350cedc5135cde4651500259a3d4f",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-cli/src/test/java/com/cherrytest/cli/NativeSelectionTest.java",
+        "sha256": "3bc53a1396857d88b9a230858d9a4688b77d78de3b19b5bf097dcc8e617cc00e",
+        "matchesLocalCompanionCommit": true
+      },
+      {
+        "path": "java/cherry-test-junit/src/main/java/com/cherrytest/junit/NativeTestProgress.java",
+        "sha256": "c2bec1c87bcb95efbae2c3d4f677d246f3ef179a78f60b2c15bfa277175695e2",
+        "matchesLocalCompanionCommit": true
+      }
+    ],
+    "patch": "../cherry-producer-feedback-2026-11-18/companion.patch",
+    "patchSha256": "0484aafc97876881ba725ff05342172ad152d616f8e6da653bdcbf358708ecda",
+    "patchHashMatchesDeliveryRecord": true,
+    "upstreamHistoryPushed": false,
+    "preexistingUnpublishedAncestorCommits": 16,
+    "qualifiedTests": {
+      "tests": 425,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "skipReasons": [
+        "ContainerTest opt-in Docker smoke",
+        "SidecarSmokeIT CHERRY_TEST_DOCKER_SMOKE=1"
+      ]
+    },
+    "deliveryLimitation": "Patch requires the identified base including prior native/provenance work; not asserted applicable to the older public upstream."
+  },
+  "website": {
+    "evidence": "../website-visibility-2026-11-18/validation.json",
+    "nativeArtifactSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+    "nativeRegistryCommands": 312,
+    "nativeRegistryAliases": 29,
+    "nativeRegistryManifestSha256": "540f6b72bb85f05959b307c15d585fffa2578cd1473bafaf74e410191e97b0cd",
+    "sourceManifestGuardBypassed": false,
+    "generatedReferences": [
+      {
+        "path": "docs/keyboard-command-inventory.md",
+        "sha256": "ea8de0367554f720f4f7d9bf87077a4da9484852863e09484bafd6d574e4fc6b",
+        "matchesTurboJCommit": true
+      },
+      {
+        "path": "docs/keyboard-shortcut-reference.md",
+        "sha256": "b7bd1038f5af105cc7a897576cb63a279d3d8b45e36966c545f06ae09cab3d07",
+        "matchesTurboJCommit": true
+      },
+      {
+        "path": "docs/keyboard-conflicts.md",
+        "sha256": "129387654a4e58a1b66685e6737364eaf955ffbc7ad0efbbaafcfaf2f7e50a3f",
+        "matchesTurboJCommit": true
+      }
+    ],
+    "fourPageCheatSheets": [
+      {
+        "path": "docs/cheatsheets/cheatsheet-eclipse-macos.pdf",
+        "sha256": "a653a8459108604fb09ac9ba3964c5485dfbe79bf5682fbe8303bc790c87e2cf",
+        "pages": 4,
+        "matchesTurboJCommit": true
+      },
+      {
+        "path": "docs/cheatsheets/cheatsheet-intellij-macos.pdf",
+        "sha256": "b440423db3afb2bc2aea2fd7efea9bbb75df7e297f0c75990d771d07e4098849",
+        "pages": 4,
+        "matchesTurboJCommit": true
+      },
+      {
+        "path": "docs/cheatsheets/cheatsheet-turboj-macos.pdf",
+        "sha256": "ea9524bdcaa226f262d08033c49df4e729e92a71e3ff93dbb40b5dc183467c27",
+        "pages": 4,
+        "matchesTurboJCommit": true
+      },
+      {
+        "path": "docs/cheatsheets/cheatsheet-vscode-macos.pdf",
+        "sha256": "e0b1e3ff5e8a34c56caefaf4afcd5d935d930d080a45639a202705b14e9c464a",
+        "pages": 4,
+        "matchesTurboJCommit": true
+      }
+    ],
+    "productionDeployed": false,
+    "nativeReferenceEvidence": "../website-alignment-2026-11-18/final-validation.json",
+    "rendererCommit": "ee98ac8381f52d466dd917bb8028e1fac94734ae",
+    "unitTests": 53,
+    "browserChecks": 375,
+    "browserFailures": 0,
+    "heroGzipBytes": 6727,
+    "allJavaScriptGzipBytes": 14874,
+    "lazyChapterGzipBytes": 21080,
+    "recordedSessionDataChanged": false
+  },
+  "remainingReleaseEvidence": {},
+  "postponedOrUnsupported": [
+    "Physical keyboard/IME/VoiceOver walkthrough",
+    "Live paid-cloud inference qualification",
+    "Developer ID signing/notarization",
+    "Exact test reruns where adapter reports unsupported selectors",
+    "Per-test production-line coverage without a verified provider relationship",
+    "Destructive ACL/xattr refactoring whose journal cannot restore metadata",
+    "Network-filesystem recovery qualification",
+    "Cross-user ownership qualification"
+  ],
+  "commandJMeasurement": {
+    "status": "VERIFIED",
+    "manifest": "performance/commandj/manifest.json",
+    "summary": "performance/summary.json",
+    "artifactRoundInvocations": 6,
+    "benchmarkForks": 36,
+    "exitCodes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "baselineAndCandidateBenchmarkSha256": "188fed19bed428076f5daf40ee667f6d8c86c774e4e3a0a56b98debea2d823a4",
+    "identicalBenchmarkArtifacts": true,
+    "commandjProductionUnchanged": true,
+    "scope": "JMH core no-op dispatch, Save shortcut resolution and warmed repeated palette search; no Swing, real command work or physical input. All raw histograms and tails retained; no optimization claim."
+  },
+  "installedPackagePerformance": {
+    "status": "VERIFIED within stated local measurement scope",
+    "summary": "performance/installed-summary.json",
+    "startupManifest": "performance/startup/manifest.json",
+    "startupRuns": 6,
+    "baselineStartupMedianMs": 771.117667,
+    "candidateStartupMedianMs": 846.6955,
+    "startupBoundary": "LaunchServices dispatch to owned on-screen window-server observation,20ms polling,warm OS caches; not physical Finder click or completed semantic analysis",
+    "idleSamplesPerArtifact": 20,
+    "baselineIdleWallSeconds": 600.9891837089998,
+    "candidateIdleWallSeconds": 600.8411581240001,
+    "baselineCpuPercentOneCore": 0.17803980986754273,
+    "candidateCpuPercentOneCore": 0.12149633728143237,
+    "mainJvmGcEndpointsCaptured": true,
+    "mainJvmGcCounterDeltasZeroBoth": true,
+    "limitations": [
+      "Single ten-minute idle interval per artifact",
+      "Rounded process CPU counters; parent and immediate children only",
+      "Summed RSS is not private memory",
+      "Main JVM heap and GC only; workers not heap-profiled",
+      "Initial startup controls and baseline missing-endpoint control retained but excluded",
+      "No causal speedup or long-term leak claim",
+      "Heap and GC endpoint windows differ from monotonic CPU/RSS sampling",
+      "Candidate first heap/GC captures are late; full ten-minute GC behavior is not established",
+      "Original capture last-write UTC is wall-clock metadata, not a measurement clock"
+    ],
+    "mainJvmGcScope": "All three collector invocation/time deltas are zero only between their recorded counter endpoints. Candidate GC captures do not bracket the entire ten-minute CPU/RSS interval; no whole-interval GC claim.",
+    "heapScope": "Independent heap endpoint values, not matched ten-minute growth comparison; start/end file-write UTC metadata is recorded separately.",
+    "captureMetadata": "performance/idle/capture-metadata.json"
+  },
+  "postQualificationCiRepairs": [
+    {
+      "commit": "ede0821ed2613147250aa0d3d8b91784af36172b",
+      "scope": "CI workflow and MavenJ CLI test fixture only",
+      "reason": "Keep setup-java publishing settings outside user Maven settings and isolate project import fixture from host settings",
+      "productionOrPackagedJavaChanged": false
+    },
+    {
+      "commit": "98002efc291df11ec1a2ccfe2eb843bd7976536c",
+      "scope": "CI workflow upload collection only",
+      "reason": "Bound report globs to reactor directories, avoiding package staging Applications symlink traversal",
+      "productionOrPackagedJavaChanged": false
+    },
+    {
+      "commit": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "scope": "LocalModelManagerTest assertion only",
+      "reason": "Preserve existing Intel runtime qualification warning in expected version text",
+      "productionOrPackagedJavaChanged": false,
+      "focusedTests": {
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "hostedCI": {
+    "summary": "ci/final-summary.json",
+    "summarySha256": "8a52d8808bf868d360550e72f914bb3df20402367cc2031b6602591093fe8760",
+    "run": {
+      "id": 44378326946,
+      "html_url": "https://github.com/turboj-dev/turboj/actions/runs/44378326946",
+      "head_sha": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "created_at": "2026-11-18T19:14:06Z",
+      "updated_at": "2026-11-18T19:32:20Z"
+    },
+    "jobs": [
+      {
+        "id": 135063378018,
+        "name": "website",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T19:14:09Z",
+        "completed_at": "2026-11-18T19:18:47Z"
+      },
+      {
+        "id": 135063378544,
+        "name": "java (macos-15-intel)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T19:14:12Z",
+        "completed_at": "2026-11-18T19:32:19Z"
+      },
+      {
+        "id": 135063378594,
+        "name": "java (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T19:14:10Z",
+        "completed_at": "2026-11-18T19:23:06Z"
+      }
+    ],
+    "tests": {
+      "ubuntu": {
+        "tests": 976,
+        "suites": 141,
+        "executedPassed": 966,
+        "skipped": 10,
+        "failures": 0,
+        "errors": 0
+      },
+      "macos-intel": {
+        "tests": 976,
+        "suites": 141,
+        "executedPassed": 975,
+        "skipped": 1,
+        "failures": 0,
+        "errors": 0
+      }
+    },
+    "productionInputsMatchQualifiedLocalArtifact": true,
+    "hostedArtifactsAreSeparateBuilds": true
+  },
+  "requestedSequence": {
+    "groups": 9,
+    "registeredItems": 28,
+    "verifiedWithinDeclaredScope": 27,
+    "partial": [
+      "REF-01"
+    ],
+    "partialReason": "Network-filesystem and cross-user ownership qualification unavailable; unsupported destructive metadata-journal operations are safely refused."
+  }
+}

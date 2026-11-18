@@ -1,0 +1,218 @@
+{
+  "timestamp": "2026-11-18T18:56:10.211Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "sessionId": "hero-session-2026-10-25",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "only Play/Pause and the mini-prompt are visible; secondary controls and evidence remain hidden",
+      "status": "PASS"
+    },
+    {
+      "name": "initial Hello World advances at actual captured intervals and holds without continuing",
+      "status": "PASS",
+      "detail": {
+        "capturedDurationMs": 4029.156248,
+        "observedCheckpoints": 12
+      }
+    },
+    {
+      "name": "keyboard pause/resume, hidden-page, offscreen, and manual-pause clocks suspend without skipping",
+      "status": "PASS",
+      "detail": {
+        "note": "Visibility handler tested with synthetic document.hidden event; not an OS background-tab timing claim."
+      }
+    },
+    {
+      "name": "every chapter restores independently and every static checkpoint matches recorded source/output",
+      "status": "PASS"
+    },
+    {
+      "name": "Rename and Extract Method render the real read-only fields, before/after previews, and warnings",
+      "status": "PASS"
+    },
+    {
+      "name": "recorded Auto Test and Auto Run menus show their independent checked states",
+      "status": "PASS"
+    },
+    {
+      "name": "theme changes preserve the exact paused source/output and elapsed time",
+      "status": "PASS"
+    },
+    {
+      "name": "100 chapter switches do not accumulate DOM nodes or replay state",
+      "status": "PASS",
+      "detail": {
+        "switches": 100,
+        "maximumElements": 122,
+        "retainedHeapGrowthBytes": 181464,
+        "longTasks": []
+      }
+    },
+    {
+      "name": "the sole Play button traverses every captured interval and loops after a suspended editorial hold",
+      "status": "PASS",
+      "detail": {
+        "recordedPlaybackDurationMs": 40545.12812500001,
+        "observedCheckpoints": 99
+      }
+    },
+    {
+      "name": "controls and code regions have accessible names; source is outside live regions; browser is error-free",
+      "status": "PASS"
+    },
+    {
+      "name": "resuming exactly at a hidden-page chapter or loop boundary advances without a stranded clock",
+      "status": "PASS"
+    },
+    {
+      "name": "late chapter fetches cannot overwrite a newer selection",
+      "status": "PASS"
+    },
+    {
+      "name": "manifest fetch failure remains visible in the single mini-prompt",
+      "status": "PASS"
+    },
+    {
+      "name": "chapter fetch failure remains visible in the single mini-prompt",
+      "status": "PASS"
+    },
+    {
+      "name": "chapter loads preserve Play focus for Space to pause, without stealing a newer focus choice",
+      "status": "PASS"
+    },
+    {
+      "name": "320px: reduced motion waits for explicit Play and keeps the explanatory phrase static",
+      "status": "PASS"
+    },
+    {
+      "name": "320px: fixed stage, readable scrollable source, and no page overflow",
+      "status": "PASS",
+      "detail": {
+        "height": 380,
+        "top": 344.875,
+        "bottom": 724.875,
+        "codeFontPx": 14,
+        "scrollWidth": 320,
+        "viewportWidth": 320
+      }
+    },
+    {
+      "name": "320px: no browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "390px: reduced motion waits for explicit Play and keeps the explanatory phrase static",
+      "status": "PASS"
+    },
+    {
+      "name": "390px: fixed stage, readable scrollable source, and no page overflow",
+      "status": "PASS",
+      "detail": {
+        "height": 380,
+        "top": 320.875,
+        "bottom": 700.875,
+        "codeFontPx": 14,
+        "scrollWidth": 390,
+        "viewportWidth": 390
+      }
+    },
+    {
+      "name": "390px: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px: no browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "768px: reduced motion waits for explicit Play and keeps the explanatory phrase static",
+      "status": "PASS"
+    },
+    {
+      "name": "768px: fixed stage, readable scrollable source, and no page overflow",
+      "status": "PASS",
+      "detail": {
+        "height": 464,
+        "top": 279.375,
+        "bottom": 743.375,
+        "codeFontPx": 16,
+        "scrollWidth": 768,
+        "viewportWidth": 768
+      }
+    },
+    {
+      "name": "768px: no browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "1440px: reduced motion waits for explicit Play and keeps the explanatory phrase static",
+      "status": "PASS"
+    },
+    {
+      "name": "1440px: fixed stage, readable scrollable source, and no page overflow",
+      "status": "PASS",
+      "detail": {
+        "height": 464,
+        "top": 268.796875,
+        "bottom": 732.796875,
+        "codeFontPx": 16,
+        "scrollWidth": 1440,
+        "viewportWidth": 1440
+      }
+    },
+    {
+      "name": "1440px: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "reduced motion holds the final native result without automatic repetition",
+      "status": "PASS"
+    },
+    {
+      "name": "1440px: no browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "1920px: reduced motion waits for explicit Play and keeps the explanatory phrase static",
+      "status": "PASS"
+    },
+    {
+      "name": "1920px: fixed stage, readable scrollable source, and no page overflow",
+      "status": "PASS",
+      "detail": {
+        "height": 510,
+        "top": 269.578125,
+        "bottom": 779.578125,
+        "codeFontPx": 18,
+        "scrollWidth": 1920,
+        "viewportWidth": 1920
+      }
+    },
+    {
+      "name": "1920px: no browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "320px: the sole Play button continues and replays from keyboard focus without a separate scroll action",
+      "status": "PASS"
+    },
+    {
+      "name": "390px: the sole Play button continues and replays from keyboard focus without a separate scroll action",
+      "status": "PASS"
+    },
+    {
+      "name": "no-JavaScript mode retains genuine screenshot and accessible evidence link without inert controls",
+      "status": "PASS"
+    }
+  ],
+  "failures": []
+}

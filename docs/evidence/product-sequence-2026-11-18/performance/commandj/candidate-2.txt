@@ -1,0 +1,711 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+10-LTS
+# VM invoker: /private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java
+# VM options: -Xmx768m
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Sampling time
+# Benchmark: dev.turboj.commandj.benchmarks.CommandBenchmarks.dispatch
+# Parameters: (count = 100)
+
+# Run progress: 0.00% complete, ETA 00:00:48
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 0.269 ±(99.9%) 0.343 us/op
+# Warmup Iteration   2: 0.080 ±(99.9%) 0.006 us/op
+# Warmup Iteration   3: 0.069 ±(99.9%) 0.001 us/op
+Iteration   1: 0.080 ±(99.9%) 0.030 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.084 us/op
+                 p0.999:  0.333 us/op
+                 p0.9999: 7.394 us/op
+                 p1.00:   300.032 us/op
+
+Iteration   2: 0.083 ±(99.9%) 0.036 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.541 us/op
+                 p0.9999: 14.547 us/op
+                 p1.00:   354.304 us/op
+
+Iteration   3: 0.100 ±(99.9%) 0.040 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.167 us/op
+                 p0.999:  6.080 us/op
+                 p0.9999: 30.940 us/op
+                 p1.00:   373.248 us/op
+
+Iteration   4: 0.070 ±(99.9%) 0.002 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.084 us/op
+                 p0.999:  0.417 us/op
+                 p0.9999: 5.534 us/op
+                 p1.00:   12.000 us/op
+
+Iteration   5: 0.081 ±(99.9%) 0.007 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  4.567 us/op
+                 p0.9999: 20.999 us/op
+                 p1.00:   32.064 us/op
+
+
+
+Result "dev.turboj.commandj.benchmarks.CommandBenchmarks.dispatch":
+  N = 164519
+  mean =      0.083 ±(99.9%) 0.012 us/op
+
+  Histogram, us/op:
+    [  0.000,  25.000) = 164507 
+    [ 25.000,  50.000) = 8 
+    [ 50.000,  75.000) = 0 
+    [ 75.000, 100.000) = 1 
+    [100.000, 125.000) = 0 
+    [125.000, 150.000) = 0 
+    [150.000, 175.000) = 0 
+    [175.000, 200.000) = 0 
+    [200.000, 225.000) = 0 
+    [225.000, 250.000) = 0 
+    [250.000, 275.000) = 0 
+    [275.000, 300.000) = 0 
+    [300.000, 325.000) = 1 
+    [325.000, 350.000) = 0 
+    [350.000, 375.000) = 2 
+
+  Percentiles, us/op:
+      p(0.0000) =        ≈ 0 us/op
+     p(50.0000) =      0.083 us/op
+     p(90.0000) =      0.084 us/op
+     p(95.0000) =      0.084 us/op
+     p(99.0000) =      0.125 us/op
+     p(99.9000) =      0.875 us/op
+     p(99.9900) =     15.836 us/op
+     p(99.9990) =    361.025 us/op
+     p(99.9999) =    373.248 us/op
+    p(100.0000) =    373.248 us/op
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+10-LTS
+# VM invoker: /private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java
+# VM options: -Xmx768m
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Sampling time
+# Benchmark: dev.turboj.commandj.benchmarks.CommandBenchmarks.dispatch
+# Parameters: (count = 1000)
+
+# Run progress: 16.67% complete, ETA 00:00:41
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 0.265 ±(99.9%) 0.350 us/op
+# Warmup Iteration   2: 0.087 ±(99.9%) 0.008 us/op
+# Warmup Iteration   3: 0.112 ±(99.9%) 0.047 us/op
+Iteration   1: 0.081 ±(99.9%) 0.032 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.084 us/op
+                 p0.999:  0.608 us/op
+                 p0.9999: 11.548 us/op
+                 p1.00:   328.192 us/op
+
+Iteration   2: 0.072 ±(99.9%) 0.003 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.084 us/op
+                 p0.999:  0.567 us/op
+                 p0.9999: 9.208 us/op
+                 p1.00:   10.864 us/op
+
+Iteration   3: 0.073 ±(99.9%) 0.003 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.584 us/op
+                 p0.9999: 8.396 us/op
+                 p1.00:   20.160 us/op
+
+Iteration   4: 0.070 ±(99.9%) 0.002 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.084 us/op
+                 p0.999:  0.333 us/op
+                 p0.9999: 6.010 us/op
+                 p1.00:   7.416 us/op
+
+Iteration   5: 0.080 ±(99.9%) 0.024 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.292 us/op
+                 p0.9999: 16.405 us/op
+                 p1.00:   225.024 us/op
+
+
+
+Result "dev.turboj.commandj.benchmarks.CommandBenchmarks.dispatch":
+  N = 165640
+  mean =      0.075 ±(99.9%) 0.008 us/op
+
+  Histogram, us/op:
+    [  0.000,  25.000) = 165637 
+    [ 25.000,  50.000) = 0 
+    [ 50.000,  75.000) = 1 
+    [ 75.000, 100.000) = 0 
+    [100.000, 125.000) = 0 
+    [125.000, 150.000) = 0 
+    [150.000, 175.000) = 0 
+    [175.000, 200.000) = 0 
+    [200.000, 225.000) = 0 
+    [225.000, 250.000) = 1 
+    [250.000, 275.000) = 0 
+    [275.000, 300.000) = 0 
+    [300.000, 325.000) = 0 
+    [325.000, 350.000) = 1 
+    [350.000, 375.000) = 0 
+
+  Percentiles, us/op:
+      p(0.0000) =        ≈ 0 us/op
+     p(50.0000) =      0.083 us/op
+     p(90.0000) =      0.084 us/op
+     p(95.0000) =      0.084 us/op
+     p(99.0000) =      0.125 us/op
+     p(99.9000) =      0.459 us/op
+     p(99.9900) =      7.732 us/op
+     p(99.9990) =    260.471 us/op
+     p(99.9999) =    328.192 us/op
+    p(100.0000) =    328.192 us/op
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+10-LTS
+# VM invoker: /private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java
+# VM options: -Xmx768m
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Sampling time
+# Benchmark: dev.turboj.commandj.benchmarks.CommandBenchmarks.palette
+# Parameters: (count = 100)
+
+# Run progress: 33.33% complete, ETA 00:00:32
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10.370 ±(99.9%) 0.416 us/op
+# Warmup Iteration   2: 9.819 ±(99.9%) 0.318 us/op
+# Warmup Iteration   3: 9.192 ±(99.9%) 0.105 us/op
+Iteration   1: 9.187 ±(99.9%) 0.085 us/op
+                 p0.00:   8.624 us/op
+                 p0.50:   8.992 us/op
+                 p0.90:   9.280 us/op
+                 p0.95:   9.536 us/op
+                 p0.99:   11.616 us/op
+                 p0.999:  23.213 us/op
+                 p0.9999: 348.070 us/op
+                 p1.00:   377.344 us/op
+
+Iteration   2: 9.310 ±(99.9%) 0.096 us/op
+                 p0.00:   8.576 us/op
+                 p0.50:   9.072 us/op
+                 p0.90:   9.328 us/op
+                 p0.95:   9.696 us/op
+                 p0.99:   13.867 us/op
+                 p0.999:  32.889 us/op
+                 p0.9999: 373.396 us/op
+                 p1.00:   394.240 us/op
+
+Iteration   3: 9.201 ±(99.9%) 0.098 us/op
+                 p0.00:   8.576 us/op
+                 p0.50:   9.040 us/op
+                 p0.90:   9.280 us/op
+                 p0.95:   9.488 us/op
+                 p0.99:   11.488 us/op
+                 p0.999:  25.222 us/op
+                 p0.9999: 383.125 us/op
+                 p1.00:   393.728 us/op
+
+Iteration   4: 9.229 ±(99.9%) 0.090 us/op
+                 p0.00:   8.624 us/op
+                 p0.50:   9.040 us/op
+                 p0.90:   9.328 us/op
+                 p0.95:   9.664 us/op
+                 p0.99:   11.664 us/op
+                 p0.999:  23.200 us/op
+                 p0.9999: 338.095 us/op
+                 p1.00:   354.816 us/op
+
+Iteration   5: 9.558 ±(99.9%) 0.118 us/op
+                 p0.00:   8.496 us/op
+                 p0.50:   9.072 us/op
+                 p0.90:   9.360 us/op
+                 p0.95:   9.872 us/op
+                 p0.99:   23.584 us/op
+                 p0.999:  35.099 us/op
+                 p0.9999: 382.952 us/op
+                 p1.00:   436.736 us/op
+
+
+
+Result "dev.turboj.commandj.benchmarks.CommandBenchmarks.palette":
+  N = 135713
+  mean =      9.295 ±(99.9%) 0.044 us/op
+
+  Histogram, us/op:
+    [  0.000,  50.000) = 135673 
+    [ 50.000, 100.000) = 13 
+    [100.000, 150.000) = 4 
+    [150.000, 200.000) = 0 
+    [200.000, 250.000) = 0 
+    [250.000, 300.000) = 0 
+    [300.000, 350.000) = 6 
+    [350.000, 400.000) = 16 
+    [400.000, 450.000) = 1 
+
+  Percentiles, us/op:
+      p(0.0000) =      8.496 us/op
+     p(50.0000) =      9.040 us/op
+     p(90.0000) =      9.328 us/op
+     p(95.0000) =      9.616 us/op
+     p(99.0000) =     13.993 us/op
+     p(99.9000) =     27.579 us/op
+     p(99.9900) =    355.474 us/op
+     p(99.9990) =    423.205 us/op
+     p(99.9999) =    436.736 us/op
+    p(100.0000) =    436.736 us/op
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+10-LTS
+# VM invoker: /private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java
+# VM options: -Xmx768m
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Sampling time
+# Benchmark: dev.turboj.commandj.benchmarks.CommandBenchmarks.palette
+# Parameters: (count = 1000)
+
+# Run progress: 50.00% complete, ETA 00:00:24
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 122.742 ±(99.9%) 1.760 us/op
+# Warmup Iteration   2: 118.686 ±(99.9%) 1.180 us/op
+# Warmup Iteration   3: 117.720 ±(99.9%) 0.675 us/op
+Iteration   1: 115.834 ±(99.9%) 0.490 us/op
+                 p0.00:   99.840 us/op
+                 p0.50:   115.968 us/op
+                 p0.90:   120.192 us/op
+                 p0.95:   122.624 us/op
+                 p0.99:   132.352 us/op
+                 p0.999:  472.801 us/op
+                 p0.9999: 602.112 us/op
+                 p1.00:   602.112 us/op
+
+Iteration   2: 125.220 ±(99.9%) 3.325 us/op
+                 p0.00:   99.200 us/op
+                 p0.50:   116.864 us/op
+                 p0.90:   124.928 us/op
+                 p0.95:   140.544 us/op
+                 p0.99:   325.120 us/op
+                 p0.999:  1328.538 us/op
+                 p0.9999: 4399.104 us/op
+                 p1.00:   4399.104 us/op
+
+Iteration   3: 118.229 ±(99.9%) 0.648 us/op
+                 p0.00:   99.328 us/op
+                 p0.50:   116.992 us/op
+                 p0.90:   123.648 us/op
+                 p0.95:   128.896 us/op
+                 p0.99:   158.720 us/op
+                 p0.999:  462.500 us/op
+                 p0.9999: 629.760 us/op
+                 p1.00:   629.760 us/op
+
+Iteration   4: 117.199 ±(99.9%) 0.536 us/op
+                 p0.00:   99.456 us/op
+                 p0.50:   116.992 us/op
+                 p0.90:   121.984 us/op
+                 p0.95:   124.800 us/op
+                 p0.99:   134.912 us/op
+                 p0.999:  499.466 us/op
+                 p0.9999: 558.080 us/op
+                 p1.00:   558.080 us/op
+
+Iteration   5: 116.472 ±(99.9%) 0.501 us/op
+                 p0.00:   101.120 us/op
+                 p0.50:   116.480 us/op
+                 p0.90:   120.896 us/op
+                 p0.95:   123.648 us/op
+                 p0.99:   134.400 us/op
+                 p0.999:  453.722 us/op
+                 p0.9999: 689.152 us/op
+                 p1.00:   689.152 us/op
+
+
+
+Result "dev.turboj.commandj.benchmarks.CommandBenchmarks.palette":
+  N = 42271
+  mean =    118.501 ±(99.9%) 0.670 us/op
+
+  Histogram, us/op:
+    [   0.000,  500.000) = 42227 
+    [ 500.000, 1000.000) = 35 
+    [1000.000, 1500.000) = 2 
+    [1500.000, 2000.000) = 3 
+    [2000.000, 2500.000) = 0 
+    [2500.000, 3000.000) = 2 
+    [3000.000, 3500.000) = 1 
+    [3500.000, 4000.000) = 0 
+    [4000.000, 4500.000) = 1 
+
+  Percentiles, us/op:
+      p(0.0000) =     99.200 us/op
+     p(50.0000) =    116.608 us/op
+     p(90.0000) =    122.112 us/op
+     p(95.0000) =    125.952 us/op
+     p(99.0000) =    155.351 us/op
+     p(99.9000) =    503.669 us/op
+     p(99.9900) =   2516.858 us/op
+     p(99.9990) =   4399.104 us/op
+     p(99.9999) =   4399.104 us/op
+    p(100.0000) =   4399.104 us/op
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+10-LTS
+# VM invoker: /private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java
+# VM options: -Xmx768m
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Sampling time
+# Benchmark: dev.turboj.commandj.benchmarks.CommandBenchmarks.shortcut
+# Parameters: (count = 100)
+
+# Run progress: 66.67% complete, ETA 00:00:16
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 0.267 ±(99.9%) 0.374 us/op
+# Warmup Iteration   2: 0.064 ±(99.9%) 0.001 us/op
+# Warmup Iteration   3: 0.066 ±(99.9%) 0.002 us/op
+Iteration   1: 0.066 ±(99.9%) 0.002 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.417 us/op
+                 p0.9999: 7.483 us/op
+                 p1.00:   11.536 us/op
+
+Iteration   2: 0.086 ±(99.9%) 0.043 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.409 us/op
+                 p0.9999: 43.885 us/op
+                 p1.00:   347.136 us/op
+
+Iteration   3: 0.076 ±(99.9%) 0.030 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.583 us/op
+                 p0.9999: 6.376 us/op
+                 p1.00:   306.176 us/op
+
+Iteration   4: 0.069 ±(99.9%) 0.002 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  1.083 us/op
+                 p0.9999: 3.799 us/op
+                 p1.00:   12.736 us/op
+
+Iteration   5: 0.080 ±(99.9%) 0.033 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.125 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.560 us/op
+                 p0.9999: 11.271 us/op
+                 p1.00:   325.120 us/op
+
+
+
+Result "dev.turboj.commandj.benchmarks.CommandBenchmarks.shortcut":
+  N = 168388
+  mean =      0.075 ±(99.9%) 0.012 us/op
+
+  Histogram, us/op:
+    [  0.000,  25.000) = 168382 
+    [ 25.000,  50.000) = 1 
+    [ 50.000,  75.000) = 1 
+    [ 75.000, 100.000) = 0 
+    [100.000, 125.000) = 0 
+    [125.000, 150.000) = 0 
+    [150.000, 175.000) = 0 
+    [175.000, 200.000) = 0 
+    [200.000, 225.000) = 0 
+    [225.000, 250.000) = 0 
+    [250.000, 275.000) = 0 
+    [275.000, 300.000) = 1 
+    [300.000, 325.000) = 1 
+    [325.000, 350.000) = 2 
+    [350.000, 375.000) = 0 
+
+  Percentiles, us/op:
+      p(0.0000) =        ≈ 0 us/op
+     p(50.0000) =      0.083 us/op
+     p(90.0000) =      0.084 us/op
+     p(95.0000) =      0.084 us/op
+     p(99.0000) =      0.125 us/op
+     p(99.9000) =      0.583 us/op
+     p(99.9900) =      7.120 us/op
+     p(99.9990) =    332.079 us/op
+     p(99.9999) =    347.136 us/op
+    p(100.0000) =    347.136 us/op
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+10-LTS
+# VM invoker: /private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java
+# VM options: -Xmx768m
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 3 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Sampling time
+# Benchmark: dev.turboj.commandj.benchmarks.CommandBenchmarks.shortcut
+# Parameters: (count = 1000)
+
+# Run progress: 83.33% complete, ETA 00:00:08
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/luca/Workspace/turboj/commandj/commandj-benchmarks/target/commandj-benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 0.300 ±(99.9%) 0.518 us/op
+# Warmup Iteration   2: 0.070 ±(99.9%) 0.003 us/op
+# Warmup Iteration   3: 0.085 ±(99.9%) 0.014 us/op
+Iteration   1: 0.092 ±(99.9%) 0.036 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.167 us/op
+                 p0.999:  4.763 us/op
+                 p0.9999: 36.971 us/op
+                 p1.00:   344.576 us/op
+
+Iteration   2: 0.070 ±(99.9%) 0.002 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  1.099 us/op
+                 p0.9999: 7.878 us/op
+                 p1.00:   9.616 us/op
+
+Iteration   3: 0.074 ±(99.9%) 0.028 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.334 us/op
+                 p0.9999: 4.555 us/op
+                 p1.00:   299.520 us/op
+
+Iteration   4: 0.074 ±(99.9%) 0.024 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.458 us/op
+                 p0.9999: 8.361 us/op
+                 p1.00:   263.168 us/op
+
+Iteration   5: 0.067 ±(99.9%) 0.002 us/op
+                 p0.00:   ≈ 0 us/op
+                 p0.50:   0.083 us/op
+                 p0.90:   0.084 us/op
+                 p0.95:   0.084 us/op
+                 p0.99:   0.125 us/op
+                 p0.999:  0.281 us/op
+                 p0.9999: 7.851 us/op
+                 p1.00:   13.536 us/op
+
+
+
+Result "dev.turboj.commandj.benchmarks.CommandBenchmarks.shortcut":
+  N = 173429
+  mean =      0.075 ±(99.9%) 0.010 us/op
+
+  Histogram, us/op:
+    [  0.000,  25.000) = 173423 
+    [ 25.000,  50.000) = 2 
+    [ 50.000,  75.000) = 1 
+    [ 75.000, 100.000) = 0 
+    [100.000, 125.000) = 0 
+    [125.000, 150.000) = 0 
+    [150.000, 175.000) = 0 
+    [175.000, 200.000) = 0 
+    [200.000, 225.000) = 0 
+    [225.000, 250.000) = 0 
+    [250.000, 275.000) = 1 
+    [275.000, 300.000) = 1 
+    [300.000, 325.000) = 0 
+    [325.000, 350.000) = 1 
+    [350.000, 375.000) = 0 
+
+  Percentiles, us/op:
+      p(0.0000) =        ≈ 0 us/op
+     p(50.0000) =      0.083 us/op
+     p(90.0000) =      0.084 us/op
+     p(95.0000) =      0.084 us/op
+     p(99.0000) =      0.125 us/op
+     p(99.9000) =      0.792 us/op
+     p(99.9900) =      9.942 us/op
+     p(99.9990) =    311.491 us/op
+     p(99.9999) =    344.576 us/op
+    p(100.0000) =    344.576 us/op
+
+
+# Run complete. Total time: 00:00:49
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                           (count)    Mode     Cnt     Score   Error  Units
+CommandBenchmarks.dispatch              100  sample  164519     0.083 ± 0.012  us/op
+CommandBenchmarks.dispatch:p0.00        100  sample               ≈ 0          us/op
+CommandBenchmarks.dispatch:p0.50        100  sample             0.083          us/op
+CommandBenchmarks.dispatch:p0.90        100  sample             0.084          us/op
+CommandBenchmarks.dispatch:p0.95        100  sample             0.084          us/op
+CommandBenchmarks.dispatch:p0.99        100  sample             0.125          us/op
+CommandBenchmarks.dispatch:p0.999       100  sample             0.875          us/op
+CommandBenchmarks.dispatch:p0.9999      100  sample            15.836          us/op
+CommandBenchmarks.dispatch:p1.00        100  sample           373.248          us/op
+CommandBenchmarks.dispatch             1000  sample  165640     0.075 ± 0.008  us/op
+CommandBenchmarks.dispatch:p0.00       1000  sample               ≈ 0          us/op
+CommandBenchmarks.dispatch:p0.50       1000  sample             0.083          us/op
+CommandBenchmarks.dispatch:p0.90       1000  sample             0.084          us/op
+CommandBenchmarks.dispatch:p0.95       1000  sample             0.084          us/op
+CommandBenchmarks.dispatch:p0.99       1000  sample             0.125          us/op
+CommandBenchmarks.dispatch:p0.999      1000  sample             0.459          us/op
+CommandBenchmarks.dispatch:p0.9999     1000  sample             7.732          us/op
+CommandBenchmarks.dispatch:p1.00       1000  sample           328.192          us/op
+CommandBenchmarks.palette               100  sample  135713     9.295 ± 0.044  us/op
+CommandBenchmarks.palette:p0.00         100  sample             8.496          us/op
+CommandBenchmarks.palette:p0.50         100  sample             9.040          us/op
+CommandBenchmarks.palette:p0.90         100  sample             9.328          us/op
+CommandBenchmarks.palette:p0.95         100  sample             9.616          us/op
+CommandBenchmarks.palette:p0.99         100  sample            13.993          us/op
+CommandBenchmarks.palette:p0.999        100  sample            27.579          us/op
+CommandBenchmarks.palette:p0.9999       100  sample           355.474          us/op
+CommandBenchmarks.palette:p1.00         100  sample           436.736          us/op
+CommandBenchmarks.palette              1000  sample   42271   118.501 ± 0.670  us/op
+CommandBenchmarks.palette:p0.00        1000  sample            99.200          us/op
+CommandBenchmarks.palette:p0.50        1000  sample           116.608          us/op
+CommandBenchmarks.palette:p0.90        1000  sample           122.112          us/op
+CommandBenchmarks.palette:p0.95        1000  sample           125.952          us/op
+CommandBenchmarks.palette:p0.99        1000  sample           155.351          us/op
+CommandBenchmarks.palette:p0.999       1000  sample           503.669          us/op
+CommandBenchmarks.palette:p0.9999      1000  sample          2516.858          us/op
+CommandBenchmarks.palette:p1.00        1000  sample          4399.104          us/op
+CommandBenchmarks.shortcut              100  sample  168388     0.075 ± 0.012  us/op
+CommandBenchmarks.shortcut:p0.00        100  sample               ≈ 0          us/op
+CommandBenchmarks.shortcut:p0.50        100  sample             0.083          us/op
+CommandBenchmarks.shortcut:p0.90        100  sample             0.084          us/op
+CommandBenchmarks.shortcut:p0.95        100  sample             0.084          us/op
+CommandBenchmarks.shortcut:p0.99        100  sample             0.125          us/op
+CommandBenchmarks.shortcut:p0.999       100  sample             0.583          us/op
+CommandBenchmarks.shortcut:p0.9999      100  sample             7.120          us/op
+CommandBenchmarks.shortcut:p1.00        100  sample           347.136          us/op
+CommandBenchmarks.shortcut             1000  sample  173429     0.075 ± 0.010  us/op
+CommandBenchmarks.shortcut:p0.00       1000  sample               ≈ 0          us/op
+CommandBenchmarks.shortcut:p0.50       1000  sample             0.083          us/op
+CommandBenchmarks.shortcut:p0.90       1000  sample             0.084          us/op
+CommandBenchmarks.shortcut:p0.95       1000  sample             0.084          us/op
+CommandBenchmarks.shortcut:p0.99       1000  sample             0.125          us/op
+CommandBenchmarks.shortcut:p0.999      1000  sample             0.792          us/op
+CommandBenchmarks.shortcut:p0.9999     1000  sample             9.942          us/op
+CommandBenchmarks.shortcut:p1.00       1000  sample           344.576          us/op
+
+Benchmark result is saved to /private/tmp/turboj-command-performance-final/candidate-2.json

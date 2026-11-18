@@ -1,0 +1,17 @@
+{
+  "scope": "After queued visibility correction; screenshots, captured timings, sources and native registry remain unchanged.",
+  "files": {
+    "index.html": "fe6f572574f7f76ab9bdf0527d25c01302b8ee221a7b991f14cc4533c9660bbd",
+    "demo-session/index.html": "1c00cb12c2f631eb436d31aa4ff45a83cbb5b83b5a4a5b4662320c1d530f5f08",
+    "_astro/BaseLayout.BTTLHc1g.css": "67ab4547113a00a50180577f6ec9d65e0a2794d2ffde5fe41bb5cf883f8bf71d",
+    "_astro/ThemeSwitcher.astro_astro_type_script_index_0_lang.Bp-TaI15.js": "b0a0ee646a34418fd043ea7c90a1367f2f900ac21077f671270bc0193a1f18f4",
+    "_astro/TurboJDemo.astro_astro_type_script_index_0_lang.CnyvKzpS.js": "b5a2c970d5142f371582ff0dab4bd2448769b6e53940664619c00f08e7ccd8c4",
+    "_astro/demo-session.BA9jxZwx.css": "4868ef21f30536dd2ae9ee6c880b33e981a62f42569a5bc2906fd8f698810672",
+    "_astro/index.C6AG6LcS.css": "8f92b4beb25c5a5e79a131667561d9d6efa56263827e49c7a0c716946ff9fc0c",
+    "_astro/session.Bn9-vp6x.css": "18c3cbdd18782348a474c18d318ffcb71e9a9480fe675355647e4af1279e9e6b"
+  },
+  "heroJavaScriptGzipBytes": 6727,
+  "allJavaScriptGzipBytes": 14874,
+  "lazyChapterGzipBytes": 21080,
+  "nativeArtifactSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9"
+}

@@ -124,4 +124,4 @@ Planned work: [TODO](TODO.md).
 
 ## Website
 
-The official static website lives in [`website/`](website/README.md), separately from the desktop build. It uses Astro, TypeScript and local assets. Build and browser/accessibility verification instructions are included there. The original screenshot is preserved and the displayed timings describe that single captured run.
+The official static website lives in [`website/`](website/README.md), separately from the desktop build. It uses Astro, TypeScript and local assets. Build and browser/accessibility verification instructions are included there. Historical screenshots are preserved. Displayed timings belong to the identified recorded sessions: the original chapters and the separately captured native-command-line finale. They are not guaranteed performance.

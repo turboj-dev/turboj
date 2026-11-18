@@ -1,0 +1,220 @@
+{
+  "timestamp": "2026-11-18T18:56:07.962Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "320px: latest queued visible observation governs playback",
+      "status": "PASS",
+      "state": "playing",
+      "elapsed": 196.2,
+      "manualPaused": "false",
+      "rect": {
+        "top": 243.875,
+        "bottom": 623.875,
+        "height": 380
+      },
+      "batches": [
+        [
+          {
+            "time": 57.59999990463257,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ],
+        [
+          {
+            "time": 139.09999990463257,
+            "ratio": 0,
+            "intersecting": false
+          },
+          {
+            "time": 171.79999995231628,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ]
+      ]
+    },
+    {
+      "name": "320px: latest queued hidden observation governs playback",
+      "status": "PASS",
+      "state": "paused",
+      "elapsed": 85.8,
+      "manualPaused": "false",
+      "rect": {
+        "top": -12745.125,
+        "bottom": -12365.125,
+        "height": 380
+      },
+      "batches": [
+        [
+          {
+            "time": 31.299999952316284,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ],
+        [
+          {
+            "time": 123.29999995231628,
+            "ratio": 0,
+            "intersecting": false
+          }
+        ],
+        [
+          {
+            "time": 156.79999995231628,
+            "ratio": 1,
+            "intersecting": true
+          },
+          {
+            "time": 189.59999990463257,
+            "ratio": 0,
+            "intersecting": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "320px: latest queued manual pause observation governs playback",
+      "status": "PASS",
+      "state": "playing",
+      "elapsed": 66.6,
+      "manualPaused": "false",
+      "rect": {
+        "top": 243.875,
+        "bottom": 623.875,
+        "height": 380
+      },
+      "batches": [
+        [
+          {
+            "time": 28.5,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ],
+        [
+          {
+            "time": 105.39999985694885,
+            "ratio": 0,
+            "intersecting": false
+          },
+          {
+            "time": 122,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ]
+      ]
+    },
+    {
+      "name": "390px: latest queued visible observation governs playback",
+      "status": "PASS",
+      "state": "playing",
+      "elapsed": 202.3,
+      "manualPaused": "false",
+      "rect": {
+        "top": 243.875,
+        "bottom": 623.875,
+        "height": 380
+      },
+      "batches": [
+        [
+          {
+            "time": 28.799999952316284,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ],
+        [
+          {
+            "time": 122.79999995231628,
+            "ratio": 0,
+            "intersecting": false
+          },
+          {
+            "time": 155.79999995231628,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ]
+      ]
+    },
+    {
+      "name": "390px: latest queued hidden observation governs playback",
+      "status": "PASS",
+      "state": "paused",
+      "elapsed": 86.4,
+      "manualPaused": "false",
+      "rect": {
+        "top": -11315.125,
+        "bottom": -10935.125,
+        "height": 380
+      },
+      "batches": [
+        [
+          {
+            "time": 31.700000047683716,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ],
+        [
+          {
+            "time": 122.39999985694885,
+            "ratio": 0,
+            "intersecting": false
+          }
+        ],
+        [
+          {
+            "time": 155.39999985694885,
+            "ratio": 1,
+            "intersecting": true
+          },
+          {
+            "time": 188.5,
+            "ratio": 0,
+            "intersecting": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "390px: latest queued manual pause observation governs playback",
+      "status": "PASS",
+      "state": "playing",
+      "elapsed": 78.9,
+      "manualPaused": "false",
+      "rect": {
+        "top": 243.875,
+        "bottom": 623.875,
+        "height": 380
+      },
+      "batches": [
+        [
+          {
+            "time": 31.100000143051147,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ],
+        [
+          {
+            "time": 122,
+            "ratio": 0,
+            "intersecting": false
+          },
+          {
+            "time": 138.40000009536743,
+            "ratio": 1,
+            "intersecting": true
+          }
+        ]
+      ]
+    }
+  ],
+  "failures": []
+}

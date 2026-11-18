@@ -1,0 +1,7 @@
+Editor/compiler JVM: 25.0.5+8-LTS
+Selected project/run/test JVM: /opt/hostedtoolcache/Java_Corretto_jdk/17.0.21-1.2/x64
+Dependency mode: online permitted; cache state not asserted; model session first/warm measured separately
+Native: main17:42:resource-ok; JUnit2 PASS; unsaved dependent output43; independent cache retained; removed module pruned
+Maven: explicit verify via real compiler/run toolchain17; two tests PASS
+Model first ns: 59452617
+Model warm ns: 1873546

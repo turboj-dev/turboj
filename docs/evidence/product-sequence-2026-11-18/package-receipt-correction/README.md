@@ -20,3 +20,7 @@ codesign --verify --deep --strict /path/to/TurboJ.app
 Executed at this correction: **10 Python receipt tests passed**; shell syntax validation passed. Tests cover source/JAR binding, JAVA_HOME identity, external receipt placement without bundle mutation, copied bundle identity, re-signed launcher mismatch, added/removed files, changed modes/links, escaping symlinks and rejection of the obsolete package-receipt schema. Fixtures are controlled files; these unit checks do not claim actual signed DMG installation succeeded. The parent release qualification owns the final real app/DMG/installed identity check and launch evidence.
 
 This remains a local ad-hoc signed development package. It is not Developer ID signed, notarized or deployed. No product Java source or JAR changed as part of this packaging correction.
+
+## Real installation result
+
+The corrected DMG was mounted read-only after checksum verification, copied into an isolated installation and verified with schema 2 and `codesign --verify --deep --strict`: PASS for all 123 files, 99 internal symlinks and regular-file modes. See [installation identity](../package/installation.json) and [sealed inventory](../package/package-receipt.json). Six subsequent LaunchServices startup trials passed across baseline/current packages; native application checks used the installed current JAR.

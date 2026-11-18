@@ -1,0 +1,10 @@
+{
+  "cpuRssSampling": "Completed20intervals; retain as control",
+  "endHeapAndGc": "Unavailable: sandbox rejected jcmd attach; ownedprocess terminated before rerun. Header-only endfiles are not measurements.",
+  "replacement": "../baseline-final",
+  "observedErrors": [
+    "java.io.IOException: Operation not permitted",
+    "sun.jvmstat.monitor.MonitorException: Could not attach to19423"
+  ],
+  "productionChange": false
+}

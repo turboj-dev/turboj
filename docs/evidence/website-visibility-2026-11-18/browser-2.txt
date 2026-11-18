@@ -1,0 +1,340 @@
+
+> turboj-website@1.0.0 test:hero:browser
+> node tests/demo-visibility-browser.mjs && node tests/demo-browser.mjs && node tests/demo-theme-browser.mjs && node tests/hero-details-browser.mjs && node tests/hero-scenes-browser.mjs && node tests/themes-browser.mjs && node tests/theme-spin-browser.mjs && node tests/all-themes-browser.mjs
+
+PASS 320px: latest queued visible observation governs playback
+PASS 320px: latest queued hidden observation governs playback
+PASS 320px: latest queued manual pause observation governs playback
+PASS 390px: latest queued visible observation governs playback
+PASS 390px: latest queued hidden observation governs playback
+PASS 390px: latest queued manual pause observation governs playback
+6 visibility checks passed; 0 failed.
+PASS only Play/Pause and the mini-prompt are visible; secondary controls and evidence remain hidden
+PASS initial Hello World advances at actual captured intervals and holds without continuing
+PASS keyboard pause/resume, hidden-page, offscreen, and manual-pause clocks suspend without skipping
+PASS every chapter restores independently and every static checkpoint matches recorded source/output
+PASS Rename and Extract Method render the real read-only fields, before/after previews, and warnings
+PASS recorded Auto Test and Auto Run menus show their independent checked states
+PASS theme changes preserve the exact paused source/output and elapsed time
+PASS 100 chapter switches do not accumulate DOM nodes or replay state
+PASS the sole Play button traverses every captured interval and loops after a suspended editorial hold
+PASS controls and code regions have accessible names; source is outside live regions; browser is error-free
+PASS resuming exactly at a hidden-page chapter or loop boundary advances without a stranded clock
+PASS late chapter fetches cannot overwrite a newer selection
+PASS manifest fetch failure remains visible in the single mini-prompt
+PASS chapter fetch failure remains visible in the single mini-prompt
+PASS chapter loads preserve Play focus for Space to pause, without stealing a newer focus choice
+PASS 320px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 320px: fixed stage, readable scrollable source, and no page overflow
+PASS 320px: no browser errors
+PASS 390px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 390px: fixed stage, readable scrollable source, and no page overflow
+PASS 390px: WCAG 2.2 AA automated audit
+PASS 390px: no browser errors
+PASS 768px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 768px: fixed stage, readable scrollable source, and no page overflow
+PASS 768px: no browser errors
+PASS 1440px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 1440px: fixed stage, readable scrollable source, and no page overflow
+PASS 1440px: WCAG 2.2 AA automated audit
+PASS reduced motion holds the final native result without automatic repetition
+PASS 1440px: no browser errors
+PASS 1920px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 1920px: fixed stage, readable scrollable source, and no page overflow
+PASS 1920px: no browser errors
+PASS 320px: the sole Play button continues and replays from keyboard focus without a separate scroll action
+PASS 390px: the sole Play button continues and replays from keyboard focus without a separate scroll action
+PASS no-JavaScript mode retains genuine screenshot and accessible evidence link without inert controls
+36 hero checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/visibility-followup/browser/demo/
+PASS saved Monokai paints immediately while module is gated
+PASS saved Monokai paints immediately while manifest is gated
+PASS saved Monokai paints immediately while chapter is gated
+PASS saved Monokai survives module failure with a readable fallback
+PASS saved Monokai survives manifest failure with a readable fallback
+PASS saved Monokai survives chapter failure with a readable fallback
+PASS a valid cached custom palette remains painted when theme catalog refresh is offline
+PASS chapter loading keeps the current themed frame instead of showing the Classic screenshot
+PASS Play keeps every recorded menu and dialog in Monokai through all five chapters and loop restart
+PASS no-JavaScript keeps the genuine native screenshot and evidence route unchanged
+10 demo-theme checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/visibility-followup/browser/demo-theme/
+PASS 320: verified session and exact measurement table render statically
+PASS 320: keyboard opens source/output and copies exact captured text
+PASS 320: no document overflow, valid internal links, visible focus, no runtime errors
+PASS 390: verified session and exact measurement table render statically
+PASS 390: keyboard opens source/output and copies exact captured text
+PASS 390: no document overflow, valid internal links, visible focus, no runtime errors
+PASS 390: axe accessibility with expanded authentic source and output
+PASS 1440: verified session and exact measurement table render statically
+PASS 1440: keyboard opens source/output and copies exact captured text
+PASS 1440: no document overflow, valid internal links, visible focus, no runtime errors
+PASS 1440: axe accessibility with expanded authentic source and output
+PASS all source/log/project/trace links download exact immutable content
+PASS native frame downloads only after explicit request
+PASS evidence and keyboard disclosures remain readable without JavaScript
+PASS 320px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 320px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 320px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 320px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 320px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 320px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 320px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 320px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 320px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 320px spring-source: WCAG 2.2 AA automated audit
+PASS 320px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 320px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 320px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 320px curl-result: WCAG 2.2 AA automated audit
+PASS 320px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 320px: recorded scenes produce no browser or asset errors
+PASS 390px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 390px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 390px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 390px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 390px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 390px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 390px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 390px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 390px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 390px spring-source: WCAG 2.2 AA automated audit
+PASS 390px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 390px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 390px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 390px curl-result: WCAG 2.2 AA automated audit
+PASS 390px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 390px: recorded scenes produce no browser or asset errors
+PASS 768px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 768px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 768px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 768px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 768px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 768px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 768px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 768px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 768px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 768px spring-source: WCAG 2.2 AA automated audit
+PASS 768px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 768px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 768px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 768px curl-result: WCAG 2.2 AA automated audit
+PASS 768px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 768px: recorded scenes produce no browser or asset errors
+PASS 1440px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 1440px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 1440px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 1440px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 1440px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 1440px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 1440px spring-source: WCAG 2.2 AA automated audit
+PASS 1440px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 1440px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 1440px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px curl-result: WCAG 2.2 AA automated audit
+PASS 1440px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 1440px: recorded scenes produce no browser or asset errors
+PASS 1920px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 1920px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 1920px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 1920px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 1920px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 1920px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 1920px spring-source: WCAG 2.2 AA automated audit
+PASS 1920px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 1920px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 1920px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px curl-result: WCAG 2.2 AA automated audit
+PASS 1920px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 1920px: recorded scenes produce no browser or asset errors
+80 recorded-scene checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/visibility-followup/browser/demo/scenes/
+PASS 390: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 390 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 390 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 390 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 390 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 390 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 390 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 390 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 390 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 390 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 390 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 390 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 390 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 390: each theme changes the whole site, not only the editor
+PASS 390: no browser, asset or external-request errors
+PASS 768: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 768 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 768 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 768 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 768 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 768 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 768 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 768 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 768 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 768 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 768 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 768 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 768 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 768: each theme changes the whole site, not only the editor
+PASS 768: no browser, asset or external-request errors
+PASS 1440: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 1440 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 1440 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1440 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1440 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1440 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 1440 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1440 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1440 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1440 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 1440 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1440 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1440 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1440: each theme changes the whole site, not only the editor
+PASS 1440: no browser, asset or external-request errors
+PASS 1920: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 1920 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 1920 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1920 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1920 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1920 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 1920 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1920 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1920 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1920 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 1920 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1920 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1920 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1920: each theme changes the whole site, not only the editor
+PASS 1920: no browser, asset or external-request errors
+PASS published JSON is an exact export of all three native definitions
+PASS explicit preference survives reload before the first animation frame and ignores OS preference
+PASS invalid stored preferences fall back to Classic safely
+PASS blocked localStorage still permits all theme changes without errors
+PASS paused replay preserves every source, cursor, compiler and output field through theme changes
+PASS running replay keeps its timeline and finishes normally while themes change
+PASS 390: More themes opens a responsive native-color preview catalog; Escape restores the original
+PASS 1440: More themes opens a responsive native-color preview catalog; Escape restores the original
+PASS catalog Enter commits the selected real theme while Cancel never persists previews
+PASS 1,000 routed test themes retain six visible cards and support arrows, paging, search and commit
+PASS latest search and preview win over older delayed palette responses; empty search results cannot be applied
+PASS cached custom palette renders first, then refreshes and persists changed native colors under the same ID
+PASS retired cached custom theme falls back to Classic and persists the fallback without retaining stale colors
+PASS focused and hovered catalog thumbnail preserves unadorned source and retains a visible focus outline
+74 passed, 0 failed; report /Users/luca/Workspace/turboj/website/artifacts/visibility-followup/browser/themes/report.json
+PASS 390: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it
+PASS 1440: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it
+PASS Random theme uses only the current search results and is disabled when nothing matches
+PASS real-time ASCII spin previews every real centered theme globally, decelerates for 3–5 seconds and suspends while hidden
+PASS Escape cancels an active spin and its asynchronous previews; Skip lands on the prepared target
+PASS visibility changes during preload cannot start the drum before its genuine palettes are ready
+6 passed, 0 failed; /Users/luca/Workspace/turboj/website/artifacts/visibility-followup/browser/theme-spin/report.json
+PASS classic: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-abyss: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS ayu-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS ayu-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS ayu-mirage: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS catppuccin-frappe: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS catppuccin-latte: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS catppuccin-macchiato: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS catppuccin-mocha: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS dracula: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS github-dark-default: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS github-dark-dimmed: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS github-dark-high-contrast: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS github-light-default: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS gruvbox-dark-medium: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS gruvbox-light-medium: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-kimbie-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-monokai: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-monokai-dimmed: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS nord: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS one-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS one-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-quietlight: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-absent: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-allure: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-allure-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-arstotzka: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-arstotzka-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-azure: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-banner: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-banner-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-brave: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-brave-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-carbonight: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-chocolate: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-chocolate-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-codecourse: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-coffee: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-coffee-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-comrade: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-crisp: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-darkside: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-downpour: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-earthsong: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-earthsong-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-freshcut: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-freshcut-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-frontier: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-gloom: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-goldfish: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-goldfish-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-grunge: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-halflife: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-hawaii: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-horizon: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-hyrule: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-iceberg: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-iceberg-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-joker: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-joker-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-laravel: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-laravel-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-lavender: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-lavender-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-lichen: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-lichen-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-mellow-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-mintchoc: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-monzo: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-peacock: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-peacock-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-rainbow: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-rebellion: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-slate: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-slate-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-solarflare: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-stasis-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-stealth: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-tron: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-tron-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rainglow-turnip-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-red: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rose-pine: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rose-pine-dawn: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS rose-pine-moon: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-solarized-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-solarized-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS tokyo-night: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS tokyo-night-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS tokyo-night-storm: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-tomorrow-night-blue: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS visual-studio-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS visual-studio-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-2026-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-dark-modern: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-dark-plus: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-high-contrast-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-high-contrast-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-2026-light: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-light-modern: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS vscode-light-plus: keyboard apply, native palette, contrast, shared font, preserved replay
+103/103 themes passed.

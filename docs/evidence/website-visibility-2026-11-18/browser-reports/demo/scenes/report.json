@@ -1,0 +1,1354 @@
+{
+  "timestamp": "2026-11-18T18:58:17.109Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "sessionId": "hero-session-2026-10-25",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "320px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 250,
+            "height": 77,
+            "contentWidth": 596,
+            "contentHeight": 218,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 250,
+            "height": 77,
+            "contentWidth": 655,
+            "contentHeight": 218,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/045-rename-prepare-result.png"
+      }
+    },
+    {
+      "name": "320px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 250,
+            "height": 77,
+            "contentWidth": 655,
+            "contentHeight": 218,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 250,
+            "height": 77,
+            "contentWidth": 655,
+            "contentHeight": 302,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/054-extract-prepare-result.png"
+      }
+    },
+    {
+      "name": "320px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded native dialog: TurboTest — 2 passed, 0 failed",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 268,
+            "height": 324,
+            "contentWidth": 268,
+            "contentHeight": 324,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/038-tests-before-refactor-result.png"
+      }
+    },
+    {
+      "name": "320px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded native menu",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 278,
+            "height": 344,
+            "contentWidth": 289,
+            "contentHeight": 491,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/060-autotest-enabled.png"
+      }
+    },
+    {
+      "name": "320px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded source; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 169,
+            "height": 121,
+            "contentWidth": 614,
+            "contentHeight": 369,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded Maven project explorer; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 89,
+            "height": 128,
+            "contentWidth": 218,
+            "contentHeight": 158,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/004-spring-source.png"
+      }
+    },
+    {
+      "name": "320px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded TurboJ command line; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 227,
+            "height": 19,
+            "contentWidth": 227,
+            "contentHeight": 19,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/012-curl-commandline-open.png"
+      }
+    },
+    {
+      "name": "320px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 320,
+        "pageWidth": 320,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded TurboJ console; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 256,
+            "height": 125,
+            "contentWidth": 256,
+            "contentHeight": 665,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/018-curl-result.png"
+      }
+    },
+    {
+      "name": "320px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "320px: pane resizing is bounded, keyboard accessible and preserves captured state",
+      "status": "PASS",
+      "detail": {
+        "outputMaximum": 65,
+        "explorerMaximum": 45
+      }
+    },
+    {
+      "name": "320px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    },
+    {
+      "name": "390px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 320,
+            "height": 77,
+            "contentWidth": 596,
+            "contentHeight": 218,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 320,
+            "height": 77,
+            "contentWidth": 655,
+            "contentHeight": 218,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/045-rename-prepare-result.png"
+      }
+    },
+    {
+      "name": "390px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 320,
+            "height": 77,
+            "contentWidth": 655,
+            "contentHeight": 218,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 320,
+            "height": 77,
+            "contentWidth": 655,
+            "contentHeight": 302,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/054-extract-prepare-result.png"
+      }
+    },
+    {
+      "name": "390px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded native dialog: TurboTest — 2 passed, 0 failed",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 338,
+            "height": 274,
+            "contentWidth": 338,
+            "contentHeight": 274,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/038-tests-before-refactor-result.png"
+      }
+    },
+    {
+      "name": "390px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded native menu",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 348,
+            "height": 344,
+            "contentWidth": 348,
+            "contentHeight": 491,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/060-autotest-enabled.png"
+      }
+    },
+    {
+      "name": "390px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded source; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 239,
+            "height": 121,
+            "contentWidth": 614,
+            "contentHeight": 369,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded Maven project explorer; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 89,
+            "height": 128,
+            "contentWidth": 218,
+            "contentHeight": 158,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/004-spring-source.png"
+      }
+    },
+    {
+      "name": "390px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded TurboJ command line; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 297,
+            "height": 19,
+            "contentWidth": 297,
+            "contentHeight": 19,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/012-curl-commandline-open.png"
+      }
+    },
+    {
+      "name": "390px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 380,
+        "viewportWidth": 390,
+        "pageWidth": 390,
+        "sourceFont": 14,
+        "focus": [
+          {
+            "name": "Recorded TurboJ console; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 326,
+            "height": 125,
+            "contentWidth": 326,
+            "contentHeight": 525,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/018-curl-result.png"
+      }
+    },
+    {
+      "name": "390px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px: pane resizing is bounded, keyboard accessible and preserves captured state",
+      "status": "PASS",
+      "detail": {
+        "outputMaximum": 65,
+        "explorerMaximum": 45
+      }
+    },
+    {
+      "name": "390px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    },
+    {
+      "name": "768px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 322,
+            "height": 140,
+            "contentWidth": 680,
+            "contentHeight": 248,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 322,
+            "height": 140,
+            "contentWidth": 747,
+            "contentHeight": 248,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/045-rename-prepare-result.png"
+      }
+    },
+    {
+      "name": "768px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 322,
+            "height": 140,
+            "contentWidth": 747,
+            "contentHeight": 248,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 322,
+            "height": 140,
+            "contentWidth": 747,
+            "contentHeight": 344,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/054-extract-prepare-result.png"
+      }
+    },
+    {
+      "name": "768px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded native dialog: TurboTest — 2 passed, 0 failed",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 678,
+            "height": 246,
+            "contentWidth": 678,
+            "contentHeight": 246,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/038-tests-before-refactor-result.png"
+      }
+    },
+    {
+      "name": "768px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded native menu",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 448,
+            "height": 428,
+            "contentWidth": 448,
+            "contentHeight": 557,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/060-autotest-enabled.png"
+      }
+    },
+    {
+      "name": "768px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded source; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 538,
+            "height": 158,
+            "contentWidth": 702,
+            "contentHeight": 422,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded Maven project explorer; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 147,
+            "height": 165,
+            "contentWidth": 250,
+            "contentHeight": 180,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/004-spring-source.png"
+      }
+    },
+    {
+      "name": "768px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded TurboJ command line; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 308,
+            "height": 21,
+            "contentWidth": 308,
+            "contentHeight": 21,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/012-curl-commandline-open.png"
+      }
+    },
+    {
+      "name": "768px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 768,
+        "pageWidth": 768,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded TurboJ console; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 683,
+            "height": 167,
+            "contentWidth": 683,
+            "contentHeight": 400,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/018-curl-result.png"
+      }
+    },
+    {
+      "name": "768px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "768px: pane resizing is bounded, keyboard accessible and preserves captured state",
+      "status": "PASS",
+      "detail": {
+        "outputMaximum": 65,
+        "explorerMaximum": 45
+      }
+    },
+    {
+      "name": "768px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    },
+    {
+      "name": "1440px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 680,
+            "contentHeight": 248,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 747,
+            "contentHeight": 248,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/045-rename-prepare-result.png"
+      }
+    },
+    {
+      "name": "1440px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 747,
+            "contentHeight": 248,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 747,
+            "contentHeight": 344,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/054-extract-prepare-result.png"
+      }
+    },
+    {
+      "name": "1440px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded native dialog: TurboTest — 2 passed, 0 failed",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 678,
+            "height": 246,
+            "contentWidth": 678,
+            "contentHeight": 246,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/038-tests-before-refactor-result.png"
+      }
+    },
+    {
+      "name": "1440px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded native menu",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 448,
+            "height": 428,
+            "contentWidth": 448,
+            "contentHeight": 557,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/060-autotest-enabled.png"
+      }
+    },
+    {
+      "name": "1440px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded source; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 980,
+            "height": 158,
+            "contentWidth": 980,
+            "contentHeight": 422,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded Maven project explorer; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 278,
+            "height": 165,
+            "contentWidth": 278,
+            "contentHeight": 180,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/004-spring-source.png"
+      }
+    },
+    {
+      "name": "1440px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded TurboJ command line; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 882,
+            "height": 21,
+            "contentWidth": 882,
+            "contentHeight": 21,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/012-curl-commandline-open.png"
+      }
+    },
+    {
+      "name": "1440px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 464,
+        "viewportWidth": 1440,
+        "pageWidth": 1440,
+        "sourceFont": 16,
+        "focus": [
+          {
+            "name": "Recorded TurboJ console; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 1256,
+            "height": 167,
+            "contentWidth": 1256,
+            "contentHeight": 280,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/018-curl-result.png"
+      }
+    },
+    {
+      "name": "1440px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px: pane resizing is bounded, keyboard accessible and preserves captured state",
+      "status": "PASS",
+      "detail": {
+        "outputMaximum": 65,
+        "explorerMaximum": 45
+      }
+    },
+    {
+      "name": "1440px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    },
+    {
+      "name": "1920px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 764,
+            "contentHeight": 278,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 840,
+            "contentHeight": 278,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/045-rename-prepare-result.png"
+      }
+    },
+    {
+      "name": "1920px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded before source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 840,
+            "contentHeight": 278,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded after source",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 609,
+            "height": 140,
+            "contentWidth": 840,
+            "contentHeight": 386,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/054-extract-prepare-result.png"
+      }
+    },
+    {
+      "name": "1920px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded native dialog: TurboTest — 2 passed, 0 failed",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 678,
+            "height": 267,
+            "contentWidth": 678,
+            "contentHeight": 267,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/038-tests-before-refactor-result.png"
+      }
+    },
+    {
+      "name": "1920px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded native menu",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 448,
+            "height": 474,
+            "contentWidth": 448,
+            "contentHeight": 623,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/hero-session-2026-10-25/screenshots/060-autotest-enabled.png"
+      }
+    },
+    {
+      "name": "1920px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded source; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 980,
+            "height": 178,
+            "contentWidth": 980,
+            "contentHeight": 474,
+            "visible": true,
+            "keyboardScrolled": true
+          },
+          {
+            "name": "Recorded Maven project explorer; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 278,
+            "height": 185,
+            "contentWidth": 281,
+            "contentHeight": 203,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/004-spring-source.png"
+      }
+    },
+    {
+      "name": "1920px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded TurboJ command line; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 835,
+            "height": 24,
+            "contentWidth": 835,
+            "contentHeight": 24,
+            "visible": true,
+            "keyboardScrolled": false
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/012-curl-commandline-open.png"
+      }
+    },
+    {
+      "name": "1920px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "PASS",
+      "detail": {
+        "stageHeight": 510,
+        "viewportWidth": 1920,
+        "pageWidth": 1920,
+        "sourceFont": 18,
+        "focus": [
+          {
+            "name": "Recorded TurboJ console; use arrow keys to scroll",
+            "outlineStyle": "solid",
+            "outlineWidth": 2,
+            "width": 1256,
+            "height": 187,
+            "contentWidth": 1256,
+            "contentHeight": 338,
+            "visible": true,
+            "keyboardScrolled": true
+          }
+        ],
+        "originalCapture": "/demo/hero-story/evidence/native-console-session-2026-10-25/screenshots/018-curl-result.png"
+      }
+    },
+    {
+      "name": "1920px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1920px: pane resizing is bounded, keyboard accessible and preserves captured state",
+      "status": "PASS",
+      "detail": {
+        "outputMaximum": 65,
+        "explorerMaximum": 45
+      }
+    },
+    {
+      "name": "1920px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    }
+  ],
+  "failures": []
+}

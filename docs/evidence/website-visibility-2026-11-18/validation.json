@@ -1,0 +1,74 @@
+{
+  "status": "PASS local verification; hosted CI tracked separately",
+  "sourceCommit": "ee98ac8381f52d466dd917bb8028e1fac94734ae",
+  "nativeArtifactSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+  "guardedCheck": "PASS",
+  "guardedBuild": "PASS",
+  "sourceManifestGuardBypassed": false,
+  "unitTests": 53,
+  "browserChecks": 375,
+  "browserFailures": 0,
+  "browserReports": [
+    {
+      "file": "browser-reports/all-themes/report.json",
+      "checks": 103,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/demo/report.json",
+      "checks": 36,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/demo/scenes/report.json",
+      "checks": 80,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/demo-theme/report.json",
+      "checks": 10,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/details/report.json",
+      "checks": 14,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/page/report.json",
+      "checks": 46,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/theme-spin/report.json",
+      "checks": 6,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/themes/report.json",
+      "checks": 74,
+      "failures": 0
+    },
+    {
+      "file": "browser-reports/visibility/report.json",
+      "checks": 6,
+      "failures": 0
+    }
+  ],
+  "beforeCorrection": {
+    "checks": 6,
+    "failures": 6,
+    "report": "before-report.json"
+  },
+  "lighthouse": "lighthouse.json",
+  "measuredArtifacts": "measured-artifacts.json",
+  "heroJavaScriptGzipBytes": 6727,
+  "allJavaScriptGzipBytes": 14874,
+  "lazyChapterGzipBytes": 21080,
+  "nativeRegistryCommands": 312,
+  "nativeRegistryAliases": 29,
+  "nativeRegistryManifestSha256": "540f6b72bb85f05959b307c15d585fffa2578cd1473bafaf74e410191e97b0cd",
+  "unchangedPDFs": "unchanged-pdfs.json",
+  "unchangedGeneratedReferences": "unchanged-references.json",
+  "productionDeployed": false
+}

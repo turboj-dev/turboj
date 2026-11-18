@@ -1,0 +1,17 @@
+FAIL 320px: latest queued visible observation governs playback: page.waitForFunction: Timeout 1500ms exceeded.
+FAIL 320px: latest queued hidden observation governs playback: Expected values to be strictly equal:
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+FAIL 320px: latest queued manual pause observation governs playback: page.waitForFunction: Timeout 30000ms exceeded.
+FAIL 390px: latest queued visible observation governs playback: page.waitForFunction: Timeout 1500ms exceeded.
+FAIL 390px: latest queued hidden observation governs playback: Expected values to be strictly equal:
++ actual - expected
+
++ 'playing'
+- 'paused'
+
+FAIL 390px: latest queued manual pause observation governs playback: page.waitForFunction: Timeout 30000ms exceeded.
+0 visibility checks passed; 6 failed.

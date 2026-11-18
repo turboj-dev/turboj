@@ -1,0 +1,1240 @@
+﻿2026-11-18T17:41:22.4852489Z Current runner version: '2.338.2'
+2026-11-18T17:41:22.4868834Z ##[group]Runner Image Provisioner
+2026-11-18T17:41:22.4869816Z Hosted Compute Agent
+2026-11-18T17:41:22.4870225Z Version: 20261111.635
+2026-11-18T17:41:22.4870653Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-18T17:41:22.4871245Z Build Date: 2026-11-11T01:49:01Z
+2026-11-18T17:41:22.4871732Z Worker ID: {1ea25b3b-e236-4f0c-b983-4bb6e3e5577a}
+2026-11-18T17:41:22.4872235Z Region: us-west-2
+2026-11-18T17:41:22.4872625Z Cloud: AWS
+2026-11-18T17:41:22.4872992Z ##[endgroup]
+2026-11-18T17:41:22.4873943Z ##[group]Operating System
+2026-11-18T17:41:22.4874383Z Ubuntu
+2026-11-18T17:41:22.4874777Z 24.04.5
+2026-11-18T17:41:22.4875144Z LTS
+2026-11-18T17:41:22.4875492Z ##[endgroup]
+2026-11-18T17:41:22.4876110Z ##[group]Runner Image
+2026-11-18T17:41:22.4876541Z Image: ubuntu-24.04
+2026-11-18T17:41:22.4876921Z Version: 20261116.133.1
+2026-11-18T17:41:22.4877932Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.133/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-18T17:41:22.4879028Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.133
+2026-11-18T17:41:22.4879955Z ##[endgroup]
+2026-11-18T17:41:22.4880752Z ##[group]GITHUB_TOKEN Permissions
+2026-11-18T17:41:22.4882346Z Contents: read
+2026-11-18T17:41:22.4882726Z Metadata: read
+2026-11-18T17:41:22.4883157Z ##[endgroup]
+2026-11-18T17:41:22.4884568Z Secret source: Actions
+2026-11-18T17:41:22.4885223Z Cache mode: write
+2026-11-18T17:41:22.4885691Z Prepare workflow directory
+2026-11-18T17:41:22.5149825Z Prepare all required actions
+2026-11-18T17:41:22.5185270Z Getting action download info
+2026-11-18T17:41:22.9182113Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-18T17:41:24.7636503Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-18T17:41:24.8647311Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-18T17:41:25.2198363Z Complete job name: website
+2026-11-18T17:41:25.2944291Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-18T17:41:25.2945642Z with:
+2026-11-18T17:41:25.2946415Z   repository: turboj-dev/turboj
+2026-11-18T17:41:25.2952680Z   token: ***
+2026-11-18T17:41:25.2953420Z   ssh-strict: true
+2026-11-18T17:41:25.2954201Z   ssh-user: git
+2026-11-18T17:41:25.2954949Z   persist-credentials: true
+2026-11-18T17:41:25.2955771Z   clean: true
+2026-11-18T17:41:25.2956535Z   sparse-checkout-cone-mode: true
+2026-11-18T17:41:25.2957394Z   fetch-depth: 1
+2026-11-18T17:41:25.2958126Z   fetch-tags: false
+2026-11-18T17:41:25.2958911Z   show-progress: true
+2026-11-18T17:41:25.2959908Z   lfs: false
+2026-11-18T17:41:25.2960648Z   submodules: false
+2026-11-18T17:41:25.2961457Z   set-safe-directory: true
+2026-11-18T17:41:25.2962324Z   allow-unsafe-pr-checkout: false
+2026-11-18T17:41:25.2963422Z ##[endgroup]
+2026-11-18T17:41:28.7912426Z Syncing repository: turboj-dev/turboj
+2026-11-18T17:41:28.7913733Z ##[group]Getting Git version info
+2026-11-18T17:41:28.7914199Z Working directory is '/home/runner/work/turboj/turboj'
+2026-11-18T17:41:28.7914817Z [command]/usr/bin/git version
+2026-11-18T17:41:29.0800262Z git version 2.56.1
+2026-11-18T17:41:29.0814488Z ##[endgroup]
+2026-11-18T17:41:29.0824397Z Temporarily overriding HOME='/home/runner/work/_temp/0d208dda-2d49-4f4f-9ac3-f854e4676f71' before making global git config changes
+2026-11-18T17:41:29.0825322Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-18T17:41:29.0827703Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/turboj/turboj
+2026-11-18T17:41:29.0874280Z Deleting the contents of '/home/runner/work/turboj/turboj'
+2026-11-18T17:41:29.0878018Z ##[group]Initializing the repository
+2026-11-18T17:41:29.0881556Z [command]/usr/bin/git init /home/runner/work/turboj/turboj
+2026-11-18T17:41:29.1704118Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-18T17:41:29.1704677Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-18T17:41:29.1705205Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-18T17:41:29.1705592Z hint: call:
+2026-11-18T17:41:29.1705886Z hint:
+2026-11-18T17:41:29.1706201Z hint: 	git config --global init.defaultBranch <name>
+2026-11-18T17:41:29.1706462Z hint:
+2026-11-18T17:41:29.1706766Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-18T17:41:29.1707160Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-18T17:41:29.1707493Z hint:
+2026-11-18T17:41:29.1707712Z hint: 	git branch -m <name>
+2026-11-18T17:41:29.1707958Z hint:
+2026-11-18T17:41:29.1708259Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-18T17:41:29.1710143Z Initialized empty Git repository in /home/runner/work/turboj/turboj/.git/
+2026-11-18T17:41:29.1717701Z [command]/usr/bin/git remote add origin https://github.com/turboj-dev/turboj
+2026-11-18T17:41:29.1763507Z ##[endgroup]
+2026-11-18T17:41:29.1764093Z ##[group]Disabling automatic garbage collection
+2026-11-18T17:41:29.1766443Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-18T17:41:29.1787558Z ##[endgroup]
+2026-11-18T17:41:29.1787938Z ##[group]Setting up auth
+2026-11-18T17:41:29.1792673Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-18T17:41:29.1817345Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-18T17:41:29.5219584Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-18T17:41:29.5241665Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-18T17:41:29.5390831Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-18T17:41:29.5413428Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-18T17:41:29.5557314Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-18T17:41:29.5581004Z ##[endgroup]
+2026-11-18T17:41:29.5581446Z ##[group]Fetching the repository
+2026-11-18T17:41:29.5593525Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c7d08485a30a02ddc321c360ff02a3ab38872ccb:refs/remotes/origin/main
+2026-11-18T17:41:31.7230914Z From https://github.com/turboj-dev/turboj
+2026-11-18T17:41:31.7231490Z  * [new ref]         c7d08485a30a02ddc321c360ff02a3ab38872ccb -> origin/main
+2026-11-18T17:41:31.7234762Z ##[endgroup]
+2026-11-18T17:41:31.7235279Z ##[group]Determining the checkout info
+2026-11-18T17:41:31.7238384Z ##[endgroup]
+2026-11-18T17:41:31.7242369Z [command]/usr/bin/git sparse-checkout disable
+2026-11-18T17:41:31.7306217Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-18T17:41:31.7329509Z ##[group]Checking out the ref
+2026-11-18T17:41:31.7332353Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-18T17:41:32.1334756Z Switched to a new branch 'main'
+2026-11-18T17:41:32.1341631Z branch 'main' set up to track 'origin/main'.
+2026-11-18T17:41:32.1371725Z ##[endgroup]
+2026-11-18T17:41:32.1392455Z [command]/usr/bin/git log -1 --format=%H
+2026-11-18T17:41:32.1413882Z c7d08485a30a02ddc321c360ff02a3ab38872ccb
+2026-11-18T17:41:32.1638245Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-11-18T17:41:32.1638606Z with:
+2026-11-18T17:41:32.1638832Z   node-version: 22.23.4
+2026-11-18T17:41:32.1639326Z   cache: npm
+2026-11-18T17:41:32.1639593Z   cache-dependency-path: website/package-lock.json
+2026-11-18T17:41:32.1639893Z   always-auth: false
+2026-11-18T17:41:32.1640104Z   check-latest: false
+2026-11-18T17:41:32.1641898Z   token: ***
+2026-11-18T17:41:32.1642160Z ##[endgroup]
+2026-11-18T17:41:32.3517014Z Attempting to download 22.23.4...
+2026-11-18T17:41:32.4946925Z (node:2144) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:41:32.4947596Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:41:33.2316535Z Acquiring 22.23.4 - x64 from https://github.com/actions/node-versions/releases/download/22.23.4-39619033003/node-22.23.4-linux-x64.tar.gz
+2026-11-18T17:41:33.8683095Z Extracting ...
+2026-11-18T17:41:33.8847567Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/025af9df-46cd-46b1-b04f-7ff56ad61ee0 -f /home/runner/work/_temp/439cb348-41cd-4508-8222-88c67eedd144
+2026-11-18T17:41:34.8966837Z Adding to the cache ...
+2026-11-18T17:41:35.8494969Z ##[group]Environment details
+2026-11-18T17:41:36.3260010Z node: v22.23.4
+2026-11-18T17:41:36.3260478Z npm: 10.9.9
+2026-11-18T17:41:36.3260743Z yarn: 1.22.22
+2026-11-18T17:41:36.3261396Z ##[endgroup]
+2026-11-18T17:41:36.3273654Z [command]/opt/hostedtoolcache/node/22.23.4/x64/bin/npm config get cache
+2026-11-18T17:41:36.3940918Z /home/runner/.npm
+2026-11-18T17:41:36.6905487Z npm cache is not found
+2026-11-18T17:41:36.7020237Z ##[group]Run npm ci
+2026-11-18T17:41:36.7020574Z [36;1mnpm ci[0m
+2026-11-18T17:41:37.1100316Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:37.1100596Z ##[endgroup]
+2026-11-18T17:41:40.0504875Z npm warn deprecated @opentelemetry/sdk-trace-base@2.12.0: Use @opentelemetry/sdk-trace package
+2026-11-18T17:41:42.1770824Z 
+2026-11-18T17:41:42.1772061Z added 367 packages, and audited 368 packages in 5s
+2026-11-18T17:41:42.1862751Z 
+2026-11-18T17:41:42.1863692Z 1 moderate severity vulnerability
+2026-11-18T17:41:42.1864067Z 
+2026-11-18T17:41:42.1870516Z To address all issues, run:
+2026-11-18T17:41:42.1871345Z   npm audit fix --force
+2026-11-18T17:41:42.1871746Z 
+2026-11-18T17:41:42.1872005Z Run `npm audit` for details.
+2026-11-18T17:41:42.2131746Z ##[group]Run npm run check
+2026-11-18T17:41:42.2132044Z [36;1mnpm run check[0m
+2026-11-18T17:41:42.2158204Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:42.2158498Z ##[endgroup]
+2026-11-18T17:41:42.2868398Z 
+2026-11-18T17:41:42.2868879Z > turboj-website@1.0.0 check
+2026-11-18T17:41:42.2869744Z > npm run themes && astro check
+2026-11-18T17:41:42.2869994Z 
+2026-11-18T17:41:42.3531350Z 
+2026-11-18T17:41:42.3532039Z > turboj-website@1.0.0 themes
+2026-11-18T17:41:42.3532671Z > node scripts/export-themes.mjs
+2026-11-18T17:41:42.3532958Z 
+2026-11-18T17:41:42.4064958Z Exported 103 native catalog themes, 3 primary palettes (35fc8b259eee).
+2026-11-18T17:41:43.4488594Z [2m17:41:43[22m [34m[types][39m Generated [2m99ms[22m
+2026-11-18T17:41:43.4530411Z [2m17:41:43[22m [34m[check][39m Getting diagnostics for Astro files in /home/runner/work/turboj/turboj/website...
+2026-11-18T17:41:47.4136917Z [96mtests/performance.mjs[0m:[93m42[0m:[93m5[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+2026-11-18T17:41:47.4137541Z 
+2026-11-18T17:41:47.4137826Z [7m42[0m     await browser.kill();
+2026-11-18T17:41:47.4138494Z [7m  [0m [93m    ~~~~~~~~~~~~~~~~~~~~[0m
+2026-11-18T17:41:47.4138755Z 
+2026-11-18T17:41:47.6390387Z Result (62 files): 
+2026-11-18T17:41:47.6390938Z - 0 errors
+2026-11-18T17:41:47.6391251Z - 0 warnings
+2026-11-18T17:41:47.6391579Z - 1 hint
+2026-11-18T17:41:47.6391722Z 
+2026-11-18T17:41:47.6784816Z ##[group]Run npm run build
+2026-11-18T17:41:47.6785115Z [36;1mnpm run build[0m
+2026-11-18T17:41:47.6811484Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:47.6811774Z ##[endgroup]
+2026-11-18T17:41:47.7518515Z 
+2026-11-18T17:41:47.7519387Z > turboj-website@1.0.0 build
+2026-11-18T17:41:47.7520176Z > npm run themes && npm run assets && astro build
+2026-11-18T17:41:47.7520386Z 
+2026-11-18T17:41:47.8162941Z 
+2026-11-18T17:41:47.8163658Z > turboj-website@1.0.0 themes
+2026-11-18T17:41:47.8164273Z > node scripts/export-themes.mjs
+2026-11-18T17:41:47.8164494Z 
+2026-11-18T17:41:47.8777359Z Exported 103 native catalog themes, 3 primary palettes (35fc8b259eee).
+2026-11-18T17:41:47.9490008Z 
+2026-11-18T17:41:47.9490773Z > turboj-website@1.0.0 assets
+2026-11-18T17:41:47.9491232Z > node scripts/prepare-assets.mjs
+2026-11-18T17:41:47.9491466Z 
+2026-11-18T17:41:51.2141561Z /images/turboj-editor.png: 1060×740, 34,679 bytes
+2026-11-18T17:41:51.2142568Z /images/turboj-editor.webp: 1060×740, 15,308 bytes
+2026-11-18T17:41:51.2143201Z /images/turboj-editor-530.webp: 530×370, 17,888 bytes
+2026-11-18T17:41:51.2143882Z /images/turboj-editor-795.webp: 795×555, 28,622 bytes
+2026-11-18T17:41:51.2144370Z /images/turboj-social.png: 1200×630, 75,011 bytes
+2026-11-18T17:41:51.2145017Z Original hash and full-size WebP pixel equality verified. Local fonts and OFL licenses copied.
+2026-11-18T17:41:51.7918174Z [2m17:41:51[22m [34m[types][39m Generated [2m39ms[22m
+2026-11-18T17:41:51.7918819Z [2m17:41:51[22m [34m[build][39m output: [34m"static"[39m
+2026-11-18T17:41:51.7919539Z [2m17:41:51[22m [34m[build][39m mode: [34m"static"[39m
+2026-11-18T17:41:51.7920313Z [2m17:41:51[22m [34m[build][39m directory: [34m/home/runner/work/turboj/turboj/website/dist/[39m
+2026-11-18T17:41:51.7920842Z [2m17:41:51[22m [34m[build][39m Collecting build info...
+2026-11-18T17:41:51.7921688Z [2m17:41:51[22m [34m[build][39m [32m✓ Completed in 79ms.[39m
+2026-11-18T17:41:51.7928886Z [2m17:41:51[22m [34m[build][39m Building static entrypoints...
+2026-11-18T17:41:51.9614713Z [2m17:41:51[22m [34m[vite][39m [32m✓ built in 147ms[39m
+2026-11-18T17:41:52.0421240Z [2m17:41:52[22m [34m[vite][39m [32m✓ built in 73ms[39m
+2026-11-18T17:41:52.0504334Z [2m17:41:52[22m [34m[build][39m Rearranging server assets...
+2026-11-18T17:41:52.0613418Z 
+2026-11-18T17:41:52.0613888Z [42m[30m generating static routes [39m[49m
+2026-11-18T17:41:52.0911050Z [2m17:41:52[22m   [34m├─[39m [2m/demo-session/index.html[22m [2m(+29ms)[22m 
+2026-11-18T17:41:52.0932661Z [2m17:41:52[22m   [34m├─[39m [2m/robots.txt[22m [2m(+2ms)[22m 
+2026-11-18T17:41:52.1008759Z [2m17:41:52[22m   [34m├─[39m [2m/session/index.html[22m [2m(+8ms)[22m 
+2026-11-18T17:41:52.1024710Z [2m17:41:52[22m   [34m├─[39m [2m/sitemap.xml[22m [2m(+2ms)[22m 
+2026-11-18T17:41:52.1089389Z [2m17:41:52[22m   [34m├─[39m [2m/index.html[22m [2m(+6ms)[22m 
+2026-11-18T17:41:52.1090055Z [2m17:41:52[22m [32m✓ Completed in 58ms.
+2026-11-18T17:41:52.1090625Z [39m
+2026-11-18T17:41:52.1136486Z [2m17:41:52[22m [34m[build][39m [32m✓ Completed in 321ms.[39m
+2026-11-18T17:41:52.1140421Z [2m17:41:52[22m [34m[build][39m 3 page(s) built in [1m401ms[22m
+2026-11-18T17:41:52.1141198Z [2m17:41:52[22m [34m[build][39m [1mComplete![22m
+2026-11-18T17:41:52.1301664Z ##[group]Run npm test
+2026-11-18T17:41:52.1301926Z [36;1mnpm test[0m
+2026-11-18T17:41:52.1327823Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:52.1328099Z ##[endgroup]
+2026-11-18T17:41:52.2040387Z 
+2026-11-18T17:41:52.2041019Z > turboj-website@1.0.0 test
+2026-11-18T17:41:52.2042151Z > npm run themes:check && node --test tests/content.test.mjs tests/demo-timeline.test.mjs tests/recorded-session.test.mjs tests/hero-evidence.test.mjs tests/hero-payload.test.mjs tests/theme-export.test.mjs tests/theme-preference.test.mjs tests/theme-spin.test.mjs tests/keyboard-reference.test.mjs
+2026-11-18T17:41:52.2043056Z 
+2026-11-18T17:41:52.2713328Z 
+2026-11-18T17:41:52.2714490Z > turboj-website@1.0.0 themes:check
+2026-11-18T17:41:52.2715198Z > node scripts/export-themes.mjs --check
+2026-11-18T17:41:52.2715446Z 
+2026-11-18T17:41:52.3178610Z Verified 103 native catalog themes, 3 primary palettes (35fc8b259eee).
+2026-11-18T17:41:52.3588934Z TAP version 13
+2026-11-18T17:41:52.3910601Z # Subtest: approved 1.0.10 English copy is present in the rendered HTML
+2026-11-18T17:41:52.3932871Z ok 1 - approved 1.0.10 English copy is present in the rendered HTML
+2026-11-18T17:41:52.3933905Z   ---
+2026-11-18T17:41:52.3939951Z   duration_ms: 0.999604
+2026-11-18T17:41:52.3951990Z   type: 'test'
+2026-11-18T17:41:52.3952594Z   ...
+2026-11-18T17:41:52.3953241Z # Subtest: the five-chapter reconstruction explains its evidence and execution limits
+2026-11-18T17:41:52.3954153Z ok 2 - the five-chapter reconstruction explains its evidence and execution limits
+2026-11-18T17:41:52.3954801Z   ---
+2026-11-18T17:41:52.3955161Z   duration_ms: 0.439889
+2026-11-18T17:41:52.3955606Z   type: 'test'
+2026-11-18T17:41:52.3955958Z   ...
+2026-11-18T17:41:52.3956495Z # Subtest: page title and factual product metadata are rendered
+2026-11-18T17:41:52.3957153Z ok 3 - page title and factual product metadata are rendered
+2026-11-18T17:41:52.3957669Z   ---
+2026-11-18T17:41:52.3958068Z   duration_ms: 0.914614
+2026-11-18T17:41:52.3958586Z   type: 'test'
+2026-11-18T17:41:52.3958920Z   ...
+2026-11-18T17:41:52.3959754Z # Subtest: the existing content structure has six features, four steps and one roadmap
+2026-11-18T17:41:52.3960608Z ok 4 - the existing content structure has six features, four steps and one roadmap
+2026-11-18T17:41:52.3961277Z   ---
+2026-11-18T17:41:52.3961655Z   duration_ms: 0.308304
+2026-11-18T17:41:52.3962065Z   type: 'test'
+2026-11-18T17:41:52.3962417Z   ...
+2026-11-18T17:41:52.3963049Z # Subtest: keyboard download uses the generated native reference without changing its bindings
+2026-11-18T17:41:52.3963947Z ok 5 - keyboard download uses the generated native reference without changing its bindings
+2026-11-18T17:41:52.3964523Z   ---
+2026-11-18T17:41:52.3964891Z   duration_ms: 4.747021
+2026-11-18T17:41:52.3965267Z   type: 'test'
+2026-11-18T17:41:52.3965645Z   ...
+2026-11-18T17:41:52.3966253Z # Subtest: navigation has real section targets and no placeholder links
+2026-11-18T17:41:52.3966980Z ok 6 - navigation has real section targets and no placeholder links
+2026-11-18T17:41:52.3967504Z   ---
+2026-11-18T17:41:52.3968033Z   duration_ms: 0.495555
+2026-11-18T17:41:52.3968529Z   type: 'test'
+2026-11-18T17:41:52.3968975Z   ...
+2026-11-18T17:41:52.3969847Z # Subtest: reported prototype values correspond to the available original capture
+2026-11-18T17:41:52.3970762Z ok 7 - reported prototype values correspond to the available original capture
+2026-11-18T17:41:52.3971328Z   ---
+2026-11-18T17:41:52.3971772Z   duration_ms: 0.120203
+2026-11-18T17:41:52.3972170Z   type: 'test'
+2026-11-18T17:41:52.3972531Z   ...
+2026-11-18T17:41:52.3973169Z # Subtest: full-resolution screenshot preserves the genuine repository image byte for byte
+2026-11-18T17:41:52.3974104Z ok 8 - full-resolution screenshot preserves the genuine repository image byte for byte
+2026-11-18T17:41:52.3974725Z   ---
+2026-11-18T17:41:52.3975122Z   duration_ms: 2.515611
+2026-11-18T17:41:52.3975495Z   type: 'test'
+2026-11-18T17:41:52.3975894Z   ...
+2026-11-18T17:41:52.3979868Z # Subtest: no client framework hydration or external asset sources
+2026-11-18T17:41:52.3980775Z ok 9 - no client framework hydration or external asset sources
+2026-11-18T17:41:52.3981315Z   ---
+2026-11-18T17:41:52.3981664Z   duration_ms: 0.570602
+2026-11-18T17:41:52.3982097Z   type: 'test'
+2026-11-18T17:41:52.3982500Z   ...
+2026-11-18T17:41:52.4545998Z # Subtest: the hero has exactly the five requested chapters
+2026-11-18T17:41:52.4560206Z ok 10 - the hero has exactly the five requested chapters
+2026-11-18T17:41:52.4610251Z   ---
+2026-11-18T17:41:52.4619905Z   duration_ms: 2.521559
+2026-11-18T17:41:52.4620328Z   type: 'test'
+2026-11-18T17:41:52.4620717Z   ...
+2026-11-18T17:41:52.4621370Z # Subtest: results never appear before their recorded boundary, including sub-millisecond offsets
+2026-11-18T17:41:52.4622289Z ok 11 - results never appear before their recorded boundary, including sub-millisecond offsets
+2026-11-18T17:41:52.4622847Z   ---
+2026-11-18T17:41:52.4623171Z   duration_ms: 0.330392
+2026-11-18T17:41:52.4623502Z   type: 'test'
+2026-11-18T17:41:52.4624054Z   ...
+2026-11-18T17:41:52.4624526Z # Subtest: seeking is independent of prior chapters and playback direction
+2026-11-18T17:41:52.4625098Z ok 12 - seeking is independent of prior chapters and playback direction
+2026-11-18T17:41:52.4625510Z   ---
+2026-11-18T17:41:52.4625822Z   duration_ms: 0.425106
+2026-11-18T17:41:52.4626137Z   type: 'test'
+2026-11-18T17:41:52.4626472Z   ...
+2026-11-18T17:41:52.4627052Z # Subtest: stepwise playback and direct skip restore the same exact source/output checkpoint
+2026-11-18T17:41:52.4627845Z ok 13 - stepwise playback and direct skip restore the same exact source/output checkpoint
+2026-11-18T17:41:52.4628380Z   ---
+2026-11-18T17:41:52.4628635Z   duration_ms: 0.167631
+2026-11-18T17:41:52.4628978Z   type: 'test'
+2026-11-18T17:41:52.4629457Z   ...
+2026-11-18T17:41:52.4629957Z # Subtest: invalid and negative seek times restore the initial checkpoint safely
+2026-11-18T17:41:52.4630691Z ok 14 - invalid and negative seek times restore the initial checkpoint safely
+2026-11-18T17:41:52.4631146Z   ---
+2026-11-18T17:41:52.4631457Z   duration_ms: 0.210682
+2026-11-18T17:41:52.4631762Z   type: 'test'
+2026-11-18T17:41:52.4632024Z   ...
+2026-11-18T17:41:52.4632485Z # Subtest: same-timestamp captured observations have deterministic last-event precedence
+2026-11-18T17:41:52.4633186Z ok 15 - same-timestamp captured observations have deterministic last-event precedence
+2026-11-18T17:41:52.4633748Z   ---
+2026-11-18T17:41:52.4634004Z   duration_ms: 0.124296
+2026-11-18T17:41:52.4634291Z   type: 'test'
+2026-11-18T17:41:52.4634565Z   ...
+2026-11-18T17:41:52.4635055Z # Subtest: runtime rejects unverified sessions and incompatible chapter manifests
+2026-11-18T17:41:52.4635790Z ok 16 - runtime rejects unverified sessions and incompatible chapter manifests
+2026-11-18T17:41:52.4636218Z   ---
+2026-11-18T17:41:52.4636476Z   duration_ms: 0.459781
+2026-11-18T17:41:52.4636772Z   type: 'test'
+2026-11-18T17:41:52.4637026Z   ...
+2026-11-18T17:41:52.4637708Z # Subtest: runtime rejects missing source/output, unordered events, absent initial state, and shortened system time
+2026-11-18T17:41:52.4638635Z ok 17 - runtime rejects missing source/output, unordered events, absent initial state, and shortened system time
+2026-11-18T17:41:52.4639378Z   ---
+2026-11-18T17:41:52.4639657Z   duration_ms: 0.525158
+2026-11-18T17:41:52.4639963Z   type: 'test'
+2026-11-18T17:41:52.4640213Z   ...
+2026-11-18T17:41:52.4640718Z # Subtest: native command line remains part of the recorded source/output checkpoint when seeking
+2026-11-18T17:41:52.4641485Z ok 18 - native command line remains part of the recorded source/output checkpoint when seeking
+2026-11-18T17:41:52.4641987Z   ---
+2026-11-18T17:41:52.4642255Z   duration_ms: 0.470978
+2026-11-18T17:41:52.4642925Z   type: 'test'
+2026-11-18T17:41:52.4643169Z   ...
+2026-11-18T17:41:52.5545724Z # Subtest: editorial mapping preserves unknown time and every native operation at 1×
+2026-11-18T17:41:52.5561962Z ok 19 - editorial mapping preserves unknown time and every native operation at 1×
+2026-11-18T17:41:52.5563796Z   ---
+2026-11-18T17:41:52.5564147Z   duration_ms: 1.363539
+2026-11-18T17:41:52.5564593Z   type: 'test'
+2026-11-18T17:41:52.5564871Z   ...
+2026-11-18T17:41:52.5565448Z # Subtest: unclassified, overlapping, invalid or operation-covering cuts fail closed
+2026-11-18T17:41:52.5566235Z ok 20 - unclassified, overlapping, invalid or operation-covering cuts fail closed
+2026-11-18T17:41:52.5566742Z   ---
+2026-11-18T17:41:52.5567064Z   duration_ms: 1.397201
+2026-11-18T17:41:52.5567415Z   type: 'test'
+2026-11-18T17:41:52.5567704Z   ...
+2026-11-18T17:41:52.5568226Z # Subtest: public evidence rejects escaping paths, personal homes and credentials
+2026-11-18T17:41:52.5568955Z ok 21 - public evidence rejects escaping paths, personal homes and credentials
+2026-11-18T17:41:52.5569694Z   ---
+2026-11-18T17:41:52.5570021Z   duration_ms: 4.971591
+2026-11-18T17:41:52.5570342Z   type: 'test'
+2026-11-18T17:41:52.5570700Z   ...
+2026-11-18T17:41:52.5581207Z # Subtest: published hero preserves four historical chapters and a separately verified native console finale
+2026-11-18T17:41:52.5583767Z ok 22 - published hero preserves four historical chapters and a separately verified native console finale
+2026-11-18T17:41:52.5584382Z   ---
+2026-11-18T17:41:52.5584710Z   duration_ms: 31.704263
+2026-11-18T17:41:52.5585046Z   type: 'test'
+2026-11-18T17:41:52.5585336Z   ...
+2026-11-18T17:41:52.5585856Z # Subtest: every exported source, log, screenshot, raw trace and control artifact retains its SHA-256
+2026-11-18T17:41:52.5586761Z ok 23 - every exported source, log, screenshot, raw trace and control artifact retains its SHA-256
+2026-11-18T17:41:52.5587273Z   ---
+2026-11-18T17:41:52.5587539Z   duration_ms: 80.47419
+2026-11-18T17:41:52.5587836Z   type: 'test'
+2026-11-18T17:41:52.5588103Z   ...
+2026-11-18T17:41:52.5606670Z # Subtest: missing actual failures, changed source hashes, interleaved chapters and fake intervals are rejected
+2026-11-18T17:41:52.5607911Z ok 24 - missing actual failures, changed source hashes, interleaved chapters and fake intervals are rejected
+2026-11-18T17:41:52.5608664Z   ---
+2026-11-18T17:41:52.5609318Z   duration_ms: 21.990725
+2026-11-18T17:41:52.5610707Z   type: 'test'
+2026-11-18T17:41:52.5611887Z   ...
+2026-11-18T17:41:52.5618521Z # Subtest: details are static accessible text with on-demand evidence and no browser localhost requests
+2026-11-18T17:41:52.5621726Z ok 25 - details are static accessible text with on-demand evidence and no browser localhost requests
+2026-11-18T17:41:52.5623401Z   ---
+2026-11-18T17:41:52.5625048Z   duration_ms: 0.430283
+2026-11-18T17:41:52.5625773Z   type: 'test'
+2026-11-18T17:41:52.5636663Z   ...
+2026-11-18T17:41:52.5637346Z # Subtest: native console finale rejects synthetic success, changed source, missing keys and unsafe cleanup
+2026-11-18T17:41:52.5638276Z ok 26 - native console finale rejects synthetic success, changed source, missing keys and unsafe cleanup
+2026-11-18T17:41:52.5638789Z   ---
+2026-11-18T17:41:52.5639043Z   duration_ms: 9.591826
+2026-11-18T17:41:52.5639795Z   type: 'test'
+2026-11-18T17:41:52.5640053Z   ...
+2026-11-18T17:41:52.5667894Z # Subtest: production hero and total JavaScript stay within the recorded-session budgets
+2026-11-18T17:41:52.5677544Z ok 27 - production hero and total JavaScript stay within the recorded-session budgets
+2026-11-18T17:41:52.5678072Z   ---
+2026-11-18T17:41:52.5678651Z   duration_ms: 3.525579
+2026-11-18T17:41:52.5679295Z   type: 'test'
+2026-11-18T17:41:52.5679742Z   ...
+2026-11-18T17:41:52.5681400Z # {"bundles":[{"file":"ThemeSwitcher.astro_astro_type_script_index_0_lang.Bp-TaI15.js","bytes":19741,"gzipBytes":6928},{"file":"TurboJDemo.astro_astro_type_script_index_0_lang.Bi8UFDu1.js","bytes":17742,"gzipBytes":6642}],"inlineScripts":[{"bytes":2369,"gzipBytes":1051,"hero":false},{"bytes":236,"gzipBytes":180,"hero":false},{"bytes":50,"gzipBytes":61,"hero":true}],"heroJavaScriptGzipBytes":6703,"allJavaScriptGzipBytes":14862}
+2026-11-18T17:41:52.5683182Z # Subtest: five lazy chapter payloads fit the text-data budget and do not embed screenshot bytes
+2026-11-18T17:41:52.5684053Z ok 28 - five lazy chapter payloads fit the text-data budget and do not embed screenshot bytes
+2026-11-18T17:41:52.5684686Z   ---
+2026-11-18T17:41:52.5689979Z   duration_ms: 13.467412
+2026-11-18T17:41:52.5691126Z   type: 'test'
+2026-11-18T17:41:52.5691532Z   ...
+2026-11-18T17:41:52.5692876Z # {"chapters":[{"id":"hello-world","bytes":14003,"gzipBytes":2628},{"id":"tests","bytes":34319,"gzipBytes":4925},{"id":"refactoring","bytes":34015,"gzipBytes":4606},{"id":"automation","bytes":24643,"gzipBytes":3695},{"id":"spring-boot","bytes":41005,"gzipBytes":5135}]}
+2026-11-18T17:41:52.5735918Z # Subtest: exports the actual generated native reference bytes without a second shortcut list
+2026-11-18T17:41:52.5737011Z ok 29 - exports the actual generated native reference bytes without a second shortcut list
+2026-11-18T17:41:52.5737467Z   ---
+2026-11-18T17:41:52.5737728Z   duration_ms: 20.02832
+2026-11-18T17:41:52.5738108Z   type: 'test'
+2026-11-18T17:41:52.5738399Z   ...
+2026-11-18T17:41:52.5739298Z # Subtest: a changed native keymap fails before replacing published reference assets
+2026-11-18T17:41:52.5739991Z ok 30 - a changed native keymap fails before replacing published reference assets
+2026-11-18T17:41:52.5740420Z   ---
+2026-11-18T17:41:52.5740763Z   duration_ms: 8.007512
+2026-11-18T17:41:52.5741100Z   type: 'test'
+2026-11-18T17:41:52.5741400Z   ...
+2026-11-18T17:41:52.5741952Z # Subtest: edited generated reference bytes cannot be exported under an old source manifest
+2026-11-18T17:41:52.5742728Z ok 31 - edited generated reference bytes cannot be exported under an old source manifest
+2026-11-18T17:41:52.5743281Z   ---
+2026-11-18T17:41:52.5743562Z   duration_ms: 6.313528
+2026-11-18T17:41:52.5743923Z   type: 'test'
+2026-11-18T17:41:52.5744201Z   ...
+2026-11-18T17:41:52.5744770Z # Subtest: missing source evidence, malformed hashes and incomplete reference manifests fail closed
+2026-11-18T17:41:52.5745660Z ok 32 - missing source evidence, malformed hashes and incomplete reference manifests fail closed
+2026-11-18T17:41:52.5746202Z   ---
+2026-11-18T17:41:52.5746528Z   duration_ms: 7.338333
+2026-11-18T17:41:52.5746821Z   type: 'test'
+2026-11-18T17:41:52.5747070Z   ...
+2026-11-18T17:41:52.5747492Z # Subtest: manifest paths cannot escape the repository
+2026-11-18T17:41:52.5747975Z ok 33 - manifest paths cannot escape the repository
+2026-11-18T17:41:52.5748343Z   ---
+2026-11-18T17:41:52.5748643Z   duration_ms: 13.948593
+2026-11-18T17:41:52.5748925Z   type: 'test'
+2026-11-18T17:41:52.5749375Z   ...
+2026-11-18T17:41:52.5749816Z # Subtest: check mode detects stale website assets without rewriting them
+2026-11-18T17:41:52.5750427Z ok 34 - check mode detects stale website assets without rewriting them
+2026-11-18T17:41:52.5750892Z   ---
+2026-11-18T17:41:52.5751153Z   duration_ms: 7.718282
+2026-11-18T17:41:52.5751508Z   type: 'test'
+2026-11-18T17:41:52.5751789Z   ...
+2026-11-18T17:41:52.5829923Z # Subtest: supporting evidence preserves one complete session and all measured intervals
+2026-11-18T17:41:52.5836671Z ok 35 - supporting evidence preserves one complete session and all measured intervals
+2026-11-18T17:41:52.5837334Z   ---
+2026-11-18T17:41:52.5837871Z   duration_ms: 1.562065
+2026-11-18T17:41:52.5838261Z   type: 'test'
+2026-11-18T17:41:52.5838649Z   ...
+2026-11-18T17:41:52.5839497Z # Subtest: supporting trace, source, output and screenshot bytes retain their original provenance
+2026-11-18T17:41:52.5840468Z ok 36 - supporting trace, source, output and screenshot bytes retain their original provenance
+2026-11-18T17:41:52.5841156Z   ---
+2026-11-18T17:41:52.5841526Z   duration_ms: 30.145253
+2026-11-18T17:41:52.5841944Z   type: 'test'
+2026-11-18T17:41:52.5842323Z   ...
+2026-11-18T17:41:52.5843027Z # Subtest: evidence retains actual successes, failure and recovery rather than editing outputs
+2026-11-18T17:41:52.5843997Z ok 37 - evidence retains actual successes, failure and recovery rather than editing outputs
+2026-11-18T17:41:52.5844596Z   ---
+2026-11-18T17:41:52.5845171Z   duration_ms: 1.945111
+2026-11-18T17:41:52.5845585Z   type: 'test'
+2026-11-18T17:41:52.5845997Z   ...
+2026-11-18T17:41:52.5846637Z # Subtest: optional human-pause cuts cannot shorten measured intervals
+2026-11-18T17:41:52.5847301Z ok 38 - optional human-pause cuts cannot shorten measured intervals
+2026-11-18T17:41:52.5847680Z   ---
+2026-11-18T17:41:52.5847954Z   duration_ms: 0.304854
+2026-11-18T17:41:52.5848244Z   type: 'test'
+2026-11-18T17:41:52.5848562Z   ...
+2026-11-18T17:41:52.5997391Z # Subtest: three exported themes are exact native definitions, including intelligence and popup colors
+2026-11-18T17:41:52.6027122Z ok 39 - three exported themes are exact native definitions, including intelligence and popup colors
+2026-11-18T17:41:52.6027741Z   ---
+2026-11-18T17:41:52.6028116Z   duration_ms: 4.530386
+2026-11-18T17:41:52.6028442Z   type: 'test'
+2026-11-18T17:41:52.6028714Z   ...
+2026-11-18T17:41:52.6878653Z # Subtest: every native color is exported verbatim into each root CSS scope
+2026-11-18T17:41:52.6879638Z ok 40 - every native color is exported verbatim into each root CSS scope
+2026-11-18T17:41:52.6880443Z   ---
+2026-11-18T17:41:52.6880789Z   duration_ms: 1.909629
+2026-11-18T17:41:52.6881095Z   type: 'test'
+2026-11-18T17:41:52.6881422Z   ...
+2026-11-18T17:41:52.6881817Z # Subtest: generated assets match the deterministic native export
+2026-11-18T17:41:52.6882305Z ok 41 - generated assets match the deterministic native export
+2026-11-18T17:41:52.6882630Z   ---
+2026-11-18T17:41:52.6882850Z   duration_ms: 86.359897
+2026-11-18T17:41:52.6883079Z   type: 'test'
+2026-11-18T17:41:52.6883288Z   ...
+2026-11-18T17:41:52.7212999Z # Subtest: catalog exports lightweight metadata and separate exact native palettes
+2026-11-18T17:41:52.7213665Z ok 42 - catalog exports lightweight metadata and separate exact native palettes
+2026-11-18T17:41:52.7213999Z   ---
+2026-11-18T17:41:52.7214214Z   duration_ms: 33.411382
+2026-11-18T17:41:52.7214466Z   type: 'test'
+2026-11-18T17:41:52.7214671Z   ...
+2026-11-18T17:41:52.7220877Z # Subtest: published feature copy distinguishes optional native AI validation from unimplemented capabilities
+2026-11-18T17:41:52.7221694Z ok 43 - published feature copy distinguishes optional native AI validation from unimplemented capabilities
+2026-11-18T17:41:52.7222119Z   ---
+2026-11-18T17:41:52.7222341Z   duration_ms: 1.011036
+2026-11-18T17:41:52.7222564Z   type: 'test'
+2026-11-18T17:41:52.7223113Z   ...
+2026-11-18T17:41:52.7270452Z # Subtest: only native exported theme IDs are accepted, with Classic as the default
+2026-11-18T17:41:52.7271332Z ok 44 - only native exported theme IDs are accepted, with Classic as the default
+2026-11-18T17:41:52.7271861Z   ---
+2026-11-18T17:41:52.7272192Z   duration_ms: 1.414031
+2026-11-18T17:41:52.7272572Z   type: 'test'
+2026-11-18T17:41:52.7272861Z   ...
+2026-11-18T17:41:52.7273551Z # Subtest: native palettes accept only the exact validated color fields and matching catalog identity
+2026-11-18T17:41:52.7274397Z ok 45 - native palettes accept only the exact validated color fields and matching catalog identity
+2026-11-18T17:41:52.7274964Z   ---
+2026-11-18T17:41:52.7275309Z   duration_ms: 0.585882
+2026-11-18T17:41:52.7275621Z   type: 'test'
+2026-11-18T17:41:52.7275916Z   ...
+2026-11-18T17:41:52.7276433Z # Subtest: a validated custom theme is restored synchronously before first paint
+2026-11-18T17:41:52.7277157Z ok 46 - a validated custom theme is restored synchronously before first paint
+2026-11-18T17:41:52.7277654Z   ---
+2026-11-18T17:41:52.7277963Z   duration_ms: 4.13547
+2026-11-18T17:41:52.7278287Z   type: 'test'
+2026-11-18T17:41:52.7278588Z   ...
+2026-11-18T17:41:52.7279373Z # Subtest: catalog metadata is bounded, same-origin, unique and searchable without loading palettes
+2026-11-18T17:41:52.7280305Z ok 47 - catalog metadata is bounded, same-origin, unique and searchable without loading palettes
+2026-11-18T17:41:52.7280883Z   ---
+2026-11-18T17:41:52.7281194Z   duration_ms: 3.77558
+2026-11-18T17:41:52.7281530Z   type: 'test'
+2026-11-18T17:41:52.7281807Z   ...
+2026-11-18T17:41:52.7282531Z # Subtest: palette cache remains bounded and protects recently used values
+2026-11-18T17:41:52.7283183Z ok 48 - palette cache remains bounded and protects recently used values
+2026-11-18T17:41:52.7283651Z   ---
+2026-11-18T17:41:52.7283994Z   duration_ms: 0.332191
+2026-11-18T17:41:52.7284304Z   type: 'test'
+2026-11-18T17:41:52.7284585Z   ...
+2026-11-18T17:41:52.7285160Z # Subtest: the synchronous head bootstrap applies the persisted choice and native theme metadata
+2026-11-18T17:41:52.7286042Z ok 49 - the synchronous head bootstrap applies the persisted choice and native theme metadata
+2026-11-18T17:41:52.7286557Z   ---
+2026-11-18T17:41:52.7286830Z   duration_ms: 1.691681
+2026-11-18T17:41:52.7287147Z   type: 'test'
+2026-11-18T17:41:52.7287406Z   ...
+2026-11-18T17:41:52.7288041Z # Subtest: missing, invalid or denied storage safely renders Classic without OS preference overrides
+2026-11-18T17:41:52.7288854Z ok 50 - missing, invalid or denied storage safely renders Classic without OS preference overrides
+2026-11-18T17:41:52.7289975Z   ---
+2026-11-18T17:41:52.7290250Z   duration_ms: 1.644358
+2026-11-18T17:41:52.7290520Z   type: 'test'
+2026-11-18T17:41:52.7290896Z   ...
+2026-11-18T17:41:52.7291919Z # Subtest: ASCII spin uses real catalog indices, a uniform explicit target and a final deadline of 3–5 seconds
+2026-11-18T17:41:52.7292857Z ok 51 - ASCII spin uses real catalog indices, a uniform explicit target and a final deadline of 3–5 seconds
+2026-11-18T17:41:52.7293346Z   ---
+2026-11-18T17:41:52.7293590Z   duration_ms: 1.896625
+2026-11-18T17:41:52.7293902Z   type: 'test'
+2026-11-18T17:41:52.7294151Z   ...
+2026-11-18T17:41:52.7294694Z # Subtest: drum ordering groups similar background luminance without changing the catalog order
+2026-11-18T17:41:52.7295404Z ok 52 - drum ordering groups similar background luminance without changing the catalog order
+2026-11-18T17:41:52.7295855Z   ---
+2026-11-18T17:41:52.7296124Z   duration_ms: 0.955336
+2026-11-18T17:41:52.7296377Z   type: 'test'
+2026-11-18T17:41:52.7296638Z   ...
+2026-11-18T17:41:52.7297088Z # Subtest: random selection validates bounds and stays inside every catalog size
+2026-11-18T17:41:52.7297685Z ok 53 - random selection validates bounds and stays inside every catalog size
+2026-11-18T17:41:52.7298130Z   ---
+2026-11-18T17:41:52.7298359Z   duration_ms: 4.717531
+2026-11-18T17:41:52.7298653Z   type: 'test'
+2026-11-18T17:41:52.7298917Z   ...
+2026-11-18T17:41:52.7299820Z 1..53
+2026-11-18T17:41:52.7300119Z # tests 53
+2026-11-18T17:41:52.7300365Z # suites 0
+2026-11-18T17:41:52.7300600Z # pass 53
+2026-11-18T17:41:52.7300873Z # fail 0
+2026-11-18T17:41:52.7301212Z # cancelled 0
+2026-11-18T17:41:52.7301490Z # skipped 0
+2026-11-18T17:41:52.7301742Z # todo 0
+2026-11-18T17:41:52.7301991Z # duration_ms 382.970255
+2026-11-18T17:41:52.7384600Z ##[group]Run npx playwright install --with-deps chromium
+2026-11-18T17:41:52.7384994Z [36;1mnpx playwright install --with-deps chromium[0m
+2026-11-18T17:41:52.7385763Z [36;1mnode --input-type=module -e 'import { chromium } from "playwright"; import { accessSync, constants } from "node:fs"; const executable = chromium.executablePath(); accessSync(executable, constants.X_OK); console.log(`CHROME_PATH=${executable}`);' >> "$GITHUB_ENV"[0m
+2026-11-18T17:41:52.7413516Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:41:52.7413770Z ##[endgroup]
+2026-11-18T17:41:53.2300728Z Installing dependencies...
+2026-11-18T17:41:53.2403491Z Switching to root user to install dependencies...
+2026-11-18T17:41:53.3445085Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [152 B]
+2026-11-18T17:41:53.4573124Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-11-18T17:41:53.4644271Z Hit:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble InRelease
+2026-11-18T17:41:53.6314862Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [723 kB]
+2026-11-18T17:41:53.7203370Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [794 kB]
+2026-11-18T17:41:56.0697957Z Get:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-11-18T17:41:56.2623214Z Get:4 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-11-18T17:41:59.1302809Z Get:5 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-11-18T17:41:59.3562683Z Get:9 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1455 kB]
+2026-11-18T17:42:01.9157756Z Get:10 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [317 kB]
+2026-11-18T17:42:02.1726840Z Get:11 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1714 kB]
+2026-11-18T17:42:02.6604037Z Get:12 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [345 kB]
+2026-11-18T17:42:09.8527450Z Get:13 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1887 kB]
+2026-11-18T17:42:10.4656123Z Get:14 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [433 kB]
+2026-11-18T17:42:10.6130048Z Get:15 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1198 kB]
+2026-11-18T17:42:10.9604857Z Get:16 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/main Translation-en [239 kB]
+2026-11-18T17:42:11.0840900Z Get:17 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1229 kB]
+2026-11-18T17:42:11.4159453Z Get:18 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1792 kB]
+2026-11-18T17:42:11.8879768Z Get:19 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [414 kB]
+2026-11-18T17:42:19.3439311Z Fetched 12.9 MB in 19s (693 kB/s)
+2026-11-18T17:42:20.2237620Z Reading package lists...
+2026-11-18T17:42:20.2483814Z Reading package lists...
+2026-11-18T17:42:20.4063049Z Building dependency tree...
+2026-11-18T17:42:20.4066991Z Reading state information...
+2026-11-18T17:42:20.5375599Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+2026-11-18T17:42:20.5376299Z libasound2t64 set to manually installed.
+2026-11-18T17:42:20.5376815Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-11-18T17:42:20.5377419Z libatk-bridge2.0-0t64 set to manually installed.
+2026-11-18T17:42:20.5377918Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+2026-11-18T17:42:20.5378395Z libatk1.0-0t64 set to manually installed.
+2026-11-18T17:42:20.5378860Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-11-18T17:42:20.5379523Z libatspi2.0-0t64 set to manually installed.
+2026-11-18T17:42:20.5379955Z libcairo2 is already the newest version (1.18.0-3build1).
+2026-11-18T17:42:20.5380640Z libcairo2 set to manually installed.
+2026-11-18T17:42:20.5381018Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+2026-11-18T17:42:20.5381361Z libcups2t64 set to manually installed.
+2026-11-18T17:42:20.5381730Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+2026-11-18T17:42:20.5382116Z libdbus-1-3 set to manually installed.
+2026-11-18T17:42:20.5382454Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+2026-11-18T17:42:20.5382815Z libdrm2 set to manually installed.
+2026-11-18T17:42:20.5383232Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.10).
+2026-11-18T17:42:20.5383692Z libglib2.0-0t64 set to manually installed.
+2026-11-18T17:42:20.5384060Z libnspr4 is already the newest version (2:4.35-1.1build1).
+2026-11-18T17:42:20.5384398Z libnspr4 set to manually installed.
+2026-11-18T17:42:20.5384749Z libnss3 is already the newest version (2:3.98-1ubuntu0.3).
+2026-11-18T17:42:20.5385083Z libnss3 set to manually installed.
+2026-11-18T17:42:20.5385428Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+2026-11-18T17:42:20.5385780Z libpango-1.0-0 set to manually installed.
+2026-11-18T17:42:20.5386143Z libx11-6 is already the newest version (2:1.8.7-1ubuntu0.1).
+2026-11-18T17:42:20.5386488Z libx11-6 set to manually installed.
+2026-11-18T17:42:20.5386821Z libxcb1 is already the newest version (1.15-1ubuntu2).
+2026-11-18T17:42:20.5387129Z libxcb1 set to manually installed.
+2026-11-18T17:42:20.5387480Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+2026-11-18T17:42:20.5387827Z libxcomposite1 set to manually installed.
+2026-11-18T17:42:20.5388207Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+2026-11-18T17:42:20.5388556Z libxdamage1 set to manually installed.
+2026-11-18T17:42:20.5388898Z libxext6 is already the newest version (2:1.3.4-1build2).
+2026-11-18T17:42:20.5389380Z libxext6 set to manually installed.
+2026-11-18T17:42:20.5389718Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+2026-11-18T17:42:20.5390143Z libxfixes3 set to manually installed.
+2026-11-18T17:42:20.5390492Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+2026-11-18T17:42:20.5390827Z libxkbcommon0 set to manually installed.
+2026-11-18T17:42:20.5391174Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+2026-11-18T17:42:20.5391618Z libxrandr2 set to manually installed.
+2026-11-18T17:42:20.5392005Z xvfb is already the newest version (2:21.1.12-1ubuntu1.9).
+2026-11-18T17:42:20.5392434Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+2026-11-18T17:42:20.5392873Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+2026-11-18T17:42:20.5393229Z libfontconfig1 set to manually installed.
+2026-11-18T17:42:20.5393593Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.2).
+2026-11-18T17:42:20.5394003Z libfreetype6 set to manually installed.
+2026-11-18T17:42:20.5394350Z fonts-liberation is already the newest version (1:2.1.5-3).
+2026-11-18T17:42:20.5394696Z fonts-liberation set to manually installed.
+2026-11-18T17:42:20.5395040Z The following additional packages will be installed:
+2026-11-18T17:42:20.5395441Z   libgl1-mesa-dri libglx-mesa0 mesa-libgallium xfonts-encodings xfonts-utils
+2026-11-18T17:42:20.5395860Z Recommended packages:
+2026-11-18T17:42:20.5396121Z   fonts-ipafont-mincho fonts-tlwg-loma
+2026-11-18T17:42:20.6674710Z The following NEW packages will be installed:
+2026-11-18T17:42:20.6675350Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+2026-11-18T17:42:20.6681041Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+2026-11-18T17:42:20.6681445Z   xfonts-utils
+2026-11-18T17:42:20.6685215Z The following packages will be upgraded:
+2026-11-18T17:42:20.6690155Z   libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+2026-11-18T17:42:20.6836930Z 4 upgraded, 9 newly installed, 0 to remove and 7 not upgraded.
+2026-11-18T17:42:20.6837323Z Need to get 32.1 MB of archives.
+2026-11-18T17:42:20.6837917Z After this operation, 79.7 MB of additional disk space will be used.
+2026-11-18T17:42:20.6838322Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [152 B]
+2026-11-18T17:42:21.2576317Z Get:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+2026-11-18T17:43:19.1120600Z Get:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+2026-11-18T17:43:20.1774250Z Get:4 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+2026-11-18T17:43:20.8865928Z Get:5 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+2026-11-18T17:44:16.5776918Z Get:6 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+2026-11-18T17:46:35.1236656Z Get:7 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.5 [38.0 kB]
+2026-11-18T17:46:37.0352158Z Get:8 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.5 [110 kB]
+2026-11-18T17:46:54.0921152Z Get:9 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.5 [34.2 kB]
+2026-11-18T17:46:54.2233868Z Get:10 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.5 [10.8 MB]
+2026-11-18T17:46:55.9319998Z Get:11 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+2026-11-18T17:47:10.5356864Z Get:12 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+2026-11-18T17:47:12.1453127Z Get:13 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+2026-11-18T17:47:19.0377160Z Get:14 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+2026-11-18T17:47:25.5299991Z Fetched 32.1 MB in 5min 4s (106 kB/s)
+2026-11-18T17:47:25.6210959Z Selecting previously unselected package fonts-ipafont-gothic.
+2026-11-18T17:47:25.7863697Z (Reading database ... 
+2026-11-18T17:47:25.7864031Z (Reading database ... 5%
+2026-11-18T17:47:25.7864745Z (Reading database ... 10%
+2026-11-18T17:47:25.7865062Z (Reading database ... 15%
+2026-11-18T17:47:25.7865294Z (Reading database ... 20%
+2026-11-18T17:47:25.7865545Z (Reading database ... 25%
+2026-11-18T17:47:25.7865785Z (Reading database ... 30%
+2026-11-18T17:47:25.7866004Z (Reading database ... 35%
+2026-11-18T17:47:25.7866300Z (Reading database ... 40%
+2026-11-18T17:47:25.7866532Z (Reading database ... 45%
+2026-11-18T17:47:25.7866775Z (Reading database ... 50%
+2026-11-18T17:47:25.8625284Z (Reading database ... 55%
+2026-11-18T17:47:26.5908324Z (Reading database ... 60%
+2026-11-18T17:47:26.8498102Z (Reading database ... 65%
+2026-11-18T17:47:27.0222726Z (Reading database ... 70%
+2026-11-18T17:47:27.1033295Z (Reading database ... 75%
+2026-11-18T17:47:27.2390585Z (Reading database ... 80%
+2026-11-18T17:47:28.4310732Z (Reading database ... 85%
+2026-11-18T17:47:31.1517654Z (Reading database ... 90%
+2026-11-18T17:47:32.5019509Z (Reading database ... 95%
+2026-11-18T17:47:32.5020101Z (Reading database ... 100%
+2026-11-18T17:47:32.5020998Z (Reading database ... 216720 files and directories currently installed.)
+2026-11-18T17:47:32.5064723Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+2026-11-18T17:47:32.5134563Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-11-18T17:47:32.7046647Z Selecting previously unselected package fonts-freefont-ttf.
+2026-11-18T17:47:32.7147262Z Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+2026-11-18T17:47:32.7150468Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-11-18T17:47:32.7819415Z Selecting previously unselected package fonts-tlwg-loma-otf.
+2026-11-18T17:47:32.7919268Z Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+2026-11-18T17:47:32.7921833Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-11-18T17:47:32.8061782Z Selecting previously unselected package fonts-unifont.
+2026-11-18T17:47:32.8158169Z Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+2026-11-18T17:47:32.8161596Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+2026-11-18T17:47:32.9090282Z Selecting previously unselected package fonts-wqy-zenhei.
+2026-11-18T17:47:32.9187656Z Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+2026-11-18T17:47:32.9260406Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+2026-11-18T17:47:33.3368837Z Preparing to unpack .../05-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+2026-11-18T17:47:33.3477731Z Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+2026-11-18T17:47:33.4203777Z Preparing to unpack .../06-libglx-mesa0_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+2026-11-18T17:47:33.4222454Z Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+2026-11-18T17:47:33.4473016Z Preparing to unpack .../07-libgbm1_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+2026-11-18T17:47:33.4486717Z Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+2026-11-18T17:47:33.4743990Z Preparing to unpack .../08-mesa-libgallium_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+2026-11-18T17:47:33.4756207Z Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+2026-11-18T17:47:33.6172828Z Selecting previously unselected package xfonts-encodings.
+2026-11-18T17:47:33.6272960Z Preparing to unpack .../09-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+2026-11-18T17:47:33.6275931Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-11-18T17:47:33.6441692Z Selecting previously unselected package xfonts-utils.
+2026-11-18T17:47:33.6534786Z Preparing to unpack .../10-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+2026-11-18T17:47:33.6538368Z Unpacking xfonts-utils (1:7.7+6build3) ...
+2026-11-18T17:47:33.7271108Z Selecting previously unselected package xfonts-cyrillic.
+2026-11-18T17:47:33.7361602Z Preparing to unpack .../11-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+2026-11-18T17:47:33.7364492Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-11-18T17:47:33.7538824Z Selecting previously unselected package xfonts-scalable.
+2026-11-18T17:47:33.7625958Z Preparing to unpack .../12-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+2026-11-18T17:47:33.7628820Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+2026-11-18T17:47:33.7888632Z Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+2026-11-18T17:47:33.7897390Z Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+2026-11-18T17:47:33.7905240Z Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+2026-11-18T17:47:33.7949960Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+2026-11-18T17:47:33.8016271Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-11-18T17:47:33.8024731Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-11-18T17:47:33.8032251Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-11-18T17:47:33.8039583Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-11-18T17:47:33.8076806Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+2026-11-18T17:47:33.8084289Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+2026-11-18T17:47:33.8092122Z Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+2026-11-18T17:47:33.8101121Z Setting up xfonts-utils (1:7.7+6build3) ...
+2026-11-18T17:47:33.8124041Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-11-18T17:47:33.8358311Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+2026-11-18T17:47:33.8539626Z Processing triggers for libc-bin (2.39-0ubuntu8.12) ...
+2026-11-18T17:47:39.8404794Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-11-18T17:47:39.8425602Z Not building database; man-db/auto-update is not 'true'.
+2026-11-18T17:47:39.8436147Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+2026-11-18T17:47:40.9227699Z 
+2026-11-18T17:47:40.9228352Z Running kernel seems to be up-to-date.
+2026-11-18T17:47:40.9228667Z 
+2026-11-18T17:47:40.9228822Z No services need to be restarted.
+2026-11-18T17:47:40.9229550Z 
+2026-11-18T17:47:40.9229767Z No containers need to be restarted.
+2026-11-18T17:47:40.9230042Z 
+2026-11-18T17:47:40.9230302Z No user sessions are running outdated binaries.
+2026-11-18T17:47:40.9230556Z 
+2026-11-18T17:47:40.9230892Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-11-18T17:47:41.6683825Z Downloading Chrome for Testing 156.0.8078.4 (playwright chromium v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-linux64.zip
+2026-11-18T17:47:42.0117729Z |                                                                                |   0% of 191.1 MiB
+2026-11-18T17:47:42.1483753Z |■■■■■■■■                                                                        |  10% of 191.1 MiB
+2026-11-18T17:47:42.2610925Z |■■■■■■■■■■■■■■■■                                                                |  20% of 191.1 MiB
+2026-11-18T17:47:42.3758037Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 191.1 MiB
+2026-11-18T17:47:42.4866909Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 191.1 MiB
+2026-11-18T17:47:42.6082877Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 191.1 MiB
+2026-11-18T17:47:42.7235784Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 191.1 MiB
+2026-11-18T17:47:42.9292383Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 191.1 MiB
+2026-11-18T17:47:43.0761383Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 191.1 MiB
+2026-11-18T17:47:43.2179955Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 191.1 MiB
+2026-11-18T17:47:43.3564235Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 191.1 MiB
+2026-11-18T17:47:45.5655065Z Chrome for Testing 156.0.8078.4 (playwright chromium v1248) downloaded to /home/runner/.cache/ms-playwright/chromium-1248
+2026-11-18T17:47:45.5656720Z Downloading FFmpeg (playwright ffmpeg v1013) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1013/ffmpeg-linux.zip
+2026-11-18T17:47:45.8636340Z |                                                                                |   0% of 2.2 MiB
+2026-11-18T17:47:45.8766820Z |■■■■■■■■                                                                        |  10% of 2.2 MiB
+2026-11-18T17:47:45.8829690Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.2 MiB
+2026-11-18T17:47:45.8875924Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.2 MiB
+2026-11-18T17:47:45.8890707Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.2 MiB
+2026-11-18T17:47:45.8936956Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.2 MiB
+2026-11-18T17:47:45.8944247Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.2 MiB
+2026-11-18T17:47:45.8953118Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.2 MiB
+2026-11-18T17:47:45.8959978Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.2 MiB
+2026-11-18T17:47:45.8973926Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.2 MiB
+2026-11-18T17:47:45.9003796Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.2 MiB
+2026-11-18T17:47:45.9412752Z FFmpeg (playwright ffmpeg v1013) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1013
+2026-11-18T17:47:45.9415302Z Downloading Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-headless-shell-linux64.zip
+2026-11-18T17:47:46.2858744Z |                                                                                |   0% of 120 MiB
+2026-11-18T17:47:46.4301170Z |■■■■■■■■                                                                        |  10% of 120 MiB
+2026-11-18T17:47:46.4553907Z |■■■■■■■■■■■■■■■■                                                                |  20% of 120 MiB
+2026-11-18T17:47:46.4996267Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 120 MiB
+2026-11-18T17:47:46.5298493Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 120 MiB
+2026-11-18T17:47:46.5690447Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 120 MiB
+2026-11-18T17:47:46.6034204Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 120 MiB
+2026-11-18T17:47:46.6392588Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 120 MiB
+2026-11-18T17:47:46.6803608Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 120 MiB
+2026-11-18T17:47:46.7162374Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 120 MiB
+2026-11-18T17:47:46.7539741Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 120 MiB
+2026-11-18T17:47:48.3468679Z Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1248
+2026-11-18T17:47:48.6873923Z ##[group]Run npm run preview -- --port 4321 > /tmp/turboj-preview.log 2>&1 &
+2026-11-18T17:47:48.6874570Z [36;1mnpm run preview -- --port 4321 > /tmp/turboj-preview.log 2>&1 &[0m
+2026-11-18T17:47:48.6875074Z [36;1mpreview_pid=$![0m
+2026-11-18T17:47:48.6875494Z [36;1mtrap 'kill "$preview_pid" 2>/dev/null || true' EXIT[0m
+2026-11-18T17:47:48.6875905Z [36;1mfor attempt in {1..40}; do[0m
+2026-11-18T17:47:48.6876371Z [36;1m  if curl --fail --silent "$QA_BASE_URL" >/dev/null; then break; fi[0m
+2026-11-18T17:47:48.6876857Z [36;1m  sleep 1[0m
+2026-11-18T17:47:48.6877147Z [36;1mdone[0m
+2026-11-18T17:47:48.6877456Z [36;1mnpm run test:browser[0m
+2026-11-18T17:47:48.6877771Z [36;1mnpm run test:hero:browser[0m
+2026-11-18T17:47:48.6907012Z shell: /usr/bin/bash -e {0}
+2026-11-18T17:47:48.6907459Z env:
+2026-11-18T17:47:48.6907915Z   CHROME_PATH: /home/runner/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome
+2026-11-18T17:47:48.6908601Z   QA_BASE_URL: http://127.0.0.1:4321
+2026-11-18T17:47:48.6908974Z   QA_ARTIFACT_ROOT: artifacts/ci
+2026-11-18T17:47:48.6909454Z ##[endgroup]
+2026-11-18T17:47:49.8077953Z 
+2026-11-18T17:47:49.8078552Z > turboj-website@1.0.0 test:browser
+2026-11-18T17:47:49.8078959Z > node tests/browser.mjs
+2026-11-18T17:47:49.8079489Z 
+2026-11-18T17:47:51.2570939Z PASS 320×844: hero exposes only Play/Pause and one accessible explanatory prompt
+2026-11-18T17:47:51.2599694Z PASS 320×844: responsive layout and loaded images
+2026-11-18T17:47:51.2878590Z PASS 320×844: all anchor destinations exist
+2026-11-18T17:47:51.3138190Z PASS 320×844: mobile navigation opens with keyboard, closes with Escape
+2026-11-18T17:47:51.3907349Z PASS 320×844: mobile navigation follows and closes
+2026-11-18T17:47:51.5697801Z PASS 320×844: navigation and CTA anchors activate
+2026-11-18T17:47:51.7348050Z PASS 320×844: all FAQ entries work using only keyboard
+2026-11-18T17:47:51.7348720Z PASS 320×844: no external requests, failed requests, or console errors
+2026-11-18T17:47:52.4823927Z PASS 390×844: hero exposes only Play/Pause and one accessible explanatory prompt
+2026-11-18T17:47:52.4851601Z PASS 390×844: responsive layout and loaded images
+2026-11-18T17:47:52.7112365Z PASS 390×844: all anchor destinations exist
+2026-11-18T17:47:52.7325322Z PASS 390×844: mobile navigation opens with keyboard, closes with Escape
+2026-11-18T17:47:52.8073654Z PASS 390×844: mobile navigation follows and closes
+2026-11-18T17:47:52.9854947Z PASS 390×844: navigation and CTA anchors activate
+2026-11-18T17:47:53.1427056Z PASS 390×844: all FAQ entries work using only keyboard
+2026-11-18T17:47:53.7895832Z PASS 390×844: WCAG 2.2 AA automated audit
+2026-11-18T17:47:53.7896700Z PASS 390×844: no external requests, failed requests, or console errors
+2026-11-18T17:47:54.5506468Z PASS 768×1024: hero exposes only Play/Pause and one accessible explanatory prompt
+2026-11-18T17:47:54.5529296Z PASS 768×1024: responsive layout and loaded images
+2026-11-18T17:47:54.5805618Z PASS 768×1024: all anchor destinations exist
+2026-11-18T17:47:54.6007080Z PASS 768×1024: mobile navigation opens with keyboard, closes with Escape
+2026-11-18T17:47:54.6722271Z PASS 768×1024: mobile navigation follows and closes
+2026-11-18T17:47:54.8357045Z PASS 768×1024: navigation and CTA anchors activate
+2026-11-18T17:47:54.9898746Z PASS 768×1024: all FAQ entries work using only keyboard
+2026-11-18T17:47:54.9899556Z PASS 768×1024: no external requests, failed requests, or console errors
+2026-11-18T17:47:55.7363633Z PASS 1280×800: hero exposes only Play/Pause and one accessible explanatory prompt
+2026-11-18T17:47:55.7386666Z PASS 1280×800: responsive layout and loaded images
+2026-11-18T17:47:55.7660860Z PASS 1280×800: all anchor destinations exist
+2026-11-18T17:47:55.9346484Z PASS 1280×800: navigation and CTA anchors activate
+2026-11-18T17:47:56.0946722Z PASS 1280×800: all FAQ entries work using only keyboard
+2026-11-18T17:47:56.0947894Z PASS 1280×800: no external requests, failed requests, or console errors
+2026-11-18T17:47:56.8570099Z PASS 1440×900: hero exposes only Play/Pause and one accessible explanatory prompt
+2026-11-18T17:47:56.8593145Z PASS 1440×900: responsive layout and loaded images
+2026-11-18T17:47:57.2355481Z PASS 1440×900: all anchor destinations exist
+2026-11-18T17:47:57.4191912Z PASS 1440×900: navigation and CTA anchors activate
+2026-11-18T17:47:57.5673989Z PASS 1440×900: all FAQ entries work using only keyboard
+2026-11-18T17:47:58.2133894Z PASS 1440×900: WCAG 2.2 AA automated audit
+2026-11-18T17:47:58.2134699Z PASS 1440×900: no external requests, failed requests, or console errors
+2026-11-18T17:47:58.9496997Z PASS 1920×1080: hero exposes only Play/Pause and one accessible explanatory prompt
+2026-11-18T17:47:58.9531672Z PASS 1920×1080: responsive layout and loaded images
+2026-11-18T17:47:58.9986217Z PASS 1920×1080: all anchor destinations exist
+2026-11-18T17:47:59.1515377Z PASS 1920×1080: navigation and CTA anchors activate
+2026-11-18T17:47:59.3027884Z PASS 1920×1080: all FAQ entries work using only keyboard
+2026-11-18T17:47:59.3028540Z PASS 1920×1080: no external requests, failed requests, or console errors
+2026-11-18T17:48:00.0413656Z PASS keyboard skip link is first and moves focus into main content
+2026-11-18T17:48:00.0566510Z PASS the removed hero screenshot link stays absent while the original asset remains byte-identical
+2026-11-18T17:48:00.1031880Z 46 checks passed; 0 failed. Artifacts: /home/runner/work/turboj/turboj/website/artifacts/ci/page/
+2026-11-18T17:48:00.1826314Z 
+2026-11-18T17:48:00.1826960Z > turboj-website@1.0.0 test:hero:browser
+2026-11-18T17:48:00.1828575Z > node tests/demo-browser.mjs && node tests/demo-theme-browser.mjs && node tests/hero-details-browser.mjs && node tests/hero-scenes-browser.mjs && node tests/themes-browser.mjs && node tests/theme-spin-browser.mjs && node tests/all-themes-browser.mjs
+2026-11-18T17:48:00.1829848Z 
+2026-11-18T17:48:01.0173028Z PASS only Play/Pause and the mini-prompt are visible; secondary controls and evidence remain hidden
+2026-11-18T17:48:05.3484972Z PASS initial Hello World advances at actual captured intervals and holds without continuing
+2026-11-18T17:48:06.8558885Z PASS keyboard pause/resume, hidden-page, offscreen, and manual-pause clocks suspend without skipping
+2026-11-18T17:48:07.5188134Z PASS every chapter restores independently and every static checkpoint matches recorded source/output
+2026-11-18T17:48:07.6326359Z PASS Rename and Extract Method render the real read-only fields, before/after previews, and warnings
+2026-11-18T17:48:07.6540654Z PASS recorded Auto Test and Auto Run menus show their independent checked states
+2026-11-18T17:48:07.7056005Z PASS theme changes preserve the exact paused source/output and elapsed time
+2026-11-18T17:48:09.4851844Z PASS 100 chapter switches do not accumulate DOM nodes or replay state
+2026-11-18T17:48:56.7061964Z PASS the sole Play button traverses every captured interval and loops after a suspended editorial hold
+2026-11-18T17:48:56.7212550Z PASS controls and code regions have accessible names; source is outside live regions; browser is error-free
+2026-11-18T17:48:56.8435568Z PASS resuming exactly at a hidden-page chapter or loop boundary advances without a stranded clock
+2026-11-18T17:48:58.0103026Z PASS late chapter fetches cannot overwrite a newer selection
+2026-11-18T17:48:58.2667289Z PASS manifest fetch failure remains visible in the single mini-prompt
+2026-11-18T17:48:58.5306200Z PASS chapter fetch failure remains visible in the single mini-prompt
+2026-11-18T17:48:59.5669968Z PASS chapter loads preserve Play focus for Space to pause, without stealing a newer focus choice
+2026-11-18T17:49:00.8153387Z PASS 320px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+2026-11-18T17:49:01.0186424Z PASS 320px: fixed stage, readable scrollable source, and no page overflow
+2026-11-18T17:49:01.0186969Z PASS 320px: no browser errors
+2026-11-18T17:49:02.2784215Z PASS 390px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+2026-11-18T17:49:02.4692560Z PASS 390px: fixed stage, readable scrollable source, and no page overflow
+2026-11-18T17:49:03.1553519Z PASS 390px: WCAG 2.2 AA automated audit
+2026-11-18T17:49:03.1554043Z PASS 390px: no browser errors
+2026-11-18T17:49:04.3927867Z PASS 768px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+2026-11-18T17:49:04.4448163Z PASS 768px: fixed stage, readable scrollable source, and no page overflow
+2026-11-18T17:49:04.4448742Z PASS 768px: no browser errors
+2026-11-18T17:49:05.6948543Z PASS 1440px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+2026-11-18T17:49:05.7529748Z PASS 1440px: fixed stage, readable scrollable source, and no page overflow
+2026-11-18T17:49:06.4143040Z PASS 1440px: WCAG 2.2 AA automated audit
+2026-11-18T17:49:10.2685464Z PASS reduced motion holds the final native result without automatic repetition
+2026-11-18T17:49:10.2686137Z PASS 1440px: no browser errors
+2026-11-18T17:49:11.5101409Z PASS 1920px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+2026-11-18T17:49:11.5815611Z PASS 1920px: fixed stage, readable scrollable source, and no page overflow
+2026-11-18T17:49:11.5816472Z PASS 1920px: no browser errors
+2026-11-18T17:49:15.1950771Z PASS 320px: the sole Play button continues and replays from keyboard focus without a separate scroll action
+2026-11-18T17:49:18.7917410Z PASS 390px: the sole Play button continues and replays from keyboard focus without a separate scroll action
+2026-11-18T17:49:19.5236015Z PASS no-JavaScript mode retains genuine screenshot and accessible evidence link without inert controls
+2026-11-18T17:49:19.5693663Z 36 hero checks passed; 0 failed. Artifacts: /home/runner/work/turboj/turboj/website/artifacts/ci/demo/
+2026-11-18T17:49:20.5155968Z PASS saved Monokai paints immediately while module is gated
+2026-11-18T17:49:20.9299250Z PASS saved Monokai paints immediately while manifest is gated
+2026-11-18T17:49:21.3480994Z PASS saved Monokai paints immediately while chapter is gated
+2026-11-18T17:49:22.1965493Z PASS saved Monokai survives module failure with a readable fallback
+2026-11-18T17:49:23.0972079Z PASS saved Monokai survives manifest failure with a readable fallback
+2026-11-18T17:49:23.9960975Z PASS saved Monokai survives chapter failure with a readable fallback
+2026-11-18T17:49:24.3974254Z PASS a valid cached custom palette remains painted when theme catalog refresh is offline
+2026-11-18T17:49:24.8473327Z PASS chapter loading keeps the current themed frame instead of showing the Classic screenshot
+2026-11-18T17:50:08.8541154Z PASS Play keeps every recorded menu and dialog in Monokai through all five chapters and loop restart
+2026-11-18T17:50:09.6663037Z PASS no-JavaScript keeps the genuine native screenshot and evidence route unchanged
+2026-11-18T17:50:09.7092609Z 10 demo-theme checks passed; 0 failed. Artifacts: /home/runner/work/turboj/turboj/website/artifacts/ci/demo-theme/
+2026-11-18T17:50:11.0698091Z PASS 320: verified session and exact measurement table render statically
+2026-11-18T17:50:11.1201650Z PASS 320: keyboard opens source/output and copies exact captured text
+2026-11-18T17:50:11.1286474Z PASS 320: no document overflow, valid internal links, visible focus, no runtime errors
+2026-11-18T17:50:11.9610860Z PASS 390: verified session and exact measurement table render statically
+2026-11-18T17:50:12.0048219Z PASS 390: keyboard opens source/output and copies exact captured text
+2026-11-18T17:50:12.0122132Z PASS 390: no document overflow, valid internal links, visible focus, no runtime errors
+2026-11-18T17:50:13.4069355Z PASS 390: axe accessibility with expanded authentic source and output
+2026-11-18T17:50:14.2550297Z PASS 1440: verified session and exact measurement table render statically
+2026-11-18T17:50:14.3010702Z PASS 1440: keyboard opens source/output and copies exact captured text
+2026-11-18T17:50:14.3081722Z PASS 1440: no document overflow, valid internal links, visible focus, no runtime errors
+2026-11-18T17:50:15.6703106Z PASS 1440: axe accessibility with expanded authentic source and output
+2026-11-18T17:50:15.8918055Z PASS all source/log/project/trace links download exact immutable content
+2026-11-18T17:50:15.9504852Z PASS native frame downloads only after explicit request
+2026-11-18T17:50:16.3022000Z PASS evidence and keyboard disclosures remain readable without JavaScript
+2026-11-18T17:50:17.9482016Z PASS 320px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:18.6004451Z PASS 320px rename-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:18.8818578Z PASS 320px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:19.3937318Z PASS 320px extract-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:19.5816144Z PASS 320px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:20.0852892Z PASS 320px tests-before-refactor-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:20.3142157Z PASS 320px autotest-enabled: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:20.8239902Z PASS 320px autotest-enabled: WCAG 2.2 AA automated audit
+2026-11-18T17:50:21.0992994Z PASS 320px spring-source: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:21.6312720Z PASS 320px spring-source: WCAG 2.2 AA automated audit
+2026-11-18T17:50:21.8319540Z PASS 320px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:22.3615651Z PASS 320px curl-commandline-open: WCAG 2.2 AA automated audit
+2026-11-18T17:50:22.7153512Z PASS 320px curl-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:23.2526810Z PASS 320px curl-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:23.3334508Z PASS 320px: pane resizing is bounded, keyboard accessible and preserves captured state
+2026-11-18T17:50:23.3335402Z PASS 320px: recorded scenes produce no browser or asset errors
+2026-11-18T17:50:24.3836572Z PASS 390px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:25.0380804Z PASS 390px rename-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:25.2997933Z PASS 390px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:25.8367840Z PASS 390px extract-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:26.0330132Z PASS 390px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:26.5317394Z PASS 390px tests-before-refactor-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:26.7487342Z PASS 390px autotest-enabled: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:27.2537399Z PASS 390px autotest-enabled: WCAG 2.2 AA automated audit
+2026-11-18T17:50:27.5166481Z PASS 390px spring-source: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:28.0592106Z PASS 390px spring-source: WCAG 2.2 AA automated audit
+2026-11-18T17:50:28.2666594Z PASS 390px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:28.7961451Z PASS 390px curl-commandline-open: WCAG 2.2 AA automated audit
+2026-11-18T17:50:29.1166425Z PASS 390px curl-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:29.6330789Z PASS 390px curl-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:29.7153347Z PASS 390px: pane resizing is bounded, keyboard accessible and preserves captured state
+2026-11-18T17:50:29.7153889Z PASS 390px: recorded scenes produce no browser or asset errors
+2026-11-18T17:50:30.7413227Z PASS 768px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:31.3589553Z PASS 768px rename-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:31.6416833Z PASS 768px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:32.1650740Z PASS 768px extract-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:32.3768099Z PASS 768px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:32.8846347Z PASS 768px tests-before-refactor-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:33.1114872Z PASS 768px autotest-enabled: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:33.6164632Z PASS 768px autotest-enabled: WCAG 2.2 AA automated audit
+2026-11-18T17:50:33.8951574Z PASS 768px spring-source: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:34.4119968Z PASS 768px spring-source: WCAG 2.2 AA automated audit
+2026-11-18T17:50:34.6478677Z PASS 768px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:35.1698028Z PASS 768px curl-commandline-open: WCAG 2.2 AA automated audit
+2026-11-18T17:50:35.5306894Z PASS 768px curl-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:36.0448682Z PASS 768px curl-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:36.1343571Z PASS 768px: pane resizing is bounded, keyboard accessible and preserves captured state
+2026-11-18T17:50:36.1344657Z PASS 768px: recorded scenes produce no browser or asset errors
+2026-11-18T17:50:37.1819625Z PASS 1440px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:37.8131641Z PASS 1440px rename-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:38.0990510Z PASS 1440px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:38.6251894Z PASS 1440px extract-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:38.8529868Z PASS 1440px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:39.3864711Z PASS 1440px tests-before-refactor-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:39.6411239Z PASS 1440px autotest-enabled: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:40.1564098Z PASS 1440px autotest-enabled: WCAG 2.2 AA automated audit
+2026-11-18T17:50:40.4383075Z PASS 1440px spring-source: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:41.0075520Z PASS 1440px spring-source: WCAG 2.2 AA automated audit
+2026-11-18T17:50:41.2557802Z PASS 1440px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:41.7940357Z PASS 1440px curl-commandline-open: WCAG 2.2 AA automated audit
+2026-11-18T17:50:42.1734857Z PASS 1440px curl-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:42.7106096Z PASS 1440px curl-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:42.7977848Z PASS 1440px: pane resizing is bounded, keyboard accessible and preserves captured state
+2026-11-18T17:50:42.7979612Z PASS 1440px: recorded scenes produce no browser or asset errors
+2026-11-18T17:50:43.8944349Z PASS 1920px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:44.5261358Z PASS 1920px rename-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:44.8278633Z PASS 1920px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:45.3672087Z PASS 1920px extract-prepare-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:45.6162434Z PASS 1920px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:46.1278862Z PASS 1920px tests-before-refactor-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:46.3882092Z PASS 1920px autotest-enabled: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:46.9207716Z PASS 1920px autotest-enabled: WCAG 2.2 AA automated audit
+2026-11-18T17:50:47.2346381Z PASS 1920px spring-source: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:47.7645233Z PASS 1920px spring-source: WCAG 2.2 AA automated audit
+2026-11-18T17:50:48.0196001Z PASS 1920px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:48.5612757Z PASS 1920px curl-commandline-open: WCAG 2.2 AA automated audit
+2026-11-18T17:50:48.9720844Z PASS 1920px curl-result: faithful source, readable layout and keyboard scrolling
+2026-11-18T17:50:49.5154678Z PASS 1920px curl-result: WCAG 2.2 AA automated audit
+2026-11-18T17:50:49.5986449Z PASS 1920px: pane resizing is bounded, keyboard accessible and preserves captured state
+2026-11-18T17:50:49.5987067Z PASS 1920px: recorded scenes produce no browser or asset errors
+2026-11-18T17:50:49.6534482Z 80 recorded-scene checks passed; 0 failed. Artifacts: /home/runner/work/turboj/turboj/website/artifacts/ci/demo/scenes/
+2026-11-18T17:50:50.9553875Z PASS 390: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+2026-11-18T17:50:51.0403575Z PASS 390 / classic: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:51.0493381Z PASS 390 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:51.7804001Z PASS 390 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:51.8950480Z PASS 390 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:52.2020466Z PASS 390 / dark: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:52.2112181Z PASS 390 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:52.7819881Z PASS 390 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:52.8940813Z PASS 390 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:53.1845834Z PASS 390 / light: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:53.1942275Z PASS 390 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:53.7410609Z PASS 390 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:53.8504691Z PASS 390 / light: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:54.0950524Z PASS 390: each theme changes the whole site, not only the editor
+2026-11-18T17:50:54.0950968Z PASS 390: no browser, asset or external-request errors
+2026-11-18T17:50:54.8575901Z PASS 768: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+2026-11-18T17:50:54.9223409Z PASS 768 / classic: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:54.9307761Z PASS 768 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:55.6241616Z PASS 768 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:55.7304098Z PASS 768 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:55.8186762Z PASS 768 / dark: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:55.8292717Z PASS 768 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:56.4213617Z PASS 768 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:56.5248081Z PASS 768 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:56.6155975Z PASS 768 / light: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:56.6261191Z PASS 768 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:57.1789926Z PASS 768 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:57.2921297Z PASS 768 / light: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:57.3275882Z PASS 768: each theme changes the whole site, not only the editor
+2026-11-18T17:50:57.3276665Z PASS 768: no browser, asset or external-request errors
+2026-11-18T17:50:58.0977817Z PASS 1440: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+2026-11-18T17:50:58.1519427Z PASS 1440 / classic: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:58.1603826Z PASS 1440 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:58.8237522Z PASS 1440 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:50:58.9138110Z PASS 1440 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:50:59.3439613Z PASS 1440 / dark: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:50:59.3541907Z PASS 1440 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:50:59.9284197Z PASS 1440 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:51:00.0125518Z PASS 1440 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:51:00.4409824Z PASS 1440 / light: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:51:00.4496310Z PASS 1440 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:51:01.0491370Z PASS 1440 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:51:01.1376809Z PASS 1440 / light: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:51:01.5071545Z PASS 1440: each theme changes the whole site, not only the editor
+2026-11-18T17:51:01.5072120Z PASS 1440: no browser, asset or external-request errors
+2026-11-18T17:51:02.2846943Z PASS 1920: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+2026-11-18T17:51:02.3393761Z PASS 1920 / classic: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:51:02.3473692Z PASS 1920 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:51:03.0057506Z PASS 1920 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:51:03.1000002Z PASS 1920 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:51:03.2267098Z PASS 1920 / dark: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:51:03.2346523Z PASS 1920 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:51:03.7942984Z PASS 1920 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:51:03.8781063Z PASS 1920 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:51:03.9777055Z PASS 1920 / light: native JSON, exported tokens and rendered editor match exactly
+2026-11-18T17:51:03.9862543Z PASS 1920 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+2026-11-18T17:51:04.5425805Z PASS 1920 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+2026-11-18T17:51:04.6259895Z PASS 1920 / light: keyboard focus indicators remain visible on menu and editor surfaces
+2026-11-18T17:51:04.6955287Z PASS 1920: each theme changes the whole site, not only the editor
+2026-11-18T17:51:04.6955820Z PASS 1920: no browser, asset or external-request errors
+2026-11-18T17:51:04.7314238Z PASS published JSON is an exact export of all three native definitions
+2026-11-18T17:51:06.6988028Z PASS explicit preference survives reload before the first animation frame and ignores OS preference
+2026-11-18T17:51:07.4205532Z PASS invalid stored preferences fall back to Classic safely
+2026-11-18T17:51:08.2609428Z PASS blocked localStorage still permits all theme changes without errors
+2026-11-18T17:51:09.5292137Z PASS paused replay preserves every source, cursor, compiler and output field through theme changes
+2026-11-18T17:51:13.7801799Z PASS running replay keeps its timeline and finishes normally while themes change
+2026-11-18T17:51:15.4171751Z PASS 390: More themes opens a responsive native-color preview catalog; Escape restores the original
+2026-11-18T17:51:17.0213225Z PASS 1440: More themes opens a responsive native-color preview catalog; Escape restores the original
+2026-11-18T17:51:18.6367797Z PASS catalog Enter commits the selected real theme while Cancel never persists previews
+2026-11-18T17:51:20.3256410Z PASS 1,000 routed test themes retain six visible cards and support arrows, paging, search and commit
+2026-11-18T17:51:22.4309822Z PASS latest search and preview win over older delayed palette responses; empty search results cannot be applied
+2026-11-18T17:51:24.4986169Z PASS cached custom palette renders first, then refreshes and persists changed native colors under the same ID
+2026-11-18T17:51:25.8526429Z PASS retired cached custom theme falls back to Classic and persists the fallback without retaining stale colors
+2026-11-18T17:51:26.7898049Z PASS focused and hovered catalog thumbnail preserves unadorned source and retains a visible focus outline
+2026-11-18T17:51:26.8346684Z 74 passed, 0 failed; report /home/runner/work/turboj/turboj/website/artifacts/ci/themes/report.json
+2026-11-18T17:51:29.5908617Z PASS 390: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it
+2026-11-18T17:51:31.7303976Z PASS 1440: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it
+2026-11-18T17:51:32.7147417Z PASS Random theme uses only the current search results and is disabled when nothing matches
+2026-11-18T17:51:37.6322704Z PASS real-time ASCII spin previews every real centered theme globally, decelerates for 3–5 seconds and suspends while hidden
+2026-11-18T17:51:40.6172369Z PASS Escape cancels an active spin and its asynchronous previews; Skip lands on the prepared target
+2026-11-18T17:51:42.3420304Z PASS visibility changes during preload cannot start the drum before its genuine palettes are ready
+2026-11-18T17:51:42.3938329Z 6 passed, 0 failed; /home/runner/work/turboj/turboj/website/artifacts/ci/theme-spin/report.json
+2026-11-18T17:51:44.4032744Z PASS classic: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.4641803Z PASS dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.5205516Z PASS light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.5715123Z PASS vscode-abyss: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.6239608Z PASS ayu-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.6732588Z PASS ayu-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.7304465Z PASS ayu-mirage: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.7881825Z PASS catppuccin-frappe: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.8383674Z PASS catppuccin-latte: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.8870553Z PASS catppuccin-macchiato: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.9373971Z PASS catppuccin-mocha: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:44.9888181Z PASS dracula: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.0393726Z PASS github-dark-default: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.0899393Z PASS github-dark-dimmed: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.1394664Z PASS github-dark-high-contrast: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.1895110Z PASS github-light-default: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.2493294Z PASS gruvbox-dark-medium: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.2970037Z PASS gruvbox-light-medium: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.3502391Z PASS vscode-kimbie-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.4306891Z PASS vscode-monokai: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.4818576Z PASS vscode-monokai-dimmed: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.5383234Z PASS nord: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.5856181Z PASS one-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.6632482Z PASS one-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.7146979Z PASS vscode-quietlight: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.7645909Z PASS rainglow-absent: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.8151053Z PASS rainglow-allure: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.8654981Z PASS rainglow-allure-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.9198743Z PASS rainglow-arstotzka: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:45.9654222Z PASS rainglow-arstotzka-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.0169829Z PASS rainglow-azure: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.0823863Z PASS rainglow-banner: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.1313788Z PASS rainglow-banner-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.1843839Z PASS rainglow-brave: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.2359626Z PASS rainglow-brave-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.2952164Z PASS rainglow-carbonight: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.3487877Z PASS rainglow-chocolate: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.4004270Z PASS rainglow-chocolate-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.4486196Z PASS rainglow-codecourse: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.4989746Z PASS rainglow-coffee: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.5486249Z PASS rainglow-coffee-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.5967296Z PASS rainglow-comrade: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.6475883Z PASS rainglow-crisp: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.7142164Z PASS rainglow-darkside: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.7621737Z PASS rainglow-downpour: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.8094799Z PASS rainglow-earthsong: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.8682328Z PASS rainglow-earthsong-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.9154824Z PASS rainglow-freshcut: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:46.9650051Z PASS rainglow-freshcut-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.0118562Z PASS rainglow-frontier: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.0641348Z PASS rainglow-gloom: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.1134297Z PASS rainglow-goldfish: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.1609294Z PASS rainglow-goldfish-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.2128590Z PASS rainglow-grunge: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.2622156Z PASS rainglow-halflife: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.3140697Z PASS rainglow-hawaii: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.3599739Z PASS rainglow-horizon: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.4065733Z PASS rainglow-hyrule: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.4546753Z PASS rainglow-iceberg: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.5437265Z PASS rainglow-iceberg-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.6144451Z PASS rainglow-joker: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.6630287Z PASS rainglow-joker-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.7101477Z PASS rainglow-laravel: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.7544264Z PASS rainglow-laravel-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.8001751Z PASS rainglow-lavender: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.8482702Z PASS rainglow-lavender-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.8964074Z PASS rainglow-lichen: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.9481287Z PASS rainglow-lichen-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:47.9898119Z PASS rainglow-mellow-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.0626245Z PASS rainglow-mintchoc: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.1128125Z PASS rainglow-monzo: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.1617330Z PASS rainglow-peacock: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.2114439Z PASS rainglow-peacock-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.2622314Z PASS rainglow-rainbow: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.3138902Z PASS rainglow-rebellion: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.3632259Z PASS rainglow-slate: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.4073733Z PASS rainglow-slate-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.4550268Z PASS rainglow-solarflare: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.4997384Z PASS rainglow-stasis-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.5798391Z PASS rainglow-stealth: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.6307228Z PASS rainglow-tron: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.6740330Z PASS rainglow-tron-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.7187342Z PASS rainglow-turnip-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.7701063Z PASS vscode-red: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.8440215Z PASS rose-pine: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.8993807Z PASS rose-pine-dawn: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.9458089Z PASS rose-pine-moon: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:48.9993935Z PASS vscode-solarized-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.0640060Z PASS vscode-solarized-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.1168351Z PASS tokyo-night: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.1649942Z PASS tokyo-night-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.2110238Z PASS tokyo-night-storm: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.2606634Z PASS vscode-tomorrow-night-blue: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.3120490Z PASS visual-studio-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.3643103Z PASS visual-studio-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.4129664Z PASS vscode-2026-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.4613058Z PASS vscode-dark-modern: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.5116862Z PASS vscode-dark-plus: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.5562026Z PASS vscode-high-contrast-dark: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.6000258Z PASS vscode-high-contrast-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.6489872Z PASS vscode-2026-light: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.6976519Z PASS vscode-light-modern: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.7452579Z PASS vscode-light-plus: keyboard apply, native palette, contrast, shared font, preserved replay
+2026-11-18T17:51:49.7951234Z 103/103 themes passed.
+2026-11-18T17:51:49.8151867Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-18T17:51:49.8152161Z with:
+2026-11-18T17:51:49.8152314Z   name: website-evidence
+2026-11-18T17:51:49.8152494Z   path: website/artifacts/ci
+2026-11-18T17:51:49.8152785Z   if-no-files-found: warn
+2026-11-18T17:51:49.8152959Z   compression-level: 6
+2026-11-18T17:51:49.8153116Z   overwrite: false
+2026-11-18T17:51:49.8153277Z   include-hidden-files: false
+2026-11-18T17:51:49.8153443Z env:
+2026-11-18T17:51:49.8153679Z   CHROME_PATH: /home/runner/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome
+2026-11-18T17:51:49.8153966Z ##[endgroup]
+2026-11-18T17:51:49.9404740Z (node:7257) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:51:49.9405343Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:51:49.9591176Z With the provided path, there will be 215 files uploaded
+2026-11-18T17:51:49.9594843Z Artifact name is valid!
+2026-11-18T17:51:49.9595227Z Root directory input is valid!
+2026-11-18T17:51:50.3829533Z Beginning upload of artifact content to blob storage
+2026-11-18T17:51:50.8207987Z (node:7257) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-18T17:51:51.9853265Z Uploaded bytes 8388608
+2026-11-18T17:51:52.3216309Z Uploaded bytes 16777216
+2026-11-18T17:51:52.4802264Z Uploaded bytes 18072348
+2026-11-18T17:51:52.5738024Z Finished uploading artifact content to blob storage!
+2026-11-18T17:51:52.5738630Z SHA256 digest of uploaded artifact zip is 98b8f738646608b2beeee7e978d2fd320be90d87e8b6ad74937aaec9858d89d1
+2026-11-18T17:51:52.5740696Z Finalizing artifact upload
+2026-11-18T17:51:53.0832935Z Artifact website-evidence.zip successfully finalized. Artifact ID 14455072408
+2026-11-18T17:51:53.0833540Z Artifact website-evidence has been successfully uploaded! Final size is 18072348 bytes. Artifact ID is 14455072408
+2026-11-18T17:51:53.0839354Z Artifact download URL: https://github.com/turboj-dev/turboj/actions/runs/44361417640/artifacts/14455072408
+2026-11-18T17:51:53.1015351Z Post job cleanup.
+2026-11-18T17:51:53.1968774Z (node:7270) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-18T17:51:53.1969635Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-18T17:51:53.2104618Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/turboj/turboj --files-from manifest.txt --use-compress-program zstdmt
+2026-11-18T17:51:53.5607938Z (node:7270) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-18T17:51:53.8881404Z Sent 675 of 675 (100.0%), 0.0 MBs/sec
+2026-11-18T17:51:54.2111364Z Cache saved with the key: node-cache-Linux-x64-npm-6da3fd8b6830aa506fa85dee9206bfc05408e2ca74ce340e4dc515810f5f9302
+2026-11-18T17:51:54.2228361Z Post job cleanup.
+2026-11-18T17:51:54.2868902Z [command]/usr/bin/git version
+2026-11-18T17:51:54.2897679Z git version 2.56.1
+2026-11-18T17:51:54.2921540Z Temporarily overriding HOME='/home/runner/work/_temp/c8ddbdd6-def0-4b0d-a5ec-625b8a6b592d' before making global git config changes
+2026-11-18T17:51:54.2922515Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-18T17:51:54.2925449Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/turboj/turboj
+2026-11-18T17:51:54.2951928Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-18T17:51:54.2974401Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-18T17:51:54.3168264Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-18T17:51:54.3188510Z http.https://github.com/.extraheader
+2026-11-18T17:51:54.3195566Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-18T17:51:54.3217535Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-18T17:51:54.3393515Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-18T17:51:54.3416293Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-18T17:51:54.3676878Z Cleaning up orphan processes
+2026-11-18T17:51:54.3896301Z Terminate orphan process: pid (3311) (node)
+2026-11-18T17:51:54.3945649Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

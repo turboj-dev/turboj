@@ -1,0 +1,94 @@
+{
+  "method": "Alternating order, new JVM and fresh isolated profile, same source, warm OS caches. LaunchServices dispatch to CGWindowList observation at 20 ms polling; not physical compositor presentation or completed semantic initialization.",
+  "probeSha256": "e4697fb91a24ef05c0b4dbd49f3c5ac827e53f2e6a83276651c35283dfd50c3a",
+  "artifacts": {
+    "baseline": {
+      "app": "/private/tmp/turboj-baseline-package-dd75866/TurboJ.app",
+      "jarSha256": "56165b7a1979281adc2d38b2d034c2020c2e919c03fe7d988b47a5b37eeb9dfb"
+    },
+    "candidate": {
+      "app": "/private/tmp/turboj-product-final-installed/TurboJ.app",
+      "jarSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9"
+    }
+  },
+  "runs": [
+    {
+      "label": "baseline",
+      "round": 1,
+      "app": "/tmp/turboj-baseline-package-dd75866/TurboJ.app",
+      "boundary": "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+      "createdAt": "2026-11-18T17:46:02Z",
+      "height": 728,
+      "launchToWindowServerMs": 1528.233875,
+      "pid": 15796,
+      "profile": "/private/tmp/turboj-package-startup-final/baseline-1-profile",
+      "source": "/tmp/turboj-package-startup-final/Startup.java",
+      "width": 1042
+    },
+    {
+      "label": "candidate",
+      "round": 1,
+      "app": "/tmp/turboj-product-final-installed/TurboJ.app",
+      "boundary": "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+      "createdAt": "2026-11-18T17:46:04Z",
+      "height": 728,
+      "launchToWindowServerMs": 918.972583,
+      "pid": 15814,
+      "profile": "/private/tmp/turboj-package-startup-final/candidate-1-profile",
+      "source": "/tmp/turboj-package-startup-final/Startup.java",
+      "width": 1042
+    },
+    {
+      "label": "candidate",
+      "round": 2,
+      "app": "/tmp/turboj-product-final-installed/TurboJ.app",
+      "boundary": "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+      "createdAt": "2026-11-18T17:46:07Z",
+      "height": 728,
+      "launchToWindowServerMs": 834.015334,
+      "pid": 15821,
+      "profile": "/private/tmp/turboj-package-startup-final/candidate-2-profile",
+      "source": "/tmp/turboj-package-startup-final/Startup.java",
+      "width": 1042
+    },
+    {
+      "label": "baseline",
+      "round": 2,
+      "app": "/tmp/turboj-baseline-package-dd75866/TurboJ.app",
+      "boundary": "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+      "createdAt": "2026-11-18T17:46:09Z",
+      "height": 730,
+      "launchToWindowServerMs": 807.797167,
+      "pid": 15827,
+      "profile": "/private/tmp/turboj-package-startup-final/baseline-2-profile",
+      "source": "/tmp/turboj-package-startup-final/Startup.java",
+      "width": 1044
+    },
+    {
+      "label": "baseline",
+      "round": 3,
+      "app": "/tmp/turboj-baseline-package-dd75866/TurboJ.app",
+      "boundary": "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+      "createdAt": "2026-11-18T17:46:11Z",
+      "height": 730,
+      "launchToWindowServerMs": 791.186208,
+      "pid": 15838,
+      "profile": "/private/tmp/turboj-package-startup-final/baseline-3-profile",
+      "source": "/tmp/turboj-package-startup-final/Startup.java",
+      "width": 1046
+    },
+    {
+      "label": "candidate",
+      "round": 3,
+      "app": "/tmp/turboj-product-final-installed/TurboJ.app",
+      "boundary": "LaunchServices dispatch to owned app's on-screen window in CGWindowList; 20 ms polling. Warm OS caches, new JVM. Does not prove source analysis or final compositor presentation.",
+      "createdAt": "2026-11-18T17:46:14Z",
+      "height": 728,
+      "launchToWindowServerMs": 860.624959,
+      "pid": 15851,
+      "profile": "/private/tmp/turboj-package-startup-final/candidate-3-profile",
+      "source": "/tmp/turboj-package-startup-final/Startup.java",
+      "width": 1042
+    }
+  ]
+}

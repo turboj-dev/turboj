@@ -1,0 +1,74 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> turboj-website@1.0.0 test
+> npm run themes:check && node --test tests/content.test.mjs tests/demo-timeline.test.mjs tests/recorded-session.test.mjs tests/hero-evidence.test.mjs tests/hero-payload.test.mjs tests/theme-export.test.mjs tests/theme-preference.test.mjs tests/theme-spin.test.mjs tests/keyboard-reference.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> turboj-website@1.0.0 themes:check
+> node scripts/export-themes.mjs --check
+
+Verified 103 native catalog themes, 3 primary palettes (35fc8b259eee).
+✔ approved 1.0.10 English copy is present in the rendered HTML (1.183084ms)
+✔ the five-chapter reconstruction explains its evidence and execution limits (0.296667ms)
+✔ page title and factual product metadata are rendered (0.246417ms)
+✔ the existing content structure has six features, four steps and one roadmap (0.132875ms)
+✔ keyboard download uses the generated native reference without changing its bindings (3.957584ms)
+✔ navigation has real section targets and no placeholder links (0.5135ms)
+✔ reported prototype values correspond to the available original capture (0.080625ms)
+✔ full-resolution screenshot preserves the genuine repository image byte for byte (1.906792ms)
+✔ no client framework hydration or external asset sources (0.242334ms)
+✔ the hero has exactly the five requested chapters (1.098917ms)
+✔ results never appear before their recorded boundary, including sub-millisecond offsets (0.088334ms)
+✔ seeking is independent of prior chapters and playback direction (0.178167ms)
+✔ stepwise playback and direct skip restore the same exact source/output checkpoint (0.062958ms)
+✔ invalid and negative seek times restore the initial checkpoint safely (0.047792ms)
+✔ same-timestamp captured observations have deterministic last-event precedence (0.03975ms)
+✔ runtime rejects unverified sessions and incompatible chapter manifests (0.152416ms)
+✔ runtime rejects missing source/output, unordered events, absent initial state, and shortened system time (0.138417ms)
+✔ native command line remains part of the recorded source/output checkpoint when seeking (0.102875ms)
+✔ editorial mapping preserves unknown time and every native operation at 1× (0.767333ms)
+✔ unclassified, overlapping, invalid or operation-covering cuts fail closed (1.204208ms)
+✔ public evidence rejects escaping paths, personal homes and credentials (0.565417ms)
+✔ published hero preserves four historical chapters and a separately verified native console finale (14.838333ms)
+✔ every exported source, log, screenshot, raw trace and control artifact retains its SHA-256 (63.825208ms)
+✔ missing actual failures, changed source hashes, interleaved chapters and fake intervals are rejected (8.547208ms)
+✔ details are static accessible text with on-demand evidence and no browser localhost requests (0.208291ms)
+✔ native console finale rejects synthetic success, changed source, missing keys and unsafe cleanup (3.192125ms)
+✔ production hero and total JavaScript stay within the recorded-session budgets (1.154208ms)
+ℹ {"bundles":[{"file":"ThemeSwitcher.astro_astro_type_script_index_0_lang.Bp-TaI15.js","bytes":19741,"gzipBytes":6928},{"file":"TurboJDemo.astro_astro_type_script_index_0_lang.CnyvKzpS.js","bytes":17769,"gzipBytes":6666}],"inlineScripts":[{"bytes":2369,"gzipBytes":1041,"hero":false},{"bytes":236,"gzipBytes":178,"hero":false},{"bytes":50,"gzipBytes":61,"hero":true}],"heroJavaScriptGzipBytes":6727,"allJavaScriptGzipBytes":14874}
+✔ five lazy chapter payloads fit the text-data budget and do not embed screenshot bytes (4.311417ms)
+ℹ {"chapters":[{"id":"hello-world","bytes":14003,"gzipBytes":2629},{"id":"tests","bytes":34319,"gzipBytes":4987},{"id":"refactoring","bytes":34015,"gzipBytes":4645},{"id":"automation","bytes":24643,"gzipBytes":3690},{"id":"spring-boot","bytes":41005,"gzipBytes":5129}]}
+✔ exports the actual generated native reference bytes without a second shortcut list (32.002125ms)
+✔ a changed native keymap fails before replacing published reference assets (13.294792ms)
+✔ edited generated reference bytes cannot be exported under an old source manifest (6.830417ms)
+✔ missing source evidence, malformed hashes and incomplete reference manifests fail closed (4.772125ms)
+✔ manifest paths cannot escape the repository (3.96175ms)
+✔ check mode detects stale website assets without rewriting them (5.859375ms)
+✔ supporting evidence preserves one complete session and all measured intervals (1.199708ms)
+✔ supporting trace, source, output and screenshot bytes retain their original provenance (32.828583ms)
+✔ evidence retains actual successes, failure and recovery rather than editing outputs (0.35725ms)
+✔ optional human-pause cuts cannot shorten measured intervals (0.223416ms)
+✔ three exported themes are exact native definitions, including intelligence and popup colors (3.379ms)
+✔ every native color is exported verbatim into each root CSS scope (1.044834ms)
+✔ generated assets match the deterministic native export (99.480042ms)
+✔ catalog exports lightweight metadata and separate exact native palettes (17.148084ms)
+✔ published feature copy distinguishes optional native AI validation from unimplemented capabilities (0.559292ms)
+✔ only native exported theme IDs are accepted, with Classic as the default (1.533084ms)
+✔ native palettes accept only the exact validated color fields and matching catalog identity (0.802333ms)
+✔ a validated custom theme is restored synchronously before first paint (2.376ms)
+✔ catalog metadata is bounded, same-origin, unique and searchable without loading palettes (2.407167ms)
+✔ palette cache remains bounded and protects recently used values (0.100667ms)
+✔ the synchronous head bootstrap applies the persisted choice and native theme metadata (0.717042ms)
+✔ missing, invalid or denied storage safely renders Classic without OS preference overrides (0.682ms)
+✔ ASCII spin uses real catalog indices, a uniform explicit target and a final deadline of 3–5 seconds (1.099417ms)
+✔ drum ordering groups similar background luminance without changing the catalog order (0.617ms)
+✔ random selection validates bounds and stays inside every catalog size (1.574458ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 238.1335

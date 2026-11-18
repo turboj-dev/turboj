@@ -1,0 +1,3 @@
+Import/native compile do not execute antrun/build-helper; generated type unavailable until explicit lifecycle.
+Explicit Maven verify under actual JDK17: generated source, filtered resource, Surefire1 PASS and Failsafe1 PASS.
+Plugin versions: compiler3.14.1 resources3.3.1 jar3.4.2 surefire3.5.4 failsafe3.5.4 antrun3.1.0 build-helper3.6.1.

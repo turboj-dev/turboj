@@ -1,0 +1,786 @@
+[
+  {
+    "at": 11757.700000000012,
+    "elapsed": 14.9,
+    "chapter": "hello-world",
+    "event": "hello-empty",
+    "source": "",
+    "output": ""
+  },
+  {
+    "at": 12491.599999999977,
+    "elapsed": 748.2,
+    "chapter": "hello-world",
+    "event": "hello-typing-line-0",
+    "source": "public class HelloWorld {\n",
+    "output": "BUILD OK | 0 errors | 187.41 ms\n"
+  },
+  {
+    "at": 12574.799999999988,
+    "elapsed": 831.5,
+    "chapter": "hello-world",
+    "event": "hello-typing-line-1",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n",
+    "output": "BUILD OK | 0 errors | 187.41 ms\n"
+  },
+  {
+    "at": 12658.400000000023,
+    "elapsed": 914.8,
+    "chapter": "hello-world",
+    "event": "hello-typing-line-2",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n",
+    "output": "BUILD OK | 0 errors | 187.41 ms\n"
+  },
+  {
+    "at": 12741.799999999988,
+    "elapsed": 998.2,
+    "chapter": "hello-world",
+    "event": "hello-typing-line-3",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n",
+    "output": "BUILD OK | 0 errors | 187.41 ms\n"
+  },
+  {
+    "at": 12825,
+    "elapsed": 1081.5,
+    "chapter": "hello-world",
+    "event": "hello-typing-line-4",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": "BUILD FAILED | 1 errors\n  4:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 12892,
+    "elapsed": 1148.2,
+    "chapter": "hello-world",
+    "event": "hello-save-dialog",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 28.53 ms\n"
+  },
+  {
+    "at": 13608.099999999977,
+    "elapsed": 1864.8,
+    "chapter": "hello-world",
+    "event": "hello-source",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 28.53 ms\nSaved HelloWorld.java\n"
+  },
+  {
+    "at": 14291.099999999977,
+    "elapsed": 2548.1,
+    "chapter": "hello-world",
+    "event": "hello-compile-start",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 14307.900000000023,
+    "elapsed": 2564.7,
+    "chapter": "hello-world",
+    "event": "hello-compile-result",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.02 ms\n"
+  },
+  {
+    "at": 14991.299999999988,
+    "elapsed": 3248.1,
+    "chapter": "hello-world",
+    "event": "hello-run-start",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 15024.5,
+    "elapsed": 3281.3,
+    "chapter": "hello-world",
+    "event": "hello-run-result",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": "FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed\n"
+  },
+  {
+    "at": 15774.299999999988,
+    "elapsed": 4029.16,
+    "chapter": "tests",
+    "event": "hello-run-result",
+    "source": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": "FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed\n"
+  },
+  {
+    "at": 15775.200000000012,
+    "elapsed": 0,
+    "chapter": "tests",
+    "event": "price-typing-line-0",
+    "source": "public class Price {\n",
+    "output": "FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed\n"
+  },
+  {
+    "at": 15875.099999999977,
+    "elapsed": 98.6,
+    "chapter": "tests",
+    "event": "price-typing-line-1",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n",
+    "output": "FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed\n"
+  },
+  {
+    "at": 15958.200000000012,
+    "elapsed": 181.9,
+    "chapter": "tests",
+    "event": "price-typing-line-2",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n",
+    "output": "FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed\n"
+  },
+  {
+    "at": 16041.599999999977,
+    "elapsed": 265.2,
+    "chapter": "tests",
+    "event": "price-typing-line-3",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n",
+    "output": "FAST RUN · HelloWorld\nHello TurboJ!\n\n[exit 0 · execution 12.85 ms · round trip 22.56 ms] Completed\n"
+  },
+  {
+    "at": 16125,
+    "elapsed": 348.5,
+    "chapter": "tests",
+    "event": "price-typing-line-4",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n",
+    "output": "BUILD FAILED | 1 errors\n  5:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 16208.099999999977,
+    "elapsed": 431.9,
+    "chapter": "tests",
+    "event": "price-typing-line-5",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n",
+    "output": "BUILD FAILED | 1 errors\n  5:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 16291.599999999977,
+    "elapsed": 515.2,
+    "chapter": "tests",
+    "event": "price-typing-line-6",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n",
+    "output": "BUILD FAILED | 1 errors\n  5:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 16375.200000000012,
+    "elapsed": 598.5,
+    "chapter": "tests",
+    "event": "price-typing-line-7",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n",
+    "output": "BUILD FAILED | 1 errors\n  5:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 16458.400000000023,
+    "elapsed": 681.9,
+    "chapter": "tests",
+    "event": "price-typing-line-8",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n",
+    "output": "BUILD FAILED | 1 errors\n  9:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 16541.70000000001,
+    "elapsed": 765.2,
+    "chapter": "tests",
+    "event": "price-typing-line-9",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD FAILED | 1 errors\n  9:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 16557.70000000001,
+    "elapsed": 781.9,
+    "chapter": "tests",
+    "event": "price-source",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 17308.099999999977,
+    "elapsed": 1531.9,
+    "chapter": "tests",
+    "event": "tests-typing-line-0",
+    "source": "import org.junit.jupiter.api.Test;\n",
+    "output": "BUILD FAILED | 1 errors\n  1:29  package org.junit.jupiter.api does not exist\n"
+  },
+  {
+    "at": 17408.20000000001,
+    "elapsed": 1631.8,
+    "chapter": "tests",
+    "event": "tests-typing-line-1",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n",
+    "output": "BUILD FAILED | 1 errors\n  1:29  package org.junit.jupiter.api does not exist\n"
+  },
+  {
+    "at": 17491.400000000023,
+    "elapsed": 1715.2,
+    "chapter": "tests",
+    "event": "tests-typing-line-2",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\n",
+    "output": "BUILD FAILED | 3 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n"
+  },
+  {
+    "at": 17575.099999999977,
+    "elapsed": 1798.4,
+    "chapter": "tests",
+    "event": "tests-typing-line-3",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n",
+    "output": "BUILD FAILED | 3 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n"
+  },
+  {
+    "at": 17658.29999999999,
+    "elapsed": 1881.8,
+    "chapter": "tests",
+    "event": "tests-typing-line-4",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n",
+    "output": "BUILD FAILED | 3 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n"
+  },
+  {
+    "at": 17741.599999999977,
+    "elapsed": 1965.2,
+    "chapter": "tests",
+    "event": "tests-typing-line-5",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n",
+    "output": "BUILD FAILED | 3 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n"
+  },
+  {
+    "at": 17825.099999999977,
+    "elapsed": 2048.5,
+    "chapter": "tests",
+    "event": "tests-typing-line-6",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n",
+    "output": "BUILD FAILED | 1 errors\n  7:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 17908.400000000023,
+    "elapsed": 2131.8,
+    "chapter": "tests",
+    "event": "tests-typing-line-7",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n",
+    "output": "BUILD FAILED | 1 errors\n  7:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 18008.29999999999,
+    "elapsed": 2231.8,
+    "chapter": "tests",
+    "event": "tests-typing-line-8",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n",
+    "output": "BUILD FAILED | 1 errors\n  7:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 18091.29999999999,
+    "elapsed": 2315.1,
+    "chapter": "tests",
+    "event": "tests-typing-line-9",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n",
+    "output": "BUILD FAILED | 1 errors\n  7:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 18174.900000000023,
+    "elapsed": 2398.5,
+    "chapter": "tests",
+    "event": "tests-typing-line-10",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n",
+    "output": "BUILD FAILED | 1 errors\n  11:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 18258.20000000001,
+    "elapsed": 2481.8,
+    "chapter": "tests",
+    "event": "tests-typing-line-11",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+    "output": "BUILD FAILED | 1 errors\n  11:6  reached end of file while parsing\n"
+  },
+  {
+    "at": 18274.599999999977,
+    "elapsed": 2498.5,
+    "chapter": "tests",
+    "event": "test-source",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+    "output": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n"
+  },
+  {
+    "at": 18958.099999999977,
+    "elapsed": 3181.7,
+    "chapter": "tests",
+    "event": "tests-before-refactor-start",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+    "output": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\nSaved PriceTest.java\n"
+  },
+  {
+    "at": 19258.400000000023,
+    "elapsed": 3481.8,
+    "chapter": "tests",
+    "event": "tests-before-refactor-result",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+    "output": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\nSaved PriceTest.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.26 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 5.54 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 106.95 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 19924.79999999999,
+    "elapsed": 4148.4,
+    "chapter": "tests",
+    "event": "tests-output",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+    "output": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\nSaved PriceTest.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.26 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 5.54 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 106.95 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 20607.29999999999,
+    "elapsed": 4822.22,
+    "chapter": "refactoring",
+    "event": "tests-output",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discount(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discount(1000, 0));\n    }\n}\n",
+    "output": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\nSaved PriceTest.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.26 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 5.54 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 106.95 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 20608.29999999999,
+    "elapsed": 0,
+    "chapter": "refactoring",
+    "event": "rename-selection",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 21324.20000000001,
+    "elapsed": 715.1,
+    "chapter": "refactoring",
+    "event": "rename-inspect-start",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\n"
+  },
+  {
+    "at": 21341.400000000023,
+    "elapsed": 731.8,
+    "chapter": "refactoring",
+    "event": "rename-inspect-result",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\n"
+  },
+  {
+    "at": 22008,
+    "elapsed": 1398.4,
+    "chapter": "refactoring",
+    "event": "rename-form",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\n"
+  },
+  {
+    "at": 22724.599999999977,
+    "elapsed": 2115.1,
+    "chapter": "refactoring",
+    "event": "rename-prepare-start",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\n"
+  },
+  {
+    "at": 24308.099999999977,
+    "elapsed": 3698.3,
+    "chapter": "refactoring",
+    "event": "rename-prepare-result",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\nPreparing rename…\n"
+  },
+  {
+    "at": 24991.400000000023,
+    "elapsed": 4381.6,
+    "chapter": "refactoring",
+    "event": "rename-apply-start",
+    "source": "public class Price {\n    public static int discount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discount(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\nPreparing rename…\n"
+  },
+  {
+    "at": 25008.400000000023,
+    "elapsed": 4398.4,
+    "chapter": "refactoring",
+    "event": "rename-apply-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.01 ms\nPreparing rename…\nRefactoring applied\n"
+  },
+  {
+    "at": 25691.29999999999,
+    "elapsed": 5081.6,
+    "chapter": "refactoring",
+    "event": "renamed-tests",
+    "source": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\nclass PriceTest {\n    @Test void appliesTwentyPercentDiscount() {\n        assertEquals(800, Price.discountedPrice(1000, 20));\n    }\n\n    @Test void keepsFullPriceWithoutDiscount() {\n        assertEquals(1000, Price.discountedPrice(1000, 0));\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 16.11 ms\nSaved Price.java\n"
+  },
+  {
+    "at": 26358.20000000001,
+    "elapsed": 5748.3,
+    "chapter": "refactoring",
+    "event": "extract-selection",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD FAILED | 7 errors\n  1:29  package org.junit.jupiter.api does not exist\n  2:36  package org.junit.jupiter.api does not exist\n  2:1  static import only from classes and interfaces\n  5:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  9:6  cannot find symbol\n  symbol:   class Test\n  location: class PriceTest\n  6:27  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n  10:28  cannot find symbol\n  symbol:   variable Price\n  location: class PriceTest\n"
+  },
+  {
+    "at": 27057.70000000001,
+    "elapsed": 6448.3,
+    "chapter": "refactoring",
+    "event": "extract-inspect-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\n"
+  },
+  {
+    "at": 27074.79999999999,
+    "elapsed": 6464.9,
+    "chapter": "refactoring",
+    "event": "extract-inspect-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\n"
+  },
+  {
+    "at": 27757.900000000023,
+    "elapsed": 7148.2,
+    "chapter": "refactoring",
+    "event": "extract-form",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\n"
+  },
+  {
+    "at": 28457.79999999999,
+    "elapsed": 7848.2,
+    "chapter": "refactoring",
+    "event": "extract-prepare-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\n"
+  },
+  {
+    "at": 28574.900000000023,
+    "elapsed": 7964.9,
+    "chapter": "refactoring",
+    "event": "extract-prepare-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\nPreparing extract-method…\n"
+  },
+  {
+    "at": 29274.599999999977,
+    "elapsed": 8664.8,
+    "chapter": "refactoring",
+    "event": "extract-apply-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\nPreparing extract-method…\n"
+  },
+  {
+    "at": 29291.29999999999,
+    "elapsed": 8681.4,
+    "chapter": "refactoring",
+    "event": "extract-apply-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.03 ms\nPreparing extract-method…\nRefactoring applied\n"
+  },
+  {
+    "at": 29990.900000000023,
+    "elapsed": 9381.4,
+    "chapter": "refactoring",
+    "event": "tests-after-refactor-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 18.75 ms\n"
+  },
+  {
+    "at": 30091.70000000001,
+    "elapsed": 9481.5,
+    "chapter": "refactoring",
+    "event": "tests-after-refactor-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 18.75 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.24 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.46 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.48 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 30774.70000000001,
+    "elapsed": 10164.7,
+    "chapter": "refactoring",
+    "event": "refactoring-preserved",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 18.75 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.24 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.46 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.48 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 31473.70000000001,
+    "elapsed": 10849.22,
+    "chapter": "automation",
+    "event": "refactoring-preserved",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 18.75 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.24 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.46 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.48 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 31475.5,
+    "elapsed": 0,
+    "chapter": "automation",
+    "event": "autotest-enabled",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 18.75 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.24 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 4.46 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 52.48 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 32174.5,
+    "elapsed": 697.5,
+    "chapter": "automation",
+    "event": "autotest-edited",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 32857.29999999999,
+    "elapsed": 1380.8,
+    "chapter": "automation",
+    "event": "autotest-wait-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 14.45 ms\n"
+  },
+  {
+    "at": 33473.90000000002,
+    "elapsed": 1997.4,
+    "chapter": "automation",
+    "event": "autotest-wait-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 14.45 ms\n"
+  },
+  {
+    "at": 34157.29999999999,
+    "elapsed": 2680.7,
+    "chapter": "automation",
+    "event": "autotest-fails-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 14.45 ms\n"
+  },
+  {
+    "at": 34424.20000000001,
+    "elapsed": 2947.4,
+    "chapter": "automation",
+    "event": "autotest-fails-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 200;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 14.45 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [FAILED] PriceTest#appliesTwentyPercentDiscount · 2.85 ms\n    AssertionFailedError: expected: <800> but was: <900>\norg.opentest4j.AssertionFailedError: expected: <800> but was: <900>\n\tat org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)\n\tat org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)\n\tat org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)\n\tat org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)\n\tat PriceTest.appliesTwentyPercentDiscount(PriceTest.java:6)\n\tat java.base/java.lang.reflect.Method.invoke(Unknown Source)\n\tat java.base/java.util.ArrayList.forEach(Unknown Source)\n\tat java.base/java.util.ArrayList.forEach(Unknown Source)\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 3.91 ms\n\nFAILED · 2 tests · 1 passed · 1 failed · 0 skipped · 0 aborted · 56.11 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 35107.59999999998,
+    "elapsed": 3630.8,
+    "chapter": "automation",
+    "event": "autotest-fixed",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 35807,
+    "elapsed": 4330.7,
+    "chapter": "automation",
+    "event": "autotest-passes-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.02 ms\n"
+  },
+  {
+    "at": 36057.5,
+    "elapsed": 4580.7,
+    "chapter": "automation",
+    "event": "autotest-passes-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.02 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.18 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 2.82 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 45.51 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 36724.59999999998,
+    "elapsed": 5247.3,
+    "chapter": "automation",
+    "event": "autorun-enabled",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 0.02 ms\nSaved Price.java\n\n══ TURBOTEST ══════════════════════════════════════════════\nCompiling tests…\nRunning JUnit tests…\n\n  [PASSED] PriceTest#appliesTwentyPercentDiscount · 0.18 ms\n  [PASSED] PriceTest#keepsFullPriceWithoutDiscount · 2.82 ms\n\nPASSED · 2 tests · 2 passed · 0 failed · 0 skipped · 0 aborted · 45.51 ms\n══════════════════════════════════════════════════════════\n"
+  },
+  {
+    "at": 37407.70000000001,
+    "elapsed": 5930.6,
+    "chapter": "automation",
+    "event": "autorun-edited",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 38107.09999999998,
+    "elapsed": 6630.5,
+    "chapter": "automation",
+    "event": "autorun-wait-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 10.89 ms\n"
+  },
+  {
+    "at": 38723.90000000002,
+    "elapsed": 7247.2,
+    "chapter": "automation",
+    "event": "autorun-wait-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 10.89 ms\n"
+  },
+  {
+    "at": 39407,
+    "elapsed": 7930.6,
+    "chapter": "automation",
+    "event": "autorun-saved-start",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 10.89 ms\n"
+  },
+  {
+    "at": 39607.29999999999,
+    "elapsed": 8130.6,
+    "chapter": "automation",
+    "event": "autorun-saved-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 10.89 ms\nSaved Price.java\n\n══ PROJECT BUILD ══════════════════════════════════════════════\nCompiling project…\nProject compiled.\nFAST RUN · Price\nUpdated price: 800 cents\n\n[exit 0 · execution 2.97 ms · round trip 5.59 ms] Completed\n"
+  },
+  {
+    "at": 40340.09999999998,
+    "elapsed": 8853.14,
+    "chapter": "spring-boot",
+    "event": "autorun-saved-result",
+    "source": "public class Price {\n    public static int discountedPrice(int cents, int percent) {\n        return applyDiscount(cents, percent);\n    }\n\n    private static int applyDiscount(int cents, int percent) {\n        int reduction = cents * percent / 100;\n        return cents - reduction;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"Updated price: \" + discountedPrice(1000, 20) + \" cents\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 10.89 ms\nSaved Price.java\n\n══ PROJECT BUILD ══════════════════════════════════════════════\nCompiling project…\nProject compiled.\nFAST RUN · Price\nUpdated price: 800 cents\n\n[exit 0 · execution 2.97 ms · round trip 5.59 ms] Completed\n"
+  },
+  {
+    "at": 40341.40000000002,
+    "elapsed": 0,
+    "chapter": "spring-boot",
+    "event": "maven-import-start",
+    "source": "public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello TurboJ!\");\n    }\n}\n",
+    "output": ""
+  },
+  {
+    "at": 40374.20000000001,
+    "elapsed": 31.4,
+    "chapter": "spring-boot",
+    "event": "maven-importing",
+    "source": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>4.1.1</version>\n    <relativePath/>\n  </parent>\n  <groupId>dev.turboj.demo</groupId>\n  <artifactId>spring-hello</artifactId>\n  <version>1.0.0</version>\n  <properties>\n    <java.version>21</java.version>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-webmvc</artifactId>\n    </dependency>\n  </dependencies>\n  <build>\n    <plugins>\n      <plugin>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>\n",
+    "output": ""
+  },
+  {
+    "at": 40940.5,
+    "elapsed": 598,
+    "chapter": "spring-boot",
+    "event": "maven-import-result",
+    "source": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n  <parent>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-parent</artifactId>\n    <version>4.1.1</version>\n    <relativePath/>\n  </parent>\n  <groupId>dev.turboj.demo</groupId>\n  <artifactId>spring-hello</artifactId>\n  <version>1.0.0</version>\n  <properties>\n    <java.version>21</java.version>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n  <dependencies>\n    <dependency>\n      <groupId>org.springframework.boot</groupId>\n      <artifactId>spring-boot-starter-webmvc</artifactId>\n    </dependency>\n  </dependencies>\n  <build>\n    <plugins>\n      <plugin>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-maven-plugin</artifactId>\n      </plugin>\n    </plugins>\n  </build>\n</project>\n",
+    "output": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n"
+  },
+  {
+    "at": 42157.59999999998,
+    "elapsed": 1814.6,
+    "chapter": "spring-boot",
+    "event": "spring-source",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "MAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\nbuild.plugin: Plugin org.springframework.boot:spring-boot-maven-plugin participates in the build; use explicit Maven lifecycle to execute it\nMAVEN PROJECT — spring-hello | Modules 1 | Java 21 | Dependencies Resolved | TurboJ Native (Maven verification required) | Offline\n"
+  },
+  {
+    "at": 42841.20000000001,
+    "elapsed": 2497.9,
+    "chapter": "spring-boot",
+    "event": "spring-build-menu",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 89.18 ms\n"
+  },
+  {
+    "at": 43524.09999999998,
+    "elapsed": 3181.3,
+    "chapter": "spring-boot",
+    "event": "spring-goal",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 89.18 ms\n"
+  },
+  {
+    "at": 44207.5,
+    "elapsed": 3864.5,
+    "chapter": "spring-boot",
+    "event": "spring-trust",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 89.18 ms\n"
+  },
+  {
+    "at": 44890.90000000002,
+    "elapsed": 4547.9,
+    "chapter": "spring-boot",
+    "event": "spring-confirm",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 89.18 ms\n"
+  },
+  {
+    "at": 45624.20000000001,
+    "elapsed": 5281.1,
+    "chapter": "spring-boot",
+    "event": "spring-starting",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "BUILD OK | 0 errors | 89.18 ms\nMAVEN BUILD\nCommand: /private/tmp/turboj-demo/native-console-session-2026-10-25/workspace/spring-hello/mvnw --batch-mode --no-transfer-progress --offline --settings /private/tmp/turboj-demo/native-console-session-2026-10-25/home/.m2/settings.xml -Dmaven.repo.local=/private/tmp/turboj-demo/native-console-session-2026-10-25/home/.m2/repository spring-boot:run\nDirectory: /private/tmp/turboj-demo/native-console-session-2026-10-25/workspace/spring-hello\nMaven: Project Maven Wrapper — https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.11/apache-maven-3.9.11-bin.zip\nJDK: /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home\nProfiles: []\n"
+  },
+  {
+    "at": 47490.29999999999,
+    "elapsed": 7147.8,
+    "chapter": "spring-boot",
+    "event": "spring-startup-result",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 48223.59999999998,
+    "elapsed": 7881.1,
+    "chapter": "spring-boot",
+    "event": "curl-commandline-open",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 48890.29999999999,
+    "elapsed": 8547.7,
+    "chapter": "spring-boot",
+    "event": "curl-typing-7",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 49573.59999999998,
+    "elapsed": 9231,
+    "chapter": "spring-boot",
+    "event": "curl-typing-46",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 50256.79999999999,
+    "elapsed": 9914.3,
+    "chapter": "spring-boot",
+    "event": "curl-typing-80",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 50940.20000000001,
+    "elapsed": 10597.6,
+    "chapter": "spring-boot",
+    "event": "curl-typing-108",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 51640,
+    "elapsed": 11297.6,
+    "chapter": "spring-boot",
+    "event": "curl-start",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms"
+  },
+  {
+    "at": 51673.59999999998,
+    "elapsed": 11331,
+    "chapter": "spring-boot",
+    "event": "curl-result",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms\n:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello\nHTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:33:38 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n[command exited 0]\n"
+  },
+  {
+    "at": 52340.09999999998,
+    "elapsed": 11997.6,
+    "chapter": "spring-boot",
+    "event": "curl-visible-result",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms\n:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello\nHTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:33:38 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n[command exited 0]\n"
+  },
+  {
+    "at": 55889.40000000002,
+    "elapsed": 14991.39,
+    "chapter": "hello-world",
+    "event": "curl-visible-result",
+    "source": "package dev.turboj.demo;\n\nimport java.util.Map;\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RestController;\n\n@SpringBootApplication\n@RestController\npublic class HelloService {\n    public static void main(String[] args) {\n        SpringApplication.run(HelloService.class, args);\n    }\n\n    @GetMapping(\"/hello\")\n    public Map<String, Object> hello() {\n        return Map.of(\"status\", 200, \"message\", \"OK\");\n    }\n}\n",
+    "output": "CACHE HIT | 0 errors | 1.01 ms\n2026-10-25T15:33:29.785+01:00  INFO 71055 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18765 (http) with context path '/'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'2026-10-25T15:33:29.800+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'2026-10-25T15:33:29.801+01:00  INFO 71055 --- [.1-18765-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms\n:! curl --silent --show-error --fail --include --connect-timeout 2 --max-time 10 http://127.0.0.1:18765/hello\nHTTP/1.1 200 \r\nContent-Type: application/json\r\nContent-Length: 29\r\nDate: Sun, 25 Oct 2026 14:33:38 GMT\r\n\r\n{\"status\":200,\"message\":\"OK\"}\n[command exited 0]\n"
+  },
+  {
+    "at": 55890.59999999998,
+    "elapsed": 0,
+    "chapter": "hello-world",
+    "event": "hello-empty",
+    "source": "",
+    "output": ""
+  }
+]

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "run": {
+    "id": 44378326946,
+    "html_url": "https://github.com/turboj-dev/turboj/actions/runs/44378326946",
+    "head_sha": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "created_at": "2026-11-18T19:14:06Z",
+    "updated_at": "2026-11-18T19:32:20Z"
+  },
+  "jobs": [
+    {
+      "id": 135063378018,
+      "name": "website",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:14:09Z",
+      "completed_at": "2026-11-18T19:18:47Z"
+    },
+    {
+      "id": 135063378544,
+      "name": "java (macos-15-intel)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:14:12Z",
+      "completed_at": "2026-11-18T19:32:19Z"
+    },
+    {
+      "id": 135063378594,
+      "name": "java (ubuntu-24.04)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:14:10Z",
+      "completed_at": "2026-11-18T19:23:06Z"
+    }
+  ],
+  "tests": {
+    "ubuntu": {
+      "tests": 976,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 10,
+      "executedPassed": 966,
+      "suites": 141,
+      "skippedCases": [
+        {
+          "suite": "dev.turboj.config.RecoveryAndSaveTest",
+          "name": "concurrentNativeAclAndAttributeChangesRejectSaveWithoutChangingSource",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.config.RecoveryAndSaveTest",
+          "name": "macNativeDeniedWriteFailsClosedAndKeepsOriginalMetadata",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.config.RecoveryAndSaveTest",
+          "name": "macNativeAclAndExtendedAttributesSurviveARealAtomicSave",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.config.RecoveryAndSaveTest",
+          "name": "concurrentPermissionChangeRejectsSaveAndUnknownNativeAttributeNamesFailClosed",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.refactorj.transactions.NativeMetadataTest",
+          "name": "metadataAddedImmediatelyBeforeDeletionIsRetained",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.refactorj.transactions.NativeMetadataTest",
+          "name": "concurrentNativeMetadataAtReplacementRefusesEditAndRetainsExternalAttributes",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.refactorj.transactions.NativeMetadataTest",
+          "name": "editUndoRedoAndRestartRetainNativeAclAndXattrs",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.refactorj.transactions.NativeMetadataTest",
+          "name": "interruptedMultiFileEditRollsBackWithoutStrippingNativeMetadata",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.refactorj.transactions.NativeMetadataTest",
+          "name": "deleteAndRenameWithNonJournaledMetadataRefuseBeforeMutation",
+          "reason": ""
+        },
+        {
+          "suite": "dev.turboj.execution.WorkerClientTest",
+          "name": "selectedProjectJdkRunsResidentWorkerWithoutUsingEditorRuntime",
+          "reason": ""
+        }
+      ],
+      "reportArchiveSHA256": "75a2788fe70a18b7c4686b0299c3ec9e7e4166b7ccf720e469da2502424d2e42"
+    },
+    "macos-intel": {
+      "tests": 976,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "executedPassed": 975,
+      "suites": 141,
+      "skippedCases": [
+        {
+          "suite": "dev.turboj.execution.WorkerClientTest",
+          "name": "selectedProjectJdkRunsResidentWorkerWithoutUsingEditorRuntime",
+          "reason": ""
+        }
+      ],
+      "reportArchiveSHA256": "3a92e0b927c7f87dbe1bb0c58232e3cf9743acd8e3db5e1df5db49e85439947a"
+    }
+  },
+  "artifacts": {
+    "ubuntu": {
+      "commit": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "jarSHA256": "5fe83c36eb413d05b8be1c83236f9139e491102a91d6ac8250b9008b83878902",
+      "buildReceipt": "accepted-ubuntu/build-receipt.json",
+      "buildReceiptSHA256": "89bc17e2bd70ee06369e7fafbad806b896ffd58b1e156ce61c0510bc936356b5",
+      "java": "openjdk version \"25.0.5\" 2026-10-20 LTS\nOpenJDK Runtime Environment Temurin-25.0.5+8 (build 25.0.5+8-LTS)\nOpenJDK 64-Bit Server VM Temurin-25.0.5+8 (build 25.0.5+8-LTS, mixed mode, sharing)",
+      "productionInputs": 743,
+      "productionInputsMatchLocalQualifiedArtifact": true
+    },
+    "macos-intel": {
+      "commit": "48815c83e6f5b5c81c7e7aa99e8c413b3cfbe3cc",
+      "jarSHA256": "8d8443ad9446200db2d3dae5e7f677afbca6a07757284f9ef477c6ba50d4c5e2",
+      "buildReceipt": "accepted-macos-intel/build-receipt.json",
+      "buildReceiptSHA256": "c8653daeeaed0f16b0b2ddece2cd57b2eb739c0d5bc5a9424721a0dc134062d2",
+      "java": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS)\nOpenJDK 64-Bit Server VM Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS, mixed mode)",
+      "productionInputs": 743,
+      "productionInputsMatchLocalQualifiedArtifact": true,
+      "package": {
+        "receipt": "accepted-macos-intel/TurboJ.package-receipt.json",
+        "receiptSHA256": "0cc9e9465215b5dbed384605d3b1b8316bd665acde79cc14763d6460a5713a13",
+        "schemaVersion": 2,
+        "architecture": "x86_64",
+        "regularFiles": 123,
+        "symlinks": 99,
+        "bundledJava": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS)\nOpenJDK 64-Bit Server VM Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS, mixed mode)",
+        "scope": "Final ad-hoc signed local app identity; external receipt, no Developer ID signing, notarization or deployment"
+      }
+    }
+  },
+  "localQualifiedArtifact": {
+    "jarSHA256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+    "buildReceiptSHA256": "ad8efbff782b116d9400288fe29cfc0026e3104f8a6eadf2ab4b1061d866567e",
+    "packageReceiptSHA256": "1ffd746ca8700461027fb304dc2fb2e199431c699f241b9519489b2287697e40",
+    "scope": "Separately qualified installed ARM application; not a hosted CI rebuild."
+  },
+  "website": {
+    "unitTests": 53,
+    "browserChecks": 375,
+    "visibilityRegressions": 6,
+    "heroJavaScriptGzipBytes": 6713,
+    "allJavaScriptGzipBytes": 14872,
+    "log": "website-135063378018.log",
+    "logSHA256": "9e7e13e1c4e5f2e7f0143e5180aba7fb10c115467bb6d0ce31f98af147906100"
+  },
+  "limitations": [
+    "Hosted ARM job in run44369480625 never acquired a runner; no hosted ARM pass is claimed.",
+    "Physical keyboard, IME, VoiceOver and paid cloud inference are outside these automated controls.",
+    "Hosted packages are ad-hoc signed validation artifacts, not notarized production distribution.",
+    "Legacy Corretto21 worker test skips are explicit; the new actual Corretto17 qualifications execute."
+  ]
+}

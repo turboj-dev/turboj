@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "scope": "Revalidated measurement-boundary metadata, all performance hashes, unchanged numeric aggregates, raw counter endpoints, startup driver/fixture and six run records, local reactor counts and all 743 committed build-input bytes. Previous package/companion mapping checks retained because this correction changes only documentation/metadata, not artifacts.",
+  "checks": {
+    "performanceManifest": {
+      "pass": true,
+      "detail": {
+        "entries": 98,
+        "missing": [],
+        "mismatched": [],
+        "unlisted": []
+      }
+    },
+    "noFullJvmPropertyDump": {
+      "pass": true,
+      "detail": []
+    },
+    "qualifiedReactorIndex": {
+      "pass": true,
+      "detail": {
+        "totals": {
+          "tests": 976,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "suites": 141,
+        "excluded": 1
+      }
+    },
+    "qualifiedReactorMembership": {
+      "pass": true,
+      "detail": {
+        "pomModules": 39,
+        "outside": []
+      }
+    },
+    "startupDriverFixture": {
+      "pass": true,
+      "detail": {
+        "driver": "f2dda0e710c3d109a93e91bbc3f7cd0b133e7d0e1f124e2047254882cbe893cf",
+        "fixture": "4ddb147b84025a171788855be29f1c5aa57c4fa38f39626a77a7bf9f9db04ad4"
+      }
+    },
+    "startupSixRunRecords": {
+      "pass": true,
+      "detail": {
+        "runs": 6,
+        "recordMismatches": [],
+        "manifestOnlyFields": [
+          "label",
+          "round"
+        ]
+      }
+    },
+    "startupArtifactBytes": {
+      "pass": true,
+      "detail": [
+        {
+          "label": "baseline",
+          "expected": "56165b7a1979281adc2d38b2d034c2020c2e919c03fe7d988b47a5b37eeb9dfb",
+          "actual": "56165b7a1979281adc2d38b2d034c2020c2e919c03fe7d988b47a5b37eeb9dfb"
+        },
+        {
+          "label": "candidate",
+          "expected": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+          "actual": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9"
+        }
+      ]
+    },
+    "sourceMatrix743CommittedInputs": {
+      "pass": true,
+      "detail": {
+        "commit": "c7d08485a30a02ddc321c360ff02a3ab38872ccb",
+        "inputs": 743,
+        "mismatches": []
+      }
+    },
+    "matrixPackageReceiptChain": {
+      "pass": true,
+      "detail": {
+        "files": 123,
+        "links": 99,
+        "jar": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9"
+      }
+    },
+    "installedAggregateSame": {
+      "pass": true,
+      "detail": {
+        "totalStartupRuns": 6,
+        "idleSamplesPerArtifact": 20
+      }
+    },
+    "reactorMatrixCounts": {
+      "pass": true,
+      "detail": "final-reactor/reactor-results.json"
+    },
+    "companionAndGeneratedReferences": {
+      "pass": true,
+      "detail": {
+        "companionSources": 15,
+        "pdfs": 4,
+        "references": 3,
+        "mismatches": []
+      }
+    },
+    "originalCaptureFileMetadata": {
+      "pass": true,
+      "detail": {
+        "captures": 24,
+        "mismatches": [],
+        "clock": "filesystem wall-clock metadata only; not monotonic boundaries"
+      }
+    },
+    "independentCaptureWindowScope": {
+      "pass": true,
+      "detail": {
+        "mismatches": [],
+        "cpuRssOriginalMonotonicMeasurementsUnchanged": true,
+        "heapAndGcNotMatchedTenMinuteWindows": true
+      }
+    }
+  },
+  "issues": []
+}

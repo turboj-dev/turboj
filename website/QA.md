@@ -1,6 +1,27 @@
 # Website validation
 
-## Local alignment — 18 November 2026
+## Queued visibility correction — 18 November 2026
+
+Hosted CI exposed a real 320 px keyboard Play failure: the observer received
+hidden/visible observations in one callback but used the first, leaving a visible
+demo paused. The renderer now consumes the latest matching observation. A new
+browser control uses actual queued entries at 320/390 px, checks both visibility
+directions and preserves explicit pause. All six cases failed on the preceding
+output and pass on the correction in `ee98ac8`.
+
+Normal guarded production build and Astro check pass (zero errors/warnings).
+**53 unit/content/evidence tests and 375 browser checks pass**, including all
+103 themes and the original mobile Play controls. Hero/all emitted and inline
+JavaScript: **6,727/14,874 gzip bytes**; lazy chapters remain 21,080 gzip bytes.
+Three fresh Lighthouse runs score 100 in all four categories; LCP
+1,654.095/1,657.857/1,655.499 ms, TBT 0, CLS 0.00049748.
+These hashes/measurements supersede the preceding alignment output. Native
+recordings, source/output/times, all four PDFs and generated references remain
+unchanged. No deployment occurred.
+
+[Failure, reproduction, new asset hashes and complete validation](../docs/evidence/website-visibility-2026-11-18/README.md).
+
+## Initial local alignment — 18 November 2026
 
 Current native pane outlines and shared zoom font are reflected in the recorded
 reconstruction. Output/Explorer have bounded keyboard and pointer resize handles;

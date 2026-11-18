@@ -1,0 +1,10 @@
+sun.gc.collector.0.invocations=14
+sun.gc.collector.0.name="G1 young collection pauses"
+sun.gc.collector.0.time=24395249
+sun.gc.collector.1.invocations=0
+sun.gc.collector.1.name="G1 full collection pauses"
+sun.gc.collector.1.time=0
+sun.gc.collector.2.invocations=8
+sun.gc.collector.2.name="G1 concurrent cycle pauses"
+sun.gc.collector.2.time=3721959
+sun.os.hrt.frequency=1000000000
