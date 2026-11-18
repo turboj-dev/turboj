@@ -14,7 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-15, ubuntu-24.04]
+        # Hosted ARM acquisition failed due capacity; x64 adds an independent Mac
+        # qualification while the installed ARM bundle is verified locally.
+        os: [macos-15-intel, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 35
     steps:

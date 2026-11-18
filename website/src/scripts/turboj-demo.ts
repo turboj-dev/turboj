@@ -541,8 +541,12 @@ function initialize(root: HTMLElement) {
     if (motion.matches) { freeze(); manualPaused = true; }
     synchronize();
   });
-  const observer = new IntersectionObserver(([entry]) => {
-    onScreen = entry.isIntersecting && entry.intersectionRatio >= .15;
+  const observer = new IntersectionObserver((entries) => {
+    // A scroll/focus/reveal sequence can queue several observations in one callback.
+    // The last observation of this stage describes its current visibility.
+    for (const entry of entries) {
+      if (entry.target === stage) onScreen = entry.isIntersecting && entry.intersectionRatio >= .15;
+    }
     synchronize();
   }, { threshold: [0, .15] });
   observer.observe(stage);
