@@ -1,0 +1,99 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/Users/luca/Workspace/turboj/.cache/maven/wrapper/dists/apache-maven-3.9.11/a2d47e15/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< dev.turboj:turboj-app >------------------------
+[INFO] Building turboj-app 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ turboj-app ---
+[INFO] Copying 350 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ turboj-app ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ turboj-app ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ turboj-app ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ turboj-app ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.turboj.ui.EditorTemplateTest
+[ERROR] Tests run: 10, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.405 s <<< FAILURE! -- in dev.turboj.ui.EditorTemplateTest
+[ERROR] dev.turboj.ui.EditorTemplateTest.arrowsEditInsideTheFieldAndAClickActivatesAnotherField -- Time elapsed: 0.004 s <<< ERROR!
+java.util.concurrent.ExecutionException: java.awt.HeadlessException
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:124)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:193)
+	at dev.turboj.ui.EditorTemplateTest.edt(EditorTemplateTest.java:219)
+	at dev.turboj.ui.EditorTemplateTest.arrowsEditInsideTheFieldAndAClickActivatesAnotherField(EditorTemplateTest.java:147)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.awt.HeadlessException
+	at java.desktop/java.awt.GraphicsEnvironment.checkHeadless(GraphicsEnvironment.java:158)
+	at java.desktop/java.awt.Window.<init>(Window.java:518)
+	at java.desktop/java.awt.Frame.<init>(Frame.java:428)
+	at java.desktop/java.awt.Frame.<init>(Frame.java:393)
+	at java.desktop/javax.swing.JFrame.<init>(JFrame.java:180)
+	at dev.turboj.ui.EditorTemplateTest.lambda$arrowsEditInsideTheFieldAndAClickActivatesAnotherField$0(EditorTemplateTest.java:154)
+	at dev.turboj.ui.EditorTemplateTest.lambda$edt$0(EditorTemplateTest.java:218)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+[INFO] Running dev.turboj.templates.LiveTemplateSemanticTest
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.eclipse.core.internal.filesystem.local.unix.UnixFileNatives in an unnamed module (file:/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/refactorj-runtime-4043799883861211252/configuration/org.eclipse.osgi/11/0/bundleFile)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Note: /var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/junit-1923795294652923203/C.java uses preview features of Java SE 25.
+Note: Recompile with -Xlint:preview for details.
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.734 s -- in dev.turboj.templates.LiveTemplateSemanticTest
+[INFO] Running dev.turboj.templates.LiveTemplateFinishTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in dev.turboj.templates.LiveTemplateFinishTest
+[INFO] Running dev.turboj.templates.LiveTemplateSettingsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.686 s -- in dev.turboj.templates.LiveTemplateSettingsTest
+[INFO] Running dev.turboj.templates.LiveTemplatesTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.189 s -- in dev.turboj.templates.LiveTemplatesTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   EditorTemplateTest.arrowsEditInsideTheFieldAndAClickActivatesAnotherField:147->edt:219 » Execution java.awt.HeadlessException
+[INFO] 
+[ERROR] Tests run: 33, Failures: 0, Errors: 1, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.126 s
+[INFO] Finished at: 2026-11-18T15:26:55+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test) on project turboj-app: 
+[ERROR] 
+[ERROR] See /Users/luca/Workspace/turboj/app/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

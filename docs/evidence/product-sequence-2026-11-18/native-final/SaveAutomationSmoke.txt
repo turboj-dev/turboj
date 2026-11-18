@@ -1,0 +1,5 @@
+Exception in thread "main" java.lang.IllegalStateException: Missing frozen fixture: Calculator.java
+	at dev.turboj.app.SaveAutomationSmoke.fixtureText(SaveAutomationSmoke.java:343)
+	at dev.turboj.app.SaveAutomationSmoke.copyExample(SaveAutomationSmoke.java:308)
+	at dev.turboj.app.SaveAutomationSmoke.exercise(SaveAutomationSmoke.java:48)
+	at dev.turboj.app.SaveAutomationSmoke.main(SaveAutomationSmoke.java:39)

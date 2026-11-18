@@ -13,6 +13,9 @@ public record CoverageProof(String sourceHash, String compilationId, String comp
     public CoverageProof { classFiles = Map.copyOf(classFiles); }
 
     public static CoverageProof read(JsonObject value, Path root) throws IOException {
+        return read(value,root,List.of(root));
+    }
+    public static CoverageProof read(JsonObject value,Path root,List<Path> sourceRoots) throws IOException {
         if (!"1".equals(string(value,"schemaVersion"))) throw new IOException("Unsupported coverage provenance schema");
         for (String key : List.of("compilationId","compilerIdentity","processId","sessionId","collectionId","executionHashes"))
             if (string(value,key).isBlank() || string(value,key).length() > 16384) throw new IOException("Invalid provenance " + key);
@@ -53,7 +56,7 @@ public record CoverageProof(String sourceHash, String compilationId, String comp
         for (JsonElement entry : files) {
             JsonObject file = entry.getAsJsonObject();
             Path path = root.resolve(string(file,"path")).toAbsolutePath().normalize();
-            if (!path.startsWith(root) || classes.putIfAbsent(path,digest(file,"sha256")) != null)
+            if (sourceRoots.stream().noneMatch(path::startsWith) || classes.putIfAbsent(path,digest(file,"sha256")) != null)
                 throw new IOException("Invalid or duplicate provenance class path");
         }
         return new CoverageProof(sourceHash,string(value,"compilationId"),string(value,"compilerIdentity"),classesHash,
@@ -62,11 +65,16 @@ public record CoverageProof(String sourceHash, String compilationId, String comp
 
     /** Invoke on a worker, once per distinct proof per snapshot, never in paint or on the EDT. */
     public boolean matchesClasses(Path root) {
+        return matchesClasses(List.of(root));
+    }
+    public boolean matchesClasses(List<Path> roots) {
         try {
-            Path realRoot = root.toRealPath();
+            List<Path> realRoots = new ArrayList<>();
+            for (Path root : roots) realRoots.add(root.toRealPath());
             for (var entry : classFiles.entrySet()) {
                 Path path = entry.getKey();
-                if (!path.toRealPath().startsWith(realRoot) || Files.size(path) > 16L * 1024 * 1024) return false;
+                Path real = path.toRealPath();
+                if (realRoots.stream().noneMatch(real::startsWith) || Files.size(path) > 16L * 1024 * 1024) return false;
                 MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 try (InputStream input = Files.newInputStream(path)) {
                     byte[] buffer = new byte[8192]; long total = 0;

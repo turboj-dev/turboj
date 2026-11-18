@@ -1,0 +1,75 @@
+PASS 390: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 390 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 390 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 390 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 390 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 390 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 390 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 390 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 390 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 390 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 390 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 390 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 390 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 390: each theme changes the whole site, not only the editor
+PASS 390: no browser, asset or external-request errors
+PASS 768: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 768 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 768 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 768 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 768 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 768 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 768 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 768 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 768 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 768 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 768 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 768 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 768 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 768: each theme changes the whole site, not only the editor
+PASS 768: no browser, asset or external-request errors
+PASS 1440: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 1440 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 1440 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1440 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1440 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1440 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 1440 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1440 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1440 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1440 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 1440 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1440 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1440 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1440: each theme changes the whole site, not only the editor
+PASS 1440: no browser, asset or external-request errors
+PASS 1920: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit
+PASS 1920 / classic: native JSON, exported tokens and rendered editor match exactly
+PASS 1920 / classic: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1920 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1920 / classic: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1920 / dark: native JSON, exported tokens and rendered editor match exactly
+PASS 1920 / dark: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1920 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1920 / dark: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1920 / light: native JSON, exported tokens and rendered editor match exactly
+PASS 1920 / light: no overflow, layout shift, demo mutation or screenshot recoloring
+PASS 1920 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation
+PASS 1920 / light: keyboard focus indicators remain visible on menu and editor surfaces
+PASS 1920: each theme changes the whole site, not only the editor
+PASS 1920: no browser, asset or external-request errors
+PASS published JSON is an exact export of all three native definitions
+PASS explicit preference survives reload before the first animation frame and ignores OS preference
+PASS invalid stored preferences fall back to Classic safely
+PASS blocked localStorage still permits all theme changes without errors
+PASS paused replay preserves every source, cursor, compiler and output field through theme changes
+PASS running replay keeps its timeline and finishes normally while themes change
+PASS 390: More themes opens a responsive native-color preview catalog; Escape restores the original
+PASS 1440: More themes opens a responsive native-color preview catalog; Escape restores the original
+PASS catalog Enter commits the selected real theme while Cancel never persists previews
+PASS 1,000 routed test themes retain six visible cards and support arrows, paging, search and commit
+PASS latest search and preview win over older delayed palette responses; empty search results cannot be applied
+PASS cached custom palette renders first, then refreshes and persists changed native colors under the same ID
+PASS retired cached custom theme falls back to Classic and persists the fallback without retaining stale colors
+PASS focused and hovered catalog thumbnail preserves unadorned source and retains a visible focus outline
+74 passed, 0 failed; report /Users/luca/Workspace/turboj/website/artifacts/product-sequence-2026-11-18/themes/report.json

@@ -1,0 +1,19 @@
+defaults:
+  strict: true
+  coverage: true
+  execution: local
+projects:
+  first:
+    path: ../repo-one
+    packages:
+      same-name:
+        adapter: maven
+        manifest: ../repo-one/pom.xml
+        kinds: [unit]
+  second:
+    path: ../repo-two
+    packages:
+      same-name:
+        adapter: maven
+        manifest: ../repo-two/pom.xml
+        kinds: [unit]

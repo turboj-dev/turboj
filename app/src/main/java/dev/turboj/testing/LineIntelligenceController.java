@@ -27,6 +27,7 @@ public final class LineIntelligenceController implements AutoCloseable {
     private Path project;
     private Path detectedFile;
     private Run run;
+    private final CherryRunHistory history = new CherryRunHistory();
     private final javax.swing.Timer executionTimer = new javax.swing.Timer(350,event -> dispatchQueued());
     private QueuedExecution queued;
     private long executionRequest;
@@ -46,6 +47,7 @@ public final class LineIntelligenceController implements AutoCloseable {
     }
     public Path project() { return Objects.equals(detectedFile,file.get()) ? project : null; }
     public Run run() { return run; }
+    public List<Run> runs() { return history.snapshot(); }
 
     public void changed() {
         requireEdt();
@@ -54,7 +56,7 @@ public final class LineIntelligenceController implements AutoCloseable {
         Path sourceFile = file.get();
         if (!Objects.equals(sourceFile,detectedFile)) {
             detectedFile = null;
-            if (project != null && (sourceFile == null || !sourceFile.startsWith(project))) changeProject(null);
+            if (project != null && (sourceFile == null || !sourceFile.startsWith(project) && !inContext(sourceFile,run))) changeProject(null);
         }
         if (sourceFile == null) { changeProject(null); editor.setLineIntelligence(null); return; }
         var source = editor.snapshot();
@@ -62,7 +64,7 @@ public final class LineIntelligenceController implements AutoCloseable {
         Run evidence = run;
         pending = worker.schedule(() -> {
             try {
-                Path detected = detect(sourceFile);
+                Path detected = detect(sourceFile,evidence);
                 SwingUtilities.invokeLater(() -> {
                     if (closed || ticket != generation || editor.document() != document) return;
                     changeProject(detected);
@@ -78,7 +80,7 @@ public final class LineIntelligenceController implements AutoCloseable {
                     if (closed || ticket != generation || editor.document() != document || editor.version() != source.version()) return;
                     changeProject(detected);
                     detectedFile = sourceFile;
-                    if (run == null && loaded != null) { run = loaded; results.accept(loaded); }
+                    if (run == null && loaded != null) { run = loaded; history.accept(loaded); results.accept(loaded); }
                     editor.setLineIntelligence(decoration);
                 });
             } catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); }
@@ -101,7 +103,7 @@ public final class LineIntelligenceController implements AutoCloseable {
         requireEdt();
         if (closed) return;
         savedGeneration++;
-        if (run != null) { run = stale(run); results.accept(run); changed(); }
+        if (run != null) { run = stale(run); history.accept(run); results.accept(run); changed(); }
         scheduleAll(source,executable,ready,allowed);
     }
 
@@ -120,9 +122,10 @@ public final class LineIntelligenceController implements AutoCloseable {
         if (tests.cherry().busy() || !request.ready().getAsBoolean()) { executionTimer.restart(); return; }
         long ticket = executionRequest;
         Path active = file.get();
+        Run evidence = run;
         worker.execute(() -> {
-            Path root = detect(request.source());
-            Path activeRoot = active == null ? null : detect(active);
+            Path root = detect(request.source(),evidence);
+            Path activeRoot = active == null ? null : detect(active,evidence);
             SwingUtilities.invokeLater(() -> {
                 if (closed || ticket != executionRequest) return;
                 if (!Objects.equals(active,file.get())) { executionTimer.restart(); return; }
@@ -156,10 +159,22 @@ public final class LineIntelligenceController implements AutoCloseable {
         return new Run(value.id(),value.root(),value.state(),value.tests().stream()
                 .map(test -> test.withFreshness(Freshness.STALE)).toList(),coverage,value.sourceHashes(),
                 value.message().startsWith(notice) ? value.message() : notice + value.message(),value.htmlReport(),
-                value.sequence(),value.coverageAvailability());
+                value.sequence(),value.coverageAvailability(),value.collections().stream()
+                        .map(collection -> collection.withFreshness(Freshness.STALE)).toList(),value.context());
     }
 
     public void start(String executable,List<String> selectors) {
+        start(executable,selectors,List.of());
+    }
+    public void rerun(String executable,Run original,List<TestResult> selected) {
+        requireEdt();
+        if (original == null || !Objects.equals(original.root(),project()) || selected.isEmpty()) return;
+        if (selected.size() > 1000 || selected.stream().anyMatch(test -> !test.runId().equals(original.id()) || test.selector() == null || !test.selector().exact())) {
+            output.accept("This adapter did not provide an exact test selector. Use Rerun configured suites for the complete safe scope.\n"); return;
+        }
+        start(executable,List.of(),selected.stream().map(TestResult::selector).distinct().toList());
+    }
+    private void start(String executable,List<String> selectors,List<TestSelector> selected) {
         requireEdt();
         if (project() == null) { output.accept("Cherry Test project detection has not resolved this source, or no configuration exists.\n"); return; }
         if (tests.cherry().busy()) { output.accept("Cherry Test is already running.\n"); return; }
@@ -167,9 +182,9 @@ public final class LineIntelligenceController implements AutoCloseable {
         Path root = project;
         long sourceGeneration = savedGeneration;
         Path eventFile = historyDirectory(root).resolve("run-" + UUID.randomUUID() + ".jsonl");
-        tests.cherry().run(new CherryTestProcess.Request(root,executable,eventFile,selectors,executionPolicy.apply(root)),value -> {
+        tests.cherry().run(new CherryTestProcess.Request(root,executable,eventFile,selectors,executionPolicy.apply(root),selected),value -> {
             if (!Objects.equals(root,project)) return;
-            run = sourceGeneration == savedGeneration ? value : stale(value); results.accept(run);
+            run = sourceGeneration == savedGeneration ? value : stale(value); history.accept(run); results.accept(run);
             if (Objects.equals(detectedFile,file.get())) changed();
         },output);
     }
@@ -180,6 +195,13 @@ public final class LineIntelligenceController implements AutoCloseable {
                 if (Files.isRegularFile(parent.resolve(name))) return parent;
         }
         return null;
+    }
+    private static Path detect(Path file,Run context) {
+        return inContext(file,context) ? context.root() : detect(file);
+    }
+    private static boolean inContext(Path file,Run context) {
+        return file != null && context != null && context.context().sourceRoots(context.root()).stream()
+                .anyMatch(root -> file.toAbsolutePath().normalize().startsWith(root));
     }
 
     private Run history(Path root) throws IOException {
@@ -192,7 +214,7 @@ public final class LineIntelligenceController implements AutoCloseable {
             })).orElse(null);
         }
         if (latest == null || Files.size(latest) > 64L * 1024 * 1024) return null;
-        CherryEvents reader = new CherryEvents(root);
+        CherryEvents reader = new CherryEvents(root,CherryExecutionReceipt.matchesRetainedReceipt(latest));
         try (BufferedReader lines = Files.newBufferedReader(latest)) {
             for (String line; (line = lines.readLine()) != null;) if (!line.isBlank()) reader.accept(line);
         } catch (IOException | RuntimeException incomplete) { return reader.interrupted(false,"Historical Cherry report is incomplete: " + incomplete.getMessage()); }
@@ -218,7 +240,7 @@ public final class LineIntelligenceController implements AutoCloseable {
                 if (value.freshness() == Freshness.CURRENT) {
                     if (run.state() != RunState.COMPLETED && run.state() != RunState.FAILED)
                         current = value.withFreshness(Freshness.UNKNOWN);
-                    else if (value.proof() != null && !checked.computeIfAbsent(value.proof(),proof -> proof.matchesClasses(run.root())))
+                    else if (value.proof() != null && !checked.computeIfAbsent(value.proof(),proof -> proof.matchesClasses(run.context().sourceRoots(run.root()))))
                         current = Coverage.unknown(Availability.BYTECODE_MISMATCH,"Compiled classes changed or are unavailable; rerun to refresh coverage");
                 }
                 if (line <= lineCount) lines.put(line,new Line(git.added().containsKey(line),List.of(),current));

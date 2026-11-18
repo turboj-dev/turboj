@@ -395,7 +395,7 @@ class AICompletionControllerTest {
         try (Harness h = create(local(true), c -> provider)) {
             edt(
                     () -> {
-                        for (int i = 0; i < 30; i++) h.editor.replaceSelection(" ");
+                        for (int i = 0; i < 30; i++) h.editor.replaceSelection("v");
                         assertEquals(0, h.snapshots.get());
                         return null;
                     });
@@ -554,6 +554,79 @@ class AICompletionControllerTest {
             waitFor(() -> !h.notices.isEmpty());
             assertEquals("AI returned no safe insertion at this position.", h.notices.getLast());
             assertFalse(edt(() -> h.editor.isAIInlineCompletion()));
+        }
+    }
+
+    @Test
+    void openingDeletingPastingAndBlankIndentationDoNotAutomaticallyRequest() throws Exception {
+        FakeProvider provider = new FakeProvider("return value;", false);
+        try (Harness h = create(local(true), c -> provider)) {
+            edt(() -> {
+                h.controller.changed();
+                h.editor.setText(SOURCE);
+                h.editor.gotoOffset(CARET);
+                h.editor.replaceSelection(" ");
+                h.editor.setSelection(CARET, CARET + 1);
+                h.editor.replaceSelection("");
+                h.editor.replaceSelection("int pasted = 123;");
+                return null;
+            });
+            Thread.sleep(500);
+            assertEquals(0, h.snapshots.get(), "background changes do not even capture inference context");
+            assertEquals(0, provider.calls.get());
+        }
+    }
+
+    @Test
+    void dismissalSurvivesNearbyTypingButExplicitRequestStillWorks() throws Exception {
+        FakeProvider provider = new FakeProvider("return value;", false);
+        try (Harness h = create(local(true), c -> provider)) {
+            request(h); awaitAI(h);
+            edt(() -> {
+                h.controller.handleKey(key(h.editor, KeyEvent.VK_ESCAPE, 0));
+                h.editor.replaceSelection("r"); h.editor.replaceSelection("e");
+                return null;
+            });
+            Thread.sleep(650);
+            assertEquals(1, h.snapshots.get(), "Escape suppresses nearby automatic requests");
+            assertFalse(edt(() -> h.editor.isAIInlineCompletion()));
+            request(h);
+            waitFor(() -> h.snapshots.get() == 2);
+        }
+    }
+
+    @Test
+    void automaticStreamingWaitsForTheValidatedFinalResult() throws Exception {
+        CountDownLatch emitted = new CountDownLatch(1), finish = new CountDownLatch(1);
+        FakeProvider provider = new FakeProvider("turn value;", false) {
+            @Override public void stream(AICompletionRequest request, Consumer<String> output, Cancellation token) throws IOException {
+                calls.incrementAndGet(); output.accept("turn inventedVariable;"); emitted.countDown();
+                try { if (!finish.await(5, TimeUnit.SECONDS)) throw new IOException("fixture timeout"); }
+                catch (InterruptedException e) { Thread.currentThread().interrupt(); throw new IOException(e); }
+                output.accept(text);
+            }
+        };
+        try (Harness h = create(local(true), c -> provider)) {
+            edt(() -> { h.editor.replaceSelection("r"); h.editor.replaceSelection("e"); return null; });
+            assertTrue(emitted.await(5, TimeUnit.SECONDS));
+            assertFalse(edt(() -> h.editor.isAIInlineCompletion()), "unvalidated partial tokens remain hidden");
+            finish.countDown(); awaitAI(h);
+            assertEquals("turn value;", edt(() -> h.editor.inlineCompletion().insertion()));
+        } finally { finish.countDown(); }
+    }
+
+    @Test
+    void automaticRequestsHaveMinimumSpacingDuringStopStartTyping() throws Exception {
+        FakeProvider provider = new FakeProvider("return value;", false);
+        try (Harness h = create(local(true), c -> provider)) {
+            edt(() -> { h.editor.replaceSelection("x"); return null; });
+            waitFor(() -> provider.calls.get() == 1);
+            long first = System.nanoTime();
+            edt(() -> { h.editor.replaceSelection("y"); return null; });
+            Thread.sleep(450);
+            assertEquals(1, provider.calls.get(), "a short pause must not start a second inference");
+            waitFor(() -> provider.calls.get() == 2);
+            assertTrue(System.nanoTime() - first >= TimeUnit.MILLISECONDS.toNanos(1000));
         }
     }
 

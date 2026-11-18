@@ -121,7 +121,7 @@ public final class LiveTemplateDialogSmoke {
         LiveTemplateWorkflowSmoke.snippet("traceCount"); String before = edt(() -> frame.editor().getText());
         key(KeyEvent.VK_TAB, 0); await(() -> frame.editor().templateActive(), "custom live expansion");
         LiveTemplateWorkflowSmoke.type("amount"); key(KeyEvent.VK_ENTER, 0);
-        await(() -> !frame.editor().templateActive(), "linked edit confirmed");
+        await(() -> !frame.editor().templateActive() && LiveTemplateWorkflowSmoke.templateSettled(), "linked edit and formatting confirmed");
         String result = edt(() -> frame.editor().getText());
         check(result.contains("int amount = 1;") && result.contains("println(amount)"), "both linked occurrences changed"); compile(result);
         action("undo"); await(() -> frame.editor().getText().equals(before), "one Undo restores abbreviation");

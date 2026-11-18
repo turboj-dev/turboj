@@ -1,6 +1,6 @@
 # Complete keyboard cheat sheets
 
-Generated from TurboJ's executable CommandJ registry on 17 November 2026.
+Generated from TurboJ's executable CommandJ registry on 18 November 2026.
 Each PDF contains **all 312 commands**, plus local caret/template keys, in the
 existing four-column layout across **four landscape A4 pages**. Print on two
 sheets, double-sided, flipping on the short edge. Every column is used; commands
@@ -38,5 +38,10 @@ node scripts/verify-cheatsheets.mjs app/target/cheatsheet-validation
 
 The validator uses the existing website Playwright dependency. Chrome/Chromium is
 needed for PDF generation; without it, the native printer returns printable HTML.
-See [current validation evidence](../evidence/live-templates-2026-11-17/README.md),
+The current sheets were generated from artifact SHA-256
+`36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9`.
+All four PDFs were parsed by native CoreGraphics (four landscape A4 pages each);
+browser layout checks found all 312 commands exactly once and no clipping in any
+of the 16 populated columns per profile.
+See [current validation evidence](../evidence/website-alignment-2026-11-18/final-validation.json),
 [shortcut usage](../shortcuts.md) and the [full inventory](../keyboard-command-inventory.md).

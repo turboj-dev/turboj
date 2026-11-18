@@ -84,3 +84,11 @@ For source/target 8, the current JDK's platform APIs remain visible, just as in 
 Source and Javadoc artifacts can be downloaded on demand through the configured Resolver policy. Quick Documentation currently reads Javadoc comments from source attachments and resolved signatures; a renderer for HTML inside Javadoc JARs is not implemented or claimed by this validation.
 
 No Maven Central publication, clean-machine installer certification, arbitrary-project build parity or unmeasured performance claim follows from these tests.
+
+## Actual JDK17 / realistic lifecycle qualification — 2026-11-18
+
+The previous Java17 runtime gap is closed by `MavenToolchainQualificationTest`: actual Corretto17 runs the resident worker and JUnit, while the editor/native compiler stays on25 with release17. A declared toolchains.xml is used by both native configuration and the explicit Maven compiler/Surefire path. Three modules, inherited dependency management, active profile, unsaved dependent invalidation, independent caching, resources and module pruning pass.
+
+A second actual JDK17 fixture passes explicit antrun/build-helper source generation, resource filtering, Surefire unit testing and Failsafe integration testing. Import/native compilation does not execute those plugins. This verifies the explicit Maven fallback, not native emulation of plugin lifecycles.
+
+Run with `-Dturboj.test.java17=/path/to/jdk17` or `TURBOJ_TEST_JDK17`; cold CI can set `-Dturboj.test.mavenOffline=false`. Unavailable runtimes cause an explicit qualification skip. Local run: two tests PASS, no skips, warm offline dependency cache. [Reproduction, environment and observations](../../docs/evidence/maven-toolchain-2026-11-18/README.md). Packaged formatting and final reactor results are recorded with the final application artifact.

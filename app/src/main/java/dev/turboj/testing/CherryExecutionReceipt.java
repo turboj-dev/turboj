@@ -67,6 +67,18 @@ public final class CherryExecutionReceipt {
         }
     }
 
+    /** External source roots are accepted on reload only for a locally retained, digest-bound execution. */
+    public static boolean matchesRetainedReceipt(Path events) {
+        try {
+            Path path = receiptPath(events);
+            if (!Files.isRegularFile(path,LinkOption.NOFOLLOW_LINKS) || Files.size(path) > MAX_RECEIPT_BYTES) return false;
+            JsonObject receipt = JsonParser.parseString(Files.readString(path,StandardCharsets.UTF_8)).getAsJsonObject();
+            if (!receipt.has("schemaVersion") || !receipt.get("schemaVersion").getAsString().equals("1")) return false;
+            String expected = string(receipt,"eventsSHA256",64);
+            return expected.matches("[a-f0-9]{64}") && expected.equals(hash(events));
+        } catch (IOException | RuntimeException invalid) { return false; }
+    }
+
     private static String string(JsonObject receipt,String field,int maximum) throws IOException {
         JsonElement value = receipt.get(field);
         if (value == null || !value.isJsonPrimitive() || !value.getAsJsonPrimitive().isString())
@@ -100,6 +112,6 @@ public final class CherryExecutionReceipt {
     }
     private static Run withOutcome(Run reported,RunState state,String message) {
         return new Run(reported.id(),reported.root(),state,reported.tests(),reported.coverage(),reported.sourceHashes(),
-                message,reported.htmlReport(),reported.sequence(),reported.coverageAvailability());
+                message,reported.htmlReport(),reported.sequence(),reported.coverageAvailability(),reported.collections(),reported.context());
     }
 }

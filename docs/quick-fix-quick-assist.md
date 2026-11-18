@@ -17,7 +17,7 @@ The Eclipse profile also assigns Cmd+Shift+S to **Save All**, matching page 17 o
 
 The Eclipse reference distinguishes diagnostic corrections from context-dependent assists. Both use the same invocation; a second invocation exposes assists when errors would otherwise hide them. The generic documentation displays Ctrl+1; the supplied macOS tutorial and TurboJ's Eclipse profile use Cmd+1. [Eclipse Quick Fix](https://help.eclipse.org/latest/topic/org.eclipse.jdt.doc.user/reference/ref-java-editor-quickfix.htm), [Eclipse Quick Assist](https://help.eclipse.org/latest/topic/org.eclipse.jdt.doc.user/reference/ref-java-editor-quickassist.htm).
 
-TurboJ opens fixes first when the selected context has supported fixes. Otherwise it opens assists. Invoking the command again switches between the two groups without changing source selection. Its correction guards use diagnostics intersecting the caret or selection; they do not offer every correction for unrelated errors elsewhere on the line or in the file. This narrower targeting is an intentional precision choice, not a claim to implement every Eclipse proposal.
+TurboJ opens fixes first when the selected context has supported fixes. Otherwise it opens assists. Invoking the command again switches between the two groups without further changing source selection. A rapid second invocation while inspection is still pending remembers the toggle instead of restarting semantic work; a third invocation toggles back. Cancel, edits or navigation invalidate pending intent and stale responses. Its correction guards first use diagnostics intersecting the caret or selection. A nonempty selection is half-open and never retargeted. An insertion caret immediately after a problem's last character still touches that problem. If an insertion caret has no applicable fix, inspection tries fixable diagnostics on the same line, errors first and then nearest distance (source offset and problem ID break ties). It never searches another line. The caret follows the chosen problem; Escape retains that problem location. This is an explicit departure from the earlier documentation that promised unconditional original-caret restoration.
 
 ## Popup interaction
 
@@ -49,18 +49,22 @@ Preparation produces the existing transactional `Model.Plan`, an optional destin
 | Unresolved variable/name/field | Create applicable local variable or field | Shown only when the existing JDT correction and candidate validation succeed |
 | Type mismatch | Change variable type to match its initializer | Only the supported initializer correction, not arbitrary incompatible-type repair |
 | Unreachable code | Remove an eligible unreachable statement | Compiler-ID and RefactorJ validation guarded |
+| Missing constructor on a resolved source type | Create the constructor inferred from its argument types | Requires a compiler UndefinedConstructor diagnostic, resolved arguments and editable source; binary types and invalid candidates are refused |
+| Unhandled checked exception from a resolved invocation or throw | Add a throws declaration, or surround an eligible statement with try/catch | Validates callers and overrides before offering throws; catch explicitly wraps in RuntimeException with the original cause, restoring the interrupt flag for InterruptedException |
 | Required abstract methods missing | Implement inherited abstract methods | Uses the existing semantic implementation operation |
 | Resolved class declaration identifier | Create new JUnit test | Supplies actual class, source/test roots, package, symbol ID and eligible declared methods to the contextual form |
 | Existing renameable symbol | Rename through RefactorJ | Parameter form and existing preview; not a text-only rename |
 | Eligible selection | Extract local variable or method | Semantic applicability is probed; final parameters are validated in the existing flow |
 | Resolved non-void invocation/construction statement | Assign to local or field | Uses JDT assignment correction and validates the result |
-| Eligible source structure | Explicit type ↔ `var`, lambda ↔ method reference, switch to expression | Only available when the corresponding RefactorJ operation validates |
+| Eligible source structure | Explicit type ↔ `var`, anonymous functional class → lambda, lambda ↔ method reference, switch to expression | Only available when the corresponding RefactorJ operation validates |
 
 For `assertEquals(42, new Calculator().add(20, 22))`, method inference produces `int` parameters and a compatible `int` return type. This is not a hardcoded Calculator or JUnit branch: when JDT initially guesses a boxed return type, the implementation checks a compatible primitive overload on the resolved enclosing invocation and requires exact matching types for the other arguments. All final source changes still undergo compiler validation. Non-tutorial names, String arguments, overloads and separate main/test source sets are covered by runtime tests.
 
 Create JUnit Test is an assist on a resolved type declaration, rather than a permanently visible global suggestion. Standard Maven `src/main/java` maps to the sibling `src/test/java`; the native form uses project context for other layouts. It generates Jupiter tests, checks both API and engine availability and requests explicit missing-dependency configuration. It preserves a known existing API version when adding its matching engine, and rejects unresolved or unidentifiable dependency configurations instead of duplicating them. The implementation's bundled Jupiter version is recorded in `FirstLaunchProjects.JUNIT_VERSION` (currently 5.13.4).
 
-Uncaught-exception corrections, arbitrary type conversions, all Eclipse syntax transformations, every constructor/type kind, and complete Eclipse proposal parity are **not implemented by this change**. These are future provider work. An unsupported or unsafe context has no fake proposal; the popup explains that no applicable proposal was found.
+Exception correction is deliberately bounded. It uses compiler `UnhandledException` diagnostics and the actual call/throw bindings, not exception names guessed from source text. Throws declarations are rejected if they break known callers or overriding rules. Catch-and-rethrow is offered for expression, return and throw statements directly inside a block; it never swallows a failure. Variable declarations are not moved into a new scope. Lambda boundaries, initializers, implicit constructors, try-with-resources close failures, unresolved or generic exception types remain unsupported. External binary callers cannot be checked; the throws proposal explains this limitation. These are applicability boundaries, not placeholder actions.
+
+Arbitrary type conversions, every constructor/type kind and complete Eclipse proposal parity are not claimed. Anonymous-to-lambda keeps the existing serializability/evaluation safety guards. An unsupported or unsafe context has no fake proposal; the popup explains that no applicable proposal was found. `HANDLE_EXCEPTION` is a contextual plan operation and is not advertised as a generic CommandJ or typed CLI command.
 
 ## Snapshots, cancellation and transaction safety
 
@@ -120,3 +124,9 @@ Reproduce semantic verification from the repository root:
 ```
 
 Reports are written under `refactorj/refactorj-runtime/target/failsafe-reports/`. The latest captured local run log is `target/quick-actions-main-routing.log`; the prior linked-parameter run is retained in `target/quick-actions-linked-parameters.log`. Native popup focus, real Cmd+1 events, linked-template keys, workspace undo and the plain/Maven first-launch sequences require the separate Swing acceptance evidence; they are not inferred from the runtime test count.
+
+### QFX-02/06 qualification, 18 November 2026
+
+The current semantic regression suite adds half-open selection boundaries, multiple diagnostics and CRLF line fallback, contextual constructor/anonymous-lambda exposure, real checked-exception fixes, caller/override refusal, lambda/declaration-scope refusal, multi-exception handling and compiled interruption behavior. Accepted plans are independently compiled and checked through workspace Undo/Redo.
+
+`QuickFixPopupSmoke` additionally posts two Cmd+1 invocations in one event batch to exercise pending-inspection toggling, then switches visible groups and checks Escape both at an explicitly targeted problem and after nearest-problem movement. Root delivery records native execution separately; adding this driver does not itself prove its run passed.

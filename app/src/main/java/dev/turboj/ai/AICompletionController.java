@@ -75,6 +75,11 @@ public final class AICompletionController implements AutoCloseable {
     private volatile AIConfig config;
     private long lastVersion = -1, scheduledAt;
     private int lastCaret = -1;
+    private int lastLength;
+    private long lastAutomaticRequest;
+    private PieceTable dismissedDocument;
+    private int dismissedLine = -1, editsAfterDismissal;
+    private long dismissedAt;
     private long retryAfter;
     private int failures;
     private PieceTable lastDocument;
@@ -103,6 +108,7 @@ public final class AICompletionController implements AutoCloseable {
         this.notice = notice;
         this.status = status;
         this.config = safeConfig(config);
+        observeEditor();
         timer = new javax.swing.Timer(this.config.delayMillis(), e -> request(false, false));
         timer.setRepeats(false);
         worker.allowCoreThreadTimeOut(true);
@@ -172,8 +178,7 @@ public final class AICompletionController implements AutoCloseable {
             cache.clear();
         }
         if (!value.diagnostics()) metrics.clear();
-        lastVersion = -1;
-        lastDocument = null;
+        observeEditor();
         retryAfter = 0;
         failures = 0;
         timer.setInitialDelay(value.delayMillis());
@@ -202,15 +207,25 @@ public final class AICompletionController implements AutoCloseable {
             restoreGhost(caret);
             return;
         }
-        boolean edited = lastDocument != editor.document() || lastVersion != editor.version();
-        lastDocument = editor.document();
-        lastVersion = editor.version();
-        lastCaret = caret;
+        boolean sameDocument = lastDocument == editor.document();
+        boolean edited = sameDocument && lastVersion != editor.version();
+        int inserted = editor.document().length() - lastLength;
+        // Small insertion at the previous caret, including auto-paired punctuation. Loading a
+        // file, deleting, formatting or bulk pasting must not solicit another suggestion.
+        boolean insertion = edited && inserted > 0 && inserted <= 2
+                && caret > lastCaret && caret - lastCaret <= inserted;
+        observeEditor();
         if (edited && typeThrough(caret)) return;
-        dismiss();
-        if (edited
+        clear();
+        if (insertion) editsAfterDismissal++;
+        if (insertion
                 && config.automatic()
                 && !editor.isReadOnly()
+                && editor.hasFocus()
+                && !editor.hasInputComposition()
+                && !coordinator.hasSemanticChoice()
+                && !suppressed()
+                && hasTypedContext(caret)
                 && editor.getSelectedText().isEmpty()) {
             long now = System.nanoTime();
             if (lastEditAt != 0)
@@ -220,6 +235,22 @@ public final class AICompletionController implements AutoCloseable {
             timer.setInitialDelay(adaptiveDelay());
             timer.restart();
         }
+    }
+
+    private void observeEditor() {
+        lastDocument = editor.document(); lastVersion = editor.version();
+        lastCaret = editor.caretOffset(); lastLength = editor.document().length();
+    }
+
+    private boolean suppressed() {
+        return editor.document() == dismissedDocument && editor.caretLine() == dismissedLine
+                && (editsAfterDismissal < 3 || System.nanoTime() - dismissedAt < TimeUnit.SECONDS.toNanos(2));
+    }
+
+    private boolean hasTypedContext(int caret) {
+        int start = Math.max(editor.document().lineStart(editor.document().lineAt(caret)), caret - 256);
+        for (int i = start; i < caret; i++) if (!Character.isWhitespace(editor.document().charAt(i))) return true;
+        return false;
     }
 
     /**
@@ -263,7 +294,9 @@ public final class AICompletionController implements AutoCloseable {
         int delay = config.delayMillis();
         if (typingInterval < 160) delay += 120;
         if (latencyMillis > 600) delay += 150;
-        return Math.min(1_000, delay);
+        // Honor configured pauses above one second and bound request frequency during stop/start typing.
+        long remaining = TimeUnit.NANOSECONDS.toMillis(lastAutomaticRequest + TimeUnit.MILLISECONDS.toNanos(1_200) - System.nanoTime());
+        return (int) Math.max(Math.min(2_000, delay), remaining);
     }
 
     public void request(boolean explicit, boolean larger) {
@@ -285,8 +318,8 @@ public final class AICompletionController implements AutoCloseable {
             if (explicit) notice.accept("Remove secondary carets before requesting AI completion.");
             return;
         }
-        if (editor.isReadOnly() || !editor.getSelectedText().isEmpty() || editor.templateActive()) return;
-        if (!explicit && System.nanoTime() < retryAfter) return;
+        if (editor.isReadOnly() || !editor.getSelectedText().isEmpty() || editor.templateActive() || editor.hasInputComposition()) return;
+        if (!explicit && (System.nanoTime() < retryAfter || suppressed() || !editor.hasFocus())) return;
         if (config.mode() == AIConfig.Mode.LOCAL && !localReady.getAsBoolean()) {
             if (explicit)
                 notice.accept("Local AI is not ready: " + (runtimeDetail.isBlank() ? runtimeSummary : runtimeDetail));
@@ -314,6 +347,7 @@ public final class AICompletionController implements AutoCloseable {
                         explicit ? System.nanoTime() : scheduledAt);
         Cancellation token = new Cancellation();
         cancellation.set(token);
+        if (!explicit) lastAutomaticRequest = System.nanoTime();
         if (config.diagnostics()) metrics.request();
         worker.execute(() -> generate(ticket, token));
     }
@@ -382,7 +416,7 @@ public final class AICompletionController implements AutoCloseable {
                         if (token.isCancelled()) return;
                         String usable = CompletionValidation.usable(request, cumulative, false);
                         long now = System.nanoTime();
-                        if (!usable.isEmpty()
+                        if (ticket.explicit && !usable.isEmpty()
                                 && now - lastPublication.get()
                                         >= TimeUnit.MILLISECONDS.toNanos(50)) {
                             first.compareAndSet(0, now);
@@ -413,6 +447,7 @@ public final class AICompletionController implements AutoCloseable {
                         () -> {
                             if (valid(ticket)) {
                                 coordinator.clearAI();
+                                ghost = null;
                                 // With a Java choice on screen the AI result was not wanted anyway.
                                 if (ticket.explicit && !coordinator.hasSemanticChoice())
                                     notice.accept(
@@ -433,6 +468,7 @@ public final class AICompletionController implements AutoCloseable {
                         () -> {
                             if (valid(ticket)) {
                                 coordinator.clearAI();
+                                ghost = null;
                                 failures = Math.min(failures + 1, 5);
                                 retryAfter =
                                         System.nanoTime()
@@ -531,6 +567,14 @@ public final class AICompletionController implements AutoCloseable {
     }
 
     public void dismiss() {
+        if (ghost != null || cancellation.get() != null || timer.isRunning()) {
+            dismissedDocument = editor.document(); dismissedLine = editor.caretLine();
+            dismissedAt = System.nanoTime(); editsAfterDismissal = 0;
+        }
+        clear();
+    }
+
+    private void clear() {
         timer.stop();
         cancelRequest();
         ghost = null;

@@ -1,0 +1,33 @@
+{
+  "package": "same-name",
+  "phase": "unit",
+  "project": "second",
+  "result": {
+    "coverage": [
+      "/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-152024-eaa218/reports/adapters/second/same-name/unit/0.lcov"
+    ],
+    "diagnostics": [],
+    "protocol": 1,
+    "success": true,
+    "tests": [
+      {
+        "attachments": [],
+        "duration_ms": 16,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::appliesDiscount",
+        "source": null,
+        "status": "passed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 2,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+        "source": null,
+        "status": "passed"
+      }
+    ]
+  }
+}

@@ -71,7 +71,7 @@ async function focusAndScroll(page, region) {
 }
 
 try {
-  for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+  for (const viewport of [{ width: 320, height: 844 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }, { width: 1920, height: 1080 }]) {
     const context = await browser.newContext({ viewport, reducedMotion: 'reduce' });
     const page = await context.newPage();
     page.setDefaultTimeout(10000);
@@ -94,12 +94,25 @@ try {
           assert.equal(await page.locator('[data-demo-source]').textContent(), chapter.sources[event.sourceId].text);
           assert.equal(await page.locator('[data-demo-frame]').getAttribute('href'), event.screenshot);
           assert.ok(await page.locator('[data-turboj-demo] *').count() <= 250);
+          const chrome = await page.locator('.demo-stage').evaluate(() => {
+            const style = selector => getComputedStyle(document.querySelector(selector));
+            return {
+              fonts: ['.demo-source', '.demo-menu', '.demo-explorer pre', '.demo-console pre', '.demo-file-border', '.demo-message-border', '.demo-statusbar'].map(selector => style(selector).fontSize),
+              outerBorder: style('.demo-screen').borderTopWidth,
+              outputOutline: style('.demo-console').outlineStyle,
+              paneBorders: ['.demo-editor', '.demo-explorer', '.demo-console'].map(selector => style(selector).borderTopWidth),
+            };
+          });
+          assert.equal(new Set(chrome.fonts).size, 1, `Native workspace shares one zoom font: ${JSON.stringify(chrome)}`);
+          assert.equal(chrome.outerBorder, '0px', 'Pane outlines must not be surrounded by a second workspace outline.');
+          assert.equal(chrome.outputOutline, 'none', 'Output must not have a second outline.');
+          assert.deepEqual(chrome.paneBorders, ['1px', '1px', '1px']);
           const layout = await page.locator('.demo-stage').evaluate((element) => {
             const rect = element.getBoundingClientRect();
             const source = document.querySelector('[data-demo-source]');
             return { stageHeight: rect.height, viewportWidth: innerWidth, pageWidth: document.documentElement.scrollWidth, sourceFont: parseFloat(getComputedStyle(source).fontSize) };
           });
-          assert.equal(layout.stageHeight, viewport.width === 390 ? 380 : 464);
+          assert.equal(layout.stageHeight, viewport.width <= 720 ? 380 : viewport.width >= 1600 ? 510 : 464);
           assert.ok(layout.pageWidth <= layout.viewportWidth + 1, JSON.stringify(layout));
           const focus = [];
           if (scene.preview) {
@@ -192,6 +205,36 @@ try {
         return { passed: audit.passes.length, incomplete: audit.incomplete.length };
       });
     }
+    await check(`${viewport.width}px: pane resizing is bounded, keyboard accessible and preserves captured state`, async () => {
+      const state = () => page.locator('[data-turboj-demo]').evaluate(root => ({
+        source: root.querySelector('[data-demo-source]').textContent,
+        output: root.querySelector('[data-demo-output]').textContent,
+        event: root.dataset.event, elapsed: root.dataset.elapsed,
+      }));
+      const before = await state();
+      const outputHandle = page.getByRole('separator', { name: 'Resize recorded Output pane' });
+      const outputPane = page.locator('.demo-console');
+      const original = await outputPane.boundingBox();
+      await outputHandle.focus(); await page.keyboard.press('ArrowUp');
+      assert.ok((await outputPane.boundingBox()).height > original.height, 'Up increases Output height.');
+      await page.keyboard.press('Home'); assert.equal(await outputHandle.getAttribute('aria-valuenow'), '20');
+      await page.keyboard.press('End'); assert.equal(await outputHandle.getAttribute('aria-valuenow'), '65');
+      assert.ok((await page.locator('.demo-editor').boundingBox()).height > 80, 'Source remains visible at the resize limit.');
+      await page.keyboard.press('Escape');
+      assert.equal(await page.locator('.demo-code-viewport').evaluate(element => element === document.activeElement), true);
+      const explorerHandle = page.getByRole('separator', { name: 'Resize recorded Explorer pane' });
+      await explorerHandle.focus(); await page.keyboard.press('End');
+      assert.equal(await explorerHandle.getAttribute('aria-valuenow'), '45');
+      await page.keyboard.press('Home');
+      const bounds = await explorerHandle.boundingBox();
+      await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+      await page.mouse.down(); await page.mouse.move(viewport.width, bounds.y + bounds.height / 2); await page.mouse.up();
+      assert.equal(await explorerHandle.getAttribute('aria-valuenow'), '45', 'Pointer dragging cannot obscure the whole source pane.');
+      await page.keyboard.press('Escape');
+      assert.equal(await page.locator('.demo-code-viewport').evaluate(element => element === document.activeElement), true);
+      assert.deepEqual(await state(), before, 'Resizing cannot change source, logs or recorded event time.');
+      return { outputMaximum: 65, explorerMaximum: 45 };
+    });
     await check(`${viewport.width}px: recorded scenes produce no browser or asset errors`, async () => assert.deepEqual(errors, []));
     await context.close();
   }

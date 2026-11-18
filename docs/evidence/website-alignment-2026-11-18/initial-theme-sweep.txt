@@ -1,0 +1,52 @@
+PASS classic: keyboard apply, native palette, contrast, shared font, preserved replay
+PASS dark: keyboard apply, native palette, contrast, shared font, preserved replay
+FAIL light: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL vscode-abyss: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL ayu-dark: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL ayu-light: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL ayu-mirage: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL catppuccin-frappe: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL catppuccin-latte: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    24 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+FAIL catppuccin-macchiato: locator.waitFor: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for locator('[data-theme-browser]') to be hidden[22m
+[2m    7 × locator resolved to visible <dialog open="" class="theme-browser" data-theme-browser="" data-astro-cid-pixmt3hg="" aria-labelledby="theme-browser-title" aria-describedby="theme-browser-help">…</dialog>[22m
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+keyboard.press: Target page, context or browser has been closed
+    at /Users/luca/Workspace/turboj/website/tests/all-themes-browser.mjs:97:27 {
+  log: []
+}
+
+Node.js v26.3.0

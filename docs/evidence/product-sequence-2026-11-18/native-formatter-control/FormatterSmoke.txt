@@ -1,0 +1,15 @@
+PASS IntelliJ IDEA's default style is TurboJ's default
+PASS JavaFMT is on hold and not offered
+PASS no menu item shows a tooltip: []
+PASS ⌥⌘L formats with IntelliJ IDEA's style (4 spaces)
+PASS Classic 80 keeps lines within 80 columns
+PASS Code ▸ Formatter ▸ Classic 80 wraps the chain at 80 columns
+PASS one ⌘Z restores the source, one ⇧⌘Z reapplies the formatting
+PASS the choice and its 4-space indent persist
+PASS saved once, no save loop
+PASS disk and editor agree after Format on Save
+PASS Format on Save writes the formatted text once:
+class Saved {
+    int a = 1;
+}
+// edit

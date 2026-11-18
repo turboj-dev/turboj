@@ -1,0 +1,24 @@
+{
+  "package": "native-ide",
+  "phase": "unit",
+  "project": "demo",
+  "result": {
+    "coverage": [
+      "/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project/target/cherry-test/runs/20261118-153627-0ecd18/reports/adapters/demo/native-ide/unit/0.lcov"
+    ],
+    "diagnostics": [],
+    "protocol": 1,
+    "success": true,
+    "tests": [
+      {
+        "attachments": [],
+        "duration_ms": 580,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::demo_project_price_suite_fullprice_test(TestEnv)",
+        "source": null,
+        "status": "passed"
+      }
+    ]
+  }
+}

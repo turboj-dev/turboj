@@ -319,7 +319,9 @@ function initializeThemeSwitcher(): void {
   applyButton.addEventListener('click', () => finish(true));
   cancelButton.addEventListener('click', () => finish(false));
   dialog.addEventListener('cancel', (event) => { event.preventDefault(); finish(false); });
-  dialog.addEventListener('close', () => { if (original) { const saved = original; original = null; stopRequests(); apply(saved); } });
+  // Native close events are queued. A previous close must not clear a newer
+  // dialog session that has already reopened before that event is delivered.
+  dialog.addEventListener('close', () => { if (!dialog.open && original) { const saved = original; original = null; stopRequests(); apply(saved); } });
   dialog.addEventListener('keydown', (event) => {
     // Search inputs consume Escape to clear their value in some browsers. Cancellation
     // must win so every focused control restores the previously selected theme.

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "dev.turboj.refactorj.runtime.QuickActionsIT",
+    "tests": "49",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "52.733"
+  },
+  {
+    "name": "dev.turboj.refactorj.runtime.ModernizationIT",
+    "tests": "22",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "17.897"
+  },
+  {
+    "name": "dev.turboj.refactorj.cli.ProtocolTest",
+    "tests": "10",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.116"
+  }
+]

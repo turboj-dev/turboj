@@ -28,6 +28,8 @@ public final class DiskWorkspace implements WorkspaceStore {
     public interface FaultInjector {
         void beforeFile(int index, Path path) throws IOException;
 
+        default void beforeReplacement(Path path) throws IOException {}
+
         FaultInjector NONE = (index, path) -> {};
     }
 
@@ -161,9 +163,20 @@ public final class DiskWorkspace implements WorkspaceStore {
                                 "Cannot write an unsaved buffer through DiskWorkspace");
                     String disk = read(t.path());
 
+                    if (t.before() == null && disk != null) {
+                        for (var other : changes.transitions()) {
+                            if (other.before() != null && other.after() == null
+                                    && Files.isSameFile(other.path(), t.path()))
+                                throw new TransactionException("FILESYSTEM_ALIAS",
+                                        "The source and destination name identify the same disk file. "
+                                        + "A case-only rename is not supported by this journal on this filesystem; no sources were changed.");
+                        }
+                    }
+
                     if (!Objects.equals(disk, t.before() == null ? null : t.before().text()))
                         throw new TransactionException("EXTERNAL_CHANGE",
                                 "Source differs from the prepared snapshot");
+                    if (t.before() != null && t.after() == null) FileMetadata.requireJournalableDeletion(t.path());
                     List<String> permissions = permissions(t.path());
                     Image before = t.before() == null ? null : new Image(t.before().text(), t
                             .before().version(), permissions);
@@ -393,19 +406,29 @@ public final class DiskWorkspace implements WorkspaceStore {
     private void restore(Path path, Image image) throws IOException {
         guard(path);
         if (image == null) {
+            FileMetadata.requireJournalableDeletion(path);
             Files.deleteIfExists(path);
             return;
         }
         Files.createDirectories(path.getParent());
         guard(path);
-        atomicWrite(path, image.text().getBytes(StandardCharsets.UTF_8), image.permissions());
+        atomicWrite(path, image.text().getBytes(StandardCharsets.UTF_8), image.permissions(), () -> fault.beforeReplacement(path));
     }
 
     private static void atomicWrite(Path path, byte[] bytes,
             List<String> permissions) throws IOException {
+        atomicWrite(path, bytes, permissions, () -> {});
+    }
+
+    @FunctionalInterface private interface Prepared { void run() throws IOException; }
+
+    private static void atomicWrite(Path path, byte[] bytes,
+            List<String> permissions, Prepared prepared) throws IOException {
+        String metadata = FileMetadata.fingerprint(path);
         Path temporary = Files.createTempFile(path.getParent(), ".refactorj-", ".tmp");
 
         try {
+            FileMetadata.seedReplacement(path, temporary);
             try (FileChannel channel = FileChannel.open(temporary, StandardOpenOption.WRITE,
                     StandardOpenOption.TRUNCATE_EXISTING)) {
                 ByteBuffer buffer = ByteBuffer.wrap(bytes);
@@ -420,6 +443,8 @@ public final class DiskWorkspace implements WorkspaceStore {
                 permissions.forEach(p -> values.add(PosixFilePermission.valueOf(p)));
                 Files.setPosixFilePermissions(temporary, values);
             }
+            prepared.run();
+            FileMetadata.requireUnchanged(path, metadata);
             Files.move(temporary, path, StandardCopyOption.ATOMIC_MOVE,
                     StandardCopyOption.REPLACE_EXISTING);
         } finally {

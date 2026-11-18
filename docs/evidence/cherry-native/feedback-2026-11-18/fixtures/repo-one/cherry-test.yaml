@@ -1,0 +1,12 @@
+defaults:
+  strict: true
+  coverage: true
+  execution: local
+projects:
+  demo:
+    path: .
+    packages:
+      native-ide:
+        adapter: maven
+        manifest: pom.xml
+        kinds: [unit]

@@ -47,6 +47,52 @@ function initialize(root: HTMLElement) {
   let promptStarted = 0;
   let promptCharacters = 0;
   let focusRevision = 0;
+  // Resizing only changes the browser reconstruction. Recorded split proportions
+  // remain the default; user overrides never change source, results or the clock.
+  let outputFraction: number | undefined;
+  const resizeOutput = get('resize-output');
+  const resizeExplorer = get('resize-explorer');
+  const consolePane = root.querySelector<HTMLElement>('.demo-console')!;
+  const workspace = get('workspace');
+  const outputSpace = () => screen.clientHeight - get('menu').offsetHeight - root.querySelector<HTMLElement>('.demo-statusbar')!.offsetHeight;
+  function outputSize(recorded?: number) {
+    const fraction = outputFraction ?? recorded;
+    if (fraction !== undefined) screen.style.setProperty('--demo-output-height', `calc((100% - var(--demo-menu-height) - var(--demo-status-height)) * ${fraction})`);
+    else screen.style.removeProperty('--demo-output-height');
+  }
+  function resizer(handle: HTMLElement, horizontal: boolean, minimum: number, maximum: number,
+                   read: () => number, write: (value: number) => void) {
+    const apply = (value: number) => { write(Math.max(minimum, Math.min(maximum, value))); refresh(); };
+    const refresh = () => { const value = read(); if (Number.isFinite(value) && value > 0) handle.setAttribute('aria-valuenow', String(Math.round(Math.max(minimum, Math.min(maximum, value)) * 100))); };
+    handle.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { event.preventDefault(); viewport.focus(); return; }
+      const direction = event.key === (horizontal ? 'ArrowRight' : 'ArrowUp') ? 1
+        : event.key === (horizontal ? 'ArrowLeft' : 'ArrowDown') ? -1 : 0;
+      if (direction || event.key === 'Home' || event.key === 'End') {
+        event.preventDefault(); apply(event.key === 'Home' ? minimum : event.key === 'End' ? maximum : read() + direction * .02);
+      }
+    });
+    handle.addEventListener('pointerdown', event => {
+      if (event.button !== 0) return;
+      event.preventDefault(); handle.focus(); handle.setPointerCapture(event.pointerId);
+    });
+    handle.addEventListener('pointermove', event => {
+      if (!handle.hasPointerCapture(event.pointerId)) return;
+      const bounds = workspace.getBoundingClientRect();
+      apply(horizontal ? (event.clientX - bounds.left) / bounds.width
+        : (screen.getBoundingClientRect().bottom - root.querySelector<HTMLElement>('.demo-statusbar')!.offsetHeight - event.clientY) / outputSpace());
+    });
+    handle.addEventListener('pointerup', event => {
+      if (handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId);
+    });
+    return refresh;
+  }
+  const refreshOutputSize = resizer(resizeOutput, false, .2, .65,
+    () => (consolePane.offsetHeight + 10) / outputSpace(), value => { outputFraction = value; outputSize(); });
+  const refreshExplorerSize = resizer(resizeExplorer, true, .18, .45,
+    () => (get('explorer').offsetWidth + 4) / workspace.clientWidth,
+    value => workspace.style.setProperty('--demo-explorer-width', `${value * 100}%`));
+  new ResizeObserver(() => { refreshOutputSize(); refreshExplorerSize(); }).observe(screen);
   document.addEventListener('focusin', (event) => {
     if (event.target !== pause && event.target !== document.body) focusRevision++;
   });
@@ -301,10 +347,10 @@ function initialize(root: HTMLElement) {
       renderSource(event);
       get('filename').textContent = event.filename;
       get('status').textContent = event.status;
-      if (event.outputFraction !== undefined) screen.style.setProperty('--demo-output-height', `calc((100% - var(--demo-menu-height) - var(--demo-status-height)) * ${event.outputFraction})`);
-      else screen.style.removeProperty('--demo-output-height');
+      outputSize(event.outputFraction);
       get('workspace').classList.toggle('demo-has-explorer', !!event.explorer?.visible);
       get('explorer').hidden = !event.explorer?.visible;
+      refreshOutputSize(); refreshExplorerSize();
       get('explorer-rows').textContent = event.explorer?.visible
         ? event.explorer.rows.map((row) => `${'  '.repeat(row.depth)}${row.expanded ? '−' : '+'} ${row.text}`).join('\n') : '';
       get('command').textContent = event.command ? `Recorded command: ${event.command}` : '';

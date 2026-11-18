@@ -218,6 +218,7 @@ public final class TurboFrame extends JFrame {
 
     private ScheduledFuture<?> pendingAnalysis;
     private ScheduledFuture<?> pendingRecovery;
+    private boolean recoveryRequested;
     private Path file;
     private byte[] diskFingerprint;
     private long savedVersion;
@@ -231,7 +232,8 @@ public final class TurboFrame extends JFrame {
     private CompletableFuture<RunResult> execution = CompletableFuture.completedFuture(null);
     private boolean programOutput;
     private String lastEditorTitle = "", lastMessageTitle = "";
-    private final Path recovery = Settings.directory().resolve("sessions").resolve("buffer.java");
+    private final SessionRecovery recovery = new SessionRecovery(Settings.directory().resolve("sessions"));
+    private boolean recoveryFailureReported;
 
     public TurboFrame(Settings settings, Map<String, String> keymap) {
         super("TurboJ");
@@ -459,6 +461,14 @@ public final class TurboFrame extends JFrame {
                         && !intelligence.documentationVisible(),
                 () -> { aiCompletion.dismiss(); intelligence.dismiss(); editor.clearInlineCompletion(); });
         liveTemplates.setTheme(theme);
+        liveTemplates.configureSemantics(
+                (start, end) -> intelligence.submitSemantic(intelligenceSnapshot(),
+                        (service, context) -> service.templateSemantics(context, start, end)),
+                (template, start, end, caret, anchor) -> {
+                    var engine = dev.turboj.formatting.StandardFormatters.of(settings.formatter).engine();
+                    return intelligence.submitSemantic(intelligenceSnapshot(), (service, context) ->
+                            dev.turboj.templates.LiveTemplateTransform.prepare(service, context, template, start, end, caret, anchor, engine));
+                });
         localAI.configure(settings.ai);
         formatting =
                 new FormattingController(
@@ -494,7 +504,7 @@ public final class TurboFrame extends JFrame {
                 Settings.directory().resolve("cherry-runs"), this::cherryResult, this::flash,
                 root -> settings.cherryTestExecution.getOrDefault(root.toString(), "configured"));
         editor.setOnInspectLine(target -> LineIntelligenceDialogs.inspect(this, editor, target,
-                this::showCherryResults, () -> quickFix.invoke()));
+                this::showCherryResults, () -> quickFix.invoke(), () -> lineIntelligence == null ? null : lineIntelligence.run()));
         quickFix = new QuickFixController(this, editor, intelligence, this::intelligenceSnapshot,
                 new NativeRefactoringHost(), refactoring, this::navigateGeneratedSource,
                 this::junitAction, this::flash);
@@ -1711,7 +1721,7 @@ public final class TurboFrame extends JFrame {
 
     /** Save, Format and other explicit commands first resolve a template: confirmed when valid, kept with its errors otherwise. */
     private boolean resolveInlineSessionThen(Runnable command) {
-        if (liveTemplates.active()) { editor.confirmTemplate(); return false; }
+        if (liveTemplates.confirmThen(command)) return true;
         var session = inlineSession;
         if (session == null || !editor.templateActive()) return false;
         session.afterConfirm = command;
@@ -2476,7 +2486,7 @@ public final class TurboFrame extends JFrame {
             editor.clearInlineCompletion();
         });
         for (Operation operation : Operation.values()) {
-            if (operation == Operation.CREATE_CLASS) continue; // Contextual target inference owns this operation.
+            if (operation == Operation.CREATE_CLASS || operation == Operation.HANDLE_EXCEPTION) continue; // Contextual inference owns these operations.
             String id = operation == Operation.ORGANIZE_IMPORTS ? "organizeImports" : "refactor."
                     + operation.id();
             command(id, RefactoringController.title(operation) + "…", () -> {
@@ -3558,6 +3568,7 @@ public final class TurboFrame extends JFrame {
 
     private void updatePosition() {
         updatePositionLabel();
+        queueRecovery();
         liveTemplates.changed();
         if (intelligence != null && isJavaBuffer()) intelligence.changed();
         if (aiCompletion != null && isJavaBuffer()) aiCompletion.changed();
@@ -3628,7 +3639,7 @@ public final class TurboFrame extends JFrame {
         updatePosition();
         if (editor.isReadOnly()) {
             if (pendingAnalysis != null) pendingAnalysis.cancel(false);
-            if (pendingRecovery != null) pendingRecovery.cancel(false);
+            queueRecovery();
             buildStatus = "SOURCE ATTACHMENT · READ ONLY";
             refreshTitle();
             return;
@@ -3680,19 +3691,49 @@ public final class TurboFrame extends JFrame {
                         35,
                         TimeUnit.MILLISECONDS);
         }
-        if (pendingRecovery != null) pendingRecovery.cancel(false);
-        pendingRecovery =
-                background.schedule(
-                        () -> {
-                            if (generation.get() != snap.version() || closing) return;
-                            try {
-                                Files.createDirectories(recovery.getParent());
-                                SafeFiles.atomicWrite(recovery, snap.toString());
-                            } catch (Exception ignored) {
-                            }
-                        },
-                        2,
-                        TimeUnit.SECONDS);
+        queueRecovery();
+    }
+
+    private java.util.function.Supplier<SessionRecovery.Snapshot> captureRecovery() {
+        rememberBuffer();
+        record Captured(String key, String file, dev.turboj.editor.document.PieceTable.Snapshot source,
+                        byte[] fingerprint, boolean dirty, EditorComponent.Location location, SourceEncoding.Encoding encoding) {}
+        var captured = new ArrayList<Captured>();
+        buffers.forEach((key, value) -> {
+            if (value.state().readOnly()) return;
+            var encoding = value.file() == null ? null : fileEncodings.get(value.file());
+            captured.add(new Captured(key.toString(), value.file() == null ? null : value.file().toString(),
+                    value.state().document().snapshot(), value.fingerprint() == null ? null : value.fingerprint().clone(),
+                    value.state().document().version() != value.savedVersion(), value.state().location(), encoding));
+        });
+        String active = captured.stream().anyMatch(value -> value.key().equals(bufferKey.toString())) ? bufferKey.toString()
+                : captured.isEmpty() ? null : captured.getFirst().key();
+        return () -> active == null ? null : new SessionRecovery.Snapshot(2, active, captured.stream().map(value -> {
+            String text = value.source().toString(); var location = value.location(); var encoding = value.encoding();
+            return new SessionRecovery.Entry(value.key(), value.file(), text, HexFormat.of().formatHex(SafeFiles.utf8Fingerprint(text)),
+                    value.fingerprint() == null ? null : HexFormat.of().formatHex(value.fingerprint()), value.dirty(),
+                    Math.min(location.caret(), text.length()), Math.min(location.anchor(), text.length()), location.topLine(), location.leftColumn(),
+                    encoding == null ? "UTF-8" : encoding.charset().name(), encoding == null ? "" : HexFormat.of().formatHex(encoding.bom()));
+        }).toList());
+    }
+
+    private void queueRecovery() {
+        if (closing) return;
+        recoveryRequested = true;
+        if (pendingRecovery != null) return;
+        pendingRecovery = background.schedule(() -> SwingUtilities.invokeLater(() -> {
+            if (closing) return;
+            recoveryRequested = false;
+            var capture = captureRecovery();
+            background.execute(() -> {
+                if (closing) return;
+                try { var snapshot = capture.get(); if (snapshot != null) recovery.write(snapshot); recoveryFailureReported = false; }
+                catch (Exception failure) {
+                    if (!recoveryFailureReported) { recoveryFailureReported = true; errorLater(new java.io.IOException("Recovery snapshot could not be saved; keep source files saved. " + message(failure), failure)); }
+                }
+                finally { SwingUtilities.invokeLater(() -> { pendingRecovery = null; if (recoveryRequested) queueRecovery(); }); }
+            });
+        }), 2, TimeUnit.SECONDS);
     }
 
     private void accept(CompilationResult result, boolean explicit) {
@@ -4437,6 +4478,7 @@ public final class TurboFrame extends JFrame {
     }
 
     private void finishSave() {
+        queueRecovery();
         saving = false;
         DeferredSave pending = deferredSave;
         deferredSave = null;
@@ -4485,29 +4527,69 @@ public final class TurboFrame extends JFrame {
     }
 
     public void offerRecovery() {
-        background.execute(
-                () -> {
-                    try {
-                        if (!Files.exists(recovery)) return;
-                        String text = SafeFiles.readUtf8(recovery);
-                        SwingUtilities.invokeLater(
-                                () -> {
-                                    if (editor.version() != savedVersion) return;
-                                    if (EmbeddedOptionPane.showConfirmDialog(
-                                                    this,
-                                                    "Restore the recoverable editor buffer?",
-                                                    "TurboJ recovery",
-                                                    JOptionPane.YES_NO_OPTION)
-                                            == JOptionPane.YES_OPTION) {
-                                        editor.setText(text);
-                                        savedVersion = -1;
-                                        refreshTitle();
-                                    }
-                                });
-                    } catch (Exception e) {
-                        errorLater(e);
-                    }
+        background.execute(() -> {
+            try {
+                var claims = recovery.claimPrevious();
+                var warnings = recovery.warnings();
+                SwingUtilities.invokeLater(() -> {
+                    if (!warnings.isEmpty()) showError(String.join("\n", warnings));
+                    offerRecovery(claims, 0);
                 });
+            } catch (Exception failure) { errorLater(failure); }
+        });
+    }
+
+    private void offerRecovery(List<SessionRecovery.Claim> claims, int index) {
+        if (index >= claims.size()) return;
+        var claim = claims.get(index);
+        if (closing) { claims.subList(index, claims.size()).forEach(this::releaseRecovery); return; }
+        var snapshot = claim.snapshot();
+        if (EmbeddedOptionPane.showConfirmDialog(this,
+                "Restore " + snapshot.entries().size() + " recoverable buffers? File paths, unsaved text and cursor positions are retained."
+                        + "\nExisting buffers are preserved; conflicting recovered copies open as Untitled. No keeps this recovery for later.",
+                "TurboJ recovery", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+            releaseRecovery(claim); offerRecovery(claims, index + 1); return;
+        }
+        background.execute(() -> {
+            var restored = new LinkedHashMap<String, Buffer>();
+            for (var entry : snapshot.entries()) {
+                var document = new dev.turboj.editor.document.PieceTable(entry.text());
+                var location = new EditorComponent.Location(entry.caret(), entry.anchor(), entry.topLine(), entry.leftColumn());
+                boolean dirty = entry.dirty();
+                try { dirty |= entry.file() == null || !Objects.equals(entry.fingerprint(),
+                        Optional.ofNullable(SafeFiles.fingerprint(Path.of(entry.file()))).map(HexFormat.of()::formatHex).orElse(null)); }
+                catch (java.io.IOException unavailable) { dirty = true; }
+                restored.put(entry.key(), new Buffer(entry.file() == null ? null : Path.of(entry.file()),
+                        new EditorComponent.EditorState(document, location, false),
+                        entry.fingerprint() == null ? null : HexFormat.of().parseHex(entry.fingerprint()), dirty ? -1 : document.version()));
+            }
+            SwingUtilities.invokeLater(() -> {
+                if (closing) { releaseRecovery(claim); offerRecovery(claims, index + 1); return; }
+                rememberBuffer(); Path selected = null;
+                for (var entry : snapshot.entries()) {
+                    Path key = Path.of(entry.key()); Buffer value = restored.get(entry.key());
+                    if (buffers.containsKey(key)) {
+                        key = untitledKey(); value = new Buffer(null, value.state(), null, -1);
+                    }
+                    buffers.put(key, value);
+                    if (value.file() != null) fileEncodings.put(value.file(), new SourceEncoding.Encoding(
+                            java.nio.charset.Charset.forName(entry.encoding()), HexFormat.of().parseHex(entry.bom())));
+                    if (entry.key().equals(snapshot.activeKey())) selected = key;
+                }
+                if (selected != null) activate(selected, buffers.get(selected));
+                var capture = captureRecovery();
+                background.execute(() -> {
+                    try { recovery.write(capture.get()); claim.discard(); }
+                    catch (Exception failure) { errorLater(failure); }
+                    finally { releaseRecovery(claim); SwingUtilities.invokeLater(() -> offerRecovery(claims, index + 1)); }
+                });
+                flash("Recovered buffers. Source files have not been overwritten.", StatusBar.Level.NORMAL);
+            });
+        });
+    }
+
+    private void releaseRecovery(SessionRecovery.Claim claim) {
+        try { claim.close(); } catch (java.io.IOException failure) { errorLater(failure); }
     }
 
     private void palette() {
@@ -4565,7 +4647,7 @@ public final class TurboFrame extends JFrame {
                 () -> {
                     try {
                         settings.save();
-                        Files.deleteIfExists(recovery);
+                        recovery.finish();
                     } catch (Exception e) {
                         System.err.println(message(e));
                     } finally {
@@ -4952,7 +5034,11 @@ public final class TurboFrame extends JFrame {
                 result -> { if (Objects.equals(result.root(), lineIntelligence.project())) runCherry();
                     else flash("The displayed Cherry run belongs to another project.", StatusBar.Level.NORMAL); },
                 result -> { if (Objects.equals(result.root(), lineIntelligence.project())) lineIntelligence.cancel(); },
-                this::openCherryReport);
+                this::openCherryReport, lineIntelligence::runs,
+                (result, selected) -> {
+                    if (maven.workspace() != null && !maven.requireTrust()) return;
+                    lineIntelligence.rerun(settings.cherryTestExecutable,result,selected);
+                });
     }
 
     private void openCherryReport() {

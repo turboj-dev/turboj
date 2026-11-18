@@ -1,0 +1,41 @@
+{
+  "runId": "20261118-153627-0ecd18",
+  "outcome": "COMPLETED",
+  "tests": 1,
+  "passed": 1,
+  "failed": 0,
+  "genuineStartedEvents": 1,
+  "genuineCompletedEvents": 1,
+  "repositories": [
+    {
+      "root": "/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project",
+      "id": "5b8c616712a13990d0a3dd19ec4d464cf30df292e0799569837313feb7290d86"
+    }
+  ],
+  "collections": 1,
+  "capabilities": {
+    "exactSelectors": "true",
+    "testProgressScope": "Cherry JUnit extension lifecycle; other adapters report phase progress only",
+    "selectionSHA256": "2c36b843b86025b61030e1d06274fab97bf3f5a6fbee0e022ecfc52fd499ec38",
+    "testProgress": "true"
+  },
+  "testDetails": [
+    {
+      "locations": [
+        "/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project/src/test/java/demo/PriceTest.java:12"
+      ],
+      "name": "demo.PriceTest::demo_project_price_suite_fullprice_test",
+      "repository": "5b8c616712a13990d0a3dd19ec4d464cf30df292e0799569837313feb7290d86",
+      "exact": true,
+      "module": "/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project",
+      "selector": "junit-method"
+    }
+  ],
+  "coverage": {
+    "/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project/src/main/java/demo/Price.java": {
+      "COVERED/CURRENT/AVAILABLE": 1,
+      "PARTIAL/CURRENT/AVAILABLE": 1,
+      "UNCOVERED/CURRENT/AVAILABLE": 4
+    }
+  }
+}

@@ -10,7 +10,11 @@ import java.util.regex.Pattern;
 public final class LiveTemplateCatalog {
     public record Variable(String name, String expression, String defaultValue, boolean alwaysStop) {}
     public record Template(String id, String abbreviation, String body, List<String> contexts,
-                           List<Variable> variables, boolean disabled, String name, String description) {
+                           List<Variable> variables, boolean disabled, String name, String description, boolean reformat, boolean shortenNames) {
+        public Template(String id, String abbreviation, String body, List<String> contexts,
+                        List<Variable> variables, boolean disabled, String name, String description) {
+            this(id, abbreviation, body, contexts, variables, disabled, name, description, false, false);
+        }
         public Template(String id, String abbreviation, String body, List<String> contexts,
                         List<Variable> variables, boolean disabled) {
             this(id, abbreviation, body, contexts, variables, disabled, abbreviation, "");
@@ -22,7 +26,7 @@ public final class LiveTemplateCatalog {
     public static final Set<String> CONTEXTS = Set.of("JAVA_STATEMENT", "JAVA_DECLARATION", "JAVA_EXPRESSION", "JAVA_CODE",
             "JAVA_ELSE_PLACE", "JAVA_CONSUMER", "JAVA_LANG_IO_STATEMENT", "JAVA_IMPLICIT_CLASS_DECLARATION",
             "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN", "JAVA_NORMAL_CLASS_DECLARATION_WITHOUT_INSTANCE_MAIN",
-            "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY_STATIC_FACTORY_METHODS_WITH_EXECUTION_EXCEPTION");
+            "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY_STATIC_FACTORY_METHODS_WITH_EXECUTION_EXCEPTION", "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY");
     private final List<Template> templates;
     private final Map<String, List<Template>> abbreviations;
     public LiveTemplateCatalog(List<Template> builtins, List<Template> users) {
@@ -76,7 +80,8 @@ public final class LiveTemplateCatalog {
                 String name = o.has("name") ? required(o, "name").strip() : abbreviation;
                 if (name.isEmpty()) throw new IllegalArgumentException("Missing name");
                 result.add(new Template(id, abbreviation, body, List.copyOf(contexts), List.copyOf(variables),
-                        o.has("disabled") && o.get("disabled").getAsBoolean(), name, optional(o, "description")));
+                        o.has("disabled") && o.get("disabled").getAsBoolean(), name, optional(o, "description"),
+                        o.has("reformat") && o.get("reformat").getAsBoolean(), o.has("shortenNames") && o.get("shortenNames").getAsBoolean()));
                 if (result.size() > 2000) throw new IllegalArgumentException("Too many templates");
             }
             return List.copyOf(result);

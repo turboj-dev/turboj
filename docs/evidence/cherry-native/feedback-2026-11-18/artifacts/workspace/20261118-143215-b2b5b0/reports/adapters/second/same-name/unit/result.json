@@ -1,0 +1,44 @@
+{
+  "package": "same-name",
+  "phase": "unit",
+  "project": "second",
+  "result": {
+    "coverage": [
+      "/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-143215-b2b5b0/reports/adapters/second/same-name/unit/0.lcov"
+    ],
+    "diagnostics": [
+      "coverage import failed: no measured source lines inside selected workspace"
+    ],
+    "protocol": 1,
+    "success": false,
+    "tests": [
+      {
+        "attachments": [],
+        "duration_ms": 16,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::appliesDiscount",
+        "source": null,
+        "status": "passed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 2,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+        "source": null,
+        "status": "passed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 0,
+        "line": null,
+        "message": "coverage import failed: no measured source lines inside selected workspace",
+        "name": "runner",
+        "source": null,
+        "status": "failed"
+      }
+    ]
+  }
+}

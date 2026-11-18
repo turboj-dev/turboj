@@ -18,6 +18,46 @@ public final class LineIntelligence {
     public enum Attribution { TEST_DECLARATION, FAILURE_LOCATION, REPORTED_TEST_LOCATION, DECLARED_TARGET, DYNAMIC_EXECUTION, HEURISTIC }
     public enum RunState { PENDING, RUNNING, COMPLETED, FAILED, CANCELLED, INCOMPLETE, UNAVAILABLE }
 
+    public record TestSelector(String kind,String value,String phaseKey,String runtimeId,String adapterId,
+            Path manifest,boolean exact,String reason) {
+        public TestSelector {
+            kind = text(kind); value = text(value); phaseKey = text(phaseKey); runtimeId = text(runtimeId);
+            adapterId = text(adapterId); manifest = absolute(manifest); reason = text(reason);
+            if (kind.length() > 128 || value.length() > 4096 || runtimeId.length() > 4096 || adapterId.length() > 256)
+                throw new IllegalArgumentException("Oversized test selector");
+            if (exact && (kind.isBlank() || value.isBlank() || !phaseKey.matches("[a-f0-9]{64}")
+                    || runtimeId.isBlank() || adapterId.isBlank() || manifest == null))
+                throw new IllegalArgumentException("Exact test selector requires complete execution identity");
+        }
+    }
+    public record Repository(String id,Path root,String worktree) {
+        public Repository { id = text(id); root = absolute(root); worktree = text(worktree); Objects.requireNonNull(root); }
+    }
+    public record PhaseExecution(String invocation,String project,String module,String phase,String runtime,
+            RunState state,String inventoryCompleteness,int reportedTests) {
+        public PhaseExecution {
+            invocation = text(invocation); project = text(project); module = text(module); phase = text(phase); runtime = text(runtime);
+            Objects.requireNonNull(state); inventoryCompleteness = text(inventoryCompleteness);
+            if (reportedTests < 0) throw new IllegalArgumentException("Negative result count");
+        }
+    }
+    public record ExecutionContext(List<Repository> repositories,Map<String,String> capabilities,Map<String,PhaseExecution> phases) {
+        public ExecutionContext(List<Repository> repositories,Map<String,String> capabilities) { this(repositories,capabilities,Map.of()); }
+        public ExecutionContext {
+            repositories = List.copyOf(repositories); capabilities = Map.copyOf(capabilities);
+            phases = Collections.unmodifiableMap(new LinkedHashMap<>(phases));
+        }
+        public ExecutionContext withPhase(PhaseExecution phase) {
+            var updated = new LinkedHashMap<>(phases); updated.put(phase.invocation(),phase);
+            return new ExecutionContext(repositories,capabilities,updated);
+        }
+        public List<Path> sourceRoots(Path workspace) {
+            var roots = new LinkedHashSet<Path>(); roots.add(workspace); repositories.forEach(repository -> roots.add(repository.root()));
+            return List.copyOf(roots);
+        }
+        public static ExecutionContext empty() { return new ExecutionContext(List.of(),Map.of()); }
+    }
+
     public record SourceIdentity(Path workspace, Path repository, String project, String module,
             Path file, String documentId, long version, String sourceHash, String compilationId) {
         public SourceIdentity {
@@ -36,18 +76,26 @@ public final class LineIntelligence {
     public record TestResult(String id, String runId, String suite, String name, String project,
             String module, String packageName, String phase, String runtime, String invocation,
             TestStatus status, Freshness freshness, long durationMillis, String failure,
-            List<Association> associations) {
+            List<Association> associations,TestSelector selector,Path moduleRoot,String repositoryId) {
+        public TestResult(String id,String runId,String suite,String name,String project,String module,String packageName,
+                String phase,String runtime,String invocation,TestStatus status,Freshness freshness,long durationMillis,
+                String failure,List<Association> associations) {
+            this(id,runId,suite,name,project,module,packageName,phase,runtime,invocation,status,freshness,durationMillis,
+                    failure,associations,null,null,"");
+        }
         public TestResult {
             id = text(id); runId = text(runId); suite = text(suite); name = text(name);
             project = text(project); module = text(module); packageName = text(packageName);
             phase = text(phase); runtime = text(runtime); invocation = text(invocation);
             status = Objects.requireNonNull(status); freshness = Objects.requireNonNull(freshness);
             failure = text(failure); associations = List.copyOf(associations);
+            moduleRoot = absolute(moduleRoot); repositoryId = text(repositoryId);
             if (durationMillis < 0) throw new IllegalArgumentException("Negative test duration");
         }
         public TestResult withFreshness(Freshness value) {
+            if (freshness == value) return this;
             return new TestResult(id,runId,suite,name,project,module,packageName,phase,runtime,
-                    invocation,status,value,durationMillis,failure,associations);
+                    invocation,status,value,durationMillis,failure,associations,selector,moduleRoot,repositoryId);
         }
     }
     /** Unknown counters are -1. Zero means a measured zero, never an absent report. */
@@ -80,6 +128,7 @@ public final class LineIntelligence {
                     Freshness.UNKNOWN, availability, Precision.UNKNOWN, -1,-1,-1,-1,"","","","","","",reason);
         }
         public Coverage withFreshness(Freshness value) {
+            if (freshness == value) return this;
             return new Coverage(state,value,availability,precision,coveredInstructions,missedInstructions,
                     coveredBranches,missedBranches,provider,scope,runId,processId,sourceHash,classIdentity,reason,proof);
         }
@@ -113,9 +162,42 @@ public final class LineIntelligence {
         }
         public Line line(int number) { return lines.getOrDefault(number, EMPTY_LINE); }
     }
+    /** One provider collection, retained independently from a provider-level merged result. */
+    public record CoverageObservation(String id, String invocation, String project, String module,
+            String packageName, String phase, String runtime, Path artifact,
+            Map<Path,Map<Integer,Coverage>> coverage) {
+        public CoverageObservation {
+            id = text(id); invocation = text(invocation); project = text(project); module = text(module);
+            packageName = text(packageName); phase = text(phase); runtime = text(runtime); artifact = absolute(artifact);
+            coverage = immutableCoverage(coverage);
+        }
+        public CoverageObservation withCoverage(Map<Path,Map<Integer,Coverage>> values) {
+            return new CoverageObservation(id,invocation,project,module,packageName,phase,runtime,artifact,values);
+        }
+        public CoverageObservation withFreshness(Freshness freshness) {
+            var values = new LinkedHashMap<Path,Map<Integer,Coverage>>();
+            coverage.forEach((file,lines) -> {
+                var updated = new LinkedHashMap<Integer,Coverage>();
+                lines.forEach((line,value) -> updated.put(line,value.withFreshness(freshness)));
+                values.put(file,updated);
+            });
+            return withCoverage(values);
+        }
+    }
     public record Run(String id, Path root, RunState state, List<TestResult> tests,
             Map<Path, Map<Integer, Coverage>> coverage, Map<Path,String> sourceHashes,
-            String message, Path htmlReport, long sequence, Availability coverageAvailability) {
+            String message, Path htmlReport, long sequence, Availability coverageAvailability,
+            List<CoverageObservation> collections,ExecutionContext context) {
+        public Run(String id, Path root, RunState state, List<TestResult> tests,
+                Map<Path, Map<Integer, Coverage>> coverage, Map<Path,String> sourceHashes,
+                String message, Path htmlReport, long sequence, Availability coverageAvailability,List<CoverageObservation> collections) {
+            this(id,root,state,tests,coverage,sourceHashes,message,htmlReport,sequence,coverageAvailability,collections,ExecutionContext.empty());
+        }
+        public Run(String id, Path root, RunState state, List<TestResult> tests,
+                Map<Path, Map<Integer, Coverage>> coverage, Map<Path,String> sourceHashes,
+                String message, Path htmlReport, long sequence, Availability coverageAvailability) {
+            this(id,root,state,tests,coverage,sourceHashes,message,htmlReport,sequence,coverageAvailability,List.of());
+        }
         public Run(String id, Path root, RunState state, List<TestResult> tests,
                 Map<Path, Map<Integer, Coverage>> coverage, Map<Path,String> sourceHashes,
                 String message, Path htmlReport, long sequence) {
@@ -133,7 +215,30 @@ public final class LineIntelligence {
             });
             coverage = Collections.unmodifiableMap(immutable); sourceHashes = Map.copyOf(sourceHashes);
             message = text(message); htmlReport = absolute(htmlReport); Objects.requireNonNull(coverageAvailability);
+            Objects.requireNonNull(context);
+            if (state == RunState.CANCELLED || state == RunState.INCOMPLETE || state == RunState.UNAVAILABLE) {
+                for (PhaseExecution phase : List.copyOf(context.phases().values())) if (phase.state() == RunState.RUNNING)
+                    context = context.withPhase(new PhaseExecution(phase.invocation(),phase.project(),phase.module(),phase.phase(),phase.runtime(),
+                            state == RunState.CANCELLED ? RunState.CANCELLED : RunState.INCOMPLETE,phase.inventoryCompleteness(),phase.reportedTests()));
+            }
+            collections = collections.stream().map(collection -> state == RunState.COMPLETED || state == RunState.FAILED
+                    ? collection : collection.withCoverage(pendingCoverage(collection.coverage()))).toList();
         }
+    }
+    private static Map<Path,Map<Integer,Coverage>> immutableCoverage(Map<Path,Map<Integer,Coverage>> values) {
+        var immutable = new LinkedHashMap<Path,Map<Integer,Coverage>>();
+        values.forEach((file,lines) -> immutable.put(absolute(file),Collections.unmodifiableMap(new TreeMap<>(lines))));
+        return Collections.unmodifiableMap(immutable);
+    }
+    private static Map<Path,Map<Integer,Coverage>> pendingCoverage(Map<Path,Map<Integer,Coverage>> values) {
+        var pending = new LinkedHashMap<Path,Map<Integer,Coverage>>();
+        values.forEach((file,lines) -> {
+            var updated = new LinkedHashMap<Integer,Coverage>();
+            lines.forEach((line,value) -> updated.put(line,value.freshness() == Freshness.CURRENT
+                    ? value.withFreshness(Freshness.UNKNOWN) : value));
+            pending.put(file,updated);
+        });
+        return pending;
     }
     private static final Line EMPTY_LINE = new Line(false,List.of(),Coverage.unknown(Availability.UNKNOWN,"No line evidence"));
     public static String sha256(String source) {

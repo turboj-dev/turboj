@@ -1,0 +1,38 @@
+cherry-test init: 1 projects, 1 packages, 0 test(s) (0 unit, 0 integration, 0 scoped)
+  demo/native-ide — unit
+
+cherry-test run: 20261118-152146-339998 (/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project/target/cherry-test/runs/20261118-152146-339998)
+
+==> demo/native-ide/unit (maven)
+  demo.PriceTest
+    ✓ demo_project_price_suite_fullprice_test(TestEnv)                               ok       722ms
+    ✓ demo_project_price_suite_discount_test(TestEnv)                                ok       260ms
+  2 tests · 2 ok · 0 failed · 0 skipped · 982ms
+==> report snapshot
+==> html report
+crap: 4 functions · worst 3.3 · 0 at or above 30 (0.0%) · crap load 0.0
+    3.3  discounted      Price.java:6  throw new IllegalArgumentException("percent outside 0..100");
+    2.0  Price           Price.java:4  private Price() {}
+    2.0  deliveryFee     Price.java:13  return 500;
+    2.0  main            Price.java:17  System.out.println(discounted(100, 10));
+
+cherry-test OK  run:20261118-152146-339998   pkg 1/1    tests run:2 skip:0 fail:0 ok:100%  all:33.3% unit:33.3% it:- diff:0.0%                        report: /private/tmp/turboj-cherry-feedback-m99ac…
+
+projects
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+project    package                                          unit                unit_fn                                     it                  it_fn                                 merged status     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+demo       native-ide                                          -                      -                                      -                      -                                      - ok         
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALL        (changed)                                           -                      -                                      -                      -                                      - ALL        
+
+tests
+demo        2 run · 2 ok · 0 fail · 0 skip · 982ms total · 491ms avg · 260ms fastest · 722ms slowest
+  unit          2 run · 2 ok · 0 fail · 0 skip · 982ms total · 491ms avg · 260ms fastest · 722ms slowest
+    native-ide: demo.PriceTest::demo_project_price_suite_discount_test(Test… none                     demo.native-ide                   260       ok       ok
+    native-ide: demo.PriceTest::demo_project_price_suite_fullprice_test(Tes… none                     demo.native-ide                   722       ok       ok
+
+mini
+  unit            2 run · 2 ok · 0 fail · 0 skip · 982ms total · 491ms avg · 260ms fastest · 722ms slowest
+  all             2 run · 2 ok · 0 fail · 0 skip · 982ms total · 491ms avg · 260ms fastest · 722ms slowest
+

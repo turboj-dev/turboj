@@ -22,8 +22,9 @@ this uses CommandJ's existing completion and indentation routes.
 
 Inside a live-template field, Tab/Shift+Tab move between fields; Tab after the last field
 finishes at `$END$`. Enter finishes from any field. Escape dismisses completion first, then rolls back the expansion
-and its field edits. Confirmed expansion and field edits have one Undo transaction. Save, Save All and Format finish
-the template first. Changing files ends linked editing and retains the text. Editing outside fields also ends it;
+and its field edits. Confirmed expansion, field edits and automatic import/format edits have one Undo transaction. Save, Save All and Format wait
+for template finalization first. Preparation uses the current source snapshot off the EDT; a newer edit or document
+switch rejects the late result and cancels the deferred command rather than overwriting new text. Changing files ends linked editing and retains the text. Editing outside fields also ends it;
 that outside edit is not folded into the template's Undo transaction.
 
 Generated-method/refactoring templates retain their established **wrapping Tab** behavior. They are semantic
@@ -55,8 +56,12 @@ illustrative expansion in `Example.example(int[] values)`, with `selected();` as
 project-specific semantic validation and does not execute code. Unresolved macros keep their defaults or empty
 editable fields, exactly as in expansion. Select/copy and scrolling remain available in the preview.
 
-**Configuration** contains applicable contexts and the variable table: name, expression, default value and Stop.
-Contexts not offered by the current engine are labeled explicitly. Focus the tabs and use Left/Right to change
+**Configuration** contains applicable contexts, **Format expanded code**, **Shorten qualified names / add imports**,
+and the variable table: name, expression, default value and Stop. Project-dependent contexts are labeled explicitly.
+The two transformation flags are optional schema-v1 booleans `reformat` and `shortenNames`; old user definitions
+keep both disabled unless opted in. Built-ins retain the pinned upstream flags. Formatting uses the selected engine
+and project language level; unsupported/invalid formatting leaves the user text intact. Qualified type names are
+shortened only when their bindings resolve and the short name has no conflicting import/declaration/use. Focus the tabs and use Left/Right to change
 pages. In the table, arrows select a cell, F2 edits, Enter commits and Tab leaves the table. Tab/Shift+Tab also
 traverse code and preview; Escape cancels the dialog. Multi-line code uses Enter, not a form confirmation.
 
@@ -120,21 +125,31 @@ Two further groups provide `psvm`, `main`, `psvma`, `maina` for implicit classes
 instance main methods. The chooser filters by current context; catalog presence alone does not mean applicability.
 
 Supported automatic values include enclosing class/method, file name, parameter logging, unused index/variable
-names, visible declared variables, array components, declared generic arguments, aliases and string escaping.
-Variable/type suggestions use the parsed declarations, not a claim of full project binding or subtype inference.
-Unknown types, expected types, subtype selection, casts and unsupported macro expressions remain explicit editable
-fields with defaults. This is **not complete IntelliJ macro parity**. In particular:
+names, visible bound variables, array components, generic arguments (including inherited collection types), aliases,
+string escaping, nested expected-type expressions, resolved iterator/list expression types and compatible casts.
+The application asks the existing shared JDT semantic workspace; it does not create another project index. Static
+contexts exclude instance fields, out-of-scope declarations are excluded, and a variable is not offered inside its
+own initializer. Primitive variables are never used for reference/null-check templates.
 
-* `serrc` / `soutc` require a proven Consumer target context; they remain in the catalog but are not automatically offered.
-* `iop` / `ior` require an IO/language-level context; they are not automatically offered yet.
-* `sts` requires the matching structured-concurrency preview API; it is not automatically offered yet.
-* Imported snippets do not automatically shorten qualified names, add imports, or run FormatJ. Explicit Format remains available.
-* `groovyScript`, clipboard macros and arbitrary code execution are not implemented. Unsupported expressions are never executed.
+The macro evaluator accepts nested calls with bounded depth. Ambiguous subtype choices and unavailable bindings
+remain explicit editable fields; no arbitrary subtype or unsafe cast is invented. The illustrative settings preview
+continues to use its declared sample context, so it can show unresolved fields that are inferred in a real project.
+
+* `serrc` / `soutc` require a resolved one-argument, void-returning functional target (for example `Consumer<String>`).
+* `iop` / `ior` require Java 25+ and `IO` resolving to the actual `java.lang.IO`, without a shadowing declaration.
+* `sts` requires preview enabled and the actual modern `StructuredTaskScope.open()/join()/FailedException` API.
+  Java 25 `join()` does not throw the checked `ExecutionException` caught by the pinned upstream definition.
+  The generated catalog deliberately adapts that catch to `StructuredTaskScope.FailedException`, and records the
+  compatibility decision. Pinned XML remains unchanged. The incompatible old context ID remains readable for
+  existing user JSON but is not offered automatically.
+* Optional shortening/imports and formatting run on confirmation. Missing classpath or a name conflict keeps the
+  qualified name. Unknown formatting support leaves the expansion intact. Explicit Format is still available.
+* `groovyScript`, clipboard macros and arbitrary code execution remain unsupported and are never executed.
 
 These limits are intentionally visible rather than importing working-looking actions with invented semantic results.
 Ordinary statement/declaration/expression contexts exclude strings, comments and text blocks. User templates can
-declare those contexts explicitly. Java parsing runs on a dedicated worker only when expanding or opening the
-chooser. Applying a result requires the same document, revision, caret/selection, request and editor focus; late
+declare those contexts explicitly. Lexical Java parsing runs on the template worker and semantic requests use the existing serial workspace worker
+only for a matching abbreviation or explicit chooser. Applying a result requires the same document, revision, caret/selection, request and editor focus; late
 results cannot overwrite subsequent edits. Catalog sizes and template lengths are bounded.
 
 References: [IntelliJ live templates](https://www.jetbrains.com/help/idea/using-live-templates.html),
@@ -143,7 +158,7 @@ References: [IntelliJ live templates](https://www.jetbrains.com/help/idea/using-
 
 ## Validation
 
-Unit tests: `LiveTemplateSettingsTest`, `LiveTemplatesTest`, `JavaTemplateTypesTest`, `EditorTemplateTest`, `KeyboardDefaultsTest`.
+Unit tests: `LiveTemplateSemanticTest`, `LiveTemplateFinishTest`, `LiveTemplateSettingsTest`, `LiveTemplatesTest`, `JavaTemplateTypesTest`, `EditorTemplateTest`, `KeyboardDefaultsTest`.
 Native acceptance: `LiveTemplateDialogSmoke`, `LiveTemplatePrecedenceSmoke`, `LiveTemplateWorkflowSmoke` and the existing `InlineTemplateSmoke`, using isolated preferences
 and projects, real Swing key events, CommandJ callbacks, actual linked fields and JDT proposals.
 

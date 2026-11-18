@@ -1,0 +1,72 @@
+{
+  "runtime": "25.0.4.1+10-LTS",
+  "os": "Mac OS X 26.5.1 aarch64",
+  "processors": 10,
+  "conditions": "Synthetic source/evidence fixture. Serial offscreen Java2D paint on the EDT; not native input-to-display latency. No assertion that targets are attained. Git runs off the EDT against an owned local temporary repository, no remote. All source/class evidence is unchanged by the harness.",
+  "warmupIterations": 20,
+  "paintSamples": 100,
+  "rendering": [
+    {
+      "logicalLines": 10000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 5.360166,
+      "denseSnapshotInstallMs": 0.043333,
+      "plainPaintMicros": {
+        "min": 283.25,
+        "median": 359.708,
+        "p95": 407.583,
+        "max": 449.667
+      },
+      "threeLanePaintMicros": {
+        "min": 428.25,
+        "median": 449.958,
+        "p95": 509.917,
+        "max": 629.667
+      },
+      "medianPaintDeltaMicros": 90.25,
+      "snapshotLookupMicros": {
+        "min": 0.0,
+        "median": 0.083,
+        "p95": 0.084,
+        "max": 15.25
+      }
+    },
+    {
+      "logicalLines": 100000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 14.7135,
+      "denseSnapshotInstallMs": 0.0375,
+      "plainPaintMicros": {
+        "min": 281.916,
+        "median": 288.333,
+        "p95": 302.375,
+        "max": 331.667
+      },
+      "threeLanePaintMicros": {
+        "min": 429.0,
+        "median": 466.833,
+        "p95": 506.083,
+        "max": 550.375
+      },
+      "medianPaintDeltaMicros": 178.5,
+      "snapshotLookupMicros": {
+        "min": 0.0,
+        "median": 0.042,
+        "p95": 0.042,
+        "max": 6.75
+      }
+    }
+  ],
+  "git": {
+    "samples": 15,
+    "coldMs": 51.088625,
+    "logicalLines": 10000,
+    "warmMicros": {
+      "min": 36484.625,
+      "median": 39000.333,
+      "p95": 44581.625,
+      "max": 44581.625
+    },
+    "includes": "process launch, Git baseline lookup, snapshot files, patch parse, cleanup"
+  }
+}

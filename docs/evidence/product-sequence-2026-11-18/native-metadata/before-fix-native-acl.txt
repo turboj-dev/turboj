@@ -1,0 +1,10 @@
+REVIEW_DIRECTORY=/private/tmp/turboj-safe-files-acl-review-2xv2u4ln
+BEFORE
+-rw-r--r--+ 1 luca  wheel  16 Nov 18 16:16 /private/tmp/turboj-safe-files-acl-review-2xv2u4ln/Source.java
+ 0: group:everyone allow read
+RESULT
+ACL_VIEW=null
+SOURCE=class Source { int x; }
+
+AFTER
+-rw-r--r--@ 1 luca  wheel  24 Nov 18 16:16 /private/tmp/turboj-safe-files-acl-review-2xv2u4ln/Source.java

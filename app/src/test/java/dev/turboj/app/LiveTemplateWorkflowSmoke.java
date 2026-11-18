@@ -29,7 +29,7 @@ public final class LiveTemplateWorkflowSmoke {
             await(() -> frame.mavenProjects().hasProject(), "project"); edt(() -> { frame.openPath(source); return null; });
             await(() -> source.equals(frame.currentFile()) && frame.editor().isFocusOwner(), "source");
             if (args.length > 0 && args[0].equals("--qfx08")) { semanticGeneratedFields(); extractedInlineFields(); }
-            else { builtins(); custom(); lifecycle(); invalidGeneratedFields(); generatedLifecycle(); printCompletion(); restartPersistence(); }
+            else { builtins(); custom(); advancedSemantics(); lifecycle(); invalidGeneratedFields(); generatedLifecycle(); printCompletion(); restartPersistence(); }
         } finally {
             Files.writeString(output.resolve("effects.tsv"), report);
             edt(() -> { for (var d : List.copyOf(OverlayHost.dialogs(frame))) d.dispose(); frame.shutdown(); frame.dispose(); return null; });
@@ -94,28 +94,33 @@ public final class LiveTemplateWorkflowSmoke {
         }
     }
 
+    static boolean templateSettled() throws Exception {
+        var field = TurboFrame.class.getDeclaredField("liveTemplates"); field.setAccessible(true);
+        return !((dev.turboj.templates.LiveTemplateController) field.get(frame)).active();
+    }
     static void snippet(String abbreviation) throws Exception {
+        await(LiveTemplateWorkflowSmoke::templateSettled, "previous template postprocessing finished");
         String code = "public class C { void f() {\n    " + abbreviation + "\n} }\n";
         int at = "public class C { void f() {\n    ".length() + abbreviation.length(); fixture(code, at, at);
     }
     static void builtins() throws Exception {
         for (String profile : List.of("intellij-macos", "eclipse-macos", "vscode-macos", "turboj-macos")) {
             action("keymap.profile." + profile); snippet("sout"); key(KeyEvent.VK_TAB, 0);
-            await(() -> frame.editor().getText().contains("System.out.println();"), "sout expansion " + profile);
+            await(() -> frame.editor().getText().contains("System.out.println();") && templateSettled(), "sout expansion " + profile);
             check(edt(() -> frame.editor().getText().substring(0, frame.editor().caretOffset())).endsWith("println("), "caret inside println");
             check(!edt(() -> frame.editor().templateActive()), "simple template has no placeholder session");
             action("undo"); await(() -> frame.editor().getText().contains("    sout\n"), "sout undo");
             action("redo"); await(() -> frame.editor().getText().contains("System.out.println();"), "sout redo");
             pass("indent", "sout Tab, exact caret, Undo/Redo in " + profile);
         }
-        snippet("sout"); action("editor.expandLiveTemplate"); await(() -> frame.editor().getText().contains("System.out.println();"), "explicit expansion");
+        snippet("sout"); action("editor.expandLiveTemplate"); await(() -> frame.editor().getText().contains("System.out.println();") && templateSettled(), "explicit expansion");
         pass("editor.expandLiveTemplate", "actual default chord expands source");
         snippet("fori"); key(KeyEvent.VK_TAB, 0); await(() -> frame.editor().templateActive(), "fori fields");
         check(edt(() -> frame.editor().getSelectedText()).equals("i"), "first fori field"); type("index");
         check(edt(() -> frame.editor().getText()).contains("index++"), "all index occurrences linked");
         key(KeyEvent.VK_TAB, 0); type("3"); key(KeyEvent.VK_TAB, KeyEvent.SHIFT_DOWN_MASK);
         check(edt(() -> frame.editor().getSelectedText()).equals("index"), "Shift Tab previous");
-        key(KeyEvent.VK_TAB, 0); key(KeyEvent.VK_TAB, 0); await(() -> !frame.editor().templateActive(), "last Tab exits snippet");
+        key(KeyEvent.VK_TAB, 0); key(KeyEvent.VK_TAB, 0); await(() -> !frame.editor().templateActive() && templateSettled(), "last Tab exits snippet");
         String after = edt(() -> frame.editor().getText()); compile(after);
         action("undo"); await(() -> frame.editor().getText().contains("    fori\n"), "one undo whole snippet");
         action("redo"); await(() -> frame.editor().getText().equals(after), "whole snippet redo");
@@ -124,7 +129,10 @@ public final class LiveTemplateWorkflowSmoke {
     static final String CUSTOM = """
             {"schemaVersion":1,"templates":[{"id":"user/twice","abbreviation":"twice",
              "body":"int $NAME$ = 1; System.out.println($NAME$);$END$", "contexts":["JAVA_STATEMENT"],
-             "variables":[{"name":"NAME","defaultValue":"total"}]}]}
+             "variables":[{"name":"NAME","defaultValue":"total"}]},
+            {"id":"user/collections","abbreviation":"collections", "reformat":true,"shortenNames":true,
+             "body":"java.util.List<java.lang.String> $NAME$=new java.util.ArrayList<>();System.out.println($NAME$);$END$",
+             "contexts":["JAVA_STATEMENT"],"variables":[{"name":"NAME","defaultValue":"items"}]}]}
             """;
     static void custom() throws Exception {
         action("settings.liveTemplates"); dialog();
@@ -145,6 +153,23 @@ public final class LiveTemplateWorkflowSmoke {
         tab(c -> "live-template-filter".equals(c.getName())); type("sout"); key(KeyEvent.VK_DOWN, 0); key(KeyEvent.VK_UP, 0); key(KeyEvent.VK_ENTER, 0);
         await(() -> frame.editor().getText().contains("System.out.println();") && !OverlayHost.active(frame), "picker applies");
         pass("editor.insertLiveTemplate", "filter, arrows and Enter insert real catalog entry");
+    }
+    static void advancedSemantics() throws Exception {
+        snippet("collections"); String before = edt(() -> frame.editor().getText());
+        key(KeyEvent.VK_TAB, 0); await(() -> frame.editor().templateActive(), "qualified template fields");
+        type("names"); action("save");
+        await(() -> templateSettled() && !frame.editor().templateActive()
+                && Files.readString(source).equals(frame.editor().getText())
+                && frame.getTitle().equals("C.java — TurboJ"), "Save waits for actual imports and formatter");
+        String result = edt(() -> frame.editor().getText());
+        check(result.contains("import java.util.List;") && result.contains("import java.util.ArrayList;"), "resolved imports inserted");
+        check(result.contains("List<String> names = new ArrayList<>();") && result.contains("System.out.println(names);"), "qualified names shortened, linked field preserved, formatter applied");
+        check(!result.contains("java.lang.String"), "java.lang qualification shortened without redundant import");
+        check(edt(() -> frame.editor().getText().substring(0, frame.editor().caretOffset())).stripTrailing().endsWith("System.out.println(names);"), "exit caret follows imported and formatted expansion");
+        compile(result);
+        action("undo"); await(() -> frame.editor().getText().equals(before), "one Undo restores abbreviation before imports/format");
+        action("redo"); await(() -> frame.editor().getText().equals(result), "one Redo restores imports and complete expansion");
+        pass("live.semantic-finish", "real Tab expansion, linked rename and Save; JDT imports/shortening, selected formatter, mapped caret, exact saved bytes, javac and single Undo/Redo");
     }
     static void lifecycle() throws Exception {
         snippet("twice"); String before = edt(() -> frame.editor().getText()); key(KeyEvent.VK_TAB, 0);

@@ -1,0 +1,33 @@
+{
+  "package": "native-ide",
+  "phase": "unit",
+  "project": "demo",
+  "result": {
+    "coverage": [
+      "/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project/target/cherry-test/runs/20261118-143811-1eeec0/reports/adapters/demo/native-ide/unit/0.lcov"
+    ],
+    "diagnostics": [],
+    "protocol": 1,
+    "success": false,
+    "tests": [
+      {
+        "attachments": [],
+        "duration_ms": 678,
+        "line": null,
+        "message": "cherry-test package name unknown: set the cherrytest.package system property (failsafe systemPropertyVariables) or CHERRY_TEST_PACKAGE\ncom.cherrytest.common.rustcompat.AnyhowError: cherry-test package name unknown: set the cherrytest.package system property (failsafe systemPropertyVariables) or CHERRY_TEST_PACKAGE\n",
+        "name": "demo.PriceTest::demo_project_price_suite_fullprice_test(TestEnv)",
+        "source": null,
+        "status": "failed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 257,
+        "line": null,
+        "message": "cherry-test package name unknown: set the cherrytest.package system property (failsafe systemPropertyVariables) or CHERRY_TEST_PACKAGE\ncom.cherrytest.common.rustcompat.AnyhowError: cherry-test package name unknown: set the cherrytest.package system property (failsafe systemPropertyVariables) or CHERRY_TEST_PACKAGE\n",
+        "name": "demo.PriceTest::demo_project_price_suite_discount_test(TestEnv)",
+        "source": null,
+        "status": "failed"
+      }
+    ]
+  }
+}

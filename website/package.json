@@ -17,11 +17,12 @@
     "test:demo": "node tests/demo-browser.mjs",
     "test:demo:theme": "node tests/demo-theme-browser.mjs",
     "test:details": "node tests/hero-details-browser.mjs",
-    "test:hero:browser": "node tests/demo-browser.mjs && node tests/demo-theme-browser.mjs && node tests/hero-details-browser.mjs && node tests/hero-scenes-browser.mjs && node tests/themes-browser.mjs && node tests/theme-spin-browser.mjs",
+    "test:hero:browser": "node tests/demo-browser.mjs && node tests/demo-theme-browser.mjs && node tests/hero-details-browser.mjs && node tests/hero-scenes-browser.mjs && node tests/themes-browser.mjs && node tests/theme-spin-browser.mjs && node tests/all-themes-browser.mjs",
     "test:performance": "node tests/performance.mjs",
     "themes": "node scripts/export-themes.mjs",
     "themes:check": "node scripts/export-themes.mjs --check",
     "test:themes": "node tests/themes-browser.mjs",
+    "test:themes:all": "node tests/all-themes-browser.mjs",
     "test:spin": "node tests/theme-spin-browser.mjs",
     "test:scroll": "node tests/theme-scroll-browser.mjs",
     "test:latency": "node tests/theme-latency.mjs"

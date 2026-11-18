@@ -1,0 +1,72 @@
+{
+  "runtime": "25.0.4.1+10-LTS",
+  "os": "Mac OS X 26.5.1 aarch64",
+  "processors": 10,
+  "conditions": "Synthetic source/evidence fixture. Serial offscreen Java2D paint on the EDT; not native input-to-display latency. No assertion that targets are attained. Git runs off the EDT against an owned local temporary repository, no remote. All source/class evidence is unchanged by the harness.",
+  "warmupIterations": 20,
+  "paintSamples": 100,
+  "rendering": [
+    {
+      "logicalLines": 10000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 5.673666,
+      "denseSnapshotInstallMs": 0.067583,
+      "plainPaintMicros": {
+        "max": 523.833,
+        "p95": 400.917,
+        "median": 363.042,
+        "min": 286.75
+      },
+      "threeLanePaintMicros": {
+        "max": 636.625,
+        "p95": 496.083,
+        "median": 446.458,
+        "min": 414.792
+      },
+      "medianPaintDeltaMicros": 83.41600000000005,
+      "snapshotLookupMicros": {
+        "max": 10.458,
+        "p95": 0.084,
+        "median": 0.042,
+        "min": 0.0
+      }
+    },
+    {
+      "logicalLines": 100000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 15.860917,
+      "denseSnapshotInstallMs": 0.03325,
+      "plainPaintMicros": {
+        "max": 363.375,
+        "p95": 305.542,
+        "median": 290.791,
+        "min": 280.333
+      },
+      "threeLanePaintMicros": {
+        "max": 539.958,
+        "p95": 490.166,
+        "median": 463.125,
+        "min": 454.083
+      },
+      "medianPaintDeltaMicros": 172.334,
+      "snapshotLookupMicros": {
+        "max": 1.416,
+        "p95": 0.042,
+        "median": 0.042,
+        "min": 0.0
+      }
+    }
+  ],
+  "git": {
+    "includes": "process launch, Git baseline lookup, snapshot files, patch parse, cleanup",
+    "warmMicros": {
+      "max": 58076.0,
+      "p95": 58076.0,
+      "median": 42219.542,
+      "min": 39401.417
+    },
+    "logicalLines": 10000,
+    "coldMs": 53.01825,
+    "samples": 15
+  }
+}

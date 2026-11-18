@@ -1,0 +1,12 @@
+✔ production hero and total JavaScript stay within the recorded-session budgets (0.562833ms)
+ℹ {"bundles":[{"file":"ThemeSwitcher.astro_astro_type_script_index_0_lang.Bp-TaI15.js","bytes":19741,"gzipBytes":6928},{"file":"TurboJDemo.astro_astro_type_script_index_0_lang.Bi8UFDu1.js","bytes":17742,"gzipBytes":6657}],"inlineScripts":[{"bytes":2369,"gzipBytes":1041,"hero":false},{"bytes":236,"gzipBytes":178,"hero":false},{"bytes":50,"gzipBytes":61,"hero":true}],"heroJavaScriptGzipBytes":6718,"allJavaScriptGzipBytes":14865}
+✔ five lazy chapter payloads fit the text-data budget and do not embed screenshot bytes (2.840959ms)
+ℹ {"chapters":[{"id":"hello-world","bytes":14003,"gzipBytes":2629},{"id":"tests","bytes":34319,"gzipBytes":4987},{"id":"refactoring","bytes":34015,"gzipBytes":4645},{"id":"automation","bytes":24643,"gzipBytes":3690},{"id":"spring-boot","bytes":41005,"gzipBytes":5129}]}
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.745541

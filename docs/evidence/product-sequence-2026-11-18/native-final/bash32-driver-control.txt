@@ -1,0 +1,2 @@
+Running AIInteractionSmoke
+scripts/verify-keyboard-effects.sh: line 82: arguments[@]: unbound variable

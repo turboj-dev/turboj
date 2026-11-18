@@ -1,0 +1,57 @@
+{
+  "baseline": "dd75866 (already contains Cherry, not a pre-integration baseline)",
+  "forks": 3,
+  "order": "baseline/current alternating; sequential fresh JVMs",
+  "runs": [
+    {
+      "testResults": 10000,
+      "coverageRows": 10000,
+      "baseline": {
+        "medianImportAndPublishMs": 37.275208,
+        "allImportAndPublishMs": [
+          37.275208,
+          31.282041,
+          37.796458
+        ],
+        "medianRetainedHeapBytes": 5592448
+      },
+      "current": {
+        "medianImportAndPublishMs": 59.827458,
+        "allImportAndPublishMs": [
+          55.106958,
+          117.852792,
+          59.827458
+        ],
+        "medianRetainedHeapBytes": 6801888
+      }
+    },
+    {
+      "testResults": 100000,
+      "coverageRows": 100000,
+      "baseline": {
+        "medianImportAndPublishMs": 411.21425,
+        "allImportAndPublishMs": [
+          425.296875,
+          411.21425,
+          406.22
+        ],
+        "medianRetainedHeapBytes": 57935344
+      },
+      "current": {
+        "medianImportAndPublishMs": 435.693875,
+        "allImportAndPublishMs": [
+          435.693875,
+          419.316458,
+          439.731333
+        ],
+        "medianRetainedHeapBytes": 70013152
+      }
+    }
+  ],
+  "baselineArtifactSHA256": "56165b7a1979281adc2d38b2d034c2020c2e919c03fe7d988b47a5b37eeb9dfb",
+  "benchmarkSourceSHA256": "a71b2fc9622bfe31395bb10c265093b2dc68c228ebb16f9266ab8b7937c96931",
+  "currentSourceSHA256": {
+    "core/src/main/java/dev/turboj/testing/intelligence/CherryEvents.java": "875cebad373a47b304211e5bd70fb4456e0b91f1b789c8c2a265b63f20e3a117",
+    "core/src/main/java/dev/turboj/testing/intelligence/LineIntelligence.java": "263e91eb2b4cc661646859597937ee531d6f4d57b504971f874d11a1c4863f25"
+  }
+}

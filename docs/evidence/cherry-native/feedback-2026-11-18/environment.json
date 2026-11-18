@@ -1,0 +1,17 @@
+{
+  "turbojBaseCommit": "dd75866e810c3e5ca74b8e21b515eb3f4e5685de",
+  "cherryBaseCommit": "39af874d3d7c3d2589866aed9ee5d7664d47d0df",
+  "bothTreesContainUncommittedImplementation": true,
+  "finalCherryJarSHA256": "01004385b5163b3ef9aad1b55f01b482956640aeee79e8fe7f29e6c72a937f25",
+  "runtime": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode, sharing)",
+  "finalControls": [
+    "workspace/final-full.jsonl",
+    "progress-project/progress-3.jsonl",
+    "progress-project/progress-exact.jsonl"
+  ],
+  "earlierJarControlHashes": {
+    "crossrepoFullAndExact": "1980ca4e9f1cb2d9267461e2f0a95ae995fef8c70566f7894278907e0f8ca00e",
+    "progress2": "bacfa0b5857d5469a08130482d3bc9659628aee726b4849832f54a9cea9b829e"
+  },
+  "note": "Actual event/receipt hashes remain unmodified; archived paths are historical. Final source revisions are bound by the parent release receipt."
+}

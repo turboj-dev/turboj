@@ -1,5 +1,29 @@
 # Website validation
 
+## Local alignment — 18 November 2026
+
+Current native pane outlines and shared zoom font are reflected in the recorded
+reconstruction. Output/Explorer have bounded keyboard and pointer resize handles;
+Play/Pause remains the only public transport control. Native evidence, measured
+intervals, logo, palettes and unrelated homepage sections are preserved.
+A rapid theme-dialog close/reopen race discovered by the new 103-theme keyboard
+sweep is fixed and covered by a deterministic regression.
+
+Astro check: zero errors/warnings; 53 source/content/evidence tests and 369 browser
+checks PASS, plus the dialog lifecycle control. Required widths, every theme,
+reduced motion, no-JS, source/log downloads, playback clocks and first-paint
+Monokai behavior were checked. Hero/all JS: 6,718/14,865 gzip bytes. Three local
+Lighthouse runs scored 100 in all four categories; LCP about 1,657 ms, TBT 0,
+CLS 0.00049748. Final guarded build/reference export PASS against the identified
+36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9 JAR: 312 commands,
+29 aliases, three exact generated downloads. Four four-page PDF cheat sheets
+were regenerated and layout-checked. Final HTML/CSS/JS bytes match the previously
+measured browser/Lighthouse artifacts.
+
+[Evidence, exact commands, scope and limitations](../docs/evidence/website-alignment-2026-11-18/README.md).
+No deployment occurred. Earlier results below remain historical.
+
+
 The production build is the test target. Run with Node 22.23.4 or newer; this
 machine also provides Node 26 at `/opt/homebrew/bin/node`.
 
@@ -14,6 +38,7 @@ npm run test:demo
 npm run test:demo:theme
 node tests/session-browser.mjs
 npm run test:themes
+npm run test:themes:all
 npm run test:spin
 npm run test:scroll
 node tests/theme-latency.mjs

@@ -1,0 +1,401 @@
+{
+  "createdAt": "2026-11-18T17:11:46.376766+00:00",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "java": "openjdk version \"25.0.4.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS)\nOpenJDK 64-Bit Server VM Corretto-25.0.4.10.1 (build 25.0.4.1+10-LTS, mixed mode)\n",
+  "artifacts": {
+    "baseline": {
+      "path": "/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+      "sha256": "56165b7a1979281adc2d38b2d034c2020c2e919c03fe7d988b47a5b37eeb9dfb"
+    },
+    "candidate": {
+      "path": "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+      "sha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9"
+    }
+  },
+  "sources": {
+    "app/src/test/java/dev/turboj/app/ProductPerformanceProbe.java": "4db2a801572431b72cee49a09cbdad32d57a9a8b188e49d6c47ad79dc35acaf0",
+    "app/src/test/java/dev/turboj/testing/intelligence/LineIntelligenceBenchmark.java": "5cf760d197b5d2417bceb0a61afb93776e50cf9111500fb4cadf05d77e5f3f39",
+    "core/src/test/java/dev/turboj/intelligence/SemanticBenchmark.java": "212add7a5559299e491226f88a3ab161421c8867415eb5a15d41e188a4057b1f"
+  },
+  "method": "Alternating order, serial fresh JVMs, warm OS/dependency caches. Synthetic handler-to-paint excludes physical keyboard/compositor. Baseline is pre-batch, not pre-Cherry. All samples retained; no automatic performance verdict.",
+  "runs": [
+    {
+      "label": "baseline",
+      "round": 1,
+      "probe": "native",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.app.ProductPerformanceProbe",
+        "/private/tmp/turboj-product-performance-final/baseline-1-native.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 1,
+      "probe": "gutter-git",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.testing.intelligence.LineIntelligenceBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 1,
+      "probe": "semantic",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.intelligence.SemanticBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 1,
+      "probe": "native",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.app.ProductPerformanceProbe",
+        "/private/tmp/turboj-product-performance-final/candidate-1-native.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 1,
+      "probe": "gutter-git",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.testing.intelligence.LineIntelligenceBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 1,
+      "probe": "semantic",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.intelligence.SemanticBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 2,
+      "probe": "native",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.app.ProductPerformanceProbe",
+        "/private/tmp/turboj-product-performance-final/candidate-2-native.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 2,
+      "probe": "gutter-git",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.testing.intelligence.LineIntelligenceBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 2,
+      "probe": "semantic",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.intelligence.SemanticBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 2,
+      "probe": "native",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.app.ProductPerformanceProbe",
+        "/private/tmp/turboj-product-performance-final/baseline-2-native.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 2,
+      "probe": "gutter-git",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.testing.intelligence.LineIntelligenceBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 2,
+      "probe": "semantic",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.intelligence.SemanticBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 3,
+      "probe": "native",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.app.ProductPerformanceProbe",
+        "/private/tmp/turboj-product-performance-final/baseline-3-native.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 3,
+      "probe": "gutter-git",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.testing.intelligence.LineIntelligenceBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "baseline",
+      "round": 3,
+      "probe": "semantic",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-baseline-dd75866/app/target/turboj-app.jar",
+        "dev.turboj.intelligence.SemanticBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 3,
+      "probe": "native",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.app.ProductPerformanceProbe",
+        "/private/tmp/turboj-product-performance-final/candidate-3-native.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 3,
+      "probe": "gutter-git",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.testing.intelligence.LineIntelligenceBenchmark"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "candidate",
+      "round": 3,
+      "probe": "semantic",
+      "command": [
+        "/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/runtime/Contents/Home/bin/java",
+        "-Djava.awt.headless=true",
+        "-Xmx768m",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-cp",
+        "/private/tmp/turboj-product-performance-final/classes:/private/tmp/turboj-product-final-installed/TurboJ.app/Contents/app/turboj-app.jar",
+        "dev.turboj.intelligence.SemanticBenchmark"
+      ],
+      "exitCode": 0
+    }
+  ]
+}

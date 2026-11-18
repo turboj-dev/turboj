@@ -1,5 +1,10 @@
 # AI autocomplete: validation
 
+18 November 2026 follow-up: [AI-13 interaction controls](../evidence/product-sequence-2026-11-18/ai13/README.md)
+record the revised automatic trigger/dismissal policy, 20 controller tests and real focused Swing-key
+controls. The provider is deterministic; these controls do not claim live model quality. The dated
+26 October observations below remain historical, not a qualification of the current package.
+
 Status of AI Autocomplete 2.0 on 26 October 2026 (Apple M5, 16 GB, macOS 26.5.1, Java 25.0.4.1,
 Ollama 0.40.10 from Homebrew). VERIFIED means exercised against the real thing; mock protocol tests never
 count as live verification.

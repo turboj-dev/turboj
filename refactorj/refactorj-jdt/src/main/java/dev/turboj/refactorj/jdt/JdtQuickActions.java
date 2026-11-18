@@ -27,7 +27,7 @@ final class JdtQuickActions implements JavaQuickActions {
     };
     @FunctionalInterface private interface Provider { void collect(Context context, List<Proposal> into); }
     private final List<Provider> providers = List.of(this::missingJUnit, this::missingTypes, this::missingStaticImports, this::missingMethods,
-            this::diagnosticCorrections, this::testGeneration, this::refactoringAssists, this::assignAssists);
+            this::diagnosticCorrections, this::exceptionCorrections, this::testGeneration, this::refactoringAssists, this::assignAssists);
     private record Context(Location at, WorkspaceSnapshot snapshot, CompilationUnit tree, ASTNode node,
                            List<IProblem> problems, Cancellation cancel) {}
 
@@ -695,7 +695,26 @@ final class JdtQuickActions implements JavaQuickActions {
                 cancel -> prepared);
     }
 
+    private void exceptionCorrections(Context c, List<Proposal> into) {
+        for (var candidate : ExceptionQuickFixes.candidates(workspace, c.at(), c.tree(), c.problems(), c.cancel())) {
+            Plan plan = checkedPlan(Operation.HANDLE_EXCEPTION, c.snapshot(), candidate.edits(), List.of(), candidate.title(), c.cancel());
+            if (plan.valid() && ExceptionQuickFixes.preservesExistingErrors(workspace, plan, c.cancel()))
+                offer(c, into, Kind.FIX, Action.REFACTOR, candidate.title(), candidate.explanation(),
+                    c.at(), Operation.HANDLE_EXCEPTION, Map.of("direct", "true"), cancel -> prepared(plan, candidate.focus()));
+        }
+    }
+
     private void diagnosticCorrections(Context c, List<Proposal> into) {
+        if (problem(c, IProblem.UndefinedConstructor)) {
+            ClassInstanceCreation creation = ancestor(c.node(), ClassInstanceCreation.class);
+            ITypeBinding type = creation == null ? null : creation.getType().resolveBinding();
+            if (type != null && !type.isRecovered() && type.getJavaElement() instanceof IType target
+                    && target.getCompilationUnit() != null && c.snapshot().sources().stream()
+                        .anyMatch(source -> source.file().equals(workspace.original(target.getCompilationUnit())))
+                    && ((List<Expression>) creation.arguments()).stream()
+                        .allMatch(argument -> argument.resolveTypeBinding() != null && !argument.resolveTypeBinding().isRecovered()))
+                diagnosticRequest(c, into, "Create constructor '" + type.getName() + "'", new Requests.CreateConstructor(c.at()));
+        }
         // Compiler IDs, not the mere presence of an error anywhere in the file, select providers.
         if (problem(c, IProblem.UnresolvedVariable) || problem(c, IProblem.UndefinedName) || problem(c, IProblem.UndefinedField)) {
             SimpleName name = c.node() instanceof SimpleName n ? n : null;
@@ -768,6 +787,9 @@ final class JdtQuickActions implements JavaQuickActions {
             Requests.Request request = variable.getType().isVar() ? new Requests.VarToType(range(c.at().file(), variable)) : new Requests.TypeToVar(range(c.at().file(), variable));
             assistRequest(c, into, variable.getType().isVar() ? "Replace var with explicit type" : "Use var for local variable", request);
         }
+        ClassInstanceCreation anonymous = ancestor(c.node(), ClassInstanceCreation.class);
+        if (anonymous != null && anonymous.getAnonymousClassDeclaration() != null)
+            assistRequest(c, into, "Convert anonymous class to lambda", new Requests.AnonymousToLambda(c.at()));
         if (ancestor(c.node(), LambdaExpression.class) != null)
             assistRequest(c, into, "Convert lambda to method reference", new Requests.LambdaToMethodReference(c.at()));
         if (ancestor(c.node(), MethodReference.class) != null)
@@ -957,7 +979,9 @@ final class JdtQuickActions implements JavaQuickActions {
     /** A caret also touches a problem when it sits right after the problem's last character. */
     private static boolean intersects(Location at, IProblem problem) {
         int end = at.start() == at.end() ? problem.getSourceEnd() + 1 : problem.getSourceEnd();
-        return problem.getSourceStart() >= 0 && problem.getSourceStart() <= at.end() && end >= at.start();
+        return problem.getSourceStart() >= 0
+                && (at.start() == at.end() ? problem.getSourceStart() <= at.end() : problem.getSourceStart() < at.end())
+                && end >= at.start();
     }
     private static List<IProblem> lineProblems(CompilationUnit tree, String text, Location at) {
         int lineStart = text.lastIndexOf('\n', at.start() - 1) + 1, next = text.indexOf('\n', at.start());
@@ -965,7 +989,8 @@ final class JdtQuickActions implements JavaQuickActions {
         return Arrays.stream(tree.getProblems())
                 .filter(p -> p.getSourceStart() >= lineStart && p.getSourceStart() < lineEnd && !intersects(at, p))
                 .sorted(Comparator.comparing((IProblem p) -> !p.isError())
-                        .thenComparingInt(p -> Math.max(p.getSourceStart() - at.start(), at.start() - p.getSourceEnd() - 1)))
+                        .thenComparingInt(p -> Math.max(p.getSourceStart() - at.start(), at.start() - p.getSourceEnd() - 1))
+                        .thenComparingInt(IProblem::getSourceStart).thenComparingInt(IProblem::getID))
                 .toList();
     }
     private void forget(Inspection inspection) { inspection.proposals().forEach(p -> offered.remove(p.id())); }

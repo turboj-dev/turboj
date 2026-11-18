@@ -1,0 +1,52 @@
+cherry-test init: 2 projects, 2 packages, 0 test(s) (0 unit, 0 integration, 0 scoped)
+  first/same-name — unit
+  second/same-name — unit
+
+cherry-test run: 20261118-151314-d6fa70 (/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-151314-d6fa70)
+
+==> first/same-name/unit (maven)
+  demo.PriceTest
+    ✗ appliesDiscount                                                                FAIL     114ms
+      ! expected: <90> but was: <80>
+    ✓ keepsPriceWithoutDiscount                                                      ok         8ms
+  2 tests · 1 ok · 1 failed · 0 skipped · 122ms
+  failed: 1 test failed: demo.PriceTest::appliesDiscount
+==> second/same-name/unit (maven)
+  demo.PriceTest
+    ✓ appliesDiscount                                                                ok        81ms
+    ✓ keepsPriceWithoutDiscount                                                      ok        18ms
+  2 tests · 2 ok · 0 failed · 0 skipped · 99ms
+==> report snapshot
+==> html report
+crap: 8 functions · worst 3.3 · 0 at or above 30 (0.0%) · crap load 0.0
+    3.3  discounted      Price.java:6  throw new IllegalArgumentException("percent outside 0..100");
+    3.3  discounted      Price.java:6  throw new IllegalArgumentException("percent outside 0..100");
+    2.0  Price           Price.java:4  private Price() {}
+    2.0  deliveryFee     Price.java:13  return 500;
+
+cherry-test FA… run:20261118-151314-d6fa70   pkg 1/2 f… tests run:4 skip:0 fail:1 ok:75%   all:33.3% unit:33.3% it:- diff:0.0%                        report: /private/tmp/turboj-cherry-feedback-m99ac…
+
+projects
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+project    package                                          unit                unit_fn                                     it                  it_fn                                 merged status     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+first      same-name                                           -                      -                                      -                      -                                      - FAIL       
+second     same-name                                           -                      -                                      -                      -                                      - ok         
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALL        (changed)                                           -                      -                                      -                      -                                      - ALL        
+
+tests
+first       2 run · 1 ok · 1 fail · 0 skip · 122ms total · 61ms avg · 8ms fastest · 114ms slowest
+  unit          2 run · 1 ok · 1 fail · 0 skip · 122ms total · 61ms avg · 8ms fastest · 114ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     first.same-name                   114     FAIL     FAIL
+    same-name: demo.PriceTest::keepsPriceWithoutDiscount                     none                     first.same-name                     8       ok       ok
+second      2 run · 2 ok · 0 fail · 0 skip · 99ms total · 49ms avg · 18ms fastest · 81ms slowest
+  unit          2 run · 2 ok · 0 fail · 0 skip · 99ms total · 49ms avg · 18ms fastest · 81ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     second.same-name                   81       ok       ok
+    same-name: demo.PriceTest::keepsPriceWithoutDiscount                     none                     second.same-name                   18       ok       ok
+
+mini
+  unit            2 run · 1 ok · 1 fail · 0 skip · 122ms total · 61ms avg · 8ms fastest · 114ms slowest
+  unit            2 run · 2 ok · 0 fail · 0 skip · 99ms total · 49ms avg · 18ms fastest · 81ms slowest
+  all             4 run · 3 ok · 1 fail · 0 skip · 221ms total · 55ms avg · 8ms fastest · 114ms slowest
+

@@ -57,6 +57,7 @@ public final class CherryNativeSmoke {
             check(edt(() -> frame.editor().lineIntelligence().lines().values().stream().filter(l -> l.coverage().availability() == Availability.AVAILABLE)
                     .allMatch(l -> l.coverage().freshness() == Freshness.CURRENT && l.coverage().proof() != null)),"compiler/class/process provenance certifies current aggregate coverage");
             check(passing.tests().stream().allMatch(t -> t.associations().stream().anyMatch(a -> a.kind() == Attribution.TEST_DECLARATION)),"real JUnit identities resolve to exact hashed test declarations");
+            check(!passing.collections().isEmpty(),"real provider collections survive normalization independently of the union");
             Snapshot coverageBeforeToggle = edt(() -> frame.editor().lineIntelligence());
             palette("view.coverageBackgrounds");
             check(edt(() -> !frame.editor().isShowCoverageBackgrounds() && frame.editor().lineIntelligence() == coverageBeforeToggle),
@@ -65,13 +66,30 @@ public final class CherryNativeSmoke {
             check(edt(() -> frame.editor().isShowCoverageBackgrounds()),"CommandJ restores coverage backgrounds");
             inspectKeyboard(); screenshot(output.resolve("coverage-inspection.png")); key(KeyEvent.VK_ESCAPE,0);
             waitFor(() -> frame.editor().isFocusOwner(),"Escape restores source focus");
+            palette("cherry.results");
+            activateButton("Coverage collections…");
+            waitFor(() -> focus() instanceof JList<?>,"coverage collection list owns keyboard focus");
+            key(KeyEvent.VK_ENTER,0);
+            waitFor(() -> focus() instanceof JTextArea area && area.getText().contains("Instructions covered/missed"),
+                    "Enter opens real collection counters and process evidence");
+            screenshot(output.resolve("coverage-collections.png")); key(KeyEvent.VK_ESCAPE,0); key(KeyEvent.VK_ESCAPE,0);
+            waitFor(() -> frame.editor().isFocusOwner(),"nested collection inspection returns to source");
+            palette("cherry.results"); activateButton("Rerun selected");
+            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(passing.id()),
+                    "keyboard Rerun selected completes a new real execution");
+            Run selected = edt(() -> frame.tests().cherry().last());
+            check(selected.state() == RunState.COMPLETED && selected.tests().size() == 1,
+                    "native selected-test action executes exactly one passing test");
+            NativeWindowTestSupport.beforeKey(frame);
+            waitFor(() -> frame.editor().isFocusOwner(),"selected-test rerun restores source focus after the worker exits");
+            String beforeEditRun = selected.id();
             int change = original.indexOf(" - ") + 1;
             edt(() -> { frame.editor().setSelection(change,change + 1); return null; }); type("+");
             waitFor(() -> frame.editor().lineIntelligence() != null && frame.editor().lineIntelligence().lines().values().stream()
                     .noneMatch(l -> l.coverage().availability() == Availability.AVAILABLE),"unsaved change withholds old line coverage");
             check(Files.readString(source).equals(original),"unsaved edit does not rewrite disk");
             palette("save"); waitFor(() -> Files.readString(source).contains("cents + cents"),"save modified source");
-            String oldRun = passing.id();
+            String oldRun = beforeEditRun;
             waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(oldRun),"save alone starts and completes failing real Cherry run");
             Run failed = edt(() -> frame.tests().cherry().last());
             check(failed.state() == RunState.FAILED && failed.tests().stream().filter(t -> t.status() == TestStatus.FAILED).count() == 1,
@@ -79,13 +97,19 @@ public final class CherryNativeSmoke {
             check(edt(() -> frame.editor().lineIntelligence().lines().values().stream().noneMatch(l -> l.testStatus() == TestStatus.FAILED)),
                     "failed suite does not mark uncovered production code red");
             palette("cherry.results"); waitFor(() -> OverlayHost.dialogs(frame).stream().anyMatch(d -> d.isVisible() && d.getTitle().startsWith("Cherry Test")),"native results visible");
-            screenshot(output.resolve("test-failure.png")); key(KeyEvent.VK_ESCAPE,0);
-            waitFor(() -> frame.editor().isFocusOwner(),"native results Escape restores focus");
+            screenshot(output.resolve("test-failure.png")); activateButton("Rerun failed");
+            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(failed.id()),
+                    "keyboard Rerun failed completes a new real execution");
+            Run failedSelection = edt(() -> frame.tests().cherry().last());
+            check(failedSelection.state() == RunState.FAILED && failedSelection.tests().size() == 1
+                    && failedSelection.tests().getFirst().status() == TestStatus.FAILED,
+                    "native failed-test action executes exactly the one failed method");
+            waitFor(() -> frame.editor().isFocusOwner(),"native failed-test rerun returns focus to source");
             palette("undo");
             waitFor(() -> frame.editor().getText().equals(original),"deferred palette Undo applies");
             check(edt(() -> frame.editor().getText().equals(original)),"keyboard Undo restores the original source after a failed run");
             palette("save"); waitFor(() -> Files.readString(source).equals(original),"restore source");
-            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(failed.id()),"corrected save alone completes Cherry rerun");
+            waitFor(() -> completed() && !frame.tests().cherry().last().id().equals(failedSelection.id()),"corrected save alone completes Cherry rerun");
             check(edt(() -> frame.tests().cherry().last().state() == RunState.COMPLETED),"corrected source returns to two passing tests");
             waitFor(() -> {
                 Snapshot visible = frame.editor().lineIntelligence();
@@ -113,6 +137,15 @@ public final class CherryNativeSmoke {
     private static boolean completed() {
         Run run = frame.tests().cherry().last();
         return !frame.tests().cherry().busy() && run != null && (run.state() == RunState.COMPLETED || run.state() == RunState.FAILED || run.state() == RunState.INCOMPLETE);
+    }
+    private static void activateButton(String title) throws Exception {
+        for (int attempt = 0; attempt < 40; attempt++) {
+            if (edt(() -> focus() instanceof JButton button && button.getText().equals(title))) {
+                key(KeyEvent.VK_SPACE,0); return;
+            }
+            key(KeyEvent.VK_TAB,0);
+        }
+        throw new AssertionError("Keyboard did not reach button " + title);
     }
     private static void inspectKeyboard() throws Exception {
         edt(() -> { frame.editor().gotoLine(7); return null; }); int caret = edt(() -> frame.editor().caretOffset());
@@ -172,13 +205,17 @@ public final class CherryNativeSmoke {
     private static CommandPaletteDialog palette() { return OverlayHost.dialogs(frame).stream().filter(d -> d.isVisible() && d instanceof CommandPaletteDialog)
             .map(d -> (CommandPaletteDialog)d).findFirst().orElse(null); }
     private static void type(String text) throws Exception {
-        for (char c : text.toCharArray()) edt(() -> {
+        for (char c : text.toCharArray()) {
+            NativeWindowTestSupport.beforeKey(frame);
+            edt(() -> {
             int code = KeyEvent.getExtendedKeyCodeForChar(c); int modifiers = Character.isUpperCase(c) ? KeyEvent.SHIFT_DOWN_MASK : 0;
             dispatch(KeyEvent.KEY_PRESSED,code,c,modifiers); dispatch(KeyEvent.KEY_TYPED,KeyEvent.VK_UNDEFINED,c,modifiers);
             dispatch(KeyEvent.KEY_RELEASED,code,c,modifiers); return null;
-        });
+            });
+        }
     }
     private static void key(int code,int modifiers) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> { dispatch(KeyEvent.KEY_PRESSED,code,KeyEvent.CHAR_UNDEFINED,modifiers); dispatch(KeyEvent.KEY_RELEASED,code,KeyEvent.CHAR_UNDEFINED,modifiers); return null; });
     }
     private static void dispatch(int kind,int code,char c,int modifiers) {
@@ -189,7 +226,7 @@ public final class CherryNativeSmoke {
     private static void check(boolean condition,String label) { if (!condition) throw new AssertionError(label); report.append("PASS ").append(label).append('\n'); System.out.println("PASS " + label); }
     private static void waitFor(Callable<Boolean> condition,String label) throws Exception {
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(100);
-        while (System.nanoTime() < deadline) { if (edt(condition)) return; Thread.sleep(25); }
+        while (System.nanoTime() < deadline) { if (edt(() -> { NativeWindowTestSupport.recover(frame); return condition.call(); })) return; Thread.sleep(25); }
         throw new AssertionError("Timeout: " + label + "; console: " + edt(() -> frame.console().text()));
     }
     private static <T> T edt(Callable<T> action) throws Exception { var future = new FutureTask<T>(action); SwingUtilities.invokeAndWait(future); return future.get(); }

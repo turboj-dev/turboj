@@ -1,0 +1,8 @@
+{
+  "method": "hdiutil checksum-verified readonly mount, ditto isolated installation, schema2 verify-package, codesign --verify --deep --strict, detach",
+  "installedApp": "/private/tmp/turboj-product-final-installed/TurboJ.app",
+  "qualifiedFiles": 123,
+  "dmg": "target/product-sequence-final-2026-11-18/TurboJ-1.0.10.dmg",
+  "dmgSha256": "00e8b0843e8373c0b59da61a1de952ada002023952fb23eacfd46c22d371c561",
+  "scope": "Local ad-hoc app; no Developer ID/notarization; no user app/site replaced"
+}

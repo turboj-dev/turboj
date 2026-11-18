@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "nativeArtifactSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+  "nativeRegistryCommands": 312,
+  "nativeRegistryAliases": 29,
+  "nativeRegistryManifestSha256": "540f6b72bb85f05959b307c15d585fffa2578cd1473bafaf74e410191e97b0cd",
+  "guardedCheck": "PASS",
+  "guardedBuild": "PASS",
+  "tests": 53,
+  "sourceManifestGuardBypassed": false,
+  "generatedDownloadLinks": [
+    {
+      "url": "/keyboard-command-inventory.md",
+      "source": "docs/keyboard-command-inventory.md",
+      "sha256": "ea8de0367554f720f4f7d9bf87077a4da9484852863e09484bafd6d574e4fc6b",
+      "distBytes": 62773
+    },
+    {
+      "url": "/keyboard-shortcut-reference.md",
+      "source": "docs/keyboard-shortcut-reference.md",
+      "sha256": "b7bd1038f5af105cc7a897576cb63a279d3d8b45e36966c545f06ae09cab3d07",
+      "distBytes": 38661
+    },
+    {
+      "url": "/keyboard-conflicts.md",
+      "source": "docs/keyboard-conflicts.md",
+      "sha256": "129387654a4e58a1b66685e6737364eaf955ffbc7ad0efbbaafcfaf2f7e50a3f",
+      "distBytes": 1056
+    }
+  ],
+  "pdfs": [
+    {
+      "path": "docs/cheatsheets/cheatsheet-eclipse-macos.pdf",
+      "bytes": 390380,
+      "pages": 4,
+      "sha256": "a653a8459108604fb09ac9ba3964c5485dfbe79bf5682fbe8303bc790c87e2cf"
+    },
+    {
+      "path": "docs/cheatsheets/cheatsheet-intellij-macos.pdf",
+      "bytes": 382211,
+      "pages": 4,
+      "sha256": "b440423db3afb2bc2aea2fd7efea9bbb75df7e297f0c75990d771d07e4098849"
+    },
+    {
+      "path": "docs/cheatsheets/cheatsheet-turboj-macos.pdf",
+      "bytes": 382339,
+      "pages": 4,
+      "sha256": "ea9524bdcaa226f262d08033c49df4e729e92a71e3ff93dbb40b5dc183467c27"
+    },
+    {
+      "path": "docs/cheatsheets/cheatsheet-vscode-macos.pdf",
+      "bytes": 393759,
+      "pages": 4,
+      "sha256": "e0b1e3ff5e8a34c56caefaf4afcd5d935d930d080a45639a202705b14e9c464a"
+    }
+  ],
+  "layout": {
+    "profiles": 4,
+    "pagesPerProfile": 4,
+    "columnsPerProfile": 16,
+    "commandsPerProfile": 312,
+    "clippingProblems": 0
+  },
+  "heroGzipBytes": 6718,
+  "allJavaScriptGzipBytes": 14865,
+  "lazyChapterGzipBytes": 21080,
+  "rendererBytesMatchPreviouslyBrowserMeasuredArtifacts": true,
+  "productionDeployed": false
+}

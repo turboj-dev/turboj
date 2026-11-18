@@ -1,0 +1,11 @@
+PASS saved Monokai paints immediately while module is gated
+PASS saved Monokai paints immediately while manifest is gated
+PASS saved Monokai paints immediately while chapter is gated
+PASS saved Monokai survives module failure with a readable fallback
+PASS saved Monokai survives manifest failure with a readable fallback
+PASS saved Monokai survives chapter failure with a readable fallback
+PASS a valid cached custom palette remains painted when theme catalog refresh is offline
+PASS chapter loading keeps the current themed frame instead of showing the Classic screenshot
+PASS Play keeps every recorded menu and dialog in Monokai through all five chapters and loop restart
+PASS no-JavaScript keeps the genuine native screenshot and evidence route unchanged
+10 demo-theme checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/product-sequence-2026-11-18/demo-theme/

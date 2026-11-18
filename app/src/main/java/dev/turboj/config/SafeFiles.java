@@ -103,10 +103,7 @@ public final class SafeFiles {
 
     public static byte[] atomicWriteIfUnchanged(Path path, String text, byte[] expected, Charset charset, byte[] bom)
             throws IOException {
-        if (!java.util.Arrays.equals(expected, fingerprint(path)))
-            throw new IOException(
-                    "File changed outside TurboJ. Use Save as to preserve both versions, or reopen it.");
-        return atomicWrite(path, text, charset, bom);
+        return write(path, text, charset, bom, expected, true, () -> {});
     }
 
     /** Returns the fingerprint of the exact bytes written, without re-reading a changing file. */
@@ -119,6 +116,17 @@ public final class SafeFiles {
     }
 
     public static byte[] atomicWrite(Path path, String text, Charset charset, byte[] bom) throws IOException {
+        return write(path, text, charset, bom, null, false, () -> {});
+    }
+
+    @FunctionalInterface interface Prepared { void run() throws IOException; }
+
+    static byte[] write(Path path, String text, Charset charset, byte[] bom, byte[] expected,
+            boolean conditional, Prepared prepared) throws IOException {
+        Path requested = path.toAbsolutePath().normalize();
+        Path target = Files.isSymbolicLink(requested) ? requested.toRealPath() : requested;
+        if (conditional) unchanged(requested, target, expected);
+        String metadata = conditional ? dev.turboj.refactorj.transactions.FileMetadata.fingerprint(target) : null;
         java.nio.ByteBuffer encoded =
                 charset
                         .newEncoder()
@@ -128,16 +136,20 @@ public final class SafeFiles {
         byte[] bytes = new byte[bom.length + encoded.remaining()];
         System.arraycopy(bom, 0, bytes, 0, bom.length);
         encoded.get(bytes, bom.length, encoded.remaining());
-        Path target = path.toAbsolutePath();
-        if (Files.isSymbolicLink(target)) target = target.toRealPath();
         Path temp = Files.createTempFile(target.getParent(), ".turboj-", ".tmp");
         try {
-            Files.write(temp, bytes);
-            if (Files.exists(target)) {
-                try {
-                    Files.setPosixFilePermissions(temp, Files.getPosixFilePermissions(target));
-                } catch (UnsupportedOperationException ignored) {
-                }
+            dev.turboj.refactorj.transactions.FileMetadata.seedReplacement(target, temp);
+            try (var channel = java.nio.channels.FileChannel.open(temp, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                var buffer = java.nio.ByteBuffer.wrap(bytes);
+                while (buffer.hasRemaining()) channel.write(buffer);
+                channel.force(true);
+            }
+            prepared.run();
+            // Recheck after encoding, writing and metadata copying. An external, non-cooperating
+            // writer can still race the final rename: the filesystem offers no portable compare-and-swap.
+            if (conditional) {
+                unchanged(requested, target, expected);
+                dev.turboj.refactorj.transactions.FileMetadata.requireUnchanged(target, metadata);
             }
             try {
                 Files.move(
@@ -146,11 +158,22 @@ public final class SafeFiles {
                         StandardCopyOption.ATOMIC_MOVE,
                         StandardCopyOption.REPLACE_EXISTING);
             } catch (AtomicMoveNotSupportedException e) {
+                if (conditional) {
+                    unchanged(requested, target, expected);
+                    dev.turboj.refactorj.transactions.FileMetadata.requireUnchanged(target, metadata);
+                }
                 Files.move(temp, target, StandardCopyOption.REPLACE_EXISTING);
             }
             return digest(bytes);
         } finally {
             Files.deleteIfExists(temp);
         }
+    }
+
+    private static void unchanged(Path requested, Path target, byte[] expected) throws IOException {
+        Path current = Files.isSymbolicLink(requested) ? requested.toRealPath() : requested;
+        if (!current.equals(target) || !java.util.Arrays.equals(expected, fingerprint(target)))
+            throw new IOException("File changed outside TurboJ before replacement: " + requested
+                    + ". Your editor buffer is unchanged. Use Save as to preserve both versions, or reopen it.");
     }
 }

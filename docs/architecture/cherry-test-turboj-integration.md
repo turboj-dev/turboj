@@ -78,7 +78,7 @@ Normal **Run Java / JUnit** starts the configured Cherry workflow alongside a ma
 
 Saving marks the previous in-memory execution evidence stale across the active project, even when another file changed. Results from a run started before that save remain stale; source hashes and compiler/process proofs still govern current coverage. Unsaved edits do not launch Cherry. An unchanged save or a failed write does not queue a run. Project switches and closing discard pending launches; **Stop Tests** and **Cherry Test: Cancel Execution** clear the queue and cancel the owned process. A later changed save can schedule a new run. Unresolved or untrusted Maven projects retain the existing execution gate; automation reports that it is paused rather than opening an unexpected trust dialog. Plain projects retain existing behavior.
 
-Feedback is progressive **per adapter phase**, not per individual test start. The existing Cherry scheduler remains authoritative; this change does not add speculative duration-based prioritization. Cancellation terminates the CLI and observed descendants, retains partial evidence and invalidates old callbacks. A terminal success event remains provisional until the CLI exits successfully: a later nonzero exit becomes incomplete, retaining actual individual results. A bounded 64 KiB output pump avoids an unbounded EDT queue; CLI output is also retained beside the event file as `.jsonl.log`.
+Feedback is progressive **per adapter phase**, with genuine individual starts/completions when the opt-in Cherry JUnit lifecycle extension supplies them. Other adapters remain phase-only; capabilities and complete-inventory limitations are explicit. The existing Cherry scheduler remains authoritative; this change does not add speculative duration-based prioritization. Cancellation terminates the CLI and observed descendants, retains partial evidence and invalidates old callbacks. A terminal success event remains provisional until the CLI exits successfully: a later nonzero exit becomes incomplete, retaining actual individual results. A bounded 64 KiB output pump avoids an unbounded EDT queue; CLI output is also retained beside the event file as `.jsonl.log`.
 
 ## Configuration and use
 
@@ -92,16 +92,54 @@ The CLI preference is `cherryTestExecutable` in TurboJ settings. JSONL history i
 
 Configuration presence is detected passively; full validity is checked by the CLI on execution. Preflight failures that occur before the first event are explicitly incomplete, with captured output. Projects with a mandatory launcher must configure/use that launcher. In particular, JUG validation used its network-isolating `scripts/local-run.sh`, not an unrestricted direct invocation of its full configuration.
 
+### Finder launch and external tool prerequisites
+
+The installed app does not import an interactive shell's PATH. When the configured Cherry
+executable is an absolute `.jar` path, TurboJ starts it with its own `java.home/bin/java`,
+so locating the CLI itself does not require `java` or `cherry-test` on PATH. Its adapters
+still need their actual external toolchains. TurboJ does not add MavenJ's Maven installation
+to the child environment or choose a project JDK for Cherry automatically.
+
+The built-in Maven adapter uses an executable `./mvnw` in the request's working directory
+(normally the declared manifest's parent); otherwise it runs `mvn` from the inherited job
+PATH. It does not search parent directories for a wrapper. A wrapper removes the need for
+Maven on PATH, but still requires compatible Java and access to its pinned distribution and
+project dependencies, either cached or downloadable. A missing wrapper/toolchain is a real
+runner failure, not a successful empty test run.
+
+For a trusted project opened from Finder, an existing supported setup is a config-root
+`.env.test` with explicit local tool paths, for example:
+
+```text
+JAVA_HOME=/absolute/path/to/compatible-jdk/Contents/Home
+PATH=/absolute/path/to/apache-maven-3.9.11/bin:/usr/bin:/bin:/usr/sbin:/sbin
+```
+
+These are literal examples to replace with actual installed paths. Cherry's `.env.test`
+parser does not expand `$PATH`, `~`, shell quotes or `export`. Its per-job environment
+overlays the parent environment with these values. Alternatively, configure an absolute
+executable CLI launcher that sets the required tool environment and forwards all arguments
+to the qualified Cherry JAR. A phase `command:` under the built-in `maven` adapter is not a
+Maven-executable override; an explicitly registered custom adapter must implement Cherry's
+adapter protocol rather than simply invoke an arbitrary Maven binary.
+
+The native Cherry smoke fixture intentionally contains no Maven wrapper; its qualification
+launcher supplies Maven on PATH. That evidence proves operation with declared external
+prerequisites, not a self-contained Finder installation of every test toolchain. These
+boundaries were checked against `CherryTestProcess.command`, Cherry's `Plan.job`,
+`Builtins.jvm`, `ExecutableLookup.resolve`, `Scheduler.EnvLayers` and `EnvFile.read`;
+no new Finder/minimal-PATH runtime check is claimed by this source review.
+
 ## Contract and semantic rules
 
-Cherry's authoritative contract is [`docs/native-ide-events.md`](../../../cherry-test/docs/native-ide-events.md) in the sibling repository. Event kinds are `run.started`, `phase.started`, `phase.completed`, `run.completed`. Each event carries schema version, run ID, sequence and monotonic elapsed time. Phase identity uses the emitted full-manifest key plus adapter/runtime, preserving separate manifests even when display labels match; repeated test names retain distinct occurrence IDs. Legacy controls lacking that key use an unambiguous tuple of their supplied identifiers. Artifact hashes are checked before ingestion.
+Cherry's authoritative contract is [`docs/native-ide-events.md`](../../../cherry-test/docs/native-ide-events.md) in the sibling repository. Base event kinds are `run.started`, `phase.started`, `phase.completed`, `run.completed`; negotiated lifecycle support also emits `test.started` and `test.completed`. Each event carries schema version, run ID, sequence and monotonic elapsed time. Phase identity uses the emitted full-manifest key plus adapter/runtime, preserving separate manifests even when display labels match; repeated test names retain distinct occurrence IDs. Legacy controls lacking that key use an unambiguous tuple of their supplied identifiers. Artifact hashes are checked before ingestion.
 
 The immutable Java model separates `TestStatus`, `Freshness`, `CoverageState`, `Availability`, `Precision`, `Attribution`, `SourceIdentity`, `Deletion`, `Snapshot` and `Run`. Unknown counters are `-1`; a measured zero is zero. Disabled, absent, incomplete and excluded data remain distinguishable.
 
 * A failed package or infrastructure failure never creates a failed production-line test. The legacy Java **and Rust** report interpretations were corrected too; aggregate failure remains visible at its real scope.
 * Adapter-reported locations remain `REPORTED_TEST_LOCATION` unless their role is explicit. They are not assumed to be production execution edges.
 * `TestSourceResolver` resolves exact JUnit class/method identities to direct declarations through JDT, using matching source hashes. Duplicate types, overloads, incomplete/changed inventories, inherited methods, display-name suffixes and unresolved annotations are conservatively left unattributed.
-* JaCoCo sidecars preserve `ci`, `mi`, `cb`, `mb`; a positive instruction count alone does not erase missed instructions or branches. Binary LCOV remains binary. Multiple binary collections use union; separate numeric counter sets are not added or treated as identical probes. Ambiguous counter unions become unknown; raw collections remain in the event/artifact evidence.
+* JaCoCo sidecars preserve `ci`, `mi`, `cb`, `mb`; a positive instruction count alone does not erase missed instructions or branches. Binary LCOV remains binary. Multiple binary collections use union; separate numeric counter sets are not added or treated as identical probes. Ambiguous counter unions become unknown. Every source collection is also retained as an immutable observation and available in **Coverage collections…**, independently from the provider-generated aggregate used by the gutter.
 * An unavailable source hash, a changed buffer, or a different document prevents old line associations from being painted at new positions. Undo does not itself certify compiled identity.
 * Since 15 November, an opt-in javac/JaCoCo path transports compiler generations, class identities and instrumented process/session evidence (see CH-02 below). Coverage is current only after verified completion and matching source/class identities. Older reports and other providers remain `Freshness.UNKNOWN`. Test declaration results still do not establish per-test production coverage.
 
@@ -267,6 +305,42 @@ Persistent native captures: [editor and neutral provenance indicators](../eviden
 
 Measured offscreen painting without and with dense decorations in the **same build** is in [`paint-and-git-benchmark.json`](../evidence/cherry-native/paint-and-git-benchmark.json). It is not a separate checkout/build of the pre-integration revision. For 100,000 lines the median visible-region paint changed from 290.375 µs to 322.541 µs. Dense snapshot preparation was 17.497 ms and EDT installation 0.029 ms. A 10,000-line Git comparison measured 56.985 ms cold, 42.374 ms warm median and 46.072 ms p95. Negative differences in the smaller paint fixture are warmup/noise, not a claimed speedup. These are **not native input-to-paint or scrolling latency measurements**.
 
+## Native feedback extension — 18 November 2026
+
+Schema v1 now has optional repository manifests, typed exact selectors and negotiated test
+lifecycle events. TurboJ opts into `test-events-v1,selectors-v1,repositories-v1`; older producers
+remain phase-only. Cherry owns the adapter execution, selector validation and actual callbacks.
+The Swing model never infers pending tests from a completed report or an estimated inventory.
+
+Each execution retains its independent phase ledger, runtime/module/repository identities and
+coverage observations. The native result view shows up to 12 independent runs (a 50,000-test
+history budget, retaining the newest run even when it is larger); prior passes are never merged
+into a partial rerun. Coverage collections have their own provider/precision, process/session,
+compilation, source/class and artifact identities. Enter opens selected collection details;
+large detail views explicitly excerpt the first 200 rows.
+
+**Rerun selected** and **Rerun failed** use typed selector records carrying adapter, manifest,
+phase and runtime identity. The process receives an owned schema-v1 JSON selection file, and
+must acknowledge its exact SHA-256 before results can count as a selective execution. Unknown,
+unsupported or ambiguous selectors explain their limitation and offer **Rerun configured
+suites**. No affected-test relationship is invented from aggregate coverage. The native transport
+bounds selections to 1,000 tests and 1 MiB. Test identities remain distinct across repositories
+with identical qualified class names.
+
+A launched trusted CLI may declare explicitly configured repository/module roots. Source and
+compiled-class real paths must remain inside those roots; result artifacts remain inside the
+workspace. Historical external roots require a matching local process-completion receipt;
+unowned imported streams remain confined to their workspace. Receipts detect local mismatches,
+not adversarial forgery. Git still compares each source against its own actual worktree HEAD.
+
+Two real external repositories containing the same `demo.PriceTest` qualified name were run
+through the production process controller: four passing tests, separate current JaCoCo
+collections, an exact one-test rerun, an intentional one-test failure, exact failed-test rerun,
+and restored four-test success. Every fixture test resolves to its own hashed declaration;
+unsaved edits invalidate current coverage. The controlled large-report benchmark and genuine
+Cherry JUnit progress results, including retained failed controls, are recorded in
+[feedback qualification](../evidence/cherry-native/feedback-2026-11-18/README.md).
+
 ## Remaining acceptance work
 
 | Milestone | Delivery status | Acceptance boundary |
@@ -274,16 +348,16 @@ Measured offscreen painting without and with dense decorations in the **same bui
 | 1 — Normalized data | VERIFIED for the implemented contract | Real events become typed test outcomes and counters; unknown/disabled/missing are distinct. Optional javac provenance is verified per source; unsupported providers remain unknown. |
 | 2 — Native lanes | VERIFIED for rendering and inspection | Real data is accepted; synthetic verified-state raster tests exercise all colors. Real unproven freshness stays neutral; proven aggregate coverage can use current colors. |
 | 3 — Git to buffer | VERIFIED for listed cases | HEAD-to-buffer, staged/unstaged/unsaved, new files, staged renames, gaps and stale-response guards. Other baselines are provider API only. |
-| 4 — Native execution | PARTIAL | Full configured run, phase progress, cancellation and report work. Exact individual/failed-test rerun remains incomplete. |
-| 5 — High-fidelity coverage | PARTIAL | Actual instruction/branch counters survive ingestion. Opt-in javac/JaCoCo provenance is implemented. Server provenance and provider probe union are verified on the real matrix; other compiler producers and independent collection presentation remain unsupported/incomplete. |
+| 4 — Native execution | PARTIAL | Full configured run, cancellation and report work. Typed individual/failed-test rerun is verified for the ordinary Maven JUnit fixture; unsupported adapter selectors retain an explicit broader fallback. Genuine per-test progress is limited to Cherry JUnit lifecycle callbacks; other adapters remain phase-only. |
+| 5 — High-fidelity coverage | PARTIAL | Actual instruction/branch counters survive ingestion. Opt-in javac/JaCoCo provenance is implemented. Server provenance and provider probe union are verified on the real matrix; independent collection presentation is implemented. Other compiler producers remain unsupported. |
 | 6 — Full developer workflow | INCOMPLETE | Inspection, known declaration navigation and existing Quick Fix entry work; create-test-to-current-coverage acceptance is not complete. |
 | 7 — Scale and compatibility | PARTIAL | Themes, dense offscreen painting, Git timing and representative subsets verified; the agreed mini/shop/JUG matrix is now qualified; native latency, memory and wider large-report validation remain. |
 
 1. Extend the opt-in javac/JaCoCo capture contract to other compiler/provider paths beyond the qualified Java server matrix. Missing capture, reused class directories and unobserved instrumentation remain unknown; they are not inferred from timestamps.
-2. Exact single-test/failed-test rerun selectors through every adapter; native UI currently offers a clearly labeled complete-suite rerun. No affected-test selection is inferred from aggregate coverage.
-3. Per-test progressive starts and complete test inventory, cross-run aggregation policy, and safe inherited contract navigation with classpath/module resolution.
-4. Expose distinct counter collections as independently inspectable native observations. Provider-level probe merging now handles overlapping compatible JaCoCo processes/phases; numeric counters are never summed.
-5. Broader multi-repository source navigation outside the selected root and additional provider matrices. The agreed mini Java/Kotlin, shop Rust/Java and JUG qualification is recorded in the completed delivery.
+2. Broaden exact selection only where an adapter can prove the requested identity. Parameterized/dynamic/custom/ordered execution may require the explicit complete-suite fallback. No affected-test selection is inferred from aggregate coverage.
+3. Extend genuine per-test starts beyond the Cherry JUnit extension and supply a verified complete test inventory where adapters can expose it. Execution history now keeps runs separate. Safe inherited-contract navigation still requires classpath/module resolution.
+4. Independent collection inspection is delivered; extend provider compatibility without summing counters. Provider-level probe merging handles overlapping compatible JaCoCo processes/phases.
+5. Explicit configured external repositories are now verified with duplicate qualified names; broader inherited-source navigation and additional provider matrices remain. The agreed mini Java/Kotlin, shop Rust/Java and JUG qualification is recorded in the completed delivery.
 6. A full create-test → run → refreshed-current-coverage workflow and a human keyboard walkthrough, plus native input-to-paint/scroll latency and large-report/memory measurements.
 
 The implemented slice is useful for real execution, accurate historical counters, Git and native inspection. It must not be described as the completed seven-milestone testing-intelligence product.

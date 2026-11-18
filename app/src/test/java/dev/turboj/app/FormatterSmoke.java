@@ -108,6 +108,7 @@ public final class FormatterSmoke {
     }
 
     private static void key(int code, int modifiers) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
         edt(() -> {
             Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
             if (focus == null) throw new AssertionError("No keyboard focus");
@@ -121,7 +122,7 @@ public final class FormatterSmoke {
     private static void check(boolean condition, String message) { if (!condition) throw new AssertionError(message); System.out.println("PASS " + message); }
     private static void await(String what, Callable<Boolean> check) throws Exception {
         long end = System.nanoTime() + TimeUnit.SECONDS.toNanos(30);
-        while (System.nanoTime() < end) { if (edt(check)) return; Thread.sleep(25); }
+        while (System.nanoTime() < end) { if (edt(() -> { NativeWindowTestSupport.recover(frame); return check.call(); })) return; Thread.sleep(25); }
         throw new AssertionError("Timed out waiting for " + what + "; editor:\n" + edt(() -> frame.editor().getText())
                 + "; console:\n" + edt(() -> frame.console().text()));
     }

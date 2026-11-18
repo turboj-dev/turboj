@@ -85,6 +85,180 @@ public final class SharedJavaIntelligence implements JavaIntelligence {
         };
     }
 
+    @Override public TemplateSemantics templateSemantics(Context context, int start, int end) {
+        if (start < 0 || end < start || end > context.source().length()) return null;
+        String probe = context.source().substring(0, start) + MARKER + "()" + context.source().substring(end);
+        Parsed parsed = parse(context, probe, "template");
+        SimpleName marker = nameAt(parsed.unit(), start);
+        if (marker == null || !MARKER.equals(marker.getIdentifier())) return null;
+        var candidates = new ArrayList<Candidate>();
+        ITypeBinding enclosing = enclosingType(marker);
+        addMembers(enclosing, enclosing, inStaticMethod(marker), candidates, new HashSet<>());
+        addLocals(parsed.unit(), marker, start, candidates);
+        var variables = new LinkedHashMap<String, String>();
+        var expressionTypes = new LinkedHashMap<String, String>();
+        var parents = new LinkedHashMap<String, List<String>>();
+        var concrete = new LinkedHashMap<String, List<String>>();
+        candidates.stream().sorted(Comparator.comparingInt(Candidate::score).reversed()).forEach(candidate -> {
+            if (candidate.binding() instanceof IVariableBinding variable) {
+                ASTNode declaration = parsed.unit().findDeclaringNode(variable);
+                if (declaration instanceof VariableDeclarationFragment fragment && fragment.getInitializer() != null
+                        && contains(fragment.getInitializer(), marker.getStartPosition())) return;
+                ITypeBinding type = variable.getType();
+                if (type != null && !type.isRecovered()) {
+                    variables.put(variable.getName(), type.getQualifiedName());
+                    templateExpressions(variable.getName(), type, expressionTypes, new HashSet<>());
+                    templateTypes(type, parents, concrete, new HashSet<>());
+                }
+            }
+        });
+        parsed.unit().accept(new ASTVisitor() {
+            @Override public boolean visit(TypeDeclaration declaration) {
+                ITypeBinding type = declaration.resolveBinding();
+                if (type != null && !type.isRecovered() && visible(type, enclosing)) templateTypes(type, parents, concrete, new HashSet<>());
+                return true;
+            }
+        });
+        ITypeBinding expected = templateExpectedType(marker);
+        String expectedName = expected == null || expected.isRecovered() ? "" : expected.getQualifiedName();
+        if (!expectedName.isEmpty()) templateTypes(expected, parents, concrete, new HashSet<>());
+        String selectionType = "";
+        if (end > start) {
+            ASTNode selected = NodeFinder.perform(parse(context, context.source(), "source").unit(), start, end - start);
+            if (selected instanceof Expression expression && selected.getStartPosition() == start && selected.getLength() == end - start) {
+                ITypeBinding binding = expression.resolveTypeBinding();
+                if (binding != null && !binding.isRecovered()) selectionType = binding.getQualifiedName();
+            }
+        }
+        IMethodBinding functional = expected == null ? null : expected.getFunctionalInterfaceMethod();
+        boolean consumer = functional != null && !functional.isRecovered() && functional.getParameterTypes().length == 1
+                && functional.getReturnType().getName().equals("void");
+        var project = workspace.javaProject(context.file());
+        String level = project.getOption(JavaCore.COMPILER_SOURCE, true);
+        boolean io = false, structured = false;
+        try {
+            io = JavaCore.compareJavaVersions(level, "25") >= 0 && project.findType("java.lang.IO") != null;
+            if (io) {
+                String ioProbe = context.source().substring(0, start) + "IO.println(\"\");" + context.source().substring(end);
+                boolean[] resolvedIO = {false};
+                parse(context, ioProbe, "templateIO").unit().accept(new ASTVisitor() {
+                    @Override public boolean visit(MethodInvocation invocation) {
+                        if (invocation.getStartPosition() == start) {
+                            IMethodBinding binding = invocation.resolveMethodBinding();
+                            resolvedIO[0] = binding != null && !binding.isRecovered()
+                                    && binding.getDeclaringClass().getQualifiedName().equals("java.lang.IO");
+                        }
+                        return true;
+                    }
+                });
+                io = resolvedIO[0];
+            }
+            var scope = project.findType("java.util.concurrent.StructuredTaskScope");
+            if (JavaCore.ENABLED.equals(project.getOption(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES, true)) && scope != null) {
+                boolean open = false, join = false;
+                for (var method : scope.getMethods()) {
+                    open |= method.getElementName().equals("open") && org.eclipse.jdt.core.Flags.isStatic(method.getFlags()) && method.getNumberOfParameters() == 0;
+                    join |= method.getElementName().equals("join") && Arrays.stream(method.getExceptionTypes()).anyMatch(t -> t.contains("InterruptedException"));
+                }
+                structured = open && join && project.findType("java.util.concurrent.StructuredTaskScope.FailedException") != null;
+            }
+        } catch (org.eclipse.jdt.core.JavaModelException unavailable) { /* Keep unsupported contexts unavailable. */ }
+        return new TemplateSemantics(variables, parents, concrete, expressionTypes, expectedName, selectionType, consumer, io, structured, level);
+    }
+    private static ITypeBinding templateExpectedType(SimpleName marker) {
+        ASTNode expression = marker.getParent() instanceof MethodInvocation invocation && invocation.getName() == marker ? invocation : marker;
+        while (expression.getParent() instanceof ParenthesizedExpression) expression = expression.getParent();
+        ASTNode parent = expression.getParent();
+        if (parent instanceof VariableDeclarationFragment variable && variable.getInitializer() == expression
+                || parent instanceof Assignment assignment && assignment.getRightHandSide() == expression
+                || parent instanceof ReturnStatement
+                || parent instanceof MethodInvocation invocation && invocation.arguments().contains(expression)) return expectedType(expression);
+        if (parent instanceof CastExpression cast && cast.getExpression() == expression) return cast.getType().resolveBinding();
+        if (parent instanceof LambdaExpression lambda && lambda.getBody() == expression) {
+            IMethodBinding binding = lambda.resolveMethodBinding(); return binding == null || binding.isRecovered() ? null : binding.getReturnType();
+        }
+        return null;
+    }
+    private static void templateExpressions(String variable, ITypeBinding type, Map<String, String> expressions, Set<String> seen) {
+        if (type == null || type.isRecovered() || !seen.add(type.getKey())) return;
+        for (var method : type.getDeclaredMethods()) {
+            if (method.isRecovered() || !Modifier.isPublic(method.getModifiers()) || method.getReturnType().isRecovered()) continue;
+            if (method.getParameterTypes().length == 0 || method.getName().equals("get") && method.getParameterTypes().length == 1
+                    && method.getParameterTypes()[0].getName().equals("int"))
+                expressions.putIfAbsent(variable + "#" + method.getName(), method.getReturnType().getQualifiedName());
+        }
+        for (var parent : templateParents(type)) templateExpressions(variable, parent, expressions, seen);
+    }
+    private static void templateTypes(ITypeBinding type, Map<String, List<String>> parents,
+            Map<String, List<String>> concrete, Set<String> seen) {
+        if (type == null || type.isRecovered() || !seen.add(type.getKey())) return;
+        String name = type.getQualifiedName();
+        var supers = new LinkedHashSet<String>();
+        supers.add(type.getErasure().getQualifiedName());
+        for (ITypeBinding parent : templateParents(type)) {
+            templateTypes(parent, parents, concrete, seen);
+            supers.add(parent.getQualifiedName()); supers.addAll(parents.getOrDefault(parent.getQualifiedName(), List.of()));
+        }
+        parents.put(name, List.copyOf(supers));
+        if (!type.isPrimitive() && !type.isArray() && !type.isInterface() && !Modifier.isAbstract(type.getModifiers())
+                && !type.isAnonymous() && !type.isTypeVariable() && !type.isWildcardType()) {
+            for (String target : supers) {
+                var choices = new LinkedHashSet<>(concrete.getOrDefault(target, List.of())); choices.add(name);
+                concrete.put(target, List.copyOf(choices));
+            }
+        }
+    }
+    private static List<ITypeBinding> templateParents(ITypeBinding type) {
+        var result = new ArrayList<ITypeBinding>();
+        if (type.getSuperclass() != null) result.add(type.getSuperclass());
+        result.addAll(Arrays.asList(type.getInterfaces())); return result;
+    }
+
+    @Override public List<TextEdit> shortenTemplateNames(Context context, int start, int end) {
+        Parsed parsed = parse(context, context.source(), "source");
+        CompilationUnit unit = parsed.unit();
+        var occupied = new HashMap<String, Set<String>>();
+        for (Object item : unit.imports()) {
+            ImportDeclaration declaration = (ImportDeclaration) item;
+            if (!declaration.isOnDemand()) {
+                String name = declaration.getName().getFullyQualifiedName();
+                occupied.computeIfAbsent(name.substring(name.lastIndexOf('.') + 1), k -> new HashSet<>()).add(name);
+            }
+        }
+        unit.accept(new ASTVisitor() { @Override public boolean visit(SimpleName name) {
+            IBinding binding = name.resolveBinding();
+            if (binding instanceof ITypeBinding type && !type.isRecovered() && !(name.getParent() instanceof QualifiedName))
+                occupied.computeIfAbsent(name.getIdentifier(), k -> new HashSet<>()).add(type.getErasure().getQualifiedName());
+            else if (name.isDeclaration()) occupied.computeIfAbsent(name.getIdentifier(), k -> new HashSet<>()).add("<declaration>");
+            return true;
+        } });
+        var edits = new ArrayList<TextEdit>(); var imports = new TreeSet<String>();
+        String packageName = unit.getPackage() == null ? "" : unit.getPackage().getName().getFullyQualifiedName();
+        unit.accept(new ASTVisitor() { @Override public boolean visit(QualifiedName name) {
+            int from = name.getStartPosition(), to = from + name.getLength();
+            if (from < start || to > end || !(name.resolveBinding() instanceof ITypeBinding type) || type.isRecovered()) return true;
+            String qualified = type.getErasure().getQualifiedName(), simple = type.getErasure().getName();
+            if (!name.getFullyQualifiedName().equals(qualified) || simple.contains("<") || type.isLocal()) return true;
+            Set<String> conflicts = occupied.getOrDefault(simple, Set.of());
+            if (conflicts.stream().anyMatch(other -> !other.equals(qualified))) return false;
+            occupied.computeIfAbsent(simple, k -> new HashSet<>()).add(qualified);
+            edits.add(new TextEdit(from, to, simple));
+            String pkg = type.getPackage() == null ? "" : type.getPackage().getName();
+            if (!pkg.equals("java.lang") && !(pkg.equals(packageName) && type.getDeclaringClass() == null)
+                    && unit.imports().stream().noneMatch(item -> item instanceof ImportDeclaration d && !d.isStatic()
+                        && !d.isOnDemand() && d.getName().getFullyQualifiedName().equals(qualified))) imports.add(qualified);
+            return false;
+        } });
+        if (!imports.isEmpty()) {
+            String separator = context.source().contains("\r\n") ? "\r\n" : "\n";
+            int offset = unit.getPackage() == null ? 0 : unit.getPackage().getStartPosition() + unit.getPackage().getLength();
+            if (!unit.imports().isEmpty()) { ASTNode last = (ASTNode) unit.imports().getLast(); offset = last.getStartPosition() + last.getLength(); }
+            String text = (offset == 0 ? "" : separator) + imports.stream().map(i -> "import " + i + ";").collect(java.util.stream.Collectors.joining(separator)) + separator;
+            edits.add(new TextEdit(offset, offset, text));
+        }
+        edits.sort(Comparator.comparingInt(TextEdit::start)); return List.copyOf(edits);
+    }
+
     @Override
     public TestTarget testTarget(Context context, int offset) {
         Parsed parsed = parse(context, context.source(), "source");

@@ -1,0 +1,22 @@
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Exception in thread "main" java.lang.AssertionError: Timed out waiting for contextual popup/focus; file=/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-quick-fix-7378194891751103897/Demo.java; focus=null; inspection=epoch=7;inspecting=false;contextualInspection=false;pendingToggle=false;assists=false;inspection=null;semanticRequest=java.util.concurrent.CompletableFuture@46d620e[Completed exceptionally: java.util.concurrent.CancellationException];heading=null; status=15:27:14  Finding Java fixes and assists…
+	at dev.turboj.app.QuickFixPopupSmoke.await(QuickFixPopupSmoke.java:179)
+	at dev.turboj.app.QuickFixPopupSmoke.exercise(QuickFixPopupSmoke.java:41)
+	at dev.turboj.app.QuickFixPopupSmoke.main(QuickFixPopupSmoke.java:20)

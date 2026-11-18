@@ -11,7 +11,7 @@ import java.util.*;
 /** Shared wire values. Protocol adapters contain no semantic transformations. */
 public final class Json {
     private static final List<Operation> TYPED_OPERATIONS = Arrays.stream(Operation.values())
-            .filter(operation -> operation != Operation.CREATE_CLASS).toList();
+            .filter(operation -> operation != Operation.CREATE_CLASS && operation != Operation.HANDLE_EXCEPTION).toList();
     private Json() {}
 
     public static final Gson GSON = new GsonBuilder().disableHtmlEscaping()
@@ -113,8 +113,8 @@ public final class Json {
             case CREATE_LOCAL -> Requests.CreateLocal.class;
             case FIX_TYPE_MISMATCH -> Requests.FixTypeMismatch.class;
             case REMOVE_UNREACHABLE -> Requests.RemoveUnreachable.class;
-            case CREATE_CLASS -> throw new IllegalArgumentException(
-                    "create-class requires a contextual JavaQuickActions proposal; no typed CLI request is available");
+            case CREATE_CLASS, HANDLE_EXCEPTION -> throw new IllegalArgumentException(
+                    op.id() + " requires a contextual JavaQuickActions proposal; no typed CLI request is available");
         };
     }
 

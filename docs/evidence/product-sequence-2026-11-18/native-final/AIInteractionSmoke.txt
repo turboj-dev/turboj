@@ -1,0 +1,13 @@
+PASS Opening/focusing the source produces no request
+PASS Typed burst produces one validated suggestion
+PASS Escape plus nearby typing does not resurrect the suggestion
+PASS Deletion does not solicit inference
+PASS Explicit request and Tab remain available during suppression
+PASS Accepted completion is one undo operation
+AI diagnostics (local, consent enabled)
+Requests 2 · cache hits 1 · cancellations 0 · accepted 1
+Scheduling n=1 p50 206.90 ms p95 206.90 ms
+Provider connection n=1 p50 0.00 ms p95 0.00 ms
+First usable suggestion n=1 p50 132.81 ms p95 132.81 ms
+Total generation n=1 p50 134.53 ms p95 134.53 ms
+Editor JVM used heap: 18 MiB. Local model memory belongs to its external server.

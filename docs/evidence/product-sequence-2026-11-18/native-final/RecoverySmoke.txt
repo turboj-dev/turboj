@@ -1,0 +1,2 @@
+PASS recovery: two paths/texts/carets, dirty state, current active buffer, disk unchanged, keyboard confirmation
+PASS continuous typing checkpoints and pending dirty buffers while viewing read-only attachment

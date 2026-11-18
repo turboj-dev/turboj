@@ -1,0 +1,7 @@
+PASS 390: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it
+PASS 1440: reduced motion chooses a genuine theme immediately; preview, Apply and reload preserve it
+PASS Random theme uses only the current search results and is disabled when nothing matches
+PASS real-time ASCII spin previews every real centered theme globally, decelerates for 3–5 seconds and suspends while hidden
+PASS Escape cancels an active spin and its asynchronous previews; Skip lands on the prepared target
+PASS visibility changes during preload cannot start the drum before its genuine palettes are ready
+6 passed, 0 failed; /Users/luca/Workspace/turboj/website/artifacts/product-sequence-2026-11-18/theme-spin/report.json

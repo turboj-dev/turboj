@@ -5,6 +5,8 @@
       "id": "Java/fori",
       "abbreviation": "fori",
       "body": "for(int $INDEX$ = 0; $INDEX$ < $LIMIT$; $INDEX$++) {\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -27,6 +29,8 @@
       "id": "Java/else-if",
       "abbreviation": "else-if",
       "body": "else if($CONDITION$){\n$END$\n} ",
+      "reformat": true,
+      "shortenNames": false,
       "contexts": [
         "JAVA_ELSE_PLACE"
       ],
@@ -43,6 +47,8 @@
       "id": "Java/itar",
       "abbreviation": "itar",
       "body": "for(int $INDEX$ = 0; $INDEX$ < $ARRAY$.length; $INDEX$++) {\n  $ELEMENT_TYPE$ $VAR$ = $ARRAY$[$INDEX$];\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -77,6 +83,8 @@
       "id": "Java/itco",
       "abbreviation": "itco",
       "body": "for($ITER_TYPE$ $ITER$ = $COLLECTION$.iterator(); $ITER$.hasNext(); ) {\n  $ELEMENT_TYPE$ $VAR$ =$CAST$ $ITER$.next();\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -123,6 +131,8 @@
       "id": "Java/iten",
       "abbreviation": "iten",
       "body": "while($ENUM$.hasMoreElements()){\n  $TYPE$ $VAR$ = $CAST$ $ENUM$.nextElement();\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -157,6 +167,8 @@
       "id": "Java/itit",
       "abbreviation": "itit",
       "body": "while($ITER$.hasNext()){\n  $TYPE$ $VAR$ = $CAST$ $ITER$.next();\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -191,6 +203,8 @@
       "id": "Java/itli",
       "abbreviation": "itli",
       "body": "for (int $INDEX$ = 0; $INDEX$ < $LIST$.size(); $INDEX$++) {\n  $ELEMENT_TYPE$ $VAR$ = $CAST$ $LIST$.get($INDEX$);\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -231,6 +245,8 @@
       "id": "Java/itm",
       "abbreviation": "itm",
       "body": "for (java.util.Map.Entry<$KEY_TYPE$, $VALUE_TYPE$> $ENTRY$: $MAP$.entrySet()) {\n  $KEY_TYPE$ $KEY$ = $ENTRY$.getKey();\n  $VALUE_TYPE$ $VALUE$ = $ENTRY$.getValue();\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -277,6 +293,8 @@
       "id": "Java/ittok",
       "abbreviation": "ittok",
       "body": "for (java.util.StringTokenizer $TOKENIZER$ = new java.util.StringTokenizer($STRING$); $TOKENIZER$.hasMoreTokens(); ) {\n    String $VAR$ = $TOKENIZER_COPY$.nextToken();\n    $END$\n}\n",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -311,6 +329,8 @@
       "id": "Java/ritar",
       "abbreviation": "ritar",
       "body": "for(int $INDEX$ = $ARRAY$.length - 1; $INDEX$ >= 0; $INDEX$--) {\n  $ELEMENT_TYPE$ $VAR$ = $ARRAY$[$INDEX$];\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -345,6 +365,8 @@
       "id": "Java/iter",
       "abbreviation": "iter",
       "body": "for ($ELEMENT_TYPE$ $VAR$ : $ITERABLE_TYPE$) {\n  $END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -373,6 +395,8 @@
       "id": "Java/inst",
       "abbreviation": "inst",
       "body": "if ($EXPR$ instanceof $TYPE$) {\r\n  $TYPE$ $VAR$ = ($TYPE$)$EXPR$;\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -401,6 +425,8 @@
       "id": "Java/lst",
       "abbreviation": "lst",
       "body": "$ARRAY$[$ARRAY$.length - 1]",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_EXPRESSION"
       ],
@@ -417,6 +443,8 @@
       "id": "Java/mn",
       "abbreviation": "mn",
       "body": "$VAR$ = Math.min($VAR$, $END$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -433,6 +461,8 @@
       "id": "Java/mx",
       "abbreviation": "mx",
       "body": "$VAR$ = Math.max($VAR$, $END$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -449,6 +479,8 @@
       "id": "Java/psvm",
       "abbreviation": "psvm",
       "body": "public static void main(String[] args){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_NORMAL_CLASS_DECLARATION_WITHOUT_INSTANCE_MAIN"
       ],
@@ -458,6 +490,8 @@
       "id": "Java/main",
       "abbreviation": "main",
       "body": "public static void main(String[] args){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_NORMAL_CLASS_DECLARATION_WITHOUT_INSTANCE_MAIN"
       ],
@@ -467,6 +501,8 @@
       "id": "Java/toar",
       "abbreviation": "toar",
       "body": "$COLLECTION$.toArray(new $COMPONENT_TYPE$[0])$END$",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_EXPRESSION"
       ],
@@ -489,6 +525,8 @@
       "id": "Java/lazy",
       "abbreviation": "lazy",
       "body": "if ($VAR$ == null) {\n  $VAR$ = new $TYPE$($END$);\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -511,6 +549,8 @@
       "id": "Java/inn",
       "abbreviation": "inn",
       "body": "if ($VAR$ != null) {\n$END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -527,6 +567,8 @@
       "id": "Java/ifn",
       "abbreviation": "ifn",
       "body": "if ($VAR$ == null) {\n$END$\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -543,6 +585,8 @@
       "id": "Java/geti",
       "abbreviation": "geti",
       "body": "public static $CLASS_NAME$ getInstance() {\r\n  return $VALUE$;\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_DECLARATION"
       ],
@@ -565,6 +609,8 @@
       "id": "Java/St",
       "abbreviation": "St",
       "body": "String ",
+      "reformat": false,
+      "shortenNames": false,
       "contexts": [
         "JAVA_STATEMENT",
         "JAVA_DECLARATION"
@@ -575,6 +621,8 @@
       "id": "Java/psf",
       "abbreviation": "psf",
       "body": "public static final ",
+      "reformat": false,
+      "shortenNames": false,
       "contexts": [
         "JAVA_DECLARATION"
       ],
@@ -584,6 +632,8 @@
       "id": "Java/prsf",
       "abbreviation": "prsf",
       "body": "private static final ",
+      "reformat": false,
+      "shortenNames": false,
       "contexts": [
         "JAVA_DECLARATION"
       ],
@@ -593,6 +643,8 @@
       "id": "Java/psfi",
       "abbreviation": "psfi",
       "body": "public static final int ",
+      "reformat": false,
+      "shortenNames": false,
       "contexts": [
         "JAVA_DECLARATION"
       ],
@@ -602,6 +654,8 @@
       "id": "Java/psfs",
       "abbreviation": "psfs",
       "body": "public static final String ",
+      "reformat": false,
+      "shortenNames": false,
       "contexts": [
         "JAVA_DECLARATION"
       ],
@@ -611,6 +665,8 @@
       "id": "Java/thr",
       "abbreviation": "thr",
       "body": "throw new ",
+      "reformat": false,
+      "shortenNames": false,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -620,6 +676,8 @@
       "id": "Java/serr",
       "abbreviation": "serr",
       "body": "System.err.println($END$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -629,6 +687,8 @@
       "id": "Java/serrc",
       "abbreviation": "serrc",
       "body": "System.err::println",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_CONSUMER"
       ],
@@ -638,6 +698,8 @@
       "id": "Java/sout",
       "abbreviation": "sout",
       "body": "System.out.println($END$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -647,6 +709,8 @@
       "id": "Java/iop",
       "abbreviation": "iop",
       "body": "IO.println($END$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_LANG_IO_STATEMENT"
       ],
@@ -656,6 +720,8 @@
       "id": "Java/ior",
       "abbreviation": "ior",
       "body": "IO.readln($END$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_LANG_IO_STATEMENT"
       ],
@@ -665,6 +731,8 @@
       "id": "Java/soutc",
       "abbreviation": "soutc",
       "body": "System.out::println",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_CONSUMER"
       ],
@@ -674,6 +742,8 @@
       "id": "Java/souf",
       "abbreviation": "souf",
       "body": "System.out.printf(\"$END$\");",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -683,6 +753,8 @@
       "id": "Java/soutm",
       "abbreviation": "soutm",
       "body": "System.out.println(\"$CLASS_NAME$.$METHOD_NAME$\");",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -705,6 +777,8 @@
       "id": "Java/soutp",
       "abbreviation": "soutp",
       "body": "System.out.println($FORMAT$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -721,6 +795,8 @@
       "id": "Java/soutv",
       "abbreviation": "soutv",
       "body": "System.out.println(\"$EXPR_COPY$ = \" + $EXPR$);",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -743,6 +819,8 @@
       "id": "Java/C",
       "abbreviation": "C",
       "body": "java.util.concurrent.Callable<$RET$> callable = new java.util.concurrent.Callable<$RET$>() {\n  public $RET$ call() throws Exception {\n    $SELECTION$\n    $END$ \n  }\n};",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -759,6 +837,8 @@
       "id": "Java/RL",
       "abbreviation": "RL",
       "body": "$LOCK$.readLock().lock();\ntry { \n  $SELECTION$\n} finally {\n  $LOCK$.readLock().unlock();\n}\n",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -775,6 +855,8 @@
       "id": "Java/WL",
       "abbreviation": "WL",
       "body": "$LOCK$.writeLock().lock();\ntry { \n  $SELECTION$\n} finally {\n  $LOCK$.writeLock().unlock();\n}\n",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -791,6 +873,8 @@
       "id": "Java/I",
       "abbreviation": "I",
       "body": "for ($ELEMENT_TYPE$ $VAR$ : $SELECTION$) {\n  $END$\n}\n",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_STATEMENT"
       ],
@@ -812,16 +896,21 @@
     {
       "id": "Java/sts",
       "abbreviation": "sts",
-      "body": "try (var scope = java.util.concurrent.StructuredTaskScope.open()) {\n    $END$\n    scope.join();\n} catch (InterruptedException e) {\n    // TODO: handle interrupted exception\n}  catch (java.util.concurrent.ExecutionException e) {\n    // TODO: handle execution exception\n}",
+      "body": "try (var scope = java.util.concurrent.StructuredTaskScope.open()) {\n    $END$\n    scope.join();\n} catch (InterruptedException e) {\n    // TODO: handle interrupted exception\n}  catch (java.util.concurrent.StructuredTaskScope.FailedException e) {\n    // TODO: handle execution exception\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
-        "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY_STATIC_FACTORY_METHODS_WITH_EXECUTION_EXCEPTION"
+        "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY"
       ],
-      "variables": []
+      "variables": [],
+      "compatibility": "Java 25 StructuredTaskScope preview API; actual project capability is checked"
     },
     {
       "id": "JavaImplicitClass/psvm",
       "abbreviation": "psvm",
       "body": "void main(){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_IMPLICIT_CLASS_DECLARATION"
       ],
@@ -831,6 +920,8 @@
       "id": "JavaImplicitClass/main",
       "abbreviation": "main",
       "body": "void main(){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_IMPLICIT_CLASS_DECLARATION"
       ],
@@ -840,6 +931,8 @@
       "id": "JavaImplicitClass/psvma",
       "abbreviation": "psvma",
       "body": "void main(String[] args){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_IMPLICIT_CLASS_DECLARATION"
       ],
@@ -849,6 +942,8 @@
       "id": "JavaImplicitClass/maina",
       "abbreviation": "maina",
       "body": "void main(String[] args){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_IMPLICIT_CLASS_DECLARATION"
       ],
@@ -858,6 +953,8 @@
       "id": "JavaNormalClassesWithInstanceMain/psvm",
       "abbreviation": "psvm",
       "body": "static void main(){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
       ],
@@ -867,6 +964,8 @@
       "id": "JavaNormalClassesWithInstanceMain/main",
       "abbreviation": "main",
       "body": "static void main(){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
       ],
@@ -876,6 +975,8 @@
       "id": "JavaNormalClassesWithInstanceMain/psvma",
       "abbreviation": "psvma",
       "body": "static void main(String[] args){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
       ],
@@ -885,6 +986,8 @@
       "id": "JavaNormalClassesWithInstanceMain/maina",
       "abbreviation": "maina",
       "body": "static void main(String[] args){\r\n  $END$\r\n}",
+      "reformat": true,
+      "shortenNames": true,
       "contexts": [
         "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN"
       ],

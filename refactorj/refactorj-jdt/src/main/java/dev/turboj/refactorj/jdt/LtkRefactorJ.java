@@ -57,7 +57,7 @@ public final class LtkRefactorJ implements RefactorJ, JavaIntelligenceProvider {
                 case CREATE_METHOD -> invocation&&problem;
                 case CREATE_CONSTRUCTOR -> ancestor(node,org.eclipse.jdt.core.dom.ClassInstanceCreation.class)!=null&&problem;
                 case CREATE_FIELD,CREATE_LOCAL,FIX_TYPE_MISMATCH,REMOVE_UNREACHABLE -> problem;
-                case CREATE_CLASS -> false; // Offered by diagnostic-scoped Quick Fix, never a generic form.
+                case CREATE_CLASS, HANDLE_EXCEPTION -> false; // Offered by diagnostic-scoped Quick Fix, never a generic form.
             };
             out.add(new Descriptor(op,op.id().replace('-',' '),applicable,applicable?List.of():List.of(new Diagnostic(Severity.INFO,"context.not.applicable","Select an eligible Java declaration, expression or statement for this operation",location))));
         }return List.copyOf(out);

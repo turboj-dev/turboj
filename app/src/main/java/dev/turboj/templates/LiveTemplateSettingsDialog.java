@@ -26,6 +26,7 @@ final class LiveTemplateSettingsDialog extends EmbeddedDialog {
     private final JTextField identity = field("live-template-id", "Stable template ID");
     private final JTextArea body = new JTextArea(7, 35);
     private final JCheckBox enabled = new JCheckBox("Enabled");
+    private final JCheckBox reformat = new JCheckBox("Format expanded code"), shortenNames = new JCheckBox("Shorten qualified names / add imports");
     private final Map<String, JCheckBox> contexts = new LinkedHashMap<>();
     private final Variables variables = new Variables();
     private final JTable table = new JTable(variables);
@@ -103,7 +104,7 @@ final class LiveTemplateSettingsDialog extends EmbeddedDialog {
         getRootPane().registerKeyboardAction(e -> cancel(), KeyStroke.getKeyStroke("ESCAPE"), JComponent.WHEN_IN_FOCUSED_WINDOW);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); onClosing(this::cancel);
         for (var text : List.of(name, abbreviation, description, body)) text.getDocument().addDocumentListener(changed(this::edit));
-        enabled.addActionListener(e -> edit()); variables.addTableModelListener(e -> edit());
+        enabled.addActionListener(e -> edit()); reformat.addActionListener(e -> edit()); shortenNames.addActionListener(e -> edit()); variables.addTableModelListener(e -> edit());
         previewTimer.setRepeats(false);
         onClosed(() -> { previewTimer.stop(); preview.close(); });
         onOpened(() -> SwingUtilities.invokeLater(search::requestFocusInWindow));
@@ -119,17 +120,21 @@ final class LiveTemplateSettingsDialog extends EmbeddedDialog {
     private JPanel configuration() {
         var panel = new JPanel(new BorderLayout(6, 6));
         var choices = new JPanel(new GridLayout(0, 1));
+        reformat.setName("live-template-reformat"); shortenNames.setName("live-template-shorten-names");
+        choices.add(reformat); choices.add(shortenNames);
+        choices.add(new JLabel("Contexts · semantic and project-level checks apply"));
         LiveTemplateCatalog.CONTEXTS.stream().sorted().forEach(id -> {
             String title = switch (id) {
                 case "JAVA_STATEMENT" -> "Statement"; case "JAVA_DECLARATION" -> "Declaration";
                 case "JAVA_EXPRESSION" -> "Expression"; case "JAVA_CODE" -> "Java code";
                 case "JAVA_ELSE_PLACE" -> "After if (else branch)";
-                case "JAVA_CONSUMER" -> "Consumer (not offered yet)";
-                case "JAVA_LANG_IO_STATEMENT" -> "Language IO (not offered yet)";
+                case "JAVA_CONSUMER" -> "Consumer (resolved target type)";
+                case "JAVA_LANG_IO_STATEMENT" -> "Language IO (Java 25+)";
                 case "JAVA_IMPLICIT_CLASS_DECLARATION" -> "Implicit class declaration";
                 case "JAVA_NORMAL_CLASS_DECLARATION_WITH_INSTANCE_MAIN" -> "Class with instance main";
                 case "JAVA_NORMAL_CLASS_DECLARATION_WITHOUT_INSTANCE_MAIN" -> "Class without instance main";
-                default -> "Structured concurrency (not offered yet)";
+                case "JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY" -> "Structured concurrency (compatible preview API)";
+                default -> "Legacy structured concurrency (unsupported checked exception API)";
             };
             var choice = new JCheckBox(title); choice.setName("live-template-context-" + id); choice.setToolTipText(id);
             choice.addActionListener(e -> edit()); contexts.put(id, choice); choices.add(choice);
@@ -183,6 +188,8 @@ final class LiveTemplateSettingsDialog extends EmbeddedDialog {
             description.setText(LiveTemplateSettings.text(entry, "description")); identity.setText(id == null ? "" : id);
             body.setText(LiveTemplateSettings.text(entry, "body")); body.setCaretPosition(0);
             enabled.setSelected(!entry.has("disabled") || !entry.get("disabled").getAsBoolean());
+            reformat.setSelected(entry.has("reformat") && entry.get("reformat").getAsBoolean());
+            shortenNames.setSelected(entry.has("shortenNames") && entry.get("shortenNames").getAsBoolean());
             var chosen = new HashSet<String>(); if (entry.has("contexts")) entry.getAsJsonArray("contexts").forEach(c -> chosen.add(c.getAsString()));
             contexts.forEach((key, box) -> box.setSelected(chosen.contains(key)));
             variables.rows.clear(); if (entry.has("variables")) entry.getAsJsonArray("variables").forEach(v -> variables.rows.add(v.getAsJsonObject().deepCopy()));
@@ -197,6 +204,7 @@ final class LiveTemplateSettingsDialog extends EmbeddedDialog {
         var entry = model.definition(selected);
         entry.addProperty("name", name.getText()); entry.addProperty("abbreviation", abbreviation.getText());
         entry.addProperty("description", description.getText()); entry.addProperty("body", body.getText()); entry.addProperty("disabled", !enabled.isSelected());
+        entry.addProperty("reformat", reformat.isSelected()); entry.addProperty("shortenNames", shortenNames.isSelected());
         var cs = new JsonArray(); contexts.forEach((id, box) -> { if (box.isSelected()) cs.add(id); }); entry.add("contexts", cs);
         var vs = new JsonArray(); variables.rows.forEach(v -> vs.add(v.deepCopy())); entry.add("variables", vs);
         model.put(selected, entry); remove.setEnabled(true); list.repaint(); previewTimer.restart();

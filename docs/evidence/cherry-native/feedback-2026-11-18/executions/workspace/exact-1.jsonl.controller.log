@@ -1,0 +1,37 @@
+cherry-test init: 2 projects, 2 packages, 0 test(s) (0 unit, 0 integration, 0 scoped)
+  first/same-name — unit
+  second/same-name — unit
+
+cherry-test run: 20261118-150637-a72bc0 (/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-150637-a72bc0)
+
+==> first/same-name/unit (maven)
+  demo.PriceTest
+    ✓ appliesDiscount                                                                ok        17ms
+  1 tests · 1 ok · 0 failed · 0 skipped · 17ms
+==> report snapshot
+==> html report
+crap: 4 functions · worst 3.3 · 0 at or above 30 (0.0%) · crap load 0.0
+    3.3  discounted      Price.java:6  throw new IllegalArgumentException("percent outside 0..100");
+    2.0  Price           Price.java:4  private Price() {}
+    2.0  deliveryFee     Price.java:13  return 500;
+    2.0  main            Price.java:17  System.out.println(discounted(100, 10));
+
+cherry-test OK  run:20261118-150637-a72bc0   pkg 1/1    tests run:1 skip:0 fail:0 ok:100%  all:33.3% unit:33.3% it:- diff:0.0%                        report: /private/tmp/turboj-cherry-feedback-m99ac…
+
+projects
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+project    package                                          unit                unit_fn                                     it                  it_fn                                 merged status     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+first      same-name                                           -                      -                                      -                      -                                      - ok         
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALL        (changed)                                           -                      -                                      -                      -                                      - ALL        
+
+tests
+first       1 run · 1 ok · 0 fail · 0 skip · 17ms total · 17ms avg · 17ms fastest · 17ms slowest
+  unit          1 run · 1 ok · 0 fail · 0 skip · 17ms total · 17ms avg · 17ms fastest · 17ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     first.same-name                    17       ok       ok
+
+mini
+  unit            1 run · 1 ok · 0 fail · 0 skip · 17ms total · 17ms avg · 17ms fastest · 17ms slowest
+  all             1 run · 1 ok · 0 fail · 0 skip · 17ms total · 17ms avg · 17ms fastest · 17ms slowest
+

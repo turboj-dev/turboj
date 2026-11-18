@@ -395,4 +395,48 @@ class WorkspaceTransactionsTest {
                 .of()));
         assertEquals("class Changed {}\n", Files.readString(file("A.java")));
     }
+
+    @Test
+    void caseOnlyDiskRenamePreservesBytesOrRejectsAliasedFilesystemBeforeWriting() throws Exception {
+        var store = disk();
+        var tx = new WorkspaceTransactions(store);
+        var move = plan(store.snapshot(), List.of(), List.of(new FileOperation(FileOperationKind.MOVE,
+                file("A.java"), file("a.java"), null)));
+        if (Files.exists(file("a.java")) && Files.isSameFile(file("A.java"), file("a.java"))) {
+            assertEquals("FILESYSTEM_ALIAS", assertThrows(TransactionException.class, () -> tx.apply(move, Cancellation.NONE)).code());
+            assertEquals("class A {}\n",Files.readString(file("A.java")));
+            try (var paths = Files.list(root)) { assertTrue(paths.anyMatch(p -> p.getFileName().toString().equals("A.java"))); }
+            return;
+        }
+        var applied = tx.apply(move, Cancellation.NONE);
+        try (var paths = Files.list(root)) {
+            var names = paths.map(p -> p.getFileName().toString()).toList();
+            assertTrue(names.contains("a.java")); assertFalse(names.contains("A.java"));
+        }
+        assertEquals("class A {}\n", Files.readString(file("a.java")));
+        new WorkspaceTransactions(DiskWorkspace.open(root, List.of(root), List.of())).undo(applied.transactionId(), Cancellation.NONE);
+        try (var paths = Files.list(root)) {
+            var names = paths.map(p -> p.getFileName().toString()).toList();
+            assertTrue(names.contains("A.java")); assertFalse(names.contains("a.java"));
+        }
+    }
+
+    @Test
+    void directoryReplacedDuringCommitNeverWritesThroughExternalSymlink() throws Exception {
+        var initial = disk().snapshot();
+        Path destination = Files.createDirectory(file("nested"));
+        Path outside = Files.createTempDirectory(root.getParent(), "refactor-outside-");
+        var store = new DiskWorkspace(initial, (index, path) -> {
+            if (path.equals(destination.resolve("New.java"))) {
+                Files.delete(destination); Files.createSymbolicLink(destination, outside);
+            }
+        });
+        var create = plan(store.snapshot(), List.of(), List.of(new FileOperation(FileOperationKind.CREATE,
+                destination.resolve("New.java"), null, "class New {}")));
+        try {
+            assertThrows(TransactionException.class, () -> new WorkspaceTransactions(store).apply(create, Cancellation.NONE));
+            assertFalse(Files.exists(outside.resolve("New.java")));
+            assertEquals("class A {}\n",Files.readString(file("A.java")));
+        } finally { Files.deleteIfExists(destination); Files.deleteIfExists(outside); }
+    }
 }

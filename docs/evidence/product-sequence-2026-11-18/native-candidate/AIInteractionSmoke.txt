@@ -1,0 +1,3 @@
+Exception in thread "main" java.lang.AssertionError: Timed out waiting for native state
+	at dev.turboj.app.AIInteractionSmoke.await(AIInteractionSmoke.java:64)
+	at dev.turboj.app.AIInteractionSmoke.main(AIInteractionSmoke.java:43)

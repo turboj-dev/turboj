@@ -1,0 +1,72 @@
+{
+  "runtime": "25.0.4.1+10-LTS",
+  "os": "Mac OS X 26.5.1 aarch64",
+  "processors": 10,
+  "conditions": "Synthetic source/evidence fixture. Serial offscreen Java2D paint on the EDT; not native input-to-display latency. No assertion that targets are attained. Git runs off the EDT against an owned local temporary repository, no remote. All source/class evidence is unchanged by the harness.",
+  "warmupIterations": 20,
+  "paintSamples": 100,
+  "rendering": [
+    {
+      "logicalLines": 10000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 5.747709,
+      "denseSnapshotInstallMs": 0.044667,
+      "plainPaintMicros": {
+        "max": 460.625,
+        "p95": 404.875,
+        "median": 364.417,
+        "min": 285.042
+      },
+      "threeLanePaintMicros": {
+        "max": 601.75,
+        "p95": 495.709,
+        "median": 446.125,
+        "min": 427.459
+      },
+      "medianPaintDeltaMicros": 81.70800000000003,
+      "snapshotLookupMicros": {
+        "max": 5.708,
+        "p95": 0.084,
+        "median": 0.042,
+        "min": 0.0
+      }
+    },
+    {
+      "logicalLines": 100000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 15.038709,
+      "denseSnapshotInstallMs": 0.033,
+      "plainPaintMicros": {
+        "max": 335.417,
+        "p95": 306.458,
+        "median": 288.75,
+        "min": 284.084
+      },
+      "threeLanePaintMicros": {
+        "max": 618.375,
+        "p95": 491.084,
+        "median": 465.167,
+        "min": 454.083
+      },
+      "medianPaintDeltaMicros": 176.41699999999997,
+      "snapshotLookupMicros": {
+        "max": 1.042,
+        "p95": 0.042,
+        "median": 0.042,
+        "min": 0.0
+      }
+    }
+  ],
+  "git": {
+    "includes": "process launch, Git baseline lookup, snapshot files, patch parse, cleanup",
+    "warmMicros": {
+      "max": 47977.833,
+      "p95": 47977.833,
+      "median": 39437.834,
+      "min": 37594.25
+    },
+    "logicalLines": 10000,
+    "coldMs": 49.537542,
+    "samples": 15
+  }
+}

@@ -13,13 +13,20 @@ import java.util.function.Consumer;
 
 /** Isolated Cherry CLI transport owned by TurboTestController; Cherry owns test orchestration. */
 public final class CherryTestProcess implements AutoCloseable {
-    public record Request(Path root, String executable, Path eventFile, List<String> selectors, String execution) {
+    public record Request(Path root, String executable, Path eventFile, List<String> selectors, String execution,
+            List<TestSelector> selectedTests) {
+        public Request(Path root,String executable,Path eventFile,List<String> selectors,String execution) {
+            this(root,executable,eventFile,selectors,execution,List.of());
+        }
         public Request(Path root, String executable, Path eventFile, List<String> selectors) {
             this(root, executable, eventFile, selectors, "configured");
         }
         public Request {
             root = root.toAbsolutePath().normalize(); eventFile = eventFile.toAbsolutePath().normalize();
             selectors = List.copyOf(selectors);
+            selectedTests = List.copyOf(selectedTests);
+            if (selectedTests.size() > 1000 || selectedTests.stream().anyMatch(selector -> !selector.exact()))
+                throw new IllegalArgumentException("Exact rerun requires supported selectors (maximum 1000)");
             if (!Set.of("configured", "local", "container").contains(execution))
                 throw new IllegalArgumentException("Unknown Cherry execution policy: " + execution);
         }
@@ -45,7 +52,7 @@ public final class CherryTestProcess implements AutoCloseable {
     }
 
     private void execute(Request request,long ticket,Consumer<Run> results,Consumer<String> output) {
-        CherryEvents events = new CherryEvents(request.root());
+        CherryEvents events = new CherryEvents(request.root(),true);
         Process owned = null;
         Set<ProcessHandle> children = ConcurrentHashMap.newKeySet();
         try {
@@ -60,6 +67,15 @@ public final class CherryTestProcess implements AutoCloseable {
             List<String> command = command(request);
             ProcessBuilder builder = new ProcessBuilder(command).directory(request.root().toFile()).redirectErrorStream(true);
             builder.environment().put("CHERRY_TEST_IDE_EVENTS",request.eventFile().toString());
+            builder.environment().put("CHERRY_TEST_IDE_CAPABILITIES","test-events-v1,selectors-v1,repositories-v1");
+            builder.environment().remove("CHERRY_TEST_IDE_SELECTION");
+            if (!request.selectedTests().isEmpty()) {
+                Path selection = request.eventFile().resolveSibling(request.eventFile().getFileName() + ".selection.json");
+                byte[] encoded = selection(request.selectedTests()).getBytes(StandardCharsets.UTF_8);
+                if (encoded.length > 1024 * 1024) throw new IOException("Exact selection exceeds 1 MiB; use Rerun configured suites.");
+                Files.write(selection,encoded,StandardOpenOption.CREATE_NEW);
+                builder.environment().put("CHERRY_TEST_IDE_SELECTION",selection.toString());
+            }
             if (closed || cancelled || ticket != generation) throw new InterruptedException("Execution cancelled before launch");
             owned = builder.start(); descendants = children; process = owned;
             Process streamOwner = owned;
@@ -77,13 +93,19 @@ public final class CherryTestProcess implements AutoCloseable {
             });
             try (RandomAccessFile input = new RandomAccessFile(request.eventFile().toFile(),"r")) {
                 ByteArrayOutputStream pending = new ByteArrayOutputStream();
+                boolean selectionVerified = request.selectedTests().isEmpty();
                 while (owned.isAlive() && !cancelled && !closed && ticket == generation) {
                     owned.descendants().forEach(children::add);
                     readEvents(input,pending,events,ticket,results);
+                    if (!selectionVerified) {
+                        Run progress = events.snapshot(); verifySelection(request,progress);
+                        selectionVerified = !progress.id().isBlank();
+                    }
                     owned.waitFor(30,TimeUnit.MILLISECONDS);
                 }
                 terminate(owned,children);
                 readEvents(input,pending,events,ticket,results);
+                if (!selectionVerified) verifySelection(request,events.snapshot());
                 drain.join(Duration.ofSeconds(2));
                 Run finalRun = cancelled || closed || ticket != generation ? events.interrupted(true,"Cherry Test cancelled; partial results retained")
                         : !events.terminal() ? events.interrupted(false,"Cherry CLI exited " + owned.exitValue()
@@ -159,7 +181,7 @@ public final class CherryTestProcess implements AutoCloseable {
             Run snapshot = events.terminal() ? new Run(measured.id(),measured.root(),RunState.RUNNING,
                     measured.tests(),measured.coverage(),measured.sourceHashes(),
                     "Cherry report received; waiting for CLI exit verification.",measured.htmlReport(),
-                    measured.sequence(),measured.coverageAvailability()) : measured;
+                    measured.sequence(),measured.coverageAvailability(),measured.collections(),measured.context()) : measured;
             onEdt(ticket,() -> { last = snapshot; results.accept(snapshot); });
         }
     }
@@ -178,6 +200,25 @@ public final class CherryTestProcess implements AutoCloseable {
         if (!request.execution().equals("configured")) command.addAll(List.of("--execution",request.execution()));
         command.addAll(request.selectors());
         return List.copyOf(command);
+    }
+
+    static String selection(List<TestSelector> selectors) {
+        var request = new com.google.gson.JsonObject(); request.addProperty("schemaVersion",1);
+        var values = new com.google.gson.JsonArray();
+        for (TestSelector selector : new LinkedHashSet<>(selectors)) {
+            var value = new com.google.gson.JsonObject();
+            value.addProperty("kind",selector.kind()); value.addProperty("value",selector.value());
+            value.addProperty("phaseKey",selector.phaseKey()); value.addProperty("runtimeId",selector.runtimeId());
+            value.addProperty("adapterId",selector.adapterId()); value.addProperty("manifest",selector.manifest().toString());
+            value.addProperty("exact",selector.exact()); values.add(value);
+        }
+        request.add("selectors",values); return request.toString();
+    }
+    static void verifySelection(Request request,Run run) throws IOException {
+        if (request.selectedTests().isEmpty() || run.id().isBlank()) return;
+        String expected = sha256(selection(request.selectedTests()));
+        if (!expected.equals(run.context().capabilities().get("selectionSHA256")))
+            throw new IOException("Cherry CLI did not acknowledge the exact test selection. Update Cherry or choose Rerun configured suites; this is not an exact rerun.");
     }
 
     public void cancel() {

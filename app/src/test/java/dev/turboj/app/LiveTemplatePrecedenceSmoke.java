@@ -27,7 +27,7 @@ public final class LiveTemplatePrecedenceSmoke {
                 action("keymap.profile." + profile);
                 emptyStatement(); LiveTemplateWorkflowSmoke.type("sout");
                 ghost("AI_CHOSEN"); key(KeyEvent.VK_TAB, 0);
-                await(() -> frame.editor().getText().contains("System.out.println();"), "template wins Tab in " + profile);
+                await(() -> frame.editor().getText().contains("System.out.println();") && LiveTemplateWorkflowSmoke.templateSettled(), "template wins Tab in " + profile);
                 check(!edt(() -> frame.editor().getText()).contains("AI_CHOSEN"), "AI text was not accepted");
                 check(edt(() -> frame.editor().getText().substring(0, frame.editor().caretOffset())).endsWith("println("), "template exit caret");
                 action("undo"); await(() -> frame.editor().getText().contains("sout"), "expansion undo");
@@ -46,7 +46,7 @@ public final class LiveTemplatePrecedenceSmoke {
             check(edt(() -> frame.editor().getText()).equals(before) && !edt(LiveTemplatePrecedenceSmoke::popup), "Escape preserves source and stays closed");
             LiveTemplateWorkflowSmoke.type("t"); await(LiveTemplatePrecedenceSmoke::popup, "list refilters after typing");
             check(edt(() -> list.getSelectedValue().toString()).startsWith("sout —"), "exact match ranked first");
-            key(KeyEvent.VK_ENTER, 0); await(() -> frame.editor().getText().contains("System.out.println();"), "Enter expands selected template");
+            key(KeyEvent.VK_ENTER, 0); await(() -> frame.editor().getText().contains("System.out.println();") && LiveTemplateWorkflowSmoke.templateSettled(), "Enter expands selected template");
             pass("template.prefix-list", "Monokai; actual typing filters applicable definitions; arrows/Enter/Escape; no focus theft or extra newline");
 
             String comment = "class C { void f(){ // sout\n} }\n";

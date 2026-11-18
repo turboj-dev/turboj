@@ -1,0 +1,33 @@
+{
+  "package": "same-name",
+  "phase": "unit",
+  "project": "first",
+  "result": {
+    "coverage": [
+      "/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-151314-d6fa70/reports/adapters/first/same-name/unit/0.lcov"
+    ],
+    "diagnostics": [],
+    "protocol": 1,
+    "success": false,
+    "tests": [
+      {
+        "attachments": [],
+        "duration_ms": 114,
+        "line": null,
+        "message": "expected: <90> but was: <80>\norg.opentest4j.AssertionFailedError: expected: <90> but was: <80>\n\tat org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:569)\n\tat demo.PriceTest.appliesDiscount(PriceTest.java:9)\n",
+        "name": "demo.PriceTest::appliesDiscount",
+        "source": null,
+        "status": "failed"
+      },
+      {
+        "attachments": [],
+        "duration_ms": 8,
+        "line": null,
+        "message": null,
+        "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+        "source": null,
+        "status": "passed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+Exception in thread "main" java.lang.AssertionError: fixture test declaration has a verified source location: demo.PriceTest::demo_project_price_suite_fullprice_test(TestEnv)
+	at dev.turboj.testing.CherryFeedbackAcceptance.require(CherryFeedbackAcceptance.java:63)
+	at dev.turboj.testing.CherryFeedbackAcceptance.main(CherryFeedbackAcceptance.java:29)
+	at dev.turboj.testing.CherryProcessAcceptance.main(CherryProcessAcceptance.java:35)

@@ -1,5 +1,8 @@
-/* Native palette, a reserved screenshot-sized stage, and browser controls outside it. */
-.turboj-demo { --demo-line-height: 1.65em; margin-top: 24px; color: var(--tj-editor-foreground); }
+/* Native palette, a reserved screenshot-sized stage, and browser controls outside it.
+   Current native chrome has one outline per pane and a shared zoom font.
+   No extra screen outline or output outline duplicates those pane borders.
+   Captured source, outcomes, split ratios and operation intervals stay immutable. */
+.turboj-demo { --demo-font-size: 16px; --demo-line-height: 1.25em; margin-top: 24px; color: var(--tj-editor-foreground); }
 .demo-stage { position: relative; height: 464px; width: 100%; background: var(--tj-editor-background); }
 .demo-fallback, .demo-loading, .demo-screen, .demo-external { position: absolute; inset: 0; }
 .demo-fallback { display: flex; justify-content: center; align-items: center; }
@@ -14,16 +17,16 @@ html.demo-js .demo-loading { display: flex; }
 .turboj-demo [hidden] { display: none !important; }
 /* Reserve the controls before lazy evidence arrives; no-JS keeps the screenshot fallback. */
 html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !important; visibility: hidden; pointer-events: none; }
-.demo-screen { --demo-menu-height: 29px; --demo-status-height: 25px; --demo-default-output-height: 126px; display: grid; grid-template-rows: var(--demo-menu-height) minmax(0, 1fr) var(--demo-output-height, var(--demo-default-output-height)) var(--demo-status-height); border: 1px solid var(--tj-chrome-border); font: 400 16px/var(--demo-line-height) var(--mono); font-variant-ligatures: none; }
+.demo-screen { --demo-menu-height: 29px; --demo-status-height: 25px; --demo-default-output-height: 126px; display: grid; grid-template-rows: var(--demo-menu-height) minmax(0, 1fr) var(--demo-output-height, var(--demo-default-output-height)) var(--demo-status-height); font: 400 var(--demo-font-size)/var(--demo-line-height) var(--mono); font-variant-ligatures: none; }
 .demo-menu, .demo-statusbar { display: flex; align-items: center; gap: 18px; background: var(--tj-menu-background); color: var(--tj-menu-foreground); padding: 0 10px; white-space: pre; overflow: hidden; }
-.demo-menu { font-size: 14px; line-height: 1.5; }
+.demo-menu { font: inherit; }
 .demo-workspace { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 0; }
-.demo-workspace.demo-has-explorer { grid-template-columns: minmax(130px, 23%) minmax(0, 1fr); }
-.demo-explorer { position: relative; border: 1px solid var(--tj-chrome-border); margin: 8px 2px 4px; padding: 9px 5px 0; min-width: 0; font: 12px/1.5 var(--mono); }
+.demo-workspace.demo-has-explorer { grid-template-columns: clamp(85px, var(--demo-explorer-width, var(--demo-explorer-default, 23%)), 45%) minmax(0, 1fr); }
+.demo-explorer { position: relative; border: 1px solid var(--tj-chrome-border); margin: 8px 2px 4px; padding: 9px 5px 0; min-width: 0; min-height: 0; font: inherit; }
 .demo-explorer-title { position: absolute; top: -11px; left: 10px; padding: 0 6px; background: var(--tj-editor-background); }
 .demo-explorer pre { margin: 0; height: 100%; overflow: auto; font: inherit; white-space: pre; }
 .demo-editor { position: relative; border: 1px solid var(--tj-chrome-border); margin: 8px 2px 4px; background: var(--tj-editor-background); min-width: 0; }
-.demo-file-border { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; padding: 0 15px; max-width: calc(100% - 20px); background: var(--tj-editor-background); white-space: nowrap; font-size: 13px; line-height: 23px; }
+.demo-file-border { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; padding: 0 15px; max-width: calc(100% - 20px); background: var(--tj-editor-background); white-space: nowrap; font: inherit; line-height: 1.5; }
 .demo-file-border strong { font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
 .demo-code-viewport { position: absolute; inset: 16px 0 0; display: flex; overflow: auto; scrollbar-color: var(--tj-syntax-comment) var(--tj-editor-background); scrollbar-width: thin; }
 .demo-gutter { flex: 0 0 3.3ch; margin: 0; text-align: right; padding-right: .6ch; color: var(--tj-syntax-comment); border-right: 1px solid var(--tj-chrome-border); min-height: 100%; font: inherit; line-height: inherit; }
@@ -36,8 +39,8 @@ html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !importan
 .demo-cursor { position: absolute; top: calc(var(--cursor-line, 0) * var(--demo-line-height)); left: calc(var(--cursor-column, 0) * 1ch); width: 1ch; height: 1.35em; background: var(--tj-editor-cursor); pointer-events: none; }
 .demo-shortcut { position: absolute; bottom: 12px; right: 16px; padding: 0 9px; background: var(--tj-syntax-keyword); color: var(--tj-editor-background); font-size: 13px; font-weight: 600; max-width: calc(100% - 24px); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .demo-shortcut:empty { display: none; }
-.demo-console { position: relative; display: flex; flex-direction: column; min-height: 0; background: var(--tj-messages-background); color: var(--tj-messages-foreground); border: 1px solid var(--tj-messages-foreground); outline: 2px solid var(--tj-messages-background); margin: 8px 3px 2px; padding: 12px 8px 8px; font: 400 14px/1.55 var(--mono); }
-.demo-message-border { position: absolute; top: -11px; left: 0; width: 100%; text-align: center; font-size: 12px; line-height: 21px; white-space: nowrap; overflow: hidden; }
+.demo-console { position: relative; display: flex; flex-direction: column; min-height: 0; background: var(--tj-messages-background); color: var(--tj-messages-foreground); border: 1px solid var(--tj-messages-foreground); margin: 8px 3px 2px; padding: 12px 8px 8px; font: inherit; }
+.demo-message-border { position: absolute; top: -11px; left: 0; width: 100%; text-align: center; font: inherit; line-height: 1.5; white-space: nowrap; overflow: hidden; }
 .demo-message-border>span { padding: 0 10px; background: var(--tj-messages-background); }
 .demo-message-border strong { font-weight: 400; }
 .demo-console pre { min-height: 0; flex: 1; margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; overflow: auto; scrollbar-width: thin; }
@@ -46,8 +49,12 @@ html.demo-js .turboj-demo [data-demo-controls][hidden] { display: flex !importan
 .demo-console-command pre { white-space: pre; overflow-wrap: normal; border-bottom: 1px solid var(--tj-messages-foreground); }
 .demo-console-command-hint { flex: 0 1 auto; max-width: 50%; overflow: hidden; white-space: nowrap; }
 .demo-console-command-caret { display: inline-block; width: 1ch; height: 1.1em; vertical-align: -.1em; background: var(--tj-messages-cursor); color: var(--tj-messages-background); }
-.demo-native-command .demo-console { line-height: 1.4; }
-.demo-statusbar { background: var(--tj-chrome-status-background); color: var(--tj-chrome-status-foreground); font-size: 12px; line-height: 1.5; gap: 22px; }
+.demo-resize { position: absolute; z-index: 1; touch-action: none; }
+.demo-resize-output { top: -8px; left: 0; right: 0; height: 7px; cursor: row-resize; }
+.demo-resize-explorer { top: 0; bottom: 0; right: -5px; width: 5px; cursor: col-resize; }
+.demo-resize:focus-visible { outline: 2px solid var(--tj-editor-cursor); outline-offset: 0; background: var(--tj-editor-cursor); }
+
+.demo-statusbar { background: var(--tj-chrome-status-background); color: var(--tj-chrome-status-foreground); font: inherit; gap: 22px; }
 .demo-statusbar [data-demo-position] { margin-left: auto; }
 .demo-external { display: flex; flex-direction: column; justify-content: center; gap: 20px; border: 1px solid var(--tj-chrome-border); padding: 24px; font: 400 14px/1.6 var(--mono); background: var(--tj-editor-background); }
 .demo-external p { color: var(--tj-syntax-string); }
@@ -88,22 +95,20 @@ html.demo-js .demo-kind { min-height: 1.6em; }
 .demo-no-script, .demo-load-status { margin-top: 12px; color: var(--tj-syntax-string); font: 12px/1.5 var(--mono); }
 @media (min-width: 1600px) {
   .demo-stage { height: 510px; }
-  .demo-screen { font-size: 18px; --demo-menu-height: 31px; --demo-status-height: 27px; --demo-default-output-height: 140px; }
-  .demo-console { font-size: 15px; }
+  .turboj-demo { --demo-font-size: 18px; }
+  .demo-screen { --demo-menu-height: 31px; --demo-status-height: 27px; --demo-default-output-height: 140px; }
 }
 @media (max-width: 1000px) { .demo-caption { flex-direction: column; gap: 6px; } }
 @media (max-width: 720px) {
   .turboj-demo { margin-top: 22px; }
   .demo-stage { height: 380px; }
-  .demo-screen { font-size: 14px; --demo-menu-height: 28px; --demo-status-height: 24px; --demo-default-output-height: 114px; }
-  .demo-workspace.demo-has-explorer { grid-template-columns: 105px minmax(0, 1fr); }
-  .demo-explorer { font-size: 11px; }
-  .demo-menu { padding: 0 7px; font-size: 11px; }
-  .demo-file-border { font-size: 11px; padding: 0 8px; gap: 10px; }
-  .demo-console { font-size: 13px; }
+  .turboj-demo { --demo-font-size: 14px; }
+  .demo-screen { --demo-menu-height: 28px; --demo-status-height: 24px; --demo-default-output-height: 114px; }
+  .demo-workspace { --demo-explorer-default: 105px; }
+  .demo-menu { padding: 0 7px; }
+  .demo-file-border { padding: 0 8px; gap: 10px; }
   .demo-console-command-hint { display: none; }
-  .demo-message-border { font-size: 10px; }
-  .demo-statusbar { font-size: 10px; gap: 14px; padding: 0 6px; }
+  .demo-statusbar { gap: 14px; padding: 0 6px; }
   .demo-controls { gap: 6px; }
   .demo-action { min-height: 3.2em; }
   .demo-controls button, .demo-chapters button { font-size: 11px; padding: 9px 10px; }
@@ -116,7 +121,7 @@ html.demo-js .demo-kind { min-height: 1.6em; }
 }
 /* Read-only reconstructions use captured native component text; replay controls remain outside. */
 .demo-recorded-overlay { position: absolute; z-index: 2; inset: 12px; display: flex; align-items: center; justify-content: center; pointer-events: auto; }
-.demo-recorded-dialog { display: flex; flex-direction: column; gap: 10px; width: min(680px, 100%); max-height: 100%; padding: 12px; border: 1px solid var(--tj-chrome-border); background: var(--tj-editor-background); color: var(--tj-editor-foreground); overflow: auto; font: 400 14px/1.45 var(--mono); }
+.demo-recorded-dialog { display: flex; flex-direction: column; gap: 10px; width: min(680px, 100%); max-height: 100%; padding: 12px; border: 1px solid var(--tj-chrome-border); background: var(--tj-editor-background); color: var(--tj-editor-foreground); overflow: auto; font: 400 var(--demo-font-size)/1.5 var(--mono); }
 .demo-recorded-dialog.demo-recorded-preview { width: 100%; height: 100%; }
 .demo-recorded-dialog h3 { margin: 0; padding: 0 6px; font: inherit; font-weight: 600; text-align: center; }
 .demo-recorded-components { min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 9px; }
@@ -127,7 +132,7 @@ html.demo-js .demo-kind { min-height: 1.6em; }
 .demo-recorded-diff pre { max-height: none; }
 .demo-recorded-actions { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: flex-end; margin-top: auto; }
 .demo-recorded-disabled { opacity: .65; }
-.demo-recorded-menu { inset: 29px 0 auto auto; display: block; width: min(450px, 100%); max-height: calc(100% - 34px); overflow: auto; padding: 8px; border: 1px solid var(--tj-menu-foreground); background: var(--tj-menu-background); color: var(--tj-menu-foreground); font: 400 14px/1.55 var(--mono); }
+.demo-recorded-menu { inset: 29px 0 auto auto; display: block; width: min(450px, 100%); max-height: calc(100% - 34px); overflow: auto; padding: 8px; border: 1px solid var(--tj-menu-foreground); background: var(--tj-menu-background); color: var(--tj-menu-foreground); font: 400 var(--demo-font-size)/1.5 var(--mono); }
 .demo-recorded-menu-row { display: flex; justify-content: space-between; gap: 12px; white-space: pre; }
 .demo-recorded-menu-row span { margin-left: auto; }
 .demo-recorded-menu hr { border: 0; border-top: 1px solid var(--tj-menu-foreground); margin: 6px 0; }
@@ -141,5 +146,4 @@ html.demo-js .demo-kind { min-height: 1.6em; }
   .demo-recorded-diff { grid-template-columns: minmax(0, 1fr); gap: 6px; min-height: 160px; flex-basis: 160px; }
   .demo-recorded-diff pre { max-height: 115px; min-height: 70px; }
   .demo-recorded-menu { inset: 28px 0 auto auto; }
-  .demo-recorded-menu-row { font-size: 12px; }
 }

@@ -8,7 +8,20 @@ import javax.tools.*;
 
 /** Parse-only Java context, computed on the template worker, never during ordinary typing or painting. */
 public record JavaTemplateContext(Set<String> contexts, String className, String methodName,
-                                  Map<String, String> variables, List<String> parameters, String fileName) {
+                                  Map<String, String> variables, List<String> parameters, String fileName,
+                                  dev.turboj.refactorj.api.JavaIntelligence.TemplateSemantics semantics) {
+    public JavaTemplateContext(Set<String> contexts, String className, String methodName, Map<String, String> variables, List<String> parameters, String fileName) {
+        this(contexts, className, methodName, variables, parameters, fileName, null);
+    }
+    public JavaTemplateContext resolved(dev.turboj.refactorj.api.JavaIntelligence.TemplateSemantics facts) {
+        if (facts == null) return this;
+        var enabled = new HashSet<>(contexts);
+        if (facts.consumer()) enabled.add("JAVA_CONSUMER");
+        if (contexts.contains("JAVA_STATEMENT") && facts.languageIO()) enabled.add("JAVA_LANG_IO_STATEMENT");
+        if (contexts.contains("JAVA_STATEMENT") && facts.structuredConcurrency())
+            enabled.add("JAVA_STATEMENT_WITH_STRUCTURED_CONCURRENCY");
+        return new JavaTemplateContext(Set.copyOf(enabled), className, methodName, facts.variables(), parameters, fileName, facts);
+    }
     public boolean accepts(LiveTemplateCatalog.Template template) {
         return !template.disabled() && template.contexts().stream().anyMatch(contexts::contains);
     }
@@ -70,8 +83,7 @@ public record JavaTemplateContext(Set<String> contexts, String className, String
                 contexts.add("JAVA_CODE"); contexts.add("JAVA_EXPRESSION");
                 if (boundary) contexts.add("JAVA_STATEMENT");
                 if (scan.elsePlace) contexts.add("JAVA_ELSE_PLACE");
-                // Consumer applicability needs target-type resolution; keep those entries selectable explicitly only
-                // after a future semantic provider can prove that context. Never guess from punctuation.
+                // The shared semantic provider augments this lexical classification with proven target types.
             } else if (boundary) {
                 contexts.add("JAVA_DECLARATION"); contexts.add("JAVA_CODE");
                 boolean implicit = scan.type == null || scan.type.getSimpleName().isEmpty();

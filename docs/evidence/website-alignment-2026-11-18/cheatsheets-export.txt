@@ -1,0 +1,4 @@
+/private/tmp/turboj-final-cheatsheets-458lwyav/sheets/cheatsheet-turboj-macos.html
+/private/tmp/turboj-final-cheatsheets-458lwyav/sheets/cheatsheet-eclipse-macos.html
+/private/tmp/turboj-final-cheatsheets-458lwyav/sheets/cheatsheet-intellij-macos.html
+/private/tmp/turboj-final-cheatsheets-458lwyav/sheets/cheatsheet-vscode-macos.html

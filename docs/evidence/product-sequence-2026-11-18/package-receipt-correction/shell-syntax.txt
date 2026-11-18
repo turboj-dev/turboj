@@ -1,0 +1,2 @@
+Command: sh -n scripts/package-macos.sh
+Exit: 0

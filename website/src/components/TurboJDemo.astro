@@ -5,7 +5,7 @@ import '../styles/turboj-demo.css';
 ---
 <script is:inline>document.documentElement.classList.add('demo-js');</script>
 <section class="turboj-demo" id="demo" data-turboj-demo aria-label="Recorded TurboJ development workflow" aria-describedby="demo-description">
-  <p id="demo-description" class="sr-only">Five chapters reconstruct measured native sessions. Source and console regions can be scrolled with the keyboard. Complete sources, logs, captures, and measurements are available in session details. No Java executes in your browser.</p>
+  <p id="demo-description" class="sr-only">Five chapters reconstruct measured native sessions. Source and console regions can be scrolled with the keyboard. Resize separators adjust only this reconstruction: use arrow keys, Home or End; Escape returns to source. Complete sources, logs, captures, and measurements are available in session details. No Java executes in your browser.</p>
   <div class="demo-stage">
     <ProductScreenshot />
     <!-- The immutable Classic capture is for no-JS only. This surface uses the
@@ -20,6 +20,7 @@ import '../styles/turboj-demo.css';
         <div class="demo-explorer" data-demo-explorer hidden>
           <span class="demo-explorer-title" aria-hidden="true">Project</span>
           <pre data-demo-explorer-rows tabindex="0" role="region" aria-label="Recorded Maven project explorer; use arrow keys to scroll"></pre>
+          <div class="demo-resize demo-resize-explorer" data-demo-resize-explorer role="separator" tabindex="0" aria-orientation="vertical" aria-label="Resize recorded Explorer pane" aria-valuemin="18" aria-valuemax="45" aria-valuenow="23" title="Resize this reconstruction: Left/Right; Escape returns to source"></div>
         </div>
       <div class="demo-editor">
         <div class="demo-file-border" aria-hidden="true"><strong data-demo-filename></strong></div>
@@ -33,6 +34,7 @@ import '../styles/turboj-demo.css';
       </div>
       </div>
       <div class="demo-console">
+        <div class="demo-resize demo-resize-output" data-demo-resize-output role="separator" tabindex="0" aria-orientation="horizontal" aria-label="Resize recorded Output pane" aria-valuemin="20" aria-valuemax="65" aria-valuenow="31" title="Resize this reconstruction: Up/Down; Escape returns to source"></div>
         <div class="demo-message-border" aria-hidden="true"><span>Output</span></div>
         <pre data-demo-output tabindex="0" role="region" aria-label="Recorded TurboJ console; use arrow keys to scroll"></pre>
         <div class="demo-console-command" data-demo-console-command hidden>

@@ -1,0 +1,7 @@
+eb56963290a877b01f2da66287bebffde369ea2cfb79e46fc326955e01b10fb7  app/src/main/java/dev/turboj/config/SafeFiles.java
+239b2c99a3ce0e36a135f3e462a38ff3b20cb8856ed2fc9b326a3758e33d55a3  app/src/main/java/dev/turboj/config/SessionRecovery.java
+5e352fd73b9c3147d8269c78b0fe40dea840343d65f86240ab75d182433f2673  app/src/test/java/dev/turboj/config/RecoveryAndSaveTest.java
+5758a78e6517f1b8a3b13ac5b95969218b11a06ba09f8fbe4841b44a877f93a6  refactorj/refactorj-transactions/src/main/java/dev/turboj/refactorj/transactions/FileMetadata.java
+aee81941a064c0128c810dce5a825f9ffaae52103a576245a3dabe3371882e8e  refactorj/refactorj-transactions/src/main/java/dev/turboj/refactorj/transactions/DiskWorkspace.java
+d86f4597c6dd854f1fb1e27696a273617e24b5d223434362c9611631c819a934  refactorj/refactorj-transactions/src/test/java/dev/turboj/refactorj/transactions/NativeMetadataTest.java
+b7907408af9f4036eadf3477c0cd456f77c8dd1c256902e82ae8964150c0a260  refactorj/refactorj-transactions/src/test/java/dev/turboj/refactorj/transactions/WorkspaceTransactionsTest.java

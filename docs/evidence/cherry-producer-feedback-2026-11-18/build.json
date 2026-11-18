@@ -1,0 +1,32 @@
+{
+  "baseCommit": "39af874d3d7c3d2589866aed9ee5d7664d47d0df",
+  "branchState": "main ahead16 of cherry-release/main at task entry; prior history preserved",
+  "sourceHashes": {
+    "docs/native-ide-events.md": "4da4677ca41bd72da4d0a3072cb79cc1ebdb8a01579378bc38bfbf28b4931d7a",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/CherryTest.java": "b5df9fb88151c2350732b6888b63a1efcd90d0507e5f3c42e0e48577c232d7fb",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeEvents.java": "100e272542b7cd48cc650d814c658b4af5ed122f8c63f37e5147918778d0ec62",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/Runner.java": "24cc671b56aad61a10736190199f376fb3e8b646172c8ac28456555cb0502b08",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Adapters.java": "996d28b0686dfc7bb27fdfe9501c0160ea443727cf2d2c311fb3d72b616cea6b",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Builtins.java": "91c257d7019cd4ba3c8cebf383c4179901a98f16e077aa5bd2d746810fb5a1e9",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageEvidence.java": "7def77638ed30db7dbb69ff8e7034479ab903dcd481e00acad7db93a2dd0ba24",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageUnion.java": "cb8efaa0ef5761001c8128f0e09e89bd4c8ba7e7fc5a262528453b03a44fc3f2",
+    "java/cherry-test-cli/src/test/java/com/cherrytest/cli/adapters/CoverageEvidenceTest.java": "58e4d86cd2a039bbc25cc10a432c960ced5c1fbefb876ce854f4e93549f06da8",
+    "java/cherry-test-junit/src/main/java/com/cherrytest/junit/CherryTestExtension.java": "321b732c65a8e7247468d8d0bae278a1d42b5315cbfa5fb74b46eeeff3f77f97",
+    "java/cherry-test-junit/src/test/java/com/cherrytest/junit/CherryTestExtensionTest.java": "12c3de36ddf8582c8a7003cdd9621f1a4a6f088b209fbc6549c9bed4364aca49",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeProgress.java": "fe5818e27396dd2cee5396ad8fa3a40741ff6e220912a71f1798408418996696",
+    "java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeSelection.java": "4cb3f8ee1ec936de343d67bfe44f7e28e42350cedc5135cde4651500259a3d4f",
+    "java/cherry-test-cli/src/test/java/com/cherrytest/cli/NativeSelectionTest.java": "3bc53a1396857d88b9a230858d9a4688b77d78de3b19b5bf097dcc8e617cc00e",
+    "java/cherry-test-junit/src/main/java/com/cherrytest/junit/NativeTestProgress.java": "c2bec1c87bcb95efbae2c3d4f677d246f3ef179a78f60b2c15bfa277175695e2"
+  },
+  "jarSHA256": "01004385b5163b3ef9aad1b55f01b482956640aeee79e8fe7f29e6c72a937f25",
+  "fullModifiedReactor": {
+    "tests": 425,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "skipReasons": [
+      "ContainerTest opt-in Docker smoke",
+      "SidecarSmokeIT CHERRY_TEST_DOCKER_SMOKE=1"
+    ]
+  }
+}

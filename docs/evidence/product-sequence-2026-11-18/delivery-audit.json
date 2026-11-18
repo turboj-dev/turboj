@@ -1,0 +1,529 @@
+{
+  "preexisting": [
+    {
+      "path": "examples/Calculator.java",
+      "match": true,
+      "actual": "e2bfeb0695915a6f5eb1ff737d1eebcfbe38026ff8a133c3c44012c3ebd4d2b9"
+    },
+    {
+      "path": "examples/Hello.java",
+      "match": true,
+      "actual": "d07f51e81b15b3aebe5417d0f49f9c1aba12ac03498ccd149a43c49beb11f74e"
+    },
+    {
+      "path": "examples/SampleTest.java",
+      "match": true,
+      "actual": "e765d3969735f63d355feab300ecbae9f6d2023ea5315634b596e2fd7a01382e"
+    },
+    {
+      "path": "examples/maven/src/main/java/dev/turboj/examples/calculator/Calculator.java",
+      "match": true,
+      "actual": "4a0720fdf06e00801e2a4a9e8dd4019cfe1a1ac668c75ae6664e926cc133be92"
+    },
+    {
+      "path": "examples/maven/src/test/java/dev/turboj/examples/calculator/CalculatorTest.java",
+      "match": true,
+      "actual": "1772838cf1cb6c16e7612a00c075e6785d8769dd0f6b4596a1bf5a33d5a42347"
+    },
+    {
+      "path": "app/src/test/java/dev/turboj/app/InlineTemplateAcceptance.java",
+      "match": true,
+      "actual": "b6208d436504b077378f6dd186cc05e9fed1bd27f8b132d70d70a19413b5f87b"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T06-51-04.305444Z.md",
+      "match": true,
+      "actual": "137663d23a178362052b33d0f36b97b0ba5dd9fa997b780a1ef4d4636e3f4f06"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T06-55-25.994533Z.md",
+      "match": true,
+      "actual": "55df8fba087886ab1336edeef1819f32d403eedddf1e2564506304854da34262"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T06-57-22.827136Z.md",
+      "match": true,
+      "actual": "a8c610680a572cb0b11f026cd8bcc592631e1817245057cae55927008cc848d7"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T08-45-50.301404Z.md",
+      "match": true,
+      "actual": "d94ff679c3f77d2f58ef104fa5027df4208fb1d8dfe898968637ce9604e187f8"
+    },
+    {
+      "path": "benchmarks/results/gui-smoke-2026-10-26T16-28-57.197592Z.md",
+      "match": true,
+      "actual": "f8126b29c516e098106e19dac3398265f36b78825e5e0eb796e1d1699168f25a"
+    },
+    {
+      "path": "docs/evidence/cherry-native/real-executions.json",
+      "match": true,
+      "actual": "4006804a97d1139db0cebc9389fde43698c326278e2b70dfd21e4882869e683b"
+    },
+    {
+      "path": "examples/HelloWorld.java",
+      "match": true,
+      "actual": "e765d3969735f63d355feab300ecbae9f6d2023ea5315634b596e2fd7a01382e"
+    }
+  ],
+  "all13Match": true,
+  "candidateFiles": 507,
+  "auditIncludesIgnoredEvidenceFiles": 541,
+  "totalBytes": 4302118,
+  "largest": [
+    {
+      "path": "app/src/main/java/dev/turboj/app/TurboFrame.java",
+      "bytes": 338552
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/final-reactor/clean-install.txt",
+      "bytes": 199114
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/reactor-before-native-acl/clean-install.txt",
+      "bytes": 198971
+    },
+    {
+      "path": "TODO.md",
+      "bytes": 124022
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/package/build-receipt.json",
+      "bytes": 114454
+    },
+    {
+      "path": "refactorj/refactorj-jdt/src/main/java/dev/turboj/refactorj/jdt/SharedJavaIntelligence.java",
+      "bytes": 107082
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/final-reactor/inputs.json",
+      "bytes": 104122
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/reactor-before-native-acl/inputs.json",
+      "bytes": 103952
+    },
+    {
+      "path": "refactorj/refactorj-runtime/src/test/java/dev/turboj/refactorj/runtime/QuickActionsIT.java",
+      "bytes": 83989
+    },
+    {
+      "path": "refactorj/refactorj-jdt/src/main/java/dev/turboj/refactorj/jdt/JdtQuickActions.java",
+      "bytes": 75750
+    },
+    {
+      "path": "docs/evidence/template-semantics-2026-11-18/reactor-install.txt",
+      "bytes": 59916
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153627-0ecd18/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59419
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-143811-1eeec0/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59352
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153408-a8eaa0/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59209
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-152146-339998/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59208
+    },
+    {
+      "path": "docs/evidence/website-alignment-2026-11-18/themes.json",
+      "bytes": 53306
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/final-reactor/tests.json",
+      "bytes": 51112
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/reactor-before-native-acl/tests.json",
+      "bytes": 50602
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/sha256.json",
+      "bytes": 49085
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/package/unchanged-java-reassembly.txt",
+      "bytes": 47084
+    },
+    {
+      "path": "docs/architecture/cherry-test-turboj-integration.md",
+      "bytes": 45500
+    },
+    {
+      "path": "website/QA.md",
+      "bytes": 40314
+    },
+    {
+      "path": "docs/evidence/website-alignment-2026-11-18/scenes.json",
+      "bytes": 40074
+    },
+    {
+      "path": "docs/evidence/product-sequence-2026-11-18/package/package-receipt.json",
+      "bytes": 35334
+    },
+    {
+      "path": "app/src/test/java/dev/turboj/ai/AICompletionControllerTest.java",
+      "bytes": 34499
+    }
+  ],
+  "over1MiB": [],
+  "binaryFiles": [
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-143811-1eeec0/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-143811-1eeec0/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59352,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-143811-1eeec0/reports/adapters/demo/native-ide/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 950,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-152146-339998/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-152146-339998/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59208,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-152146-339998/reports/adapters/demo/native-ide/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 950,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153408-a8eaa0/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153408-a8eaa0/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59209,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153408-a8eaa0/reports/adapters/demo/native-ide/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 950,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153627-0ecd18/reports/adapters/demo/native-ide/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153627-0ecd18/reports/adapters/demo/native-ide/unit/build/jacoco.exec",
+      "bytes": 59419,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/progress-project/20261118-153627-0ecd18/reports/adapters/demo/native-ide/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 950,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-143215-b2b5b0/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-143215-b2b5b0/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-143215-b2b5b0/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-143215-b2b5b0/reports/adapters/second/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-143215-b2b5b0/reports/adapters/second/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-143215-b2b5b0/reports/adapters/second/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150444-25eb98/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150444-25eb98/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150444-25eb98/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150444-25eb98/reports/adapters/second/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150444-25eb98/reports/adapters/second/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150444-25eb98/reports/adapters/second/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150637-a72bc0/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150637-a72bc0/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29546,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-150637-a72bc0/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151314-d6fa70/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151314-d6fa70/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29847,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151314-d6fa70/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151314-d6fa70/reports/adapters/second/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151314-d6fa70/reports/adapters/second/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151314-d6fa70/reports/adapters/second/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151346-0099f0/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151346-0099f0/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29908,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-151346-0099f0/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-152024-eaa218/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-152024-eaa218/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-152024-eaa218/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-152024-eaa218/reports/adapters/second/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-152024-eaa218/reports/adapters/second/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-152024-eaa218/reports/adapters/second/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-153406-158610/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-153406-158610/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-153406-158610/reports/adapters/first/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-153406-158610/reports/adapters/second/same-name/unit/build/classes/demo/Price.class",
+      "bytes": 845,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-153406-158610/reports/adapters/second/same-name/unit/build/jacoco.exec",
+      "bytes": 29336,
+      "magic": "01c0c01007100050"
+    },
+    {
+      "path": "docs/evidence/cherry-native/feedback-2026-11-18/artifacts/workspace/20261118-153406-158610/reports/adapters/second/same-name/unit/build/test-classes/demo/PriceTest.class",
+      "bytes": 654,
+      "magic": "cafebabe00000041"
+    },
+    {
+      "path": "docs/evidence/cherry-producer-feedback-2026-11-18/cherry-feedback-declaration-final.txt.gz",
+      "bytes": 4152,
+      "magic": "1f8b080000000000"
+    },
+    {
+      "path": "docs/evidence/cherry-producer-feedback-2026-11-18/cherry-feedback-external-source-fix.txt.gz",
+      "bytes": 20,
+      "magic": "1f8b080000000000"
+    },
+    {
+      "path": "docs/evidence/cherry-producer-feedback-2026-11-18/cherry-feedback-progress-tests-3.txt.gz",
+      "bytes": 1528,
+      "magic": "1f8b080000000000"
+    },
+    {
+      "path": "docs/evidence/maven-toolchain-2026-11-18/turboj-maven-toolchain17-final-2.txt.gz",
+      "bytes": 1576,
+      "magic": "1f8b080000000000"
+    },
+    {
+      "path": "docs/evidence/maven-toolchain-2026-11-18/turboj-maven-toolchain17-final-3.txt.gz",
+      "bytes": 411,
+      "magic": "1f8b080000000000"
+    },
+    {
+      "path": "docs/evidence/quick-fix-precision-2026-11-18/turboj-qfx02-06-final.txt.gz",
+      "bytes": 1707,
+      "magic": "1f8b080000000000"
+    },
+    {
+      "path": "docs/evidence/quick-fix-precision-2026-11-18/turboj-qfx02-06-validated-2.txt.gz",
+      "bytes": 573,
+      "magic": "1f8b080000000000"
+    }
+  ],
+  "secretCandidates": [],
+  "homePathNames": {
+    "luca": 789
+  },
+  "ignoredEvidence": [
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-2-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-2.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-2.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-3-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-3.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-3.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-exact-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-exact.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress-exact.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/progress-project/progress.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/exact-1-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/exact-1.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/exact-1.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/failed-exact-1-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/failed-exact-1.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/failed-exact-1.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/failure-1-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/failure-1.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/failure-1.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/final-full-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/final-full.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/final-full.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full-2-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full-2.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full-3-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full-3-final-resolution.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full-3.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full-3.jsonl.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/full.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/restored-1-consumer.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/restored-1.jsonl.controller.log",
+    "docs/evidence/cherry-native/feedback-2026-11-18/executions/workspace/restored-1.jsonl.log"
+  ],
+  "excludedPreexisting": [
+    "app/src/test/java/dev/turboj/app/InlineTemplateAcceptance.java",
+    "benchmarks/results/gui-smoke-2026-10-26T06-51-04.305444Z.md",
+    "benchmarks/results/gui-smoke-2026-10-26T06-55-25.994533Z.md",
+    "benchmarks/results/gui-smoke-2026-10-26T06-57-22.827136Z.md",
+    "benchmarks/results/gui-smoke-2026-10-26T08-45-50.301404Z.md",
+    "benchmarks/results/gui-smoke-2026-10-26T16-28-57.197592Z.md",
+    "docs/evidence/cherry-native/real-executions.json",
+    "examples/Calculator.java",
+    "examples/Hello.java",
+    "examples/HelloWorld.java",
+    "examples/SampleTest.java",
+    "examples/maven/src/main/java/dev/turboj/examples/calculator/Calculator.java",
+    "examples/maven/src/test/java/dev/turboj/examples/calculator/CalculatorTest.java"
+  ],
+  "finalChecks": {
+    "preexisting13StillUnchanged": true,
+    "companion15StillQualified": true,
+    "companionAhead": 16,
+    "companionBehind": 0,
+    "cherryEvidenceManifestFiles": 321,
+    "cherryEvidenceManifestIssues": [],
+    "binaryClassification": {
+      "fixtureClassBytes": 32,
+      "jacocoExecutionData": 16,
+      "compressedLogs": 7
+    },
+    "gzipSecretCandidates": 0,
+    "personalPathCandidates": 0,
+    "pathCategories": [
+      "Workspace",
+      "Maven cache .m2",
+      "Java runtime Library"
+    ],
+    "diffCheck": "PASS"
+  }
+}

@@ -107,6 +107,18 @@ public interface JavaIntelligence extends AutoCloseable {
 
     record TestTarget(String className, String methodName, String parameterTypes) {}
 
+    /** Resolved live-template facts, never guesses from variable names or punctuation. */
+    record TemplateSemantics(Map<String, String> variables, Map<String, List<String>> supertypes,
+            Map<String, List<String>> concreteTypes, Map<String, String> expressionTypes, String expectedType, String selectionType,
+            boolean consumer, boolean languageIO, boolean structuredConcurrency, String languageLevel) {
+        public TemplateSemantics {
+            variables = java.util.Collections.unmodifiableMap(new java.util.LinkedHashMap<>(variables)); supertypes = Map.copyOf(supertypes); concreteTypes = Map.copyOf(concreteTypes); expressionTypes = Map.copyOf(expressionTypes);
+        }
+    }
+    default TemplateSemantics templateSemantics(Context context, int start, int end) { return null; }
+    /** Shorten only resolved type names in this inserted range. Imports use original source offsets. */
+    default List<TextEdit> shortenTemplateNames(Context context, int start, int end) { return List.of(); }
+
     default TestTarget testTarget(Context context, int offset) { return null; }
     /** True only for a resolved JUnit test class at the caret (or the file's primary type). */
     default boolean isTestClass(Context context, int offset) { return false; }

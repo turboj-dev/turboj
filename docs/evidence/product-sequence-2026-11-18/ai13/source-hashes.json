@@ -1,0 +1,5 @@
+{
+  "app/src/main/java/dev/turboj/ai/AICompletionController.java": "24b8ec1219b45c327b152ca5582a8534f56db39a8a859d92971aa730a0f191f7",
+  "app/src/test/java/dev/turboj/ai/AICompletionControllerTest.java": "2d8761e79d2d62d5e265441d916a30d9e2ab56e6dba0c3602401f6539c6e2132",
+  "app/src/test/java/dev/turboj/app/AIInteractionSmoke.java": "354324434308e2576f9ab8c1f7fa0728b82d32e66bf3325e349c565bc46b6927"
+}

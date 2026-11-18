@@ -64,10 +64,12 @@ class ProtocolTest {
         var advertised = new HashSet<String>();
         for (JsonElement entry : Json.catalog()) advertised.add(entry.getAsJsonObject().get("operation").getAsString());
         var typed = new HashSet<String>();
-        for (Operation operation : Operation.values()) if (operation != Operation.CREATE_CLASS) typed.add(operation.id());
+        for (Operation operation : Operation.values()) if (operation != Operation.CREATE_CLASS && operation != Operation.HANDLE_EXCEPTION) typed.add(operation.id());
         assertEquals(typed, advertised);
         assertEquals(typed, new HashSet<>(Json.typedOperations().stream().map(Operation::id).toList()));
         assertFalse(advertised.contains("create-class"));
+        assertFalse(advertised.contains("handle-exception"));
+        assertThrows(IllegalArgumentException.class, () -> Json.requestClass(Operation.HANDLE_EXCEPTION));
     }
 
     @Test

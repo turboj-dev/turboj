@@ -37,7 +37,12 @@ public final class QuickFixPopupSmoke {
                 edt(() -> { frame.commandKeymaps().select(profile); frame.editor().gotoOffset(text.indexOf("Calculator") + 3);
                     frame.editor().requestFocusInWindow(); return null; });
                 await(() -> frame.editor().isFocusOwner());
+                keyBurst(KeyEvent.VK_1, KeyEvent.META_DOWN_MASK, 2);
+                await(() -> named("quick-actions-heading") instanceof JLabel label && label.getText().equals("Quick Assists"));
+                if (edt(() -> frame.editor().caretOffset()) != text.indexOf("Calculator") + 3)
+                    throw new AssertionError("Repeated invocation moved the original caret");
                 key(KeyEvent.VK_1,KeyEvent.META_DOWN_MASK);
+                await(() -> named("quick-actions-heading") instanceof JLabel label && label.getText().startsWith("Quick Fixes"));
                 await(() -> named("quick-actions-filter") instanceof JTextField field && field.isFocusOwner());
                 edt(() -> {
                     JList<?> list = (JList<?>) named("quick-actions-proposals"); boolean found = false;
@@ -56,10 +61,19 @@ public final class QuickFixPopupSmoke {
                     if (AsciiPalette.contrast(list.getSelectionForeground(),list.getSelectionBackground()) < 4.5) throw new AssertionError("Selected proposal contrast");
                     return null;
                 });
+                key(KeyEvent.VK_1, KeyEvent.META_DOWN_MASK);
+                await(() -> named("quick-actions-heading") instanceof JLabel label && label.getText().equals("Quick Assists"));
+                key(KeyEvent.VK_1, KeyEvent.META_DOWN_MASK);
+                await(() -> named("quick-actions-heading") instanceof JLabel label && label.getText().startsWith("Quick Fixes"));
                 key(KeyEvent.VK_ESCAPE,0); await(() -> frame.editor().isFocusOwner());
+                if (edt(() -> frame.editor().caretOffset()) != text.indexOf("Calculator") + 3)
+                    throw new AssertionError("Escape changed an explicitly selected problem location");
+                System.out.println("PASS rapid pending invocation and visible fix/assist toggles preserve caret");
                 System.out.println("PASS " + profile + ": Cmd+1 creates contextual proposals; theme switch and selection contrast >=4.5:1; Escape restores focus");
             }
             edt(() -> { frame.editor().gotoOffset(text.indexOf(';') + 1); return null; });
+            keyBurst(KeyEvent.VK_1, KeyEvent.META_DOWN_MASK, 2);
+            await(() -> named("quick-actions-heading") instanceof JLabel label && label.getText().equals("Quick Assists"));
             key(KeyEvent.VK_1,KeyEvent.META_DOWN_MASK);
             await(() -> named("quick-actions-filter") instanceof JTextField field && field.isFocusOwner());
             edt(() -> {
@@ -127,6 +141,17 @@ public final class QuickFixPopupSmoke {
         }
         return null;
     }
+    private static void keyBurst(int code, int modifiers, int count) throws Exception {
+        NativeWindowTestSupport.beforeKey(frame);
+        edt(() -> {
+            Component focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+            if (focus == null) throw new AssertionError("No keyboard focus");
+            for (int i = 0; i < count; i++) for (int kind : new int[]{KeyEvent.KEY_PRESSED, KeyEvent.KEY_RELEASED})
+                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(
+                        new KeyEvent(focus, kind, System.currentTimeMillis(), modifiers, code, KeyEvent.CHAR_UNDEFINED));
+            return null;
+        });
+    }
     private static void key(int code,int modifiers) throws Exception {
         NativeWindowTestSupport.beforeKey(frame);
         edt(() -> {
@@ -150,7 +175,20 @@ public final class QuickFixPopupSmoke {
         }
         throw new AssertionError("Timed out waiting for contextual popup/focus; file=" + edt(() -> frame.currentFile())
                 + "; focus=" + edt(() -> KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner())
+                + "; inspection=" + edt(QuickFixPopupSmoke::inspectionState)
                 + "; status=" + edt(() -> frame.statusMessages()));
+    }
+    private static String inspectionState() throws Exception {
+        var field = TurboFrame.class.getDeclaredField("quickFix"); field.setAccessible(true);
+        Object controller = field.get(frame); var result = new StringBuilder();
+        for (String name : new String[]{"epoch", "inspecting", "contextualInspection", "pendingToggle", "assists", "inspection"}) {
+            var member = controller.getClass().getDeclaredField(name); member.setAccessible(true);
+            result.append(name).append('=').append(member.get(controller)).append(';');
+        }
+        var pending = frame.intelligence().getClass().getDeclaredField("semanticRequest"); pending.setAccessible(true);
+        result.append("semanticRequest=").append(pending.get(frame.intelligence()));
+        result.append(";heading=").append(named("quick-actions-heading"));
+        return result.toString();
     }
     private static <T> T edt(Callable<T> action) throws Exception {
         FutureTask<T> task = new FutureTask<>(action); SwingUtilities.invokeAndWait(task); return task.get();

@@ -173,6 +173,116 @@ class CherryEventsTest {
         assertEquals(2,reader.snapshot().tests().size());
         assertEquals(2,reader.snapshot().tests().stream().map(TestResult::id).distinct().count());
     }
+    @Test void realProgressRequiresStableIdentityAndIncompletePendingCannotBecomeCompleteSuccess() throws Exception {
+        var reader = start(false);
+        JsonObject pending = phase(1,"junit",true,List.of()); pending.addProperty("event","test.started");
+        pending.add("test",gson.toJsonTree(Map.of("id","one","name","PriceTest::discount")));
+        reader.accept(pending.toString());
+        assertEquals(TestStatus.PENDING,reader.snapshot().tests().getFirst().status());
+        JsonObject done = pending.deepCopy(); done.addProperty("event","test.completed"); done.addProperty("sequence",2);
+        done.getAsJsonObject("test").addProperty("status","failed"); reader.accept(done.toString());
+        assertEquals(1,reader.snapshot().tests().size()); assertEquals(TestStatus.FAILED,reader.snapshot().tests().getFirst().status());
+        pending.addProperty("sequence",3); pending.getAsJsonObject("test").addProperty("id","two"); reader.accept(pending.toString());
+        complete(reader,source,true,"passed");
+        assertEquals(RunState.INCOMPLETE,reader.snapshot().state());
+        assertEquals(1,reader.snapshot().tests().stream().filter(test -> test.status() == TestStatus.PENDING).count());
+    }
+    @Test void concurrentPhaseProgressDoesNotInventPendingTestsOrHideAnotherRunningPhase() throws Exception {
+        var reader = start(false);
+        var one = phase(1,"spring",true,List.of()); one.addProperty("event","phase.started"); reader.accept(one.toString());
+        var two = phase(2,"quarkus",true,List.of()); two.addProperty("event","phase.started"); reader.accept(two.toString());
+        reader.accept(phase(3,"spring",true,List.of()).toString());
+        var progress = reader.snapshot().context().phases();
+        assertEquals(2,progress.size());
+        assertEquals(1,progress.values().stream().filter(phase -> phase.state() == RunState.RUNNING).count());
+        assertEquals(1,progress.values().stream().filter(phase -> phase.state() == RunState.COMPLETED).count());
+        assertTrue(reader.snapshot().tests().isEmpty(),"Phase execution is not an invented test");
+        assertTrue(progress.values().stream().allMatch(phase -> phase.inventoryCompleteness().equals("unknown")));
+        complete(reader,source,true,"passed");
+        assertEquals(RunState.INCOMPLETE,reader.snapshot().state());
+        assertTrue(reader.snapshot().context().phases().values().stream().noneMatch(phase -> phase.state() == RunState.RUNNING));
+    }
+    @Test void finalPhaseReplacesMatchingProgressAndSelectorsRetainExactInvocation() throws Exception {
+        var reader = start(false); JsonObject pending = phase(1,"junit",true,List.of());
+        pending.addProperty("event","test.started"); pending.addProperty("phaseKey",sha256("manifest"));
+        var selector = Map.of("kind","junit-method","value","demo.PriceTest#discount","phaseKey",sha256("manifest"),
+                "runtimeId","junit","adapterId","maven","manifest","cherry-test.yaml","exact",true);
+        pending.add("test",gson.toJsonTree(Map.of("id","one","name","demo.PriceTest::discount","selector",selector)));
+        reader.accept(pending.toString());
+        var complete = phase(2,"junit",true,List.of(Map.of("id","one","name","demo.PriceTest::discount","status","passed","selector",selector)));
+        complete.addProperty("phaseKey",sha256("manifest")); reader.accept(complete.toString()); complete(reader,source,true,"passed");
+        var test = reader.snapshot().tests().getFirst();
+        assertEquals(1,reader.snapshot().tests().size()); assertEquals(TestStatus.PASSED,test.status());
+        assertEquals("demo.PriceTest#discount",test.selector().value()); assertTrue(test.withFreshness(Freshness.STALE).selector().exact());
+        assertEquals(root.resolve("cherry-test.yaml"),test.selector().manifest());
+    }
+    @Test void externalRepositoriesRequireExplicitTrustAndKeepSourcePathsDistinct() throws Exception {
+        Path other = Files.createDirectory(root.resolveSibling(root.getFileName() + "-repository"));
+        try {
+            Files.writeString(other.resolve("Price.java"),source);
+            JsonObject started = event("run.started",0); started.addProperty("workspaceRoot",root.toString()); started.addProperty("coverageEnabled",true);
+            started.add("repositories",gson.toJsonTree(List.of(Map.of("id","other-worktree","root",other.toString(),"worktree","other"))));
+            started.add("sourceBefore",gson.toJsonTree(Map.of(other.resolve("Price.java").toString(),sha256(source))));
+            var untrusted = new CherryEvents(root); untrusted.accept(started.toString());
+            assertTrue(untrusted.snapshot().sourceHashes().isEmpty()); assertTrue(untrusted.snapshot().context().repositories().isEmpty());
+            var outside = phase(1,"junit",true,List.of(Map.of("id","outside","name","test","status","passed","selector",Map.of(
+                    "kind","junit-method","value","T::test","phaseKey",sha256("outside"),"runtimeId","junit","adapterId","maven",
+                    "manifest",other.resolve("pom.xml").toString(),"exact",true))));
+            outside.addProperty("phaseKey",sha256("outside")); untrusted.accept(outside.toString());
+            assertFalse(untrusted.snapshot().tests().getFirst().selector().exact());
+            assertTrue(untrusted.snapshot().tests().getFirst().selector().reason().contains("trusted source roots"));
+            var trusted = new CherryEvents(root,true); trusted.accept(started.toString());
+            JsonObject phase = phase(1,"junit",true,List.of(Map.of("id","one","name","test","status","passed","source",other.resolve("Price.java").toString(),"line",1)));
+            phase.addProperty("moduleRoot",other.toString()); phase.addProperty("repositoryId","other-worktree");
+            artifact(phase,"coverage","external.lcov","lcov","SF:" + other.resolve("Price.java") + "\nDA:1,1\n");
+            trusted.accept(phase.toString());
+            assertEquals(other,trusted.snapshot().tests().getFirst().moduleRoot());
+            assertEquals("other-worktree",trusted.snapshot().tests().getFirst().repositoryId());
+            assertTrue(trusted.snapshot().coverage().containsKey(other.resolve("Price.java")));
+            Path escape = root.resolve("link"); Files.createSymbolicLink(escape,other);
+            var escaping = phase(2,"junit",true,List.of());
+            artifact(escaping,"coverage","escape.lcov","lcov","SF:link/Price.java\nDA:1,1\n");
+            untrusted.accept(escaping.toString()); assertTrue(untrusted.snapshot().coverage().isEmpty(),"Symlinks do not expand trusted source roots");
+        } finally { Files.deleteIfExists(other.resolve("Price.java")); Files.deleteIfExists(other); }
+    }
+    @Test void aRunCannotReplaceItsTrustedManifestOrSelectionAcknowledgementAfterStarting() throws Exception {
+        var reader = start(false);
+        JsonObject repeat = event("run.started",1); repeat.addProperty("workspaceRoot",root.toString());
+        repeat.addProperty("selectionSHA256",sha256("another selection"));
+        assertThrows(java.io.IOException.class,() -> reader.accept(repeat.toString()));
+        assertEquals(0,reader.snapshot().sequence());
+    }
+    @Test void individualCollectionsSurviveConflictingCountersAndKeepRuntimeAndArtifactIdentities() throws Exception {
+        var reader = start(true);
+        for (int index = 1; index <= 2; index++) {
+            var phase = phase(index,index == 1 ? "spring" : "quarkus",true,List.of());
+            String json = gson.toJson(Map.of("schemaVersion",1,"format","jacoco-lines-v1","files",List.of(Map.of(
+                    "source","Price.java","lines",List.of(Map.of("line",1,"ci",index,"mi",3-index,"cb",index,"mb",2-index))))));
+            artifact(phase,"coveragePrecisionArtifacts","collection-" + index + ".native.json","jacoco-lines-v1",json);
+            reader.accept(phase.toString());
+        }
+        complete(reader,source,true,"passed");
+        var run = reader.snapshot();
+        assertEquals(CoverageState.UNKNOWN,first(reader).state(),"Counters cannot be summed to fabricate a provider union");
+        assertEquals(2,run.collections().size());
+        assertEquals(List.of("spring","quarkus"),run.collections().stream().map(CoverageObservation::runtime).toList());
+        assertEquals(2,run.collections().stream().map(CoverageObservation::id).distinct().count());
+        assertTrue(run.collections().stream().allMatch(collection -> Files.isRegularFile(collection.artifact())),"Detail artifact paths reference the real precision file");
+        assertEquals(1,run.collections().getFirst().coverage().get(root.resolve("Price.java")).get(1).coveredInstructions());
+        assertEquals(2,run.collections().getLast().coverage().get(root.resolve("Price.java")).get(1).coveredInstructions());
+        assertThrows(UnsupportedOperationException.class,() -> run.collections().clear());
+        assertThrows(UnsupportedOperationException.class,() -> run.collections().getFirst().coverage().clear());
+        assertEquals(2,reader.interrupted(true,"cancelled").collections().size());
+    }
+    @Test void collectionProofRemainsNeutralUntilCompletionAndStaleWhenSourceChanges() throws Exception {
+        var reader = start(true); precisePhase(reader,provenance());
+        assertEquals(Freshness.UNKNOWN,reader.snapshot().collections().getFirst().coverage().get(root.resolve("Price.java")).get(1).freshness());
+        complete(reader,source,true,"passed");
+        assertEquals(Freshness.CURRENT,reader.snapshot().collections().getFirst().coverage().get(root.resolve("Price.java")).get(1).freshness());
+        assertEquals(Freshness.UNKNOWN,reader.interrupted(true,"cancelled").collections().getFirst().coverage().get(root.resolve("Price.java")).get(1).freshness());
+        var stale = start(true); precisePhase(stale,provenance()); complete(stale,source + " ",true,"passed");
+        assertEquals(Freshness.STALE,stale.snapshot().collections().getFirst().coverage().get(root.resolve("Price.java")).get(1).freshness());
+    }
     @Test void manifestIdentityKeepsIdenticalLabelsAndTestIdsFromOverwritingTestsOrCoverage() throws Exception {
         var reader = start(true);
         for (int i = 1; i <= 2; i++) {

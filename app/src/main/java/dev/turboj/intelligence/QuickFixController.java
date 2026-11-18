@@ -41,6 +41,7 @@ public final class QuickFixController implements AutoCloseable {
     private NativeWorkspaceCommitter.Capture capture;
     private EditorComponent.Location selection;
     private boolean assists;
+    private boolean inspecting, pendingToggle, contextualInspection;
     private volatile boolean closed;
     private volatile long epoch;
     private long navigationEpoch;
@@ -63,8 +64,17 @@ public final class QuickFixController implements AutoCloseable {
         if (visible() && capture.equals(host.capture())) {
             assists = !assists; filter.setText(""); refresh(); filter.requestFocusInWindow(); return;
         }
+        if (inspecting && contextualInspection && capture.equals(host.capture()) && selection.equals(editor.captureLocation())) {
+            pendingToggle = !pendingToggle;
+            return;
+        }
         notice.accept("Finding Java fixes and assists…");
-        inspectAtCaret(result -> { followProblem(result); inspection = result; assists = result.fixes().isEmpty(); show(); });
+        inspectAtCaret(result -> {
+            boolean toggle = pendingToggle;
+            followProblem(result); inspection = result;
+            assists = result.fixes().isEmpty() ^ toggle; pendingToggle = false; show();
+        });
+        contextualInspection = inspecting;
     }
 
     /**
@@ -90,12 +100,14 @@ public final class QuickFixController implements AutoCloseable {
         capture = host.capture(); selection = editor.captureLocation();
         var original = capture; var originalSelection = selection;
         var snapshot = snapshots.get(); var requestedDocument = editor.document(); long ticket = ++epoch;
+        inspecting = true;
         var location = new Location(snapshot.file(), Math.min(selection.caret(), selection.anchor()),
                 Math.max(selection.caret(), selection.anchor()));
         intelligence.submitSemantic(snapshot, (service, context) -> service.sharedRefactorJ(context)
                 .quickActions().inspect(location, () -> closed || ticket != epoch))
                 .whenComplete((result, error) -> SwingUtilities.invokeLater(() -> {
                     if (closed || ticket != epoch) return;
+                    inspecting = false;
                     if (error != null) { failed(error); return; }
                     var current = editor.captureLocation();
                     if (!original.equals(host.capture()) || requestedDocument != editor.document()
@@ -121,7 +133,7 @@ public final class QuickFixController implements AutoCloseable {
             body = new JPanel(new BorderLayout(4, 4));
             body.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(editor.getForeground()),
                     BorderFactory.createEmptyBorder(6, 8, 6, 8)));
-            heading = new JLabel();
+            heading = new JLabel(); heading.setName("quick-actions-heading");
             filter = new JTextField(38); filter.setName("quick-actions-filter");
             filter.getAccessibleContext().setAccessibleName("Filter Java fixes and assists");
             var top = new JPanel(new BorderLayout(2, 4)); top.add(heading, BorderLayout.NORTH); top.add(filter);
@@ -243,12 +255,14 @@ public final class QuickFixController implements AutoCloseable {
         });
     }
     public void changed() {
+        inspecting = false; pendingToggle = false; contextualInspection = false;
         ++epoch;
         // Publication also refreshes the source. It must cancel stale inspections without
         // pretending the user dismissed the successful action's continuation.
         if (popup != null) popup.setVisible(false);
     }
     public void dismiss(boolean focusEditor) {
+        inspecting = false; pendingToggle = false; contextualInspection = false;
         ++epoch;
         ++navigationEpoch;
         if (popup != null) popup.setVisible(false);

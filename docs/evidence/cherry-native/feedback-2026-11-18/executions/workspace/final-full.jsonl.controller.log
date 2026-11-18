@@ -1,0 +1,50 @@
+cherry-test init: 2 projects, 2 packages, 0 test(s) (0 unit, 0 integration, 0 scoped)
+  first/same-name — unit
+  second/same-name — unit
+
+cherry-test run: 20261118-153406-158610 (/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-153406-158610)
+
+==> first/same-name/unit (maven)
+  demo.PriceTest
+    ✓ appliesDiscount                                                                ok        22ms
+    ✓ keepsPriceWithoutDiscount                                                      ok         3ms
+  2 tests · 2 ok · 0 failed · 0 skipped · 25ms
+==> second/same-name/unit (maven)
+  demo.PriceTest
+    ✓ appliesDiscount                                                                ok        22ms
+    ✓ keepsPriceWithoutDiscount                                                      ok         3ms
+  2 tests · 2 ok · 0 failed · 0 skipped · 25ms
+==> report snapshot
+==> html report
+crap: 8 functions · worst 3.3 · 0 at or above 30 (0.0%) · crap load 0.0
+    3.3  discounted      Price.java:6  throw new IllegalArgumentException("percent outside 0..100");
+    3.3  discounted      Price.java:6  throw new IllegalArgumentException("percent outside 0..100");
+    2.0  Price           Price.java:4  private Price() {}
+    2.0  deliveryFee     Price.java:13  return 500;
+
+cherry-test OK  run:20261118-153406-158610   pkg 2/2    tests run:4 skip:0 fail:0 ok:100%  all:33.3% unit:33.3% it:- diff:0.0%                        report: /private/tmp/turboj-cherry-feedback-m99ac…
+
+projects
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+project    package                                          unit                unit_fn                                     it                  it_fn                                 merged status     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+first      same-name                                           -                      -                                      -                      -                                      - ok         
+second     same-name                                           -                      -                                      -                      -                                      - ok         
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALL        (changed)                                           -                      -                                      -                      -                                      - ALL        
+
+tests
+first       2 run · 2 ok · 0 fail · 0 skip · 25ms total · 12ms avg · 3ms fastest · 22ms slowest
+  unit          2 run · 2 ok · 0 fail · 0 skip · 25ms total · 12ms avg · 3ms fastest · 22ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     first.same-name                    22       ok       ok
+    same-name: demo.PriceTest::keepsPriceWithoutDiscount                     none                     first.same-name                     3       ok       ok
+second      2 run · 2 ok · 0 fail · 0 skip · 25ms total · 12ms avg · 3ms fastest · 22ms slowest
+  unit          2 run · 2 ok · 0 fail · 0 skip · 25ms total · 12ms avg · 3ms fastest · 22ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     second.same-name                   22       ok       ok
+    same-name: demo.PriceTest::keepsPriceWithoutDiscount                     none                     second.same-name                    3       ok       ok
+
+mini
+  unit            2 run · 2 ok · 0 fail · 0 skip · 25ms total · 12ms avg · 3ms fastest · 22ms slowest
+  unit            2 run · 2 ok · 0 fail · 0 skip · 25ms total · 12ms avg · 3ms fastest · 22ms slowest
+  all             4 run · 4 ok · 0 fail · 0 skip · 50ms total · 12ms avg · 3ms fastest · 22ms slowest
+

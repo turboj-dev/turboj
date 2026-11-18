@@ -1,0 +1,23 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> turboj-website@1.0.0 check
+> npm run themes && astro check
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> turboj-website@1.0.0 themes
+> node scripts/export-themes.mjs
+
+Exported 103 native catalog themes, 3 primary palettes (35fc8b259eee).
+16:04:48 [types] Generated 45ms
+16:04:48 [check] Getting diagnostics for Astro files in /Users/luca/Workspace/turboj/website...
+[96mtests/performance.mjs[0m:[93m42[0m:[93m5[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m42[0m     await browser.kill();
+[7m  [0m [93m    ~~~~~~~~~~~~~~~~~~~~[0m
+
+Result (68 files): 
+- 0 errors
+- 0 warnings
+- 1 hint
+

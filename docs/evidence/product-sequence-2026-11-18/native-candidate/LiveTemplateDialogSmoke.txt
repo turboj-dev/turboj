@@ -1,0 +1,24 @@
+PASS dialog.search-create: search/arrows/Enter, duplicate, named fields, code, variable expression/default, native read-only expansion, Tab traversal
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS dialog.validation-save: invalid abbreviation/context rejected; real file saved; metadata/configuration preserved; source and focus preserved
+Driver reactivates fixture window while waiting: Redo restores expansion
+Driver reactivates fixture window while waiting: Redo restores expansion
+Driver reactivates fixture window while waiting: Redo restores expansion
+Driver reactivates fixture window while waiting: Redo restores expansion
+Driver reactivates fixture window while waiting: Redo restores expansion
+Driver reactivates fixture window while waiting: Redo restores expansion
+Driver reactivates fixture window while waiting: Redo restores expansion
+Exception in thread "main" java.lang.AssertionError: Redo restores expansion; focus=null; active=false; overlay=false; source=public class C { void f() {
+        int amount = 1;
+        System.out.println(amount);
+} }
+; status=15:22:26  Saved C.java
+15:22:02  Live template: fill unresolved values — VALUE: futureMacro()
+15:22:02  Live templates saved
+15:22:00  ⌃⌘K L …  (Escape cancels; 10 seconds per key)
+15:22:00  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+15:22:00  Opened Java project project (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-template-dialog-12850378153516681455/project).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.LiveTemplateDialogSmoke.expand(LiveTemplateDialogSmoke.java:128)
+	at dev.turboj.app.LiveTemplateDialogSmoke.main(LiveTemplateDialogSmoke.java:51)

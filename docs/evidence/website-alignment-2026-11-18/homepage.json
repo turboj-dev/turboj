@@ -1,0 +1,305 @@
+{
+  "timestamp": "2026-11-18T14:30:33.918Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "browser": "156.0.8078.4",
+  "viewports": [
+    {
+      "width": 320,
+      "height": 844,
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "failedImages": [],
+      "overflow": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "failedImages": [],
+      "overflow": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "failedImages": [],
+      "overflow": []
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "failedImages": [],
+      "overflow": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "failedImages": [],
+      "overflow": []
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "viewport": 1920,
+      "document": 1920,
+      "body": 1920,
+      "failedImages": [],
+      "overflow": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "320×844: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "status": "passed"
+    },
+    {
+      "name": "320×844: responsive layout and loaded images",
+      "status": "passed",
+      "details": {
+        "viewport": 320,
+        "document": 320,
+        "body": 320,
+        "failedImages": [],
+        "overflow": []
+      }
+    },
+    {
+      "name": "320×844: all anchor destinations exist",
+      "status": "passed"
+    },
+    {
+      "name": "320×844: mobile navigation opens with keyboard, closes with Escape",
+      "status": "passed"
+    },
+    {
+      "name": "320×844: mobile navigation follows and closes",
+      "status": "passed"
+    },
+    {
+      "name": "320×844: navigation and CTA anchors activate",
+      "status": "passed"
+    },
+    {
+      "name": "320×844: all FAQ entries work using only keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "320×844: no external requests, failed requests, or console errors",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: responsive layout and loaded images",
+      "status": "passed",
+      "details": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390,
+        "failedImages": [],
+        "overflow": []
+      }
+    },
+    {
+      "name": "390×844: all anchor destinations exist",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: mobile navigation opens with keyboard, closes with Escape",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: mobile navigation follows and closes",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: navigation and CTA anchors activate",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: all FAQ entries work using only keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "390×844: WCAG 2.2 AA automated audit",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "390×844: no external requests, failed requests, or console errors",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: responsive layout and loaded images",
+      "status": "passed",
+      "details": {
+        "viewport": 768,
+        "document": 768,
+        "body": 768,
+        "failedImages": [],
+        "overflow": []
+      }
+    },
+    {
+      "name": "768×1024: all anchor destinations exist",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: mobile navigation opens with keyboard, closes with Escape",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: mobile navigation follows and closes",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: navigation and CTA anchors activate",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: all FAQ entries work using only keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "768×1024: no external requests, failed requests, or console errors",
+      "status": "passed"
+    },
+    {
+      "name": "1280×800: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "status": "passed"
+    },
+    {
+      "name": "1280×800: responsive layout and loaded images",
+      "status": "passed",
+      "details": {
+        "viewport": 1280,
+        "document": 1280,
+        "body": 1280,
+        "failedImages": [],
+        "overflow": []
+      }
+    },
+    {
+      "name": "1280×800: all anchor destinations exist",
+      "status": "passed"
+    },
+    {
+      "name": "1280×800: navigation and CTA anchors activate",
+      "status": "passed"
+    },
+    {
+      "name": "1280×800: all FAQ entries work using only keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "1280×800: no external requests, failed requests, or console errors",
+      "status": "passed"
+    },
+    {
+      "name": "1440×900: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "status": "passed"
+    },
+    {
+      "name": "1440×900: responsive layout and loaded images",
+      "status": "passed",
+      "details": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440,
+        "failedImages": [],
+        "overflow": []
+      }
+    },
+    {
+      "name": "1440×900: all anchor destinations exist",
+      "status": "passed"
+    },
+    {
+      "name": "1440×900: navigation and CTA anchors activate",
+      "status": "passed"
+    },
+    {
+      "name": "1440×900: all FAQ entries work using only keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "1440×900: WCAG 2.2 AA automated audit",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1440×900: no external requests, failed requests, or console errors",
+      "status": "passed"
+    },
+    {
+      "name": "1920×1080: hero exposes only Play/Pause and one accessible explanatory prompt",
+      "status": "passed"
+    },
+    {
+      "name": "1920×1080: responsive layout and loaded images",
+      "status": "passed",
+      "details": {
+        "viewport": 1920,
+        "document": 1920,
+        "body": 1920,
+        "failedImages": [],
+        "overflow": []
+      }
+    },
+    {
+      "name": "1920×1080: all anchor destinations exist",
+      "status": "passed"
+    },
+    {
+      "name": "1920×1080: navigation and CTA anchors activate",
+      "status": "passed"
+    },
+    {
+      "name": "1920×1080: all FAQ entries work using only keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "1920×1080: no external requests, failed requests, or console errors",
+      "status": "passed"
+    },
+    {
+      "name": "keyboard skip link is first and moves focus into main content",
+      "status": "passed"
+    },
+    {
+      "name": "the removed hero screenshot link stays absent while the original asset remains byte-identical",
+      "status": "passed",
+      "details": {
+        "href": "/images/turboj-editor.png",
+        "bytes": 34679,
+        "sha256": "27e0f5c593105574e60abd6e3055db525f119a20f80e3ddcf01ce3727cd9bcc8"
+      }
+    }
+  ],
+  "failures": []
+}

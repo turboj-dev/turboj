@@ -1,0 +1,34 @@
+PASS palette selected tests.all
+PASS two genuine JUnit tests pass
+PASS aggregate coverage invents no production-line test association
+PASS compiler/class/process provenance certifies current aggregate coverage
+PASS real JUnit identities resolve to exact hashed test declarations
+PASS real provider collections survive normalization independently of the union
+PASS palette selected view.coverageBackgrounds
+PASS CommandJ hides coverage backgrounds without dropping measured evidence
+PASS palette selected view.coverageBackgrounds
+PASS CommandJ restores coverage backgrounds
+PASS palette selected editor.inspectLineIntelligence
+PASS keyboard inspection preserves caret
+PASS palette selected cherry.results
+PASS palette selected cherry.results
+PASS native selected-test action executes exactly one passing test
+Exception in thread "main" java.util.concurrent.ExecutionException: java.lang.AssertionError: Focus lost
+	at java.base/java.util.concurrent.FutureTask.report(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.get(Unknown Source)
+	at dev.turboj.app.CherryNativeSmoke.edt(CherryNativeSmoke.java:226)
+	at dev.turboj.app.CherryNativeSmoke.type(CherryNativeSmoke.java:206)
+	at dev.turboj.app.CherryNativeSmoke.main(CherryNativeSmoke.java:85)
+Caused by: java.lang.AssertionError: Focus lost
+	at dev.turboj.app.CherryNativeSmoke.dispatch(CherryNativeSmoke.java:216)
+	at dev.turboj.app.CherryNativeSmoke.lambda$type$0(CherryNativeSmoke.java:208)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)

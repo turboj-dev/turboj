@@ -1,0 +1,1775 @@
+{
+  "timestamp": "2026-11-18T15:04:45.971Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "390: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit",
+      "status": "passed"
+    },
+    {
+      "name": "390 / classic: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "menu": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "status": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(255, 255, 85)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(86, 255, 255)"
+          },
+          "cursor": {
+            "background": "rgb(255, 255, 85)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          "header": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        }
+      }
+    },
+    {
+      "name": "390 / classic: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "390 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 29,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "390 / classic: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"classic\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 0)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(170, 170, 170)",
+          "contrast": 9.039555596643915
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        }
+      ]
+    },
+    {
+      "name": "390 / dark: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "menu": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "status": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(183, 164, 237)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(168, 206, 157)"
+          },
+          "cursor": {
+            "background": "rgb(229, 192, 123)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "header": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        }
+      }
+    },
+    {
+      "name": "390 / dark: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "390 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 29,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "390 / dark: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"dark\"]",
+          "focused": true,
+          "color": "rgb(216, 222, 233)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(41, 47, 59)",
+          "contrast": 9.938944593451735
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        }
+      ]
+    },
+    {
+      "name": "390 / light: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "menu": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "status": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(87, 51, 155)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(36, 109, 61)"
+          },
+          "cursor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "header": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      }
+    },
+    {
+      "name": "390 / light: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "390 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 29,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "390 / light: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"light\"]",
+          "focused": true,
+          "color": "rgb(29, 38, 50)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(225, 228, 232)",
+          "contrast": 11.969151608762873
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        }
+      ]
+    },
+    {
+      "name": "390: each theme changes the whole site, not only the editor",
+      "status": "passed",
+      "details": [
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".hero": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".workflow-section": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".performance-console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".site-footer": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".hero": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".features-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".workflow-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".performance-console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".faq-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".site-footer": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".hero": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".workflow-section": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".performance-console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".site-footer": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "390: no browser, asset or external-request errors",
+      "status": "passed"
+    },
+    {
+      "name": "768: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit",
+      "status": "passed"
+    },
+    {
+      "name": "768 / classic: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "menu": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "status": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(255, 255, 85)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(86, 255, 255)"
+          },
+          "cursor": {
+            "background": "rgb(255, 255, 85)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          "header": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        }
+      }
+    },
+    {
+      "name": "768 / classic: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 768,
+        "document": 768,
+        "body": 768,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "768 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "768 / classic: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"classic\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 0)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(170, 170, 170)",
+          "contrast": 9.039555596643915
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        }
+      ]
+    },
+    {
+      "name": "768 / dark: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "menu": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "status": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(183, 164, 237)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(168, 206, 157)"
+          },
+          "cursor": {
+            "background": "rgb(229, 192, 123)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "header": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        }
+      }
+    },
+    {
+      "name": "768 / dark: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 768,
+        "document": 768,
+        "body": 768,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "768 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "768 / dark: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"dark\"]",
+          "focused": true,
+          "color": "rgb(216, 222, 233)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(41, 47, 59)",
+          "contrast": 9.938944593451735
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        }
+      ]
+    },
+    {
+      "name": "768 / light: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "menu": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "status": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(87, 51, 155)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(36, 109, 61)"
+          },
+          "cursor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "header": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      }
+    },
+    {
+      "name": "768 / light: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 768,
+        "document": 768,
+        "body": 768,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "768 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "768 / light: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"light\"]",
+          "focused": true,
+          "color": "rgb(29, 38, 50)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(225, 228, 232)",
+          "contrast": 11.969151608762873
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        }
+      ]
+    },
+    {
+      "name": "768: each theme changes the whole site, not only the editor",
+      "status": "passed",
+      "details": [
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".hero": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".workflow-section": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".performance-console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".site-footer": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".hero": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".features-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".workflow-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".performance-console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".faq-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".site-footer": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".hero": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".workflow-section": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".performance-console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".site-footer": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "768: no browser, asset or external-request errors",
+      "status": "passed"
+    },
+    {
+      "name": "1440: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit",
+      "status": "passed"
+    },
+    {
+      "name": "1440 / classic: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "menu": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "status": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(255, 255, 85)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(86, 255, 255)"
+          },
+          "cursor": {
+            "background": "rgb(255, 255, 85)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          "header": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        }
+      }
+    },
+    {
+      "name": "1440 / classic: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "1440 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1440 / classic: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"classic\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 0)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(170, 170, 170)",
+          "contrast": 9.039555596643915
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        }
+      ]
+    },
+    {
+      "name": "1440 / dark: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "menu": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "status": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(183, 164, 237)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(168, 206, 157)"
+          },
+          "cursor": {
+            "background": "rgb(229, 192, 123)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "header": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        }
+      }
+    },
+    {
+      "name": "1440 / dark: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "1440 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1440 / dark: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"dark\"]",
+          "focused": true,
+          "color": "rgb(216, 222, 233)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(41, 47, 59)",
+          "contrast": 9.938944593451735
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        }
+      ]
+    },
+    {
+      "name": "1440 / light: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "menu": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "status": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(87, 51, 155)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(36, 109, 61)"
+          },
+          "cursor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "header": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      }
+    },
+    {
+      "name": "1440 / light: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "1440 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1440 / light: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"light\"]",
+          "focused": true,
+          "color": "rgb(29, 38, 50)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(225, 228, 232)",
+          "contrast": 11.969151608762873
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        }
+      ]
+    },
+    {
+      "name": "1440: each theme changes the whole site, not only the editor",
+      "status": "passed",
+      "details": [
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".hero": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".workflow-section": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".performance-console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".site-footer": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".hero": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".features-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".workflow-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".performance-console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".faq-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".site-footer": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".hero": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".workflow-section": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".performance-console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".site-footer": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "1440: no browser, asset or external-request errors",
+      "status": "passed"
+    },
+    {
+      "name": "1920: one Options/Themes menu and a paused reduced-motion hero; captured result remains available for palette audit",
+      "status": "passed"
+    },
+    {
+      "name": "1920 / classic: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "menu": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "status": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(255, 255, 85)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(86, 255, 255)"
+          },
+          "cursor": {
+            "background": "rgb(255, 255, 85)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          "header": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        }
+      }
+    },
+    {
+      "name": "1920 / classic: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 1920,
+        "document": 1920,
+        "body": 1920,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "1920 / classic: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1920 / classic: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"classic\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 0)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(170, 170, 170)",
+          "contrast": 9.039555596643915
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(255, 255, 85)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(0, 0, 170)",
+          "contrast": 12.456643210094041
+        }
+      ]
+    },
+    {
+      "name": "1920 / dark: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "menu": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "status": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(183, 164, 237)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(168, 206, 157)"
+          },
+          "cursor": {
+            "background": "rgb(229, 192, 123)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "header": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        }
+      }
+    },
+    {
+      "name": "1920 / dark: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 1920,
+        "document": 1920,
+        "body": 1920,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "1920 / dark: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1920 / dark: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"dark\"]",
+          "focused": true,
+          "color": "rgb(216, 222, 233)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(41, 47, 59)",
+          "contrast": 9.938944593451735
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(229, 192, 123)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(23, 26, 33)",
+          "contrast": 10.079562214783893
+        }
+      ]
+    },
+    {
+      "name": "1920 / light: native JSON, exported tokens and rendered editor match exactly",
+      "status": "passed",
+      "details": {
+        "tokenCount": 49,
+        "displayed": {
+          "editor": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "menu": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "status": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "keyword": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(87, 51, 155)"
+          },
+          "string": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(36, 109, 61)"
+          },
+          "cursor": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "header": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      }
+    },
+    {
+      "name": "1920 / light: no overflow, layout shift, demo mutation or screenshot recoloring",
+      "status": "passed",
+      "details": {
+        "viewport": 1920,
+        "document": 1920,
+        "body": 1920,
+        "filter": "none",
+        "opacity": "1",
+        "authenticScreenshotSha256": "428dcce12ddc15b6c592c6ab7f05b8d51759619e2cb361c1bde7f8dcbc06cf21"
+      }
+    },
+    {
+      "name": "1920 / light: WCAG 2.2 AA audit with expanded FAQ and usable navigation",
+      "status": "passed",
+      "details": {
+        "violations": 0,
+        "passedRules": 28,
+        "incompleteRules": 1
+      }
+    },
+    {
+      "name": "1920 / light: keyboard focus indicators remain visible on menu and editor surfaces",
+      "status": "passed",
+      "details": [
+        {
+          "selector": "[data-theme-choice=\"light\"]",
+          "focused": true,
+          "color": "rgb(29, 38, 50)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(225, 228, 232)",
+          "contrast": 11.969151608762873
+        },
+        {
+          "selector": "[data-demo-action=\"pause\"]",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 3,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        },
+        {
+          "selector": ".demo-code-viewport",
+          "focused": true,
+          "color": "rgb(0, 0, 170)",
+          "width": 2,
+          "style": "solid",
+          "background": "rgb(250, 250, 247)",
+          "contrast": 12.706537046373244
+        }
+      ]
+    },
+    {
+      "name": "1920: each theme changes the whole site, not only the editor",
+      "status": "passed",
+      "details": [
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".hero": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".workflow-section": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".performance-console": {
+            "background": "rgb(5, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(0, 0, 170)",
+            "color": "rgb(255, 255, 255)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(17, 24, 39)"
+          },
+          ".site-footer": {
+            "background": "rgb(170, 170, 170)",
+            "color": "rgb(0, 0, 0)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(17, 21, 28)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".hero": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".features-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".workflow-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".performance-console": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(23, 26, 33)",
+            "color": "rgb(216, 222, 233)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".faq-section": {
+            "background": "rgb(32, 38, 49)",
+            "color": "rgb(216, 222, 233)"
+          },
+          ".site-footer": {
+            "background": "rgb(41, 47, 59)",
+            "color": "rgb(216, 222, 233)"
+          }
+        },
+        {
+          "body": {
+            "background": "rgb(244, 244, 240)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".hero": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".features-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".workflow-section": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".performance-console": {
+            "background": "rgb(238, 241, 244)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".philosophy-section": {
+            "background": "rgb(250, 250, 247)",
+            "color": "rgb(29, 38, 50)"
+          },
+          "#roadmap": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".faq-section": {
+            "background": "rgb(255, 255, 255)",
+            "color": "rgb(29, 38, 50)"
+          },
+          ".site-footer": {
+            "background": "rgb(225, 228, 232)",
+            "color": "rgb(29, 38, 50)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "1920: no browser, asset or external-request errors",
+      "status": "passed"
+    },
+    {
+      "name": "published JSON is an exact export of all three native definitions",
+      "status": "passed"
+    },
+    {
+      "name": "explicit preference survives reload before the first animation frame and ignores OS preference",
+      "status": "passed"
+    },
+    {
+      "name": "invalid stored preferences fall back to Classic safely",
+      "status": "passed"
+    },
+    {
+      "name": "blocked localStorage still permits all theme changes without errors",
+      "status": "passed"
+    },
+    {
+      "name": "paused replay preserves every source, cursor, compiler and output field through theme changes",
+      "status": "passed"
+    },
+    {
+      "name": "running replay keeps its timeline and finishes normally while themes change",
+      "status": "passed",
+      "details": {
+        "initialElapsedMs": 850.6,
+        "finalElapsedMs": 4029.16,
+        "observedRemainingDurationMs": 3185
+      }
+    },
+    {
+      "name": "390: More themes opens a responsive native-color preview catalog; Escape restores the original",
+      "status": "passed"
+    },
+    {
+      "name": "1440: More themes opens a responsive native-color preview catalog; Escape restores the original",
+      "status": "passed"
+    },
+    {
+      "name": "catalog Enter commits the selected real theme while Cancel never persists previews",
+      "status": "passed"
+    },
+    {
+      "name": "1,000 routed test themes retain six visible cards and support arrows, paging, search and commit",
+      "status": "passed",
+      "details": {
+        "metadataCount": 1000,
+        "maximumVisibleCards": 6,
+        "distinctPalettesFetched": 19,
+        "fixtureScope": "Ephemeral Playwright routes only; these QA themes are not shipped or published."
+      }
+    },
+    {
+      "name": "latest search and preview win over older delayed palette responses; empty search results cannot be applied",
+      "status": "passed"
+    },
+    {
+      "name": "cached custom palette renders first, then refreshes and persists changed native colors under the same ID",
+      "status": "passed"
+    },
+    {
+      "name": "retired cached custom theme falls back to Classic and persists the fallback without retaining stale colors",
+      "status": "passed"
+    },
+    {
+      "name": "focused and hovered catalog thumbnail preserves unadorned source and retains a visible focus outline",
+      "status": "passed"
+    }
+  ],
+  "failures": []
+}

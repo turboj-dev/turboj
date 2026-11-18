@@ -1,0 +1,1560 @@
+diff --git a/docs/native-ide-events.md b/docs/native-ide-events.md
+index c23f7d94..0893d978 100644
+--- a/docs/native-ide-events.md
++++ b/docs/native-ide-events.md
+@@ -110,3 +110,27 @@ A merged proof keeps `collectionId` as its own UUID and lists contributing UUIDs
+ An individual collection may have `status: unknown, inputIdentityVerified: true` when compiler/source/process inputs and counters match but a class has no execution record in that collection. This does **not** certify current coverage on its own. A union can certify it only if the merged probes contain every required matching class identity. Missing captures, changed sources/classes, inconsistent artifacts, foreign sessions and incomplete runs never become current through this mechanism.
+ 
+ Qualification included real mini Java/Kotlin services, shop Java's three instrumented JVMs, Rust shop, and JUG's isolated Spring/Quarkus/browser suites. Unsupported compiler provenance remains explicitly unknown. Report aggregation can group HTTP observations and collapse test names differently from the native execution inventory; the event stream preserves each package/phase execution instead of inventing line associations from report totals.
++
++## Native feedback extensions (2026-11-18)
++
++Schema version remains 1. `CHERRY_TEST_IDE_CAPABILITIES` negotiates comma-separated `test-events-v1`, `selectors-v1` and `repositories-v1`; consumers that do not request test events receive only the original run/phase event kinds.
++
++`run.started.capabilities` describes available behavior. `testProgressScope` explicitly distinguishes the Cherry JUnit extension lifecycle from phase-only adapters. New `@CherryTest` runs emit actual JUnit `BeforeEachCallback` / `TestWatcher` observations through a per-phase file channel. The CLI forwards `test.started` and `test.completed` while the adapter runs; observation time and forwarding time are separate. Other adapters do not invent a pending test inventory. The final adapter report remains authoritative. Per-test progress is execution information, never production-line attribution. Install the updated `cherry-test-junit` artifact for these callbacks; an older project dependency continues to supply final results only.
++
++`repositories:[{id,root,worktree}]` includes configured module repositories, including sibling repositories outside the configuration directory. Identity includes the worktree path, not only a commit hash. Phase objects carry `moduleRoot` and `repositoryId`. Source-before/after manifests capture the configuration workspace and explicitly configured source modules. Coverage evidence permits those module source/class roots while report artifacts remain in the owned run directory. Consumers must only trust external roots from a live launched configuration or a validated execution receipt, not from arbitrary imported JSON.
++
++Each final test may contain `selector:{kind,value,phaseKey,runtimeId,adapterId,manifest,exact,reason}`. Exact rerun is currently supported for unambiguous plain Maven JUnit method names and single Cargo test names. Parameterized/dynamic/display-name Java invocations, ordered or shared-instance JUnit classes, custom commands and unsupported adapters are explicitly inexact. They remain eligible for an explicit broader configured-suite rerun.
++
++The optional `CHERRY_TEST_IDE_SELECTION` environment variable names a UTF-8 JSON file:
++
++```json
++{"schemaVersion":1,"selectors":[{"kind":"junit-method","value":"demo.PriceTest::discount","phaseKey":"<recorded key>","runtimeId":"maven","adapterId":"maven","manifest":"<actual pom path>","exact":true,"reason":""}]}
++```
++
++Selection is limited to 1000 entries and 1 MiB. Before starting tests, the CLI revalidates every identity against the current plan and creates a narrowed plan. Maven supports several exact methods in a phase; Cargo currently accepts one exact name per phase. The acknowledged `run.started.selectionSHA256` hashes the exact request bytes only after validation and application. An older CLI that ignores this environment variable emits no acknowledgement and must not be presented as an exact rerun. The actual reported inventory must match selected names and multiplicity; missing, extra or broadened results produce an infrastructure failure. Coverage remains enabled if the configured phase supplies it, with the narrower scope retained.
++
++The command line and standalone HTML reporting interfaces remain available. These extensions do not change Git or test-to-line attribution semantics. Unknown/missing instrumentation remains unknown.
++
++The lifecycle callback also supplies a reflection-proven declared class/method identity and exact report-name aliases (plain name and declared parameter signature). Only those observed aliases are reconciled to a canonical native test name. `displayName` retains the original XML name; ordinary adapter/HTML reports are not rewritten. This avoids guessing that every parenthesized or decorated test label is a Java method. Ambiguous aliases are not promoted to exact declarations. The runner supplies `CHERRY_TEST_PACKAGE` from the actual configured job.
++
++Full modified Java reactor qualification on 2026-11-18: 425 tests, no failures/errors, two explicitly disabled Docker smoke controls. Actual cross-repository and selected-run validation is retained with the TurboJ consumer evidence. External-source coverage normalization and probe unions are confined to the configuration workspace plus explicitly configured canonical module roots, including symlink checks.
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/CherryTest.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/CherryTest.java
+index 47ff5e87..9f952f15 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/CherryTest.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/CherryTest.java
+@@ -122,7 +122,20 @@ public final class CherryTest {
+         env.put("CHERRY_TEST_RUN_ID", runDir.id());
+         env.put("CHERRY_TEST_COMPOSE_PROJECT", "cherry-test-" + runDir.id());
+         try (NativeEvents events = NativeEvents.open(
+-                workspace, runDir.id(), coverageRequested, Runner.phasesFor(cli.kinds()), runDir.reports())) {
++                workspace,
++                runDir.id(),
++                coverageRequested,
++                Runner.phasesFor(cli.kinds()),
++                runDir.reports(),
++                plan.projects().stream()
++                        .flatMap(project -> project.members().stream())
++                        .map(member -> workspace
++                                .resolve(member.manifestPath())
++                                .toAbsolutePath()
++                                .normalize()
++                                .getParent())
++                        .filter(java.util.Objects::nonNull)
++                        .toList())) {
+             try {
+                 Runner.RunOptions options = new Runner.RunOptions(
+                         workspace,
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeEvents.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeEvents.java
+index f4a612dd..6e0c1268 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeEvents.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeEvents.java
+@@ -56,11 +56,19 @@ public final class NativeEvents implements AutoCloseable {
+     private final String runId;
+     private final long started = System.nanoTime();
+     private final Snapshot before;
++    private final List<Path> sourceRoots;
++    private final Set<String> capabilities;
++    private final @Nullable NativeSelection selection;
++    private @Nullable ObjectNode starting;
+     private final @Nullable Path reportDirectory;
+     private long sequence;
+     private boolean finished;
+     private final List<Path> coverageInputs = new java.util.ArrayList<>();
+     private boolean collectionsComplete = true;
++    private final Map<String, String> progressIds = new java.util.HashMap<>();
++    private final Map<String, String> declaredNames = new java.util.HashMap<>();
++    private final Map<String, String> reportedNames = new java.util.HashMap<>();
++    private final Set<String> ambiguousProgressNames = new java.util.HashSet<>();
+ 
+     private record Snapshot(SortedMap<String, String> hashes, List<String> errors) {}
+ 
+@@ -70,11 +78,19 @@ public final class NativeEvents implements AutoCloseable {
+             String runId,
+             @Nullable Boolean coverageEnabled,
+             List<String> scope,
+-            @Nullable Path reportDirectory) {
++            @Nullable Path reportDirectory,
++            List<Path> modules) {
+         this.writer = writer;
+         this.workspace = workspace.toAbsolutePath().normalize();
+         this.runId = runId;
+         this.reportDirectory = reportDirectory;
++        sourceRoots = java.util.stream.Stream.concat(java.util.stream.Stream.of(this.workspace), modules.stream())
++                .map(path -> path.toAbsolutePath().normalize())
++                .distinct()
++                .toList();
++        String requested = ProcessEnvironment.get("CHERRY_TEST_IDE_CAPABILITIES");
++        capabilities = requested == null ? Set.of() : new java.util.HashSet<>(List.of(requested.split(",")));
++        selection = NativeSelection.load();
+         before = writer == null ? new Snapshot(new TreeMap<>(), List.of()) : snapshot();
+         if (writer != null) {
+             ObjectNode node = event("run.started");
+@@ -94,37 +110,65 @@ public final class NativeEvents implements AutoCloseable {
+                     break;
+                 }
+             }
++            ObjectNode supported = node.putObject("capabilities");
++            supported.put("testProgress", capabilities.contains("test-events-v1"));
++            supported.put(
++                    "testProgressScope", "Cherry JUnit extension lifecycle; other adapters report phase progress only");
++            supported.put("exactSelectors", true);
++            if (capabilities.contains("repositories-v1")) {
++                ArrayNode repositories = node.putArray("repositories");
++                sourceRoots.stream()
++                        .map(NativeEvents::repositoryRoot)
++                        .distinct()
++                        .forEach(root -> {
++                            ObjectNode repository = repositories.addObject();
++                            repository.put("id", hashText(root.toString()));
++                            repository.put("root", root.toString());
++                            repository.put("worktree", root.toString());
++                        });
++            }
+             node.put("compiledIdentity", "unknown");
+             node.put("perTestAttribution", false);
+             putSnapshot(node, "sourceBefore", before);
+-            emit(node);
++            starting = node;
+         }
+     }
+ 
+     public static NativeEvents open(
+             Path workspace, String runId, boolean coverageEnabled, List<String> scope, Path reportDirectory) {
++        return open(workspace, runId, coverageEnabled, scope, reportDirectory, List.of());
++    }
++
++    public static NativeEvents open(
++            Path workspace,
++            String runId,
++            boolean coverageEnabled,
++            List<String> scope,
++            Path reportDirectory,
++            List<Path> modules) {
+         String configured = ProcessEnvironment.get("CHERRY_TEST_IDE_EVENTS");
+         if (configured == null || configured.isBlank()) {
+-            return new NativeEvents(null, workspace, runId, coverageEnabled, scope, reportDirectory);
++            return new NativeEvents(null, workspace, runId, coverageEnabled, scope, reportDirectory, modules);
+         }
+         Path output = Path.of(configured);
+         if (!output.isAbsolute()) {
+             output = workspace.resolve(output);
+         }
+-        return openAt(workspace, runId, output, coverageEnabled, scope, reportDirectory);
++        return openAt(workspace, runId, output, coverageEnabled, scope, reportDirectory, modules);
+     }
+ 
+     static NativeEvents openAt(Path workspace, String runId, Path output) {
+-        return openAt(workspace, runId, output, null, List.of(), null);
++        return openAt(workspace, runId, output, null, List.of(), null, List.of());
+     }
+ 
+-    private static NativeEvents openAt(
++    static NativeEvents openAt(
+             Path workspace,
+             String runId,
+             Path output,
+             @Nullable Boolean coverageEnabled,
+             List<String> scope,
+-            @Nullable Path reportDirectory) {
++            @Nullable Path reportDirectory,
++            List<Path> modules) {
+         try {
+             Path parent = output.toAbsolutePath().getParent();
+             if (parent != null) {
+@@ -137,16 +181,114 @@ public final class NativeEvents implements AutoCloseable {
+                     runId,
+                     coverageEnabled,
+                     scope,
+-                    reportDirectory);
++                    reportDirectory,
++                    modules);
+         } catch (IOException error) {
+             throw new AnyhowError("open native events: " + error.getMessage());
+         }
+     }
+ 
++    public synchronized Plan preparePlan(Plan plan) {
++        Plan selected = selection == null ? plan : selection.apply(plan);
++        ObjectNode node = starting;
++        if (node != null && selection != null) node.put("selectionSHA256", selection.sha256());
++        start();
++        return selected;
++    }
++
++    public void validateSelection(AdapterRequest request, AdapterResponse response) {
++        if (selection != null) selection.validateResponse(request, normalizedResponse(request, response));
++    }
++
++    private AdapterResponse normalizedResponse(AdapterRequest request, AdapterResponse response) {
++        AdapterResponse normalized = response.copy();
++        for (int index = 0; index < normalized.tests().size(); index++) {
++            var test = normalized.tests().get(index);
++            String key = identity(request) + "\n" + test.name();
++            String declaration = ambiguousProgressNames.contains(key) ? null : declaredNames.get(key);
++            if (declaration != null && !declaration.equals(test.name())) {
++                reportedNames.put(identity(request) + "\n" + declaration, test.name());
++                normalized
++                        .tests()
++                        .set(
++                                index,
++                                new com.cherrytest.common.adapter.TestResult(
++                                        declaration,
++                                        test.status(),
++                                        test.durationMs(),
++                                        test.message(),
++                                        test.source(),
++                                        test.line(),
++                                        test.attachments(),
++                                        test.isolation()));
++            }
++        }
++        return normalized;
++    }
++
++    private void start() {
++        ObjectNode node = starting;
++        if (node != null) {
++            starting = null;
++            emit(node);
++        }
++    }
++
++    boolean testProgressEnabled() {
++        return writer != null && capabilities.contains("test-events-v1");
++    }
++
++    public synchronized void testProgress(AdapterRequest request, String adapter, JsonNode observation) {
++        if (!testProgressEnabled() || observation.path("schemaVersion").asInt() != 1) return;
++        String type = observation.path("event").asString();
++        if (!type.equals("test.started") && !type.equals("test.completed")) return;
++        String name = observation.path("name").asString();
++        if (name.isBlank() || observation.path("processId").asLong() <= 0) return;
++        String status = observation.path("status").asString();
++        if (!Set.of("pending", "passed", "failed", "skipped", "aborted").contains(status)) return;
++        start();
++        ObjectNode node = phaseEvent(type, request, adapter, adapter);
++        ObjectNode test = node.putObject("test");
++        String id = hashText(identity(request) + "\n" + name + "\n1");
++        test.put("id", id);
++        java.util.ArrayList<String> aliases = new java.util.ArrayList<>();
++        aliases.add(name);
++        for (JsonNode alias : observation.path("reportedNameAliases"))
++            if (alias.isString()) aliases.add(alias.asString());
++        for (String alias : aliases) {
++            String key = identity(request) + "\n" + alias;
++            String declared = observation.path("declaredName").asString(name);
++            if (declared.matches(
++                    "[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}.$]*::[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}]*"))
++                declaredNames.putIfAbsent(key, declared);
++            String previous = progressIds.putIfAbsent(key, id);
++            if (previous != null && !previous.equals(id)) ambiguousProgressNames.add(key);
++        }
++        String declaration = observation.path("declaredName").asString(name);
++        if (!declaration.matches(
++                "[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}.$]*::[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}]*"))
++            declaration = name;
++        test.put("name", declaration);
++        test.put("displayName", name);
++        test.put("status", status);
++        test.put("durationMs", observation.path("durationMs").asLong());
++        test.put("message", observation.path("message").asString(""));
++        test.put("locationRole", "test-source-or-reported-failure");
++        test.put("processId", observation.path("processId").asLong());
++        test.put("invocationId", observation.path("invocationId").asString());
++        node.put("observedTimestamp", observation.path("timestamp").asString());
++        emit(node);
++    }
++
++    public synchronized void progressUnavailable(AdapterRequest request, String adapter) {
++        collectionsComplete = false;
++    }
++
+     public synchronized void phaseStarted(AdapterRequest request, String adapter, String runtime) {
+         if (writer == null) {
+             return;
+         }
++        start();
+         ObjectNode node = phaseEvent("phase.started", request, adapter, runtime);
+         node.put("coverageRequested", request.coverage());
+         node.put("execution", request.execution().wireName());
+@@ -162,6 +304,7 @@ public final class NativeEvents implements AutoCloseable {
+         if (writer == null) {
+             return;
+         }
++        start();
+         ObjectNode node = phaseEvent("phase.completed", request, adapter, runtime);
+         collectionsComplete &= adapterCompleted && !ProcessRunner.cancelled();
+         node.put("success", response.success());
+@@ -184,21 +327,41 @@ public final class NativeEvents implements AutoCloseable {
+         node.put("coverageComplete", "unknown");
+         node.put("compiledIdentity", "unknown");
+         node.put("perTestAttribution", false);
+-        ObjectNode responseValue = AdapterJson.responseValue(response);
++        AdapterResponse nativeResponse = normalizedResponse(request, response);
++        ObjectNode responseValue = AdapterJson.responseValue(nativeResponse);
+         node.set("diagnostics", responseValue.get("diagnostics"));
+         ArrayNode tests = node.putArray("tests");
++        Map<String, Integer> totalNames = new TreeMap<>();
++        nativeResponse.tests().forEach(test -> totalNames.merge(test.name(), 1, Integer::sum));
+         Map<String, Integer> occurrences = new TreeMap<>();
+         for (JsonNode test : responseValue.path("tests")) {
+             ObjectNode value = (ObjectNode) test.deepCopy();
+             String name = test.path("name").asString();
+             int occurrence = occurrences.merge(name, 1, Integer::sum);
+-            value.put("id", hashText(identity(request) + "\n" + name + "\n" + occurrence));
++            String key = identity(request) + "\n" + name;
++            String observedId = totalNames.getOrDefault(name, 0) == 1 && !ambiguousProgressNames.contains(key)
++                    ? progressIds.get(key)
++                    : null;
++            value.put(
++                    "id",
++                    observedId == null ? hashText(identity(request) + "\n" + name + "\n" + occurrence) : observedId);
+             value.set("durationMs", value.remove("duration_ms"));
+             String source = test.path("source").isString() ? test.path("source").asString() : null;
+             if (source != null) {
+                 value.put("source", sourcePath(Path.of(source)));
+             }
++            String reported = reportedNames.get(identity(request) + "\n" + name);
++            if (reported != null) value.put("displayName", reported);
+             value.put("locationRole", "test-source-or-reported-failure");
++            if (capabilities.contains("selectors-v1")) {
++                var actual = nativeResponse.tests().stream()
++                        .filter(result -> result.name().equals(name))
++                        .findFirst()
++                        .orElseThrow();
++                value.set(
++                        "selector",
++                        NativeSelection.selector(request, adapter, actual, totalNames.getOrDefault(name, 0)));
++            }
+             tests.add(value);
+         }
+         ArrayNode coverage = node.putArray("coverage");
+@@ -240,6 +403,7 @@ public final class NativeEvents implements AutoCloseable {
+         if (writer == null || finished) {
+             return;
+         }
++        start();
+         Snapshot after = snapshot();
+         ObjectNode node = event("run.completed");
+         node.put("outcome", outcome);
+@@ -247,7 +411,8 @@ public final class NativeEvents implements AutoCloseable {
+         if (reports != null) {
+             if (complete && collectionsComplete && coverageInputs.size() > 1) {
+                 try {
+-                    var merged = com.cherrytest.cli.adapters.CoverageUnion.merge(workspace, coverageInputs);
++                    var merged =
++                            com.cherrytest.cli.adapters.CoverageUnion.merge(workspace, coverageInputs, sourceRoots);
+                     if (!merged.path("files").isEmpty()) {
+                         Path artifact = reports.resolve("native-coverage-union.json");
+                         Files.writeString(artifact, SerdeJsonWriter.pretty(merged));
+@@ -288,13 +453,35 @@ public final class NativeEvents implements AutoCloseable {
+         node.put("phaseId", request.phase());
+         node.put("runtimeId", adapter);
+         node.put("configuredPackageRuntime", runtime);
+-        node.put("phaseKey", hashText(identity(request)));
++        node.put("phaseKey", phaseKey(request));
++        if (capabilities.contains("repositories-v1")) {
++            Path module = request.manifest().toAbsolutePath().normalize().getParent();
++            if (module == null) module = workspace;
++            node.put("moduleRoot", module.toString());
++            node.put("repositoryId", hashText(repositoryRoot(module).toString()));
++        }
+         return node;
+     }
+ 
+-    private String identity(AdapterRequest request) {
+-        return request.project() + "\n" + sourcePath(request.manifest()) + "\n" + request.packageName() + "\n"
+-                + request.phase();
++    static String phaseKey(AdapterRequest request) {
++        return hashText(identity(request));
++    }
++
++    private static String identity(AdapterRequest request) {
++        Path root = request.root().toAbsolutePath().normalize();
++        Path manifest = request.manifest().toAbsolutePath().normalize();
++        String path = manifest.startsWith(root)
++                ? root.relativize(manifest).toString().replace('\\', '/')
++                : manifest.toString();
++        return request.project() + "\n" + path + "\n" + request.packageName() + "\n" + request.phase();
++    }
++
++    private static Path repositoryRoot(Path module) {
++        Path normalized = module.toAbsolutePath().normalize();
++        for (Path candidate = normalized; candidate != null; candidate = candidate.getParent()) {
++            if (Files.exists(candidate.resolve(".git"))) return candidate;
++        }
++        return normalized;
+     }
+ 
+     private ObjectNode event(String type) {
+@@ -341,43 +528,47 @@ public final class NativeEvents implements AutoCloseable {
+     private Snapshot snapshot() {
+         TreeMap<String, String> hashes = new TreeMap<>();
+         java.util.ArrayList<String> errors = new java.util.ArrayList<>();
+-        try {
+-            Files.walkFileTree(workspace, new SimpleFileVisitor<>() {
+-                @Override
+-                public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
+-                    Path name = directory.getFileName();
+-                    return !directory.equals(workspace) && name != null && EXCLUDED.contains(name.toString())
+-                            ? FileVisitResult.SKIP_SUBTREE
+-                            : FileVisitResult.CONTINUE;
+-                }
++        for (Path sourceRoot : sourceRoots) {
++            try {
++                Files.walkFileTree(sourceRoot, new SimpleFileVisitor<>() {
++                    @Override
++                    public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
++                        Path name = directory.getFileName();
++                        return !directory.equals(sourceRoot) && name != null && EXCLUDED.contains(name.toString())
++                                ? FileVisitResult.SKIP_SUBTREE
++                                : FileVisitResult.CONTINUE;
++                    }
+ 
+-                @Override
+-                public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
+-                    Path name = file.getFileName();
+-                    String filename = name == null ? "" : name.toString();
+-                    int dot = filename.lastIndexOf('.');
+-                    if (attributes.isRegularFile() && dot >= 0 && EXTENSIONS.contains(filename.substring(dot + 1))) {
+-                        try {
+-                            if (attributes.size() > MAX_SOURCE_BYTES || hashes.size() >= 200_000) {
+-                                errors.add("source capture limit: " + sourcePath(file));
+-                            } else {
+-                                hashes.put(sourcePath(file), hashFile(file));
++                    @Override
++                    public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
++                        Path name = file.getFileName();
++                        String filename = name == null ? "" : name.toString();
++                        int dot = filename.lastIndexOf('.');
++                        if (attributes.isRegularFile()
++                                && dot >= 0
++                                && EXTENSIONS.contains(filename.substring(dot + 1))) {
++                            try {
++                                if (attributes.size() > MAX_SOURCE_BYTES || hashes.size() >= 200_000) {
++                                    errors.add("source capture limit: " + sourcePath(file));
++                                } else {
++                                    hashes.put(sourcePath(file), hashFile(file));
++                                }
++                            } catch (IOException error) {
++                                errors.add(sourcePath(file) + ": " + error.getMessage());
+                             }
+-                        } catch (IOException error) {
+-                            errors.add(sourcePath(file) + ": " + error.getMessage());
+                         }
++                        return FileVisitResult.CONTINUE;
+                     }
+-                    return FileVisitResult.CONTINUE;
+-                }
+ 
+-                @Override
+-                public FileVisitResult visitFileFailed(Path file, IOException error) {
+-                    errors.add(sourcePath(file) + ": " + error.getMessage());
+-                    return FileVisitResult.CONTINUE;
+-                }
+-            });
+-        } catch (IOException error) {
+-            errors.add(error.getMessage() == null ? error.toString() : error.getMessage());
++                    @Override
++                    public FileVisitResult visitFileFailed(Path file, IOException error) {
++                        errors.add(sourcePath(file) + ": " + error.getMessage());
++                        return FileVisitResult.CONTINUE;
++                    }
++                });
++            } catch (IOException error) {
++                errors.add(error.getMessage() == null ? error.toString() : error.getMessage());
++            }
+         }
+         return new Snapshot(hashes, List.copyOf(errors));
+     }
+@@ -395,7 +586,11 @@ public final class NativeEvents implements AutoCloseable {
+     }
+ 
+     private static String hashText(String text) {
+-        return HexFormat.of().formatHex(digest().digest(text.getBytes(StandardCharsets.UTF_8)));
++        return hashBytes(text.getBytes(StandardCharsets.UTF_8));
++    }
++
++    static String hashBytes(byte[] bytes) {
++        return HexFormat.of().formatHex(digest().digest(bytes));
+     }
+ 
+     private static MessageDigest digest() {
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/Runner.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/Runner.java
+index 06fe6e1e..48af7a2d 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/Runner.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/Runner.java
+@@ -144,6 +144,8 @@ public final class Runner {
+ 
+     public static RunOutcome runProjects(List<ProjectGroup> projects, RunOptions options, PreflightPlan preflight) {
+         Plan plan = Plan.plan(projects, options, preflight);
++        NativeEvents nativeEvents = options.nativeEvents();
++        if (nativeEvents != null) plan = nativeEvents.preparePlan(plan);
+         if (options.parallelism().workers() > 1) {
+             plan = Durations.load(Durations.path(
+                             options.workspaceRoot(), options.config().defaults().runsBase()))
+@@ -274,6 +276,7 @@ public final class Runner {
+         SortedMap<String, String> jobEnvironment = new TreeMap<>(RustOrdering.STRING_ORDER);
+         jobEnvironment.putAll(environment);
+         jobEnvironment.put("CHERRY_TEST_REPORT_DIR", reportDir.toString());
++        jobEnvironment.put("CHERRY_TEST_PACKAGE", planned.packageName());
+         extendWithProvisioned(jobEnvironment, job);
+         if (planned.coverage() && !adapter.equals("maven") && !adapter.equals("gradle")) {
+             String collection = java.util.UUID.randomUUID().toString();
+@@ -284,6 +287,11 @@ public final class Runner {
+                     planned.output().resolve("provenance").toString());
+         }
+ 
++        NativeEvents events = options.nativeEvents();
++        Path progress = planned.output().resolve("native-test-events");
++        if (events != null && events.testProgressEnabled())
++            jobEnvironment.put("CHERRY_TEST_IDE_TEST_EVENTS", progress.toString());
++
+         AdapterRequest request = new AdapterRequest(
+                 planned.protocol(),
+                 planned.project(),
+@@ -301,14 +309,23 @@ public final class Runner {
+                 planned.options(),
+                 planned.container(),
+                 planned.select());
+-        NativeEvents events = options.nativeEvents();
+         if (events != null) events.phaseStarted(request, adapter, adapter);
+         String failure = setupError != null ? setupError : job.containerError();
+         if (failure != null) {
+             return new Invocation(request, AdapterResponse.failure(failure), failure);
+         }
+         try {
+-            return new Invocation(request, invokeWithSidecars(adapter, request, jobEnvironment, options), null);
++            AdapterResponse response;
++            if (events != null && events.testProgressEnabled()) {
++                try (NativeProgress monitor = new NativeProgress(events, request, adapter, progress)) {
++                    monitor.start();
++                    response = invokeWithSidecars(adapter, request, jobEnvironment, options);
++                }
++            } else {
++                response = invokeWithSidecars(adapter, request, jobEnvironment, options);
++            }
++            if (events != null) events.validateSelection(request, response);
++            return new Invocation(request, response, null);
+         } catch (RuntimeException error) {
+             String message = AnyhowError.alternate(error);
+             return new Invocation(request, AdapterResponse.failure(message), message);
+@@ -452,7 +469,7 @@ public final class Runner {
+         return new RunOutcome(results, lcovFiles, unit, integration, failed, timings);
+     }
+ 
+-    private static void normalizeCoverage(AdapterRequest request, List<Path> files, Path output) {
++    static void normalizeCoverage(AdapterRequest request, List<Path> files, Path output) {
+         StringBuilder result = new StringBuilder();
+         for (Path file : files) {
+             String text;
+@@ -465,10 +482,6 @@ public final class Runner {
+             for (String line : RustText.lines(text)) {
+                 if (line.startsWith("SF:")) {
+                     Path path = Builtins.sourcePath(request, line.substring(3));
+-                    if (!path.startsWith(request.root())) {
+-                        include = false;
+-                        continue;
+-                    }
+                     Path canonical;
+                     try {
+                         canonical = path.toRealPath();
+@@ -476,10 +489,13 @@ public final class Runner {
+                         throw AnyhowError.context(
+                                 "coverage source " + path, new AnyhowError(RustIoError.display(exception)));
+                     }
+-                    include = canonical.startsWith(request.root());
+-                    Path relative = RustPath.stripPrefix(canonical, request.root());
+-                    if (relative != null) {
+-                        result.append("SF:").append(relative).append('\n');
++                    include = Adapters.sourceAllowed(request, canonical);
++                    if (include) {
++                        Path relative = RustPath.stripPrefix(
++                                canonical, request.root().toAbsolutePath().normalize());
++                        result.append("SF:")
++                                .append(relative == null ? canonical : relative)
++                                .append('\n');
+                     }
+                 } else if (include) {
+                     result.append(line).append('\n');
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Adapters.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Adapters.java
+index 0581c32f..f63903df 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Adapters.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Adapters.java
+@@ -215,8 +215,7 @@ public final class Adapters {
+                 Path source = resolved != null
+                         ? resolved
+                         : Builtins.sourcePath(request, test.source().toString());
+-                if (Files.exists(source)
+-                        && !RustPath.canonicalize(source).startsWith(RustPath.canonicalize(request.root()))) {
++                if (Files.exists(source) && !sourceAllowed(request, source)) {
+                     throw new AnyhowError("test source escapes workspace");
+                 }
+                 test = test.withSource(source);
+@@ -290,6 +289,17 @@ public final class Adapters {
+         }
+     }
+ 
++    public static List<Path> sourceRoots(AdapterRequest request) {
++        Path root = RustPath.canonicalize(request.root());
++        Path parent = request.manifest().toAbsolutePath().normalize().getParent();
++        return parent == null ? List.of(root) : List.of(root, RustPath.canonicalize(parent));
++    }
++
++    public static boolean sourceAllowed(AdapterRequest request, Path source) {
++        Path canonical = RustPath.canonicalize(source);
++        return sourceRoots(request).stream().anyMatch(canonical::startsWith);
++    }
++
+     private static void confined(Path root, Path path) {
+         if (!RustPath.canonicalize(path).startsWith(RustPath.canonicalize(root))) {
+             throw new AnyhowError("artifact escapes adapter output directory");
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Builtins.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Builtins.java
+index 18422ae5..be7b9bea 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Builtins.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/Builtins.java
+@@ -213,7 +213,7 @@ public final class Builtins {
+                 Path path = RustPath.canonicalize(
+                         sourcePath(request, attachment.path().toString()));
+                 if (!path.startsWith(RustPath.canonicalize(request.output()))) {
+-                    if (!path.startsWith(RustPath.canonicalize(request.root()))) {
++                    if (!Adapters.sourceAllowed(request, path)) {
+                         throw new AnyhowError("Playwright attachment escapes workspace");
+                     }
+                     createDirectories(imported);
+@@ -297,7 +297,8 @@ public final class Builtins {
+                 }
+                 Path lcov = request.output().resolve(result.coverage().size() + ".lcov");
+                 Formats.JacocoReport jacoco = Formats.jacocoReport(read(file), roots);
+-                CoverageEvidence.enrich(jacoco.nativeCoverage(), captureDirectory, build, captureToken, request.root());
++                CoverageEvidence.enrich(
++                        jacoco.nativeCoverage(), captureDirectory, build, captureToken, Adapters.sourceRoots(request));
+                 write(lcov, jacoco.lcov());
+                 write(
+                         lcov.resolveSibling(lcov.getFileName() + ".native.json"),
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageEvidence.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageEvidence.java
+index a28fd760..52469a48 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageEvidence.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageEvidence.java
+@@ -18,9 +18,15 @@ final class CoverageEvidence {
+     private CoverageEvidence() {}
+ 
+     static void enrich(ObjectNode report, Path captures, Path build, String token, Path root) {
++        enrich(report, captures, build, token, List.of(root));
++    }
++
++    static void enrich(ObjectNode report, Path captures, Path build, String token, List<Path> roots) {
+         if (!Files.isDirectory(captures)) return;
+         try {
+-            verify(report, captures, build, token, root.toRealPath());
++            List<Path> realRoots = new ArrayList<>();
++            for (Path root : roots) realRoots.add(root.toRealPath());
++            verify(report, captures, build, token, realRoots);
+         } catch (IOException | RuntimeException invalid) {
+             for (JsonNode file : report.path("files")) {
+                 ObjectNode proof = ((ObjectNode) file).putObject("provenance");
+@@ -31,7 +37,7 @@ final class CoverageEvidence {
+         }
+     }
+ 
+-    private static void verify(ObjectNode report, Path captures, Path build, String token, Path root)
++    private static void verify(ObjectNode report, Path captures, Path build, String token, List<Path> root)
+             throws IOException {
+         Map<String, Compiled> compiled = new TreeMap<>();
+         Map<String, String> processes = new TreeMap<>();
+@@ -238,8 +244,9 @@ final class CoverageEvidence {
+         return result;
+     }
+ 
+-    private static byte[] bytes(Path path, Path root) throws IOException {
+-        if (!path.toRealPath().startsWith(root) || Files.size(path) > MAX_BYTES)
++    private static byte[] bytes(Path path, List<Path> roots) throws IOException {
++        Path real = path.toRealPath();
++        if (roots.stream().noneMatch(real::startsWith) || Files.size(path) > MAX_BYTES)
+             throw new IOException("Invalid capture artifact path or size");
+         try (InputStream stream = Files.newInputStream(path)) {
+             byte[] bytes = stream.readNBytes((int) MAX_BYTES + 1);
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageUnion.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageUnion.java
+index 264a3681..e41c3aef 100644
+--- a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageUnion.java
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/adapters/CoverageUnion.java
+@@ -16,7 +16,14 @@ public final class CoverageUnion {
+     private record Input(JsonNode file, JsonNode executions) {}
+ 
+     public static ObjectNode merge(Path workspace, List<Path> reports) throws IOException {
++        return merge(workspace, reports, List.of(workspace));
++    }
++
++    public static ObjectNode merge(Path workspace, List<Path> reports, List<Path> sourceRoots) throws IOException {
+         Path root = workspace.toRealPath();
++        List<Path> trusted = new ArrayList<>();
++        trusted.add(root);
++        for (Path sourceRoot : sourceRoots) trusted.add(sourceRoot.toRealPath());
+         var result = JsonNodeFactory.instance.objectNode();
+         result.put("schemaVersion", 1);
+         result.put("format", "jacoco-lines-v1");
+@@ -46,13 +53,13 @@ public final class CoverageUnion {
+         }
+         for (var entry : sources.entrySet()) {
+             if (entry.getValue().size() < 2) continue;
+-            ObjectNode merged = mergeSource(root, entry.getKey(), entry.getValue());
++            ObjectNode merged = mergeSource(trusted, entry.getKey(), entry.getValue());
+             files.add(merged);
+         }
+         return result;
+     }
+ 
+-    private static ObjectNode mergeSource(Path root, String source, List<Input> inputs) throws IOException {
++    private static ObjectNode mergeSource(List<Path> root, String source, List<Input> inputs) throws IOException {
+         var file = JsonNodeFactory.instance.objectNode();
+         file.put("source", source);
+         var proof = file.putObject("provenance");
+@@ -164,14 +171,19 @@ public final class CoverageUnion {
+             throw new IOException("Conflicting coverage artifact identity");
+     }
+ 
+-    private static byte[] checked(Path root, Map.Entry<Path, String> artifact) throws IOException {
++    private static byte[] checked(List<Path> root, Map.Entry<Path, String> artifact) throws IOException {
+         byte[] data = bytes(root, artifact.getKey());
+         if (!hash(data).equals(artifact.getValue())) throw new IOException("Coverage union artifact changed");
+         return data;
+     }
+ 
+     private static byte[] bytes(Path root, Path path) throws IOException {
+-        if (!path.toRealPath().startsWith(root) || Files.size(path) > 64L * 1024 * 1024)
++        return bytes(List.of(root), path);
++    }
++
++    private static byte[] bytes(List<Path> roots, Path path) throws IOException {
++        Path canonical = path.toRealPath();
++        if (roots.stream().noneMatch(canonical::startsWith) || Files.size(path) > 64L * 1024 * 1024)
+             throw new IOException("Invalid coverage union path/size");
+         return Files.readAllBytes(path);
+     }
+diff --git a/java/cherry-test-cli/src/test/java/com/cherrytest/cli/adapters/CoverageEvidenceTest.java b/java/cherry-test-cli/src/test/java/com/cherrytest/cli/adapters/CoverageEvidenceTest.java
+index 879b707b..3eb77dba 100644
+--- a/java/cherry-test-cli/src/test/java/com/cherrytest/cli/adapters/CoverageEvidenceTest.java
++++ b/java/cherry-test-cli/src/test/java/com/cherrytest/cli/adapters/CoverageEvidenceTest.java
+@@ -236,6 +236,20 @@ class CoverageEvidenceTest {
+                 .anyMatch(l -> l.path("line").asInt() == 2
+                         && l.path("cb").asInt() == 2
+                         && l.path("mb").asInt() == 0));
++        Path configuration = Files.createDirectories(root.resolve("configuration"));
++        Path externalOne = Files.copy(one, configuration.resolve("one.native.json"));
++        Path externalTwo = Files.copy(two, configuration.resolve("two.native.json"));
++        assertThrows(IOException.class, () -> CoverageUnion.merge(configuration, List.of(externalOne, externalTwo)));
++        var externalUnion = CoverageUnion.merge(configuration, List.of(externalOne, externalTwo), List.of(root));
++        assertEquals(
++                "verified",
++                externalUnion
++                        .path("files")
++                        .get(0)
++                        .path("provenance")
++                        .path("status")
++                        .asString());
++        assertEquals(file.path("lines"), externalUnion.path("files").get(0).path("lines"));
+         ((ObjectNode) second.path("files").get(0).path("provenance")).put("status", "unknown");
+         ((ObjectNode) second.path("files").get(0).path("provenance")).put("inputIdentityVerified", false);
+         Files.writeString(two, second.toString());
+diff --git a/java/cherry-test-junit/src/main/java/com/cherrytest/junit/CherryTestExtension.java b/java/cherry-test-junit/src/main/java/com/cherrytest/junit/CherryTestExtension.java
+index 09ba5726..e945cf25 100644
+--- a/java/cherry-test-junit/src/main/java/com/cherrytest/junit/CherryTestExtension.java
++++ b/java/cherry-test-junit/src/main/java/com/cherrytest/junit/CherryTestExtension.java
+@@ -20,13 +20,42 @@ import org.junit.jupiter.api.extension.ParameterContext;
+ import org.junit.jupiter.api.extension.ParameterResolver;
+ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
+ 
+-public final class CherryTestExtension implements ParameterResolver, InvocationInterceptor {
++public final class CherryTestExtension
++        implements ParameterResolver,
++                InvocationInterceptor,
++                org.junit.jupiter.api.extension.BeforeEachCallback,
++                org.junit.jupiter.api.extension.TestWatcher {
+     static final String PACKAGE_PROPERTY = "cherrytest.package";
+     static final String PACKAGE_VARIABLE = "CHERRY_TEST_PACKAGE";
+     static final String PROVISIONER_VARIABLE = "CHERRY_TEST_PROVISIONER";
+     private static final ExtensionContext.Namespace NAMESPACE =
+             ExtensionContext.Namespace.create(CherryTestExtension.class);
+ 
++    @Override
++    public void beforeEach(ExtensionContext context) {
++        NativeTestProgress.started(context);
++    }
++
++    @Override
++    public void testSuccessful(ExtensionContext context) {
++        NativeTestProgress.completed(context, "passed", null);
++    }
++
++    @Override
++    public void testFailed(ExtensionContext context, @Nullable Throwable cause) {
++        NativeTestProgress.completed(context, "failed", cause);
++    }
++
++    @Override
++    public void testAborted(ExtensionContext context, @Nullable Throwable cause) {
++        NativeTestProgress.completed(context, "aborted", cause);
++    }
++
++    @Override
++    public void testDisabled(ExtensionContext context, java.util.Optional<String> reason) {
++        NativeTestProgress.completed(context, "skipped", null);
++    }
++
+     @Override
+     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+         return parameterContext.getParameter().getType().equals(TestEnv.class);
+diff --git a/java/cherry-test-junit/src/test/java/com/cherrytest/junit/CherryTestExtensionTest.java b/java/cherry-test-junit/src/test/java/com/cherrytest/junit/CherryTestExtensionTest.java
+index f3cf490e..2df6bafb 100644
+--- a/java/cherry-test-junit/src/test/java/com/cherrytest/junit/CherryTestExtensionTest.java
++++ b/java/cherry-test-junit/src/test/java/com/cherrytest/junit/CherryTestExtensionTest.java
+@@ -78,6 +78,54 @@ class CherryTestExtensionTest {
+                 .toList();
+     }
+ 
++    @Test
++    void native_progress_uses_actual_junit_lifecycle_and_failure_outcomes() throws Exception {
++        Path directory = workspace.resolve("native-events");
++        ProcessEnvironment.set("CHERRY_TEST_IDE_TEST_EVENTS", directory.toString());
++        try {
++            Events result = run();
++            assertThat(result.succeeded().count()).isEqualTo(1);
++            assertThat(result.failed().count()).isEqualTo(1);
++            List<JsonNode> events;
++            try (var paths = Files.list(directory)) {
++                events = paths.map(path -> {
++                            try {
++                                return JSON.readTree(Files.readString(path));
++                            } catch (IOException error) {
++                                throw new java.io.UncheckedIOException(error);
++                            }
++                        })
++                        .toList();
++            }
++            assertThat(events).hasSize(4);
++            assertThat(events.stream()
++                            .filter(event -> event.path("event").asString().equals("test.started")))
++                    .allMatch(event -> event.path("status").asString().equals("pending"));
++            var finished = events.stream()
++                    .filter(event -> event.path("event").asString().equals("test.completed"))
++                    .toList();
++            assertThat(finished)
++                    .extracting(event -> event.path("status").asString())
++                    .containsExactlyInAnyOrder("passed", "failed");
++            for (JsonNode end : finished) {
++                var start = events.stream()
++                        .filter(event -> event.path("event").asString().equals("test.started")
++                                && event.path("invocationId").equals(end.path("invocationId")))
++                        .findFirst()
++                        .orElseThrow();
++                assertThat(end.path("name")).isEqualTo(start.path("name"));
++                assertThat(end.path("processId").asLong())
++                        .isEqualTo(ProcessHandle.current().pid());
++                assertThat(end.path("durationMs").asLong()).isGreaterThanOrEqualTo(0);
++                assertThat(java.time.Instant.parse(end.path("timestamp").asString()))
++                        .isAfterOrEqualTo(
++                                java.time.Instant.parse(start.path("timestamp").asString()));
++            }
++        } finally {
++            ProcessEnvironment.remove("CHERRY_TEST_IDE_TEST_EVENTS");
++        }
++    }
++
+     @Test
+     void runs_scoped_tests_with_an_injected_test_env() {
+         Events events = run();
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeProgress.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeProgress.java
+new file mode 100644
+index 00000000..cb7955a3
+--- /dev/null
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeProgress.java
+@@ -0,0 +1,76 @@
++package com.cherrytest.cli;
++
++import com.cherrytest.cli.adapters.Json;
++import com.cherrytest.common.adapter.AdapterRequest;
++import java.io.IOException;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.util.ArrayList;
++import java.util.HashSet;
++import java.util.Set;
++import java.util.concurrent.atomic.AtomicBoolean;
++import tools.jackson.databind.JsonNode;
++
++final class NativeProgress implements AutoCloseable {
++    private final NativeEvents events;
++    private final AdapterRequest request;
++    private final String adapter;
++    private final Path directory;
++    private final Set<Path> seen = new HashSet<>();
++    private final AtomicBoolean stopped = new AtomicBoolean();
++    private final Thread worker;
++
++    NativeProgress(NativeEvents events, AdapterRequest request, String adapter, Path directory) {
++        this.events = events;
++        this.request = request;
++        this.adapter = adapter;
++        this.directory = directory;
++        worker = Thread.ofVirtual().name("cherry-native-progress").unstarted(() -> {
++            while (!stopped.get()) {
++                drain();
++                try {
++                    Thread.sleep(50);
++                } catch (InterruptedException interrupted) {
++                    Thread.currentThread().interrupt();
++                    return;
++                }
++            }
++        });
++    }
++
++    void start() {
++        worker.start();
++    }
++
++    private void drain() {
++        if (!Files.isDirectory(directory)) return;
++        try (var files = Files.list(directory)) {
++            var pending = new ArrayList<JsonNode>();
++            for (Path path : files.limit(100_001).toList()) {
++                if (seen.size() >= 100_000) return;
++                if (!path.toString().endsWith(".json")
++                        || !seen.add(path)
++                        || Files.isSymbolicLink(path)
++                        || Files.size(path) > 64 * 1024) continue;
++                pending.add(Json.parse(Files.readString(path)));
++            }
++            pending.sort(java.util.Comparator.comparing(
++                    node -> node.path("timestamp").asString()));
++            pending.forEach(node -> events.testProgress(request, adapter, node));
++        } catch (IOException | RuntimeException ignored) {
++            events.progressUnavailable(request, adapter);
++        }
++    }
++
++    @Override
++    public void close() {
++        stopped.set(true);
++        worker.interrupt();
++        try {
++            worker.join();
++        } catch (InterruptedException interrupted) {
++            Thread.currentThread().interrupt();
++        }
++        drain();
++    }
++}
+diff --git a/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeSelection.java b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeSelection.java
+new file mode 100644
+index 00000000..67b6de01
+--- /dev/null
++++ b/java/cherry-test-cli/src/main/java/com/cherrytest/cli/NativeSelection.java
+@@ -0,0 +1,189 @@
++package com.cherrytest.cli;
++
++import com.cherrytest.cli.adapters.Json;
++import com.cherrytest.common.adapter.AdapterRequest;
++import com.cherrytest.common.adapter.AdapterResponse;
++import com.cherrytest.common.adapter.TestResult;
++import com.cherrytest.common.adapter.TestStatus;
++import com.cherrytest.common.process.ProcessEnvironment;
++import com.cherrytest.common.rustcompat.AnyhowError;
++import java.io.IOException;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.util.ArrayList;
++import java.util.HashSet;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Map;
++import org.jspecify.annotations.Nullable;
++import tools.jackson.databind.JsonNode;
++import tools.jackson.databind.node.JsonNodeFactory;
++import tools.jackson.databind.node.ObjectNode;
++
++final class NativeSelection {
++    private final List<JsonNode> selectors;
++    private final String sha256;
++    private final Map<String, List<String>> selectedNames = new LinkedHashMap<>();
++
++    private NativeSelection(List<JsonNode> selectors, String sha256) {
++        this.selectors = selectors;
++        this.sha256 = sha256;
++    }
++
++    static @Nullable NativeSelection load() {
++        String configured = ProcessEnvironment.get("CHERRY_TEST_IDE_SELECTION");
++        if (configured == null || configured.isBlank()) return null;
++        return read(Path.of(configured));
++    }
++
++    static NativeSelection read(Path path) {
++        try {
++            if (Files.size(path) > 1024 * 1024) throw new AnyhowError("native selection exceeds 1 MiB");
++            byte[] bytes = Files.readAllBytes(path);
++            JsonNode root = Json.parseBytes(bytes);
++            if (root.path("schemaVersion").asInt() != 1
++                    || !root.path("selectors").isArray())
++                throw new AnyhowError("native selection requires schemaVersion 1 and selectors array");
++            List<JsonNode> selectors = new ArrayList<>();
++            root.path("selectors").forEach(selectors::add);
++            if (selectors.isEmpty() || selectors.size() > 1000)
++                throw new AnyhowError("native selection requires 1..1000 selectors");
++            return new NativeSelection(List.copyOf(selectors), NativeEvents.hashBytes(bytes));
++        } catch (IOException error) {
++            throw new AnyhowError("read native selection: " + error.getMessage());
++        }
++    }
++
++    String sha256() {
++        return sha256;
++    }
++
++    static ObjectNode selector(AdapterRequest request, String adapter, TestResult test, int occurrences) {
++        ObjectNode node = JsonNodeFactory.instance.objectNode();
++        node.put(
++                "kind",
++                adapter.equals("maven") ? "junit-method" : adapter.equals("cargo") ? "rust-test" : "unavailable");
++        node.put("value", test.name());
++        node.put("phaseKey", NativeEvents.phaseKey(request));
++        node.put("runtimeId", adapter);
++        node.put("adapterId", adapter);
++        node.put("manifest", request.manifest().toAbsolutePath().normalize().toString());
++        String reason = reason(request, adapter, test.name());
++        if (occurrences != 1) reason = "Reported name is not unique within the phase";
++        node.put("exact", reason.isEmpty());
++        node.put("reason", reason);
++        return node;
++    }
++
++    private static String reason(AdapterRequest request, String adapter, String name) {
++        if (adapter.equals("maven")) {
++            if (!name.matches(
++                    "[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}.$]*::[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}]*"))
++                return "Parameterized, dynamic or display-name invocation cannot be selected exactly";
++            if (Isolation.runsAsAClass(request.cwd(), name.substring(0, name.indexOf("::"))))
++                return "Ordered/shared-instance class requires a broader class rerun";
++            if (!request.phase().equals("unit") && !request.phase().equals("integration"))
++                return "Maven phase has no verified test-selector property";
++            if (request.options().containsKey("command"))
++                return "Custom Maven command has no verified exact-selector contract";
++            return "";
++        }
++        if (adapter.equals("cargo")) {
++            return name.matches("[\\p{javaJavaIdentifierStart}][\\p{javaJavaIdentifierPart}:]*")
++                    ? ""
++                    : "Rust test name cannot be selected exactly";
++        }
++        return "Adapter has no verified exact-selector contract";
++    }
++
++    Plan apply(Plan plan) {
++        Map<String, Plan.Job> jobs = new LinkedHashMap<>();
++        plan.jobs().forEach(job -> jobs.put(NativeEvents.phaseKey(job.request()), job));
++        Map<String, List<String>> names = new LinkedHashMap<>();
++        for (JsonNode selector : selectors) {
++            String key = selector.path("phaseKey").asString();
++            Plan.Job job = jobs.get(key);
++            if (job == null) throw new AnyhowError("native selector phase is absent from the current configuration");
++            String name = selector.path("value").asString();
++            ObjectNode current = selector(
++                    job.request(),
++                    job.adapter(),
++                    new TestResult(name, TestStatus.SKIPPED, 0, null, null, null, List.of()),
++                    1);
++            for (String field : List.of("kind", "value", "phaseKey", "runtimeId", "adapterId", "manifest", "exact")) {
++                if (!current.path(field).equals(selector.path(field)))
++                    throw new AnyhowError("native selector identity changed: " + field);
++            }
++            if (!current.path("exact").asBoolean())
++                throw new AnyhowError(current.path("reason").asString());
++            List<String> phaseNames = names.computeIfAbsent(key, ignored -> new ArrayList<>());
++            if (!phaseNames.contains(name)) phaseNames.add(name);
++        }
++        List<Plan.PhasePlan> phases = new ArrayList<>();
++        for (Plan.PhasePlan phase : plan.phases()) {
++            List<Plan.Job> selected = new ArrayList<>();
++            for (Plan.Job job : phase.jobs()) {
++                List<String> tests = names.get(NativeEvents.phaseKey(job.request()));
++                if (tests == null) continue;
++                AdapterRequest req = job.request();
++                List<String> args = new ArrayList<>(req.args());
++                if (job.adapter().equals("maven")) {
++                    String property = req.phase().equals("integration") ? "-Dit.test=" : "-Dtest=";
++                    args.removeIf(arg -> arg.startsWith(property));
++                    args.add(property
++                            + String.join(
++                                    ",",
++                                    tests.stream()
++                                            .map(name -> name.replace("::", "#"))
++                                            .toList()));
++                    args.add("-Dsurefire.failIfNoSpecifiedTests=true");
++                    if (req.phase().equals("integration")) args.add("-Dit.failIfNoSpecifiedTests=true");
++                } else {
++                    if (tests.size() != 1)
++                        throw new AnyhowError(
++                                "Cargo exact rerun accepts one test per phase; use an explicit broader suite for several");
++                    args.add(tests.getFirst());
++                    args.add("--exact");
++                }
++                AdapterRequest narrowed = new AdapterRequest(
++                        req.protocol(),
++                        req.project(),
++                        req.packageName(),
++                        req.phase(),
++                        req.root(),
++                        req.manifest(),
++                        req.cwd(),
++                        req.output(),
++                        req.execution(),
++                        req.coverage(),
++                        req.strict(),
++                        args,
++                        req.env(),
++                        req.options(),
++                        req.container(),
++                        req.select());
++                selected.add(new Plan.Job(
++                        job.key(),
++                        job.adapter(),
++                        narrowed,
++                        job.scopes(),
++                        job.resources(),
++                        job.estimateMs(),
++                        job.exclusive(),
++                        job.containerError(),
++                        job.provisioned()));
++            }
++            if (!selected.isEmpty()) phases.add(new Plan.PhasePlan(phase.phase(), selected));
++        }
++        selectedNames.putAll(names);
++        return new Plan(phases);
++    }
++
++    void validateResponse(AdapterRequest request, AdapterResponse response) {
++        List<String> names = selectedNames.get(NativeEvents.phaseKey(request));
++        if (names == null) throw new AnyhowError("executed phase was not selected");
++        List<String> actual = response.tests().stream().map(TestResult::name).toList();
++        if (actual.size() != names.size() || !new HashSet<>(actual).equals(new HashSet<>(names)))
++            throw new AnyhowError("exact test selection was not honored: requested " + names + ", reported " + actual);
++    }
++}
+diff --git a/java/cherry-test-cli/src/test/java/com/cherrytest/cli/NativeSelectionTest.java b/java/cherry-test-cli/src/test/java/com/cherrytest/cli/NativeSelectionTest.java
+new file mode 100644
+index 00000000..72288c9f
+--- /dev/null
++++ b/java/cherry-test-cli/src/test/java/com/cherrytest/cli/NativeSelectionTest.java
+@@ -0,0 +1,320 @@
++package com.cherrytest.cli;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++
++import com.cherrytest.cli.adapters.Json;
++import com.cherrytest.common.adapter.AdapterRequest;
++import com.cherrytest.common.adapter.AdapterResponse;
++import com.cherrytest.common.adapter.ExecutionMode;
++import com.cherrytest.common.adapter.TestResult;
++import com.cherrytest.common.adapter.TestStatus;
++import com.cherrytest.common.process.ProcessEnvironment;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.util.List;
++import java.util.TreeMap;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.io.TempDir;
++import tools.jackson.databind.node.JsonNodeFactory;
++import tools.jackson.databind.node.ObjectNode;
++
++class NativeSelectionTest {
++    @TempDir
++    Path temp;
++
++    private AdapterRequest request(String module) {
++        Path root = temp.resolve(module);
++        return new AdapterRequest(
++                1,
++                "project",
++                module,
++                "unit",
++                temp,
++                root.resolve("pom.xml"),
++                root,
++                temp.resolve("reports").resolve(module),
++                ExecutionMode.LOCAL,
++                true,
++                true,
++                List.of("-Dtest=Old"),
++                new TreeMap<>(),
++                new TreeMap<>());
++    }
++
++    private TestResult test(String name) {
++        return new TestResult(name, TestStatus.PASSED, 1, null, null, null, List.of());
++    }
++
++    private Plan plan(AdapterRequest... requests) {
++        return new Plan(List.of(new Plan.PhasePlan(
++                "unit",
++                java.util.Arrays.stream(requests)
++                        .map(req -> new Plan.Job(
++                                new Plan.JobKey(req.project(), req.packageName(), req.phase()),
++                                "maven",
++                                req,
++                                List.of(),
++                                Plan.Resources.PACKAGE_DEFAULT,
++                                0,
++                                false,
++                                null,
++                                List.of()))
++                        .toList())));
++    }
++
++    private Path selection(ObjectNode... values) throws Exception {
++        ObjectNode body = JsonNodeFactory.instance.objectNode();
++        body.put("schemaVersion", 1);
++        var selected = body.putArray("selectors");
++        for (var value : values) selected.add(value);
++        Path path = temp.resolve("selection.json");
++        Files.writeString(path, body.toString());
++        return path;
++    }
++
++    @Test
++    void exact_selection_filters_jobs_and_checks_reported_inventory() throws Exception {
++        var one = request("one");
++        var two = request("two");
++        var first = NativeSelection.selector(one, "maven", test("demo.PriceTest::discount"), 1);
++        var second = NativeSelection.selector(one, "maven", test("demo.PriceTest::full"), 1);
++        NativeSelection selected = NativeSelection.read(selection(first, second));
++        Plan result = selected.apply(plan(one, two));
++        var jobs = result.jobs().toList();
++        assertThat(jobs).hasSize(1);
++        assertThat(jobs.getFirst().request().args())
++                .contains("-Dtest=demo.PriceTest#discount,demo.PriceTest#full")
++                .doesNotContain("-Dtest=Old");
++        assertThat(jobs.getFirst().request().coverage()).isTrue();
++        selected.validateResponse(
++                one,
++                new AdapterResponse(
++                        1,
++                        true,
++                        List.of(test("demo.PriceTest::discount"), test("demo.PriceTest::full")),
++                        List.of(),
++                        List.of()));
++        assertThatThrownBy(() ->
++                        selected.validateResponse(one, new AdapterResponse(1, true, List.of(), List.of(), List.of())))
++                .hasMessageContaining("not honored");
++        assertThatThrownBy(() -> selected.validateResponse(
++                        one,
++                        new AdapterResponse(1, true, List.of(test("demo.PriceTest::other")), List.of(), List.of())))
++                .hasMessageContaining("not honored");
++    }
++
++    @Test
++    void selector_cannot_change_runtime_manifest_or_scope() throws Exception {
++        var req = request("one");
++        for (String field : List.of("manifest", "runtimeId", "adapterId", "phaseKey", "kind")) {
++            var value = NativeSelection.selector(req, "maven", test("demo.PriceTest::discount"), 1);
++            value.put(field, "different");
++            var selected = NativeSelection.read(selection(value));
++            assertThatThrownBy(() -> selected.apply(plan(req))).hasMessageContaining("native selector");
++        }
++    }
++
++    @Test
++    void broader_java_invocations_are_not_advertised_as_exact() throws Exception {
++        var req = request("one");
++        for (String name : List.of("demo.PriceTest::discount[1]", "demo.PriceTest::discount(int)", "Display name"))
++            assertThat(NativeSelection.selector(req, "maven", test(name), 1)
++                            .path("exact")
++                            .asBoolean())
++                    .isFalse();
++        assertThat(NativeSelection.selector(req, "maven", test("demo.PriceTest::discount"), 2)
++                        .path("exact")
++                        .asBoolean())
++                .isFalse();
++        Path source = req.cwd().resolve("src/test/java/demo/PriceTest.java");
++        Files.createDirectories(source.getParent());
++        Files.writeString(source, "@TestInstance(PER_CLASS) class PriceTest {}");
++        assertThat(NativeSelection.selector(req, "maven", test("demo.PriceTest::discount"), 1)
++                        .path("reason")
++                        .asString())
++                .contains("broader class");
++        assertThat(NativeSelection.selector(req, "gradle", test("demo.PriceTest::discount"), 1)
++                        .path("exact")
++                        .asBoolean())
++                .isFalse();
++    }
++
++    @Test
++    void acknowledgement_is_bound_to_validated_selection_bytes() throws Exception {
++        var req = request("one");
++        Path path = selection(NativeSelection.selector(req, "maven", test("demo.PriceTest::discount"), 1));
++        String previous = ProcessEnvironment.get("CHERRY_TEST_IDE_SELECTION");
++        ProcessEnvironment.set("CHERRY_TEST_IDE_SELECTION", path.toString());
++        Path output = temp.resolve("events.jsonl");
++        try (var events = NativeEvents.openAt(temp, "selected", output)) {
++            events.preparePlan(plan(req));
++            events.phaseStarted(req, "maven", "java");
++            events.complete(0);
++        } finally {
++            if (previous == null) ProcessEnvironment.remove("CHERRY_TEST_IDE_SELECTION");
++            else ProcessEnvironment.set("CHERRY_TEST_IDE_SELECTION", previous);
++        }
++        var started = Json.parse(Files.readAllLines(output).getFirst());
++        assertThat(started.path("selectionSHA256").asString())
++                .isEqualTo(NativeEvents.hashBytes(Files.readAllBytes(path)));
++        assertThat(started.path("capabilities").path("testProgress").asBoolean())
++                .isFalse();
++    }
++
++    @Test
++    void configured_external_sources_are_captured_and_repositories_stay_distinct() throws Exception {
++        Path workspace = temp.resolve("workspace");
++        Files.createDirectories(workspace);
++        Path one = temp.resolve("repo-one");
++        Path two = temp.resolve("repo-two");
++        for (Path repo : List.of(one, two)) {
++            Files.createDirectories(repo.resolve(".git"));
++            Files.writeString(repo.resolve("Price.java"), "class Price {}\n");
++        }
++        String previous = ProcessEnvironment.get("CHERRY_TEST_IDE_CAPABILITIES");
++        ProcessEnvironment.set("CHERRY_TEST_IDE_CAPABILITIES", "repositories-v1,selectors-v1");
++        Path output = workspace.resolve("events.jsonl");
++        try (var events =
++                NativeEvents.openAt(workspace, "repos", output, true, List.of("unit"), null, List.of(one, two))) {
++            events.complete(0);
++        } finally {
++            if (previous == null) ProcessEnvironment.remove("CHERRY_TEST_IDE_CAPABILITIES");
++            else ProcessEnvironment.set("CHERRY_TEST_IDE_CAPABILITIES", previous);
++        }
++        var rows = Files.readAllLines(output).stream().map(Json::parse).toList();
++        var started = rows.getFirst();
++        assertThat(started.path("sourceBefore")
++                        .path(one.resolve("Price.java").toString())
++                        .asString())
++                .hasSize(64);
++        assertThat(started.path("sourceBefore")
++                        .path(two.resolve("Price.java").toString())
++                        .asString())
++                .hasSize(64);
++        assertThat(started.path("repositories").size()).isEqualTo(3);
++        assertThat(started.path("repositories").get(1).path("id"))
++                .isNotEqualTo(started.path("repositories").get(2).path("id"));
++        assertThat(rows.getLast().path("sourceStable").asBoolean()).isTrue();
++    }
++
++    @Test
++    void negotiated_progress_preserves_final_identity_and_old_clients_receive_no_events() throws Exception {
++        for (boolean negotiate : List.of(false, true)) {
++            String previous = ProcessEnvironment.get("CHERRY_TEST_IDE_CAPABILITIES");
++            ProcessEnvironment.set("CHERRY_TEST_IDE_CAPABILITIES", negotiate ? "test-events-v1" : "");
++            Path output = temp.resolve("progress-" + negotiate + ".jsonl");
++            var request = request("one");
++            var observed = JsonNodeFactory.instance.objectNode();
++            observed.put("schemaVersion", 1);
++            observed.put("event", "test.started");
++            observed.put("name", "demo.PriceTest::discount");
++            observed.put("status", "pending");
++            observed.put("processId", ProcessHandle.current().pid());
++            observed.put("invocationId", "invocation-one");
++            observed.put("timestamp", java.time.Instant.now().toString());
++            try (var events = NativeEvents.openAt(temp, "progress", output)) {
++                events.phaseStarted(request, "maven", "java");
++                events.testProgress(request, "maven", observed);
++                observed.put("event", "test.completed");
++                observed.put("status", "passed");
++                events.testProgress(request, "maven", observed);
++                events.phaseCompleted(
++                        request,
++                        "maven",
++                        "java",
++                        new AdapterResponse(1, true, List.of(test("demo.PriceTest::discount")), List.of(), List.of()),
++                        true);
++                events.complete(0);
++            } finally {
++                if (previous == null) ProcessEnvironment.remove("CHERRY_TEST_IDE_CAPABILITIES");
++                else ProcessEnvironment.set("CHERRY_TEST_IDE_CAPABILITIES", previous);
++            }
++            var rows = Files.readAllLines(output).stream().map(Json::parse).toList();
++            assertThat(rows).hasSize(negotiate ? 6 : 4);
++            if (negotiate) {
++                var id = rows.get(2).path("test").path("id");
++                assertThat(rows.get(3).path("test").path("id")).isEqualTo(id);
++                assertThat(rows.get(4).path("tests").get(0).path("id")).isEqualTo(id);
++            }
++        }
++    }
++
++    @Test
++    void normalization_accepts_only_declared_external_module_and_rejects_symlink_escape() throws Exception {
++        Path workspace = Files.createDirectories(temp.resolve("workspace"));
++        Path module = Files.createDirectories(temp.resolve("external"));
++        Path source = module.resolve("Price.java");
++        Files.writeString(source, "class Price {}\n");
++        Path outside = Files.createDirectories(temp.resolve("unrelated")).resolve("Secret.java");
++        Files.writeString(outside, "class Secret {}\n");
++        Path link = module.resolve("linked.java");
++        Files.createSymbolicLink(link, outside);
++        var req = new AdapterRequest(
++                1,
++                "project",
++                "module",
++                "unit",
++                workspace,
++                module.resolve("pom.xml"),
++                module,
++                workspace.resolve("reports"),
++                ExecutionMode.LOCAL,
++                true,
++                true,
++                List.of(),
++                new TreeMap<>(),
++                new TreeMap<>());
++        Path report = workspace.resolve("measured.lcov");
++        Files.writeString(
++                report,
++                "SF:" + source + "\nDA:1,1\nend_of_record\nSF:" + outside + "\nDA:1,0\nend_of_record\nSF:" + link
++                        + "\nDA:1,0\nend_of_record\n");
++        Path normalized = workspace.resolve("normalized.lcov");
++        Runner.normalizeCoverage(req, List.of(report), normalized);
++        assertThat(Files.readString(normalized))
++                .contains(source.toString())
++                .doesNotContain(outside.toString(), link.toString());
++    }
++
++    @Test
++    void junit_signature_and_declared_method_alias_share_one_verified_final_identity() throws Exception {
++        String previous = ProcessEnvironment.get("CHERRY_TEST_IDE_CAPABILITIES");
++        ProcessEnvironment.set("CHERRY_TEST_IDE_CAPABILITIES", "test-events-v1");
++        Path output = temp.resolve("aliases.jsonl");
++        var req = request("one");
++        var observation = JsonNodeFactory.instance.objectNode();
++        observation.put("schemaVersion", 1);
++        observation.put("event", "test.started");
++        observation.put("name", "demo.PriceTest::discount(TestEnv)");
++        observation.put("declaredName", "demo.PriceTest::discount");
++        observation.put("status", "pending");
++        observation.put("processId", 123);
++        observation.put("invocationId", "real-identity");
++        observation
++                .putArray("reportedNameAliases")
++                .add("demo.PriceTest::discount")
++                .add("demo.PriceTest::discount(TestEnv)");
++        try (var events = NativeEvents.openAt(temp, "aliases", output)) {
++            events.testProgress(req, "maven", observation);
++            events.phaseCompleted(
++                    req,
++                    "maven",
++                    "java",
++                    new AdapterResponse(
++                            1, true, List.of(test("demo.PriceTest::discount(TestEnv)")), List.of(), List.of()),
++                    true);
++            events.complete(0);
++        } finally {
++            if (previous == null) ProcessEnvironment.remove("CHERRY_TEST_IDE_CAPABILITIES");
++            else ProcessEnvironment.set("CHERRY_TEST_IDE_CAPABILITIES", previous);
++        }
++        var rows = Files.readAllLines(output).stream().map(Json::parse).toList();
++        assertThat(rows.get(1).path("test").path("name").asString()).isEqualTo("demo.PriceTest::discount");
++        assertThat(rows.get(2).path("tests").get(0).path("name").asString()).isEqualTo("demo.PriceTest::discount");
++        assertThat(rows.get(2).path("tests").get(0).path("displayName").asString())
++                .isEqualTo("demo.PriceTest::discount(TestEnv)");
++        assertThat(rows.get(1).path("test").path("id"))
++                .isEqualTo(rows.get(2).path("tests").get(0).path("id"));
++    }
++}
+diff --git a/java/cherry-test-junit/src/main/java/com/cherrytest/junit/NativeTestProgress.java b/java/cherry-test-junit/src/main/java/com/cherrytest/junit/NativeTestProgress.java
+new file mode 100644
+index 00000000..4e86a2cd
+--- /dev/null
++++ b/java/cherry-test-junit/src/main/java/com/cherrytest/junit/NativeTestProgress.java
+@@ -0,0 +1,74 @@
++package com.cherrytest.junit;
++
++import com.cherrytest.common.process.ProcessEnvironment;
++import java.io.IOException;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.nio.file.StandardCopyOption;
++import java.util.UUID;
++import org.jspecify.annotations.Nullable;
++import org.junit.jupiter.api.extension.ExtensionContext;
++import tools.jackson.databind.node.JsonNodeFactory;
++
++final class NativeTestProgress {
++    private static final ExtensionContext.Namespace STORE = ExtensionContext.Namespace.create(NativeTestProgress.class);
++
++    private record Invocation(String id, long started) {}
++
++    private NativeTestProgress() {}
++
++    static void started(ExtensionContext context) {
++        Invocation invocation = new Invocation(UUID.randomUUID().toString(), System.nanoTime());
++        context.getStore(STORE).put(Invocation.class, invocation);
++        emit(context, invocation, "started", "pending", null);
++    }
++
++    static void completed(ExtensionContext context, String status, @Nullable Throwable failure) {
++        Invocation invocation = context.getStore(STORE).get(Invocation.class, Invocation.class);
++        if (invocation == null) invocation = new Invocation(UUID.randomUUID().toString(), System.nanoTime());
++        emit(context, invocation, "completed", status, failure);
++    }
++
++    private static void emit(
++            ExtensionContext context, Invocation invocation, String event, String status, @Nullable Throwable failure) {
++        String configured = ProcessEnvironment.get("CHERRY_TEST_IDE_TEST_EVENTS");
++        if (configured == null || configured.isBlank()) return;
++        var method = context.getTestMethod();
++        var type = context.getTestClass();
++        if (method.isEmpty() || type.isEmpty()) return;
++        var node = JsonNodeFactory.instance.objectNode();
++        node.put("schemaVersion", 1);
++        node.put("event", "test." + event);
++        node.put("invocationId", invocation.id());
++        String declaration = type.get().getName() + "::" + method.get().getName();
++        String signature = declaration + "("
++                + String.join(
++                        ",",
++                        java.util.Arrays.stream(method.get().getParameterTypes())
++                                .map(Class::getSimpleName)
++                                .toList())
++                + ")";
++        node.put("name", signature);
++        node.put("declaredName", declaration);
++        var aliases = node.putArray("reportedNameAliases");
++        aliases.add(declaration);
++        aliases.add(signature);
++        node.put("status", status);
++        node.put("processId", ProcessHandle.current().pid());
++        node.put("timestamp", java.time.Instant.now().toString());
++        node.put("durationMs", event.equals("started") ? 0 : (System.nanoTime() - invocation.started()) / 1_000_000L);
++        if (failure != null) node.put("message", failure.toString());
++        Path directory = Path.of(configured);
++        try {
++            Files.createDirectories(directory);
++            Path temporary = Files.createTempFile(directory, ".event-", ".tmp");
++            Files.writeString(temporary, node.toString());
++            Files.move(
++                    temporary,
++                    directory.resolve(invocation.id() + "-" + event + ".json"),
++                    StandardCopyOption.ATOMIC_MOVE);
++        } catch (IOException ignored) {
++            System.err.println("Cherry Test native progress unavailable; final test report remains authoritative");
++        }
++    }
++}

@@ -1,0 +1,56 @@
+
+Test run finished after 885 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[        36 tests found           ]
+[         0 tests skipped         ]
+[        36 tests started         ]
+[         0 tests aborted         ]
+[        33 tests successful      ]
+[         3 tests failed          ]
+
+
+Failures (3):
+  JUnit Jupiter:NativeMetadataTest:metadataAddedImmediatelyBeforeDeletionIsRetained()
+    MethodSource [className = 'dev.turboj.refactorj.transactions.NativeMetadataTest', methodName = 'metadataAddedImmediatelyBeforeDeletionIsRetained', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+       org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+       org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+       org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+       org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+       org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:31)
+       org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:231)
+       dev.turboj.refactorj.transactions.NativeMetadataTest.metadataAddedImmediatelyBeforeDeletionIsRetained(NativeMetadataTest.java:57)
+       java.base/java.lang.reflect.Method.invoke(Method.java:565)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+  JUnit Jupiter:WorkspaceTransactionsTest:diskMultiFileMoveCreateDeleteCanBeUndoneAfterRestart()
+    MethodSource [className = 'dev.turboj.refactorj.transactions.WorkspaceTransactionsTest', methodName = 'diskMultiFileMoveCreateDeleteCanBeUndoneAfterRestart', methodParameterTypes = '']
+    => dev.turboj.refactorj.transactions.TransactionException: Cannot commit workspace transaction
+       dev.turboj.refactorj.transactions.DiskWorkspace.failure(DiskWorkspace.java:578)
+       dev.turboj.refactorj.transactions.DiskWorkspace.commit(DiskWorkspace.java:233)
+       dev.turboj.refactorj.transactions.WorkspaceTransactions.apply(WorkspaceTransactions.java:34)
+       dev.turboj.refactorj.transactions.WorkspaceTransactionsTest.diskMultiFileMoveCreateDeleteCanBeUndoneAfterRestart(WorkspaceTransactionsTest.java:246)
+       java.base/java.lang.reflect.Method.invoke(Method.java:565)
+       [...]
+     Caused by: java.io.IOException: Cannot delete or rename a source with ACLs or extended attributes: /private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/junit-4176863021799868342/A.java. The transaction journal cannot restore this metadata; no destructive change was made.
+       dev.turboj.refactorj.transactions.FileMetadata.requireJournalableDeletion(FileMetadata.java:58)
+       dev.turboj.refactorj.transactions.DiskWorkspace.commit(DiskWorkspace.java:177)
+       [...]
+  JUnit Jupiter:WorkspaceTransactionsTest:caseOnlyDiskRenamePreservesBytesOrRejectsAliasedFilesystemBeforeWriting()
+    MethodSource [className = 'dev.turboj.refactorj.transactions.WorkspaceTransactionsTest', methodName = 'caseOnlyDiskRenamePreservesBytesOrRejectsAliasedFilesystemBeforeWriting', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: expected: <FILESYSTEM_ALIAS> but was: <COMMIT_IO>
+       org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+       org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+       org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+       org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+       org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+       org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+       dev.turboj.refactorj.transactions.WorkspaceTransactionsTest.caseOnlyDiskRenamePreservesBytesOrRejectsAliasedFilesystemBeforeWriting(WorkspaceTransactionsTest.java:406)
+       java.base/java.lang.reflect.Method.invoke(Method.java:565)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)

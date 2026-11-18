@@ -19,6 +19,162 @@ class QuickActionsIT {
     @BeforeAll static void start() throws Exception { runtime = new RefactorJRuntime(); }
     @AfterAll static void stop() { runtime.close(); }
 
+    @Test void halfOpenSelectionsExcludeADiagnosticBeginningAtTheirEnd() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "class C { void f(){ int value = missing; } }";
+        var snapshot = snapshot(Map.of(file, source), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var selected = new Location(file, source.indexOf("int value"), source.indexOf("missing"));
+            var result = engine.quickActions().inspect(selected, Cancellation.NONE);
+            assertEquals(selected, result.location());
+            assertTrue(result.diagnostics().isEmpty(), result.diagnostics().toString());
+            var caret = engine.quickActions().inspect(new Location(file, source.indexOf("missing") + 7), Cancellation.NONE);
+            assertFalse(caret.diagnostics().isEmpty(), "A touching insertion caret still sees its diagnostic");
+        }
+    }
+
+    @Test void multipleDiagnosticsChooseNearestFixAndNeverCrossLinesOrSelections() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "class C {\r\n void f(){ First first = null; Second second = null; }\r\n}\r\n";
+        var snapshot = snapshot(Map.of(file, source), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var actions = engine.quickActions();
+            int first = source.indexOf("First"), second = source.indexOf("Second");
+            for (int i = 0; i < 3; i++) {
+                var result = actions.inspect(new Location(file, source.indexOf(';', second) + 1), Cancellation.NONE);
+                assertEquals(second, result.location().start());
+                assertEquals("Create class 'Second'", only(result, Action.CREATE_CLASS).title());
+                assertEquals(snapshot, engine.workspace().snapshot(), "Inspection doesn't publish source");
+            }
+            var explicit = actions.inspect(new Location(file, first, first + 5), Cancellation.NONE);
+            assertEquals(first, explicit.location().start());
+            assertEquals("Create class 'First'", only(explicit, Action.CREATE_CLASS).title());
+            assertTrue(actions.inspect(new Location(file, source.length() - 3), Cancellation.NONE).fixes().isEmpty());
+        }
+    }
+
+    @Test void contextualConstructorAndAnonymousLambdaUseExistingValidatedOperations() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "class C { C(){} void f(){ new C(42); } }";
+        var snapshot = snapshot(Map.of(file, source), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var inspection = engine.quickActions().inspect(at(file, source, "C(42)"), Cancellation.NONE);
+            var proposal = inspection.fixes().stream().filter(p -> p.operation() == Operation.CREATE_CONSTRUCTOR).findFirst().orElseThrow();
+            verifyQuickPlan(engine, engine.quickActions().prepare(proposal, Cancellation.NONE));
+        }
+        source = "class C { Runnable task = new Runnable(){ public void run(){System.out.println(42);} }; }";
+        snapshot = snapshot(Map.of(file, source), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var inspection = engine.quickActions().inspect(at(file, source, "new Runnable"), Cancellation.NONE);
+            var proposal = inspection.assists().stream().filter(p -> p.operation() == Operation.ANONYMOUS_TO_LAMBDA).findFirst().orElseThrow();
+            verifyQuickPlan(engine, engine.quickActions().prepare(proposal, Cancellation.NONE));
+        }
+    }
+
+    @Test void uncaughtExceptionFixesCompilePreserveCommentsAndUndo() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "class C {\r\n // café\r\n String read(java.nio.file.Path path){\r\n  return java.nio.file.Files.readString(path); // retain\r\n }\r\n}\r\n";
+        var snapshot = snapshot(Map.of(file, source), List.of(root), List.of());
+        try (var engine = runtime.openWorkspace(snapshot)) {
+            var fixes = engine.quickActions().inspect(at(file, source, "readString"), Cancellation.NONE).fixes().stream()
+                    .filter(p -> p.operation() == Operation.HANDLE_EXCEPTION).toList();
+            assertEquals(2, fixes.size(), fixes.toString());
+            for (var proposal : fixes) {
+                var prepared = engine.quickActions().prepare(proposal, Cancellation.NONE);
+                var candidate = verifyQuickPlan(engine, prepared);
+                assertTrue(candidate.source(file).text().contains("// café"));
+                assertTrue(candidate.source(file).text().contains("// retain"));
+                assertFalse(candidate.source(file).text().replace("\r\n", "").contains("\n"), "CRLF is preserved");
+            }
+        }
+    }
+
+    @Test void throwsFixCannotBreakAnOverrideOrAnExistingCaller() throws Exception {
+        Path file = root.resolve("C.java");
+        for (String source : List.of(
+                "class C implements Runnable { public void run(){ java.nio.file.Files.readString(java.nio.file.Path.of(\"file\")); } }",
+                "class C { void read(){ java.nio.file.Files.readString(java.nio.file.Path.of(\"file\")); } void caller(){read();} }")) {
+            var snapshot = snapshot(Map.of(file, source), List.of(root), List.of());
+            try (var engine = runtime.openWorkspace(snapshot)) {
+                var fixes = engine.quickActions().inspect(at(file, source, "readString"), Cancellation.NONE).fixes().stream()
+                        .filter(p -> p.operation() == Operation.HANDLE_EXCEPTION).toList();
+                assertEquals(1, fixes.size(), fixes.toString());
+                assertTrue(fixes.getFirst().title().startsWith("Surround"));
+                verifyQuickPlan(engine, engine.quickActions().prepare(fixes.getFirst(), Cancellation.NONE));
+            }
+        }
+    }
+
+    @Test void exceptionProvidersRespectLambdaAndVariableLifetimeBoundaries() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "class C { void f(){ Runnable r = () -> java.nio.file.Files.readString(java.nio.file.Path.of(\"file\")); } }";
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root), List.of()))) {
+            assertTrue(engine.quickActions().inspect(at(file, source, "readString"), Cancellation.NONE).fixes().stream()
+                    .noneMatch(p -> p.operation() == Operation.HANDLE_EXCEPTION), "No throws escape across a lambda boundary");
+        }
+        source = "class C { String f(java.nio.file.Path p){ String text = java.nio.file.Files.readString(p); return text; } }";
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root), List.of()))) {
+            var fixes = engine.quickActions().inspect(at(file, source, "readString"), Cancellation.NONE).fixes().stream()
+                    .filter(p -> p.operation() == Operation.HANDLE_EXCEPTION).toList();
+            assertEquals(1, fixes.size(), fixes.toString());
+            assertTrue(fixes.getFirst().title().startsWith("Add throws"));
+            verifyQuickPlan(engine, engine.quickActions().prepare(fixes.getFirst(), Cancellation.NONE));
+        }
+    }
+
+    @Test void interruptedExceptionIsNotSwallowedByTheCatchFix() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "public class C { public static void pause(){ Thread.sleep(1); } }";
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root), List.of()))) {
+            var proposal = engine.quickActions().inspect(at(file, source, "sleep"), Cancellation.NONE).fixes().stream()
+                    .filter(p -> p.title().startsWith("Surround with try/catch")).findFirst().orElseThrow();
+            var candidate = verifyQuickPlan(engine, engine.quickActions().prepare(proposal, Cancellation.NONE));
+            String text = candidate.source(file).text();
+            assertTrue(text.contains("java.lang.Thread.currentThread().interrupt();"), text);
+            assertTrue(text.contains("throw new java.lang.RuntimeException(exception);"), text);
+            Path output = compile(candidate);
+            try (var loader = new java.net.URLClassLoader(new java.net.URL[]{output.toUri().toURL()}, null)) {
+                var pause = loader.loadClass("C").getMethod("pause");
+                Thread.currentThread().interrupt();
+                try {
+                    var failure = assertThrows(java.lang.reflect.InvocationTargetException.class, () -> pause.invoke(null));
+                    assertInstanceOf(InterruptedException.class, failure.getCause().getCause());
+                    assertTrue(Thread.currentThread().isInterrupted(), "The generated catch preserves cancellation");
+                } finally { Thread.interrupted(); }
+            }
+        }
+    }
+
+    @Test void oneInvocationWithSeveralCheckedExceptionsKeepsEveryException() throws Exception {
+        Path file = root.resolve("C.java");
+        String source = "class C { void risky() throws java.io.IOException, ReflectiveOperationException {} void f(){ risky(); } }";
+        try (var engine = runtime.openWorkspace(snapshot(Map.of(file, source), List.of(root), List.of()))) {
+            var proposals = engine.quickActions().inspect(new Location(file, source.lastIndexOf("risky()")), Cancellation.NONE).fixes().stream()
+                    .filter(p -> p.operation() == Operation.HANDLE_EXCEPTION).toList();
+            assertEquals(2, proposals.size(), proposals.toString());
+            for (var proposal : proposals) {
+                var candidate = verifyQuickPlan(engine, engine.quickActions().prepare(proposal, Cancellation.NONE));
+                assertTrue(candidate.source(file).text().contains("java.io.IOException"));
+                assertTrue(proposal.title().contains("ReflectiveOperationException"), proposal.title());
+            }
+        }
+    }
+
+    private WorkspaceSnapshot verifyQuickPlan(RefactorJ engine, Prepared prepared) throws Exception {
+        assertTrue(prepared.plan().valid(), prepared.plan().diagnostics().toString());
+        var original = engine.workspace().snapshot();
+        var store = new InMemoryWorkspace(original);
+        var transactions = new WorkspaceTransactions(store);
+        var committed = transactions.apply(prepared.plan(), Cancellation.NONE);
+        var candidate = store.snapshot(); compile(candidate);
+        transactions.undo(committed.transactionId(), Cancellation.NONE);
+        for (var source : original.sources()) assertEquals(source.text(), store.snapshot().source(source.file()).text());
+        transactions.redo(committed.transactionId(), Cancellation.NONE);
+        for (var source : candidate.sources()) assertEquals(source.text(), store.snapshot().source(source.file()).text());
+        engine.workspace().synchronize(original, Cancellation.NONE);
+        return candidate;
+    }
+
     @Test void templateValidationChecksReturnExpressionsAndCallersWithoutPublishing() throws Exception {
         Path file = root.resolve("C.java"), caller = root.resolve("Use.java");
         String original = "class C { int value(int x){ return 0; } }";
@@ -955,7 +1111,7 @@ class QuickActionsIT {
                 Path.of(org.junit.platform.commons.JUnitException.class.getProtectionDomain().getCodeSource().getLocation().toURI()),
                 Path.of(org.apiguardian.api.API.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
     }
-    private void compile(WorkspaceSnapshot snapshot) throws Exception {
+    private Path compile(WorkspaceSnapshot snapshot) throws Exception {
         Path output = Files.createTempDirectory(root, "javac-"); var args = new ArrayList<String>(List.of("-proc:none", "-d", output.toString()));
         if (!snapshot.classpath().isEmpty()) { args.add("-classpath"); args.add(String.join(java.io.File.pathSeparator, snapshot.classpath().stream().map(Path::toString).toList())); }
         for (var source : snapshot.sources()) {
@@ -963,5 +1119,6 @@ class QuickActionsIT {
         }
         var errors = new ByteArrayOutputStream();
         assertEquals(0, ToolProvider.getSystemJavaCompiler().run(null, null, errors, args.toArray(String[]::new)), errors::toString);
+        return output;
     }
 }

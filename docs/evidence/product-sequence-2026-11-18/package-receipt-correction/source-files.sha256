@@ -1,0 +1,4 @@
+0504c63756692207ec34e192f4b53a0ae06ac74bbf87655a721c2dc8b7d55d95  scripts/package-macos.sh
+a8455944e4df925fc431841e7eb0a690693ab9f4549e080cdd2be2fef27d4803  scripts/build-receipt.py
+982b8d5699c734ccd54b324e18083f92e820c2b1f40710d2afc71d8db95ea9ba  scripts/test-build-receipt.py
+eb1c9f17b625dac12d48a5e8e5b6b01477781212d1d1717bb68787603532f30b  .github/workflows/verify.yml

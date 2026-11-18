@@ -12,11 +12,14 @@ public final class CherryEvents {
     public static final int SCHEMA_VERSION = 1;
     public static final int MAX_EVENT_BYTES = 4 * 1024 * 1024;
     private final Path root;
+    private final boolean trustRepositoryManifest;
+    private ExecutionContext context = ExecutionContext.empty();
     private String runId = "";
     private long sequence = -1;
     private RunState state = RunState.PENDING;
     private final Map<String,List<TestResult>> phases = new LinkedHashMap<>();
     private final Map<String,Map<Path,Map<Integer,Coverage>>> phaseCoverage = new LinkedHashMap<>();
+    private final Map<String,List<CoverageObservation>> observations = new LinkedHashMap<>();
     private final Map<Path,Map<Integer,Coverage>> aggregateCoverage = new LinkedHashMap<>();
     private final Map<Path,String> before = new LinkedHashMap<>();
     private Map<Path,String> after = Map.of();
@@ -25,7 +28,10 @@ public final class CherryEvents {
     private Path htmlReport;
     private boolean terminal;
 
-    public CherryEvents(Path root) { this.root = root.toAbsolutePath().normalize(); }
+    public CherryEvents(Path root) { this(root,false); }
+    public CherryEvents(Path root,boolean trustRepositoryManifest) {
+        this.root = root.toAbsolutePath().normalize(); this.trustRepositoryManifest = trustRepositoryManifest;
+    }
 
     /** Returns false for a duplicate/out-of-order event; mismatched runs and schemas fail closed. */
     public boolean accept(String json) throws IOException {
@@ -37,6 +43,8 @@ public final class CherryEvents {
             long next = number(event,"sequence",-1);
             if (id.isBlank() || next < 0) throw new IOException("Missing Cherry event identity");
             String kind = string(event,"event");
+            if (!runId.isEmpty() && kind.equals("run.started") && next > sequence && !terminal)
+                throw new IOException("A Cherry execution cannot restart or change its source roots");
             if (runId.isEmpty()) {
                 if (!kind.equals("run.started")) throw new IOException("Expected run.started");
                 Path reportedRoot = Path.of(string(event,"workspaceRoot")).toAbsolutePath().normalize();
@@ -49,6 +57,7 @@ public final class CherryEvents {
             switch (kind) {
                 case "run.started" -> {
                     state = RunState.RUNNING;
+                    context = context(event);
                     before.putAll(hashes(event,"sourceBefore"));
                     scope = event.has("scope") && event.get("scope").isJsonArray()
                             ? event.get("scope").toString() : string(event,"scope");
@@ -56,7 +65,8 @@ public final class CherryEvents {
                             && !event.get("coverageEnabled").getAsBoolean() ? Availability.DISABLED : Availability.MISSING;
                     message = "Cherry Test running against saved sources";
                 }
-                case "phase.started" -> { phaseKey(event); message = "Running " + phaseLabel(event); }
+                case "phase.started" -> { phaseProgress(event,true,0); message = "Running " + phaseLabel(event); }
+                case "test.started", "test.completed" -> testEvent(event,kind.equals("test.started"));
                 case "phase.completed" -> phase(event);
                 case "run.completed" -> {
                     terminal = true;
@@ -67,6 +77,11 @@ public final class CherryEvents {
                     state = outcome.equals("cancelled") ? RunState.CANCELLED
                             : !complete ? RunState.INCOMPLETE
                             : outcome.equals("passed") ? RunState.COMPLETED : RunState.FAILED;
+                    if (phases.values().stream().flatMap(Collection::stream).anyMatch(test -> test.status() == TestStatus.PENDING)
+                            || context.phases().values().stream().anyMatch(phase -> phase.state() == RunState.RUNNING)) {
+                        if (state != RunState.CANCELLED) state = RunState.INCOMPLETE;
+                        complete = false;
+                    }
                     if (complete && !outcome.equals("cancelled")) {
                         for (JsonElement entry : array(event,"coverageUnion")) {
                             JsonObject artifact = entry.getAsJsonObject();
@@ -95,29 +110,15 @@ public final class CherryEvents {
         List<TestResult> results = new ArrayList<>();
         for (JsonElement entry : array(event,"tests")) {
             JsonObject test = entry.getAsJsonObject();
-            String localId = string(test,"id");
-            if (localId.isBlank()) localId = string(test,"name") + "#" + results.size();
-            Path source = localPath(string(test,"source"));
-            int line = Math.toIntExact(number(test,"line",0));
-            Attribution role = switch (string(test,"locationRole")) {
-                case "test-declaration" -> Attribution.TEST_DECLARATION;
-                case "failure-location" -> Attribution.FAILURE_LOCATION;
-                default -> Attribution.REPORTED_TEST_LOCATION;
-            };
-            List<Association> locations = source != null && line > 0
-                    ? List.of(new Association(source,line,role,"Adapter-reported test/failure location; not production execution coverage")) : List.of();
-            TestStatus status;
-            try { status = TestStatus.valueOf(string(test,"status").toUpperCase(Locale.ROOT)); }
-            catch (IllegalArgumentException unknown) { status = TestStatus.UNKNOWN; }
-            results.add(new TestResult(runId + "/" + phase + "/" + localId,runId,
-                    string(event,"packageId"),string(test,"name"),string(event,"projectId"),
-                    string(event,"moduleId"),string(event,"packageId"),string(event,"phaseId"),
-                    string(event,"runtimeId"),phase,status,Freshness.UNKNOWN,
-                    Math.max(0,number(test,"durationMs",0)),string(test,"message"),locations));
+            results.add(test(event,test,results.size(),null));
         }
+        Set<String> completedIds = new HashSet<>(); results.forEach(test -> completedIds.add(test.id()));
+        for (TestResult pending : phases.getOrDefault(phase,List.of())) if (pending.status() == TestStatus.PENDING && !completedIds.contains(pending.id()))
+            results.add(pending);
         phases.put(phase,List.copyOf(results));
         Map<Path,Map<Integer,Coverage>> coverage = new LinkedHashMap<>();
         Map<Path,Map<Path,Map<Integer,Coverage>>> collections = new LinkedHashMap<>();
+        Map<Path,Path> artifacts = new HashMap<>();
         boolean incomplete = !string(event,"completeness").equals("complete");
         for (JsonElement entry : array(event,"coverage")) {
             JsonObject artifact = entry.getAsJsonObject();
@@ -127,8 +128,10 @@ public final class CherryEvents {
             byte[] bytes = Files.readAllBytes(path);
             String expected = string(artifact,"sha256");
             if (expected.isBlank() || !hash(bytes).equals(expected)) throw new IOException("Coverage artifact hash mismatch");
-            if (string(artifact,"format").equalsIgnoreCase("lcov") || path.toString().endsWith(".lcov"))
+            if (string(artifact,"format").equalsIgnoreCase("lcov") || path.toString().endsWith(".lcov")) {
                 readLcov(new String(bytes,StandardCharsets.UTF_8),collections.computeIfAbsent(path,key -> new LinkedHashMap<>()),incomplete);
+                artifacts.put(path,path);
+            }
         }
         for (JsonElement entry : array(event,"coveragePrecisionArtifacts")) {
             JsonObject artifact = entry.getAsJsonObject();
@@ -142,28 +145,102 @@ public final class CherryEvents {
                         ? Path.of(path.toString().substring(0,path.toString().length() - ".native.json".length())) : path;
                 readCounters(JsonParser.parseString(new String(bytes,StandardCharsets.UTF_8)).getAsJsonObject(),
                         collections.computeIfAbsent(collection,key -> new LinkedHashMap<>()),incomplete);
+                artifacts.put(collection,path);
             }
         }
         collections.values().forEach(files -> files.forEach((file,lines) -> lines.forEach((line,value) ->
                 coverage.computeIfAbsent(file,key -> new LinkedHashMap<>()).merge(line,value,CherryEvents::merge))));
+        observations.put(phase,collections.entrySet().stream().map(entry -> new CoverageObservation(
+                runId + "/" + phase + "/" + sha256(entry.getKey().toString()),phase,
+                string(event,"projectId"),string(event,"moduleId"),string(event,"packageId"),
+                string(event,"phaseId"),string(event,"runtimeId"),artifacts.get(entry.getKey()),entry.getValue())).toList());
         if (!coverage.isEmpty()) coverageAvailability = incomplete ? Availability.INCOMPLETE : Availability.AVAILABLE;
         phaseCoverage.put(phase,coverage);
+        phaseProgress(event,false,results.size());
         message = "Finished " + phaseLabel(event) + ": " + results.size() + " test results"
                 + (event.has("success") && !event.get("success").getAsBoolean() ? " — failure" : "")
                 + (array(event,"diagnostics").isEmpty() ? "" : "\n" + array(event,"diagnostics"));
+    }
+
+    private void phaseProgress(JsonObject event,boolean running,int reported) throws IOException {
+        RunState status = running ? RunState.RUNNING : !string(event,"completeness").equals("complete") ? RunState.INCOMPLETE
+                : event.has("success") && !event.get("success").getAsBoolean() ? RunState.FAILED : RunState.COMPLETED;
+        context = context.withPhase(new PhaseExecution(phaseKey(event),string(event,"projectId"),string(event,"moduleId"),
+                string(event,"phaseId"),string(event,"runtimeId"),status,
+                event.has("testInventoryComplete") ? string(event,"testInventoryComplete") : "unknown",reported));
+    }
+
+    private TestResult test(JsonObject event,JsonObject test,int ordinal,TestStatus forced) throws IOException {
+        String phase = phaseKey(event), localId = string(test,"id");
+        if (localId.isBlank()) localId = string(test,"name") + "#" + ordinal;
+        Path source = sourcePath(string(test,"source")); int line = Math.toIntExact(number(test,"line",0));
+        Attribution role = switch (string(test,"locationRole")) {
+            case "test-declaration" -> Attribution.TEST_DECLARATION;
+            case "failure-location" -> Attribution.FAILURE_LOCATION;
+            default -> Attribution.REPORTED_TEST_LOCATION;
+        };
+        List<Association> locations = source != null && line > 0
+                ? List.of(new Association(source,line,role,"Adapter-reported test/failure location; not production execution coverage")) : List.of();
+        TestStatus status = forced;
+        if (status == null) try { status = TestStatus.valueOf(string(test,"status").toUpperCase(Locale.ROOT)); }
+        catch (IllegalArgumentException unknown) { status = TestStatus.UNKNOWN; }
+        TestSelector selector = null;
+        if (test.has("selector") && test.get("selector").isJsonObject()) {
+            JsonObject value = test.getAsJsonObject("selector");
+            Path manifest = sourcePath(string(value,"manifest"));
+            boolean exact = value.has("exact") && value.get("exact").getAsBoolean();
+            selector = new TestSelector(string(value,"kind"),string(value,"value"),string(value,"phaseKey"),
+                    string(value,"runtimeId"),string(value,"adapterId"),manifest,exact && manifest != null,
+                    exact && manifest == null ? "Selector manifest is outside trusted source roots" : string(value,"reason"));
+            if (selector.exact() && (!selector.phaseKey().equalsIgnoreCase(string(event,"phaseKey"))
+                    || !selector.runtimeId().equals(string(event,"runtimeId")))) throw new IOException("Test selector execution identity mismatch");
+        }
+        return new TestResult(runId + "/" + phase + "/" + localId,runId,string(event,"packageId"),string(test,"name"),
+                string(event,"projectId"),string(event,"moduleId"),string(event,"packageId"),string(event,"phaseId"),
+                string(event,"runtimeId"),phase,status,Freshness.UNKNOWN,Math.max(0,number(test,"durationMs",0)),
+                string(test,"message"),locations,selector,sourcePath(string(event,"moduleRoot")),string(event,"repositoryId"));
+    }
+    private void testEvent(JsonObject event,boolean started) throws IOException {
+        if (!event.has("test") || !event.get("test").isJsonObject()) throw new IOException("Missing progressive test identity");
+        JsonObject value = event.getAsJsonObject("test");
+        if (string(value,"id").isBlank()) throw new IOException("Progressive test events require stable IDs");
+        String phase = phaseKey(event); TestResult next = test(event,value,0,started ? TestStatus.PENDING : null);
+        var results = new LinkedHashMap<String,TestResult>(); phases.getOrDefault(phase,List.of()).forEach(item -> results.put(item.id(),item));
+        TestResult previous = results.get(next.id());
+        if (started && previous != null && previous.status() != TestStatus.PENDING) throw new IOException("Completed test restarted without a new invocation");
+        results.put(next.id(),next); phases.put(phase,List.copyOf(results.values()));
+        message = (started ? "Running " : "Finished ") + next.name() + " · " + next.runtime();
+    }
+
+    private ExecutionContext context(JsonObject event) throws IOException {
+        List<Repository> repositories = new ArrayList<>(); Set<String> identifiers = new HashSet<>();
+        for (JsonElement item : array(event,"repositories")) {
+            if (repositories.size() >= 128) throw new IOException("Too many source repositories");
+            JsonObject value = item.getAsJsonObject(); String id = string(value,"id");
+            if (id.isBlank() || id.length() > 1024 || !identifiers.add(id)) throw new IOException("Invalid or duplicate repository identity");
+            Path path = root.resolve(string(value,"root")).toAbsolutePath().normalize();
+            if (path.getParent() == null || !Files.isDirectory(path)) throw new IOException("Invalid source repository root");
+            if (!path.startsWith(root) && !trustRepositoryManifest) continue;
+            repositories.add(new Repository(id,path,string(value,"worktree")));
+        }
+        Map<String,String> capabilities = new LinkedHashMap<>();
+        if (event.has("capabilities") && event.get("capabilities").isJsonObject()) event.getAsJsonObject("capabilities").entrySet()
+                .forEach(entry -> { if (entry.getValue().isJsonPrimitive()) capabilities.put(entry.getKey(),entry.getValue().getAsString()); });
+        if (event.has("selectionSHA256")) capabilities.put("selectionSHA256",string(event,"selectionSHA256"));
+        return new ExecutionContext(repositories,capabilities);
     }
 
     private void readCounters(JsonObject artifact,Map<Path,Map<Integer,Coverage>> destination,boolean incomplete) throws IOException {
         if (number(artifact,"schemaVersion",-1) != 1 || !string(artifact,"format").equals("jacoco-lines-v1"))
             throw new IOException("Unsupported JaCoCo precision schema");
         for (JsonElement entry : array(artifact,"files")) {
-            JsonObject file = entry.getAsJsonObject(); Path source = localPath(string(file,"source"));
+            JsonObject file = entry.getAsJsonObject(); Path source = sourcePath(string(file,"source"));
             if (source == null) continue;
             JsonElement encodedProof = file.get("provenance");
             if (encodedProof != null && !encodedProof.isJsonObject()) throw new IOException("Malformed coverage provenance object");
             JsonObject evidence = encodedProof == null ? new JsonObject() : encodedProof.getAsJsonObject();
-            CoverageProof proof = string(evidence,"status").equals("verified") ? CoverageProof.read(evidence,root) : null;
-            boolean mismatch = string(evidence,"status").equals("mismatch") || proof != null && !proof.matchesClasses(root);
+            CoverageProof proof = string(evidence,"status").equals("verified") ? CoverageProof.read(evidence,root,context.sourceRoots(root)) : null;
+            boolean mismatch = string(evidence,"status").equals("mismatch") || proof != null && !proof.matchesClasses(context.sourceRoots(root));
             for (JsonElement element : array(file,"lines")) {
                 JsonObject counters = element.getAsJsonObject();
                 int line = Math.toIntExact(number(counters,"line",0)); if (line < 1) continue;
@@ -196,7 +273,7 @@ public final class CherryEvents {
     private void readLcov(String text,Map<Path,Map<Integer,Coverage>> destination,boolean incomplete) {
         Path source = null;
         for (String record : text.split("\\R")) {
-            if (record.startsWith("SF:")) source = localPath(record.substring(3));
+            if (record.startsWith("SF:")) source = sourcePath(record.substring(3));
             else if (source != null && record.startsWith("DA:")) {
                 String[] counts = record.substring(3).split(",");
                 if (counts.length < 2) continue;
@@ -239,7 +316,17 @@ public final class CherryEvents {
             if (!current.isEmpty()) coverage.put(file,current);
             else coverage.remove(file);
         });
-        return new Run(runId,root,state,results,coverage,before,message,htmlReport,sequence,coverageAvailability);
+        var collections = observations.values().stream().flatMap(Collection::stream).map(observation -> {
+            var values = new LinkedHashMap<Path,Map<Integer,Coverage>>();
+            observation.coverage().forEach((file,lines) -> {
+                var current = new LinkedHashMap<Integer,Coverage>();
+                lines.forEach((line,value) -> current.put(line,terminal && (!after.containsKey(file)
+                        || !Objects.equals(value.sourceHash(),after.get(file))) ? value.withFreshness(Freshness.STALE) : value));
+                values.put(file,current);
+            });
+            return observation.withCoverage(values);
+        }).toList();
+        return new Run(runId,root,state,results,coverage,before,message,htmlReport,sequence,coverageAvailability,collections,context);
     }
 
     private static Coverage merge(Coverage first,Coverage second) {
@@ -261,21 +348,32 @@ public final class CherryEvents {
         state = cancelled ? RunState.CANCELLED : RunState.INCOMPLETE;
         Run run = snapshot(); terminal = true;
         return new Run(run.id(),root,cancelled ? RunState.CANCELLED : RunState.INCOMPLETE,run.tests(),
-                run.coverage(),run.sourceHashes(),reason,run.htmlReport(),sequence,run.coverageAvailability());
+                run.coverage(),run.sourceHashes(),reason,run.htmlReport(),sequence,run.coverageAvailability(),run.collections(),run.context());
     }
     private Map<Path,String> hashes(JsonObject event,String field) {
         Map<Path,String> result = new LinkedHashMap<>();
         if (event.has(field) && event.get(field).isJsonObject()) event.getAsJsonObject(field).entrySet().forEach(entry -> {
-            Path path = localPath(entry.getKey());
+            Path path = sourcePath(entry.getKey());
             String value = entry.getValue().getAsString();
             if (path != null && value.matches("[a-fA-F0-9]{64}")) result.put(path,value.toLowerCase(Locale.ROOT));
         });
         return result;
     }
     private Path localPath(String value) {
+        return confined(value,List.of(root));
+    }
+    private Path sourcePath(String value) { return confined(value,context.sourceRoots(root)); }
+    private Path confined(String value,List<Path> roots) {
         if (value.isBlank()) return null;
         Path path = root.resolve(value).toAbsolutePath().normalize();
-        return path.startsWith(root) ? path : null;
+        for (Path allowed : roots) if (path.startsWith(allowed)) {
+            try {
+                Path existing = path;
+                while (existing != null && !Files.exists(existing,LinkOption.NOFOLLOW_LINKS)) existing = existing.getParent();
+                if (existing != null && existing.toRealPath().startsWith(allowed.toRealPath())) return path;
+            } catch (IOException unavailable) { return null; }
+        }
+        return null;
     }
     private static String phaseKey(JsonObject event) throws IOException {
         if (event.has("phaseKey")) {

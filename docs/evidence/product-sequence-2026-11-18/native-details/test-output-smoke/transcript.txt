@@ -1,0 +1,11 @@
+✖ ResultsTest 4 tests  10 ms · 2 failed
+  ✖ fails              <1 ms
+      AssertionFailedError: Deliberate output fixture failure
+      at ResultsTest.fails(ResultsTest.java:4)
+  ! aborted            8 ms
+      TestAbortedException: Assumption failed: Fixture assumption
+      at ResultsTest.aborted(ResultsTest.java:6)
+  ✔ passes             <1 ms
+  ○ skipped            <1 ms
+      Disabled fixture
+Test all tests · Java 25 — 1 failed · 1 of 4 passed · 110 ms

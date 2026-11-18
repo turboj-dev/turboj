@@ -54,6 +54,12 @@ class TestSourceResolverTest {
         assertEquals(3, tests.get(2).associations().getFirst().line());
         for (int i = 3; i < tests.size(); i++) assertTrue(tests.get(i).associations().isEmpty());
     }
+    @Test void knownCherryJUnitAnnotationResolvesWithoutGuessingOtherComposedAnnotations() throws Exception {
+        Path cherry = write("C.java","import com.cherrytest.junit.CherryTest; class C { @CherryTest(scope=\"none\") void works() {} }");
+        Path custom = write("D.java","@interface CherryTest {} class D { @CherryTest void works() {} }");
+        var tests = TestSourceResolver.resolve(run(hashes(cherry,custom),"C::works","D::works")).tests();
+        assertEquals(cherry,tests.getFirst().associations().getFirst().file()); assertTrue(tests.getLast().associations().isEmpty());
+    }
 
     @Test void duplicateClassesAndOverloadedMethodNamesCannotChooseAnArbitraryDeclaration() throws Exception {
         Path first = write("one/SameTest.java", "package p; class SameTest { @org.junit.jupiter.api.Test void check() {} }");
@@ -61,6 +67,22 @@ class TestSourceResolverTest {
         assertTrue(TestSourceResolver.resolve(run(hashes(first, second), "p.SameTest::check")).tests().getFirst().associations().isEmpty());
         Path overloaded = write("Overloaded.java", "package p; class Overloaded { @org.junit.jupiter.api.Test void check() {} void check(int i) {} }");
         assertTrue(TestSourceResolver.resolve(run(hashes(overloaded), "p.Overloaded::check")).tests().getFirst().associations().isEmpty());
+    }
+    @Test void identicalQualifiedTestsInDistinctDeclaredModulesResolveWithinTheirActualScope() throws Exception {
+        Path first = write("one/SameTest.java","package p; class SameTest { @org.junit.jupiter.api.Test void check() {} }");
+        Path second = write("two/SameTest.java","package p; class SameTest { @org.junit.jupiter.api.Test void check() {} }");
+        List<TestResult> scoped = new ArrayList<>();
+        for (Path file : List.of(first,second)) {
+            TestResult original = test("p.SameTest::check");
+            scoped.add(new TestResult(file.toString(),original.runId(),original.suite(),original.name(),original.project(),original.module(),
+                    original.packageName(),original.phase(),original.runtime(),file.getParent().toString(),original.status(),original.freshness(),
+                    0,"",List.of(),null,file.getParent(),file.getParent().toString()));
+        }
+        Run run = new Run("run",root,RunState.COMPLETED,scoped,Map.of(),hashes(first,second),"",null,1);
+        var resolved = TestSourceResolver.resolve(run).tests();
+        assertEquals(first,resolved.getFirst().associations().getFirst().file());
+        assertEquals(second,resolved.getLast().associations().getFirst().file());
+        assertEquals(scoped.getLast().repositoryId(),resolved.getLast().repositoryId());
     }
 
     @Test void changedSourceAndStaleRunsCannotReuseCachedDeclarationEvidence() throws Exception {

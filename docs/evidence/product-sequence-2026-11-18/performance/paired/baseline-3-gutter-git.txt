@@ -1,0 +1,72 @@
+{
+  "runtime": "25.0.4.1+10-LTS",
+  "os": "Mac OS X 26.5.1 aarch64",
+  "processors": 10,
+  "conditions": "Synthetic source/evidence fixture. Serial offscreen Java2D paint on the EDT; not native input-to-display latency. No assertion that targets are attained. Git runs off the EDT against an owned local temporary repository, no remote. All source/class evidence is unchanged by the harness.",
+  "warmupIterations": 20,
+  "paintSamples": 100,
+  "rendering": [
+    {
+      "logicalLines": 10000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 5.428875,
+      "denseSnapshotInstallMs": 0.059125,
+      "plainPaintMicros": {
+        "max": 1517.209,
+        "p95": 401.5,
+        "median": 361.458,
+        "min": 283.125
+      },
+      "threeLanePaintMicros": {
+        "max": 933.667,
+        "p95": 505.542,
+        "median": 443.0,
+        "min": 416.75
+      },
+      "medianPaintDeltaMicros": 81.54199999999997,
+      "snapshotLookupMicros": {
+        "max": 8.792,
+        "p95": 0.084,
+        "median": 0.042,
+        "min": 0.0
+      }
+    },
+    {
+      "logicalLines": 100000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 16.697333,
+      "denseSnapshotInstallMs": 0.026375,
+      "plainPaintMicros": {
+        "max": 437.458,
+        "p95": 304.667,
+        "median": 286.541,
+        "min": 277.125
+      },
+      "threeLanePaintMicros": {
+        "max": 744.667,
+        "p95": 495.5,
+        "median": 466.042,
+        "min": 438.167
+      },
+      "medianPaintDeltaMicros": 179.50099999999998,
+      "snapshotLookupMicros": {
+        "max": 1.375,
+        "p95": 0.042,
+        "median": 0.042,
+        "min": 0.0
+      }
+    }
+  ],
+  "git": {
+    "logicalLines": 10000,
+    "coldMs": 48.626083,
+    "samples": 15,
+    "includes": "process launch, Git baseline lookup, snapshot files, patch parse, cleanup",
+    "warmMicros": {
+      "max": 44006.541,
+      "p95": 44006.541,
+      "median": 40074.875,
+      "min": 37808.333
+    }
+  }
+}

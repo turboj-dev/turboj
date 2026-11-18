@@ -1,0 +1,57 @@
+cherry-test init: 2 projects, 2 packages, 0 test(s) (0 unit, 0 integration, 0 scoped)
+  first/same-name — unit
+  second/same-name — unit
+
+cherry-test run: 20261118-143215-b2b5b0 (/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-143215-b2b5b0)
+
+==> first/same-name/unit (maven)
+  demo.PriceTest
+    ✓ appliesDiscount                                                                ok        17ms
+    ✓ keepsPriceWithoutDiscount                                                      ok         2ms
+  tests
+    ✗ runner                                                                         FAIL       0ms
+      ! coverage import failed: no measured source lines inside selected workspace
+  3 tests · 2 ok · 1 failed · 0 skipped · 19ms
+  failed: coverage import failed: no measured source lines inside selected workspace
+==> second/same-name/unit (maven)
+  demo.PriceTest
+    ✓ appliesDiscount                                                                ok        16ms
+    ✓ keepsPriceWithoutDiscount                                                      ok         2ms
+  tests
+    ✗ runner                                                                         FAIL       0ms
+      ! coverage import failed: no measured source lines inside selected workspace
+  3 tests · 2 ok · 1 failed · 0 skipped · 18ms
+  failed: coverage import failed: no measured source lines inside selected workspace
+==> report snapshot
+==> html report
+crap: 0 functions · worst 0.0 · 0 at or above 30 (0.0%) · crap load 0.0
+complexity 0 · total CRAP 0.0 · mean 0.0 · median 0.0
+
+cherry-test FA… run:20261118-143215-b2b5b0   pkg 0/2 f… tests run:6 skip:0 fail:2 ok:67%   all:0.0% unit:- it:- diff:0.0%                             report: /private/tmp/turboj-cherry-feedback-m99ac…
+
+projects
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+project    package                                          unit                unit_fn                                     it                  it_fn                                 merged status     
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+first      same-name                                           -                      -                                      -                      -                                      - FAIL       
+second     same-name                                           -                      -                                      -                      -                                      - FAIL       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALL        (changed)                                           -                      -                                      -                      -                                      - ALL        
+
+tests
+first       3 run · 2 ok · 1 fail · 0 skip · 19ms total · 9ms avg · 2ms fastest · 17ms slowest
+  unit          3 run · 2 ok · 1 fail · 0 skip · 19ms total · 9ms avg · 2ms fastest · 17ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     first.same-name                    17       ok       ok
+    same-name: demo.PriceTest::keepsPriceWithoutDiscount                     none                     first.same-name                     2       ok       ok
+    same-name: runner                                                        none                     first.same-name                     0     FAIL     FAIL
+second      3 run · 2 ok · 1 fail · 0 skip · 18ms total · 9ms avg · 2ms fastest · 16ms slowest
+  unit          3 run · 2 ok · 1 fail · 0 skip · 18ms total · 9ms avg · 2ms fastest · 16ms slowest
+    same-name: demo.PriceTest::appliesDiscount                               none                     second.same-name                   16       ok       ok
+    same-name: demo.PriceTest::keepsPriceWithoutDiscount                     none                     second.same-name                    2       ok       ok
+    same-name: runner                                                        none                     second.same-name                    0     FAIL     FAIL
+
+mini
+  unit            3 run · 2 ok · 1 fail · 0 skip · 19ms total · 9ms avg · 2ms fastest · 17ms slowest
+  unit            3 run · 2 ok · 1 fail · 0 skip · 18ms total · 9ms avg · 2ms fastest · 16ms slowest
+  all             6 run · 4 ok · 2 fail · 0 skip · 37ms total · 9ms avg · 2ms fastest · 17ms slowest
+

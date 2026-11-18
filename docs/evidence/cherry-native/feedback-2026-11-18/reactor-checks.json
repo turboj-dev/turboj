@@ -1,0 +1,74 @@
+[
+  {
+    "name": "dev.turboj.testing.intelligence.CherryEventsTest",
+    "tests": "32",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.042"
+  },
+  {
+    "name": "dev.turboj.testing.intelligence.CherryRunHistoryTest",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.004"
+  },
+  {
+    "name": "dev.turboj.testing.intelligence.TestSourceResolverTest",
+    "tests": "10",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.062"
+  },
+  {
+    "name": "dev.turboj.testing.CherryExecutionReceiptTest",
+    "tests": "5",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.008"
+  },
+  {
+    "name": "dev.turboj.testing.CherrySaveWorkflowTest",
+    "tests": "8",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "7.145"
+  },
+  {
+    "name": "dev.turboj.testing.CherryTestProcessLifecycleTest",
+    "tests": "7",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "5.76"
+  },
+  {
+    "name": "dev.turboj.testing.CherryExactSelectionTest",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.003"
+  },
+  {
+    "name": "dev.turboj.testing.CoverageCollectionDetailsTest",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.008"
+  },
+  {
+    "name": "dev.turboj.testing.LineIntelligenceControllerTest",
+    "tests": "12",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.068"
+  }
+]

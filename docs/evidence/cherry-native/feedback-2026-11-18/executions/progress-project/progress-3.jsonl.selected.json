@@ -1,0 +1,1 @@
+{"schemaVersion":1,"selectors":[{"kind":"junit-method","value":"demo.PriceTest::demo_project_price_suite_fullprice_test","phaseKey":"3ca7615c0405ed495d1fe67f07c4378ae1f6062635381fd218b421fa4c17d6aa","runtimeId":"maven","adapterId":"maven","manifest":"/private/tmp/turboj-cherry-feedback-m99ac7s2/progress-project/pom.xml","exact":true}]}

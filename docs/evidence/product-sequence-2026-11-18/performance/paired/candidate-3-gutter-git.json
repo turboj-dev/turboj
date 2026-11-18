@@ -1,0 +1,72 @@
+{
+  "runtime": "25.0.4.1+10-LTS",
+  "os": "Mac OS X 26.5.1 aarch64",
+  "processors": 10,
+  "conditions": "Synthetic source/evidence fixture. Serial offscreen Java2D paint on the EDT; not native input-to-display latency. No assertion that targets are attained. Git runs off the EDT against an owned local temporary repository, no remote. All source/class evidence is unchanged by the harness.",
+  "warmupIterations": 20,
+  "paintSamples": 100,
+  "rendering": [
+    {
+      "logicalLines": 10000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 5.847,
+      "denseSnapshotInstallMs": 0.046083,
+      "plainPaintMicros": {
+        "min": 281.708,
+        "median": 358.708,
+        "p95": 392.708,
+        "max": 460.334
+      },
+      "threeLanePaintMicros": {
+        "min": 428.25,
+        "median": 453.667,
+        "p95": 489.5,
+        "max": 506.333
+      },
+      "medianPaintDeltaMicros": 94.95899999999995,
+      "snapshotLookupMicros": {
+        "min": 0.0,
+        "median": 0.083,
+        "p95": 0.125,
+        "max": 16.792
+      }
+    },
+    {
+      "logicalLines": 100000,
+      "viewport": "1200x800",
+      "denseSnapshotConstructionMs": 15.351291,
+      "denseSnapshotInstallMs": 0.038208,
+      "plainPaintMicros": {
+        "min": 281.0,
+        "median": 289.416,
+        "p95": 375.667,
+        "max": 504.709
+      },
+      "threeLanePaintMicros": {
+        "min": 463.417,
+        "median": 524.833,
+        "p95": 850.542,
+        "max": 4149.416
+      },
+      "medianPaintDeltaMicros": 235.41699999999997,
+      "snapshotLookupMicros": {
+        "min": 0.0,
+        "median": 0.042,
+        "p95": 0.042,
+        "max": 1.875
+      }
+    }
+  ],
+  "git": {
+    "warmMicros": {
+      "min": 39844.125,
+      "median": 40989.792,
+      "p95": 45852.084,
+      "max": 45852.084
+    },
+    "includes": "process launch, Git baseline lookup, snapshot files, patch parse, cleanup",
+    "samples": 15,
+    "coldMs": 51.815834,
+    "logicalLines": 10000
+  }
+}

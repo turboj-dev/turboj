@@ -1,0 +1,81 @@
+PASS 320px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 320px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 320px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 320px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 320px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 320px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 320px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 320px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 320px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 320px spring-source: WCAG 2.2 AA automated audit
+PASS 320px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 320px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 320px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 320px curl-result: WCAG 2.2 AA automated audit
+PASS 320px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 320px: recorded scenes produce no browser or asset errors
+PASS 390px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 390px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 390px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 390px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 390px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 390px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 390px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 390px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 390px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 390px spring-source: WCAG 2.2 AA automated audit
+PASS 390px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 390px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 390px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 390px curl-result: WCAG 2.2 AA automated audit
+PASS 390px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 390px: recorded scenes produce no browser or asset errors
+PASS 768px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 768px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 768px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 768px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 768px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 768px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 768px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 768px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 768px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 768px spring-source: WCAG 2.2 AA automated audit
+PASS 768px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 768px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 768px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 768px curl-result: WCAG 2.2 AA automated audit
+PASS 768px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 768px: recorded scenes produce no browser or asset errors
+PASS 1440px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 1440px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 1440px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 1440px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 1440px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 1440px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 1440px spring-source: WCAG 2.2 AA automated audit
+PASS 1440px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 1440px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 1440px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 1440px curl-result: WCAG 2.2 AA automated audit
+PASS 1440px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 1440px: recorded scenes produce no browser or asset errors
+PASS 1920px rename-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px rename-prepare-result: WCAG 2.2 AA automated audit
+PASS 1920px extract-prepare-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px extract-prepare-result: WCAG 2.2 AA automated audit
+PASS 1920px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px tests-before-refactor-result: WCAG 2.2 AA automated audit
+PASS 1920px autotest-enabled: faithful source, readable layout and keyboard scrolling
+PASS 1920px autotest-enabled: WCAG 2.2 AA automated audit
+PASS 1920px spring-source: faithful source, readable layout and keyboard scrolling
+PASS 1920px spring-source: WCAG 2.2 AA automated audit
+PASS 1920px curl-commandline-open: faithful source, readable layout and keyboard scrolling
+PASS 1920px curl-commandline-open: WCAG 2.2 AA automated audit
+PASS 1920px curl-result: faithful source, readable layout and keyboard scrolling
+PASS 1920px curl-result: WCAG 2.2 AA automated audit
+PASS 1920px: pane resizing is bounded, keyboard accessible and preserves captured state
+PASS 1920px: recorded scenes produce no browser or asset errors
+80 recorded-scene checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/product-sequence-2026-11-18/demo/scenes/

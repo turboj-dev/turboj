@@ -1,0 +1,55 @@
+{
+  "environment": {
+    "maximumHeapBytes": 2147483648,
+    "version": "26.5.1",
+    "architecture": "aarch64",
+    "processors": 10,
+    "os": "Mac OS X",
+    "runtime": "25.0.4.1+10-LTS"
+  },
+  "method": "Synthetic schema-v1 phase/test-result events and LCOV line hits, generated before timing. No test execution or coverage claim. Includes JSON parse, bounded artifact IO/hash checking and immutable snapshot publication after every phase. Source parsing, Swing rendering and OS display latency are excluded. Heap deltas follow requested GC and are approximate retained-heap observations, not an allocation profile.",
+  "measurements": [
+    {
+      "testResults": 10000,
+      "coverageRows": 10000,
+      "events": 12,
+      "eventUtf8Bytes": 890034,
+      "ingestAndPublishMs": 37.275208,
+      "eventImportMs": {
+        "median": 1.520375,
+        "maximum": 9.537833,
+        "minimum": 0.092042,
+        "p95": 9.537833
+      },
+      "snapshotPublishMs": {
+        "median": 1.103833,
+        "maximum": 2.47975,
+        "minimum": 0.031958,
+        "p95": 2.47975
+      },
+      "retainedHeapDeltaBytes": 5592616,
+      "gcCollections": 1
+    },
+    {
+      "testResults": 100000,
+      "coverageRows": 100000,
+      "events": 102,
+      "eventUtf8Bytes": 9193435,
+      "ingestAndPublishMs": 425.296875,
+      "eventImportMs": {
+        "median": 0.781958,
+        "maximum": 57.408416,
+        "minimum": 0.070667,
+        "p95": 1.447458
+      },
+      "snapshotPublishMs": {
+        "median": 1.872042,
+        "maximum": 24.055084,
+        "minimum": 0.048666,
+        "p95": 7.567583
+      },
+      "retainedHeapDeltaBytes": 57935344,
+      "gcCollections": 6
+    }
+  ]
+}

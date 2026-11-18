@@ -1,0 +1,16 @@
+{
+  "status": "Final guarded build PASS; native registry regenerated from identified final artifact; measured renderer bytes unchanged",
+  "preview": "http://127.0.0.1:4322",
+  "files": {
+    "index.html": "d8b06137293ad75c929c06bd18847c9c0209fc477dac75af886376de135e1685",
+    "demo-session/index.html": "1c00cb12c2f631eb436d31aa4ff45a83cbb5b83b5a4a5b4662320c1d530f5f08",
+    "_astro/BaseLayout.BTTLHc1g.css": "67ab4547113a00a50180577f6ec9d65e0a2794d2ffde5fe41bb5cf883f8bf71d",
+    "_astro/ThemeSwitcher.astro_astro_type_script_index_0_lang.Bp-TaI15.js": "b0a0ee646a34418fd043ea7c90a1367f2f900ac21077f671270bc0193a1f18f4",
+    "_astro/TurboJDemo.astro_astro_type_script_index_0_lang.Bi8UFDu1.js": "4c0a9554e9eb985427eb82c0e212af8d9ecb478c73399b34cab8a6f3ec7b624c",
+    "_astro/demo-session.BA9jxZwx.css": "4868ef21f30536dd2ae9ee6c880b33e981a62f42569a5bc2906fd8f698810672",
+    "_astro/index.C6AG6LcS.css": "8f92b4beb25c5a5e79a131667561d9d6efa56263827e49c7a0c716946ff9fc0c",
+    "_astro/session.Bn9-vp6x.css": "18c3cbdd18782348a474c18d318ffcb71e9a9480fe675355647e4af1279e9e6b"
+  },
+  "nativeArtifactSha256": "36ae34e651d3a60a47ba988a85ab91dae61d6b0445fd556137293f0504ea33a9",
+  "finalValidation": "final-validation.json"
+}

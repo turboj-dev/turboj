@@ -16,7 +16,7 @@ public record LiveTemplateExpansion(String text, int exit, List<String> names, L
             body = body.replaceAll("(?m)^  ", java.util.regex.Matcher.quoteReplacement(" ".repeat(tabWidth)));
         }
         body = body.replace("\n", separator + indent);
-        var values = new LinkedHashMap<String, String>(); var editable = new LinkedHashSet<String>(); var unresolved = new ArrayList<String>();
+        var values = new LinkedHashMap<String, String>(); values.put("SELECTION", selected); values.put("__body", template.body()); var editable = new LinkedHashSet<String>(); var unresolved = new ArrayList<String>();
         for (var variable : definitions.values()) {
             String value = evaluate(variable.expression(), context, values, variable.name());
             if (value == null) {
@@ -52,8 +52,13 @@ public record LiveTemplateExpansion(String text, int exit, List<String> names, L
                 names.stream().map(n -> List.copyOf(ranges.get(n))).toList(), Set.copyOf(editable), List.copyOf(unresolved));
     }
     public static String evaluate(String expression, JavaTemplateContext context, Map<String, String> values, String name) {
+        return evaluate(expression, context, values, name, 0);
+    }
+    private static String evaluate(String expression, JavaTemplateContext context, Map<String, String> values, String name, int depth) {
+        if (depth > 24) return null;
         String e = expression.strip();
         if (e.isEmpty()) return null;
+        if (e.equals("SELECTION") && context.semantics() != null && !context.semantics().selectionType().isEmpty()) return context.semantics().selectionType();
         if (values.containsKey(e)) return values.get(e);
         String literal = literal(e); if (literal != null) return literal;
         if (e.equals("className") || e.equals("className()")) return nonempty(context.className());
@@ -72,35 +77,105 @@ public record LiveTemplateExpansion(String text, int exit, List<String> names, L
             String value = values.get(e.substring(13, e.length() - 1).strip());
             return value == null ? null : value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
         }
+        if (e.equals("expectedType()")) return context.semantics() == null ? null : nonempty(context.semantics().expectedType());
+        if (e.equals("rightSideType()")) return rightSideType(context, values, name);
+        if (e.equals("castToLeftSideType()")) {
+            String body = values.getOrDefault("__body", "");
+            var pattern = java.util.regex.Pattern.compile("\\$(\\w+)\\$\\s+\\$\\w+\\$\\s*=\\s*\\$" + java.util.regex.Pattern.quote(name) + "\\$\\s*\\$(\\w+)\\$\\.(\\w+)\\(");
+            var match = pattern.matcher(body);
+            if (!match.find() || context.semantics() == null) return null;
+            String left = values.get(match.group(1));
+            String right = context.semantics().expressionTypes().get(values.get(match.group(2)) + "#" + match.group(3));
+            if (left == null || right == null) return null;
+            if (sameType(left, right) || parents(context, right).stream().anyMatch(t -> sameType(t, left))) return "";
+            if (parents(context, left).stream().anyMatch(t -> sameType(t, right))) return "(" + left + ")";
+            return null;
+        }
         if (e.equals("arrayVariable()")) return variable(context, type -> type.endsWith("[]"));
-        if (e.equals("iterableVariable()")) return variable(context, type -> type.endsWith("[]") || type.matches("(?:java.util.)?(?:List|Set|Collection|Iterable|ArrayList|HashSet)(?:<.*>)?"));
-        if ((e.startsWith("variableOfType(") || e.startsWith("suggestFirstVariableName(")) && e.endsWith(")")) {
-            String arg = e.substring(e.indexOf('(') + 1, e.length() - 1); String type = literal(arg);
-            if (type == null) type = values.get(arg);
-            if (type == null) return null;
-            String wanted = type;
-            return variable(context, t -> wanted.isEmpty() || wanted.equals("Object") || wanted.equals("java.lang.Object")
-                    || raw(t).equals(raw(wanted)));
-        }
-        for (String function : List.of("componentTypeOf", "iterableComponentType", "guessElementType", "typeOfVariable"))
-            if (e.startsWith(function + "(") && e.endsWith(")")) {
-                String value = values.get(e.substring(function.length() + 1, e.length() - 1));
-                String type = context.variables().get(value);
+        if (e.equals("iterableVariable()")) return variable(context, type -> type.endsWith("[]") || isType(context, type, "java.lang.Iterable")
+                || context.semantics() == null && type.matches("(?:java.util.)?(?:List|Set|Collection|Iterable|ArrayList|HashSet)(?:<.*>)?"));
+        int open = e.indexOf('(');
+        if (open > 0 && e.endsWith(")")) {
+            String function = e.substring(0, open); List<String> args = macroArguments(e.substring(open + 1, e.length() - 1));
+            if (args == null) return null;
+            var evaluated = new ArrayList<String>();
+            for (String arg : args) evaluated.add(evaluate(arg, context, values, name, depth + 1));
+            if (evaluated.stream().anyMatch(Objects::isNull)) return null;
+            if (Set.of("variableOfType", "suggestFirstVariableName").contains(function) && evaluated.size() == 1) {
+                String wanted = evaluated.getFirst();
+                return variable(context, type -> wanted.isEmpty() || isType(context, type, wanted));
+            }
+            if (function.equals("typeOfVariable") && evaluated.size() == 1) return typeOf(context, evaluated.getFirst());
+            if (Set.of("componentTypeOf", "iterableComponentType", "guessElementType").contains(function) && evaluated.size() == 1) {
+                String type = typeOf(context, evaluated.getFirst());
+                if (type == null && (args.getFirst().contains("(") || args.getFirst().equals("SELECTION") || args.getFirst().startsWith("\""))
+                        && JavaTemplateTypes.type(evaluated.getFirst())) type = evaluated.getFirst();
                 if (type == null) return null;
-                if (function.equals("typeOfVariable")) return type;
                 if (type.endsWith("[]")) return type.substring(0, type.length() - 2);
-                if (!function.equals("componentTypeOf")) { var args = arguments(type); return args.isEmpty() ? "Object" : args.getFirst(); }
+                if (function.equals("componentTypeOf")) return null;
+                var types = arguments(type);
+                if (types.isEmpty()) for (String parent : parents(context, type)) {
+                    if (raw(parent).equals("Iterable") || raw(parent).equals("Collection")) { types = arguments(parent); if (!types.isEmpty()) break; }
+                }
+                return types.isEmpty() ? "java.lang.Object" : readable(types.getFirst());
             }
-        if (e.startsWith("typeParameterOf(") && e.endsWith(")")) {
-            String[] args = e.substring(16, e.length() - 1).split(",");
-            if (args.length == 2) {
-                var types = arguments(context.variables().getOrDefault(values.get(args[0]), ""));
-                try { int at = Integer.parseInt(args[1].replace("\"", "").strip()); return at >= 0 && at < types.size() ? types.get(at) : null; }
-                catch (NumberFormatException ignored) { return null; }
+            if (function.equals("typeParameterOf") && evaluated.size() == 2) {
+                String type = typeOf(context, evaluated.getFirst()); if (type == null) return null;
+                var types = arguments(type);
+                try { int index = Integer.parseInt(evaluated.get(1)); return index >= 0 && index < types.size() ? readable(types.get(index)) : null; }
+                catch (NumberFormatException invalid) { return null; }
+            }
+            if (function.equals("subtypes") && evaluated.size() == 1 && context.semantics() != null) {
+                String type = evaluated.getFirst(); var choices = context.semantics().concreteTypes().getOrDefault(type, List.of());
+                if (choices.isEmpty()) choices = context.semantics().concreteTypes().getOrDefault(type.replaceFirst("<.*", ""), List.of());
+                return choices.size() == 1 ? choices.getFirst() : null;
             }
         }
-        // Full expected-type/subtype inference and casts need a semantic provider. Never guess a successful result.
+        // Unknown functions and ambiguous semantic queries remain explicit editable fields.
         return null;
+    }
+    private static String typeOf(JavaTemplateContext context, String value) {
+        if (context.semantics() != null && value.equals("SELECTION")) return nonempty(context.semantics().selectionType());
+        return context.variables().get(value);
+    }
+    private static List<String> parents(JavaTemplateContext context, String type) {
+        return context.semantics() == null ? List.of() : context.semantics().supertypes().getOrDefault(type, List.of());
+    }
+    private static boolean sameType(String left, String right) {
+        return left.equals(right) || !left.contains(".") && left.equals(right.replaceFirst(".*\\.", ""))
+                || !right.contains(".") && right.equals(left.replaceFirst(".*\\.", ""));
+    }
+    private static boolean isType(JavaTemplateContext context, String type, String wanted) {
+        String rawType = type.replaceFirst("<.*", ""), rawWanted = wanted.replaceFirst("<.*", "");
+        if (sameType(rawType, rawWanted)) return true;
+        if (rawWanted.equals("Object") || rawWanted.equals("java.lang.Object"))
+            return !Set.of("boolean", "byte", "short", "int", "long", "char", "float", "double", "void").contains(type);
+        return parents(context, type).stream().anyMatch(parent -> sameType(parent.replaceFirst("<.*", ""), rawWanted));
+    }
+    private static String readable(String type) {
+        if (type.equals("?") || type.startsWith("? super ")) return "java.lang.Object";
+        return type.startsWith("? extends ") ? type.substring(10) : type;
+    }
+    private static String rightSideType(JavaTemplateContext context, Map<String, String> values, String name) {
+        if (context.semantics() == null) return null;
+        String body = values.getOrDefault("__body", "");
+        var pattern = java.util.regex.Pattern.compile("\\$" + java.util.regex.Pattern.quote(name) + "\\$\\s+\\$\\w+\\$\\s*=\\s*(?:\\$CAST\\$\\s*)?\\$(\\w+)\\$\\.(\\w+)\\(");
+        var match = pattern.matcher(body);
+        return match.find() ? context.semantics().expressionTypes().get(values.get(match.group(1)) + "#" + match.group(2)) : null;
+    }
+    private static List<String> macroArguments(String text) {
+        if (text.isBlank()) return List.of();
+        var result = new ArrayList<String>(); int depth = 0, from = 0; boolean quote = false, escape = false;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (quote) { if (escape) escape = false; else if (c == '\\') escape = true; else if (c == '"') quote = false; }
+            else if (c == '"') quote = true;
+            else if (c == '(') { if (++depth > 24) return null; }
+            else if (c == ')') { if (--depth < 0) return null; }
+            else if (c == ',' && depth == 0) { result.add(text.substring(from, i).strip()); from = i + 1; }
+        }
+        if (quote || depth != 0) return null;
+        result.add(text.substring(from).strip()); return result;
     }
     private static String nonempty(String value) { return value.isEmpty() ? null : value; }
     private static String raw(String value) { return value.replaceFirst("<.*", "").replaceFirst(".*\\.", ""); }

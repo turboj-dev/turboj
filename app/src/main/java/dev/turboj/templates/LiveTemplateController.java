@@ -46,6 +46,30 @@ public final class LiveTemplateController implements AutoCloseable {
                            JavaTemplateContext context) {}
     private Offered offered;
 
+    @FunctionalInterface public interface SemanticContext {
+        CompletableFuture<dev.turboj.refactorj.api.JavaIntelligence.TemplateSemantics> inspect(int start, int end);
+    }
+    @FunctionalInterface public interface Postprocessor {
+        CompletableFuture<LiveTemplateTransform.Result> prepare(LiveTemplateCatalog.Template template, int start, int end, int caret, int anchor);
+    }
+    private SemanticContext semanticContext;
+    private Postprocessor postprocessor;
+    private boolean finishing;
+    private PieceTable finishingDocument;
+    private long finishingVersion;
+    private long finishRequest;
+    private Runnable afterConfirm;
+    public void configureSemantics(SemanticContext context, Postprocessor transform) {
+        semanticContext = context; postprocessor = transform;
+    }
+    /** Queue Save/Format until import and format preparation has finished against the current snapshot. */
+    public boolean confirmThen(Runnable command) {
+        invalidateObsoleteFinish();
+        if (!active && !finishing) return false;
+        afterConfirm = command;
+        if (active) editor.confirmTemplate();
+        return true;
+    }
     public void configureSuggestions(BooleanSupplier eligible, Runnable dismissCompetitors) {
         this.eligible = eligible; this.beforeExpansion = dismissCompetitors;
     }
@@ -69,6 +93,7 @@ public final class LiveTemplateController implements AutoCloseable {
     }
     /** Debounced, prefix-indexed work. Java parsing happens only on the worker for a matching prefix. */
     public void changed() {
+        invalidateObsoleteFinish();
         dismissSuggestions();
         if (eligible.getAsBoolean() && !editor.templateActive() && !editor.hasInputComposition()
                 && editor.caretCount() == 1 && editor.getSelectedText().isEmpty() && !editor.isReadOnly())
@@ -161,15 +186,22 @@ public final class LiveTemplateController implements AutoCloseable {
             } catch (Exception failure) { tell("Live templates: " + failure.getMessage()); }
         });
     }
-    public boolean active() { return active; }
+    private void invalidateObsoleteFinish() {
+        if (finishing && (finishingDocument != editor.document() || finishingVersion != editor.version())) {
+            ++finishRequest; finishing = false; afterConfirm = null;
+        }
+    }
+    public boolean active() { invalidateObsoleteFinish(); return active || finishing; }
     public boolean ready() { return catalog != null; }
     public boolean cancel() {
         if (!active || rollback == null) return false;
+        ++finishRequest; finishing = false; afterConfirm = null;
         Runnable action = rollback; editor.finishTemplate(); action.run(); message.accept("Live template cancelled"); return true;
     }
     public boolean expand(boolean explicit) { return expand(explicit, explicit ? null : () -> editor.indent(false)); }
     private boolean expand(boolean explicit, Runnable fallback) {
-        if (editor.templateActive() || editor.hasInputComposition() || editor.caretCount() != 1 || editor.isReadOnly()) return false;
+        invalidateObsoleteFinish();
+        if (finishing || editor.templateActive() || editor.hasInputComposition() || editor.caretCount() != 1 || editor.isReadOnly()) return false;
         var current = catalog;
         if (current == null) { if (explicit) message.accept("Live templates are loading"); return false; }
         String source = editor.getText(); int end = editor.caretOffset(), start = end;
@@ -197,9 +229,11 @@ public final class LiveTemplateController implements AutoCloseable {
         int caret = editor.caretOffset(), anchor = editor.selections().getFirst().anchor(); String name = fileName.get();
         if (pendingContext != null) pendingContext.cancel(false);
         worker.purge(); // Keep at most the running context and the newest queued context.
+        var semantic = semanticContext == null ? CompletableFuture.<dev.turboj.refactorj.api.JavaIntelligence.TemplateSemantics>completedFuture(null)
+                : semanticContext.inspect(start, end);
         pendingContext = worker.submit(() -> {
             try {
-                var context = JavaTemplateContext.inspect(source.substring(0, start) + source.substring(end), start, name);
+                var context = JavaTemplateContext.inspect(source.substring(0, start) + source.substring(end), start, name).resolved(semantic.get());
                 SwingUtilities.invokeLater(() -> {
                     if (closed || request != ticket || document != editor.document() || version != editor.version()
                             || caret != editor.caretOffset() || anchor != editor.selections().getFirst().anchor() || editor.templateActive() || !editor.isFocusOwner()) return;
@@ -261,13 +295,13 @@ public final class LiveTemplateController implements AutoCloseable {
             var groups = expansion.fields().stream().map(g -> g.stream().map(r -> new Selection(start + r.caret(), start + r.anchor())).toList()).toList();
             editor.startTemplate(groups, new Selection(exit, exit), i -> {}, (index, next) -> {
                 // Recompute derived values when leaving a field, using the edited values rather than the original defaults.
-                var values = new LinkedHashMap<String, String>();
+                var values = new LinkedHashMap<String, String>(); values.put("__body", template.body()); values.put("SELECTION", selection);
                 for (int i = 0; i < expansion.names().size(); i++) values.put(expansion.names().get(i), editor.templateText(i));
                 for (var variable : template.variables()) {
                     int i = expansion.names().indexOf(variable.name());
                     if (i < 0 || editable.contains(i) || editor.templateModified(i)) continue;
                     String value = LiveTemplateExpansion.evaluate(variable.expression(), context, values, variable.name());
-                    if (value != null) editor.replaceTemplateText(i, value);
+                    if (value != null) { editor.replaceTemplateText(i, value); values.put(variable.name(), value); }
                 }
                 if (next == EditorComponent.TEMPLATE_CONFIRM) { finishAsTransaction[0] = true; return true; }
                 if (!editor.templateTraversing()) return true;
@@ -277,15 +311,49 @@ public final class LiveTemplateController implements AutoCloseable {
                 editor.selectTemplateStop(editable.get(Math.max(0, target))); return false;
             }, () -> {
                 active = false; rollback = null;
-                if (finishAsTransaction[0] && editor.document() == document && document.canCoalesceSince(checkpoint)) {
-                    try { editor.coalesceEdits(checkpoint, source, beforeLocation); } catch (RuntimeException ignored) { /* Keep separate undo transactions. */ }
+                if (finishAsTransaction[0] && editor.document() == document) {
+                    finishing = true; finishingDocument = document; finishingVersion = editor.version();
+                    long queued = ++finishRequest;
+                    String completed = editor.getText(); long completedVersion = editor.version();
+                    SwingUtilities.invokeLater(() -> {
+                        if (closed || queued != finishRequest) return;
+                        if (!completed.equals(editor.getText()) || completedVersion != editor.version() || editor.document() != document) {
+                            finishing = false; afterConfirm = null; return;
+                        }
+                        finish(template, source, start, end, document, checkpoint, beforeLocation);
+                    });
                 }
             });
             editor.selectTemplateStop(editable.getFirst());
-        }
+        } else finish(template, source, start, end, document, checkpoint, beforeLocation);
         message.accept(expansion.unresolved().isEmpty() ? "Live template: " + template.abbreviation() + " — Tab: next, Enter: finish, Escape: cancel"
                 : "Live template: fill unresolved values — " + String.join("; ", expansion.unresolved()));
         SwingUtilities.invokeLater(editor::requestFocusInWindow);
+    }
+
+    private void finish(LiveTemplateCatalog.Template template, String original, int start, int oldEnd,
+            PieceTable document, long checkpoint, EditorComponent.Location before) {
+        long ticket = ++finishRequest, version = editor.version();
+        int end = document.length() - (original.length() - oldEnd);
+        var selected = editor.selections().getFirst();
+        finishing = true; finishingDocument = document; finishingVersion = version;
+        CompletableFuture<LiveTemplateTransform.Result> future = postprocessor == null || !template.reformat() && !template.shortenNames()
+                ? CompletableFuture.completedFuture(new LiveTemplateTransform.Result(List.of(), selected.caret(), selected.anchor()))
+                : postprocessor.prepare(template, start, end, selected.caret(), selected.anchor());
+        future.whenComplete((result, failure) -> SwingUtilities.invokeLater(() -> {
+            if (closed || ticket != finishRequest) return;
+            finishing = false;
+            if (editor.document() != document || editor.version() != version || editor.isReadOnly()) {
+                afterConfirm = null; message.accept("Template formatting skipped: source changed during preparation"); return;
+            }
+            if (failure == null && !result.edits().isEmpty())
+                editor.applyEdits(version, result.edits(), List.of(new Selection(result.caret(), result.anchor())));
+            if (document.canCoalesceSince(checkpoint)) {
+                try { editor.coalesceEdits(checkpoint, original, before); } catch (RuntimeException ignored) { /* Preserve separate valid undo entries. */ }
+            }
+            if (failure != null) message.accept("Template kept; automatic imports/formatting unavailable: " + failure.getMessage());
+            Runnable command = afterConfirm; afterConfirm = null; if (command != null) command.run();
+        }));
     }
 
     public void configure() {

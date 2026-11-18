@@ -1,0 +1,37 @@
+PASS only Play/Pause and the mini-prompt are visible; secondary controls and evidence remain hidden
+PASS initial Hello World advances at actual captured intervals and holds without continuing
+PASS keyboard pause/resume, hidden-page, offscreen, and manual-pause clocks suspend without skipping
+PASS every chapter restores independently and every static checkpoint matches recorded source/output
+PASS Rename and Extract Method render the real read-only fields, before/after previews, and warnings
+PASS recorded Auto Test and Auto Run menus show their independent checked states
+PASS theme changes preserve the exact paused source/output and elapsed time
+PASS 100 chapter switches do not accumulate DOM nodes or replay state
+PASS the sole Play button traverses every captured interval and loops after a suspended editorial hold
+PASS controls and code regions have accessible names; source is outside live regions; browser is error-free
+PASS resuming exactly at a hidden-page chapter or loop boundary advances without a stranded clock
+PASS late chapter fetches cannot overwrite a newer selection
+PASS manifest fetch failure remains visible in the single mini-prompt
+PASS chapter fetch failure remains visible in the single mini-prompt
+PASS chapter loads preserve Play focus for Space to pause, without stealing a newer focus choice
+PASS 320px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 320px: fixed stage, readable scrollable source, and no page overflow
+PASS 320px: no browser errors
+PASS 390px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 390px: fixed stage, readable scrollable source, and no page overflow
+PASS 390px: WCAG 2.2 AA automated audit
+PASS 390px: no browser errors
+PASS 768px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 768px: fixed stage, readable scrollable source, and no page overflow
+PASS 768px: no browser errors
+PASS 1440px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 1440px: fixed stage, readable scrollable source, and no page overflow
+PASS 1440px: WCAG 2.2 AA automated audit
+PASS reduced motion holds the final native result without automatic repetition
+PASS 1440px: no browser errors
+PASS 1920px: reduced motion waits for explicit Play and keeps the explanatory phrase static
+PASS 1920px: fixed stage, readable scrollable source, and no page overflow
+PASS 1920px: no browser errors
+PASS 320px: the sole Play button continues and replays from keyboard focus without a separate scroll action
+PASS 390px: the sole Play button continues and replays from keyboard focus without a separate scroll action
+PASS no-JavaScript mode retains genuine screenshot and accessible evidence link without inert controls
+36 hero checks passed; 0 failed. Artifacts: /Users/luca/Workspace/turboj/website/artifacts/product-sequence-2026-11-18/demo/

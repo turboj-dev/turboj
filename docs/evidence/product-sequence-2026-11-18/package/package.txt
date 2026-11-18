@@ -1,0 +1,7 @@
+Build receipt verify: /Users/luca/Workspace/turboj/app/target/build-receipt.json
+target/product-sequence-final-2026-11-18/TurboJ.app: replacing existing signature
+Build receipt package: target/product-sequence-final-2026-11-18/TurboJ.package-receipt.json
+Build receipt verify-package: /Users/luca/Workspace/turboj/target/package.8xYmRD/image/TurboJ.package-receipt.json
+created: /Users/luca/Workspace/turboj/target/product-sequence-final-2026-11-18/TurboJ-1.0.10.dmg
+Build receipt verify-package: target/product-sequence-final-2026-11-18/TurboJ.package-receipt.json
+Created target/product-sequence-final-2026-11-18/TurboJ.app (ad-hoc signed local build; not Developer ID signed or notarized).

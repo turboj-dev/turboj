@@ -1,0 +1,83 @@
+{
+  "runId": "20261118-150444-25eb98",
+  "outcome": "COMPLETED",
+  "tests": 4,
+  "passed": 4,
+  "failed": 0,
+  "genuineStartedEvents": 0,
+  "genuineCompletedEvents": 0,
+  "repositories": [
+    {
+      "id": "3d750c92f69d404ca74f2142d239654a5354d5b3c9fc35526e79609c8f763b41",
+      "root": "/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace"
+    },
+    {
+      "id": "d34ca94e1905074d31d331a42d5fcb93028fc76e131b642f653a31c50a8cf3b0",
+      "root": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one"
+    },
+    {
+      "id": "0f37c089f03a6caafc568feda7b889eeba18a848844650b463ec0387d69b4862",
+      "root": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-two"
+    }
+  ],
+  "collections": 2,
+  "capabilities": {
+    "testProgressScope": "Cherry JUnit extension lifecycle; other adapters report phase progress only",
+    "exactSelectors": "true",
+    "testProgress": "true"
+  },
+  "testDetails": [
+    {
+      "selector": "junit-method",
+      "module": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one",
+      "exact": true,
+      "repository": "d34ca94e1905074d31d331a42d5fcb93028fc76e131b642f653a31c50a8cf3b0",
+      "name": "demo.PriceTest::appliesDiscount",
+      "locations": [
+        "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one/src/test/java/demo/PriceTest.java:8"
+      ]
+    },
+    {
+      "selector": "junit-method",
+      "module": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one",
+      "exact": true,
+      "repository": "d34ca94e1905074d31d331a42d5fcb93028fc76e131b642f653a31c50a8cf3b0",
+      "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+      "locations": [
+        "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one/src/test/java/demo/PriceTest.java:13"
+      ]
+    },
+    {
+      "selector": "junit-method",
+      "module": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-two",
+      "exact": true,
+      "repository": "0f37c089f03a6caafc568feda7b889eeba18a848844650b463ec0387d69b4862",
+      "name": "demo.PriceTest::appliesDiscount",
+      "locations": [
+        "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-two/src/test/java/demo/PriceTest.java:8"
+      ]
+    },
+    {
+      "selector": "junit-method",
+      "module": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-two",
+      "exact": true,
+      "repository": "0f37c089f03a6caafc568feda7b889eeba18a848844650b463ec0387d69b4862",
+      "name": "demo.PriceTest::keepsPriceWithoutDiscount",
+      "locations": [
+        "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-two/src/test/java/demo/PriceTest.java:13"
+      ]
+    }
+  ],
+  "coverage": {
+    "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one/src/main/java/demo/Price.java": {
+      "COVERED/CURRENT/AVAILABLE": 1,
+      "PARTIAL/CURRENT/AVAILABLE": 1,
+      "UNCOVERED/CURRENT/AVAILABLE": 4
+    },
+    "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-two/src/main/java/demo/Price.java": {
+      "COVERED/CURRENT/AVAILABLE": 1,
+      "PARTIAL/CURRENT/AVAILABLE": 1,
+      "UNCOVERED/CURRENT/AVAILABLE": 4
+    }
+  }
+}

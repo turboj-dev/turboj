@@ -1,0 +1,135 @@
+{
+  "timestamp": "2026-11-18T14:33:11.618Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "sessionId": "hero-session-2026-10-25",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "320: verified session and exact measurement table render statically",
+      "status": "PASS",
+      "detail": {
+        "rows": 18,
+        "screenshotRequests": 0
+      }
+    },
+    {
+      "name": "320: keyboard opens source/output and copies exact captured text",
+      "status": "PASS",
+      "detail": {
+        "source": "4da6e8ccbe1b0c8db9832421722794e36dc4129544b387228f327b69bf9a629a",
+        "deliberateFailure": "e9efbe38b558794ef6dd25234b7c7ce4b2a0e54577e7b0bd0a4eabc5adf32318"
+      }
+    },
+    {
+      "name": "320: no document overflow, valid internal links, visible focus, no runtime errors",
+      "status": "PASS",
+      "detail": {
+        "sizes": {
+          "client": 320,
+          "document": 320,
+          "body": 320
+        },
+        "focus": {
+          "tag": "SUMMARY",
+          "outline": "solid",
+          "width": "2px"
+        }
+      }
+    },
+    {
+      "name": "390: verified session and exact measurement table render statically",
+      "status": "PASS",
+      "detail": {
+        "rows": 18,
+        "screenshotRequests": 0
+      }
+    },
+    {
+      "name": "390: keyboard opens source/output and copies exact captured text",
+      "status": "PASS",
+      "detail": {
+        "source": "4da6e8ccbe1b0c8db9832421722794e36dc4129544b387228f327b69bf9a629a",
+        "deliberateFailure": "e9efbe38b558794ef6dd25234b7c7ce4b2a0e54577e7b0bd0a4eabc5adf32318"
+      }
+    },
+    {
+      "name": "390: no document overflow, valid internal links, visible focus, no runtime errors",
+      "status": "PASS",
+      "detail": {
+        "sizes": {
+          "client": 390,
+          "document": 390,
+          "body": 390
+        },
+        "focus": {
+          "tag": "SUMMARY",
+          "outline": "solid",
+          "width": "2px"
+        }
+      }
+    },
+    {
+      "name": "390: axe accessibility with expanded authentic source and output",
+      "status": "PASS",
+      "detail": {
+        "violations": 0
+      }
+    },
+    {
+      "name": "1440: verified session and exact measurement table render statically",
+      "status": "PASS",
+      "detail": {
+        "rows": 18,
+        "screenshotRequests": 0
+      }
+    },
+    {
+      "name": "1440: keyboard opens source/output and copies exact captured text",
+      "status": "PASS",
+      "detail": {
+        "source": "4da6e8ccbe1b0c8db9832421722794e36dc4129544b387228f327b69bf9a629a",
+        "deliberateFailure": "e9efbe38b558794ef6dd25234b7c7ce4b2a0e54577e7b0bd0a4eabc5adf32318"
+      }
+    },
+    {
+      "name": "1440: no document overflow, valid internal links, visible focus, no runtime errors",
+      "status": "PASS",
+      "detail": {
+        "sizes": {
+          "client": 1440,
+          "document": 1440,
+          "body": 1440
+        },
+        "focus": {
+          "tag": "SUMMARY",
+          "outline": "solid",
+          "width": "2px"
+        }
+      }
+    },
+    {
+      "name": "1440: axe accessibility with expanded authentic source and output",
+      "status": "PASS",
+      "detail": {
+        "violations": 0
+      }
+    },
+    {
+      "name": "all source/log/project/trace links download exact immutable content",
+      "status": "PASS",
+      "detail": {
+        "checkedDownloads": 95,
+        "keyboardDownload": "4da6e8ccbe1b0c8db9832421722794e36dc4129544b387228f327b69bf9a629a.java"
+      }
+    },
+    {
+      "name": "native frame downloads only after explicit request",
+      "status": "PASS"
+    },
+    {
+      "name": "evidence and keyboard disclosures remain readable without JavaScript",
+      "status": "PASS"
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,7 @@
+Editor/compiler JVM: 25.0.4.1+10-LTS
+Selected project/run/test JVM: /private/tmp/turboj-jdk17/amazon-corretto-17.jdk/Contents/Home
+Dependency mode: warm cache, offline; model session first/warm measured separately
+Native: main17:42:resource-ok; JUnit2 PASS; unsaved dependent output43; independent cache retained; removed module pruned
+Maven: explicit verify via real compiler/run toolchain17; two tests PASS
+Model first ns: 47206875
+Model warm ns: 6269083

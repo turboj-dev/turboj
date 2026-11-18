@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "format": "jacoco-lines-v1",
+  "perTestAttribution": false,
+  "compiledIdentity": "unknown",
+  "files": [
+    {
+      "source": "/private/tmp/turboj-cherry-feedback-m99ac7s2/repo-one/src/main/java/demo/Price.java",
+      "lines": [
+        {
+          "line": 7,
+          "ci": 5,
+          "mi": 0,
+          "cb": 2,
+          "mb": 2
+        },
+        {
+          "line": 8,
+          "ci": 0,
+          "mi": 5,
+          "cb": 0,
+          "mb": 0
+        },
+        {
+          "line": 10,
+          "ci": 8,
+          "mi": 0,
+          "cb": 0,
+          "mb": 0
+        },
+        {
+          "line": 14,
+          "ci": 0,
+          "mi": 2,
+          "cb": 0,
+          "mb": 0
+        },
+        {
+          "line": 18,
+          "ci": 0,
+          "mi": 5,
+          "cb": 0,
+          "mb": 0
+        },
+        {
+          "line": 19,
+          "ci": 0,
+          "mi": 1,
+          "cb": 0,
+          "mb": 0
+        }
+      ],
+      "provenance": {
+        "schemaVersion": 1,
+        "status": "verified",
+        "classFiles": [
+          {
+            "path": "/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-151314-d6fa70/reports/adapters/first/same-name/unit/build/classes/demo/Price.class",
+            "sha256": "0f61a192865e15832da093f7c4354fb11902d57c2379838c1e476d82350d5b12"
+          }
+        ],
+        "inputIdentityVerified": true,
+        "sourceHash": "f6b2727e50d02650b998d3adfca617c64dd202eb682fae4bf391f16ab0e0d4af",
+        "collectionId": "b37398b4-6f1a-4889-946d-851638f010f0",
+        "classIdentity": "ce27d51cc8ac937a69ab112f638417b2f089fb4739028556d0377374196e81ab",
+        "compilationId": "7455141b-1e80-4856-ac8a-77fcf4628ee9",
+        "compilerIdentity": "Amazon.com Inc. / javac 25.0.4.1",
+        "processId": "85274@2026-11-18T15:13:17.324Z",
+        "sessionId": "cherry:b37398b4-6f1a-4889-946d-851638f010f0:ff94968b-4fae-492e-b798-ceb353229817",
+        "executionHashes": "c33c60c5700c183d5a4ecb229a8efb5c1d1a782d53e974ac8922ba8c86378cda",
+        "reason": "Compiler input/output and JaCoCo class IDs, counters and process sessions match"
+      }
+    }
+  ],
+  "executionFiles": [
+    {
+      "path": "/private/tmp/turboj-cherry-feedback-m99ac7s2/workspace/target/cherry-test/runs/20261118-151314-d6fa70/reports/adapters/first/same-name/unit/build/jacoco.exec",
+      "sha256": "c33c60c5700c183d5a4ecb229a8efb5c1d1a782d53e974ac8922ba8c86378cda"
+    }
+  ]
+}

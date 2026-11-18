@@ -24,7 +24,7 @@ public final class TestSourceResolver {
     private static final Set<String> TEST_ANNOTATIONS = Set.of(
             "org.junit.Test", "org.junit.jupiter.api.Test", "org.junit.jupiter.api.RepeatedTest",
             "org.junit.jupiter.api.TestFactory", "org.junit.jupiter.api.TestTemplate",
-            "org.junit.jupiter.params.ParameterizedTest");
+            "org.junit.jupiter.params.ParameterizedTest", "com.cherrytest.junit.CherryTest");
     private record Key(Path file, String hash) {}
     private record Declaration(String binaryType, String canonicalType, String method, int line, boolean junit) {}
     private record Parsed(List<Declaration> declarations, int weight, boolean valid) {}
@@ -49,8 +49,8 @@ public final class TestSourceResolver {
             if (test.freshness() != Freshness.STALE && validIdentity(test.name())) requested.add(test.name());
         if (requested.isEmpty()) return withoutResolvedLocations(run);
         Map<String, List<Location>> index = new HashMap<>();
-        Path realRoot;
-        try { realRoot = run.root().toRealPath(); }
+        List<Path> roots = run.context().sourceRoots(run.root()), realRoots = new ArrayList<>();
+        try { for (Path root : roots) realRoots.add(root.toRealPath()); }
         catch (NoSuchFileException missing) { return withoutResolvedLocations(run); }
         List<Map.Entry<Path, String>> sources = run.sourceHashes().entrySet().stream()
                 .filter(entry -> entry.getKey() != null && entry.getKey().toString().endsWith(".java"))
@@ -61,11 +61,12 @@ public final class TestSourceResolver {
             if (Thread.currentThread().isInterrupted()) throw new InterruptedIOException("Test source resolution cancelled");
             Path file = run.root().resolve(entry.getKey()).toAbsolutePath().normalize();
             String expectedHash = entry.getValue();
-            if (!file.startsWith(run.root()) || expectedHash == null || !expectedHash.matches("[a-fA-F0-9]{64}"))
+            if (roots.stream().noneMatch(file::startsWith) || expectedHash == null || !expectedHash.matches("[a-fA-F0-9]{64}"))
                 return withoutResolvedLocations(run);
             byte[] bytes;
             try {
-                if (!Files.isRegularFile(file) || !file.toRealPath().startsWith(realRoot)) return withoutResolvedLocations(run);
+                Path real = file.toRealPath();
+                if (!Files.isRegularFile(file) || realRoots.stream().noneMatch(real::startsWith)) return withoutResolvedLocations(run);
                 try (var input = Files.newInputStream(file)) { bytes = input.readNBytes(MAX_FILE_BYTES + 1); }
             } catch (NoSuchFileException | AccessDeniedException unavailable) { return withoutResolvedLocations(run); }
             bytesRead += bytes.length;
@@ -88,7 +89,8 @@ public final class TestSourceResolver {
         List<TestResult> resolved = new ArrayList<>(original.size());
         for (TestResult test : original) {
             List<Association> associations = retained(test);
-            List<Location> candidates = index.getOrDefault(test.name(), List.of());
+            List<Location> candidates = index.getOrDefault(test.name(), List.of()).stream()
+                    .filter(location -> test.moduleRoot() == null || location.file().startsWith(test.moduleRoot())).toList();
             if (test.freshness() != Freshness.STALE && candidates.size() == 1 && candidates.getFirst().declaration().junit()) {
                 Location location = candidates.getFirst();
                 boolean alreadyReported = associations.stream().anyMatch(a -> a.kind() == Attribution.TEST_DECLARATION
@@ -210,11 +212,11 @@ public final class TestSourceResolver {
     private static TestResult withAssociations(TestResult test, List<Association> associations) {
         if (test.associations().equals(associations)) return test;
         return new TestResult(test.id(), test.runId(), test.suite(), test.name(), test.project(), test.module(), test.packageName(),
-                test.phase(), test.runtime(), test.invocation(), test.status(), test.freshness(), test.durationMillis(), test.failure(), associations);
+                test.phase(), test.runtime(), test.invocation(), test.status(), test.freshness(), test.durationMillis(), test.failure(), associations,test.selector(),test.moduleRoot(),test.repositoryId());
     }
     private static Run withTests(Run run, List<TestResult> tests) {
         if (tests.equals(run.tests())) return run;
         return new Run(run.id(), run.root(), run.state(), tests, run.coverage(), run.sourceHashes(), run.message(),
-                run.htmlReport(), run.sequence(), run.coverageAvailability());
+                run.htmlReport(), run.sequence(), run.coverageAvailability(), run.collections(),run.context());
     }
 }

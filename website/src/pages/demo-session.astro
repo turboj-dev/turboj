@@ -74,6 +74,7 @@ const nativeDiagnostics = evidence && Object.values(evidence.outputs).some((outp
           {event.state.dialogs.map((dialog) => <><h4>{dialog.title}</h4><pre>{dialog.components.map((component) => `${component.type}: ${component.text}${component.enabled === false ? ' [disabled]' : ''}`).join('\n')}</pre></>)}
         </details>)}
       </section>)}
+      <p>The browser reconstruction uses TurboJ’s current single-outline panes and shared workspace font. Source, console text, recorded split proportions, commands and measured intervals remain from the identified sessions; the original frames retain their historical appearance. The resize separators adjust only the browser panes with arrows or dragging; they do not execute a native command or change the recorded measurements.</p>
       <h2>Automation and Maven observations</h2>
       <p>{evidence.metadata.automationTrigger} Auto Test on Changes remained disabled. Auto Test on Save was enabled with Auto Run off; after the failing and corrected saves, Auto Test was disabled and Auto Run enabled. Settings were restored after capture.</p>
       {nativeDiagnostics && <p>The live single-file compiler reported missing JUnit/Price symbols while editing the plain Java test file. TurboTest then compiled the test workspace with its own classpath and ran the two tests successfully. Those earlier diagnostics remain in the evidence and replay; a passing test result does not erase them.</p>}

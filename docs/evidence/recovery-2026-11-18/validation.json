@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "name": "dev.turboj.config.RecoveryAndSaveTest",
+      "tests": "8",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.168"
+    },
+    {
+      "name": "dev.turboj.app.FilesAndThemesTest",
+      "tests": "6",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.106"
+    },
+    {
+      "name": "dev.turboj.refactorj.transactions.WorkspaceTransactionsTest",
+      "tests": "21",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.35"
+    }
+  ],
+  "native": "RecoverySmoke implemented; execution pending final packaged artifact",
+  "limits": [
+    "Case-only disk rename deliberately rejected on case-insensitive filesystem before any source write",
+    "No foreign-owner/macOS ACL or network-filesystem qualification",
+    "No portable atomic compare-and-swap guarantee against noncooperating external writers",
+    "Recovery preserves editable buffers, text, path, dirty state, original disk fingerprint, encoding/BOM and primary caret/selection/scroll; undo history and project trust are not serialized"
+  ]
+}

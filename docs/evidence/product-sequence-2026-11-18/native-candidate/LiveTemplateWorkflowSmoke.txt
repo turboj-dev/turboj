@@ -1,0 +1,51 @@
+PASS indent: sout Tab, exact caret, Undo/Redo in intellij-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+Driver reactivates fixture window while waiting: sout expansion eclipse-macos
+PASS indent: sout Tab, exact caret, Undo/Redo in eclipse-macos
+PASS indent: sout Tab, exact caret, Undo/Redo in vscode-macos
+PASS indent: sout Tab, exact caret, Undo/Redo in turboj-macos
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Driver reactivates fixture window while waiting: explicit expansion
+Exception in thread "main" java.lang.AssertionError: explicit expansion; focus=null; active=false; overlay=false; source=public class C { void f() {
+    sout
+    
+    
+    
+    
+} }
+; status=15:20:47  Saved C.java
+15:20:31  Template formatting skipped: source changed during preparation
+15:20:31  ⌃⌘K L …  (Escape cancels; 10 seconds per key)
+15:20:31  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+15:20:31  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+15:20:31  Template formatting skipped: source changed during preparation
+15:20:31  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+15:20:31  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+15:20:31  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+15:20:31  Template formatting skipped: source changed during preparation
+15:20:31  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+15:20:31  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+15:20:31  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+15:20:13  Template formatting skipped: source changed during preparation
+15:20:13  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+15:20:13  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+15:20:13  Live template: sout — Tab: next, Enter: finish, Escape: cancel
+15:20:11  ⌃⌘K K …  (Escape cancels; 10 seconds per key)
+15:20:11  ⌃⌘K …  (Escape cancels; 10 seconds per key)
+15:20:11  Opened Java project project (/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-live-template-workflow-9160943928813468774/project).
+	at dev.turboj.app.KeyboardActionEffectsSmoke.await(KeyboardActionEffectsSmoke.java:158)
+	at dev.turboj.app.LiveTemplateWorkflowSmoke.builtins(LiveTemplateWorkflowSmoke.java:111)
+	at dev.turboj.app.LiveTemplateWorkflowSmoke.main(LiveTemplateWorkflowSmoke.java:32)

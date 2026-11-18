@@ -1,0 +1,4 @@
+cheatsheet-eclipse-macos.pdf: 4 pages, (0.0, 0.0, 841.9199800000001, 594.95996)
+cheatsheet-intellij-macos.pdf: 4 pages, (0.0, 0.0, 841.9199800000001, 594.95996)
+cheatsheet-turboj-macos.pdf: 4 pages, (0.0, 0.0, 841.9199800000001, 594.95996)
+cheatsheet-vscode-macos.pdf: 4 pages, (0.0, 0.0, 841.9199800000001, 594.95996)

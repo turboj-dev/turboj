@@ -1,0 +1,200 @@
+{
+  "timestamp": "2026-11-18T14:20:39.950Z",
+  "baseURL": "http://127.0.0.1:4322",
+  "sessionId": "hero-session-2026-10-25",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "name": "390px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "390px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    },
+    {
+      "name": "1440px rename-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px extract-prepare-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px tests-before-refactor-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 28,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px autotest-enabled: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px spring-source: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px curl-commandline-open: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px curl-result: WCAG 2.2 AA automated audit",
+      "status": "PASS",
+      "detail": {
+        "passed": 29,
+        "incomplete": 1
+      }
+    },
+    {
+      "name": "1440px: recorded scenes produce no browser or asset errors",
+      "status": "PASS"
+    }
+  ],
+  "failures": [
+    {
+      "name": "390px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "390px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "390px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "390px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "390px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "390px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "390px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px rename-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px extract-prepare-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px tests-before-refactor-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px autotest-enabled: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px spring-source: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px curl-commandline-open: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    },
+    {
+      "name": "1440px curl-result: faithful source, readable layout and keyboard scrolling",
+      "status": "FAIL",
+      "message": "Output must not have a second outline.\n\n'3px' !== '0px'\n"
+    }
+  ]
+}

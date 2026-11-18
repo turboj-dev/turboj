@@ -1,0 +1,28 @@
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Driver restores owned application's foreground; component focus is not assigned
+Exception in thread "main" java.lang.AssertionError: Timed out waiting for contextual popup/focus; file=/private/var/folders/y9/29rtk6bd2dz_xj36rw2jn6g40000gn/T/turboj-quick-fix-16801133705683447773/Demo.java; focus=dev.turboj.ui.EditorComponent[,13,19,1134x435,alignmentX=0.0,alignmentY=0.0,border=,flags=16777224,maximumSize=,minimumSize=,preferredSize=]; status=15:18:59  Finding Java fixes and assists…
+	at dev.turboj.app.QuickFixPopupSmoke.await(QuickFixPopupSmoke.java:178)
+	at dev.turboj.app.QuickFixPopupSmoke.exercise(QuickFixPopupSmoke.java:41)
+	at dev.turboj.app.QuickFixPopupSmoke.main(QuickFixPopupSmoke.java:20)
