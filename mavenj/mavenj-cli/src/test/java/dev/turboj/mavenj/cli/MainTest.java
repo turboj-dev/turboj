@@ -18,9 +18,12 @@ class MainTest {
         Files.writeString(root.resolve("pom.xml"),
                 "<project><modelVersion>4.0.0</modelVersion><groupId>example</groupId><artifactId>app</artifactId><version>1</version><properties><maven.compiler.release>21</maven.compiler.release></properties></project>");
         Files.writeString(root.resolve("mvnw"), "#!/bin/sh\ntouch WRAPPER_WAS_RUN\n");
+        Path settings = root.resolve("settings.xml");
+        Files.writeString(settings, "<settings/>");
         for (String command : List.of("inspect", "modules", "dependencies", "classpath", "sync")) {
             var bytes = new ByteArrayOutputStream();
             int code = Main.run(new String[] {command, root.toString(), "--json",
+                    "--settings", settings.toString(), "--global-settings", settings.toString(),
                     "--local-repository", root.resolve("repo").toString()}, new PrintStream(bytes),
                     System.err);
             var json = JsonParser.parseString(bytes.toString(StandardCharsets.UTF_8))

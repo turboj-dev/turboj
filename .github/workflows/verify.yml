@@ -23,12 +23,14 @@ jobs:
         with:
           distribution: corretto
           java-version: '17'
+          settings-path: ${{ runner.temp }}/turboj-publishing-settings
       - name: Retain actual project toolchain
         run: echo "TURBOJ_TEST_JDK17=$JAVA_HOME" >> "$GITHUB_ENV"
       - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: temurin
           java-version: '25'
+          settings-path: ${{ runner.temp }}/turboj-publishing-settings
       # The wrapper uses .cache/m2, not setup-java's default ~/.m2 repository.
       # Keep acquisition explicit until a cache for the project paths is configured.
       - name: Capture build inputs
