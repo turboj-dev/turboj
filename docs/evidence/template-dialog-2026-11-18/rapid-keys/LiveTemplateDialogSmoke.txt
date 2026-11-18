@@ -1,0 +1,6 @@
+PASS dialog.search-create: search/arrows/Enter, duplicate, named fields, code, variable expression/default, native read-only expansion, Tab traversal
+PASS dialog.validation-save: invalid abbreviation/context rejected; real file saved; metadata/configuration preserved; source and focus preserved
+Driver reactivates fixture window after host focus loss
+Driver reactivates fixture window while waiting: fixture window active
+PASS dialog.real-expansion: created template expands, linked edits compile, one Undo and Redo
+PASS dialog.restore-cancel: persistent metadata search, Cancel preserves disk, enable/disable override and Restore default, real restored expansion

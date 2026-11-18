@@ -290,43 +290,21 @@ public final class LiveTemplateController implements AutoCloseable {
 
     public void configure() {
         if (catalog == null) { message.accept("Live templates are loading"); return; }
-        var dialog = new EmbeddedDialog(SwingUtilities.getWindowAncestor(editor), "Live Templates", true);
-        var definitions = new JTextArea(userJson, 14, 60); definitions.setName("live-template-definitions"); definitions.getAccessibleContext().setAccessibleName("User template definitions JSON");
-        var list = new JList<>(catalog.templates().toArray(LiveTemplateCatalog.Template[]::new)); list.getAccessibleContext().setAccessibleName("Built-in and user templates");
-        var preview = new JTextArea(8, 36); preview.setEditable(false); preview.getAccessibleContext().setAccessibleName("Template definition to copy");
-        list.addListSelectionListener(e -> {
-            var t = list.getSelectedValue();
-            preview.setText(t == null ? "" : new com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(t)); preview.setCaretPosition(0);
-        });
-        var tabs = new JTabbedPane(); tabs.addTab("User definitions", new JScrollPane(definitions));
-        tabs.addTab("Catalog", new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(list), new JScrollPane(preview)));
-        var error = new JLabel("Use $NAME$ for linked fields, $END$ for the caret; same ID overrides a built-in."); error.setName("live-template-error");
-        var panel = new JPanel(new BorderLayout(8, 8)); panel.add(error, BorderLayout.NORTH); panel.add(tabs);
-        var save = new JButton("Save"); save.setName("live-template-save");
-        save.addActionListener(e -> {
-            String json = definitions.getText(); save.setEnabled(false);
+        dismissSuggestions();
+        var dialog = new LiveTemplateSettingsDialog(editor, builtins, userJson, (json, completed) -> {
             worker.execute(() -> {
                 try {
                     var users = LiveTemplateCatalog.parse(json); var next = new LiveTemplateCatalog(builtins, users);
                     Files.createDirectories(file.getParent()); dev.turboj.config.SafeFiles.atomicWrite(file, json);
-                    SwingUtilities.invokeLater(() -> { if (closed) return; userJson = json; catalog = next; dialog.dispose(); message.accept("Live templates saved"); });
-                } catch (Exception invalid) { SwingUtilities.invokeLater(() -> { error.setText(invalid.getMessage()); save.setEnabled(true); }); }
+                    SwingUtilities.invokeLater(() -> {
+                        if (closed) return;
+                        userJson = json; catalog = next; completed.accept(null); message.accept("Live templates saved");
+                    });
+                } catch (Exception invalid) { SwingUtilities.invokeLater(() -> completed.accept(invalid)); }
             });
         });
-        var example = new JButton("Add example"); example.addActionListener(e -> {
-            try {
-                var root = com.google.gson.JsonParser.parseString(definitions.getText()).getAsJsonObject();
-                var entry = new com.google.gson.Gson().toJsonTree(new LiveTemplateCatalog.Template("user/log", "log",
-                        "System.out.println(\"$MESSAGE$\");$END$", List.of("JAVA_STATEMENT"),
-                        List.of(new LiveTemplateCatalog.Variable("MESSAGE", "", "message", true)), false));
-                root.getAsJsonArray("templates").add(entry); definitions.setText(new com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(root));
-            } catch (RuntimeException invalid) { error.setText("Correct the JSON before adding an example"); }
-        });
-        var footer = buttons(dialog, save); footer.add(example, 0); panel.add(footer, BorderLayout.SOUTH);
-        // Tab traverses this settings form; Ctrl+Tab remains available for the catalog tab.
-        definitions.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Set.of(KeyStroke.getKeyStroke("TAB")));
-        definitions.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, Set.of(KeyStroke.getKeyStroke("shift TAB")));
-        show(dialog, panel, save, definitions);
+        dialog.setVisible(true);
+        SwingUtilities.invokeLater(editor::requestFocusInWindow);
     }
     private JPanel buttons(EmbeddedDialog dialog, JButton accept) {
         var panel = new JPanel(new FlowLayout(FlowLayout.TRAILING)); var cancel = new JButton("Cancel");

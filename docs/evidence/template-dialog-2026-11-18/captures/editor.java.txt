@@ -1,0 +1,3 @@
+public class C { void f() {
+    System.out.println();
+} }

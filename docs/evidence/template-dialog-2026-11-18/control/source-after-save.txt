@@ -1,0 +1,5 @@
+PASS dialog.search-create: search/arrows/Enter, duplicate, named fields, code, variable expression/default, native read-only expansion, Tab traversal
+Exception in thread "main" java.lang.AssertionError: dialog never edits source buffer
+	at dev.turboj.app.KeyboardActionEffectsSmoke.check(KeyboardActionEffectsSmoke.java:141)
+	at dev.turboj.app.LiveTemplateDialogSmoke.validateAndSave(LiveTemplateDialogSmoke.java:99)
+	at dev.turboj.app.LiveTemplateDialogSmoke.main(LiveTemplateDialogSmoke.java:38)

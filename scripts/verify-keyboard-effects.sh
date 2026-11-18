@@ -19,7 +19,7 @@ regressions=(CommandRolloverSmoke KeyboardEditingSmoke KeyboardProfileSmoke Keyb
   FirstLaunchKeyboardSmoke UsagesNavigationAcceptance OutputCommandKeyboardSmoke)
 # Explicit-only boundary checks: AI refreshes an installed Ollama model and creates/removes
 # disposable loopback Keychain credentials. Never include that side effect in the default run.
-boundaries=(KeyboardMavenBoundarySmoke KeyboardAIBoundarySmoke LiveTemplateWorkflowSmoke LiveTemplatePrecedenceSmoke InlineTemplateSmoke InlineSemanticTemplateSmoke
+boundaries=(KeyboardMavenBoundarySmoke KeyboardAIBoundarySmoke LiveTemplateWorkflowSmoke LiveTemplatePrecedenceSmoke LiveTemplateDialogSmoke InlineTemplateSmoke InlineSemanticTemplateSmoke
   QuickFixPopupSmoke SaveAutomationSmoke OutputStatusSmoke RunTargetIsolationSmoke SaveFocusSmoke BufferSaveSmoke)
 sources=(app/src/test/java/dev/turboj/app/NativeWindowTestSupport.java)
 for check in "${checks[@]}" "${regressions[@]}" "${boundaries[@]}"; do sources+=("app/src/test/java/dev/turboj/app/$check.java"); done

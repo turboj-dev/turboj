@@ -10,7 +10,11 @@ import java.util.regex.Pattern;
 public final class LiveTemplateCatalog {
     public record Variable(String name, String expression, String defaultValue, boolean alwaysStop) {}
     public record Template(String id, String abbreviation, String body, List<String> contexts,
-                           List<Variable> variables, boolean disabled) {
+                           List<Variable> variables, boolean disabled, String name, String description) {
+        public Template(String id, String abbreviation, String body, List<String> contexts,
+                        List<Variable> variables, boolean disabled) {
+            this(id, abbreviation, body, contexts, variables, disabled, abbreviation, "");
+        }
         @Override public String toString() { return abbreviation + " — " + id; }
     }
     public static final String EMPTY = "{\n  \"schemaVersion\": 1,\n  \"templates\": []\n}\n";
@@ -69,7 +73,10 @@ public final class LiveTemplateCatalog {
                     variables.add(new Variable(name, optional(v, "expression"), optional(v, "defaultValue"), !v.has("alwaysStop") || v.get("alwaysStop").getAsBoolean()));
                 }
                 placeholders(body); // Reject broken syntax before modifying a document.
-                result.add(new Template(id, abbreviation, body, List.copyOf(contexts), List.copyOf(variables), o.has("disabled") && o.get("disabled").getAsBoolean()));
+                String name = o.has("name") ? required(o, "name").strip() : abbreviation;
+                if (name.isEmpty()) throw new IllegalArgumentException("Missing name");
+                result.add(new Template(id, abbreviation, body, List.copyOf(contexts), List.copyOf(variables),
+                        o.has("disabled") && o.get("disabled").getAsBoolean(), name, optional(o, "description")));
                 if (result.size() > 2000) throw new IllegalArgumentException("Too many templates");
             }
             return List.copyOf(result);

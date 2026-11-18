@@ -43,9 +43,32 @@ All three commands are in CommandJ and the palette. Supplemental shortcuts, in e
 
 Release the prefix before typing the two letters. These are TurboJ additions, not IntelliJ defaults.
 
-The settings form contains editable **User definitions** and a read-only **Catalog** tab. The catalog supplies
-complete definitions to copy. **Add example** adds a starter definition. Save validates and writes atomically;
-invalid JSON leaves the previous catalog and file intact. Cancel discards edits. The user file is
+The settings form opens with **Search** focused. It filters immediately by name, abbreviation, description,
+stable ID and code. Up/Down chooses a result; Enter moves into its fields. **New** creates a starter;
+**Duplicate** copies the selected definition under a new stable user ID. Edit **Name**, **Abbreviation**,
+**Description**, **Code** and **Enabled** without writing JSON.
+
+**Code & preview** uses the actual native source editor, with matching syntax colors, theme, zoom and tab width.
+The preview is read-only and uses the real expansion engine: dotted boxes mark linked fields and a solid caret
+marks `$END$`. The caption and accessible description provide field names and the final line/column. This is an
+illustrative expansion in `Example.example(int[] values)`, with `selected();` as the sample selection; it is not
+project-specific semantic validation and does not execute code. Unresolved macros keep their defaults or empty
+editable fields, exactly as in expansion. Select/copy and scrolling remain available in the preview.
+
+**Configuration** contains applicable contexts and the variable table: name, expression, default value and Stop.
+Contexts not offered by the current engine are labeled explicitly. Focus the tabs and use Left/Right to change
+pages. In the table, arrows select a cell, F2 edits, Enter commits and Tab leaves the table. Tab/Shift+Tab also
+traverse code and preview; Escape cancels the dialog. Multi-line code uses Enter, not a form confirmation.
+
+Edits are dialog-local drafts, retained when filtering or changing selection. Editing a built-in creates an
+override; **Restore default** removes it. **Remove** deletes a user entry from the draft. Nothing is written until
+**Save** validates the complete catalog and writes atomically off the EDT. Cancel discards all drafts. While that
+write is in progress, the form cannot be edited or cancelled; a failure leaves the draft available for correction.
+
+**Edit JSON…** remains available for advanced configuration and repairing an invalid file. Apply validates and
+updates the parent dialog's draft; it does not save to disk. Invalid JSON cannot replace the draft or file. Existing
+schema-v1 files remain compatible: `name` and `description` are optional metadata, and legacy names default to the
+abbreviation. Untouched definitions and unknown JSON properties are preserved during structured edits. The user file is
 `Settings.directory()/live-templates.json` (normally the TurboJ configuration directory), not a project source file.
 Startup reads it asynchronously. An invalid startup file is preserved for repair; built-ins remain usable.
 
@@ -55,6 +78,8 @@ Startup reads it asynchronously. An invalid startup file is preserved for repair
   "templates": [
     {
       "id": "user/twice",
+      "name": "Print a local value",
+      "description": "Declare a variable and print it",
       "abbreviation": "twice",
       "body": "int $NAME$ = 1; System.out.println($NAME$);$END$",
       "contexts": ["JAVA_STATEMENT"],
@@ -118,13 +143,13 @@ References: [IntelliJ live templates](https://www.jetbrains.com/help/idea/using-
 
 ## Validation
 
-Unit tests: `LiveTemplatesTest`, `JavaTemplateTypesTest`, `EditorTemplateTest`, `KeyboardDefaultsTest`.
-Native acceptance: `LiveTemplatePrecedenceSmoke`, `LiveTemplateWorkflowSmoke` and the existing `InlineTemplateSmoke`, using isolated preferences
+Unit tests: `LiveTemplateSettingsTest`, `LiveTemplatesTest`, `JavaTemplateTypesTest`, `EditorTemplateTest`, `KeyboardDefaultsTest`.
+Native acceptance: `LiveTemplateDialogSmoke`, `LiveTemplatePrecedenceSmoke`, `LiveTemplateWorkflowSmoke` and the existing `InlineTemplateSmoke`, using isolated preferences
 and projects, real Swing key events, CommandJ callbacks, actual linked fields and JDT proposals.
 
 ```sh
 ./mvnw -pl app -am install
-bash scripts/verify-keyboard-effects.sh --only LiveTemplatePrecedenceSmoke LiveTemplateWorkflowSmoke InlineTemplateSmoke
+bash scripts/verify-keyboard-effects.sh --only LiveTemplateDialogSmoke LiveTemplatePrecedenceSmoke LiveTemplateWorkflowSmoke InlineTemplateSmoke
 ```
 
 The native suite covers all four keymaps, exact `sout` caret placement, linked fields, Undo/Redo, custom definition
@@ -132,3 +157,6 @@ editing/persistence, validation failures, chooser navigation, Save/Format, file 
 and completion. It does not establish physical keyboard/IME/VoiceOver behavior or IntelliJ macro parity.
 
 The [precedence regression evidence](evidence/live-templates-2026-11-17/precedence/README.md) uses deterministic AI ghost fixtures to test the actual native shortcut route. It is not a live model-quality or paid-provider test.
+
+[Structured dialog qualification, 18 November](evidence/template-dialog-2026-11-18/README.md) includes native Monokai
+captures, validation/persistence controls, retained failed attempts and the production JAR identity.

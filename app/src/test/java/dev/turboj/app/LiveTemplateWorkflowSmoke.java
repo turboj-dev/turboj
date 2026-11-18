@@ -128,16 +128,18 @@ public final class LiveTemplateWorkflowSmoke {
             """;
     static void custom() throws Exception {
         action("settings.liveTemplates"); dialog();
-        tab(c -> "live-template-definitions".equals(c.getName())); replace(CUSTOM); button("Save");
+        button("Edit JSON…"); dialog();
+        tab(c -> "live-template-definitions".equals(c.getName())); replace(CUSTOM); button("Apply"); button("Save");
         await(() -> !OverlayHost.active(frame), "settings saved");
         check(com.google.gson.JsonParser.parseString(Files.readString(Settings.directory().resolve("live-templates.json"))).equals(com.google.gson.JsonParser.parseString(CUSTOM)), "persisted exact definition");
         snippet("twice"); key(KeyEvent.VK_TAB, 0); await(() -> frame.editor().templateActive(), "custom template"); type("amount"); key(KeyEvent.VK_TAB, 0);
         await(() -> !frame.editor().templateActive(), "custom last field Tab");
         check(edt(() -> frame.editor().getText()).contains("int amount = 1; System.out.println(amount);"), "custom linked field"); compile(edt(() -> frame.editor().getText()));
         pass("settings.liveTemplates", "keyboard creates and saves user definition; actual expansion and linked edits compile");
-        action("settings.liveTemplates"); dialog(); tab(c -> "live-template-definitions".equals(c.getName())); replace("{}"); button("Save");
-        await(() -> find(frame, JLabel.class, "live-template-error").getText().contains("Expected"), "invalid JSON explained");
+        action("settings.liveTemplates"); dialog(); button("Edit JSON…"); dialog(); tab(c -> "live-template-definitions".equals(c.getName())); replace("{}"); button("Apply");
+        await(() -> find(frame, JLabel.class, "live-template-json-error").getText().contains("Expected"), "invalid JSON explained");
         check(com.google.gson.JsonParser.parseString(Files.readString(Settings.directory().resolve("live-templates.json"))).equals(com.google.gson.JsonParser.parseString(CUSTOM)), "invalid configuration cannot overwrite disk");
+        key(KeyEvent.VK_ESCAPE, 0); await(() -> top().getTitle().equals("Live Templates"), "JSON cancelled");
         key(KeyEvent.VK_ESCAPE, 0); await(() -> !OverlayHost.active(frame), "settings cancelled");
         snippet(""); action("editor.insertLiveTemplate"); dialog();
         tab(c -> "live-template-filter".equals(c.getName())); type("sout"); key(KeyEvent.VK_DOWN, 0); key(KeyEvent.VK_UP, 0); key(KeyEvent.VK_ENTER, 0);

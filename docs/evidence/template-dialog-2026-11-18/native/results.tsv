@@ -1,0 +1,6 @@
+check	exit_status	started_utc	finished_utc
+LiveTemplateDialogSmoke	0	2026-11-18T06:23:53Z	2026-11-18T06:24:02Z
+LiveTemplateWorkflowSmoke	0	2026-11-18T06:24:02Z	2026-11-18T06:24:09Z
+LiveTemplatePrecedenceSmoke	0	2026-11-18T06:24:09Z	2026-11-18T06:24:13Z
+InlineTemplateSmoke	0	2026-11-18T06:24:13Z	2026-11-18T06:24:19Z
+UsagesNavigationAcceptance	0	2026-11-18T06:24:19Z	2026-11-18T06:24:31Z

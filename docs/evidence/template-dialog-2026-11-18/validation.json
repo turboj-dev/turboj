@@ -1,0 +1,494 @@
+{
+  "status": "VERIFIED: QFX-10 dialog only",
+  "baseline": "5db33ec66536644afe435ce6b6683a82bb53c244",
+  "artifact": "app/target/turboj-app.jar",
+  "sha256": "8e28b64e98bae20f94c10c5bdf9c47d0c9c1f3f55f41711dcf456049a3530f55",
+  "buildCommand": "./mvnw -pl app install",
+  "tests": {
+    "tests": 338,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testSuites": [
+    {
+      "name": "dev.turboj.ai.AICompletionControllerTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ai.AISettingsPolicyTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ai.CredentialStoreTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.app.CommandSettingsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.app.FilesAndThemesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.app.KeyboardDefaultsTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.app.MenuLayoutTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.app.WorkspaceStatusTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.console.OutputCommandControllerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.console.OutputCommandGestureTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.console.OutputCommandRunnerTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.console.OutputLogTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.formatting.FormattingControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.formatting.OtherEnginesTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.formatting.StandardFormattersTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.help.CheatSheetTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.intelligence.CompletionCoordinatorTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.intelligence.NavigationHistoryTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.intelligence.ProjectContextTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.intelligence.SignatureMarkupTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.intelligence.SourceUsagePreviewTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.FirstLaunchProjectsTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.MavenProjectControllerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.MavenRunTargetsTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.PlainProjectCompilerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.ProjectFilesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.ProjectSearchTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.project.SourceEncodingTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.refactoring.NativeWorkspaceCommitterTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.templates.JavaTemplateTypesTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.templates.LiveTemplateSettingsTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.templates.LiveTemplatesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.CherryExecutionReceiptTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.CherrySaveWorkflowTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.CherryTestProcessLifecycleTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.LineIntelligenceControllerTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.MavenAutoTestControllerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.MavenNativeAcceptanceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.MavenTestCompilationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.MissingJUnitTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.TestOutputTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.testing.TurboTestControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.AsciiChromeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.AsciiMenuBarTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.ConsolePaneTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorAICompletionTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorAccessibilityTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorCoalesceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorCommandTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorComponentTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorFormattingTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorIntelligenceTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.EditorTemplateTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.InFramePopupFactoryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.KeyboardEditingTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.LineIntelligenceEditorTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.MenuStylerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.PressedShortcutDisplayTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.QuickFixPaletteTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.ReplKeyboardTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.StatusBarTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.XmlEditingTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.themes.LineIntelligenceThemeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.themes.ThemeCatalogTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.themes.ThemeContractTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "dev.turboj.ui.themes.ThemeWheelPlanTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "nativeChecks": [
+    "LiveTemplateDialogSmoke",
+    "LiveTemplateWorkflowSmoke",
+    "LiveTemplatePrecedenceSmoke",
+    "InlineTemplateSmoke",
+    "UsagesNavigationAcceptance"
+  ],
+  "nativeResults": "native/results.tsv",
+  "rapidKeyControl": "rapid-keys/results.tsv",
+  "limits": [
+    "Advanced template contexts/macros/imports/formatting are still QFX-10 follow-up",
+    "AI timing/frequency unchanged; AI-13 next",
+    "Physical keyboard/IME/VoiceOver not verified",
+    "One earlier injected-key control observed an extra source newline; not reproduced by subsequent normal or rapid-key trace controls, cause unconfirmed"
+  ],
+  "sourceManifest": "source-files.sha256",
+  "rapidRepeatedResults": "rapid-confirmation/results.tsv"
+}

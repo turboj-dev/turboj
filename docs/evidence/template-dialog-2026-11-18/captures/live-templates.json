@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "templates": [
+    {
+      "id": "user/template",
+      "abbreviation": "traceCount",
+      "body": "int $VALUE$ = 1;\nSystem.out.println($VALUE$);$END$",
+      "contexts": [
+        "JAVA_STATEMENT"
+      ],
+      "variables": [
+        {
+          "name": "VALUE",
+          "expression": "futureMacro()",
+          "defaultValue": "total",
+          "alwaysStop": true
+        }
+      ],
+      "disabled": false,
+      "name": "Log a counter",
+      "description": "Print an integer counter"
+    }
+  ]
+}

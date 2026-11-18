@@ -3225,12 +3225,14 @@ public final class EditorComponent extends JComponent
 
         @Override
         public String getAccessibleName() {
-            return "Java source editor";
+            String name = super.getAccessibleName();
+            return name == null ? "Java source editor" : name;
         }
 
         @Override
         public String getAccessibleDescription() {
-            return "Line " + caretLine() + ", column " + caretColumn()
+            String description = super.getAccessibleDescription();
+            return (description == null ? "" : description + ". ") + "Line " + caretLine() + ", column " + caretColumn()
                     + (lineGutter.cells() == 0 ? "" : ". " + lineGutter.describe(caretLine(), null, null));
         }
     }

@@ -1,0 +1,4 @@
+Exception in thread "main" java.lang.AssertionError: Unreachable button Add variable
+	at dev.turboj.app.KeyboardActionEffectsSmoke.button(KeyboardActionEffectsSmoke.java:133)
+	at dev.turboj.app.LiveTemplateDialogSmoke.searchAndCreate(LiveTemplateDialogSmoke.java:66)
+	at dev.turboj.app.LiveTemplateDialogSmoke.main(LiveTemplateDialogSmoke.java:38)

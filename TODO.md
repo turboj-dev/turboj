@@ -1,6 +1,6 @@
 # TurboJ — stato del progetto e piano unico di sviluppo
 
-**Aggiornamento: 17 novembre 2026. Baseline pubblicata: TurboJ `a712d51`, Cherry Test `302325e8`. Qualificazione locale P0 completata: RUN-01/02, QFX-01, REL-01 e GOV-01/02; dettagli e perimetro in §7.**
+**Aggiornamento: 18 novembre 2026. Baseline precedente: TurboJ `5db33ec`, Cherry Test `302325e8`. Sei P0 consegnate; dialogo QFX-10 implementato e verificato, incluso nel commit che aggiorna questo registro. Dettagli e perimetro in §7.**
 
 Questo è il **canovaccio operativo unico**: sommario, stato effettivo, decisioni, attività aggregate, dipendenze e criteri di accettazione. Sostituisce la precedente lista breve e consolida il lavoro disperso nei documenti del progetto. Le specifiche e le evidenze originali restano nei rispettivi percorsi: non vengono eliminate né trasformate retroattivamente in verifiche della versione attuale.
 
@@ -55,13 +55,13 @@ Il consolidamento iniziale è stato un audit documentale e del codice, senza rie
 
 | Elemento | Stato rilevato | Interpretazione |
 | --- | --- | --- |
-| TurboJ baseline pre-qualificazione | `a712d51`, 17 novembre 2026 | Include QFX-08; correzioni e qualificazione P0 consegnate nel commit che aggiorna questo registro, dettagli in §7 |
+| TurboJ baseline prima del dialogo | `5db33ec`, 17 novembre 2026 | Include QFX-08 e le sei P0; dialogo QFX-10 consegnato nel commit che aggiorna questo registro, dettagli in §7 |
 | Maven root | `0.1.0-SNAPSHOT`, JDK 25 | Distinto dal numero del pacchetto macOS |
 | Packaging macOS | Script ancora con app-version `1.0.10` | Da riconciliare con prossima consegna; HEAD non è automaticamente distribuito |
 | Cherry sibling | `302325e8` pubblicato; `39af874d` consegna locale CH-02/08/09 | CLI nativa, sidecars e provenance server integrati; versione Maven 0.3.16, riproduzione vincolata allo SHA. Nessun push di questa nuova consegna |
 | JUG Lugano | `8cc859d` verificato il 16 novembre | Suite container completa e comando nativo verificati; AGENTS/ATTIVITA preesistenti preservati |
 | Sito | Ultimo deploy documentato: sorgente `294984a`, 25 ottobre; registrazione `bb59258` | Produzione non verificata oggi; push e deploy sono distinti |
-| JAR locale | `app/target/turboj-app.jar`, clean install del 17 novembre | 907 test reactor e 15 controlli nativi PASS sul medesimo SHA-256; hash e risultati in §7. Il pacchetto `.app` precedente non viene aggiornato da questo comando |
+| JAR locale | `app/target/turboj-app.jar`, app install del 18 novembre | Dialogo QFX-10: 338 test app e cinque suite native PASS; hash in §7. Il clean reactor P0 precedente resta documentato separatamente; la `.app` installata non viene sostituita |
 | Pacchetto Quick Fix | `target/quick-fix-monokai/TurboJ.app`, JAR del 25 ottobre | Precede cambi successivi: non basta per chiudere una regressione attuale |
 
 Passaggi storici: `802f496` keyboard-first; `997057b` hero; `2ca283f` layout; `32ee964` workflow Eclipse; `61208bc` comando Output/curl; `294984a` flash tema; `db1d4ed` Cherry; `a26e6b7` keymap TurboJ/formatter; `b8f5978` template; `23425cf` TurboAI; `76db7c4` Output/Tests; `fc4bdac` Explorer/risultati.
@@ -213,6 +213,16 @@ Fonti: [keyboard-performance](docs/keyboard-performance.md), [Cherry benchmark](
 
 Ordine concordato il 16 novembre: **CH-01 → JAVA-06 → CH-02/08/09 → QFX-04**. CH-01 e JAVA-06 consegnate; CH-02/08/09 implementate e qualificate nel perimetro supportato; QFX-04 è ora verificata con il workflow nativo e i controlli dei pannelli inferiori. KEY-04/06 e QFX-03/05 hanno poi passato le verifiche automatizzate; CH-10 è provata sul ciclo JVM. QFX-08 è ora verificata (17 novembre): tipi parametri semantici, compatibilità espressioni e ulteriori template inline. Anche i sei P0 sono ora chiusi nel perimetro dichiarato, con tre difetti Run/Save corretti e build/nativo finale verificati. Restano KEY-05 umano e la parità avanzata/dialogo live template QFX-10. La tabella seguente mantiene i traguardi generali e le dipendenze, senza autorizzare deploy.
 
+**Sequenza di prodotto concordata il 18 novembre**, dopo la chiusura dei P0. L'ordine di valore non cambia automaticamente la priorità nel registro:
+
+| Ordine | Priorità | Attività | Stato / valore |
+| --- | --- | --- | --- |
+| 1 | P2 | QFX-10 — dialogo template | Consegnato: ricerca, form, preview editor nativa; verificato nel perimetro automatizzato |
+| 2 | P2 | AI-13 — completion meno aggressiva | Prossimo: scenari reali di digitazione, trigger, frequenza e dismiss |
+| 3 | P1 | QFX-02 — precisione proposte contestuali | Diagnostiche multiple, caret e invocazioni ripetute prevedibili |
+| 4 | P2 | QFX-06 — ulteriori fix semantici | Eccezioni, costruttori e trasformazioni Java applicabili |
+| 5 | P2 | QFX-10 — semantica template avanzata | Contesti, inferenza macro, import/shorten e formattazione; separata dal dialogo |
+
 | Traguardo | Attività | Uscita verificabile |
 | --- | --- | --- |
 | A — Baseline affidabile | GOV-01/02, REL-01 | Diff, artefatti e prove identificati senza perdere lavoro |
@@ -230,7 +240,7 @@ AI, documentazione e test librerie possono procedere in parallelo dove indipende
 
 Stati: **DA FARE**, **PARZIALE**, **INCOMPLETA** (requisito essenziale mancante), **DA VERIFICARE** (codice/evidenza storica presenti, accettazione attuale assente), **DECISIONE**, **SOSPESA**. Chiudere con **CHIUSA + data/commit/evidenza**. Le capacità consegnate sono in §3–4, non replicate come lavoro aperto.
 
-**Registro al 17 novembre: 114 attività aggregate, di cui 93 aperte e 21 chiuse/verificate nel perimetro dichiarato**, non 114 difetti dimostrati. Le attività aperte comprendono 37 qualificazioni da eseguire, 27 attività parziali, 10 da fare, 18 decisioni e 1 attività sospesa.
+**Registro al 18 novembre: 114 attività aggregate, di cui 93 aperte e 21 chiuse/verificate nel perimetro dichiarato**, non 114 difetti dimostrati. Le attività aperte comprendono 37 qualificazioni da eseguire, 27 attività parziali, 10 da fare, 18 decisioni e 1 attività sospesa.
 
 | Priorità | Attività aperte | Lettura |
 | --- | --- | --- |
@@ -287,15 +297,15 @@ Fonti: [Quick Fix](docs/quick-fix-quick-assist.md), [parità](docs/eclipse-workf
 | QFX-07 | P2 | DECISIONE | Parità wizard oltre minimo: Save-and-Launch per-file/remember, superclass/interfaces/module-info/working set, framework/versioni JUnit/lifecycle stub e archetype Maven. Confermare necessità prima di aggiungere UI. |
 | QFX-08 | P2 | VERIFICATA — perimetro automatizzato | 17 novembre: tipi parametri inline via Change Signature, aggiornamento gerarchia sorgente, verifica caller e rifiuto di overload retargeting; validazione JDT asincrona delle espressioni e dei campi prima di Enter/Save/Format. Extract Variable/Method/Create Field mantengono preview e aprono campi inline con rename semantico, Escape e Undo/Redo per transazione. PASS: 41 test QuickActionsIT, 330 test app e sei suite native, inclusi first-launch plain/Maven e precedenza AI/template. Limiti: gerarchie ambigue/binarie rifiutate, nessuna correzione automatica degli argomenti; verifica umana KEY-05 separata. [Prove e riproduzione](docs/evidence/qfx08-2026-11-17/README.md). |
 | QFX-09 | P2 | DECISIONE | Dependency editing JUnit in POM non UTF-8: preservare encoding e dipendenze; finché non supportato mantenere rifiuto esplicito e percorso alternativo. |
-| QFX-10 | P2 | PARZIALE — motore e catalogo verificati | Live template estensibili: `sout`+Tab con precedenza su ghost AI, lista contestuale filtrata mentre si digita (frecce/Tab/Enter/Escape), 51 definizioni core Java IntelliJ, JSON utente persistente/override/disabilitazione, campi linked e Undo. [Regressione AI/lista](docs/evidence/live-templates-2026-11-17/precedence/README.md). Restano contesti Consumer (`soutc`/`serrc`), IO (`iop`/`ior`), preview `sts`, inferenza semantica delle macro avanzate, import/shorten e formattazione automatica. Macro irrisolte sono campi espliciti; nessuna pretesa di parità completa IntelliJ. [Uso e limiti](docs/live-templates.md). |
+| QFX-10 | P2 | PARZIALE — motore, catalogo e dialogo verificati | Live template estensibili: `sout`+Tab con precedenza su ghost AI, lista contestuale filtrata mentre si digita (frecce/Tab/Enter/Escape), 51 definizioni core Java IntelliJ, JSON utente persistente/override/disabilitazione, campi linked e Undo. [Regressione AI/lista](docs/evidence/live-templates-2026-11-17/precedence/README.md). Dialogo con ricerca, form strutturato e preview nativa verificato il 18 novembre ([prove](docs/evidence/template-dialog-2026-11-18/README.md)). Restano contesti Consumer (`soutc`/`serrc`), IO (`iop`/`ior`), preview `sts`, inferenza semantica delle macro avanzate, import/shorten e formattazione automatica. Macro irrisolte sono campi espliciti; nessuna pretesa di parità completa IntelliJ. [Uso e limiti](docs/live-templates.md). |
 
-**QFX-10 — revisione del dialogo Live Templates (richiesta successiva):**
+**QFX-10 — dialogo verificato il 18 novembre ([prove](docs/evidence/template-dialog-2026-11-18/README.md)); semantica avanzata ancora aperta:**
 
-- [ ] Usare l'editor nativo `EditorComponent` in modalità preview read-only per mostrare l'esempio del template, con syntax highlighting, tema e font/zoom coerenti con l'editor principale.
-- [ ] Aggiungere un campo di ricerca rapido per filtrare il catalogo per nome, abbreviazione e descrizione, con selezione da tastiera e aggiornamento della preview.
-- [ ] Introdurre un form per aggiungere e modificare **nome**, **abbreviazione**, **esempio/corpo del codice** e **configurazione** del template: contesti applicabili, variabili/placeholder, valori predefiniti, espressioni e abilitazione.
-- [ ] Mostrare nella preview l'espansione risultante, i placeholder e la posizione finale del cursore (`$END$`), distinguendo la definizione dall'esempio espanso.
-- [ ] Validare i campi prima del salvataggio, preservare definizioni personalizzate e override dei built-in; rendere ricerca, creazione, modifica, conferma e annullamento interamente accessibili da tastiera. Il JSON resta il formato persistente, senza richiederne la modifica manuale per le operazioni comuni.
+- [x] Usare l'editor nativo `EditorComponent` in modalità preview read-only per mostrare l'esempio del template, con syntax highlighting, tema e font/zoom coerenti con l'editor principale.
+- [x] Aggiungere un campo di ricerca rapido per filtrare il catalogo per nome, abbreviazione e descrizione, con selezione da tastiera e aggiornamento della preview.
+- [x] Introdurre un form per aggiungere e modificare **nome**, **abbreviazione**, **esempio/corpo del codice** e **configurazione** del template: contesti applicabili, variabili/placeholder, valori predefiniti, espressioni e abilitazione.
+- [x] Mostrare nella preview l'espansione risultante, i placeholder e la posizione finale del cursore (`$END$`), distinguendo la definizione dall'esempio espanso.
+- [x] Validare i campi prima del salvataggio, preservare definizioni personalizzate e override dei built-in; rendere ricerca, creazione, modifica, conferma e annullamento interamente accessibili da tastiera. Il JSON resta il formato persistente, senza richiederne la modifica manuale per le operazioni comuni.
 
 ### 6.4 Editor, layout, temi ed Explorer
 
@@ -398,7 +408,7 @@ Fonti: [TurboAI](turbo-ai/README.md), [manager](docs/ai/local-model-manager.md),
 | AI-10 | P2 | DA VERIFICARE | Benchmark 7B se risorse disponibili, CPU/GPU/memoria/cold-warm/typing latency. Separare attesi, mostrati e realmente compilati. |
 | AI-11 | P3 | DECISIONE | Contesto inter-file/Maven/retrieval/ranking con budget e consenso; oggi current-file e filtri, non comprensione completa repository. |
 | AI-12 | P3 | DECISIONE | Eventuale pubblicazione TurboAI dopo ECO-01/03 con API/versioni/licenze/consumer; modulo locale non equivale a Maven Central. |
-| AI-13 | P2 | DA FARE | Feedback utente del 14 novembre: il suggeritore funziona ma risulta troppo aggressivo rispetto all’esperienza IntelliJ. Analizzare trigger, frequenza, debounce, apparizione durante digitazione/navigazione e dismiss; misurare disturbo e accettazione su scenari reali, poi proporre regolazioni. Nessuna modifica immediata: precedenza alle attività P0/P1. |
+| AI-13 | P2 | DA FARE | Feedback utente del 14 novembre: il suggeritore funziona ma risulta troppo aggressivo rispetto all’esperienza IntelliJ. Analizzare trigger, frequenza, debounce, apparizione durante digitazione/navigazione e dismiss; misurare disturbo e accettazione su scenari reali, poi proporre regolazioni. Prossimo intervento di usabilità dopo il dialogo QFX-10, nell’ordine concordato il 18 novembre; priorità registrata P2 mantenuta. Trigger e frequenza non modificati dalla consegna del dialogo. |
 
 ### 6.9 Website e demo
 
@@ -458,6 +468,14 @@ Le tre attività del precedente TODO sono preservate; TurboAI si aggiunge alla v
 Il rename `javafmt`→`formatj` è **FMT-03, SOSPESA**, subordinato alla famiglia scelta; preserva CLI `javafmt` e verifica consumatori prima di package/coordinate. Nessuna delle tre attività precedenti è stata eliminata o duplicata in due stati concorrenti.
 
 ## 7. Verifica e definizione di completamento
+
+### QFX-10 — dialogo template, 18 novembre 2026
+
+- Form nativo con ricerca per nome/abbreviazione/descrizione/ID/codice; New/Duplicate, override/disabilitazione e Restore default. Campi strutturati, contesti e tabella variabili; JSON avanzato opzionale e riparazione dei cataloghi invalidi senza sovrascrittura implicita.
+- Preview `EditorComponent` read-only con espansione reale, campi linked e caret finale disegnati; contesto di esempio dichiarato, nessuna esecuzione o promessa di inferenza semantica del progetto. Tema/font/tab condivisi; descrizione accessibile specifica.
+- Save atomico fuori EDT, draft conservati cambiando filtro/selezione; Cancel non scrive. Metadati `name`/`description` opzionali schema v1, proprietà JSON sconosciute e definizioni non modificate preservate.
+- **PASS:** `./mvnw -pl app install`, 338 test; cinque suite native (dialogo, workflow template, precedenza AI, inline e Find Usages). Controllo aggiuntivo con key injection rapida PASS. Il primo controllo aveva osservato una newline inattesa nel sorgente; non riprodotta dai controlli successivi con tracciamento delle modifiche, causa non confermata e tentativo conservato.
+- JAR SHA-256 `8e28b64e98bae20f94c10c5bdf9c47d0c9c1f3f55f41711dcf456049a3530f55`; [rapporto, screenshot e limiti](docs/evidence/template-dialog-2026-11-18/README.md). Sorgenti e prove inclusi nel commit che aggiorna questo registro; nessun installer o sito pubblicato. QFX-10 resta parziale per la semantica avanzata; **prossimo AI-13**. Nessuna modifica al comportamento AI in questa consegna; KEY-05 fisico resta separato.
 
 ### P0 — correttezza e build finale, 17 novembre 2026
 
