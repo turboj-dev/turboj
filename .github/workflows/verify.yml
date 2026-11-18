@@ -71,11 +71,16 @@ jobs:
         run: ./scripts/package-macos.sh dmg target/ci-package
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
+        timeout-minutes: 5
         with:
           name: java-evidence-${{ matrix.os }}
+          # Bound report discovery to reactor module depths. A recursive ** glob
+          # follows DMG staging's Applications symlink outside the checkout.
           path: |
-            **/target/surefire-reports/*.xml
-            **/target/failsafe-reports/*.xml
+            */target/surefire-reports/*.xml
+            */*/target/surefire-reports/*.xml
+            */target/failsafe-reports/*.xml
+            */*/target/failsafe-reports/*.xml
             app/target/build-receipt.json
             app/target/ci-native/
             app/target/test-output-smoke/
