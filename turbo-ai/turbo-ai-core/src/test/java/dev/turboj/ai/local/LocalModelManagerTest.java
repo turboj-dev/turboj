@@ -94,7 +94,11 @@ class LocalModelManagerTest {
         var status = manager.configure(config(port, AIConfig.LocalRuntime.AUTOMATIC)).get(10, TimeUnit.SECONDS);
         assertEquals(LocalModelManager.State.READY, status.state(), status.detail());
         assertEquals(LocalModelManager.Ownership.EXTERNAL, status.ownership());
-        assertEquals("Ollama 0.40.10", status.runtime());
+        String platformNote = System.getProperty("os.name", "").startsWith("Mac")
+                && !System.getProperty("os.arch", "").equals("aarch64")
+                ? " (Intel Macs are not verified)" : "";
+        assertEquals("Ollama 0.40.10" + platformNote, status.runtime(),
+                "reuse preserves both the server version and the platform qualification warning");
         manager.close();
         assertTrue(ollama.answers(), "an external server keeps running");
     }
